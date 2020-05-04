@@ -120,11 +120,11 @@ def pr_curve_plot(y_true, y_pred_proba, interactive=False, context=None):
         if isinstance(y_pred_proba, pd.DataFrame):
             for m in y_pred_proba.columns.values:
                 precision, recall, _ = precision_recall_curve(y_true, y_pred_proba[m])
-                plt.plot(precision, recall,
+                plt.plot(recall, precision,
                          lw=line_width, label=m)
         else:
             precision, recall, _ = precision_recall_curve(y_true, y_pred_proba)
-            plt.plot(precision, recall,
+            plt.plot(recall, precision,
                      lw=line_width, label="Model")
         plt.xlim([0.0, 1.0])
         plt.ylim([0.0, 1.05])

@@ -26,4 +26,5 @@ dependencies:
   - paramiko==2.4.2
   - plotly==3.8.1
   - descartes=1.1.0
-
+  - pip:
+    - google-cloud-storage==1.18.0

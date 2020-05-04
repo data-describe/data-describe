@@ -10,3 +10,4 @@ hdbscan>=0.8.20
 ipython>=7.5.0
 paramiko>=2.4.2
 plotly>=3.8.1
+google-cloud-storage>=1.18.0

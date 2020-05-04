@@ -1,134 +1,169 @@
-import mwdata
-import numpy as np
-import mwdata.text.topic_model as tm
-import pytest
-import pandas as pd
+import warnings
+
+warnings.filterwarnings('ignore', category=UserWarning, module='gensim')
+from mwdata.text.topic_model import *
+import gensim
 import matplotlib
-matplotlib.use('Agg')
-from sklearn.datasets import fetch_20newsgroups
+import sklearn
+import pytest
 
 
 @pytest.fixture
-def data_loader():
-    newsgroups_train = fetch_20newsgroups(subset='train', categories=['alt.atheism'])
-    df = pd.DataFrame(newsgroups_train['data']).sample(n=50, replace=True, random_state=1)
-    return df
+def load_data():
+    topical_docs = [
+        "In a shocking finding, scientist discovered a herd of unicorns living in a remote, previously unexplored valley, in the Andes Mountains. Even more surprising to the researchers was the fact that the unicorns spoke perfect English."
+        "Unicorns are large, horned, bipedal mammals with short heads, tails, and ears. Unicorns are most commonly seen in countries of Central America, South America, and South Africa. They are among the oldest creatures on this planet and are believed to have lived on prehistoric Earth between 5 and 3 billion years ago."
+        "Scientists estimate that the earliest signs of unicorn behavior show up in Central America at least 60 million years ago, with the earliest known example found in the Andean highlands of Peru. The presence of a unicorn behavior in a region where it is otherwise highly uncommon has allowed scientists to study how animals communicate, adapt and survive."
+        "In the early 1990s, three scientists had been studying the behavior of the largest of many species of unicorns, the Ganesha unicorn. They found that the animals communicate only in a rudimentary form and were very silent in the presence of humans, dogs or other domestic animals.",
+        "\"The herd's incredible success is exciting because it demonstrates the tremendous potential for using animals for communication among people,\" says Professor Jo-Ann Faubert of the University of New South Wales, who has been working in the area to study the animals. The scientists believe there have been no other animals to communicate with, or even speak their language, at this stage of their evolution."
+        "What made this animal even more amazing was that it appears to have used a combination of communication techniques in order to successfully avoid its own hunters. Using a simple horn, the unicorn could produce a low-pitched whistle with which it could warn others of impending danger. \"That could be the first time we have seen the use of a language in animals that use it to defend themselves,\" explains Professor Faubert. \"It means if this particular unicorn can communicate with other animals\""
+        "\"I was amazed by the incredible range of characters,\" the researcher, Peter Henningsen a professor at the University of Aarhus, told The Local."
+        "\"he fact that the animals are able to communicate seems extraordinary,\" he explained.The creatures were living peacefully with their herds of goats – which it seems they often slept in – and are said by the researchers to have been using special dialects, known as pidgin.",
+        "\"It's certainly an extraordinary case,\" said Henningsen."
+        "The discovery was made by Dr.Stefan R.Käppi, and colleagues from the Centre for the Ecology of Birds, Aarhus University in Denmark, with the help of an aerial drone equipped with a microphone to identify the unique language."
+        "\"It is quite possible that unicorns use the same language as all other mammals,\" he said.",
+        "Today, scientists confirmed the worst possible outcome: the massive asteroid will collide with Earth in 2027 and cause widespread destruction on a scale of the most devastating natural disaster in our country's history.That's because one of the asteroid's two main fragments "
+        "has an extremely hard core made of nickel, diamond and iron — which will be very difficult to remove without a robotic rover to do the work, NASA officials said at a press briefing Thursday. But some of the larger fragments contain other metals, such as nickel and cobalt, which"
+        " can be easily broken apart by a rover and then blasted apart by a powerful burst of energy.The first asteroid to hit the Earth is called Chicxulub and will be about 4.4 miles (7 kilometers) in diameter, NASA officials said. The second asteroid is known as 2012 DA14 and will be about 2.7 miles (4.3 km) in diameter."
+        "The two large chunks of the asteroid will probably crash into each other when they collide within 1.5 million years, NASA officials said."
+    ]
+    return topical_docs
 
 
 @pytest.fixture
-def data_loader_numpy(data_loader):
-    return data_loader[0].to_numpy()
+def lda_model(load_data):
+    lda_model = TopicModel()
+    lda_model.fit(load_data, max_topics=6, no_below=1, no_above=0.8)
+    return lda_model
 
 
 @pytest.fixture
-def docs_preprocessor(data_loader_numpy):
-    docs = tm.docs_preprocessor(data_loader_numpy)
-    return docs
+def lsi_model(load_data):
+    lsi_model = TopicModel(model_type='LSI')
+    lsi_model.fit(load_data, max_topics=6, no_below=1, no_above=0.8)
+    return lsi_model
 
 
 @pytest.fixture
-def extract_ngrams(docs_preprocessor):
-    docs = tm.extract_ngrams(docs_preprocessor)
-    return docs
+def svd_model(load_data):
+    svd_model = TopicModel(model_type='SVD', num_topics=5)
+    svd_model.fit(load_data, no_below=1, no_above=0.8)
+    return svd_model
 
 
 @pytest.fixture
-def filter_dictionary(extract_ngrams):
-    gensim_dictionary, corpus = tm.filter_dictionary(extract_ngrams, no_below=2)
-    return gensim_dictionary, corpus
+def nmf_model(load_data):
+    nmf_model = TopicModel(model_type='NMF')
+    nmf_model.fit(load_data, tfidf=False, no_below=1, no_above=0.8)
+    return nmf_model
 
 
-def test_docs_preprocessor(docs_preprocessor):
-    assert isinstance(docs_preprocessor, list)
-    assert isinstance(docs_preprocessor[0], list)
-    assert isinstance(docs_preprocessor[0][1], str)
-    assert docs_preprocessor[0][1].islower()
-
-
-def test_extract_ngrams(extract_ngrams):
-    assert isinstance(extract_ngrams, list)
-    assert isinstance(extract_ngrams[0], list)
-    assert isinstance(extract_ngrams[0][1], str)
-    assert extract_ngrams[0][1].islower()
-
-
-def test_filter_dictionary(filter_dictionary):
-    corpus = filter_dictionary[1]
-    assert isinstance(corpus, list)
-    assert isinstance(corpus[0], list)
-    assert isinstance(corpus[0][0][0], int)
-    assert isinstance(corpus[0][0][1], int)
-
-
-def test_plot_elbow():
-    fig = tm.plot_elbow([1, 2, 3], [4, 5, 6])
-    assert isinstance(fig, matplotlib.artist.Artist)
-
-
-def test_topic_modeling(data_loader):
-    with pytest.raises(EnvironmentError):
-        x, y = tm.topic_modeling(data_loader, col=0, num_topics=None, elbow=True)
-        assert y is not None
-        assert x is not None
-        x, y = tm.topic_modeling(data_loader, col=0, num_topics=5, elbow=False)
-        assert y is not None
-        assert x is not None
-
-
-def test_compute_model(monkeypatch, filter_dictionary, extract_ngrams):
-    class MockLDAModel:
-        def __init__(self, corpus=None, num_topics=100, id2word=None,
-                     distributed=False, chunksize=2000, passes=1, update_every=1,
-                     alpha='symmetric', eta=None, decay=0.5, offset=1.0, eval_every=10,
-                     iterations=50, gamma_threshold=0.001, minimum_probability=0.01,
-                     random_state=None, ns_conf=None, minimum_phi_value=0.01,
-                     per_word_topics=False, callbacks=None, dtype=np.float32):
-            self.model = "LDA"  # Do nothing
-
-    class MockCoherenceModel:
-        def __init__(self, model=None, topics=None, texts=None, corpus=None, dictionary=None,
-                 window_size=None, keyed_vectors=None, coherence='c_v', topn=20, processes=-1):
-            self.model = "Coherence"  # Do nothing
-
-        def get_coherence(self):
-            return 1
-
-    monkeypatch.setattr('mwdata.text.topic_model.CoherenceModel', MockCoherenceModel)
-    monkeypatch.setattr('mwdata.text.topic_model.LdaModel', MockLDAModel)
-
-    model = tm.compute_model(dictionary=filter_dictionary[0], corpus=filter_dictionary[1], texts=extract_ngrams,
-                             num_topics=2, limit=3, start=2, lda_kwargs=None)
-    assert model is not None
-
-    model = tm.compute_model(dictionary=filter_dictionary[0], corpus=filter_dictionary[1], texts=extract_ngrams,
-                             num_topics=None, limit=5, start=1, lda_kwargs=None)
-    assert model is not None
-
-
-def test_topic_modeling_df(monkeypatch):
-    def mock_docs_processor(docs):
-        return docs
-
-    def mock_extract_ngrams(docs, bigram_min_count=10, trigram_min_count=1):
-        return docs
-
-    def mock_filter_dictionary(docs, no_below=10, no_above=0.2):
-        return docs, docs
-
-    def mock_compute_model(dictionary, corpus, texts, num_topics=None, elbow=None, limit=3, start=2, lda_kwargs=None):
-        if num_topics is None:
-            return dictionary, dictionary, dictionary
-        else:
-            return dictionary
-
-    monkeypatch.setattr(mwdata.text.topic_model, "docs_preprocessor", mock_docs_processor)
-    monkeypatch.setattr(mwdata.text.topic_model, "extract_ngrams", mock_extract_ngrams)
-    monkeypatch.setattr(mwdata.text.topic_model, "filter_dictionary", mock_filter_dictionary)
-    monkeypatch.setattr(mwdata.text.topic_model, "compute_model", mock_compute_model)
-
-
-def test_raise_error(data_loader):
+def test_unknown_type():
     with pytest.raises(ValueError):
-        tm.topic_modeling(data_loader, col=0, num_topics=5, elbow=True)
-    with pytest.raises(FileNotFoundError):
-        tm.topic_modeling('examplefile', col=0, num_topics=5, elbow=True)
+        TopicModel('wrong input')
+
+
+def test_lda_attributes(lda_model):
+    assert lda_model.model_type == 'LDA'
+    assert isinstance(lda_model.model, gensim.models.ldamodel.LdaModel)
+    assert lda_model.num_topics == lda_model.coherence_values.index(max(lda_model.coherence_values)) + \
+           lda_model.min_topics
+    assert len(lda_model.coherence_values) == lda_model.max_topics - lda_model.min_topics + 1
+    assert lda_model.min_topics == 2
+    assert lda_model.max_topics == 6
+
+
+def test_lsi_attributes(lsi_model):
+    assert lsi_model.model_type == 'LSI'
+    assert isinstance(lsi_model.model, gensim.models.lsimodel.LsiModel)
+    assert lsi_model.num_topics == lsi_model.coherence_values.index(max(lsi_model.coherence_values)) + \
+           lsi_model.min_topics
+    assert len(lsi_model.coherence_values) == lsi_model.max_topics - lsi_model.min_topics + 1
+    assert lsi_model.min_topics == 2
+    assert lsi_model.max_topics == 6
+
+
+def test_svd_attributes(svd_model):
+    assert svd_model.model_type == 'SVD'
+    assert isinstance(svd_model.model, sklearn.decomposition.truncated_svd.TruncatedSVD)
+    assert svd_model.num_topics == 5
+    with pytest.raises(AttributeError):
+        assert svd_model.coherence_values
+    with pytest.raises(AttributeError):
+        assert svd_model.min_topics
+
+
+def test_nmf_attributes(nmf_model):
+    assert nmf_model.model_type == 'NMF'
+    assert isinstance(nmf_model.model, sklearn.decomposition.nmf.NMF)
+    assert nmf_model.num_topics == 3
+    with pytest.raises(AttributeError):
+        assert nmf_model.coherence_values
+    with pytest.raises(AttributeError):
+        assert nmf_model.max_topics
+
+
+def test_lda_intermediates(lda_model):
+    assert isinstance(lda_model.dictionary, gensim.corpora.dictionary.Dictionary)
+    assert isinstance(lda_model.corpus[0], list)
+    with pytest.raises(AttributeError):
+        assert lda_model.matrix
+
+
+def test_lsi_intermediates(lsi_model):
+    assert isinstance(lsi_model.corpus, list)
+    assert isinstance(lsi_model.corpus[0][0], tuple)
+
+
+def test_svd_nmf_intermediates(svd_model, nmf_model):
+    assert isinstance(svd_model.matrix, pd.DataFrame)
+    assert isinstance(nmf_model.matrix, pd.DataFrame)
+    assert not svd_model.matrix.equals(nmf_model.matrix)
+    with pytest.raises(AttributeError):
+        assert svd_model.corpus
+
+
+def test_pyldavis(lda_model, svd_model):
+    with pytest.raises(OSError):
+        lda_model.show()
+    with pytest.raises(TypeError):
+        svd_model.show()
+
+
+def test_elbow_plot(lsi_model, nmf_model):
+    assert isinstance(lsi_model.show('elbow'), matplotlib.axes._subplots.Axes)
+    with pytest.raises(TypeError):
+        nmf_model.show('elbow')
+
+
+def test_topic_keywords(lda_model, nmf_model):
+    lda_keywords_df = lda_model.show('top_words_per_topic', viz_kwargs={'num_topic_words': 5})
+    assert lda_keywords_df.shape == (5, 2 * lda_model.num_topics)
+    assert isinstance(lda_keywords_df, pd.DataFrame)
+    nmf_keywords_df = nmf_model.show('top_words_per_topic')
+    assert nmf_keywords_df.shape == (10, 3)
+    assert isinstance(nmf_keywords_df, pd.DataFrame)
+
+
+def test_topic_top_documents(lsi_model, svd_model, load_data):
+    lsi_top_docs_df = lsi_model.show('top_documents_per_topic',
+                                     text_docs=load_data,
+                                     viz_kwargs={'num_docs': 2})
+    assert isinstance(lsi_top_docs_df, pd.DataFrame)
+    assert lsi_top_docs_df.shape == (2, lsi_model.num_topics)
+
+    svd_top_docs_df = svd_model.show('top_documents_per_topic',
+                                     text_docs=load_data,
+                                     viz_kwargs={'num_docs': 2})
+    svd_top_docs_df_summarized = svd_model.show('top_documents_per_topic',
+                                                text_docs=load_data,
+                                                viz_kwargs={'summarize_docs': True,
+                                                            'num_docs': 2})
+    svd_top_docs_df_summarized_words = svd_model.show('top_documents_per_topic',
+                                                      text_docs=load_data,
+                                                      viz_kwargs={'summarize_docs': True,
+                                                                  'summary_words': 15,
+                                                                  'num_docs': 2})
+    assert not svd_top_docs_df.equals(svd_top_docs_df_summarized)
+    assert not svd_top_docs_df_summarized.equals(svd_top_docs_df_summarized_words)
+    assert svd_top_docs_df.shape == (2, 4)

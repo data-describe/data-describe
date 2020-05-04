@@ -30,7 +30,9 @@ REQUIRED = [
     'eli5>=0.8.1',
     'networkx>=2.2',
     'hdbscan>=0.8.20',
-    'plotly>=3.8.1'
+    'gcsfs>=0.2.1',
+    'plotly>=3.8.1',
+    'google-cloud-storage>=1.18.0'
 ]
 
 # What packages are optional?

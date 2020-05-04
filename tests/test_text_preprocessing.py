@@ -72,15 +72,15 @@ def test_remove_stopwords():
 
 
 def test_lem_and_stem(get_data):
-    docs = preprocess_texts(pd.Series(get_data))
-    docs_lem = preprocess_texts(get_data, lem=True)
-    docs_stem = preprocess_texts(get_data, stem=True)
-    docs_leave_punct = preprocess_texts(get_data, custom_pipeline=['tokenize', 'to_lower', 'remove_digits',
-                                                                   'remove_single_char_and_spaces', 'remove_stopwords'])
-    assert docs != docs_lem
-    assert docs != docs_stem
-    assert docs_lem != docs_stem
-    assert docs != docs_leave_punct
+    test_docs = [
+        'Mars is the greatest planet to start terraforming; it would be amazing to see geese flying on the surface!']
+    docs_lem = preprocess_texts(test_docs, lem=True)
+    docs_stem = preprocess_texts(test_docs, stem=True)
+
+    assert docs_lem == [
+        ['mar', 'greatest', 'planet', 'start', 'terraforming', 'would', 'amazing', 'see', 'goose', 'flying', 'surface']]
+    assert docs_stem == [
+        ['mar', 'greatest', 'planet', 'start', 'terraform', 'would', 'amaz', 'see', 'gees', 'fly', 'surfac']]
 
 
 def test_bag_of_words(get_data):
@@ -121,10 +121,7 @@ def test_custom_pipeline():
     assert test_answer == answer_key
 
 
-def test_n_grams(get_data):
+def test_ngrams(get_data):
     n = 4
-    n_grams = create_ngrams(get_data, n)
-    assert isinstance(n_grams, list)
-    assert isinstance(n_grams[0], tuple)
-    assert isinstance(n_grams[0][0], str)
-    assert len(n_grams[0]) == n
+    n_grams = ngram_freq(get_data, n)
+    assert isinstance(n_grams, nltk.FreqDist)

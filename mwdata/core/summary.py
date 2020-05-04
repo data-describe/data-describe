@@ -15,30 +15,9 @@ def data_summary(data, context=None):
         Pandas data frame with metrics in rows
     """
     if isinstance(data, pd.Series):
-        dtypes = pd.Series([data.dtype])
-        dtypes.name = "Data Type"
+        data = pd.DataFrame(data)
 
-        if data.dtype in [np.int64, np.float64]:
-            num_summ = data.agg(['mean', 'std', 'median', 'min', 'max', zeros])
-        else:
-            nan_array = np.empty(6, )
-            nan_array[:] = np.nan
-            num_summ = pd.Series(nan_array)
-
-        null_summ = data.agg([null])
-
-        freq_summ = pd.Series([most_frequent(data)])
-        freq_summ.name = "% Most Frequent Value"
-        freq_summ = pd.Series(freq_summ).transpose()
-
-        summary = pd.concat([dtypes, num_summ, null_summ, freq_summ], sort=True)
-        summary.index = ['Data Type', 'Mean', 'Standard Deviation',
-                         'Median', 'Min', 'Max', '# Zeros',
-                         '# Nulls', '% Most Frequent Value']
-        summary.name = data.name
-        summary = pd.DataFrame(summary, columns=[data.name])
-
-    elif isinstance(data, pd.DataFrame):
+    if isinstance(data, pd.DataFrame):
         # Save column order
         columns = data.columns
 
@@ -46,27 +25,61 @@ def data_summary(data, context=None):
         dtypes.name = "Data Type"
         dtypes = pd.DataFrame(dtypes).transpose()
 
-        num_df = data.select_dtypes(['number'])
-        num_summ = num_df.agg(['mean', 'std', 'median', 'min', 'max', zeros])
+        moments = data.select_dtypes(["number", "datetime"])
+        if moments.shape[1] > 0:
+            moments_summary = moments.agg(["mean", "std", "median"])
+        else:
+            moments_summary = pd.DataFrame([], columns=data.columns)
 
-        null_summ = data.agg([null])
+        minmax = data.select_dtypes(["number", "datetime", "bool"])
+        if minmax.shape[1] > 0:
+            minmax_summary = minmax.agg(["min", "max"])
+        else:
+            minmax_summary = pd.DataFrame([], columns=data.columns)
 
-        freq_summ = most_frequent(data)
-        freq_summ.name = "% Most Frequent Value"
-        freq_summ = pd.DataFrame(freq_summ).transpose()
+        zeros = data.select_dtypes(["number", "bool"])
+        if zeros.shape[1] > 0:
+            zeros_summary = zeros.agg([agg_zero])
+        else:
+            zeros_summary = pd.DataFrame([], columns=data.columns)
 
-        summary = pd.concat([dtypes, num_summ, null_summ, freq_summ], sort=True)
+        null_summary = data.agg([agg_null])
+
+        freq_summary = most_frequent(data)
+        freq_summary = pd.DataFrame(freq_summary).transpose()
+
+        summary = pd.concat(
+            [
+                dtypes,
+                moments_summary,
+                minmax_summary,
+                zeros_summary,
+                null_summary,
+                freq_summary,
+            ],
+            sort=True
+        )
         summary = summary[columns]
-        summary.index = ['Data Type', 'Mean', 'Standard Deviation',
-                         'Median', 'Min', 'Max', '# Zeros',
-                         '# Nulls', '% Most Frequent Value']
+        summary.index = [
+            "Data Type",
+            "Mean",
+            "Standard Deviation",
+            "Median",
+            "Min",
+            "Max",
+            "# Zeros",
+            "# Nulls",
+            "% Most Frequent Value",
+        ]
 
-    # Removing NaNs
-    summary.fillna("", inplace=True)
-    return summary
+        # Removing NaNs
+        summary.fillna("", inplace=True)
+        return summary
+    else:
+        raise ValueError("Data must be a Pandas DataFrame")
 
 
-def zeros(series):
+def agg_zero(series):
     """ Count of zero values in a pandas series
 
     Args:
@@ -78,7 +91,7 @@ def zeros(series):
     return (series == 0).sum()
 
 
-def null(series):
+def agg_null(series):
     """ Count of null values in a pandas series
 
     Args:
@@ -103,7 +116,10 @@ def most_frequent(data):
     if isinstance(data, pd.Series):
         m_freq = round((data == top[0]).sum() / data.shape[0] * 100, 2)
     elif isinstance(data, pd.DataFrame):
-        m_freq = round(data.apply(lambda x: x == top[x.name][0]).sum(axis=0) / data.shape[0] * 100, 2)
+        m_freq = round(
+            data.apply(lambda x: x == top[x.name][0]).sum(axis=0) / data.shape[0] * 100,
+            2,
+        )
     else:
         raise ValueError("Data must be a Pandas Series or Dataframe.")
     return m_freq
