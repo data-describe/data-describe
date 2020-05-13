@@ -9,12 +9,12 @@ from mwdata import load_data
 
 
 @_context_manager
-def maps(data, type='choropleth', color=None, choropleth_kwargs=None, kde_kwargs=None, context=None):
+def maps(data, map_type='choropleth', color=None, choropleth_kwargs=None, kde_kwargs=None, context=None):
     """ Mapping for geospatial data
 
     Args:
         data: Geopandas data frame or shapefile path
-        type: Default = 'choropleth'
+        map_type: Default = 'choropleth'
             choropleth: Thematic map where areas are shaded in proportion to a statistical variable
             kde: Spatial density estimate plot for the distribution of input data
         color: Color map by a numeric column
@@ -25,24 +25,21 @@ def maps(data, type='choropleth', color=None, choropleth_kwargs=None, kde_kwargs
     Returns:
         fig: Choropleth map or KDE map
     """
-    if isinstance(data, gpd.geodataframe.GeoDataFrame):
-        pass
-    else:
+    if not isinstance(data, gpd.geodataframe.GeoDataFrame):
         data = load_data(data)
-        if isinstance(data, gpd.geodataframe.GeoDataFrame):
-            pass
-        else:
+        if not isinstance(data, gpd.geodataframe.GeoDataFrame):
             raise NotImplementedError('Shapefile required')
-    if type == 'choropleth':
+        
+    if map_type == 'choropleth':
         fig = choropleth(data, color, choropleth_kwargs=choropleth_kwargs, context=context)
 
-    elif type == 'kde':
+    elif map_type == 'kde':
         if data.shape[0] > 100:
             warnings.warn("Large number of rows, processing will take awhile")
         fig = kde_map(data, kde_kwargs=kde_kwargs, context=context)
 
     else:
-        raise ValueError("{} map is not supported".format(type))
+        raise ValueError("{} map is not supported".format(map_type))
     return fig
 
 

@@ -16,11 +16,11 @@ def data_loader():
 
 
 def test_maps_kde(data_loader):
-    fig = mw.maps(data=data_loader, type="kde")
+    fig = mw.maps(data=data_loader, map_type="kde")
     assert fig is not None
-    fig_2 = mw.maps(data=data_loader, type="kde", kde_kwargs={'cbar': False})
+    fig_2 = mw.maps(data=data_loader, map_type="kde", kde_kwargs={'cbar': False})
     assert fig_2 is not None
-
+  
 
 def test_maps_choropleth(data_loader):
     fig = mw.maps(data=data_loader, color='ALAND')
@@ -38,4 +38,4 @@ def test_value_errors():
     with pytest.raises(ValueError):
         fig = mw.maps('data/geo/tl_2018_us_county.shp', color='NAME')
     with pytest.raises(ValueError):
-        fig = mw.maps('data/geo/tl_2018_us_county.shp', type='Random plot')
+        fig = mw.maps('data/geo/tl_2018_us_county.shp', map_type='Random plot')
