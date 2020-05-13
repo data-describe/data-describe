@@ -1,8 +1,7 @@
-from sklearn.manifold import TSNE
-from sklearn.decomposition import TruncatedSVD
-from sklearn.decomposition import PCA
 import pandas as pd
 import numpy as np
+from sklearn.manifold import TSNE
+from sklearn.decomposition import TruncatedSVD, PCA
 
 
 def dim_reduc(data, n_components, dim_method):
