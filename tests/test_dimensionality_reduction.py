@@ -16,7 +16,8 @@ def data_loader():
 
 def test_error():
     with pytest.raises(NotImplementedError):
-        dim_reduc(data=data_loader, n_components=2, dim_method="test_dim_method")
+        dim_reduc(data=data_loader, n_components=2,
+                  dim_method="test_dim_method")
 
 
 def test_pca(data_loader):
