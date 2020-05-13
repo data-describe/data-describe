@@ -2,6 +2,7 @@ import pytest
 import pandas as pd
 import sklearn
 from sklearn.datasets import load_wine
+
 from mwdata.dimensionality_reduction.dimensionality_reduction import dim_reduc
 
 
