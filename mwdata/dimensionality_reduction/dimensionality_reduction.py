@@ -36,7 +36,7 @@ def run_pca(data, n_components):
         Returns:
             reduc_df: Reduced data frame
             pca: PCA object
-        """
+    """
     fname = []
     for i in range(1, n_components + 1):
         fname.append('component_' + str(i))
