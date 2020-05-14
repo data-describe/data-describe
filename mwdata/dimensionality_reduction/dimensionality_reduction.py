@@ -10,7 +10,8 @@ def dim_reduc(data, n_components, dim_method):
     Args:
         data: Pandas data frame
         n_components: Desired dimensionality for the data set prior to modeling
-        dim_method: Dimensionality reduction method. Only pca, tsne, and tsvd are supported.
+        dim_method: Dimensionality reduction method. Only pca, tsne, and
+        tsvd are supported.
 
     Returns:
         Reduced data frame and reduction object
@@ -51,7 +52,8 @@ def run_tsne(data, n_components):
 
         Args:
             data: Pandas data frame
-            n_components: Desired dimensionality for the data set prior to modeling
+            n_components: Desired dimensionality for the data set prior
+            to modeling
 
         Returns:
             reduc_df: Reduced data frame
@@ -68,7 +70,8 @@ def run_tsvd(data, n_components):
 
         Args:
             data: Pandas data frame
-            n_components: Desired dimensionality for the data set prior to modeling
+            n_components: Desired dimensionality for the data set prior
+            to modeling
 
         Returns:
             reduc_df: Reduced data frame
