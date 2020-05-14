@@ -32,7 +32,8 @@ def run_pca(data, n_components):
 
         Args:
             data: Pandas data frame
-            n_components: Desired dimensionality for the data set prior to modeling
+            n_components: Desired dimensionality for the data set prior
+            to modeling
 
         Returns:
             reduc_df: Reduced data frame
