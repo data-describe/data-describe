@@ -1,17 +1,20 @@
-import pandas as pd
-from pandas.util.testing import assert_frame_equal
-import mwdata as mw
 import os
-from io import StringIO
-import geopandas
 import tempfile
+
+import pandas as pd
+import geopandas
 import pytest
+import mwdata as mw
+from io import StringIO
+from pandas.util.testing import assert_frame_equal
+
 from mwdata.utilities.load_data import download_gcs_file, read_file_type
 
 
 def test_local_dir():
-    data = mw.load_data('data/Addresses', kwargs={'encoding': 'latin1'})
-    text_files = [file for file in os.listdir('data/Addresses') if '.txt' in file]
+    data = mw.load_data('data/Addresses', encoding='latin1')
+    text_files = [file for file in os.listdir(
+        'data/Addresses') if '.txt' in file]
     assert data.shape[0] == len(text_files)
 
 
@@ -88,7 +91,8 @@ def test_gcs_file(monkeypatch):
     monkeypatch.setattr(tempfile, 'gettempdir', Mockgettempdir)
     monkeypatch.setattr(geopandas, 'read_file', Mockread_file)
 
-    shapefile_dir = download_gcs_file(filepath='gs://data/geo/tl_2018_us_county.shp')
+    shapefile_dir = download_gcs_file(
+        filepath='gs://data/geo/tl_2018_us_county.shp')
     assert isinstance(shapefile_dir, str)
 
     geo_df = read_file_type(filepath='gs://data/geo/tl_2018_us_county.shp')
