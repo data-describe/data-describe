@@ -2,6 +2,7 @@ import pytest
 import pandas as pd
 import sklearn
 from sklearn.datasets import load_wine
+
 from mwdata.dimensionality_reduction.dimensionality_reduction import dim_reduc
 
 
@@ -16,7 +17,8 @@ def data_loader():
 
 def test_error():
     with pytest.raises(NotImplementedError):
-        dim_reduc(data=data_loader, n_components=2, dim_method="test_dim_method")
+        dim_reduc(data=data_loader, n_components=2,
+                  dim_method="test_dim_method")
 
 
 def test_pca(data_loader):
