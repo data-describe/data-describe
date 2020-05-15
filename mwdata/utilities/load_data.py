@@ -1,5 +1,9 @@
 import os
+import tempfile
+
 import pandas as pd
+from google.cloud import storage
+
 
 GEO_EXTENSIONS = ['.dbf', '.shp', '.shx']
 
@@ -27,13 +31,15 @@ def load_data(filepath, all_folders=False, **kwargs):
         if not all_folders:
             for file in os.listdir(filepath):
                 if os.path.isfile(os.path.join(filepath, file)) and file.endswith(".txt"):
-                    with open(os.path.join(filepath, file), 'r', encoding=encoding) as f:
+                    with open(os.path.join(filepath, file), 'r',
+                              encoding=encoding) as f:
                         text.append(f.read())
         else:
             for root, dirs, files in os.walk(filepath):
                 for file in files:
                     if file.endswith(".txt"):
-                        with open(os.path.join(root, file), 'r', encoding=encoding) as f:
+                        with open(os.path.join(root, file), 'r',
+                                  encoding=encoding) as f:
                             text.append(f.read())
         df = pd.DataFrame(text)
     else:
@@ -92,8 +98,6 @@ def download_gcs_file(filepath, bucket=None, prefix=None, **kwargs):
     Returns:
 
     """
-    from google.cloud import storage
-    import tempfile
     client = storage.Client()
     bucket = client.bucket(bucket)
     max_results = kwargs.get('max_results')
