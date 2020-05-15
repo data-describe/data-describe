@@ -1,9 +1,9 @@
 import pandas as pd
 import mwdata as mw
 import matplotlib
+import pytest
 
 matplotlib.use("Agg")
-import pytest
 
 
 @pytest.fixture

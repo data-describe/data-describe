@@ -1,6 +1,5 @@
 import warnings
 
-warnings.filterwarnings("ignore", category=UserWarning, module="gensim")
 import pandas as pd
 import gensim
 import matplotlib
@@ -8,6 +7,8 @@ import sklearn
 import pytest
 
 from mwdata.text.topic_model import TopicModel
+
+warnings.filterwarnings("ignore", category=UserWarning, module="gensim")
 
 
 @pytest.fixture

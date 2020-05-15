@@ -1,7 +1,5 @@
 import warnings
 
-warnings.filterwarnings("ignore", category=UserWarning, module="gensim")
-
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -19,6 +17,8 @@ from mwdata.text.text_preprocessing import (
     filter_dictionary,
 )
 from mwdata.utilities.contextmanager import _context_manager
+
+warnings.filterwarnings("ignore", category=UserWarning, module="gensim")
 
 
 class TopicModel:
@@ -559,4 +559,3 @@ class TopicModel:
                 "The input for display_item must be either: 'pyLDAvis', 'elbow', 'top_words_per_topic', "
                 "or 'top_documents_per_topic'"
             )
-

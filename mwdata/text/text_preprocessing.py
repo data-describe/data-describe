@@ -11,23 +11,26 @@ from nltk.stem import WordNetLemmatizer
 from nltk.corpus import stopwords
 from nltk.util import ngrams
 from nltk import FreqDist
-
-warnings.filterwarnings("ignore", category=UserWarning, module="gensim")
 from gensim.corpora.dictionary import Dictionary
 
 import mwdata
 
+warnings.filterwarnings("ignore", category=UserWarning, module="gensim")
+
 try:
     nltk.data.find("tokenizers/punkt")
-except:
+except Exception as e:  # TODO: #7
+    print(e)
     nltk.download("punkt")
 try:
     nltk.data.find("stem/wordnet")
-except:
+except Exception as e:  # TODO: #7
+    print(e)
     nltk.download("wordnet")
 try:
     nltk.data.find("stopwords")
-except:
+except Exception as e:  # TODO: #7
+    print(e)
     nltk.download("stopwords")
 
 
@@ -36,7 +39,7 @@ def tokenize(text_docs):
 
     Args:
         text_docs: A list of text documents in string format
-    
+
     Returns:
         new_text_docs_bow: List of lists of words for each text document
     """
@@ -71,7 +74,7 @@ def remove_punct(text_docs_bow, replace_char=" ", remove_all=False):
     """
     if remove_all:
         new_text_docs_bow = [
-            [re.sub("[^\w\s]|_", replace_char, word) for word in doc]
+            [re.sub(r"[^\w\s]|_", replace_char, word) for word in doc]
             for doc in text_docs_bow
         ]
 
@@ -87,7 +90,7 @@ def remove_punct(text_docs_bow, replace_char=" ", remove_all=False):
         ]
     else:
         new_text_docs_bow = [
-            [re.sub("^([^\w\s]|_)?(.+?)([^\w\s]|_)?$", r"\2", word) for word in doc]
+            [re.sub(r"^([^\w\s]|_)?(.+?)([^\w\s]|_)?$", r"\2", word) for word in doc]
             for doc in text_docs_bow
         ]
 
@@ -109,7 +112,7 @@ def remove_digits(text_docs_bow):
         new_text_docs_bow: List of lists of words for each text documents without numbers or words containing numbers
     """
     new_text_docs_bow = [
-        [re.sub("\w*\d\w*", "", word) for word in doc] for doc in text_docs_bow
+        [re.sub(r"\w*\d\w*", "", word) for word in doc] for doc in text_docs_bow
     ]
     return new_text_docs_bow
 

@@ -276,8 +276,10 @@ class Scagnostics:
                 S / a,
                 np.sqrt(b / a + Scagnostics.squared_norm(S) / a ** 2),
             )
-        except:
-            logging.warning("Unexpected zero determinant in circumcircle calculation.")
+        except Exception as e:  # TODO: #7
+            logging.warning(
+                f"Unexpected zero determinant in circumcircle calculation: {str(e)}"
+            )
             pass
         return centre, radius
 

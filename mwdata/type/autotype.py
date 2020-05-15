@@ -6,12 +6,8 @@ import numpy as np
 import mwdata.type.dtypes
 from mwdata.type.dtypes import (
     BaseType,
-    StringType,
     CategoryType,
     IntegerType,
-    DecimalType,
-    BoolType,
-    DateTimeType,
     ReferenceType,
 )
 
@@ -257,14 +253,15 @@ def cast_dtypes(df, dtypes=None, exclude=None):
         dtype = get_class_instance_by_name(dtype)
         try:
             dtype = dtype.result_type[0]
-        except:
+        except Exception as e:  # TODO: #7
             raise ValueError(
                 "Could not determine data type ({}) to cast feature {}".format(
                     dtype, column
                 )
             )
+            print(e)
 
-        if dtype != type(None):
+        if not isinstance(dtype, type(None)):  # TODO: Check for NoneType
             try:
                 df[column] = df[column].astype(dtype)
             except TypeError as e:
@@ -274,12 +271,13 @@ def cast_dtypes(df, dtypes=None, exclude=None):
                     )  # Workaround for pandas' nullable int dtype
                 else:
                     raise e
-            except:
+            except Exception as e:  # TODO: #7
                 warnings.warn(
                     "Failed to cast '{}' as a {}. Data type was kept as a string.".format(
                         column, dtype
                     )
                 )
+                print(e)
 
     return df
 

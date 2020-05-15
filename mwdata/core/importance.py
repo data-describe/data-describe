@@ -4,6 +4,9 @@ import numpy as np
 from sklearn.ensemble import RandomForestClassifier
 import matplotlib.pyplot as plt
 
+from mwdata.utilities.preprocessing import preprocess
+from mwdata.utilities.contextmanager import _context_manager
+
 warnings.filterwarnings(
     "ignore",
     category=DeprecationWarning,
@@ -17,9 +20,6 @@ with warnings.catch_warnings():
         message=r"inspect.getargspec()",
     )
     from eli5.sklearn import PermutationImportance
-    
-from mwdata.utilities.preprocessing import preprocess
-from mwdata.utilities.contextmanager import _context_manager
 
 
 @_context_manager
