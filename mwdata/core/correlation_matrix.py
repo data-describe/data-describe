@@ -1,20 +1,28 @@
-from scipy.cluster import hierarchy
-from sklearn.metrics import matthews_corrcoef
-from scipy.stats import chi2_contingency, percentileofscore
-from mwdata.utilities.contextmanager import _context_manager
-import numpy as np
-import pandas as pd
 import warnings
+import pandas as pd
+import numpy as np
 from IPython import get_ipython
 import plotly.graph_objs as go
 from plotly.offline import init_notebook_mode, iplot
+from scipy.cluster import hierarchy
+from sklearn.metrics import matthews_corrcoef
+from scipy.stats import chi2_contingency, percentileofscore
+
+from mwdata.utilities.contextmanager import _context_manager
 from mwdata.utilities.colorscale import color_fade, rgb_to_str
-warnings.filterwarnings("error", category=DeprecationWarning, module='scipy',
-                        message="`scipy.sparse.sparsetools` is deprecated!")
+
+warnings.filterwarnings(
+    "error",
+    category=DeprecationWarning,
+    module="scipy",
+    message="`scipy.sparse.sparsetools` is deprecated!",
+)
 
 
 @_context_manager
-def correlation_matrix(data, cluster=False, categorical=False, return_values=False, context=None):
+def correlation_matrix(
+    data, cluster=False, categorical=False, return_values=False, context=None
+):
     """ Correlation matrix of numeric variables
 
     Args:
@@ -29,15 +37,19 @@ def correlation_matrix(data, cluster=False, categorical=False, return_values=Fal
     Returns:
         Matplotlib graph or Pandas data frame
     """
-    numeric = data.select_dtypes(['number'])
+    numeric = data.select_dtypes(["number"])
     categoric = data[[col for col in data.columns if col not in numeric.columns]]
 
-    has_categoric = (categoric.shape[1] > 0)
-    has_numeric = (numeric.shape[1] > 0)
+    has_categoric = categoric.shape[1] > 0
+    has_numeric = numeric.shape[1] > 0
 
     if categorical and not has_categoric:
-        warnings.warn(UserWarning("Categorical associations were requested, but no categorical features were found. "
-                                  "Defaulting to Pearson Correlation."))
+        warnings.warn(
+            UserWarning(
+                "Categorical associations were requested, but no categorical features were found. "
+                "Defaulting to Pearson Correlation."
+            )
+        )
         categorical = False
 
     if categorical:
@@ -46,10 +58,13 @@ def correlation_matrix(data, cluster=False, categorical=False, return_values=Fal
             association_cramers = cramers_v_matrix(categoric)
             association_cr = correlation_ratio_matrix(numeric, categoric)
 
-            association_matrix = pd.concat([
-                                    pd.concat([association_numeric, association_cr], axis=1),
-                                    pd.concat([association_cr.T, association_cramers], axis=1),
-                                 ], axis=0)
+            association_matrix = pd.concat(
+                [
+                    pd.concat([association_numeric, association_cr], axis=1),
+                    pd.concat([association_cr.T, association_cramers], axis=1),
+                ],
+                axis=0,
+            )
         else:
             association_matrix = cramers_v_matrix(categoric)
 
@@ -68,7 +83,9 @@ def correlation_matrix(data, cluster=False, categorical=False, return_values=Fal
         if has_numeric:
             association_numeric = numeric.corr()
         else:
-            raise ValueError("No numerical features were found. Could not compute correlation.")
+            raise ValueError(
+                "No numerical features were found. Could not compute correlation."
+            )
 
         association_numeric.fillna(0, inplace=True)
 
@@ -94,7 +111,9 @@ def cramers_v_matrix(df):
         A pandas data frame
     """
     index = df.columns.values
-    cramers_matrix = pd.DataFrame([[cramers_v(df[x], df[y]) for x in index] for y in index])
+    cramers_matrix = pd.DataFrame(
+        [[cramers_v(df[x], df[y]) for x in index] for y in index]
+    )
 
     # Cramer's V can be NaN when there are not enough instances in a category
     cramers_matrix.fillna(0)
@@ -129,11 +148,11 @@ def cramers_v(x, y):
             return 1.0
         else:
             chi2 = chi2_contingency(confusion_matrix)[0]
-            phi2 = chi2/n
-            phi2corr = max(0, phi2-((k-1)*(r-1))/(n-1))
-            rcorr = r-((r-1)**2)/(n-1)
-            kcorr = k-((k-1)**2)/(n-1)
-            return np.sqrt(phi2corr/min((kcorr-1), (rcorr-1)))
+            phi2 = chi2 / n
+            phi2corr = max(0, phi2 - ((k - 1) * (r - 1)) / (n - 1))
+            rcorr = r - ((r - 1) ** 2) / (n - 1)
+            kcorr = k - ((k - 1) ** 2) / (n - 1)
+            return np.sqrt(phi2corr / min((kcorr - 1), (rcorr - 1)))
 
 
 def correlation_ratio_matrix(num_df, cat_df):
@@ -148,9 +167,12 @@ def correlation_ratio_matrix(num_df, cat_df):
     """
     num_index = num_df.columns.values
     cat_index = cat_df.columns.values
-    corr_ratio_mat = pd.DataFrame([[correlation_ratio(cat_df[x], num_df[y])
-                                    for x in cat_index]
-                                   for y in num_index])
+    corr_ratio_mat = pd.DataFrame(
+        [
+            [correlation_ratio(cat_df[x], num_df[y]) for x in cat_index]
+            for y in num_index
+        ]
+    )
 
     # Assign column and row labels
     corr_ratio_mat.columns = cat_index
@@ -173,13 +195,15 @@ def correlation_ratio(categorical, numeric):
     ybar = np.mean(numeric)
 
     # Get average and count for each category level
-    agg = df.groupby(categorical.name).agg(['count', 'mean'])
+    agg = df.groupby(categorical.name).agg(["count", "mean"])
 
     # Remove the Multilevel Index
     agg.columns = agg.columns.droplevel(0)
 
-    category_variance = (agg['mean'] - ybar) ** 2
-    weighted_category_variance = np.sum(np.multiply(agg['count'], category_variance)) / n
+    category_variance = (agg["mean"] - ybar) ** 2
+    weighted_category_variance = (
+        np.sum(np.multiply(agg["count"], category_variance)) / n
+    )
 
     total_variance = np.sum((numeric - ybar) ** 2) / n
 
@@ -202,10 +226,15 @@ def reorder_by_cluster(association_matrix):
 
     # Determine padding dimensions, if non-square
     max_dim = max(distance.shape[0], distance.shape[1])
-    pad_distance = np.pad(distance,
-                          ((0, min(1, max_dim - distance.shape[0])),
-                           (0, min(1, max_dim - distance.shape[1]))),
-                          mode='constant', constant_values=0)
+    pad_distance = np.pad(
+        distance,
+        (
+            (0, min(1, max_dim - distance.shape[0])),
+            (0, min(1, max_dim - distance.shape[1])),
+        ),
+        mode="constant",
+        constant_values=0,
+    )
 
     if distance.shape[0] == distance.shape[1]:
         y = np.array(pad_distance)[np.triu_indices_from(pad_distance, 1)]
@@ -216,13 +245,18 @@ def reorder_by_cluster(association_matrix):
     # Use hierarchical clustering to get order
     link = hierarchy.linkage(y)
     dendrogram = hierarchy.dendrogram(link, get_leaves=True, no_plot=True)
-    new_order = [x for x in dendrogram['leaves'] if x < max_dim]
+    new_order = [x for x in dendrogram["leaves"] if x < max_dim]
 
-    reorder_corr = pd.DataFrame([row[new_order] for row in association_matrix.values[new_order]])
+    reorder_corr = pd.DataFrame(
+        [row[new_order] for row in association_matrix.values[new_order]]
+    )
 
     # Assign column and row labels
     reorder_corr.columns = [association_matrix.columns.values[i] for i in new_order]
-    reorder_corr.set_index(np.array([association_matrix.columns.values[i] for i in new_order]), inplace=True)
+    reorder_corr.set_index(
+        np.array([association_matrix.columns.values[i] for i in new_order]),
+        inplace=True,
+    )
 
     return reorder_corr
 
@@ -238,15 +272,21 @@ def reorder_by_original(association_matrix, original_df):
         A Pandas Data frame
     """
     # Get the original column order
-    order = [np.where(association_matrix.columns.values == label)[0][0]
-             for label in original_df.columns.values
-             if label in association_matrix.columns.values]
+    order = [
+        np.where(association_matrix.columns.values == label)[0][0]
+        for label in original_df.columns.values
+        if label in association_matrix.columns.values
+    ]
 
-    reorder_matrix = pd.DataFrame([row[order] for row in association_matrix.values[order]])
+    reorder_matrix = pd.DataFrame(
+        [row[order] for row in association_matrix.values[order]]
+    )
 
     # Assign column and row labels
     reorder_matrix.columns = [association_matrix.columns.values[i] for i in order]
-    reorder_matrix.set_index(np.array([association_matrix.columns.values[i] for i in order]), inplace=True)
+    reorder_matrix.set_index(
+        np.array([association_matrix.columns.values[i] for i in order]), inplace=True
+    )
 
     return reorder_matrix
 
@@ -289,39 +329,39 @@ def plot_heatmap(association_matrix, context=None):
         cmax = color_fade(white_anchor, red_anchor, 1 - vmax)
         corr_values = corr[~np.isnan(corr)].flatten()
         z_val = percentileofscore(corr_values, 0.0) / 100.0
-        cscale = [[0, rgb_to_str(cmin)], [z_val, rgb_to_str(white_anchor)], [1.0, rgb_to_str(cmax)]]
+        cscale = [
+            [0, rgb_to_str(cmin)],
+            [z_val, rgb_to_str(white_anchor)],
+            [1.0, rgb_to_str(cmax)],
+        ]
 
     # Generate a custom diverging colormap
     fig = go.Figure(
-            data=[go.Heatmap(z=np.flip(corr, axis=0),
-                             x=association_matrix.columns.values,
-                             y=association_matrix.columns.values[::-1],
-                             connectgaps=False,
-                             xgap=2,
-                             ygap=2,
-                             colorscale=cscale,
-                             colorbar={'title': "Strength"})],
-            layout=go.Layout(
-                autosize=False,
-                width=context.viz_size,
-                height=context.viz_size,
-                title={"text": "Correlation Matrix",
-                       "font": {"size": 25}},
-                xaxis=go.layout.XAxis(
-                    automargin=True,
-                    tickangle=270,
-                    ticks='',
-                    showgrid=False
-                ),
-                yaxis=go.layout.YAxis(
-                    automargin=True,
-                    ticks='',
-                    showgrid=False
-                ),
-                plot_bgcolor="rgb(0,0,0,0)",
-                paper_bgcolor="rgb(0,0,0,0)"
+        data=[
+            go.Heatmap(
+                z=np.flip(corr, axis=0),
+                x=association_matrix.columns.values,
+                y=association_matrix.columns.values[::-1],
+                connectgaps=False,
+                xgap=2,
+                ygap=2,
+                colorscale=cscale,
+                colorbar={"title": "Strength"},
             )
-         )
+        ],
+        layout=go.Layout(
+            autosize=False,
+            width=context.viz_size,
+            height=context.viz_size,
+            title={"text": "Correlation Matrix", "font": {"size": 25}},
+            xaxis=go.layout.XAxis(
+                automargin=True, tickangle=270, ticks="", showgrid=False
+            ),
+            yaxis=go.layout.YAxis(automargin=True, ticks="", showgrid=False),
+            plot_bgcolor="rgb(0,0,0,0)",
+            paper_bgcolor="rgb(0,0,0,0)",
+        ),
+    )
 
     if get_ipython() is not None:
         init_notebook_mode(connected=True)

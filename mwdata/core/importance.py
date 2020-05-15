@@ -1,19 +1,38 @@
-from mwdata.utilities.preprocessing import preprocess
-from mwdata.utilities.contextmanager import _context_manager
 import warnings
-warnings.filterwarnings("ignore", category=DeprecationWarning, message=r"Using or importing the ABCs from 'collections")
-with warnings.catch_warnings():
-    warnings.filterwarnings("ignore", category=DeprecationWarning, module="eli5", message=r"inspect.getargspec()")
-    from eli5.sklearn import PermutationImportance
-from sklearn.ensemble import RandomForestClassifier
-import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
+from sklearn.ensemble import RandomForestClassifier
+import matplotlib.pyplot as plt
+
+from mwdata.utilities.preprocessing import preprocess
+from mwdata.utilities.contextmanager import _context_manager
+
+warnings.filterwarnings(
+    "ignore",
+    category=DeprecationWarning,
+    message=r"Using or importing the ABCs from 'collections",
+)
+with warnings.catch_warnings():
+    warnings.filterwarnings(
+        "ignore",
+        category=DeprecationWarning,
+        module="eli5",
+        message=r"inspect.getargspec()",
+    )
+    from eli5.sklearn import PermutationImportance
 
 
 @_context_manager
-def importance(data, target, preprocess_func=None, estimator=RandomForestClassifier(random_state=1),
-               return_values=False, truncate=True, context=None, **kwargs):
+def importance(
+    data,
+    target,
+    preprocess_func=None,
+    estimator=RandomForestClassifier(random_state=1),
+    return_values=False,
+    truncate=True,
+    context=None,
+    **kwargs
+):
     """ Variable importance chart
 
     Uses Random Forest Classifier by default
@@ -40,10 +59,16 @@ def importance(data, target, preprocess_func=None, estimator=RandomForestClassif
 
     pi = PermutationImportance(estimator, cv=5, random_state=1)
     with warnings.catch_warnings():
-        warnings.filterwarnings("ignore", category=FutureWarning, message=r"The default value of n_estimators")
+        warnings.filterwarnings(
+            "ignore",
+            category=FutureWarning,
+            message=r"The default value of n_estimators",
+        )
         pi.fit(X, y)
 
-    importance_values = np.array([max(0, x) if truncate else x for x in pi.feature_importances_])
+    importance_values = np.array(
+        [max(0, x) if truncate else x for x in pi.feature_importances_]
+    )
 
     idx = importance_values.argsort()[::-1]
 
@@ -51,10 +76,9 @@ def importance(data, target, preprocess_func=None, estimator=RandomForestClassif
     plt.xlabel("Permutation Importance Value")
     plt.ylabel("Features")
 
-    fig = sns.barplot(y=X.columns[idx],
-                      x=importance_values[idx],
-                      palette="Blues_d").\
-    set_title("Feature Importance")
+    fig = sns.barplot(
+        y=X.columns[idx], x=importance_values[idx], palette="Blues_d"
+    ).set_title("Feature Importance")
 
     if return_values:
         return importance_values

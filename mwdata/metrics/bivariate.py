@@ -1,18 +1,19 @@
+import warnings
+import logging
+import math
+import pandas as pd
+import numpy as np
+import networkx as nx
+from multiprocessing import Pool, cpu_count
+from functools import partial
 from shapely.geometry import Polygon
 from scipy.spatial import ConvexHull, Delaunay
 from scipy.spatial.distance import cosine
 from scipy.stats import iqr, spearmanr, f_oneway, levene
 from sklearn.preprocessing import StandardScaler
-import pandas as pd
-import numpy as np
-import networkx as nx
-import math
+
 from mwdata.metrics.utils import hexbin
 from mwdata import load_data
-from multiprocessing import Pool, cpu_count
-from functools import partial
-import warnings
-import logging
 
 
 class Scagnostics:
@@ -40,18 +41,20 @@ class Scagnostics:
             self.data = data
             num_cols = data.shape[1]
         elif isinstance(data, pd.DataFrame):
-            df = data.select_dtypes(['number'])
+            df = data.select_dtypes(["number"])
             self._colnames = df.columns.values
             self.data = df.to_numpy()
             num_cols = df.shape[1]
         else:
             df = load_data(data)
-            df = df.select_dtypes(['number'])
+            df = df.select_dtypes(["number"])
             self._colnames = df.columns.values
             self.data = df.to_numpy()
             num_cols = df.shape[1]
 
-        self.column_pairs = [(i, j) for i in range(num_cols) for j in range(num_cols) if j > i]
+        self.column_pairs = [
+            (i, j) for i in range(num_cols) for j in range(num_cols) if j > i
+        ]
 
     @property
     def names(self):
@@ -84,7 +87,9 @@ class Scagnostics:
         else:
             metrics = {}
             for pair in self.column_pairs:
-                metrics[pair] = Scagnostics.calculate_metrics(pair, self.data, graphs)[pair]
+                metrics[pair] = Scagnostics.calculate_metrics(pair, self.data, graphs)[
+                    pair
+                ]
 
         return metrics
 
@@ -116,42 +121,60 @@ class Scagnostics:
 
             convex_hull = ConvexHull(points)
 
-            minimum_spanning_tree = Scagnostics.minimum_spanning_tree(points, triangulation)
+            minimum_spanning_tree = Scagnostics.minimum_spanning_tree(
+                points, triangulation
+            )
 
-            alpha_hull = Scagnostics.concave_hull(points, minimum_spanning_tree, triangulation)
+            alpha_hull = Scagnostics.concave_hull(
+                points, minimum_spanning_tree, triangulation
+            )
 
-            results = {pair: {
-                "Outlier": Scagnostics.outlying(minimum_spanning_tree),
-                "Convex": Scagnostics.convex(alpha_hull, convex_hull),
-                "Skinny": Scagnostics.skinny(alpha_hull),
-                "Skewed": Scagnostics.skewed(minimum_spanning_tree),
-                "Stringy": Scagnostics.stringy(minimum_spanning_tree),
-                "Straight": Scagnostics.straight(minimum_spanning_tree, triangulation),
-                "Monotonic": Scagnostics.monotonic(array_data),
-                "Clumpy": Scagnostics.clumpy(minimum_spanning_tree),
-                "Striated": Scagnostics.striated(minimum_spanning_tree, triangulation)}
+            results = {
+                pair: {
+                    "Outlier": Scagnostics.outlying(minimum_spanning_tree),
+                    "Convex": Scagnostics.convex(alpha_hull, convex_hull),
+                    "Skinny": Scagnostics.skinny(alpha_hull),
+                    "Skewed": Scagnostics.skewed(minimum_spanning_tree),
+                    "Stringy": Scagnostics.stringy(minimum_spanning_tree),
+                    "Straight": Scagnostics.straight(
+                        minimum_spanning_tree, triangulation
+                    ),
+                    "Monotonic": Scagnostics.monotonic(array_data),
+                    "Clumpy": Scagnostics.clumpy(minimum_spanning_tree),
+                    "Striated": Scagnostics.striated(
+                        minimum_spanning_tree, triangulation
+                    ),
+                }
             }
 
             if graphs:
-                results[pair] = {"Metrics": results[pair],
-                                 "Graphs": {
-                                     "Triangulation": triangulation,
-                                     "Convex Hull": convex_hull,
-                                     "Minimum Spanning Tree": minimum_spanning_tree,
-                                     "Alpha Hull": alpha_hull
-                                 }}
+                results[pair] = {
+                    "Metrics": results[pair],
+                    "Graphs": {
+                        "Triangulation": triangulation,
+                        "Convex Hull": convex_hull,
+                        "Minimum Spanning Tree": minimum_spanning_tree,
+                        "Alpha Hull": alpha_hull,
+                    },
+                }
         except Exception as e:
-            warnings.warn("An error occurred during the scagnostic diagnostic computation. All metrics have been set to zero. {}".format(e))
-            results = {pair: {
-                "Outlier": 0.0,
-                "Convex": 0.0,
-                "Skinny": 0.0,
-                "Skewed": 0.0,
-                "Stringy": 0.0,
-                "Straight": 0.0,
-                "Monotonic": 0.0,
-                "Clumpy": 0.0,
-                "Striated": 0.0}
+            warnings.warn(
+                "An error occurred during the scagnostic diagnostic computation. All metrics have been set to zero. {}".format(
+                    e
+                )
+            )
+            results = {
+                pair: {
+                    "Outlier": 0.0,
+                    "Convex": 0.0,
+                    "Skinny": 0.0,
+                    "Skewed": 0.0,
+                    "Stringy": 0.0,
+                    "Straight": 0.0,
+                    "Monotonic": 0.0,
+                    "Clumpy": 0.0,
+                    "Striated": 0.0,
+                }
             }
 
         return results
@@ -233,19 +256,30 @@ class Scagnostics:
         """
         A = [points[simplex[k]] for k in range(3)]
         M = np.asarray(
-            [[1.0] * 4] +
-            [[Scagnostics.squared_norm(A[k]), A[k][0], A[k][1], 1.0] for k in range(3)],
-            dtype=np.float32)
-        S = np.array([
-            0.5 * np.linalg.det(M[1:, [0, 2, 3]]),
-            -0.5 * np.linalg.det(M[1:, [0, 1, 3]])
-        ])
+            [[1.0] * 4]
+            + [
+                [Scagnostics.squared_norm(A[k]), A[k][0], A[k][1], 1.0]
+                for k in range(3)
+            ],
+            dtype=np.float32,
+        )
+        S = np.array(
+            [
+                0.5 * np.linalg.det(M[1:, [0, 2, 3]]),
+                -0.5 * np.linalg.det(M[1:, [0, 1, 3]]),
+            ]
+        )
         a = np.linalg.det(M[1:, 1:])
         b = np.linalg.det(M[1:, [0, 1, 2]])
         try:
-            centre, radius = S / a, np.sqrt(b / a + Scagnostics.squared_norm(S) / a ** 2)
-        except:
-            logging.warning("Unexpected zero determinant in circumcircle calculation.")
+            centre, radius = (
+                S / a,
+                np.sqrt(b / a + Scagnostics.squared_norm(S) / a ** 2),
+            )
+        except Exception as e:  # TODO: #7
+            logging.warning(
+                f"Unexpected zero determinant in circumcircle calculation: {str(e)}"
+            )
             pass
         return centre, radius
 
@@ -263,9 +297,12 @@ class Scagnostics:
         Returns:
             A list of points in the alpha complex
         """
-        return list(filter(lambda simplex:
-                           Scagnostics.circumcircle(points, simplex)[1] < alpha,
-                           simplexes))
+        return list(
+            filter(
+                lambda simplex: Scagnostics.circumcircle(points, simplex)[1] < alpha,
+                simplexes,
+            )
+        )
 
     @staticmethod
     def concave_hull(points, minimum_spanning_tree, triangulation=None):
@@ -290,7 +327,9 @@ class Scagnostics:
         pct = 75
         while len(alpha_complex) == 0:
             omega = Scagnostics.calculate_omega(weights, pct)
-            alpha_complex = Scagnostics.get_alpha_complex(omega, points, triangulation.simplices)
+            alpha_complex = Scagnostics.get_alpha_complex(
+                omega, points, triangulation.simplices
+            )
             pct = pct + 5
 
         x, y = [], []
@@ -321,26 +360,32 @@ class Scagnostics:
         for n in range(triangulation.nsimplex):
             # Edge a
             edge = sorted([triangulation.vertices[n, 0], triangulation.vertices[n, 1]])
-            edges.add((edge[0], edge[1], np.linalg.norm(points[edge[0]] - points[edge[1]])))
+            edges.add(
+                (edge[0], edge[1], np.linalg.norm(points[edge[0]] - points[edge[1]]))
+            )
 
             # Edge b
             edge = sorted([triangulation.vertices[n, 0], triangulation.vertices[n, 2]])
-            edges.add((edge[0], edge[1], np.linalg.norm(points[edge[0]] - points[edge[1]])))
+            edges.add(
+                (edge[0], edge[1], np.linalg.norm(points[edge[0]] - points[edge[1]]))
+            )
 
             # Edge c
             edge = sorted([triangulation.vertices[n, 1], triangulation.vertices[n, 2]])
-            edges.add((edge[0], edge[1], np.linalg.norm(points[edge[0]] - points[edge[1]])))
+            edges.add(
+                (edge[0], edge[1], np.linalg.norm(points[edge[0]] - points[edge[1]]))
+            )
 
         graph = nx.Graph()
 
         graph.add_weighted_edges_from(edges)
 
-        mst = nx.minimum_spanning_tree(graph, algorithm='prim')
+        mst = nx.minimum_spanning_tree(graph, algorithm="prim")
 
         return mst
 
     @staticmethod
-    def get_mst_edges(mst, attr='weight'):
+    def get_mst_edges(mst, attr="weight"):
         """ Get all edges in the minimum spanning tree
 
         Args:
@@ -380,7 +425,7 @@ class Scagnostics:
             If where is False, returns the path length for the longest shortest path
             If where is True, returns the start node and end node of the longest shortest path
         """
-        all_shortest_paths = nx.all_pairs_dijkstra_path_length(mst, weight='weight')
+        all_shortest_paths = nx.all_pairs_dijkstra_path_length(mst, weight="weight")
         nodes = [node for node in all_shortest_paths]
         all_paths = {(n[0], k): v for n in nodes for k, v in n[1].items()}
         if where:
@@ -400,7 +445,7 @@ class Scagnostics:
         """
         vertices = [v[0] for v in list(minimum_spanning_tree.degree()) if v[1] == 1]
         edges = [list(minimum_spanning_tree.edges(v, data=True)) for v in vertices]
-        outer_weights = [x[0][2]['weight'] for x in edges]
+        outer_weights = [x[0][2]["weight"] for x in edges]
 
         weights = Scagnostics.get_mst_edges(minimum_spanning_tree)
         omega = Scagnostics.calculate_omega(weights)
@@ -419,7 +464,9 @@ class Scagnostics:
         Returns:
             Metric value
         """
-        return alpha_hull.area / convex_hull.volume  # Scipy ConvexHull Volume = Area in 2D
+        return (
+            alpha_hull.area / convex_hull.volume
+        )  # Scipy ConvexHull Volume = Area in 2D
 
     @staticmethod
     def skinny(alpha_hull):
@@ -444,7 +491,7 @@ class Scagnostics:
             Metric value
         """
         mst_diam = Scagnostics.longest_shortest_path(minimum_spanning_tree)
-        mst_length = minimum_spanning_tree.size(weight='weight')
+        mst_length = minimum_spanning_tree.size(weight="weight")
         return mst_diam / mst_length
 
     @staticmethod
@@ -460,8 +507,9 @@ class Scagnostics:
         """
         mst_diam = Scagnostics.longest_shortest_path(minimum_spanning_tree)
         points_euc = Scagnostics.longest_shortest_path(minimum_spanning_tree, True)
-        dist_euc = np.linalg.norm(triangulation.points[points_euc[0]] -
-                                  triangulation.points[points_euc[1]])
+        dist_euc = np.linalg.norm(
+            triangulation.points[points_euc[0]] - triangulation.points[points_euc[1]]
+        )
         return dist_euc / mst_diam
 
     @staticmethod
@@ -487,8 +535,9 @@ class Scagnostics:
             Metric value
         """
         weights = Scagnostics.get_mst_edges(minimum_spanning_tree)
-        return (max(0, np.percentile(weights, 90) - np.percentile(weights, 50))) / \
-               (abs(np.percentile(weights, 90) - np.percentile(weights, 10)))
+        return (max(0, np.percentile(weights, 90) - np.percentile(weights, 50))) / (
+            abs(np.percentile(weights, 90) - np.percentile(weights, 10))
+        )
 
     @staticmethod
     def clumpy(minimum_spanning_tree):
@@ -506,15 +555,21 @@ class Scagnostics:
             n1 = e[0]
             n2 = e[1]
             new_graph = minimum_spanning_tree.copy()
-            min_length = e[2]['weight']
-            edges_to_break = [(e[0], e[1]) for e in all_edges if e[2]['weight'] >= min_length]
+            min_length = e[2]["weight"]
+            edges_to_break = [
+                (e[0], e[1]) for e in all_edges if e[2]["weight"] >= min_length
+            ]
             new_graph.remove_edges_from(edges_to_break)
 
             sub_graph_1_nodes = nx.node_connected_component(new_graph, n1)
             sub_graph_2_nodes = nx.node_connected_component(new_graph, n2)
 
-            sub_graph_1_edges = [x[2]['weight'] for x in new_graph.edges(sub_graph_1_nodes, data=True)]
-            sub_graph_2_edges = [x[2]['weight'] for x in new_graph.edges(sub_graph_2_nodes, data=True)]
+            sub_graph_1_edges = [
+                x[2]["weight"] for x in new_graph.edges(sub_graph_1_nodes, data=True)
+            ]
+            sub_graph_2_edges = [
+                x[2]["weight"] for x in new_graph.edges(sub_graph_2_nodes, data=True)
+            ]
 
             if len(list(sub_graph_1_edges)) <= len(list(sub_graph_2_edges)):
                 if len(list(sub_graph_1_edges)) > 0:
@@ -547,7 +602,10 @@ class Scagnostics:
         point_set = [list(minimum_spanning_tree.edges(v)) for v in vertices]
         tri_points = triangulation.points
 
-        vector_pairs = [[(tri_points[edge[0]] - tri_points[edge[1]]) for edge in edge_pair] for edge_pair in point_set]
+        vector_pairs = [
+            [(tri_points[edge[0]] - tri_points[edge[1]]) for edge in edge_pair]
+            for edge_pair in point_set
+        ]
 
         angles = [abs(1 - cosine(vector[0], vector[1])) for vector in vector_pairs]
 
@@ -579,5 +637,5 @@ def heteroscedastic(grp, alpha=0.01):
     Returns:
         True if statistically significant
     """
-    W, p = levene(*grp, center='median')
+    W, p = levene(*grp, center="median")
     return p <= alpha

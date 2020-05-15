@@ -1,9 +1,9 @@
 import pandas as pd
 import mwdata as mw
 import matplotlib
-
-matplotlib.use('Agg')
 import pytest
+
+matplotlib.use("Agg")
 
 
 @pytest.fixture
@@ -27,7 +27,7 @@ def test_heatmap_missing(data):
 
 
 def test_heatmap_numpy(data):
-    data = data.select_dtypes(['number']).to_numpy()
+    data = data.select_dtypes(["number"]).to_numpy()
     fig = mw.data_heatmap(data, interactive=False)
     assert isinstance(fig, matplotlib.artist.Artist)
 

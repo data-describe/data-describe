@@ -1,6 +1,5 @@
 import pandas as pd
 import mwdata as mw
-import matplotlib
 import plotly
 import pytest
 
@@ -33,12 +32,12 @@ def test_figure_categorical_cluster(load_data):
 
 def test_corr_values(load_data):
     corr_values = mw.correlation_matrix(load_data, return_values=True)
-    num_cols = load_data.select_dtypes(['number']).shape[1]
+    num_cols = load_data.select_dtypes(["number"]).shape[1]
     assert corr_values.shape == (num_cols, num_cols)
 
 
 def test_categorical_data_only(load_data):
-    num_data = load_data.select_dtypes(['number'])
+    num_data = load_data.select_dtypes(["number"])
     cat_data = load_data[[c for c in load_data.columns if c not in num_data.columns]]
     corr_values = mw.correlation_matrix(cat_data, categorical=True, return_values=True)
     cat_cols = cat_data.shape[1]
@@ -46,14 +45,13 @@ def test_categorical_data_only(load_data):
 
 
 def test_categorical_data_only_but_specified_numeric(load_data):
-    num_data = load_data.select_dtypes(['number'])
+    num_data = load_data.select_dtypes(["number"])
     cat_data = load_data[[c for c in load_data.columns if c not in num_data.columns]]
     with pytest.raises(ValueError):
         mw.correlation_matrix(cat_data, return_values=True)
 
 
 def test_numeric_data_only_but_specified_categorical(load_data):
-    num_data = load_data.select_dtypes(['number'])
+    num_data = load_data.select_dtypes(["number"])
     with pytest.warns(UserWarning):
         mw.correlation_matrix(num_data, categorical=True, return_values=True)
-

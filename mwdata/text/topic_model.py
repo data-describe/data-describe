@@ -1,22 +1,28 @@
 import warnings
-warnings.filterwarnings('ignore', category=UserWarning, module='gensim')
+
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+import pyLDAvis.gensim
 from gensim.models.coherencemodel import CoherenceModel
 from gensim.models.ldamodel import LdaModel
 from gensim.models.lsimodel import LsiModel
 from gensim.summarization.summarizer import summarize
 from sklearn.decomposition import TruncatedSVD, NMF
-from mwdata.text.text_preprocessing import create_doc_term_matrix, create_tfidf_matrix, filter_dictionary
 from IPython import get_ipython
-import pandas as pd
+from mwdata.text.text_preprocessing import (
+    create_doc_term_matrix,
+    create_tfidf_matrix,
+    filter_dictionary,
+)
 from mwdata.utilities.contextmanager import _context_manager
-import matplotlib.pyplot as plt
-import seaborn as sns
-import pyLDAvis.gensim
-import numpy as np
+
+warnings.filterwarnings("ignore", category=UserWarning, module="gensim")
 
 
 class TopicModel:
-    def __init__(self, model_type='LDA', num_topics=None, model_kwargs=None):
+    def __init__(self, model_type="LDA", num_topics=None, model_kwargs=None):
         """Topic Modeling made for easier training and understanding of topics
 
         The exact model type, number of topics, and keyword arguments can be input to initialize the object. The object
@@ -33,8 +39,10 @@ class TopicModel:
             model_kwargs: Keyword arguments for the model, should be in agreement with 'model_type'
         """
         self._model_type = model_type.upper()
-        if self._model_type not in ['LDA', 'LSA', 'LSI', 'SVD', 'NMF']:
-            raise ValueError("Model type must be one of either: 'LDA', 'LSA', 'LSI', 'SVD' or 'NMF'")
+        if self._model_type not in ["LDA", "LSA", "LSI", "SVD", "NMF"]:
+            raise ValueError(
+                "Model type must be one of either: 'LDA', 'LSA', 'LSI', 'SVD' or 'NMF'"
+            )
         self._num_topics = num_topics
         self._model_kwargs = model_kwargs
 
@@ -104,13 +112,15 @@ class TopicModel:
 
         if not self._model_kwargs:
             self._model_kwargs = {}
-        self._model_kwargs.update({'n_components': self._num_topics})
+        self._model_kwargs.update({"n_components": self._num_topics})
 
         lsa_model = TruncatedSVD(**self._model_kwargs)
         lsa_model.fit(self._matrix)
         return lsa_model
 
-    def _compute_lsi_model(self, text_docs, min_topics=2, max_topics=10, no_below=10, no_above=0.2):
+    def _compute_lsi_model(
+        self, text_docs, min_topics=2, max_topics=10, no_below=10, no_above=0.2
+    ):
         """Trains LSA Gensim model
 
         Args:
@@ -126,33 +136,53 @@ class TopicModel:
         tokenized_text_docs = [text_doc.split() for text_doc in text_docs]
         self._min_topics = min_topics
         self._max_topics = max_topics
-        self._dictionary, self._corpus = filter_dictionary(tokenized_text_docs, no_below, no_above)
+        self._dictionary, self._corpus = filter_dictionary(
+            tokenized_text_docs, no_below, no_above
+        )
         lsa_model_list = []
 
         if not self._model_kwargs:
             self._model_kwargs = {}
-        self._model_kwargs.update({'corpus': self._corpus, 'num_topics': self._num_topics, 'id2word': self._dictionary})
+        self._model_kwargs.update(
+            {
+                "corpus": self._corpus,
+                "num_topics": self._num_topics,
+                "id2word": self._dictionary,
+            }
+        )
 
         with warnings.catch_warnings():
             warnings.filterwarnings("ignore", category=DeprecationWarning)
             if self._num_topics is None:
                 self._coherence_values = []
                 for num in range(self._min_topics, self._max_topics + 1):
-                    self._model_kwargs.update({'num_topics': num})
+                    self._model_kwargs.update({"num_topics": num})
                     lsa_model = LsiModel(**self._model_kwargs)
-                    coherence_model = CoherenceModel(model=lsa_model, texts=tokenized_text_docs,
-                                                     dictionary=self._dictionary, coherence='c_v')
+                    coherence_model = CoherenceModel(
+                        model=lsa_model,
+                        texts=tokenized_text_docs,
+                        dictionary=self._dictionary,
+                        coherence="c_v",
+                    )
                     score = coherence_model.get_coherence()
                     self._coherence_values.append(score)
                     lsa_model_list.append(lsa_model)
-                max_coherence_index = self._coherence_values.index(max(self._coherence_values))
+                max_coherence_index = self._coherence_values.index(
+                    max(self._coherence_values)
+                )
                 self._num_topics = max_coherence_index + self._min_topics
                 return lsa_model_list[max_coherence_index]
             else:
-                lsa_model = LsiModel(corpus=self._corpus, id2word=self._dictionary, num_topics=self._num_topics)
+                lsa_model = LsiModel(
+                    corpus=self._corpus,
+                    id2word=self._dictionary,
+                    num_topics=self._num_topics,
+                )
                 return lsa_model
 
-    def _compute_lda_model(self, text_docs, min_topics=2, max_topics=10, no_below=10, no_above=0.2):
+    def _compute_lda_model(
+        self, text_docs, min_topics=2, max_topics=10, no_below=10, no_above=0.2
+    ):
         """Trains LDA Gensim model
 
         Args:
@@ -168,26 +198,40 @@ class TopicModel:
         tokenized_text_docs = [text_doc.split() for text_doc in text_docs]
         self._min_topics = min_topics
         self._max_topics = max_topics
-        self._dictionary, self._corpus = filter_dictionary(tokenized_text_docs, no_below, no_above)
+        self._dictionary, self._corpus = filter_dictionary(
+            tokenized_text_docs, no_below, no_above
+        )
         lda_model_list = []
 
         if not self._model_kwargs:
             self._model_kwargs = {}
-        self._model_kwargs.update({'corpus': self._corpus, 'num_topics': self._num_topics, 'id2word': self._dictionary})
+        self._model_kwargs.update(
+            {
+                "corpus": self._corpus,
+                "num_topics": self._num_topics,
+                "id2word": self._dictionary,
+            }
+        )
 
         with warnings.catch_warnings():
             warnings.filterwarnings("ignore", category=DeprecationWarning)
             if self._num_topics is None:
                 self._coherence_values = []
                 for num in range(self._min_topics, self._max_topics + 1):
-                    self._model_kwargs.update({'num_topics': num})
+                    self._model_kwargs.update({"num_topics": num})
                     lda_model = LdaModel(**self._model_kwargs)
-                    coherence_model = CoherenceModel(model=lda_model, texts=tokenized_text_docs,
-                                                     dictionary=self._dictionary, coherence='c_v')
+                    coherence_model = CoherenceModel(
+                        model=lda_model,
+                        texts=tokenized_text_docs,
+                        dictionary=self._dictionary,
+                        coherence="c_v",
+                    )
                     score = coherence_model.get_coherence()
                     self._coherence_values.append(score)
                     lda_model_list.append(lda_model)
-                max_coherence_index = self._coherence_values.index(max(self._coherence_values))
+                max_coherence_index = self._coherence_values.index(
+                    max(self._coherence_values)
+                )
                 self._num_topics = max_coherence_index + self._min_topics
                 return lda_model_list[max_coherence_index]
             else:
@@ -215,14 +259,23 @@ class TopicModel:
 
         if not self._model_kwargs:
             self._model_kwargs = {}
-        self._model_kwargs.update({'n_components': self._num_topics})
+        self._model_kwargs.update({"n_components": self._num_topics})
 
         nmf_model = NMF(**self._model_kwargs)
         nmf_model.fit(self._matrix)
         return nmf_model
 
-    def fit(self, text_docs, model_type=None, min_topics=2, max_topics=10, no_below=10, no_above=0.2, tfidf=True,
-            model_kwargs=None):
+    def fit(
+        self,
+        text_docs,
+        model_type=None,
+        min_topics=2,
+        max_topics=10,
+        no_below=10,
+        no_above=0.2,
+        tfidf=True,
+        model_kwargs=None,
+    ):
         """Trains topic model and assigns model to object as attribute
 
         Args:
@@ -240,16 +293,22 @@ class TopicModel:
             self._model_kwargs = model_kwargs
         if model_type is not None:
             self._model_type = model_type.upper()
-            if self._model_type not in ['LDA', 'LSA', 'LSI', 'SVD', 'NMF']:
-                raise ValueError("Model type must be one of either: 'LDA', 'LSA', 'LSI', 'SVD' or 'NMF'")
+            if self._model_type not in ["LDA", "LSA", "LSI", "SVD", "NMF"]:
+                raise ValueError(
+                    "Model type must be one of either: 'LDA', 'LSA', 'LSI', 'SVD' or 'NMF'"
+                )
 
-        if self._model_type == 'LDA':
-            self._model = self._compute_lda_model(text_docs, min_topics, max_topics, no_below, no_above)
-        elif self._model_type == 'LSA' or self._model_type == 'LSI':
-            self._model = self._compute_lsi_model(text_docs, min_topics, max_topics, no_below, no_above)
-        elif self._model_type == 'SVD':
+        if self._model_type == "LDA":
+            self._model = self._compute_lda_model(
+                text_docs, min_topics, max_topics, no_below, no_above
+            )
+        elif self._model_type == "LSA" or self._model_type == "LSI":
+            self._model = self._compute_lsi_model(
+                text_docs, min_topics, max_topics, no_below, no_above
+            )
+        elif self._model_type == "SVD":
             self._model = self._compute_lsa_svd_model(text_docs, tfidf)
-        elif self._model_type == 'NMF':
+        elif self._model_type == "NMF":
             self._model = self._compute_nmf_model(text_docs, tfidf)
 
     def _plot_elbow(self, context=None):
@@ -262,10 +321,13 @@ class TopicModel:
             fig: Elbow plot showing coherence values vs number of topics
         """
         plt.figure(figsize=(context.fig_width, context.fig_height))
-        fig = sns.lineplot(x=[num for num in range(self._min_topics, self._max_topics + 1)], y=self._coherence_values)
-        fig.set_title('Coherence Values Across Topic Numbers')
-        plt.xlabel('Number of Topics')
-        plt.ylabel('Coherence Values')
+        fig = sns.lineplot(
+            x=[num for num in range(self._min_topics, self._max_topics + 1)],
+            y=self._coherence_values,
+        )
+        fig.set_title("Coherence Values Across Topic Numbers")
+        plt.xlabel("Number of Topics")
+        plt.ylabel("Coherence Values")
         return fig
 
     def _get_topic_nums(self):
@@ -274,15 +336,17 @@ class TopicModel:
         Returns:
             doc_topics: Array of topic distributions (LDA model) or scores (LSA/NMF model)
         """
-        if self._model_type == 'NMF' or self._model_type == 'SVD':
+        if self._model_type == "NMF" or self._model_type == "SVD":
             return self._model.transform(self._matrix)
-        elif self._model_type == 'LDA':
+        elif self._model_type == "LDA":
             doc_topics = []
-            for doc in list(self._model.get_document_topics(self._corpus, minimum_probability=0)):
+            for doc in list(
+                self._model.get_document_topics(self._corpus, minimum_probability=0)
+            ):
                 current_doc = [topic[1] for topic in doc]
                 doc_topics.append(current_doc)
             return np.array(doc_topics)
-        elif self._model_type == 'LSI' or self._model_type == 'LSA':
+        elif self._model_type == "LSI" or self._model_type == "LSA":
             doc_topics = []
             for doc in self._model[self._corpus]:
                 current_doc = [topic[1] for topic in doc]
@@ -305,32 +369,55 @@ class TopicModel:
             corresponding coefficient value
         """
         display_topics_dict = {}
-        if self._model_type == 'NMF' or self._model_type == 'SVD':
+        if self._model_type == "NMF" or self._model_type == "SVD":
             for topic_num, topic in enumerate(self._model.components_):
                 if not topic_names or not topic_names[topic_num]:
-                    key = 'Topic {}'.format(topic_num + 1)
+                    key = "Topic {}".format(topic_num + 1)
                 else:
-                    key = 'Topic: {}'.format(topic_names[topic_num])
-                display_topics_dict[key] = [self._matrix.columns[i] for i in topic.argsort()[:-num_topic_words - 1:-1]]
-        elif self._model_type == 'LSI' or self._model_type == 'LSA' or self._model_type == 'LDA':
+                    key = "Topic: {}".format(topic_names[topic_num])
+                display_topics_dict[key] = [
+                    self._matrix.columns[i]
+                    for i in topic.argsort()[: -num_topic_words - 1 : -1]
+                ]
+        elif (
+            self._model_type == "LSI"
+            or self._model_type == "LSA"
+            or self._model_type == "LDA"
+        ):
             for topic_num, topic in self._model.print_topics(num_words=num_topic_words):
-                topic_words = [topic.split()[num].split('*')[1].replace('"', '')
-                               for num in range(0, len(topic.split()), 2)]
-                topic_coefficients = [topic.split()[num].split('*')[0] for num in range(0, len(topic.split()), 2)]
+                topic_words = [
+                    topic.split()[num].split("*")[1].replace('"', "")
+                    for num in range(0, len(topic.split()), 2)
+                ]
+                topic_coefficients = [
+                    topic.split()[num].split("*")[0]
+                    for num in range(0, len(topic.split()), 2)
+                ]
                 if not topic_names or not topic_names[topic_num]:
-                    key = 'Topic {}'.format(topic_num + 1)
-                    coefficient_key = 'Topic {} Coefficient Value'.format(topic_num + 1)
+                    key = "Topic {}".format(topic_num + 1)
+                    coefficient_key = "Topic {} Coefficient Value".format(topic_num + 1)
                 else:
-                    key = 'Topic: {}'.format(topic_names[topic_num])
-                    coefficient_key = 'Topic: {} - Coefficient Value'.format(topic_names[topic_num])
-                display_topics_dict[key], display_topics_dict[coefficient_key] = topic_words, topic_coefficients
+                    key = "Topic: {}".format(topic_names[topic_num])
+                    coefficient_key = "Topic: {} - Coefficient Value".format(
+                        topic_names[topic_num]
+                    )
+                display_topics_dict[key], display_topics_dict[coefficient_key] = (
+                    topic_words,
+                    topic_coefficients,
+                )
 
-        term_numbers = ['Term {}'.format(num + 1) for num in range(num_topic_words)]
+        term_numbers = ["Term {}".format(num + 1) for num in range(num_topic_words)]
         display_topics_df = pd.DataFrame(display_topics_dict, index=term_numbers)
         return display_topics_df
 
-    def _top_documents_per_topic(self, text_docs, topic_names=None, num_docs=10, summarize_docs=False,
-                                 summary_words=None):
+    def _top_documents_per_topic(
+        self,
+        text_docs,
+        topic_names=None,
+        num_docs=10,
+        summarize_docs=False,
+        summary_words=None,
+    ):
         """Creates Pandas DataFrame to display most relevant documents for each topic
 
         Args:
@@ -368,11 +455,16 @@ class TopicModel:
                 for index, doc in enumerate(top_docs):
                     if summary_words:
                         try:
-                            summarized_docs.append(summarize(doc, word_count=summary_words))
+                            summarized_docs.append(
+                                summarize(doc, word_count=summary_words)
+                            )
                         except ValueError:
                             sentence_check += 1
                             warnings.warn(
-                                'Document #{} in Topic {} cannot be summarized.'.format(str(index + 1), topic_num))
+                                "Document #{} in Topic {} cannot be summarized.".format(
+                                    str(index + 1), topic_num
+                                )
+                            )
                             summarized_docs.append(doc)
                     else:
                         try:
@@ -380,24 +472,31 @@ class TopicModel:
                         except ValueError:
                             sentence_check += 1
                             warnings.warn(
-                                'Document #{} in Topic {} cannot be summarized.'.format(str(index + 1), topic_num))
+                                "Document #{} in Topic {} cannot be summarized.".format(
+                                    str(index + 1), topic_num
+                                )
+                            )
                             summarized_docs.append(doc)
                 top_docs = summarized_docs
 
             if not topic_names:
-                all_top_docs['Topic ' + str(topic_num + 1)] = top_docs
+                all_top_docs["Topic " + str(topic_num + 1)] = top_docs
             else:
-                all_top_docs['Topic: ' + topic_names[topic_num]] = top_docs
+                all_top_docs["Topic: " + topic_names[topic_num]] = top_docs
 
         if sentence_check > (num_docs * len(topics[0]) / 4):
-            warnings.warn("WARNING: DOCUMENTS MUST BE FORMATTED IN SENTENCES FOR SUMMARIZATION")
+            warnings.warn(
+                "WARNING: DOCUMENTS MUST BE FORMATTED IN SENTENCES FOR SUMMARIZATION"
+            )
 
-        doc_numbers = ['Document #' + str(num + 1) for num in range(num_docs)]
+        doc_numbers = ["Document #" + str(num + 1) for num in range(num_docs)]
         all_top_docs_df = pd.DataFrame(all_top_docs, index=doc_numbers)
         return all_top_docs_df
 
     @_context_manager
-    def show(self, display_item='pyLDAvis', text_docs=None, viz_kwargs=None, context=None):
+    def show(
+        self, display_item="pyLDAvis", text_docs=None, viz_kwargs=None, context=None
+    ):
         """Displays a specified visual to understand topic model and/or documents
 
         Args:
@@ -419,34 +518,44 @@ class TopicModel:
             A visual to understand topic model and/or documents relating to model
         """
         display_item = display_item.lower()
-        if display_item == 'pyldavis':
-            if self._model_type != 'LDA':
-                raise TypeError('Model must be an LDA Model')
+        if display_item == "pyldavis":
+            if self._model_type != "LDA":
+                raise TypeError("Model must be an LDA Model")
             elif get_ipython() is not None:
                 pyLDAvis.enable_notebook()
                 with warnings.catch_warnings():
-                    warnings.filterwarnings("ignore", category=FutureWarning, module='pyLDAvis',
-                                            message="Sorting because non-concatenation axis is not aligned.")
-                    vis = pyLDAvis.gensim.prepare(self._model, self._corpus, self._dictionary)
+                    warnings.filterwarnings(
+                        "ignore",
+                        category=FutureWarning,
+                        module="pyLDAvis",
+                        message="Sorting because non-concatenation axis is not aligned.",
+                    )
+                    vis = pyLDAvis.gensim.prepare(
+                        self._model, self._corpus, self._dictionary
+                    )
                     return vis
             else:
                 raise EnvironmentError("Not in Jupyter Notebook")
-        elif display_item == 'elbow':
+        elif display_item == "elbow":
             try:
                 self._coherence_values
             except AttributeError:
-                raise TypeError("Coherence Values not defined. At least 2 LDA or LSI models need to be trained "
-                                "with different numbers of topics.")
+                raise TypeError(
+                    "Coherence Values not defined. At least 2 LDA or LSI models need to be trained "
+                    "with different numbers of topics."
+                )
             else:
                 return self._plot_elbow(context)
-        elif display_item == 'top_words_per_topic':
+        elif display_item == "top_words_per_topic":
             if viz_kwargs is None:
                 viz_kwargs = {}
             return self._display_topic_keywords(**viz_kwargs)
-        elif display_item == 'top_documents_per_topic':
+        elif display_item == "top_documents_per_topic":
             if viz_kwargs is None:
                 viz_kwargs = {}
             return self._top_documents_per_topic(text_docs, **viz_kwargs)
         else:
-            raise ValueError("The input for display_item must be either: 'pyLDAvis', 'elbow', 'top_words_per_topic', "
-                             "or 'top_documents_per_topic'")
+            raise ValueError(
+                "The input for display_item must be either: 'pyLDAvis', 'elbow', 'top_words_per_topic', "
+                "or 'top_documents_per_topic'"
+            )

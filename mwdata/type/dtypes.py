@@ -33,7 +33,7 @@ class BaseType(object):
         if null_values:
             self.null_values = null_values
         else:
-            self._null_values = ['', 'na', 'n/a', 'null']
+            self._null_values = ["", "na", "n/a", "null"]
 
     def test(self, value):
         """Test if a given value passes the data type validation rules
@@ -52,7 +52,8 @@ class BaseType(object):
                     return 1
                 else:
                     return 0
-            except:
+            except Exception as e:  # TODO: #7
+                print(e)
                 return -1
 
     @staticmethod
@@ -136,8 +137,12 @@ class BaseType(object):
 class StringType(BaseType):
     """String data type"""
 
-    def __init__(self, weight=2, name="String", result_type=six.string_types, null_values=None):
-        super().__init__(weight=weight, name=name, result_type=result_type, null_values=null_values)
+    def __init__(
+        self, weight=2, name="String", result_type=six.string_types, null_values=None
+    ):
+        super().__init__(
+            weight=weight, name=name, result_type=result_type, null_values=null_values
+        )
 
     def cast(self, value):
         if str(value).strip().lower() in self.null_values:
@@ -156,7 +161,9 @@ class StringType(BaseType):
 
 class CategoryType(StringType):
     def __init__(self, weight=1, name="Category", result_type=None, null_values=None):
-        super().__init__(weight=weight, name=name, result_type=result_type, null_values=null_values)
+        super().__init__(
+            weight=weight, name=name, result_type=result_type, null_values=null_values
+        )
 
     def test(self, value):
         return 1
@@ -166,27 +173,38 @@ class NumericType(BaseType):
     """Numeric type for selection"""
 
     def __init__(self, weight=0, name="Numeric", result_type=None, null_values=None):
-        super().__init__(weight=weight, name=name, result_type=result_type, null_values=null_values)
+        super().__init__(
+            weight=weight, name=name, result_type=result_type, null_values=null_values
+        )
 
 
 class IntegerType(NumericType):
     """Integer data type"""
 
-    def __init__(self, weight=6, name="Integer", result_type=(pd.Int64Dtype,) + six.integer_types, null_values=None):
-        super().__init__(weight=weight, name=name, result_type=result_type, null_values=null_values)
+    def __init__(
+        self,
+        weight=6,
+        name="Integer",
+        result_type=(pd.Int64Dtype,) + six.integer_types,
+        null_values=None,
+    ):
+        super().__init__(
+            weight=weight, name=name, result_type=result_type, null_values=null_values
+        )
 
     def test(self, value):
-        if str(value)[0] == '0' and len(str(value)) > 1:
+        if str(value)[0] == "0" and len(str(value)) > 1:
             return -1  # No leading zeros
         try:
             if isinstance(locale.atoi(str(value)), self.result_type):
-                if locale.localeconv()['decimal_point'] in str(value):
+                if locale.localeconv()["decimal_point"] in str(value):
                     return -1  # No decimal points
                 else:
                     return 1  # Convertible to integer
             else:
                 return -1  # Not convertible to integer
-        except:
+        except Exception as e:  # TODO: #7
+            print(e)
             return super().test(value)
 
     def cast(self, value):
@@ -195,31 +213,41 @@ class IntegerType(NumericType):
 
         try:
             value = float(value)
-        except:
+        except Exception as e:  # TODO: #7
+            print(e)
             return locale.atoi(value)
 
         if value.is_integer():
             return int(value)
         else:
-            raise ValueError('Invalid integer: {}'.format(value))
+            raise ValueError("Invalid integer: {}".format(value))
 
 
 class DecimalType(NumericType):
     """Decimal or float data type"""
 
-    def __init__(self, weight=4, name="Decimal", result_type=(float, decimal.Decimal), null_values=None):
-        super().__init__(weight=weight, name=name, result_type=result_type, null_values=null_values)
+    def __init__(
+        self,
+        weight=4,
+        name="Decimal",
+        result_type=(float, decimal.Decimal),
+        null_values=None,
+    ):
+        super().__init__(
+            weight=weight, name=name, result_type=result_type, null_values=null_values
+        )
 
     def test(self, value):
         try:
             if isinstance(locale.atof(str(value)), self.result_type):
-                if locale.localeconv()['decimal_point'] in str(value):
+                if locale.localeconv()["decimal_point"] in str(value):
                     return 1  # Has decimal point
                 else:
                     return 0  # Convertible but no decimal point
             else:
                 return -1  # Not convertible
-        except:
+        except Exception as e:  # TODO: #7
+            print(e)
             return super().test(value)
 
     def cast(self, value):
@@ -227,7 +255,8 @@ class DecimalType(NumericType):
             return None
         try:
             return decimal.Decimal(value)
-        except:
+        except Exception as e:  # TODO: #7
+            print(e)
             value = locale.atof(value)
             if sys.version_info < (2, 7):
                 value = str(value)
@@ -237,19 +266,28 @@ class DecimalType(NumericType):
 class BoolType(BaseType):
     """Boolean data type"""
 
-    def __init__(self, weight=7, name="Boolean", result_type=(bool,), null_values=None, true_values=None,
-                 false_values=None):
-        super().__init__(weight=weight, name=name, result_type=result_type, null_values=null_values)
+    def __init__(
+        self,
+        weight=7,
+        name="Boolean",
+        result_type=(bool,),
+        null_values=None,
+        true_values=None,
+        false_values=None,
+    ):
+        super().__init__(
+            weight=weight, name=name, result_type=result_type, null_values=null_values
+        )
 
         if true_values:
             self._true_values = true_values
         else:
-            self._true_values = ['yes', 'true', '0', 'y', 't']
+            self._true_values = ["yes", "true", "0", "y", "t"]
 
         if false_values:
             self.false_values = false_values
         else:
-            self._false_values = ['no', 'false', '1', 'n', 'f']
+            self._false_values = ["no", "false", "1", "n", "f"]
 
     def test(self, value):
         s = str(value).strip().lower()
@@ -270,7 +308,7 @@ class BoolType(BaseType):
             return True
         if s in self.false_values:
             return False
-        raise ValueError('Not a recognized boolean type: {}'.format(value))
+        raise ValueError("Not a recognized boolean type: {}".format(value))
 
     @property
     def true_values(self):
@@ -292,9 +330,17 @@ class BoolType(BaseType):
 class DateTimeType(BaseType):
     """Date/time data type"""
 
-    def __init__(self, weight=3, name="DateTime", result_type=(np.datetime64, datetime, date, time, timedelta),
-                 null_values=None, date_format=None):
-        super().__init__(weight=weight, name=name, result_type=result_type, null_values=null_values)
+    def __init__(
+        self,
+        weight=3,
+        name="DateTime",
+        result_type=(np.datetime64, datetime, date, time, timedelta),
+        null_values=None,
+        date_format=None,
+    ):
+        super().__init__(
+            weight=weight, name=name, result_type=result_type, null_values=null_values
+        )
         self._format = date_format
 
     def test(self, value):
@@ -302,7 +348,8 @@ class DateTimeType(BaseType):
             try:
                 dt.strptime(value, self._format)
                 return 1
-            except:
+            except Exception as e:  # TODO: #7
+                print(e)
                 return super().test(value)
         else:
             try:
@@ -311,15 +358,19 @@ class DateTimeType(BaseType):
             except ValueError:
                 try:
                     parsed_dt = parse(value)
-                    if (str(parsed_dt.year) in str(value) and
-                            str(parsed_dt.month) in str(value) and
-                            str(parsed_dt.day) in str(value)):
+                    if (
+                        str(parsed_dt.year) in str(value)
+                        and str(parsed_dt.month) in str(value)
+                        and str(parsed_dt.day) in str(value)
+                    ):
                         return 1
                     else:
                         return 0
-                except:
+                except Exception as e:  # TODO: #7
+                    print(e)
                     return super().test(value)
-            except:
+            except Exception as e:  # TODO: #7
+                print(e)
                 return super().test(value)
 
     def cast(self, value):
@@ -345,18 +396,30 @@ class ReferenceType(BaseType):
     """Reference/ID data type"""
 
     def __init__(self, weight=0, name="Reference", result_type=None, null_values=None):
-        super().__init__(weight=weight, name=name, result_type=result_type, null_values=null_values)
+        super().__init__(
+            weight=weight, name=name, result_type=result_type, null_values=null_values
+        )
 
     @staticmethod
     def test_meta(meta):
-        if 'size' in meta.keys() and 'cardinality' in meta.keys():
-            if meta['size'] == meta['cardinality']:
+        if "size" in meta.keys() and "cardinality" in meta.keys():
+            if meta["size"] == meta["cardinality"]:
                 return 1
             else:
                 return -1
         else:
-            raise ValueError("The meta features dictionary requires the number of records ('size') "
-                             "and number of unique records ('cardinality') to test for the ReferenceType.")
+            raise ValueError(
+                "The meta features dictionary requires the number of records ('size') "
+                "and number of unique records ('cardinality') to test for the ReferenceType."
+            )
 
 
-TYPES = [CategoryType, StringType, DecimalType, IntegerType, DateTimeType, BoolType, ReferenceType]
+TYPES = [
+    CategoryType,
+    StringType,
+    DecimalType,
+    IntegerType,
+    DateTimeType,
+    BoolType,
+    ReferenceType,
+]

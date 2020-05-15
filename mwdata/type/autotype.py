@@ -1,9 +1,15 @@
-import mwdata.type.dtypes
-from mwdata.type.dtypes import *
-import pandas as pd
-import numpy as np
 import warnings
 import inspect
+import pandas as pd
+import numpy as np
+
+import mwdata.type.dtypes
+from mwdata.type.dtypes import (
+    BaseType,
+    CategoryType,
+    IntegerType,
+    ReferenceType,
+)
 
 
 def guess_dtypes(df, strict=True, sample_size=100, random_state=1, types=None):
@@ -26,15 +32,21 @@ def guess_dtypes(df, strict=True, sample_size=100, random_state=1, types=None):
         types = inspect.getmembers(mwdata.type.dtypes, _class_in_dtypes_module)
         types = [t() for name, t in types]
 
-    return {col: guess_series_dtypes(df[col],
-                                     strict=strict,
-                                     sample_size=sample_size,
-                                     random_state=random_state,
-                                     types=types)
-            for col in df.columns}
+    return {
+        col: guess_series_dtypes(
+            df[col],
+            strict=strict,
+            sample_size=sample_size,
+            random_state=random_state,
+            types=types,
+        )
+        for col in df.columns
+    }
 
 
-def guess_series_dtypes(series, strict=True, sample_size=100, random_state=1, types=None):
+def guess_series_dtypes(
+    series, strict=True, sample_size=100, random_state=1, types=None
+):
     """Use heuristics to determine the column data type for a pandas series
 
     Args:
@@ -59,11 +71,17 @@ def guess_series_dtypes(series, strict=True, sample_size=100, random_state=1, ty
         if series.shape[0] < 1:
             return "None"
         elif series.shape[0] <= sample_size:
-            warnings.warn("Non-null values for {} are less than the specified sample size.".format(series.name))
+            warnings.warn(
+                "Non-null values for {} are less than the specified sample size.".format(
+                    series.name
+                )
+            )
             sampled_data = series
             pass
         else:
-            sampled_data = sample_pandas_series(series, sample_size=sample_size, random_state=random_state)
+            sampled_data = sample_pandas_series(
+                series, sample_size=sample_size, random_state=random_state
+            )
     else:
         sampled_data = series
 
@@ -116,8 +134,9 @@ def dtype_heuristics(series, strict=True, types=None):
     for this_type in types:
         test_results = [this_type.test(x) for x in series if x is not None]
         if strict:
-            guesses[this_type.name] = this_type.weight * all([x >= 0 for x in test_results]) * (
-                sum(test_results)) + sum([x == 0 for x in test_results])
+            guesses[this_type.name] = this_type.weight * all(
+                [x >= 0 for x in test_results]
+            ) * (sum(test_results)) + sum([x == 0 for x in test_results])
         else:
             guesses[this_type.name] = this_type.weight * sum(test_results)
     return guesses
@@ -133,7 +152,7 @@ def get_class_instance_by_name(name, types=None):
     Returns:
         A type instance
     """
-    if name == 'None':
+    if name == "None":
         return BaseType()
 
     if not types:
@@ -160,8 +179,7 @@ def meta_features(series):
         size = len(series)
         cardinality = series.nunique()
 
-        meta = {'size': size,
-                'cardinality': cardinality}
+        meta = {"size": size, "cardinality": cardinality}
         return meta
 
 
@@ -187,7 +205,7 @@ def select_dtypes(df, types, omit=False, dtypes=None):
         default_dtypes.update(dtypes)
         dtypes = default_dtypes
 
-    if 'None' in dtypes.values():
+    if "None" in dtypes.values():
         warnings.warn("A column with None-type is present in the data.")
 
     if isinstance(types, str):
@@ -235,19 +253,31 @@ def cast_dtypes(df, dtypes=None, exclude=None):
         dtype = get_class_instance_by_name(dtype)
         try:
             dtype = dtype.result_type[0]
-        except:
-            raise ValueError("Could not determine data type ({}) to cast feature {}".format(dtype, column))
+        except Exception as e:  # TODO: #7
+            raise ValueError(
+                "Could not determine data type ({}) to cast feature {}".format(
+                    dtype, column
+                )
+            )
+            print(e)
 
-        if dtype != type(None):
+        if not isinstance(dtype, type(None)):  # TODO: Check for NoneType
             try:
                 df[column] = df[column].astype(dtype)
             except TypeError as e:
-                if 'Int64' in str(dtype):
-                    df[column] = df[column].astype(float).astype(dtype())  # Workaround for pandas' nullable int dtype
+                if "Int64" in str(dtype):
+                    df[column] = (
+                        df[column].astype(float).astype(dtype())
+                    )  # Workaround for pandas' nullable int dtype
                 else:
                     raise e
-            except:
-                warnings.warn("Failed to cast '{}' as a {}. Data type was kept as a string.".format(column, dtype))
+            except Exception as e:  # TODO: #7
+                warnings.warn(
+                    "Failed to cast '{}' as a {}. Data type was kept as a string.".format(
+                        column, dtype
+                    )
+                )
+                print(e)
 
     return df
 
@@ -262,8 +292,8 @@ def _class_in_dtypes_module(member):
         True if it is a class in mwdata.type.dtypes
     """
     if inspect.isclass(member):
-        module = getattr(member, '__module__', None)
+        module = getattr(member, "__module__", None)
         if module:
-            if module == 'mwdata.type.dtypes':
+            if module == "mwdata.type.dtypes":
                 return True
     return False

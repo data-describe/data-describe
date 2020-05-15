@@ -11,14 +11,13 @@ def data_loader():
     data = load_wine()
     df = pd.DataFrame(data=data.data, columns=data.feature_names)
     df = pd.concat([pd.Series(data.target), df], axis=1)
-    df = df.rename({0: 'Target'}, axis=1)
+    df = df.rename({0: "Target"}, axis=1)
     return df.sample(n=50, replace=True, random_state=1)
 
 
 def test_error():
     with pytest.raises(NotImplementedError):
-        dim_reduc(data=data_loader, n_components=2,
-                  dim_method="test_dim_method")
+        dim_reduc(data=data_loader, n_components=2, dim_method="test_dim_method")
 
 
 def test_pca(data_loader):
