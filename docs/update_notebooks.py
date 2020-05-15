@@ -1,11 +1,7 @@
-import argparse
+import re
 import os
 import shutil
 import glob
-import pathlib
-import nbformat
-from nbconvert import RSTExporter
-import re
 
 widget_template = """.. _x-tutorial:
 
@@ -18,7 +14,6 @@ widget_template = """.. _x-tutorial:
 
 
 def run(argv=None):
-    parser = argparse.ArgumentParser()
     os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
     notebooks = glob.glob('../notebooks/*.ipynb')

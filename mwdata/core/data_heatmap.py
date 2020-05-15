@@ -15,7 +15,8 @@ from mwdata.utilities.contextmanager import _context_manager
 def data_heatmap(data, missing=False, interactive=True, context=None):
     """ Generate a data heatmap showing standardized data and/or missing values
 
-    The data heatmap shows an overview of numeric features that have been standardized. 
+    The data heatmap shows an overview of numeric features that have been standardized.
+
     Args:
         data: A pandas data frame
         missing: If True, show only missing values

@@ -1,13 +1,13 @@
 import subprocess
 import logging
-from mwdata.utilities.load_data import load_data
-from mwdata.core.summary import data_summary
-from mwdata.core.data_heatmap import data_heatmap
-from mwdata.core.distribution import distribution
-from mwdata.core.scatter_plot import scatter_plots
-from mwdata.core.correlation_matrix import correlation_matrix
-from mwdata.core.importance import importance
-from mwdata.core.cluster import cluster
+from mwdata.utilities.load_data import load_data  # noqa: F401
+from mwdata.core.summary import data_summary  # noqa: F401
+from mwdata.core.data_heatmap import data_heatmap  # noqa: F401
+from mwdata.core.distribution import distribution  # noqa: F401
+from mwdata.core.scatter_plot import scatter_plots  # noqa: F401
+from mwdata.core.correlation_matrix import correlation_matrix  # noqa: F401
+from mwdata.core.importance import importance  # noqa: F401
+from mwdata.core.cluster import cluster  # noqa: F401
 
 
 # Check for plotly extensions
