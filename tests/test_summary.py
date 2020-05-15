@@ -1,5 +1,6 @@
 import pandas as pd
 import pytest
+
 import mwdata as mw
 from mwdata.core.summary import cardinality
 
@@ -27,4 +28,3 @@ def test_cardinality(data_frame):
 
 def test_pandas_series(data_frame):
     assert mw.data_summary(data_frame.iloc[:, 0]).shape == (9, 1)
-

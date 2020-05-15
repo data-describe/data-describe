@@ -1,6 +1,4 @@
-import numpy as np
 import matplotlib.pyplot as plt
-from shapely.geometry import MultiPolygon
 
 # https://stackoverflow.com/questions/12951065/get-bins-coordinates-with-hexbin-in-matplotlib
 
@@ -25,5 +23,3 @@ def hexbin(x, y, **kwargs):
     plt.close(fig.number)
 
     return counts, centers, hexbin
-
-

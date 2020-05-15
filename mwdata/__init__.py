@@ -17,7 +17,9 @@ for extension in [
     "plotlywidget",
 ]:
     p = subprocess.Popen(
-        ["jupyter", "labextension", "check", extension], stdout=subprocess.PIPE, stderr=subprocess.PIPE
+        ["jupyter", "labextension", "check", extension],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
     ).communicate()
     if "enabled" not in str(p[1]):
         logging.warning(

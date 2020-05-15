@@ -12,7 +12,7 @@ def spikey(data, factor=10):
     Returns:
         True if statistically significant
     """
-    counts, bins = np.histogram(data, bins='auto')
+    counts, bins = np.histogram(data, bins="auto")
     return max(counts) >= factor * np.mean(counts)
 
 

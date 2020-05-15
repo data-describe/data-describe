@@ -1,15 +1,23 @@
+import warnings
+import geoplot
+import numpy as np
 import geopandas as gpd
 import matplotlib.pyplot as plt
-import numpy as np
-import geoplot
-import warnings
 from mpl_toolkits.axes_grid1 import make_axes_locatable
-from mwdata.utilities.contextmanager import _context_manager
+
 from mwdata import load_data
+from mwdata.utilities.contextmanager import _context_manager
 
 
 @_context_manager
-def maps(data, map_type='choropleth', color=None, choropleth_kwargs=None, kde_kwargs=None, context=None):
+def maps(
+    data,
+    map_type="choropleth",
+    color=None,
+    choropleth_kwargs=None,
+    kde_kwargs=None,
+    context=None,
+):
     """ Mapping for geospatial data
 
     Args:
@@ -28,12 +36,14 @@ def maps(data, map_type='choropleth', color=None, choropleth_kwargs=None, kde_kw
     if not isinstance(data, gpd.geodataframe.GeoDataFrame):
         data = load_data(data)
         if not isinstance(data, gpd.geodataframe.GeoDataFrame):
-            raise NotImplementedError('Shapefile required')
-        
-    if map_type == 'choropleth':
-        fig = choropleth(data, color, choropleth_kwargs=choropleth_kwargs, context=context)
+            raise NotImplementedError("Shapefile required")
 
-    elif map_type == 'kde':
+    if map_type == "choropleth":
+        fig = choropleth(
+            data, color, choropleth_kwargs=choropleth_kwargs, context=context
+        )
+
+    elif map_type == "kde":
         if data.shape[0] > 100:
             warnings.warn("Large number of rows, processing will take awhile")
         fig = kde_map(data, kde_kwargs=kde_kwargs, context=context)
@@ -72,16 +82,12 @@ def choropleth(data, color=None, choropleth_kwargs=None, context=None):
             cax.set_title(color)
 
         else:
-            raise ValueError('{} should be numeric type'.format(color))
+            raise ValueError("{} should be numeric type".format(color))
     else:
         legend = False
         cax = None
 
-    fig = data.plot(column=color,
-                    legend=legend,
-                    ax=ax,
-                    cax=cax,
-                    **choropleth_kwargs)
+    fig = data.plot(column=color, legend=legend, ax=ax, cax=cax, **choropleth_kwargs)
     return fig
 
 
@@ -99,19 +105,25 @@ def kde_map(data, kde_kwargs=None, context=None):
     """
     if kde_kwargs is None:
         kde_kwargs = dict()
-        kde_kwargs.setdefault('alpha', 0.7)
+        kde_kwargs.setdefault("alpha", 0.7)
     else:
-        kde_kwargs.setdefault('alpha', 0.7)
+        kde_kwargs.setdefault("alpha", 0.7)
     with warnings.catch_warnings():
-        warnings.filterwarnings("ignore", category=FutureWarning, module='scipy',
-                                message=r"Using a non-tuple sequence for multidimensional indexing is deprecated")
-        ax = geoplot.kdeplot(df=data.geometry.centroid,
-                         figsize=(context.fig_width, context.fig_height),
-                         clip=data.dissolve('state').geometry,
-                         shade_lowest=False,
-                         cmap='viridis',
-                         shade=True,
-                         **kde_kwargs)
+        warnings.filterwarnings(
+            "ignore",
+            category=FutureWarning,
+            module="scipy",
+            message=r"Using a non-tuple sequence for multidimensional indexing is deprecated",
+        )
+        ax = geoplot.kdeplot(
+            df=data.geometry.centroid,
+            figsize=(context.fig_width, context.fig_height),
+            clip=data.dissolve("state").geometry,
+            shade_lowest=False,
+            cmap="viridis",
+            shade=True,
+            **kde_kwargs
+        )
 
         ax.set_title("KDE Plot")
 

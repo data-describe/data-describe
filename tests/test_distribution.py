@@ -2,14 +2,15 @@ import mwdata as mw
 import pandas as pd
 import numpy as np
 import matplotlib
-matplotlib.use('Agg')
+
+matplotlib.use("Agg")
 import pytest
 
 
 @pytest.fixture
 def data():
-    df = pd.read_csv('data/weatherAUS.csv')
-    df = df[['Location', 'Rainfall', 'RainToday']]
+    df = pd.read_csv("data/weatherAUS.csv")
+    df = df[["Location", "Rainfall", "RainToday"]]
     return df
 
 

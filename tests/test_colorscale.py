@@ -1,4 +1,4 @@
-from mwdata.utilities.colorscale import *
+from mwdata.utilities.colorscale import color_fade, rgb_to_str
 
 
 def test_colorfade():

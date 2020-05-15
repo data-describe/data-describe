@@ -1,5 +1,5 @@
 import pandas as pd
-import numpy as np
+
 from mwdata.utilities.contextmanager import _context_manager
 
 
@@ -57,7 +57,7 @@ def data_summary(data, context=None):
                 null_summary,
                 freq_summary,
             ],
-            sort=True
+            sort=True,
         )
         summary = summary[columns]
         summary.index = [

@@ -1,15 +1,24 @@
-import pandas as pd
-import matplotlib.pyplot as plt
-import seaborn as sns
 import warnings
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+
 from mwdata.utilities.contextmanager import _context_manager
 from mwdata.metrics.univariate import skewed, spikey
 from mwdata.metrics.bivariate import heteroscedastic, varying
 
 
 @_context_manager
-def distribution(data, plot_all=False, max_categories=20, spike=10, skew=3,
-                 hist_kwargs=None, violin_kwargs=None, context=None):
+def distribution(
+    data,
+    plot_all=False,
+    max_categories=20,
+    spike=10,
+    skew=3,
+    hist_kwargs=None,
+    violin_kwargs=None,
+    context=None,
+):
     """ Plots all "interesting" distribution plots
 
     Args:
@@ -26,13 +35,23 @@ def distribution(data, plot_all=False, max_categories=20, spike=10, skew=3,
         Matplotlib graphics
     """
     if isinstance(data, pd.DataFrame):
-        num = data.select_dtypes(['number'])
+        num = data.select_dtypes(["number"])
         cat = data[[col for col in data.columns if col not in num.columns]]
     else:
         raise NotImplementedError
 
-    fig_hist = plot_histograms(num, plot_all, spike=spike, skew=skew, hist_kwargs=hist_kwargs, context=context)
-    fig_violin = plot_violins(data, num, cat, max_categories, plot_all, violin_kwargs=violin_kwargs, context=context)
+    fig_hist = plot_histograms(
+        num, plot_all, spike=spike, skew=skew, hist_kwargs=hist_kwargs, context=context
+    )
+    fig_violin = plot_violins(
+        data,
+        num,
+        cat,
+        max_categories,
+        plot_all,
+        violin_kwargs=violin_kwargs,
+        context=context,
+    )
     return fig_hist + fig_violin
 
 
@@ -53,11 +72,17 @@ def plot_histograms(data, plot_all, spike=10, skew=6, hist_kwargs=None, context=
     fig = []
     for column in data.columns:
         with warnings.catch_warnings():
-            warnings.filterwarnings("ignore", category=FutureWarning, module='scipy',
-                                    message=r"Using a non-tuple sequence for multidimensional indexing is deprecated")
+            warnings.filterwarnings(
+                "ignore",
+                category=FutureWarning,
+                module="scipy",
+                message=r"Using a non-tuple sequence for multidimensional indexing is deprecated",
+            )
             if plot_all:
                 fig.append(plot_histogram(data[column].dropna(), hist_kwargs, context))
-            elif spikey(data[column].dropna(), factor=spike) or skewed(data[column].dropna(), threshold=skew):
+            elif spikey(data[column].dropna(), factor=spike) or skewed(
+                data[column].dropna(), threshold=skew
+            ):
                 fig.append(plot_histogram(data[column].dropna(), hist_kwargs, context))
         return fig
 
@@ -75,17 +100,26 @@ def plot_histogram(x, hist_kwargs=None, context=None):
     """
     plt.figure(figsize=(context.fig_width, context.fig_height))
     if hist_kwargs is None:
-        hist_kwargs = {'kde': False, 'rug': False}
+        hist_kwargs = {"kde": False, "rug": False}
     fig = sns.distplot(x, **hist_kwargs)
     fig.set_title("Histogram of " + x.name)
-    plt.ylabel('Count')
+    plt.ylabel("Count")
     plt.xlabel(x.name)
     plt.show()
     plt.close()
     return fig
 
 
-def plot_violins(data, num, cat, max_categories, plot_all=False, alpha=0.01, violin_kwargs=None, context=None):
+def plot_violins(
+    data,
+    num,
+    cat,
+    max_categories,
+    plot_all=False,
+    alpha=0.01,
+    violin_kwargs=None,
+    context=None,
+):
     """ Makes violin plots
 
     Args:
@@ -106,16 +140,24 @@ def plot_violins(data, num, cat, max_categories, plot_all=False, alpha=0.01, vio
         for c in cat:
             if plot_all:
                 with warnings.catch_warnings():
-                    warnings.filterwarnings("ignore", category=FutureWarning, module='scipy',
-                                            message=r"Using a non-tuple sequence for multidimensional")
+                    warnings.filterwarnings(
+                        "ignore",
+                        category=FutureWarning,
+                        module="scipy",
+                        message=r"Using a non-tuple sequence for multidimensional",
+                    )
                     y, x = roll_up_categories(data[n], data[c], max_categories)
                     fig.append(plot_violin(x, y, data, violin_kwargs, context))
             else:
                 grp = split_by_category(data[[c, n]].dropna(), c, n)
                 y, x = roll_up_categories(data[n], data[c], max_categories)
                 with warnings.catch_warnings():
-                    warnings.filterwarnings("ignore", category=FutureWarning, module='scipy',
-                                            message=r"Using a non-tuple sequence for multidimensional")
+                    warnings.filterwarnings(
+                        "ignore",
+                        category=FutureWarning,
+                        module="scipy",
+                        message=r"Using a non-tuple sequence for multidimensional",
+                    )
                     if varying(grp, alpha=alpha) or heteroscedastic(grp, alpha=alpha):
                         fig.append(plot_violin(x, y, data, violin_kwargs, context))
     return fig
@@ -136,10 +178,10 @@ def plot_violin(x, y, data, violin_kwargs=None, context=None):
     """
     plt.figure(figsize=(context.fig_width, context.fig_height))
     if violin_kwargs is None:
-            violin_kwargs = {'cut': 0}
+        violin_kwargs = {"cut": 0}
     fig = sns.violinplot(x, y, data=data, **violin_kwargs)
     fig.set_title("Violin Plot of " + y.name + " vs " + x.name)
-    plt.xticks(rotation=45, ha='right')
+    plt.xticks(rotation=45, ha="right")
     plt.show()
     plt.close()
     return fig
@@ -172,10 +214,10 @@ def roll_up_categories(num, cat, max_categories=20):
         A tuple of the numeric data and the categorical data, rolled up into `max_categories`
     """
     if max_categories is not None:
-        groups = pd.concat([num, cat], axis=1).groupby(cat.name).agg('count')
+        groups = pd.concat([num, cat], axis=1).groupby(cat.name).agg("count")
         if groups.shape[0] > max_categories:
             groups = groups.sort_values(num.name, ascending=False)
-            groups_to_combine = groups.iloc[max_categories-1:, ].index.values
+            groups_to_combine = groups.iloc[max_categories - 1 :, :].index.values
             return num, cat.map(lambda x: "__OTHER__" if x in groups_to_combine else x)
         else:
             return num, cat

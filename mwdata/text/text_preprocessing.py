@@ -1,8 +1,9 @@
-import pandas as pd
 import re
 import string
-import mwdata
+import warnings
+
 import nltk
+import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
 from nltk.tokenize import word_tokenize
 from nltk.stem.lancaster import LancasterStemmer
@@ -10,23 +11,24 @@ from nltk.stem import WordNetLemmatizer
 from nltk.corpus import stopwords
 from nltk.util import ngrams
 from nltk import FreqDist
-import warnings
 
-warnings.filterwarnings('ignore', category=UserWarning, module='gensim')
+warnings.filterwarnings("ignore", category=UserWarning, module="gensim")
 from gensim.corpora.dictionary import Dictionary
 
+import mwdata
+
 try:
-    nltk.data.find('tokenizers/punkt')
+    nltk.data.find("tokenizers/punkt")
 except:
-    nltk.download('punkt')
+    nltk.download("punkt")
 try:
-    nltk.data.find('stem/wordnet')
+    nltk.data.find("stem/wordnet")
 except:
-    nltk.download('wordnet')
+    nltk.download("wordnet")
 try:
-    nltk.data.find('stopwords')
+    nltk.data.find("stopwords")
 except:
-    nltk.download('stopwords')
+    nltk.download("stopwords")
 
 
 def tokenize(text_docs):
@@ -68,22 +70,31 @@ def remove_punct(text_docs_bow, replace_char=" ", remove_all=False):
         new_text_docs_bow_final: List of lists of words for each text document without punctuation
     """
     if remove_all:
-        new_text_docs_bow = [[re.sub('[^\w\s]|_', replace_char, word) for word in doc]
-                             for doc in text_docs_bow]
+        new_text_docs_bow = [
+            [re.sub("[^\w\s]|_", replace_char, word) for word in doc]
+            for doc in text_docs_bow
+        ]
 
         # Split up any tokens with spaces added now
-        new_text_docs_bow = [[tokenize([word])[0] if " " in word else [word] for word in doc]
-                             for doc in new_text_docs_bow]
+        new_text_docs_bow = [
+            [tokenize([word])[0] if " " in word else [word] for word in doc]
+            for doc in new_text_docs_bow
+        ]
 
         # Flatten nested lists
-        new_text_docs_bow = [[item for sublist in doc for item in sublist]
-                             for doc in new_text_docs_bow]
+        new_text_docs_bow = [
+            [item for sublist in doc for item in sublist] for doc in new_text_docs_bow
+        ]
     else:
-        new_text_docs_bow = [[re.sub('^([^\w\s]|_)?(.+?)([^\w\s]|_)?$', r'\2', word) for word in doc]
-                             for doc in text_docs_bow]
+        new_text_docs_bow = [
+            [re.sub("^([^\w\s]|_)?(.+?)([^\w\s]|_)?$", r"\2", word) for word in doc]
+            for doc in text_docs_bow
+        ]
 
-    new_text_docs_bow_final = [[word for word in doc if not (len(word) == 1 and word in string.punctuation)]
-                               for doc in new_text_docs_bow]
+    new_text_docs_bow_final = [
+        [word for word in doc if not (len(word) == 1 and word in string.punctuation)]
+        for doc in new_text_docs_bow
+    ]
 
     return new_text_docs_bow_final
 
@@ -97,7 +108,9 @@ def remove_digits(text_docs_bow):
     Returns:
         new_text_docs_bow: List of lists of words for each text documents without numbers or words containing numbers
     """
-    new_text_docs_bow = [[re.sub('\w*\d\w*', '', word) for word in doc] for doc in text_docs_bow]
+    new_text_docs_bow = [
+        [re.sub("\w*\d\w*", "", word) for word in doc] for doc in text_docs_bow
+    ]
     return new_text_docs_bow
 
 
@@ -115,7 +128,7 @@ def remove_single_char_and_spaces(text_docs_bow):
         new_word_list = []
         for word in doc:
             new_word = word.strip()
-            if ' ' in new_word:
+            if " " in new_word:
                 new_words = new_word.split()
                 for item in new_words:
                     new_word_list.append(item)
@@ -135,14 +148,16 @@ def remove_stopwords(text_docs_bow, more_words=None):
     Returns:
         new_text_docs_bow: List of lists of words for each text document without single character words
     """
-    stop_words_original = set(stopwords.words('english'))
+    stop_words_original = set(stopwords.words("english"))
 
     if more_words:
         stop_words = stop_words_original.union(more_words)
     else:
         stop_words = stop_words_original
 
-    new_text_docs_bow = [[word for word in doc if word not in stop_words] for doc in text_docs_bow]
+    new_text_docs_bow = [
+        [word for word in doc if word not in stop_words] for doc in text_docs_bow
+    ]
     return new_text_docs_bow
 
 
@@ -156,7 +171,9 @@ def lemmatize(text_docs_bow):
         new_text_docs_bow: List of lists of lemmatized words for each text document
     """
     lemmatizer = WordNetLemmatizer()
-    new_text_docs_bow = [[lemmatizer.lemmatize(word) for word in doc] for doc in text_docs_bow]
+    new_text_docs_bow = [
+        [lemmatizer.lemmatize(word) for word in doc] for doc in text_docs_bow
+    ]
     return new_text_docs_bow
 
 
@@ -183,7 +200,7 @@ def bag_of_words_to_docs(text_docs_bow):
     Returns:
         new_text_docs: List of strings of text documents
     """
-    new_text_docs = [' '.join(doc) for doc in text_docs_bow]
+    new_text_docs = [" ".join(doc) for doc in text_docs_bow]
     return new_text_docs
 
 
@@ -238,15 +255,21 @@ def preprocess_texts(text_docs, lem=False, stem=False, custom_pipeline=None):
         text_docs = list(text_docs)
 
     if not custom_pipeline:
-        pipeline = ['tokenize', 'to_lower', 'remove_punct', 'remove_digits', 'remove_single_char_and_spaces',
-                    'remove_stopwords']
+        pipeline = [
+            "tokenize",
+            "to_lower",
+            "remove_punct",
+            "remove_digits",
+            "remove_single_char_and_spaces",
+            "remove_stopwords",
+        ]
     else:
         pipeline = custom_pipeline
 
     if lem:
-        pipeline.append('lemmatize')
+        pipeline.append("lemmatize")
     if stem:
-        pipeline.append('stem')
+        pipeline.append("stem")
 
     for function in pipeline:
         if isinstance(function, str):
@@ -275,8 +298,16 @@ def ngram_freq(text_docs, n=3, only_n=False):
 
     freq = FreqDist()
     for line in text_docs:
-        tokens = preprocess_texts([line], custom_pipeline=[tokenize, remove_stopwords, remove_punct, remove_digits,
-                                                           remove_single_char_and_spaces])
+        tokens = preprocess_texts(
+            [line],
+            custom_pipeline=[
+                tokenize,
+                remove_stopwords,
+                remove_punct,
+                remove_digits,
+                remove_single_char_and_spaces,
+            ],
+        )
         if only_n:
             current_ngrams = list(ngrams(tokens[0], n))
             freq.update(current_ngrams)

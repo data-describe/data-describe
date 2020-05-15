@@ -1,9 +1,20 @@
 import pandas as pd
 import numpy as np
 import matplotlib
-from mwdata.modeling.score import metric_table, confusion_matrix, roc_curve_plot, prediction_distribution_plot, \
-    pr_curve_plot
-from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, roc_auc_score
+from mwdata.modeling.score import (
+    metric_table,
+    confusion_matrix,
+    roc_curve_plot,
+    prediction_distribution_plot,
+    pr_curve_plot,
+)
+from sklearn.metrics import (
+    accuracy_score,
+    precision_score,
+    recall_score,
+    f1_score,
+    roc_auc_score,
+)
 import pytest
 
 
@@ -124,19 +135,25 @@ def test_pr_plot_df():
 def test_pp_plot_list():
     y_true = [0, 1, 0, 1, 0]
     y_pred = [1, 1, 0, 1, 0]
-    assert isinstance(prediction_distribution_plot(y_true, y_pred), matplotlib.artist.Artist)
+    assert isinstance(
+        prediction_distribution_plot(y_true, y_pred), matplotlib.artist.Artist
+    )
 
 
 def test_pp_plot_np():
     y_true = np.array([0, 1, 0, 1, 0])
     y_pred = np.array([1, 1, 0, 1, 0])
-    assert isinstance(prediction_distribution_plot(y_true, y_pred), matplotlib.artist.Artist)
+    assert isinstance(
+        prediction_distribution_plot(y_true, y_pred), matplotlib.artist.Artist
+    )
 
 
 def test_pp_plot_df():
     y_true = pd.Series([0, 1, 0, 1, 0])
     y_pred = pd.Series([1, 1, 0, 1, 0])
-    assert isinstance(prediction_distribution_plot(y_true, y_pred), matplotlib.artist.Artist)
+    assert isinstance(
+        prediction_distribution_plot(y_true, y_pred), matplotlib.artist.Artist
+    )
 
 
 def test_pp_plot_fails():

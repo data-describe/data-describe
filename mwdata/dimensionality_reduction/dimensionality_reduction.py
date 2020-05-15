@@ -16,14 +16,14 @@ def dim_reduc(data, n_components, dim_method):
     Returns:
         Reduced data frame and reduction object
     """
-    if dim_method == 'pca':
+    if dim_method == "pca":
         reduc_df, reductor = run_pca(data, n_components)
-    elif dim_method == 'tsne':
+    elif dim_method == "tsne":
         reduc_df, reductor = run_tsne(data, n_components)
-    elif dim_method == 'tsvd':
+    elif dim_method == "tsvd":
         reduc_df, reductor = run_tsvd(data, n_components)
     else:
-        raise NotImplementedError('{} is not supported'.format(dim_method))
+        raise NotImplementedError("{} is not supported".format(dim_method))
     return reduc_df, reductor
 
 
@@ -41,7 +41,7 @@ def run_pca(data, n_components):
     """
     fname = []
     for i in range(1, n_components + 1):
-        fname.append('component_' + str(i))
+        fname.append("component_" + str(i))
     pca = PCA(n_components, random_state=0)
     reduc = pca.fit_transform(data)
     reduc_df = pd.DataFrame(reduc, columns=fname)
@@ -62,7 +62,7 @@ def run_tsne(data, n_components):
     """
     tsne = TSNE(n_components, random_state=0)
     reduc = tsne.fit_transform(data)
-    reduc_df = pd.DataFrame(reduc, columns=['ts1', 'ts2'])
+    reduc_df = pd.DataFrame(reduc, columns=["ts1", "ts2"])
     return reduc_df, tsne
 
 
@@ -79,9 +79,9 @@ def run_tsvd(data, n_components):
             t_svd: tsvd object
     """
     fname = []
-    with np.errstate(invalid='ignore'):
+    with np.errstate(invalid="ignore"):
         for i in range(1, n_components + 1):
-            fname.append('component_' + str(i))
+            fname.append("component_" + str(i))
         t_svd = TruncatedSVD(n_components, random_state=0)
         reduc = t_svd.fit_transform(data)
         reduc_df = pd.DataFrame(reduc, columns=fname)

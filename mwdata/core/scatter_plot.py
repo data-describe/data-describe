@@ -1,15 +1,21 @@
-import pandas as pd
-from mwdata.utilities.contextmanager import _context_manager
-import matplotlib.pyplot as plt
-import matplotlib.style as style
-import seaborn as sns
 import warnings
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+from mwdata.utilities.contextmanager import _context_manager
 
 
 @_context_manager
-def scatter_plots(data, plot_mode='matrix', threshold=None,
-                  joint_kws=None, scatter_kws=None, dist_kws=None,
-                  context=None):
+def scatter_plots(
+    data,
+    plot_mode="matrix",
+    threshold=None,
+    joint_kws=None,
+    scatter_kws=None,
+    dist_kws=None,
+    context=None,
+):
     """Scatter plots
 
     Args:
@@ -32,7 +38,7 @@ def scatter_plots(data, plot_mode='matrix', threshold=None,
         Seaborn figure or list of figures
     """
     if isinstance(data, pd.DataFrame):
-        data = data.select_dtypes(['number'])
+        data = data.select_dtypes(["number"])
     else:
         raise NotImplementedError("Must be a Pandas data frame")
 
@@ -42,20 +48,33 @@ def scatter_plots(data, plot_mode='matrix', threshold=None,
         plt.close()
         return fig
     elif plot_mode == "all":
-        num_df = data.select_dtypes(['number'])
-        pairs = [(i, j) for i in range(len(num_df.columns)) for j in range(len(num_df.columns)) if j > i]
+        num_df = data.select_dtypes(["number"])
+        pairs = [
+            (i, j)
+            for i in range(len(num_df.columns))
+            for j in range(len(num_df.columns))
+            if j > i
+        ]
         fig = []
         with warnings.catch_warnings():
-            warnings.filterwarnings("ignore", category=FutureWarning,
-                                    message=r"Using a non-tuple sequence for multidimensional indexing is deprecated")
+            warnings.filterwarnings(
+                "ignore",
+                category=FutureWarning,
+                message=r"Using a non-tuple sequence for multidimensional indexing is deprecated",
+            )
             for p in pairs:
                 x_col = num_df.columns.values[p[0]]
                 y_col = num_df.columns.values[p[1]]
-                fig.append(scatter_plot(data, x_col, y_col, joint_kws, scatter_kws, dist_kws, context))
+                fig.append(
+                    scatter_plot(
+                        data, x_col, y_col, joint_kws, scatter_kws, dist_kws, context
+                    )
+                )
             return fig
 
-    elif plot_mode == 'diagnostic':
+    elif plot_mode == "diagnostic":
         from mwdata.metrics.bivariate import Scagnostics
+
         scag = Scagnostics(data)
         metrics = scag.calculate()
         metrics = dict((k, v) for (k, v) in metrics.items() if len(v) > 0)
@@ -66,12 +85,25 @@ def scatter_plots(data, plot_mode='matrix', threshold=None,
         if len(metrics.items()) > 0:
             fig = []
             with warnings.catch_warnings():
-                warnings.filterwarnings("ignore", category=FutureWarning,
-                                        message=r"Using a non-tuple sequence for multidimensional indexing")
+                warnings.filterwarnings(
+                    "ignore",
+                    category=FutureWarning,
+                    message=r"Using a non-tuple sequence for multidimensional indexing",
+                )
                 for k in metrics.keys():
                     x_col = scag.names[k[0]]
                     y_col = scag.names[k[1]]
-                    fig.append(scatter_plot(data, x_col, y_col, joint_kws, scatter_kws, dist_kws, context))
+                    fig.append(
+                        scatter_plot(
+                            data,
+                            x_col,
+                            y_col,
+                            joint_kws,
+                            scatter_kws,
+                            dist_kws,
+                            context,
+                        )
+                    )
         else:
             raise ValueError("No plots meeting threshold requirement.")
         return fig
@@ -79,7 +111,9 @@ def scatter_plots(data, plot_mode='matrix', threshold=None,
         raise ValueError(f"Unknown plot mode: {plot_mode}")
 
 
-def scatter_plot(data, x, y, joint_kws=None, scatter_kws=None, dist_kws=None, context=None):
+def scatter_plot(
+    data, x, y, joint_kws=None, scatter_kws=None, dist_kws=None, context=None
+):
     """Generate one scatter (joint) plot
 
     Args:
@@ -95,13 +129,13 @@ def scatter_plot(data, x, y, joint_kws=None, scatter_kws=None, dist_kws=None, co
         The Seaborn figure
     """
     if joint_kws is None:
-        joint_kws = {'height': max(context.fig_width, context.fig_height)}
+        joint_kws = {"height": max(context.fig_width, context.fig_height)}
     if scatter_kws is None:
         scatter_kws = {}
     if dist_kws is None:
-        dist_kws = {'kde': False, 'rug': False}
+        dist_kws = {"kde": False, "rug": False}
 
-    g = sns.JointGrid(data[x], data[y],  **joint_kws)
+    g = sns.JointGrid(data[x], data[y], **joint_kws)
     g = g.plot_joint(sns.scatterplot, **scatter_kws)
     g = g.plot_marginals(sns.distplot, **dist_kws)
     plt.show()
@@ -124,6 +158,12 @@ def filter_threshold(metrics, threshold=0.85):
         A dictionary of pairs that match the filter
     """
     if isinstance(threshold, dict):
-        return dict((k, v) for (k, v) in metrics.items() if all([v[m] >= threshold[m] for m in threshold.keys()]))
+        return dict(
+            (k, v)
+            for (k, v) in metrics.items()
+            if all([v[m] >= threshold[m] for m in threshold.keys()])
+        )
     else:
-        return dict((k, v) for (k, v) in metrics.items() if max(v.values()) >= threshold)
+        return dict(
+            (k, v) for (k, v) in metrics.items() if max(v.values()) >= threshold
+        )

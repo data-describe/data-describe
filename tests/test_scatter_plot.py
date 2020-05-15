@@ -1,10 +1,11 @@
 import pandas as pd
 import mwdata as mw
 import matplotlib
-
-matplotlib.use("Agg")
 import seaborn
 import pytest
+
+
+matplotlib.use("Agg")
 
 
 @pytest.fixture
