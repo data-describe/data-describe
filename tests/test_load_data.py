@@ -12,7 +12,7 @@ from mwdata.utilities.load_data import download_gcs_file, read_file_type
 
 
 def test_local_dir():
-    data = mw.load_data("data/Addresses", kwargs={"encoding": "latin1"})
+    data = mw.load_data("data/Addresses", encoding="latin1")
     text_files = [file for file in os.listdir("data/Addresses") if ".txt" in file]
     assert data.shape[0] == len(text_files)
 
