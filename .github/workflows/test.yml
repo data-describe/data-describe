@@ -26,7 +26,7 @@ jobs:
           python-version: 3.7
           channel-priority: strict
           environment-file: etc/test-environment.yml
-          use-only-tar-bz2: true  # IMPORTANT: This needs to be set for caching to work properly!
+          # use-only-tar-bz2: true  # IMPORTANT: This needs to be set for caching to work properly!
       - shell: bash -l {0}
         run: |
           pytest --cov=mwdata --cov-report term-missing --junitxml=junit.xml --cov-report xml tests
