@@ -19,7 +19,7 @@ jobs:
         with:
           path: ~/conda_pkgs_dir
           key: ${{ runner.os }}-conda-${{ env.CACHE_NUMBER }}-${{ hashFiles('etc/test-environment.yml') }}
-      - uses: goanpeca/setup-miniconda@v1.3.0
+      - uses: goanpeca/setup-miniconda@v1.2.0
         with:
           miniconda-version: 4.6.14
           activate-environment: test-env
@@ -29,4 +29,4 @@ jobs:
           # use-only-tar-bz2: true  # IMPORTANT: This needs to be set for caching to work properly!
       - shell: bash -l {0}
         run: |
-          pytest --cov=mwdata --cov-report term-missing --junitxml=junit.xml --cov-report xml tests 
+          pytest --cov=mwdata --cov-report term-missing --junitxml=junit.xml --cov-report xml tests
