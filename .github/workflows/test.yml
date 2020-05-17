@@ -29,4 +29,4 @@ jobs:
           # use-only-tar-bz2: true  # IMPORTANT: This needs to be set for caching to work properly!
       - shell: bash -l {0}
         run: |
-          pytest --cov=mwdata --cov-report term-missing --junitxml=junit.xml --cov-report xml tests
+          pytest --cov=mwdata --cov-report term-missing --junitxml=junit.xml --cov-report xml tests 
