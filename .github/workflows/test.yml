@@ -8,7 +8,7 @@ on:
 
 jobs:
   Test:
-    runs-on: 'ubuntu-latest'
+    runs-on: "ubuntu-latest"
     steps:
       - uses: actions/checkout@v2
       - name: Cache conda
@@ -19,13 +19,13 @@ jobs:
         with:
           path: ~/conda_pkgs_dir
           key: ${{ runner.os }}-conda-${{ env.CACHE_NUMBER }}-${{ hashFiles('etc/test-environment.yml') }}
-      - uses: goanpeca/setup-miniconda@v1.2.0
+      - uses: goanpeca/setup-miniconda@v1.3.0
         with:
           miniconda-version: 4.6.14
           activate-environment: test-env
           python-version: 3.7
           channel-priority: strict
-          environment-file: etc/test-environment.yml 
+          environment-file: etc/test-environment.yml
           # use-only-tar-bz2: true  # IMPORTANT: This needs to be set for caching to work properly!
       - shell: bash -l {0}
         run: |
