@@ -1,0 +1,4 @@
+safety_checks: disabled
+add_pip_as_python_dependency : false
+rollback_enabled: false
+notify_outdated_conda: false
