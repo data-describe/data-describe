@@ -1,0 +1,31 @@
+name: Test
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  Test:
+    runs-on: 'ubuntu-latest'
+    steps:
+      - uses: actions/checkout@v2
+      - name: Cache conda
+        uses: actions/cache@v1
+        env:
+          # Increase this value to reset cache if etc/test-environment.yml has not changed
+          CACHE_NUMBER: 0
+        with:
+          path: ~/conda_pkgs_dir
+          key: ${{ runner.os }}-conda-${{ env.CACHE_NUMBER }}-${{ hashFiles('etc/test-environment.yml') }}
+      - uses: goanpeca/setup-miniconda@check-cache
+        with:
+          activate-environment: test-env
+          python-version: 3.7
+          channel-priority: strict
+          environment-file: etc/test-environment.yml
+          use-only-tar-bz2: true  # IMPORTANT: This needs to be set for caching to work properly!
+      - shell: bash -l {0}
+        run: |
+          pytest --cov=mwdata --cov-report term-missing --junitxml=junit.xml --cov-report xml tests
