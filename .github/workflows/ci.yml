@@ -42,7 +42,6 @@ jobs:
         with:
           miniconda-version: 4.6.14
           activate-environment: test-env
-          python-version: 3.7
           channel-priority: strict
           environment-file: etc/test-environment.yml
           # use-only-tar-bz2: true  # IMPORTANT: This needs to be set for caching to work properly!
