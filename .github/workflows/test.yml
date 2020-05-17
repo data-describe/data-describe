@@ -21,6 +21,7 @@ jobs:
           key: ${{ runner.os }}-conda-${{ env.CACHE_NUMBER }}-${{ hashFiles('etc/test-environment.yml') }}
       - uses: goanpeca/setup-miniconda@v1.3.0
         with:
+          miniconda-version: 4.8.3
           activate-environment: test-env
           python-version: 3.7
           channel-priority: strict
