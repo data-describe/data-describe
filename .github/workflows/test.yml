@@ -19,7 +19,7 @@ jobs:
         with:
           path: ~/conda_pkgs_dir
           key: ${{ runner.os }}-conda-${{ env.CACHE_NUMBER }}-${{ hashFiles('etc/test-environment.yml') }}
-      - uses: goanpeca/setup-miniconda@check-cache
+      - uses: goanpeca/setup-miniconda@v1.3.0
         with:
           activate-environment: test-env
           python-version: 3.7
