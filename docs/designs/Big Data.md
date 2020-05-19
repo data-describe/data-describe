@@ -30,7 +30,7 @@ This package will expect the "data frame" object, provided by the user, to imple
 
 ### Pandas
 
-Pandas will be the a hard dependency for this package.
+Pandas will be a hard dependency for this package.
 
 ### Modin
 
