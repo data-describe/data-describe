@@ -18,7 +18,7 @@ We do not intend to create synthetic data from scratch and will be utlizing open
 
 ## UI or API
 
-Users declare as input arguments, how their data should be handled. The data returns in the same format entered. For example, if the input is dataframe or a list of text, the output should be the same type. 
+Users declare as input arguments, how their data should be handled. The data returns in the same format entered. For example, if the input is dataframe or a list of text, the output should be the same type.
 
 ## Design
 
@@ -41,8 +41,8 @@ New functionalities are as follows:
 *[Faker](https://faker.readthedocs.io/en/master/)* is a python package that generates fake data. 
 
 ### Modin
-*[Modin](https://github.com/modin-project/modin)* is a a distributed dataframe library that scales up your pandas workflow
+*[Modin](https://github.com/modin-project/modin)* is a distributed dataframe library that scales up your pandas workflow.
 
 ## Alternatives Considered
 
-Other packages looked at are [Trumania](https://github.com/RealImpactAnalytics/trumania), [scrubadub](https://scrubadub.readthedocs.io/en/stable/index.html#), and [PIIdetect](https://github.com/edwardcooper/piidetect). These were not chosen because they don't have much popularity and are not as mature as Presidio and Faker.
+Other packages looked at were [Trumania](https://github.com/RealImpactAnalytics/trumania), [scrubadub](https://scrubadub.readthedocs.io/en/stable/index.html#), and [PIIdetect](https://github.com/edwardcooper/piidetect). These were not chosen because they don't have much popularity and are not as mature as Presidio and Faker.
