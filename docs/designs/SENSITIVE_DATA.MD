@@ -18,7 +18,29 @@ We do not intend to create synthetic data from scratch and will be utlizing open
 
 ## UI or API
 
-Users declare as input arguments, how their data should be handled. The data returns in the same format entered. For example, if the input is dataframe or a list of text, the output should be the same type.
+Users declare as input arguments, how their data should be handled. The focus is on identification, redaction, and anonymization of sensitive data. 
+
+### Example
+```python
+# import custom functions
+from sensitive_data import identify_pii, anonymize_data, redact_data
+
+
+# identify_pii: search for columns containing infotypes
+# returns dictionary {infotype:<column name>}
+sensitive_columns = identify_pii(data=df, automatic=True, get_columns=True)
+sensitive_columns = identify_pii(data=df, infotype=['email', 'address'], automatic=False)
+
+# redact_data: returns dataframe with redacted data 
+redacted_df = redact_data(data=df, automatic=True)
+redacted_df = redact_data(data=df, infotype=['email', 'credit card'], automatic=False)
+
+# anonymize_data: returns dataframe with anonymized data
+anonymize_df = anonymize_data(data=df, automatic=True)
+anonymize_df = anonymize_data(data=df, infotype=['email', 'name'], automatic=False)
+
+```
+
 
 ## Design
 
