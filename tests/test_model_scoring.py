@@ -133,24 +133,24 @@ def test_pr_plot_df():
 
 
 def test_pp_plot_list():
-    y_true = [0, 1, 0, 1, 0]
-    y_pred = [1, 1, 0, 1, 0]
+    y_true = [0, 1, 0, 1, 0, 1]
+    y_pred = [1, 1, 0, 1, 0, 0]
     assert isinstance(
         prediction_distribution_plot(y_true, y_pred), matplotlib.artist.Artist
     )
 
 
 def test_pp_plot_np():
-    y_true = np.array([0, 1, 0, 1, 0])
-    y_pred = np.array([1, 1, 0, 1, 0])
+    y_true = np.array([0, 1, 0, 1, 0, 1])
+    y_pred = np.array([1, 1, 0, 1, 0, 0])
     assert isinstance(
         prediction_distribution_plot(y_true, y_pred), matplotlib.artist.Artist
     )
 
 
 def test_pp_plot_df():
-    y_true = pd.Series([0, 1, 0, 1, 0])
-    y_pred = pd.Series([1, 1, 0, 1, 0])
+    y_true = pd.Series([0, 1, 0, 1, 0, 1])
+    y_pred = pd.Series([1, 1, 0, 1, 0, 0])
     assert isinstance(
         prediction_distribution_plot(y_true, y_pred), matplotlib.artist.Artist
     )
