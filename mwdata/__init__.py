@@ -11,17 +11,22 @@ from mwdata.core.cluster import cluster  # noqa: F401
 
 
 # Check for plotly extensions
-for extension in [
-    "@jupyter-widgets/jupyterlab-manager",
-    "jupyterlab-plotly",
-    "plotlywidget",
-]:
-    p = subprocess.Popen(
-        ["jupyter", "labextension", "check", extension],
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-    ).communicate()
-    if "enabled" not in str(p[1]):
-        logging.warning(
-            f'The extension "{extension}" was not found and is required for Plotly-based visualizations.'
-        )
+try:  # TODO: Move to optional checks
+    for extension in [
+        "@jupyter-widgets/jupyterlab-manager",
+        "jupyterlab-plotly",
+        "plotlywidget",
+    ]:
+        p = subprocess.Popen(
+            ["jupyter", "labextension", "check", extension],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+        ).communicate()
+        if "enabled" not in str(p[1]):
+            raise FileNotFoundError(
+                f'The extension "{extension}" was not found and is required for Plotly-based visualizations.'
+            )
+except FileNotFoundError:
+    logging.warning(
+        f'The extension "{extension}" was not found and is required for Plotly-based visualizations.'
+    )
