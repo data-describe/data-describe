@@ -1,6 +1,11 @@
+import sys
+
 from pytest_notebook.nb_regression import NBRegressionFixture
 import importlib_resources
+
+sys.path.append("../")
 import notebooks
+
 
 
 fixture = NBRegressionFixture(exec_timeout=120, diff_color_words=True, diff_ignore=('/cells/*/outputs/*/data/text/plain',
