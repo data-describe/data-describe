@@ -18,6 +18,7 @@ dependencies:
   - ipython>=7.5.0
   - pytest>=4.4.1
   - pytest-cov>=2.6.1
+  - pytest-notebook>=0.6.0
   - mock>=2.0.0
   - gcsfs>=0.2.1
   - hdbscan>=0.8.20
