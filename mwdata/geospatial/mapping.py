@@ -26,7 +26,7 @@ def maps(
         map_type: Default = 'choropleth'
             choropleth: Thematic map where areas are shaded in proportion to a statistical variable
             kde: Spatial density estimate plot for the distribution of input data
-        feature: If map_type='choropleth', color map by a numeric column. 
+        feature: If map_type='choropleth', color map by a numeric column.
         If map_type='kde', aggregate geometry based on feature
         choropleth_kwargs: Key word arguments for geopandas.plot
         kde_kwargs: Key word arguments for geoplot.kdeplot
