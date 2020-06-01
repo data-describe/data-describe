@@ -1,8 +1,7 @@
 import matplotlib
 import pytest
-import pandas as pd
-import numpy as np
 
+from ._test_data import DATA
 import mwdata as mw
 
 matplotlib.use("Agg")
@@ -10,14 +9,7 @@ matplotlib.use("Agg")
 
 @pytest.fixture
 def data():
-    df = pd.DataFrame(
-        {
-            "a": np.random.normal(2, 1.2, size=250),
-            "b": np.random.normal(3, 1.5, size=250),
-            "c": np.random.choice(["x", "y"], size=250),
-        }
-    )
-    return df
+    return DATA
 
 
 def test_heatmap(data):

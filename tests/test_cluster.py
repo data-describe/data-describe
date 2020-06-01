@@ -6,6 +6,7 @@ import seaborn as sns
 import plotly
 import matplotlib
 
+from ._test_data import DATA
 import mwdata.core.cluster as mw
 
 matplotlib.use("Agg")
@@ -13,14 +14,7 @@ matplotlib.use("Agg")
 
 @pytest.fixture
 def data():
-    df = pd.DataFrame(
-        {
-            "a": np.random.normal(2, 1.2, size=250),
-            "b": np.random.normal(3, 1.5, size=250),
-            "c": np.random.normal(9, 0.2, size=250),
-        }
-    )
-    return df
+    return DATA.select_dtypes(np.number)
 
 
 def test_not_df():
@@ -30,11 +24,7 @@ def test_not_df():
 
 def test_find_clusters(data):
     n_clusters, cluster_range, scores = mw.find_clusters(
-        data,
-        cluster_min=2,
-        cluster_max=3,
-        analysis="adjusted_rand_score",
-        target="c",
+        data, cluster_min=2, cluster_max=3, analysis="adjusted_rand_score", target="c",
     )
     assert isinstance(n_clusters, int)
     assert isinstance(cluster_range, range)
@@ -52,14 +42,10 @@ def test_cluster_kmean(data):
         df=data, interactive=True, return_value="plot", kwargs={"n_clusters": 2}
     )
     assert isinstance(viz, plotly.graph_objs._figure.Figure)
-    df = mw.cluster(
-        df=data, return_value="reduc", kwargs={"n_clusters": 2}, target="c"
-    )
+    df = mw.cluster(df=data, return_value="reduc", kwargs={"n_clusters": 2}, target="c")
     assert isinstance(df, pd.core.frame.DataFrame)
     assert df.shape[1] == 3
-    df = mw.cluster(
-        df=data, return_value="data", kwargs={"n_clusters": 2}, elbow=True
-    )
+    df = mw.cluster(df=data, return_value="data", kwargs={"n_clusters": 2}, elbow=True)
     assert isinstance(df, pd.core.frame.DataFrame)
     assert df.shape[1] == data.shape[1]
     viz = mw.cluster(
@@ -84,10 +70,7 @@ def test_cluster_unsupported(data):
         mw.cluster(df=data, return_value="unsupported_return_value")
     with pytest.raises(ValueError):
         mw.find_clusters(
-            data=data,
-            analysis="adjusted_rand_score",
-            cluster_min=2,
-            cluster_max=3,
+            data=data, analysis="adjusted_rand_score", cluster_min=2, cluster_max=3,
         )
 
 
