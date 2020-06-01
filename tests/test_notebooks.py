@@ -86,7 +86,7 @@ def test_data_summary_notebook():
     )
 
 
-#LONG RUN TIME
+# LONG RUN TIME
 # def test_scatter_plots_notebook():
 #     fixture.check(
 #         os.path.join(EXEC_CWD, "notebooks", "Scatter Plots.ipynb"),
