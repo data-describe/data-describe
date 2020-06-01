@@ -19,6 +19,7 @@ def data():
     )
     return df
 
+
 def test_heatmap(data):
     with pytest.raises(OSError):
         mw.data_heatmap(data)
