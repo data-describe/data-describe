@@ -6,8 +6,8 @@ import numpy as np
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.preprocessing import LabelEncoder
 
-from ._test_data import DATA
 import mwdata as mw
+from ._test_data import DATA
 matplotlib.use("Agg")
 
 

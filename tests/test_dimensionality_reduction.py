@@ -3,8 +3,8 @@ import sklearn
 import pandas as pd
 import numpy as np
 
-from ._test_data import DATA
 from mwdata.dimensionality_reduction.dimensionality_reduction import dim_reduc
+from ._test_data import DATA
 
 
 @pytest.fixture

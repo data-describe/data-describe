@@ -1,5 +1,6 @@
 import pandas as pd
 import nltk
+import pytest
 
 from mwdata.text.text_preprocessing import (
     tokenize,
@@ -14,7 +15,6 @@ from mwdata.text.text_preprocessing import (
     create_tfidf_matrix,
     ngram_freq,
 )
-import pytest
 
 
 @pytest.fixture

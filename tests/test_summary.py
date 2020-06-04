@@ -1,8 +1,8 @@
 import pytest
 
-from ._test_data import DATA
 import mwdata as mw
 from mwdata.core.summary import cardinality
+from ._test_data import DATA
 
 
 @pytest.fixture

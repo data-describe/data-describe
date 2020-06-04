@@ -1,8 +1,8 @@
 import matplotlib
 import pytest
 
-from ._test_data import DATA
 import mwdata as mw
+from ._test_data import DATA
 
 matplotlib.use("Agg")
 

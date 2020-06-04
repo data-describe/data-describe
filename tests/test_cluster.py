@@ -6,8 +6,8 @@ import seaborn as sns
 import plotly
 import matplotlib
 
-from ._test_data import DATA
 import mwdata.core.cluster as mw
+from ._test_data import DATA
 
 matplotlib.use("Agg")
 
