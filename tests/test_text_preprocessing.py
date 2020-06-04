@@ -58,7 +58,7 @@ def test_remove_stopwords(data, tokenized_test_list_main):
         == data['answer_key_remove_stop_words']
     assert remove_stopwords(to_lower(tokenized_test_list_main),
                             more_words=data['more_words']) \
-            == data['answer_key_remove_stop_words_more']
+        == data['answer_key_remove_stop_words_more']
 
 
 def test_lem_and_stem(data):
@@ -101,7 +101,7 @@ def test_custom_pipeline(data):
 
     assert preprocess_texts(data['test_list_custom'],
                             custom_pipeline=['tokenize', shout]) \
-            == data['answer_key_custom']
+        == data['answer_key_custom']
 
 
 def test_ngrams(data):
