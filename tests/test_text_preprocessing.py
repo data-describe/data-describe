@@ -101,3 +101,4 @@ def test_ngrams(data):
     n = 4
     n_grams = ngram_freq(data['test_list_main'], n)
     assert isinstance(n_grams, nltk.FreqDist)
+
