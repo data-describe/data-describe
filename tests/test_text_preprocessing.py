@@ -37,9 +37,10 @@ def test_to_lower(data, tokenized_test_list_main):
 
 def test_remove_punct(data, tokenized_test_list_main):
     assert remove_punct(tokenized_test_list_main) == data['answer_key_remove_punct']
-    assert remove_punct(tokenized_test_list_main, remove_all=True, replace_char="") == \
-           data['answer_key_remove_all_punct_no_space']
-    assert remove_punct(tokenized_test_list_main, remove_all=True) == data['answer_key_remove_all_punct_with_space']
+    assert remove_punct(tokenized_test_list_main, remove_all=True, replace_char="") \
+        == data['answer_key_remove_all_punct_no_space']
+    assert remove_punct(tokenized_test_list_main, remove_all=True) \
+        == data['answer_key_remove_all_punct_with_space']
 
 
 def test_remove_digits(data):
@@ -47,19 +48,22 @@ def test_remove_digits(data):
 
 
 def test_remove_single_char_and_spaces(data):
-    assert remove_single_char_and_spaces(data['test_list_single_char_and_spaces']) == \
-           data['answer_key_single_char_and_spaces']
+    assert remove_single_char_and_spaces(data['test_list_single_char_and_spaces']) \
+        == data['answer_key_single_char_and_spaces']
 
 
 def test_remove_stopwords(data, tokenized_test_list_main):
-    assert remove_stopwords(to_lower(tokenized_test_list_main)) == data['answer_key_remove_stop_words']
-    assert remove_stopwords(to_lower(tokenized_test_list_main), more_words=data['more_words']) == \
-           data['answer_key_remove_stop_words_more']
+    assert remove_stopwords(to_lower(tokenized_test_list_main)) \
+        == data['answer_key_remove_stop_words']
+    assert remove_stopwords(to_lower(tokenized_test_list_main), \
+        more_words=data['more_words']) == data['answer_key_remove_stop_words_more']
 
 
 def test_lem_and_stem(data):
-    assert preprocess_texts(data['test_list_lem_and_stem'], lem=True) == data['answer_key_lem']
-    assert preprocess_texts(data['test_list_lem_and_stem'], stem=True) == data['answer_key_stem']
+    assert preprocess_texts(data['test_list_lem_and_stem'], lem=True) \
+        == data['answer_key_lem']
+    assert preprocess_texts(data['test_list_lem_and_stem'], stem=True) \
+        == data['answer_key_stem']
 
 
 def test_bag_of_words(data):
@@ -93,8 +97,8 @@ def test_custom_pipeline(data):
     def shout(text_docs_bow):
         return [[word.upper() for word in doc] for doc in text_docs_bow]
 
-    assert preprocess_texts(data['test_list_custom'], custom_pipeline=['tokenize', shout]) == \
-           data['answer_key_custom']
+    assert preprocess_texts(data['test_list_custom'], \
+        custom_pipeline=['tokenize', shout]) == data['answer_key_custom']
 
 
 def test_ngrams(data):
