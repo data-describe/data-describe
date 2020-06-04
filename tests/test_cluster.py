@@ -6,7 +6,8 @@ import seaborn as sns
 import plotly
 import matplotlib
 
-import mwdata.core.cluster as mw
+import mwdata as mw
+from mwdata.core.cluster import apply_kmeans, truncate_data, find_clusters
 from ._test_data import DATA
 
 matplotlib.use("Agg")
@@ -23,7 +24,7 @@ def test_not_df():
 
 
 def test_find_clusters(data):
-    n_clusters, cluster_range, scores = mw.find_clusters(
+    n_clusters, cluster_range, scores = find_clusters(
         data, cluster_min=2, cluster_max=3, analysis="adjusted_rand_score", target="c",
     )
     assert isinstance(n_clusters, int)
@@ -32,7 +33,7 @@ def test_find_clusters(data):
 
 
 def test_apply_kmeans(data):
-    y_kmeans, kmeans = mw.apply_kmeans(data, n_clusters=2)
+    y_kmeans, kmeans = apply_kmeans(data, n_clusters=2)
     assert y_kmeans.shape[0] == data.shape[0]
     assert isinstance(y_kmeans, np.ndarray)
 
@@ -69,7 +70,7 @@ def test_cluster_unsupported(data):
     with pytest.raises(ValueError):
         mw.cluster(df=data, return_value="unsupported_return_value")
     with pytest.raises(ValueError):
-        mw.find_clusters(
+        find_clusters(
             data=data, analysis="adjusted_rand_score", cluster_min=2, cluster_max=3,
         )
 
@@ -79,7 +80,7 @@ def test_cluster_args(data):
 
 
 def test_truncate_data(data):
-    reduc_df, truncator = mw.truncate_data(data)
+    reduc_df, truncator = truncate_data(data)
     assert reduc_df.shape[1] == 2
     assert isinstance(reduc_df, pd.core.frame.DataFrame)
     assert isinstance(truncator, sklearn.manifold.TSNE)
