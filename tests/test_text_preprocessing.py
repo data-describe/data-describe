@@ -22,6 +22,7 @@ from mwdata.text.text_preprocessing import (
 def data():
     return TEXT_DATA
 
+
 @pytest.fixture
 def tokenized_test_list_main():
     return tokenize(TEXT_DATA['test_list_main'])
@@ -55,8 +56,9 @@ def test_remove_single_char_and_spaces(data):
 def test_remove_stopwords(data, tokenized_test_list_main):
     assert remove_stopwords(to_lower(tokenized_test_list_main)) \
         == data['answer_key_remove_stop_words']
-    assert remove_stopwords(to_lower(tokenized_test_list_main), \
-        more_words=data['more_words']) == data['answer_key_remove_stop_words_more']
+    assert remove_stopwords(to_lower(tokenized_test_list_main),
+                            more_words=data['more_words']) \
+                                == data['answer_key_remove_stop_words_more']
 
 
 def test_lem_and_stem(data):
@@ -97,12 +99,12 @@ def test_custom_pipeline(data):
     def shout(text_docs_bow):
         return [[word.upper() for word in doc] for doc in text_docs_bow]
 
-    assert preprocess_texts(data['test_list_custom'], \
-        custom_pipeline=['tokenize', shout]) == data['answer_key_custom']
+    assert preprocess_texts(data['test_list_custom'],
+                            custom_pipeline=['tokenize', shout]) \
+                                == data['answer_key_custom']
 
 
 def test_ngrams(data):
     n = 4
     n_grams = ngram_freq(data['test_list_main'], n)
     assert isinstance(n_grams, nltk.FreqDist)
-
