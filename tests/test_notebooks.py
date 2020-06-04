@@ -29,12 +29,6 @@ def test_geospatial_analysis_notebook():
     )
 
 
-def test_model_evaluation_notebook():
-    fixture.check(
-        os.path.join(EXEC_CWD, "notebooks", "Model_Evaluation.ipynb"), raise_errors=True
-    )
-
-
 def test_cluster_analysis_notebook():
     fixture.check(
         os.path.join(EXEC_CWD, "notebooks", "Cluster_Analysis.ipynb"), raise_errors=True
