@@ -59,7 +59,7 @@ New functionalities are as follows:
 ### Presidio
 *[Presidio](https://github.com/microsoft/presidio)* is a context aware and customizable PII anonymization service for text and images. 
 
-### Presidio
+### Faker
 *[Faker](https://faker.readthedocs.io/en/master/)* is a python package that generates fake data. 
 
 ### Modin
