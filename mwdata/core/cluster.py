@@ -4,7 +4,7 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 import plotly.graph_objs as go
-from numpy import count_nonzero
+from numpy import count_nonzero  # type: ignore
 from sklearn.cluster import KMeans
 from sklearn.preprocessing import StandardScaler
 from plotly.offline import init_notebook_mode, iplot
