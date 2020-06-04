@@ -1,13 +1,7 @@
+import pytest
 import pandas as pd
 import numpy as np
 import matplotlib
-from mwdata.modeling.score import (
-    metric_table,
-    confusion_matrix,
-    roc_curve_plot,
-    prediction_distribution_plot,
-    pr_curve_plot,
-)
 from sklearn.metrics import (
     accuracy_score,
     precision_score,
@@ -15,7 +9,14 @@ from sklearn.metrics import (
     f1_score,
     roc_auc_score,
 )
-import pytest
+
+from mwdata.modeling.score import (
+    metric_table,
+    confusion_matrix,
+    roc_curve_plot,
+    prediction_distribution_plot,
+    pr_curve_plot,
+)
 
 
 def test_metric_table_default():

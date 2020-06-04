@@ -1,12 +1,13 @@
-import six
-import decimal
-import pandas as pd
-import numpy as np
-from datetime import datetime as dt
-from datetime import date, time, datetime, timedelta
-from dateutil.parser import parse, isoparse
 import locale
 import sys
+import decimal
+from datetime import datetime as dt
+from datetime import date, time, datetime, timedelta
+
+import six
+import pandas as pd
+import numpy as np
+from dateutil.parser import parse, isoparse
 
 
 class BaseType(object):

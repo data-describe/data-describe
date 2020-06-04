@@ -1,6 +1,7 @@
 import pytest
 import pandas as pd
 import nltk
+import pytest
 
 from ._test_data import TEXT_DATA
 from mwdata.text.text_preprocessing import (
