@@ -128,9 +128,9 @@ def identify_column_infotypes(data_series, sample_size=100, score_threshold=0.2)
     sampled_data = data_series.sample(sample_size, random_state=1)
     results = sampled_data.map(
         lambda x: identify_pii(text=x, score_threshold=score_threshold)
-    ).tolist()[0]
+    ).tolist()
     if results:
-        return sorted(list(set([i.entity_type for i in results])))
+        return sorted(list(set([i.entity_type for obj in results for i in obj])))
 
 
 def identify_infotypes(df, sample_size=100, score_threshold=0.2):
