@@ -9,18 +9,18 @@ engine = AnalyzerEngine(default_score_threshold=0.5, enable_trace_pii=True)
 def sensitive_data(
     df,
     redact=True,
-    anonymize=False,
+    encrypt=False,
     detect_infotypes=False,
     score_threshold=0.2,
     sample_size=100,
     cols=[],
 ):
-    """Identifies, redacts, and anonymizes PII data
+    """Identifies, redacts, and encrypts PII data
 
     Args:
         df: The dataframe
         redact: If True, redact sensitive data
-        anonymize: If True, anonymize data
+        encrypt: If True, anonymize data
         detect_infotypes: If True identifies infotypes for each column
         score_threshold: Minimum confidence value for detected entities to be returned
         sample_size: Number of sampled rows used for identifying column infotypes
@@ -39,9 +39,11 @@ def sensitive_data(
     if redact is True:
         return redact_df(df, score_threshold)
     if detect_infotypes is True:
+        if sample_size > len(df):
+            raise ValueError(f"sample_size must be <= {len(df)}")
         return identify_infotypes(df, sample_size)
-    if anonymize is True:
-        pass
+    if encrypt is True:
+        return encrypt_data(df)
 
 
 def identify_pii(text, score_threshold=0.2):
@@ -86,7 +88,7 @@ def create_mapping(text, response):
     return word_mapping, ref_text
 
 
-def redact_info(text, score_threshold):
+def redact_info(text, score_threshold=0.2):
     """Redact sensitive data using mapping between hashed values and infotype
 
     Args:
@@ -150,3 +152,30 @@ def identify_infotypes(df, sample_size=100, score_threshold=0.2):
         )
         for col in df.columns
     }
+
+
+def encrypt_text(text, score_threshold=0.2):
+    """Encrypt text using python's hash function
+
+    Args:
+        text: A string value
+        score_threshold: Minimum confidence value for detected entities to be returned
+
+    Returns:
+        Text with hashed sensitive data
+    """
+    response = identify_pii(text, score_threshold)
+    return create_mapping(text, response)[1]
+
+
+def encrypt_data(df, score_threshold=0.2):
+    """Encrypt sensitive data in a dataframe
+
+    Args:
+        df: The dataframe
+        score_threshold: Minimum confidence value for detected entities to be returned
+
+    Returns:
+        Dataframe with encrypted data
+    """
+    return df.applymap(lambda x: encrypt_text(str(x), score_threshold))
