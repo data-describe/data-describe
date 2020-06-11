@@ -1,0 +1,60 @@
+<!-- Three -->
+<section id="{{ include_dict.section.section_id }}" class="wrapper {{ include_dict.section.background_style }} fade-up">
+    <div class="inner">
+        <h2>{{ include_dict.section.title }}</h2>
+        {{ include_dict.section.text | markdownify }}
+        <div class="split style1">
+            <section>
+                <form name="contactForm" method="post" action="#" netlify-honeypot="bot-field" data-netlify="true">
+                    <div class="screen-reader-text">
+                        <label>Don't fill this out if you're human: <input name="bot-field" /></label>
+                    </div>
+                    <div class="fields">
+                        <div class="field half">
+                            <label for="name">Name</label>
+                            <input type="text" name="name" id="name" />
+                        </div>
+                        <div class="field half">
+                            <label for="email">Email</label>
+                            <input type="text" name="email" id="email" />
+                        </div>
+                        <div class="field">
+                            <label for="message">Message</label>
+                            <textarea name="message" id="message" rows="5"></textarea>
+                        </div>
+                    </div>
+                    <input type="hidden" name="form-name" value="contactForm" />
+                    <ul class="actions">
+                        <li><a href="" class="button submit">Send Message</a></li>
+                    </ul>
+                </form>
+            </section>
+            <section>
+                <ul class="contact">
+                    {% if include_dict.section.contact_list %}
+                        {% for item in include_dict.section.contact_list %}
+                            <li>
+                                <h3>{{ item.title }}</h3>
+                                {% if item.url %}
+                                    <a href="{{ item.url }}">{{ item.text }}</a>
+                                {% else %}
+                                    <span>{{ item.text | nl2br | safe }}</span>
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+                    {% endif %}
+                    {% if include_dict.section.social %}
+                        <li>
+                            <h3>{{ include_dict.section.social.title }}</h3>
+                            <ul class="icons">
+                                {% for item in include_dict.section.social.social_icons %}
+                                    <li><a href="{{ item.url }}" class="{{ item.icon }}"><span class="label">{{ item.title }}</span></a></li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                    {% endif %}
+                </ul>
+            </section>
+        </div>
+    </div>
+</section>

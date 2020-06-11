@@ -1,0 +1,7 @@
+body.has-theme-bar {
+  @media screen and (max-width: 1280px) {
+    #sidebar {
+      top: 60px;
+    }
+  }
+}

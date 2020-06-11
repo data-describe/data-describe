@@ -1,0 +1,7 @@
+landing_style: style1-alt
+alt_style: alt
+copyright: "&copy; Hyperspace. All rights reserved."
+links:
+  - text: Made with Stackbit
+    url: https://www.stackbit.com
+    new_window: true

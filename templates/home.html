@@ -1,0 +1,13 @@
+{% extends "body.html" %}
+
+{% block content %}
+
+    <!-- Wrapper -->
+    <div id="wrapper">
+        {% for section in page.params.sections %}
+            {% set include_dict = {'section': section, 'site': site, 'page': page} %}
+            {% include section.component %}
+        {% endfor %}
+    </div>
+
+{% endblock %}

@@ -1,0 +1,24 @@
+body.has-theme-bar {
+    #header{
+        margin-top: 60px;
+    }
+
+    #sidebar {
+        position: fixed;
+        top: 0;
+        margin-top: 60px;
+    }
+
+    #wrapper {
+        margin-top: 60px;
+    }
+
+    #theme-bar {
+        position: fixed;
+        top: 0;
+
+        button{
+            border: none !important;
+        }
+    }
+}

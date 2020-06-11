@@ -1,0 +1,14 @@
+<!-- Intro -->
+<section id="{{ include_dict.section.section_id }}" class="wrapper {{ include_dict.section.background_style }} fullscreen fade-up">
+    <div class="inner">
+        <h1>{{ include_dict.section.title }}</h1>
+        {{ include_dict.section.subtitle | markdownify }}
+        {% if include_dict.section.actions %}
+            <ul class="actions">
+                {% for action in include_dict.section.actions %}
+                    <li><a href="{% if action.url | starts_with('#') %}{{ action.url }}{% else %}{{ action.url | link | relative_url }}{% endif %}" {{ classNames("button", {"scrolly": action.is_scrolly}, {"primary": action.is_primary}) }}>{{ action.label }}</a></li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+</section>

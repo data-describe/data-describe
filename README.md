@@ -1,52 +1,28 @@
-# MW Data Describe
-Expediting data discovery and understanding
+# Hyperspace
 
-## AI Platform Notebook
-Using the GUI or CLI, you can stand up an instance of AI Platform Notebooks with Data Describe by using the custom container at `gcr.io/mwpmltr/mw-data_describe`
 
-### Building the AI Platform Image
-From the project root directory, run (replace `<version>` with the current version):
-```console
-docker-compose build aiplatform
-docker-compose tag mw-data_describe_aiplatform gcr.io/mwpmltr/mw-data_describe:<version>
-docker push gcr.io/mwpmltr/mw-data_describe:<version>
-```
+A multi-page theme with scroll-animated home sections for Stackbit. [Live Demo](https://themes.stackbit.com/demos/hyperspace)
 
-### Quick Start
-Some example notebooks are provided for reference. The data are not included.
+Click the button below to use this theme in Gatsby, Hugo or Jekyll via the Stackbit site builder:
 
-To run a new notebook, use the DataDescribe Python kernel. You can import the Data Describe module using:
-```python
-import mwdata as mw
-```
+[![Create with Stackbit](https://assets.stackbit.com/badge/create-with-stackbit.svg)](https://app.stackbit.com/create?theme=https://github.com/stackbithq/stackbit-theme-hyperspace)
 
-## Local Installation
-This section covers manual, local installation of the `mwdata` Python package.
+### About Stackbit
 
-### Environment Prerequisites
-#### Using Conda
-It is generally recommended to use Conda to install the dependencies due to build complications. Run the following from Anaconda Prompt to create a new conda environment with the package dependencies.
-```conda
-conda env create -f docker/app/environment.yml -n mw-data_describe
-conda activate mw-data_describe
-```
-#### Using pip in venv / virtualenv
-If not using conda, you may have to address specific build dependencies as listed in `requirements.txt`:
-```console
-# Troubleshoot specific build dependencies from requirements list
-# You may have to download a .whl file or install build tools for your OS architecture
-pip install -f requirements.txt
-```
+[Stackbit](https://www.stackbit.com/) enables features like inline content editing, live previews and collaboration tools for Jamstack sites.
 
-### Installing the Package
-To install the Data Describe python package to your local environment, use pip in the environment:
-```console
-# Use this to install the latest version from the master branch. You will have to enter your Bitbucket credentials.
-pip install git+https://bitbucket.org/mavenwave/mw-data_describe.git
+## Working with This Theme
 
-# Or, if you have cloned the repository, the following can be run from the currently checked out branch
-pip install .
-```
+This theme is written in [Unibit](https://docs.stackbit.com/unibit/), which is designed to transpile themes to work with multiple static site generators (SSG) such as Jekyll, Hugo & Gatsby.
 
-### Plotly Requirement
-Plotly is used for many visualizations. The JupyterLab extension must be installed to view these charts: https://plot.ly/python/getting-started/
+If you are looking to use this theme on a specific SSG, it is recommended that you use the [Stackbit site builder](https://app.stackbit.com/create?theme=https://github.com/stackbithq/stackbit-theme-hyperspace) to generate the theme. The site builder will generate the SSG-specific source to your own GitHub repository. You are free to use and modify the generated source however you wish.
+
+### Editing This Theme
+
+While we recommend using the [site builder](https://app.stackbit.com/create?theme=https://github.com/stackbithq/stackbit-theme-hyperspace) to generate a version of the theme for any of the supported static site generators, you can develop locally using the Unibit CLI.  For details on how to install and use Unibit, visit the [documentation](https://docs.stackbit.com/site-builder/unibit/).
+
+### Develop Using CodeSandbox
+
+You can also develop this theme in the browser using Unibit via CodeSandbox.
+
+[Fork in CodeSandbox](https://codesandbox.io/s/github/stackbithq/stackbit-theme-hyperspace)
