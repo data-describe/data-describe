@@ -69,7 +69,8 @@ def identify_pii(text, score_threshold=0.2):
 
 
 def create_mapping(text, response):
-    """Identifies sensitive data and creates a mapping of the hashed data
+    """Identifies sensitive data and creates a mapping with the hashed data. Hash implementation maps into 64-bit space.
+    Note: There is a 40% chance of collisions when hashing approximately 4 billion items
 
     Args:
         text: String value
