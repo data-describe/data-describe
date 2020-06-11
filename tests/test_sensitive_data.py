@@ -7,10 +7,10 @@ from mwdata.sensitive_data.sensitive_data import (
     identify_pii,
     identify_column_infotypes,
     identify_infotypes,
-    redact_df,
     create_mapping,
     redact_info,
     sensitive_data,
+    encrypt_text,
 )
 
 
@@ -65,14 +65,6 @@ def test_redact_info():
     assert result_text == "This string contains a domain <DOMAIN_NAME>"
 
 
-def test_redact_df():
-    df = pd.DataFrame({"domain": "gmail.com", "name": "John Doe"}, index=[1])
-    redacted_df = redact_df(df)
-    assert redacted_df.shape == (1, 2)
-    assert redacted_df.loc[1, "domain"] == "<DOMAIN_NAME>"
-    assert redacted_df.loc[1, "name"] == "<PERSON>"
-
-
 def test_sensitive_data_cols():
     df = pd.DataFrame({"domain": "gmail.com", "name": "John Doe"}, index=[1])
     redacted_df = sensitive_data(df, redact=True, cols=["name"])
@@ -85,25 +77,46 @@ def test_type():
         sensitive_data("this is not a dataframe")
     with pytest.raises(TypeError):
         sensitive_data(
-            pd.DataFrame({"domain": "gmail.com", "name": "John Doe"}, index=[1]),
-            cols="this is not a list",
+            pd.DataFrame(), cols="this is not a list",
         )
+
+
+def test_sample_size():
+    with pytest.raises(ValueError):
+        sensitive_data(pd.DataFrame(), redact=False, detect_infotypes=True)
 
 
 def test_sensitive_data_redact():
     df = pd.DataFrame({"domain": "gmail.com", "name": "John Doe"}, index=[1])
-    redacted_df = sensitive_data(df, redact=True)
+    redacted_df = sensitive_data(df, redact=True, sample_size=1)
     assert redacted_df.shape == (1, 2)
     assert redacted_df.loc[1, "domain"] == "<DOMAIN_NAME>"
     assert redacted_df.loc[1, "name"] == "<PERSON>"
+    assert isinstance(redacted_df, pd.core.frame.DataFrame)
 
 
 def test_sensitive_data_detect_infotypes():
     df = pd.DataFrame({"domain": "gmail.com", "name": "John Doe"}, index=[1])
-    results = sensitive_data(df, redact=False, detect_infotypes=True)
+    results = sensitive_data(df, redact=False, detect_infotypes=True, sample_size=1)
     assert isinstance(results, dict)
     assert len(results) == 2
     assert isinstance(results["domain"], list)
     assert isinstance(results["name"], list)
     assert results["domain"][0] == "DOMAIN_NAME"
     assert results["name"][0] == "PERSON"
+
+
+def test_encrypt_text():
+    text = "gmail.com"
+    encrypted = encrypt_text(text)
+    assert text != encrypted
+    assert isinstance(encrypted, str)
+    assert isinstance(int(encrypted), int)
+
+
+def test_encrypt_data():
+    df = pd.DataFrame({"domain": "gmail.com", "name": "John Doe"}, index=[1])
+    encrypted_df = sensitive_data(df, redact=False, encrypt=True)
+    assert isinstance(encrypted_df, pd.core.frame.DataFrame)
+    assert isinstance(int(encrypted_df.loc[1, "name"]), int)
+    assert isinstance(int(encrypted_df.loc[1, "domain"]), int)
