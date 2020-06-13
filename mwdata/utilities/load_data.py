@@ -1,5 +1,4 @@
 import os
-import re
 import tempfile
 
 import pandas as pd
@@ -34,7 +33,7 @@ def load_data(filepath, all_folders=False, **kwargs):
                     ) as f:
                         text.append(f.read())
         else:
-            for root, dirs, files in os.walk(filepath):
+            for root, _, files in os.walk(filepath):
                 for file in files:
                     if file.endswith(".txt"):
                         with open(
