@@ -3,7 +3,7 @@ import os
 from pytest_notebook.nb_regression import NBRegressionFixture
 
 
-EXEC_CWD = os.path.abspath("..")
+EXEC_CWD = os.path.abspath(".")
 
 fixture = NBRegressionFixture(
     exec_timeout=120,
