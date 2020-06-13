@@ -3,7 +3,7 @@ import os
 from pytest_notebook.nb_regression import NBRegressionFixture
 
 
-EXEC_CWD = os.path.abspath(".")
+EXEC_CWD = os.path.abspath("..")
 
 fixture = NBRegressionFixture(
     exec_timeout=120,
@@ -20,13 +20,6 @@ fixture = NBRegressionFixture(
         "/cells/*/outputs/*/data/application/vnd.plotly.v1+json",
     ),
 )
-
-
-def test_geospatial_analysis_notebook():
-    fixture.check(
-        os.path.join(EXEC_CWD, "notebooks", "Geospatial_Analysis.ipynb"),
-        raise_errors=True,
-    )
 
 
 def test_cluster_analysis_notebook():
