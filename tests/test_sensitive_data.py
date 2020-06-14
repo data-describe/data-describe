@@ -1,4 +1,6 @@
 import pandas as pd
+
+import modin.pandas as mpd
 import pytest
 import presidio_analyzer
 
@@ -11,6 +13,7 @@ from mwdata.sensitive_data.sensitive_data import (
     redact_info,
     sensitive_data,
     encrypt_text,
+    hash_string,
 )
 
 
@@ -54,7 +57,6 @@ def test_create_mapping():
     assert isinstance(word_mapping, dict)
     assert isinstance(text, str)
     assert example_text != text
-    assert isinstance(int(text.split()[-1]), int)
 
 
 def test_redact_info():
@@ -78,6 +80,10 @@ def test_type():
     with pytest.raises(TypeError):
         sensitive_data(
             pd.DataFrame(), cols="this is not a list",
+        )
+    with pytest.raises(TypeError):
+        sensitive_data(
+            pd.DataFrame(), enable_modin=True,
         )
 
 
@@ -111,12 +117,25 @@ def test_encrypt_text():
     encrypted = encrypt_text(text)
     assert text != encrypted
     assert isinstance(encrypted, str)
-    assert isinstance(int(encrypted), int)
 
 
 def test_encrypt_data():
     df = pd.DataFrame({"domain": "gmail.com", "name": "John Doe"}, index=[1])
     encrypted_df = sensitive_data(df, redact=False, encrypt=True)
     assert isinstance(encrypted_df, pd.core.frame.DataFrame)
-    assert isinstance(int(encrypted_df.loc[1, "name"]), int)
-    assert isinstance(int(encrypted_df.loc[1, "domain"]), int)
+    assert isinstance(encrypted_df.loc[1, "name"], str)
+    assert isinstance(encrypted_df.loc[1, "domain"], str)
+
+
+def test_hash_string():
+    hashed = hash_string("John Doe")
+    assert isinstance(hashed, str)
+    assert len(hashed) == 64
+
+
+def test_modin():
+    df = mpd.DataFrame(["John Doe", "John Doe"])
+    redacted_df = sensitive_data(df, enable_modin=True)
+    assert isinstance(redacted_df.iloc[0, 0], str)
+    assert isinstance(redacted_df.iloc[1, 0], str)
+    assert redacted_df.iloc[1, 0] == redacted_df.iloc[0, 0]
