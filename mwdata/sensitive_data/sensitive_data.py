@@ -1,7 +1,7 @@
 from functools import reduce
+import hashlib
 
 from presidio_analyzer import AnalyzerEngine
-import pandas as pd
 
 engine = AnalyzerEngine(default_score_threshold=0.5, enable_trace_pii=True)
 
@@ -14,6 +14,8 @@ def sensitive_data(
     score_threshold=0.2,
     sample_size=100,
     cols=[],
+    custom_words={},
+    enable_modin=False,
 ):
     """Identifies, redacts, and encrypts PII data
 
@@ -30,8 +32,16 @@ def sensitive_data(
         A dataframe if redact or anonymize is True.
         Dictionary of column infotypes if detect_infotypes is True
     """
-    if not isinstance(df, pd.DataFrame):
-        raise TypeError("Pandas data frame required")
+    if enable_modin:
+        import modin.pandas as pd
+
+        if not isinstance(df, pd.dataframe.DataFrame):
+            raise TypeError("Modin data frame required since enable_modin is True")
+    else:
+        import pandas as pd
+
+        if not isinstance(df, pd.DataFrame):
+            raise TypeError("Pandas data frame required")
     if not isinstance(cols, list):
         raise TypeError("cols must be type list")
     if cols:
@@ -69,8 +79,7 @@ def identify_pii(text, score_threshold=0.2):
 
 
 def create_mapping(text, response):
-    """Identifies sensitive data and creates a mapping with the hashed data. Hash implementation maps into 64-bit space.
-    Note: There is a 40% chance of collisions when hashing approximately 4 billion items
+    """Identifies sensitive data and creates a mapping with the hashed data
 
     Args:
         text: String value
@@ -83,9 +92,9 @@ def create_mapping(text, response):
     ref_text = text
     word_mapping = {}
     for r in response:
-        hash_v = str(hash(text[r.start : r.end]))
-        word_mapping[hash_v] = str("<" + r.entity_type + ">")
-        ref_text = ref_text.replace(text[r.start : r.end], hash_v)
+        hashed = hash_string(text[r.start : r.end])
+        word_mapping[hashed] = str("<" + r.entity_type + ">")
+        ref_text = ref_text.replace(text[r.start : r.end], hashed)
     return word_mapping, ref_text
 
 
@@ -180,3 +189,16 @@ def encrypt_data(df, score_threshold=0.2):
         Dataframe with encrypted data
     """
     return df.applymap(lambda x: encrypt_text(str(x), score_threshold))
+
+
+def hash_string(text):
+    """Applies SHA256 text hashing
+
+    Args:
+        text: The string value
+
+    Returns:
+        sha_signature: Salted hash of the text
+    """
+    sha_signature = hashlib.sha256(text.encode()).hexdigest()
+    return sha_signature
