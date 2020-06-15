@@ -1,6 +1,13 @@
-.vscode
+# project
+_site
+.sass-cache
+.vagrant
 
-.coverage*
-junit.xml
-coverage.xml
-__pycache__
+# general
+.DS_Store
+Thumbs.db
+ehthumbs.db
+
+Gemfile.lock
+
+beautiful-jekyll-theme-*.gem
