@@ -5,6 +5,6 @@ Overview
 `Data Describe`_ is a Python library which accelerates the Exploratory Data Analysis process by providing widgets for common analyses.
 
 
-License is XXX.
+License is `Apache 2 <https://github.com/brianray/data-describe/blob/master/LICENSE>`.
 
-.. _`Data Describe`: https://bitbucket.org/mavenwave/mw-data_describe
+.. _`Data Describe`: hhttps://github.com/brianray/data-describe/
