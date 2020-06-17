@@ -1,30 +1,29 @@
-# import pandas as pd
-# import pytest
+import pytest
 
-# import mwdata as mw
-# from mwdata.core.summary import cardinality
-
-
-# @pytest.fixture
-# def data_frame():
-#     df = pd.read_csv("data/er_data.csv")
-#     df.dropna(axis=1, inplace=True)
-#     return df
+import mwdata as mw
+from mwdata.core.summary import cardinality
+from ._test_data import DATA
 
 
-# @pytest.fixture
-# def load_summary(data_frame):
-#     return mw.data_summary(data_frame)
+@pytest.fixture
+def data():
+    return DATA
 
 
-# def test_shape(load_summary):
-#     assert load_summary.shape == (9, 44)
+@pytest.fixture
+def load_summary(data):
+    return mw.data_summary(data), data
 
 
-# def test_cardinality(data_frame):
-#     assert cardinality(data_frame.readmitted) == 2
-#     assert cardinality(data_frame.diag_1) == 458
+def test_shape(load_summary):
+    summary, data = load_summary
+    assert summary.shape == (9, data.shape[1])
 
 
-# def test_pandas_series(data_frame):
-#     assert mw.data_summary(data_frame.iloc[:, 0]).shape == (9, 1)
+def test_cardinality(data):
+    assert cardinality(data.d) == 2
+    assert cardinality(data.e) == 2
+
+
+def test_pandas_series(data):
+    assert mw.data_summary(data.iloc[:, 0]).shape == (9, 1)
