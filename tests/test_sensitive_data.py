@@ -1,5 +1,4 @@
 import pandas as pd
-
 import pytest
 import presidio_analyzer
 
