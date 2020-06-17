@@ -22,13 +22,6 @@ fixture = NBRegressionFixture(
 )
 
 
-def test_geospatial_analysis_notebook():
-    fixture.check(
-        os.path.join(EXEC_CWD, "notebooks", "Geospatial_Analysis.ipynb"),
-        raise_errors=True,
-    )
-
-
 def test_cluster_analysis_notebook():
     fixture.check(
         os.path.join(EXEC_CWD, "notebooks", "Cluster_Analysis.ipynb"), raise_errors=True
@@ -59,6 +52,12 @@ def test_correlation_matrix_notebook():
     fixture.check(
         os.path.join(EXEC_CWD, "notebooks", "Correlation_Matrix.ipynb"),
         raise_errors=True,
+    )
+
+
+def test_sensitive_data_notebook():
+    fixture.check(
+        os.path.join(EXEC_CWD, "notebooks", "Sensitive_Data.ipynb"), raise_errors=True
     )
 
 
@@ -127,3 +126,10 @@ def test_data_summary_notebook():
 
 # def test_auto_data_type_notebook():
 #     fixture.check(os.path.join(EXEC_CWD, 'notebooks', 'Auto Data Type.ipynb'), raise_errors=True)
+
+
+# def test_geospatial_analysis_notebook():
+#     fixture.check(
+#         os.path.join(EXEC_CWD, "notebooks", "Geospatial_Analysis.ipynb"),
+#         raise_errors=True,
+#     )

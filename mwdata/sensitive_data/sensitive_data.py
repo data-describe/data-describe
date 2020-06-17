@@ -3,14 +3,10 @@ import hashlib
 
 import pandas as pd
 import spacy
-
-try:
-    nlp = spacy.load("en_core_web_lg")
-except Exception as e:
-    print(e)
-    spacy.cli.download("en_core_web_lg")
-
 from presidio_analyzer import AnalyzerEngine
+
+if not spacy.util.is_package("en_core_web_lg"):
+    spacy.cli.download("en_core_web_lg")
 
 engine = AnalyzerEngine(default_score_threshold=0.5, enable_trace_pii=True)
 
