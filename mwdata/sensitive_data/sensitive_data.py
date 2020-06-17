@@ -1,6 +1,8 @@
 from functools import reduce
 import hashlib
 
+import pandas as pd
+
 from presidio_analyzer import AnalyzerEngine
 
 engine = AnalyzerEngine(default_score_threshold=0.5, enable_trace_pii=True)
@@ -14,16 +16,14 @@ def sensitive_data(
     score_threshold=0.2,
     sample_size=100,
     cols=[],
-    custom_words={},
-    enable_modin=False,
 ):
     """Identifies, redacts, and encrypts PII data
 
     Args:
         df: The dataframe
         redact: If True, redact sensitive data
-        encrypt: If True, anonymize data
-        detect_infotypes: If True identifies infotypes for each column
+        encrypt: If True, anonymize data. Redact must be set to False
+        detect_infotypes: If True, identifies infotypes for each column. Redact must be set to False
         score_threshold: Minimum confidence value for detected entities to be returned
         sample_size: Number of sampled rows used for identifying column infotypes
         cols: List of columns
@@ -32,27 +32,21 @@ def sensitive_data(
         A dataframe if redact or anonymize is True.
         Dictionary of column infotypes if detect_infotypes is True
     """
-    if enable_modin:
-        import modin.pandas as pd
-
-        if not isinstance(df, pd.dataframe.DataFrame):
-            raise TypeError("Modin data frame required since enable_modin is True")
-    else:
-        import pandas as pd
-
-        if not isinstance(df, pd.DataFrame):
-            raise TypeError("Pandas data frame required")
+    if not isinstance(df, pd.DataFrame):
+        raise TypeError("Pandas data frame required")
     if not isinstance(cols, list):
         raise TypeError("cols must be type list")
     if cols:
         df = df[cols]
-    if redact is True:
+    if (encrypt or detect_infotypes) and redact:
+        raise ValueError("Set redact=False to encrypt or detect_infotypes")
+    if redact:
         return redact_df(df, score_threshold)
-    if detect_infotypes is True:
+    if detect_infotypes:
         if sample_size > len(df):
             raise ValueError(f"sample_size must be <= {len(df)}")
         return identify_infotypes(df, sample_size)
-    if encrypt is True:
+    if encrypt:
         return encrypt_data(df)
 
 
