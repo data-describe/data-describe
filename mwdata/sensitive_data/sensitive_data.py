@@ -5,7 +5,6 @@ import pandas as pd
 import spacy
 from presidio_analyzer import AnalyzerEngine
 
-
 if not spacy.util.is_package("en_core_web_lg"):
     spacy.cli.download("en_core_web_lg")
 
