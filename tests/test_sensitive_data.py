@@ -1,6 +1,5 @@
 import pandas as pd
 
-import modin.pandas as mpd
 import pytest
 import presidio_analyzer
 
@@ -78,18 +77,14 @@ def test_type():
     with pytest.raises(TypeError):
         sensitive_data("this is not a dataframe")
     with pytest.raises(TypeError):
-        sensitive_data(
-            pd.DataFrame(), cols="this is not a list",
-        )
-    with pytest.raises(TypeError):
-        sensitive_data(
-            pd.DataFrame(), enable_modin=True,
-        )
+        sensitive_data(pd.DataFrame(), cols="this is not a list")
 
 
 def test_sample_size():
     with pytest.raises(ValueError):
         sensitive_data(pd.DataFrame(), redact=False, detect_infotypes=True)
+    with pytest.raises(ValueError):
+        sensitive_data(pd.DataFrame(), redact=True, encrypt=True)
 
 
 def test_sensitive_data_redact():
@@ -133,9 +128,9 @@ def test_hash_string():
     assert len(hashed) == 64
 
 
-def test_modin():
-    df = mpd.DataFrame(["John Doe", "John Doe"])
-    redacted_df = sensitive_data(df, enable_modin=True)
-    assert isinstance(redacted_df.iloc[0, 0], str)
-    assert isinstance(redacted_df.iloc[1, 0], str)
-    assert redacted_df.iloc[1, 0] == redacted_df.iloc[0, 0]
+# def test_modin():
+#     df = mpd.DataFrame(["John Doe", "John Doe"])
+#     redacted_df = sensitive_data(df, enable_modin=True)
+#     assert isinstance(redacted_df.iloc[0, 0], str)
+#     assert isinstance(redacted_df.iloc[1, 0], str)
+#     assert redacted_df.iloc[1, 0] == redacted_df.iloc[0, 0]
