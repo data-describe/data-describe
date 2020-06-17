@@ -2,6 +2,13 @@ from functools import reduce
 import hashlib
 
 import pandas as pd
+import spacy
+
+try:
+    nlp = spacy.load("en_core_web_lg")
+except Exception as e:
+    print(e)
+    spacy.cli.download("en_core_web_lg")
 
 from presidio_analyzer import AnalyzerEngine
 
