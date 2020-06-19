@@ -57,12 +57,6 @@ def test_correlation_matrix_notebook():
     )
 
 
-# def test_sensitive_data_notebook():
-#     fixture.check(
-#         os.path.join(EXEC_CWD, "notebooks", "Sensitive_Data.ipynb"), raise_errors=True,
-#     )
-
-
 def test_data_summary_notebook():
     fixture = NBRegressionFixture(
         exec_timeout=120,
