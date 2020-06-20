@@ -4,7 +4,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-from mwdata.utilities.contextmanager import _context_manager
+from data_describe.utilities.contextmanager import _context_manager
 
 
 @_context_manager
@@ -74,7 +74,7 @@ def scatter_plots(
             return fig
 
     elif plot_mode == "diagnostic":
-        from mwdata.metrics.bivariate import Scagnostics
+        from data_describe.metrics.bivariate import Scagnostics
 
         scag = Scagnostics(data)
         metrics = scag.calculate()

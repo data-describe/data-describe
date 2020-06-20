@@ -5,7 +5,7 @@
 # import pandas as pd
 # import pytest
 
-# from mwdata.type.autotype import (
+# from data_describe.type.autotype import (
 #     guess_dtypes,
 #     guess_series_dtypes,
 #     meta_features,
@@ -13,7 +13,7 @@
 #     cast_dtypes,
 #     select_dtypes,
 # )
-# from mwdata.type.dtypes import (
+# from data_describe.type.dtypes import (
 #     BaseType,
 #     StringType,
 #     IntegerType,

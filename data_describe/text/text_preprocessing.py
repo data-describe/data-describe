@@ -13,7 +13,7 @@ from nltk.util import ngrams
 from nltk import FreqDist
 from gensim.corpora.dictionary import Dictionary
 
-import mwdata
+import data_describe
 
 warnings.filterwarnings("ignore", category=UserWarning, module="gensim")
 
@@ -276,7 +276,7 @@ def preprocess_texts(text_docs, lem=False, stem=False, custom_pipeline=None):
 
     for function in pipeline:
         if isinstance(function, str):
-            current_method = getattr(mwdata.text.text_preprocessing, function)
+            current_method = getattr(data_describe.text.text_preprocessing, function)
             text_docs = current_method(text_docs)
         else:
             text_docs = function(text_docs)

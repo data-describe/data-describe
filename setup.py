@@ -2,11 +2,11 @@
 from setuptools import find_packages, setup
 
 # Package meta-data.
-NAME = "mwdata"
+NAME = "data_describe"
 DESCRIPTION = "Data Describe"
 URL = "https://github.com/brianray/data-describe"
 EMAIL = ""
-AUTHOR = "David Law, Richard Truong-Chau, Ross Claytor, Akanksha Jindal"
+AUTHOR = "https://github.com/brianray/data-describe/graphs/contributors"
 REQUIRES_PYTHON = ">=3.7.0"
 VERSION = "0.2a"
 

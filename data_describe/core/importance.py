@@ -5,8 +5,8 @@ import numpy as np
 from sklearn.ensemble import RandomForestClassifier
 import matplotlib.pyplot as plt
 
-from mwdata.utilities.preprocessing import preprocess
-from mwdata.utilities.contextmanager import _context_manager
+from data_describe.utilities.preprocessing import preprocess
+from data_describe.utilities.contextmanager import _context_manager
 
 warnings.filterwarnings(
     "ignore",

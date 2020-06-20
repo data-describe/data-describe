@@ -9,7 +9,7 @@ import plotly.graph_objs as go
 from sklearn.preprocessing import StandardScaler
 from plotly.offline import init_notebook_mode, iplot
 
-from mwdata.utilities.contextmanager import _context_manager
+from data_describe.utilities.contextmanager import _context_manager
 
 
 @_context_manager

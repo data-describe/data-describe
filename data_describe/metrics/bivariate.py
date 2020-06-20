@@ -13,8 +13,8 @@ from scipy.spatial.distance import cosine
 from scipy.stats import iqr, spearmanr, f_oneway, levene
 from sklearn.preprocessing import StandardScaler
 
-from mwdata.metrics.utils import hexbin
-from mwdata import load_data
+from data_describe.metrics.utils import hexbin
+from data_describe import load_data
 
 
 class Scagnostics:

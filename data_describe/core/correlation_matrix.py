@@ -9,8 +9,8 @@ from scipy.cluster import hierarchy
 from sklearn.metrics import matthews_corrcoef
 from scipy.stats import chi2_contingency, percentileofscore
 
-from mwdata.utilities.contextmanager import _context_manager
-from mwdata.utilities.colorscale import color_fade, rgb_to_str
+from data_describe.utilities.contextmanager import _context_manager
+from data_describe.utilities.colorscale import color_fade, rgb_to_str
 
 warnings.filterwarnings(
     "error",

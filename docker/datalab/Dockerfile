@@ -7,8 +7,8 @@ COPY docker/datalab/environment.yml .
 
 RUN conda env create --file=environment.yml
 
-# Install mwdata
-COPY mwdata ./mwdata
+# Install data_describe
+COPY data_describe ./data_describe
 
 COPY setup.py .
 

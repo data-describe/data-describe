@@ -10,8 +10,8 @@ from sklearn.preprocessing import StandardScaler
 from plotly.offline import init_notebook_mode, iplot
 from IPython import get_ipython
 
-from mwdata.dimensionality_reduction.dimensionality_reduction import dim_reduc
-from mwdata.utilities.contextmanager import _context_manager
+from data_describe.dimensionality_reduction.dimensionality_reduction import dim_reduc
+from data_describe.utilities.contextmanager import _context_manager
 
 
 @_context_manager

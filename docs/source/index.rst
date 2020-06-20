@@ -11,7 +11,7 @@ Data Describe
    installation
    _notebooks/tutorial
    widgets/index
-   API Reference <_api/mwdata>
+   API Reference <_api/data_describe>
 
 License is XXX.
 
