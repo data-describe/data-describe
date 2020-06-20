@@ -51,4 +51,4 @@ jobs:
           auto-activate-base: false
       - shell: bash -l {0}
         run: |
-          pytest --cov=mwdata --cov-report term-missing --junitxml=junit.xml --cov-report xml tests
+          pytest --cov=data_describe --cov-report term-missing --junitxml=junit.xml --cov-report xml tests

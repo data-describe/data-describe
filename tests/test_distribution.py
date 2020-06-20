@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib
 import pytest
 
-import mwdata as mw
+import data_describe as mw
 from ._test_data import DATA
 
 matplotlib.use("Agg")

@@ -1,6 +1,6 @@
 import pandas as pd
 
-from mwdata.utilities.contextmanager import _context_manager
+from data_describe.utilities.contextmanager import _context_manager
 
 
 @_context_manager

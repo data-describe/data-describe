@@ -4,9 +4,9 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-from mwdata.utilities.contextmanager import _context_manager
-from mwdata.metrics.univariate import skewed, spikey
-from mwdata.metrics.bivariate import heteroscedastic, varying
+from data_describe.utilities.contextmanager import _context_manager
+from data_describe.metrics.univariate import skewed, spikey
+from data_describe.metrics.bivariate import heteroscedastic, varying
 
 
 @_context_manager

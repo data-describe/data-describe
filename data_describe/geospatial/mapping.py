@@ -6,8 +6,8 @@ import geopandas as gpd
 import matplotlib.pyplot as plt
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 
-from mwdata import load_data
-from mwdata.utilities.contextmanager import _context_manager
+from data_describe import load_data
+from data_describe.utilities.contextmanager import _context_manager
 
 
 @_context_manager

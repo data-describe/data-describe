@@ -2,7 +2,7 @@ import pytest
 import pandas as pd
 import nltk
 
-from mwdata.text.text_preprocessing import (
+from data_describe.text.text_preprocessing import (
     tokenize,
     to_lower,
     remove_digits,

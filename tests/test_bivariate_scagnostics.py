@@ -1,5 +1,5 @@
 # import pandas as pd
-# import mwdata as mw
+# import data_describe as mw
 # import matplotlib
 # import pytest
 

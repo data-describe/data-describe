@@ -6,7 +6,7 @@
 # import sklearn
 # import pytest
 
-# from mwdata.text.topic_model import TopicModel
+# from data_describe.text.topic_model import TopicModel
 
 # warnings.filterwarnings("ignore", category=UserWarning, module="gensim")
 

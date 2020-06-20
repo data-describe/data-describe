@@ -4,8 +4,8 @@ import inspect
 import pandas as pd
 import numpy as np
 
-import mwdata.type.dtypes
-from mwdata.type.dtypes import (
+import data_describe.type.dtypes
+from data_describe.type.dtypes import (
     BaseType,
     CategoryType,
     IntegerType,
@@ -30,7 +30,7 @@ def guess_dtypes(df, strict=True, sample_size=100, random_state=1, types=None):
         raise ValueError("df must be a Pandas Data Frame.")
 
     if not types:
-        types = inspect.getmembers(mwdata.type.dtypes, _class_in_dtypes_module)
+        types = inspect.getmembers(data_describe.type.dtypes, _class_in_dtypes_module)
         types = [t() for name, t in types]
 
     return {
@@ -61,7 +61,7 @@ def guess_series_dtypes(
         The name of the type as a string
     """
     if not types:
-        types = inspect.getmembers(mwdata.type.dtypes, _class_in_dtypes_module)
+        types = inspect.getmembers(data_describe.type.dtypes, _class_in_dtypes_module)
         types = [t() for name, t in types]
 
     if sample_size < 1:  # Fractional sample size
@@ -128,7 +128,7 @@ def dtype_heuristics(series, strict=True, types=None):
         A type name
     """
     if not types:
-        types = inspect.getmembers(mwdata.type.dtypes, _class_in_dtypes_module)
+        types = inspect.getmembers(data_describe.type.dtypes, _class_in_dtypes_module)
         types = [t() for name, t in types]
 
     guesses = {}
@@ -157,7 +157,7 @@ def get_class_instance_by_name(name, types=None):
         return BaseType()
 
     if not types:
-        types = inspect.getmembers(mwdata.type.dtypes, _class_in_dtypes_module)
+        types = inspect.getmembers(data_describe.type.dtypes, _class_in_dtypes_module)
         types = [t() for name, t in types]
 
     instance = [t for t in types if t.name == name]
@@ -284,17 +284,17 @@ def cast_dtypes(df, dtypes=None, exclude=None):
 
 
 def _class_in_dtypes_module(member):
-    """Predicate function to find type classes defined in mwdata.type.dtypes
+    """Predicate function to find type classes defined in data_describe.type.dtypes
 
     Args:
         member: A member of the current module
 
     Returns:
-        True if it is a class in mwdata.type.dtypes
+        True if it is a class in data_describe.type.dtypes
     """
     if inspect.isclass(member):
         module = getattr(member, "__module__", None)
         if module:
-            if module == "mwdata.type.dtypes":
+            if module == "data_describe.type.dtypes":
                 return True
     return False

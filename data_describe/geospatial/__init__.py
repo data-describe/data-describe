@@ -1,1 +1,1 @@
-from mwdata.geospatial.mapping import maps  # noqa: F401
+from data_describe.geospatial.mapping import maps  # noqa: F401

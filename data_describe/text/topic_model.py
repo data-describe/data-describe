@@ -12,12 +12,12 @@ from gensim.summarization.summarizer import summarize
 from sklearn.decomposition import TruncatedSVD, NMF
 from IPython import get_ipython
 
-from mwdata.text.text_preprocessing import (
+from data_describe.text.text_preprocessing import (
     create_doc_term_matrix,
     create_tfidf_matrix,
     filter_dictionary,
 )
-from mwdata.utilities.contextmanager import _context_manager
+from data_describe.utilities.contextmanager import _context_manager
 
 warnings.filterwarnings("ignore", category=UserWarning, module="gensim")
 

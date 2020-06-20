@@ -1,4 +1,4 @@
-# import mwdata.geospatial.mapping as mw
+# import data_describe.geospatial.mapping as mw
 # import pytest
 
 

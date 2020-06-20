@@ -1,4 +1,4 @@
-from mwdata.text.text_preprocessing import (  # noqa: F401
+from data_describe.text.text_preprocessing import (  # noqa: F401
     tokenize,
     to_lower,
     remove_punct,
@@ -14,4 +14,4 @@ from mwdata.text.text_preprocessing import (  # noqa: F401
     ngram_freq,
     filter_dictionary,
 )
-from mwdata.text.topic_model import TopicModel  # noqa: F401
+from data_describe.text.topic_model import TopicModel  # noqa: F401
