@@ -52,6 +52,8 @@ We looked at the following, and for reasons listed we did not use at this time. 
  * https://deck.gl/#/showcases/overview does some really nice data science modeling using WebGL
  * Facets (Which is used by TFDV) provides very useful ML visualizations https://pair-code.github.io/facets/ https://github.com/PAIR-code/facets  The visualizations are implemented as [Polymer web components](https://www.polymer-project.org/), backed by [Typescript](https://www.typescriptlang.org/) code and can be easily embedded into Jupyter notebooks or webpages.
  
+## Related cases
 
+https://github.com/brianray/data-describe/issues/51
 
  
