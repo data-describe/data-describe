@@ -10,7 +10,7 @@ def requires(package_name):
         @wraps(func)
         def g(*args, **kwargs):
             if not _PACKAGE_INSTALLED[package_name]:
-                raise ImportError(
+                raise (ImportError, ModuleNotFoundError)(
                     f"Package {package_name} required to use this function"
                 )
             return func(*args, **kwargs)
@@ -36,35 +36,35 @@ try:
         nltk.data.find("stopwords")
     except LookupError:
         nltk.download("stopwords")
-except ImportError:
+except (ImportError, ModuleNotFoundError):
     _PACKAGE_INSTALLED["nltk"] = False
 
 try:
     import pyldavis  # noqa: F401
 
     _PACKAGE_INSTALLED["pyldavis"] = True
-except ImportError:
+except (ImportError, ModuleNotFoundError):
     _PACKAGE_INSTALLED["pyldavis"] = False
 
 try:
     import gensim  # noqa: F401
 
     _PACKAGE_INSTALLED["gensim"] = True
-except ImportError:
+except (ImportError, ModuleNotFoundError):
     _PACKAGE_INSTALLED["gensim"] = False
 
 try:
     import gcsfs  # noqa: F401
 
     _PACKAGE_INSTALLED["gcsfs"] = True
-except ImportError:
+except (ImportError, ModuleNotFoundError):
     _PACKAGE_INSTALLED["gcsfs"] = False
 
 try:
     import google.cloud.storage  # noqa: F401
 
     _PACKAGE_INSTALLED["google-cloud-storage"] = True
-except ImportError:
+except (ImportError, ModuleNotFoundError):
     _PACKAGE_INSTALLED["google-cloud-storage"] = False
 
 try:
@@ -73,6 +73,8 @@ try:
 
     _PACKAGE_INSTALLED["modin"] = True
     _FRAME_TYPE = (pandas.DataFrame, modin.pandas.DataFrame)
-except ImportError:
+except (ImportError, ModuleNotFoundError):
+    import pandas
+
     _PACKAGE_INSTALLED["modin"] = False
     _FRAME_TYPE = pandas.DataFrame
