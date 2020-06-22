@@ -2,7 +2,8 @@ import os
 import tempfile
 
 import pandas as pd
-from google.cloud import storage
+
+from data_describe.utilities.compat import requires, _DEPENDENCY_INSTALLED
 
 
 def load_data(filepath, all_folders=False, **kwargs):
@@ -18,8 +19,13 @@ def load_data(filepath, all_folders=False, **kwargs):
     Returns:
         A pandas data frame
     """
-    if os.path.isfile(filepath) or "gs://" in filepath:
+    if os.path.isfile(filepath):
         df = read_file_type(filepath, **kwargs)
+    elif "gs://" in filepath:
+        if _DEPENDENCY_INSTALLED["gcsfs"]:
+            df = read_file_type(filepath, **kwargs)
+        else:
+            raise ImportError("Package gcsfs required to load from GCS")
     elif os.path.isdir(filepath):
         text = []
         encoding = kwargs.pop("encoding", "utf-8")
@@ -71,6 +77,7 @@ def read_file_type(filepath, **kwargs):
         return pd.read_csv(filepath, sep=sep, **kwargs)
 
 
+@requires("google-cloud-storage")
 def download_gcs_file(filepath, bucket=None, prefix=None, **kwargs):
     """ Downloads files from Google Cloud Storage
 
@@ -82,6 +89,8 @@ def download_gcs_file(filepath, bucket=None, prefix=None, **kwargs):
     Returns:
 
     """
+    from google.cloud import storage  # noqa: F401
+
     client = storage.Client()
     bucket = client.bucket(bucket)
     max_results = kwargs.pop("max_results", None)
