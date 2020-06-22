@@ -1,7 +1,7 @@
 import pytest
 
-import mwdata as mw
-from mwdata.core.summary import cardinality
+import data_describe as mw
+from data_describe.core.summary import cardinality
 from ._test_data import DATA
 
 

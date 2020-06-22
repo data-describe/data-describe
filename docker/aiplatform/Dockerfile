@@ -13,8 +13,8 @@ RUN jupyter labextension install @jupyter-widgets/jupyterlab-manager@1.1 --no-bu
     jupyter labextension install plotlywidget@1.5.4 --no-build && \
     jupyter lab build --minimize=False
 
-# Install mwdata
-COPY mwdata ./mwdata
+# Install data_describe
+COPY data_describe ./data_describe
 
 COPY setup.py .
 

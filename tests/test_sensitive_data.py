@@ -3,7 +3,7 @@ import pytest
 import presidio_analyzer
 
 
-from mwdata.sensitive_data.sensitive_data import (
+from data_describe.sensitive_data.sensitive_data import (
     identify_pii,
     identify_column_infotypes,
     identify_infotypes,

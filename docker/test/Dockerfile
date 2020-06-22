@@ -8,4 +8,4 @@ COPY . /
 
 CMD . /opt/conda/etc/profile.d/conda.sh && \
     conda activate mw-data_describe && \
-    pytest --durations=0 --cov=mwdata --cov-report term-missing --junitxml=junit.xml --cov-report xml tests
+    pytest --durations=0 --cov=data_describe --cov-report term-missing --junitxml=junit.xml --cov-report xml tests
