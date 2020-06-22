@@ -19,7 +19,7 @@ def sensitive_data(
     detect_infotypes=False,
     score_threshold=0.2,
     sample_size=100,
-    cols=[],
+    cols=None,
 ):
     """Identifies, redacts, and encrypts PII data
 
@@ -30,7 +30,7 @@ def sensitive_data(
         detect_infotypes: If True, identifies infotypes for each column. Redact must be set to False
         score_threshold: Minimum confidence value for detected entities to be returned
         sample_size: Number of sampled rows used for identifying column infotypes
-        cols: List of columns
+        cols: List of columns. Defaults to None
 
     Returns:
         A dataframe if redact or anonymize is True.
@@ -45,13 +45,14 @@ def sensitive_data(
     if (encrypt or detect_infotypes) and redact:
         raise ValueError("Set redact=False to encrypt or detect_infotypes")
     if redact:
-        return redact_df(df, score_threshold)
+        df = df.applymap(lambda x: redact_info(str(x), score_threshold))
     if detect_infotypes:
         if sample_size > len(df):
             raise ValueError(f"sample_size must be <= {len(df)}")
-        return identify_infotypes(df, sample_size)
+        df = identify_infotypes(df, sample_size)
     if encrypt:
-        return encrypt_data(df)
+        df = encrypt_data(df)
+    return df
 
 
 def identify_pii(text, score_threshold=0.2):
@@ -97,10 +98,10 @@ def create_mapping(text, response):
 
 
 def redact_info(text, score_threshold=0.2):
-    """Redact sensitive data using mapping between hashed values and infotype
+    """Redact sensitive data with mapping between hashed values and infotype
 
     Args:
-        text: A string
+        text: String value
         score_threshold: Minimum confidence value for detected entities to be returned
 
     Returns:
@@ -109,19 +110,6 @@ def redact_info(text, score_threshold=0.2):
     response = identify_pii(text, score_threshold)
     word_mapping, text = create_mapping(text, response)
     return reduce(lambda a, kv: a.replace(*kv), word_mapping.items(), text)
-
-
-def redact_df(df, score_threshold=0.2):
-    """Redact sensitive data in a dataframe
-
-    Args:
-        df: The dataframe
-        score_threshold: Minimum confidence value for detected entities to be returned
-
-    Returns:
-        Dataframe with redacted information
-    """
-    return df.applymap(lambda x: redact_info(str(x), score_threshold))
 
 
 def identify_column_infotypes(data_series, sample_size=100, score_threshold=0.2):
