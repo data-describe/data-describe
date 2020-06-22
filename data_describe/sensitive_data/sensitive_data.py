@@ -38,9 +38,9 @@ def sensitive_data(
     """
     if not isinstance(df, pd.DataFrame):
         raise TypeError("Pandas data frame required")
-    if not isinstance(cols, list):
-        raise TypeError("cols must be type list")
     if cols:
+        if not isinstance(cols, list):
+            raise TypeError("cols must be type list")
         df = df[cols]
     if (encrypt or detect_infotypes) and redact:
         raise ValueError("Set redact=False to encrypt or detect_infotypes")
