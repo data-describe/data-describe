@@ -1,6 +1,8 @@
 from functools import wraps
+from typing import Dict
 
-_PACKAGE_INSTALLED = {}
+
+_PACKAGE_INSTALLED: Dict[str, bool] = {}
 
 
 def requires(package_name):

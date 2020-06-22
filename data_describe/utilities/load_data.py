@@ -3,7 +3,7 @@ import tempfile
 
 import pandas as pd
 
-from data_describe.utilities.compat import requires, _DEPENDENCY_INSTALLED
+from data_describe.utilities.compat import requires, _PACKAGE_INSTALLED
 
 
 def load_data(filepath, all_folders=False, **kwargs):
@@ -22,7 +22,7 @@ def load_data(filepath, all_folders=False, **kwargs):
     if os.path.isfile(filepath):
         df = read_file_type(filepath, **kwargs)
     elif "gs://" in filepath:
-        if _DEPENDENCY_INSTALLED["gcsfs"]:
+        if _PACKAGE_INSTALLED["gcsfs"]:
             df = read_file_type(filepath, **kwargs)
         else:
             raise ImportError("Package gcsfs required to load from GCS")
