@@ -125,11 +125,3 @@ def test_hash_string():
     hashed = hash_string("John Doe")
     assert isinstance(hashed, str)
     assert len(hashed) == 64
-
-
-# def test_modin():
-#     df = mpd.DataFrame(["John Doe", "John Doe"])
-#     redacted_df = sensitive_data(df, enable_modin=True)
-#     assert isinstance(redacted_df.iloc[0, 0], str)
-#     assert isinstance(redacted_df.iloc[1, 0], str)
-#     assert redacted_df.iloc[1, 0] == redacted_df.iloc[0, 0]
