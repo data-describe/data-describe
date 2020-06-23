@@ -6,8 +6,8 @@ import seaborn as sns
 import plotly
 import matplotlib
 
-import mwdata as mw
-from mwdata.core.cluster import apply_kmeans, truncate_data, find_clusters
+import data_describe as mw
+from data_describe.core.cluster import apply_kmeans, truncate_data, find_clusters
 from ._test_data import DATA
 
 matplotlib.use("Agg")

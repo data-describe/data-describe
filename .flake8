@@ -1,5 +1,5 @@
 [flake8]
 ignore = E203, E266, E501, W503
 max-line-length = 88
-application-import-names = mwdata
+application-import-names = data_describe
 import-order-style = pep8

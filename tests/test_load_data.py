@@ -7,8 +7,8 @@
 # import tempfile
 # import pytest
 
-# import mwdata as mw
-# from mwdata.utilities.load_data import download_gcs_file, read_file_type
+# import data_describe as mw
+# from data_describe.utilities.load_data import download_gcs_file, read_file_type
 
 
 # def test_local_dir():

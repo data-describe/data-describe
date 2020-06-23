@@ -13,6 +13,8 @@ fixture = NBRegressionFixture(
         "/cells/*/outputs/*/data/text/plain",
         "/cells/*/metadata/outputs/text",
         "/metadata/language_info/version",
+        "/metadata/kernelspec/display_name/",
+        "/metadata/kernelspec/name/",
         "/cells/1/outputs",
         "/cells/*/outputs/*/text",
         "/cells/*/outputs/*/data/image/png",
@@ -20,13 +22,6 @@ fixture = NBRegressionFixture(
         "/cells/*/outputs/*/data/application/vnd.plotly.v1+json",
     ),
 )
-
-
-def test_geospatial_analysis_notebook():
-    fixture.check(
-        os.path.join(EXEC_CWD, "notebooks", "Geospatial_Analysis.ipynb"),
-        raise_errors=True,
-    )
 
 
 def test_cluster_analysis_notebook():
@@ -127,3 +122,10 @@ def test_data_summary_notebook():
 
 # def test_auto_data_type_notebook():
 #     fixture.check(os.path.join(EXEC_CWD, 'notebooks', 'Auto Data Type.ipynb'), raise_errors=True)
+
+
+# def test_geospatial_analysis_notebook():
+#     fixture.check(
+#         os.path.join(EXEC_CWD, "notebooks", "Geospatial_Analysis.ipynb"),
+#         raise_errors=True,
+#     )

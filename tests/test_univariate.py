@@ -1,6 +1,6 @@
 import numpy as np
 
-from mwdata.metrics.univariate import spikey, skewed
+from data_describe.metrics.univariate import spikey, skewed
 
 
 def test_spikey():
