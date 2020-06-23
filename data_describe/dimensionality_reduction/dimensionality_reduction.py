@@ -1,14 +1,15 @@
-from mwdata._compat import _MODIN_INSTALLED
-import pandas as pd
+from data_describe._compat import _MODIN_INSTALLED, _SERIES_TYPE, _FRAME_TYPE
 import numpy as np
 from sklearn.manifold import TSNE
 from sklearn.decomposition import TruncatedSVD, PCA
 
-if _MODIN_INSTALLED == True:
-    import modin.pandas as modin
+if _MODIN_INSTALLED:
+    import modin.pandas as frame
+else:
+    import pandas as frame
 
 
-def dim_reduc(data, n_components, dim_method, df_type="pandas"):
+def dim_reduc(data, n_components, dim_method):
     """Calls various dimensionality reduction methods
 
     Args:
@@ -16,30 +17,28 @@ def dim_reduc(data, n_components, dim_method, df_type="pandas"):
         n_components: Desired dimensionality for the data set prior to modeling
         dim_method: Dimensionality reduction method. Only pca, tsne, and
         tsvd are supported.
-        df_type: String which identifies the type of data frame 'data' is (e.g. 'pandas' or 'modin')
 
     Returns:
         Reduced data frame and reduction object
     """
     if dim_method == "pca":
-        reduc_df, reductor = run_pca(data, n_components, df_type)
+        reduc_df, reductor = run_pca(data, n_components)
     elif dim_method == "tsne":
-        reduc_df, reductor = run_tsne(data, n_components, df_type)
+        reduc_df, reductor = run_tsne(data, n_components)
     elif dim_method == "tsvd":
-        reduc_df, reductor = run_tsvd(data, n_components, df_type)
+        reduc_df, reductor = run_tsvd(data, n_components)
     else:
         raise NotImplementedError("{} is not supported".format(dim_method))
     return reduc_df, reductor
 
 
-def run_pca(data, n_components, df_type="pandas"):
+def run_pca(data, n_components):
     """Reduces the number of dimensions using PCA
 
         Args:
             data: Pandas data frame
             n_components: Desired dimensionality for the data set prior
             to modeling
-            df_type: String which identifies the type of data frame 'data' is (e.g. 'pandas' or 'modin')
 
         Returns:
             reduc_df: Reduced data frame
@@ -50,21 +49,17 @@ def run_pca(data, n_components, df_type="pandas"):
         fname.append("component_" + str(i))
     pca = PCA(n_components, random_state=0)
     reduc = pca.fit_transform(data)
-    if df_type.lower() == "pandas":
-        reduc_df = pd.DataFrame(reduc, columns=fname)
-    elif df_type.lower() == "modin":
-        reduc_df = modin.DataFrame(reduc, columns=fname)
+    reduc_df = frame.DataFrame(reduc, columns=fname)
     return reduc_df, pca
 
 
-def run_tsne(data, n_components, df_type="pandas"):
+def run_tsne(data, n_components):
     """Reduces the number of dimensions using t-SNE
 
         Args:
             data: Pandas data frame
             n_components: Desired dimensionality for the data set prior
             to modeling
-            df_type: String which identifies the type of data frame 'data' is (e.g. 'pandas' or 'modin')
 
         Returns:
             reduc_df: Reduced data frame
@@ -72,21 +67,17 @@ def run_tsne(data, n_components, df_type="pandas"):
     """
     tsne = TSNE(n_components, random_state=0)
     reduc = tsne.fit_transform(data)
-    if df_type.lower() == "pandas":
-        reduc_df = pd.DataFrame(reduc, columns=["ts1", "ts2"])
-    elif df_type.lower() == "modin":
-        reduc_df = modin.DataFrame(reduc, columns=["ts1", "ts2"])
+    reduc_df = frame.DataFrame(reduc, columns=["ts1", "ts2"])
     return reduc_df, tsne
 
 
-def run_tsvd(data, n_components, df_type="pandas"):
+def run_tsvd(data, n_components):
     """Reduces the number of dimensions using TSVD
 
         Args:
             data: Pandas data frame
             n_components: Desired dimensionality for the data set prior
             to modeling
-            df_type: String which identifies the type of data frame 'data' is (e.g. 'pandas' or 'modin')
 
         Returns:
             reduc_df: Reduced data frame
@@ -98,8 +89,5 @@ def run_tsvd(data, n_components, df_type="pandas"):
             fname.append("component_" + str(i))
         t_svd = TruncatedSVD(n_components, random_state=0)
         reduc = t_svd.fit_transform(data)
-        if df_type.lower() == "pandas":
-            reduc_df = pd.DataFrame(reduc, columns=fname)
-        elif df_type.lower() == "modin":
-            reduc_df = modin.DataFrame(reduc, columns=fname)
+        reduc_df = frame.DataFrame(reduc, columns=fname)
         return reduc_df, t_svd
