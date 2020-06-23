@@ -1,7 +1,7 @@
 from mwdata._compat import _MODIN_INSTALLED
 from mwdata.utilities.contextmanager import _context_manager
 
-if _MODIN_INSTALLED == True:
+if _MODIN_INSTALLED:
     import modin.pandas as frame
 else:
     import pandas as frame
@@ -28,7 +28,7 @@ def data_summary(data, context=None):
 
         dtypes = data.dtypes
         dtypes.name = "Data Type"
-        dtypes = frame.DataFrame(dtypes).transpose()  # play arouhnd
+        dtypes = frame.DataFrame(dtypes).transpose()
 
         moments = data.select_dtypes(["number", "datetime"])
         if moments.shape[1] > 0:
@@ -46,14 +46,14 @@ def data_summary(data, context=None):
         if zeros.shape[1] > 0:
             zeros_summary = zeros.agg([agg_zero])
         else:
-            zeros_summary = frame.DataFrame([], columns=data.columns)  # None
+            zeros_summary = frame.DataFrame([], columns=data.columns)
 
         null_summary = data.agg([agg_null])
 
         freq_summary = most_frequent(data)
         freq_summary = frame.DataFrame(freq_summary).transpose()
 
-        summary = frame.concat(  # append
+        summary = frame.concat(
             [
                 dtypes,
                 moments_summary,
