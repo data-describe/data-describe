@@ -6,6 +6,7 @@ if _MODIN_INSTALLED == True:
 else:
     import pandas as frame
 
+
 @_context_manager
 def data_summary(data, context=None):
     """ Summary statistics and data description
@@ -27,7 +28,7 @@ def data_summary(data, context=None):
 
         dtypes = data.dtypes
         dtypes.name = "Data Type"
-        dtypes = frame.DataFrame(dtypes).transpose() # play arouhnd
+        dtypes = frame.DataFrame(dtypes).transpose()  # play arouhnd
 
         moments = data.select_dtypes(["number", "datetime"])
         if moments.shape[1] > 0:
@@ -45,14 +46,14 @@ def data_summary(data, context=None):
         if zeros.shape[1] > 0:
             zeros_summary = zeros.agg([agg_zero])
         else:
-            zeros_summary = frame.DataFrame([], columns=data.columns) #None
+            zeros_summary = frame.DataFrame([], columns=data.columns)  # None
 
         null_summary = data.agg([agg_null])
 
         freq_summary = most_frequent(data)
         freq_summary = frame.DataFrame(freq_summary).transpose()
 
-        summary = frame.concat( #append
+        summary = frame.concat(  # append
             [
                 dtypes,
                 moments_summary,
@@ -124,7 +125,9 @@ def most_frequent(data):
         freq = {}
         top = data.mode().head(1)
         for column in data.columns:
-            freq[column] = round(data[column].isin([top[column][0]]).sum() / data.shape[0] * 100, 2)
+            freq[column] = round(
+                data[column].isin([top[column][0]]).sum() / data.shape[0] * 100, 2
+            )
         m_freq = frame.Series(freq)
     else:
         raise ValueError("Data must be a Pandas (or Modin) Series or Dataframe.")
