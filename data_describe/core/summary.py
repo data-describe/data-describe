@@ -1,6 +1,16 @@
+<<<<<<< HEAD:data_describe/core/summary.py
 import pandas as pd
 
 from data_describe.utilities.contextmanager import _context_manager
+=======
+from mwdata._compat import _MODIN_INSTALLED
+from mwdata.utilities.contextmanager import _context_manager
+>>>>>>> a91fd4872e1052fc7696567f5e4abdda1ddb016c:mwdata/core/summary.py
+
+if _MODIN_INSTALLED:
+    import modin.pandas as frame
+else:
+    import pandas as frame
 
 
 @_context_manager
@@ -9,46 +19,47 @@ def data_summary(data, context=None):
 
     Args:
         data: A Pandas data frame
+        modin: A boolean flag for whether or not the data is a Modin Series or DataFrame
         context: The context
 
     Returns:
         Pandas data frame with metrics in rows
     """
-    if isinstance(data, pd.Series):
-        data = pd.DataFrame(data)
+    if isinstance(data, frame.Series):
+        data = frame.DataFrame(data)
 
-    if isinstance(data, pd.DataFrame):
+    if isinstance(data, frame.DataFrame):
         # Save column order
         columns = data.columns
 
         dtypes = data.dtypes
         dtypes.name = "Data Type"
-        dtypes = pd.DataFrame(dtypes).transpose()
+        dtypes = frame.DataFrame(dtypes).transpose()
 
         moments = data.select_dtypes(["number", "datetime"])
         if moments.shape[1] > 0:
             moments_summary = moments.agg(["mean", "std", "median"])
         else:
-            moments_summary = pd.DataFrame([], columns=data.columns)
+            moments_summary = frame.DataFrame([], columns=data.columns)
 
         minmax = data.select_dtypes(["number", "datetime", "bool"])
         if minmax.shape[1] > 0:
             minmax_summary = minmax.agg(["min", "max"])
         else:
-            minmax_summary = pd.DataFrame([], columns=data.columns)
+            minmax_summary = frame.DataFrame([], columns=data.columns)
 
         zeros = data.select_dtypes(["number", "bool"])
         if zeros.shape[1] > 0:
             zeros_summary = zeros.agg([agg_zero])
         else:
-            zeros_summary = pd.DataFrame([], columns=data.columns)
+            zeros_summary = frame.DataFrame([], columns=data.columns)
 
         null_summary = data.agg([agg_null])
 
         freq_summary = most_frequent(data)
-        freq_summary = pd.DataFrame(freq_summary).transpose()
+        freq_summary = frame.DataFrame(freq_summary).transpose()
 
-        summary = pd.concat(
+        summary = frame.concat(
             [
                 dtypes,
                 moments_summary,
@@ -76,7 +87,7 @@ def data_summary(data, context=None):
         summary.fillna("", inplace=True)
         return summary
     else:
-        raise ValueError("Data must be a Pandas DataFrame")
+        raise ValueError("Data must be a Pandas (or Modin) DataFrame")
 
 
 def agg_zero(series):
@@ -113,15 +124,19 @@ def most_frequent(data):
         Percent of most frequent value per column
     """
     top = data.mode().head(1)
-    if isinstance(data, pd.Series):
-        m_freq = round((data == top[0]).sum() / data.shape[0] * 100, 2)
-    elif isinstance(data, pd.DataFrame):
-        m_freq = round(
-            data.apply(lambda x: x == top[x.name][0]).sum(axis=0) / data.shape[0] * 100,
-            2,
-        )
+    if isinstance(data, frame.Series):
+        top = data.mode().head(1)[0]
+        m_freq = round(data.isin([top]).sum() / data.shape[0] * 100, 2)
+    elif isinstance(data, frame.DataFrame):
+        freq = {}
+        top = data.mode().head(1)
+        for column in data.columns:
+            freq[column] = round(
+                data[column].isin([top[column][0]]).sum() / data.shape[0] * 100, 2
+            )
+        m_freq = frame.Series(freq)
     else:
-        raise ValueError("Data must be a Pandas Series or Dataframe.")
+        raise ValueError("Data must be a Pandas (or Modin) Series or Dataframe.")
     return m_freq
 
 
