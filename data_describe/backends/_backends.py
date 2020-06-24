@@ -1,9 +1,11 @@
 import importlib
+from types import ModuleType
+from typing import Dict
 
 from data_describe.config import viz_backend
 
 
-_viz_backends = {}
+_viz_backends: Dict[str, ModuleType] = {}
 
 
 def _get_viz_backend(backend=None):
