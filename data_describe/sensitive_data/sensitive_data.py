@@ -1,5 +1,6 @@
 from functools import reduce
 import hashlib
+import warnings
 
 import pandas as pd
 import spacy
@@ -7,6 +8,9 @@ from presidio_analyzer import AnalyzerEngine
 
 
 if not spacy.util.is_package("en_core_web_lg"):
+    warnings.warn(
+        "Downloading en_core_web_lg model for Spacy. This may take several minutes."
+    )
     spacy.cli.download("en_core_web_lg")
 
 engine = AnalyzerEngine(default_score_threshold=0.5, enable_trace_pii=True)
