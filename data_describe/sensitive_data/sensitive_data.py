@@ -55,7 +55,8 @@ def sensitive_data(
             raise ValueError(f"sample_size must be <= {len(df)}")
         df = identify_infotypes(df, sample_size)
     if encrypt:
-        df = encrypt_data(df)
+        # df = encrypt_data(df)
+        df.applymap(lambda x: encrypt_text(str(x), score_threshold))
     return df
 
 
@@ -166,19 +167,6 @@ def encrypt_text(text, score_threshold=0.2):
     """
     response = identify_pii(text, score_threshold)
     return create_mapping(text, response)[1]
-
-
-def encrypt_data(df, score_threshold=0.2):
-    """Encrypt sensitive data in a dataframe
-
-    Args:
-        df: The dataframe
-        score_threshold: Minimum confidence value for detected entities to be returned
-
-    Returns:
-        Dataframe with encrypted data
-    """
-    return df.applymap(lambda x: encrypt_text(str(x), score_threshold))
 
 
 def hash_string(text):
