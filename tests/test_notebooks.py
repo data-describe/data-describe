@@ -15,6 +15,7 @@ fixture = NBRegressionFixture(
         "/metadata/language_info/version",
         "/metadata/kernelspec/display_name/",
         "/metadata/kernelspec/name/",
+        "*execution_count",
         "/cells/1/outputs",
         "/cells/*/outputs/*/text",
         "/cells/*/outputs/*/data/image/png",
