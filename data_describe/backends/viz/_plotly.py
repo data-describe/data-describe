@@ -37,6 +37,4 @@ def plot_data_heatmap(data, colnames, missing=False, **kwargs):
         init_notebook_mode(connected=True)
         return iplot(figure, config={"displayModeBar": False})
     else:
-        raise EnvironmentError(
-            "Could not detect IPython: Unable to display interactive plot."
-        )
+        return figure
