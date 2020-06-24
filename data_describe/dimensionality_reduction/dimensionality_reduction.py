@@ -1,5 +1,6 @@
-from data_describe._compat import _MODIN_INSTALLED, _SERIES_TYPE, _FRAME_TYPE
 import numpy as np
+
+from data_describe._compat import _MODIN_INSTALLED
 from sklearn.manifold import TSNE
 from sklearn.decomposition import TruncatedSVD, PCA
 
