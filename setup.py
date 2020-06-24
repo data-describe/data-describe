@@ -54,4 +54,10 @@ setup(
         "Programming Language :: Python :: Implementation :: CPython",
         "Programming Language :: Python :: Implementation :: PyPy",
     ],
+    entry_points={
+        "data_describe_viz_backends": [
+            "matplotlib = data_describe:backends.viz._matplotlib",
+            "plotly = data_describe:backends.viz._plotly"
+        ]
+    },
 )
