@@ -3,6 +3,7 @@ import warnings
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
+from pyscagnostics import scagnostics
 
 
 def scatter_plots(
@@ -67,11 +68,7 @@ def scatter_plots(
             return fig
 
     elif plot_mode == "diagnostic":
-        from data_describe.metrics.bivariate import Scagnostics
-
-        scag = Scagnostics(data)
-        metrics = scag.calculate()
-        metrics = dict((k, v) for (k, v) in metrics.items() if len(v) > 0)
+        metrics = scagnostics(data)
 
         if threshold is not None:
             metrics = filter_threshold(metrics, threshold)
@@ -85,8 +82,8 @@ def scatter_plots(
                     message=r"Using a non-tuple sequence for multidimensional indexing",
                 )
                 for k in metrics.keys():
-                    x_col = scag.names[k[0]]
-                    y_col = scag.names[k[1]]
+                    x_col = k[0]
+                    y_col = k[1]
                     fig.append(
                         scatter_plot(
                             data, x_col, y_col, joint_kws, scatter_kws, dist_kws,
