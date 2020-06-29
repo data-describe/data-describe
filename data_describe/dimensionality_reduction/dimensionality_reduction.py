@@ -1,10 +1,10 @@
 import numpy as np
 
-from data_describe._compat import _MODIN_INSTALLED
+from data_describe.utilities.compat import requires, _PACKAGE_INSTALLED
 from sklearn.manifold import TSNE
 from sklearn.decomposition import TruncatedSVD, PCA, IncrementalPCA
 
-if _MODIN_INSTALLED:
+if _PACKAGE_INSTALLED["modin"]:
     import modin.pandas as frame
 else:
     import pandas as frame
@@ -48,7 +48,7 @@ def run_pca(data, n_components):
     fname = []
     for i in range(1, n_components + 1):
         fname.append("component_" + str(i))
-    if _MODIN_INSTALLED:
+    if _PACKAGE_INSTALLED["modin"]:
         pca = IncrementalPCA(n_components)
     else:
         pca = PCA(n_components)
