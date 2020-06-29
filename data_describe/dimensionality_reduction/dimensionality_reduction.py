@@ -2,7 +2,7 @@ import numpy as np
 
 from data_describe._compat import _MODIN_INSTALLED
 from sklearn.manifold import TSNE
-from sklearn.decomposition import TruncatedSVD, PCA
+from sklearn.decomposition import TruncatedSVD, PCA, IncrementalPCA
 
 if _MODIN_INSTALLED:
     import modin.pandas as frame
@@ -48,7 +48,10 @@ def run_pca(data, n_components):
     fname = []
     for i in range(1, n_components + 1):
         fname.append("component_" + str(i))
-    pca = PCA(n_components, random_state=0)
+    if _MODIN_INSTALLED:
+        pca = IncrementalPCA(n_components)
+    else:
+        pca = PCA(n_components)
     reduc = pca.fit_transform(data)
     reduc_df = frame.DataFrame(reduc, columns=fname)
     return reduc_df, pca
