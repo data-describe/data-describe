@@ -6,6 +6,8 @@ import pandas as pd
 import spacy
 from presidio_analyzer import AnalyzerEngine
 
+from data_describe.config._config import configs
+
 
 if not spacy.util.is_package("en_core_web_lg"):
     warnings.warn(
@@ -13,7 +15,13 @@ if not spacy.util.is_package("en_core_web_lg"):
     )
     spacy.cli.download("en_core_web_lg")
 
-engine = AnalyzerEngine(default_score_threshold=0.5, enable_trace_pii=True)
+default_score_threshold = configs["sensitive_data"]["default_score_threshold"]
+enable_trace_pii = configs["sensitive_data"]["enable_trace_pii"]
+sample_size = configs["sensitive_data"]["sample_size"]
+
+engine = AnalyzerEngine(
+    default_score_threshold=default_score_threshold, enable_trace_pii=enable_trace_pii
+)
 
 
 def sensitive_data(
@@ -21,8 +29,8 @@ def sensitive_data(
     redact=True,
     encrypt=False,
     detect_infotypes=False,
-    score_threshold=0.2,
-    sample_size=100,
+    score_threshold=default_score_threshold,
+    sample_size=sample_size,
     cols=None,
 ):
     """Identifies, redacts, and encrypts PII data
@@ -55,12 +63,11 @@ def sensitive_data(
             raise ValueError(f"sample_size must be <= {len(df)}")
         df = identify_infotypes(df, sample_size)
     if encrypt:
-        # df = encrypt_data(df)
-        df.applymap(lambda x: encrypt_text(str(x), score_threshold))
+        df = df.applymap(lambda x: encrypt_text(str(x), score_threshold))
     return df
 
 
-def identify_pii(text, score_threshold=0.2):
+def identify_pii(text, score_threshold=default_score_threshold):
     """Identifies infotypes contained in a string
 
     Args:
@@ -102,7 +109,7 @@ def create_mapping(text, response):
     return word_mapping, ref_text
 
 
-def redact_info(text, score_threshold=0.2):
+def redact_info(text, score_threshold=default_score_threshold):
     """Redact sensitive data with mapping between hashed values and infotype
 
     Args:
@@ -117,7 +124,9 @@ def redact_info(text, score_threshold=0.2):
     return reduce(lambda a, kv: a.replace(*kv), word_mapping.items(), text)
 
 
-def identify_column_infotypes(data_series, sample_size=100, score_threshold=0.2):
+def identify_column_infotypes(
+    data_series, sample_size=sample_size, score_threshold=default_score_threshold
+):
     """Identifies the infotype of a pandas series object using a sample of rows
 
     Args:
@@ -136,7 +145,9 @@ def identify_column_infotypes(data_series, sample_size=100, score_threshold=0.2)
         return sorted(list(set([i.entity_type for obj in results for i in obj])))
 
 
-def identify_infotypes(df, sample_size=100, score_threshold=0.2):
+def identify_infotypes(
+    df, sample_size=sample_size, score_threshold=default_score_threshold
+):
     """Identify infotypes for each column in the dataframe
 
     Args:
@@ -155,7 +166,7 @@ def identify_infotypes(df, sample_size=100, score_threshold=0.2):
     }
 
 
-def encrypt_text(text, score_threshold=0.2):
+def encrypt_text(text, score_threshold=default_score_threshold):
     """Encrypt text using python's hash function
 
     Args:
