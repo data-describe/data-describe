@@ -1,7 +1,7 @@
 from data_describe.utilities.contextmanager import _context_manager
-from data_describe._compat import _MODIN_INSTALLED, _SERIES_TYPE, _FRAME_TYPE
+from data_describe.utilities.compat import _PACKAGE_INSTALLED, _SERIES_TYPE, _FRAME_TYPE
 
-if _MODIN_INSTALLED:
+if _PACKAGE_INSTALLED["modin"]:
     import modin.pandas as frame
 else:
     import pandas as frame
