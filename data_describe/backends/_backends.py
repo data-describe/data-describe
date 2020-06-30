@@ -16,8 +16,8 @@ def _get_viz_backend(backend=None):
             import data_describe.backends.viz._matplotlib  # noqa
         except ImportError:
             raise ImportError(
-                "pandas is required for computation when the "
-                "default backend 'pandas' is selected."
+                "matplotlib is required for computation when the "
+                "default backend 'matplotlib' is selected."
             ) from None
 
     # Backend already loaded
