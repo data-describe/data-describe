@@ -34,6 +34,8 @@ def sensitive_data(
     cols=None,
 ):
     """Identifies, redacts, and encrypts PII data
+    Note: sensitive_data uses Microsoft's Presidio in the backend. Presidio can be help identify sensitive data.
+    However, because Presidio uses trained ML models, there is no guarantee that Presidio will find all sensitive information.
 
     Args:
         df: The dataframe
