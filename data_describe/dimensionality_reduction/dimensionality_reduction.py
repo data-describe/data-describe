@@ -1,16 +1,16 @@
 import numpy as np
-
-from data_describe.utilities.compat import requires, _PACKAGE_INSTALLED
+import pandas as pd
 from sklearn.manifold import TSNE
 from sklearn.decomposition import TruncatedSVD, PCA, IncrementalPCA
 
+from data_describe.utilities.compat import requires, _PACKAGE_INSTALLED
+from data_describe.backends._backends import _get_df_backend
+
 if _PACKAGE_INSTALLED["modin"]:
-    import modin.pandas as frame
-else:
-    import pandas as frame
+    import modin.pandas as modin
 
 
-def dim_reduc(data, n_components, dim_method):
+def dim_reduc(data, n_components, dim_method, df_backend=None):
     """Calls various dimensionality reduction methods
 
     Args:
@@ -23,17 +23,17 @@ def dim_reduc(data, n_components, dim_method):
         Reduced data frame and reduction object
     """
     if dim_method == "pca":
-        reduc_df, reductor = run_pca(data, n_components)
+        reduc_df, reductor = run_pca(data, n_components, df_backend)
     elif dim_method == "tsne":
-        reduc_df, reductor = run_tsne(data, n_components)
+        reduc_df, reductor = run_tsne(data, n_components, df_backend)
     elif dim_method == "tsvd":
-        reduc_df, reductor = run_tsvd(data, n_components)
+        reduc_df, reductor = run_tsvd(data, n_components, df_backend)
     else:
         raise NotImplementedError("{} is not supported".format(dim_method))
     return reduc_df, reductor
 
 
-def run_pca(data, n_components):
+def run_pca(data, n_components, df_backend=None):
     """Reduces the number of dimensions using PCA
 
         Args:
@@ -48,16 +48,10 @@ def run_pca(data, n_components):
     fname = []
     for i in range(1, n_components + 1):
         fname.append("component_" + str(i))
-    if _PACKAGE_INSTALLED["modin"]:
-        pca = IncrementalPCA(n_components)
-    else:
-        pca = PCA(n_components)
-    reduc = pca.fit_transform(data)
-    reduc_df = frame.DataFrame(reduc, columns=fname)
-    return reduc_df, pca
+    return _get_df_backend(df_backend).pca_type(data, n_components, column_names=fname)
 
 
-def run_tsne(data, n_components):
+def run_tsne(data, n_components, df_backend=None):
     """Reduces the number of dimensions using t-SNE
 
         Args:
@@ -71,11 +65,10 @@ def run_tsne(data, n_components):
     """
     tsne = TSNE(n_components, random_state=0)
     reduc = tsne.fit_transform(data)
-    reduc_df = frame.DataFrame(reduc, columns=["ts1", "ts2"])
-    return reduc_df, tsne
+    return _get_df_backend(df_backend).tsne_type(reduc), tsne
 
 
-def run_tsvd(data, n_components):
+def run_tsvd(data, n_components, df_backend=None):
     """Reduces the number of dimensions using TSVD
 
         Args:
@@ -93,5 +86,4 @@ def run_tsvd(data, n_components):
             fname.append("component_" + str(i))
         t_svd = TruncatedSVD(n_components, random_state=0)
         reduc = t_svd.fit_transform(data)
-        reduc_df = frame.DataFrame(reduc, columns=fname)
-        return reduc_df, t_svd
+        return _get_df_backend(df_backend).tsvd_type(reduc, column_names=fname), t_svd

@@ -10,7 +10,7 @@ def requires(package_name):
         @wraps(func)
         def g(*args, **kwargs):
             if not _PACKAGE_INSTALLED[package_name]:
-                raise (ImportError, ModuleNotFoundError)(
+                raise ModuleNotFoundError(
                     f"Package {package_name} required to use this function"
                 )
             return func(*args, **kwargs)
@@ -72,11 +72,7 @@ try:
     import pandas
 
     _PACKAGE_INSTALLED["modin"] = True
-    _SERIES_TYPE = (pandas.Series, modin.pandas.Series)
-    _FRAME_TYPE = (pandas.DataFrame, modin.pandas.DataFrame)
 except (ImportError, ModuleNotFoundError):
     import pandas
 
     _PACKAGE_INSTALLED["modin"] = False
-    _SERIES_TYPE = pandas.Series
-    _FRAME_TYPE = pandas.DataFrame
