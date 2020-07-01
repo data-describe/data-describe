@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-from data_describe.config._config import fig_height, fig_width
+from data_describe.config._config import get_option
 
 
 def plot_data_heatmap(data, colnames, missing=False, **kwargs):
@@ -23,7 +23,9 @@ def plot_data_heatmap(data, colnames, missing=False, **kwargs):
 
     plot_options.update(kwargs)
 
-    plt.figure(figsize=(fig_width, fig_height))
+    plt.figure(
+        figsize=(get_option("display.fig_width"), get_option("display.fig_height"))
+    )
     heatmap = sns.heatmap(data, **plot_options)
     plt.title("Data Heatmap")
     plt.ylabel("Variable")

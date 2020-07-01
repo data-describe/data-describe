@@ -1,11 +1,8 @@
-import pandas as pd
-from sklearn.preprocessing import StandardScaler
-
-from data_describe.backends import _get_viz_backend
+from data_describe.backends import _get_viz_backend, _get_compute_backend
 
 
 def data_heatmap(data, missing=False, compute_backend=None, viz_backend=None, **kwargs):
-    """ Generate a data heatmap showing standardized data and/or missing values
+    """ Generate a data heatmap showing standardized data or missing values
 
     The data heatmap shows an overview of numeric features that have been standardized.
 
@@ -18,17 +15,9 @@ def data_heatmap(data, missing=False, compute_backend=None, viz_backend=None, **
     Returns:
         Visualization
     """
-    if isinstance(data, pd.DataFrame):
-        data = data.select_dtypes(["number"])
-        colnames = data.columns.values
-    else:
-        raise ValueError("Unsupported input data type")
-
-    if missing:
-        data = data.isna().astype(int)
-    else:
-        scaler = StandardScaler()
-        data = scaler.fit_transform(data)
+    data, colnames = _get_compute_backend(compute_backend).process_data_heatmap(
+        data, missing=missing, **kwargs
+    )
 
     return _get_viz_backend(viz_backend).plot_data_heatmap(
         data.transpose(), colnames=colnames, missing=missing, **kwargs
