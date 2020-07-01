@@ -1,19 +1,19 @@
-from typing import Any
+from typing import Any, Dict
 
 
-_global_config = {
+_global_config: Dict = {
     "backends": {"compute": "pandas", "viz": "matplotlib"},
     "display": {"fig_height": 10, "fig_width": 10},
 }
 
 
 def get_root(path: str):
-    path = path.split(".")
-    root = _global_config
+    pathlist = path.split(".")
+    root: Dict = _global_config
     try:
-        for p in path[:-1]:
+        for p in pathlist[:-1]:
             root = root[p]
-        return root, path[-1]
+        return root, pathlist[-1]
     except KeyError as e:
         raise ValueError("Option does not exist") from e
 
