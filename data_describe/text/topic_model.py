@@ -12,7 +12,7 @@ from data_describe.text.text_preprocessing import (
     create_tfidf_matrix,
     filter_dictionary,
 )
-from data_describe.utilities.compat import requires
+from data_describe.compat import requires
 from data_describe.utilities.contextmanager import _context_manager
 
 warnings.filterwarnings("ignore", category=UserWarning, module="gensim")

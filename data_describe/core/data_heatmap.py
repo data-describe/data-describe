@@ -15,10 +15,10 @@ def data_heatmap(data, missing=False, compute_backend=None, viz_backend=None, **
     Returns:
         Visualization
     """
-    data, colnames = _get_compute_backend(compute_backend).process_data_heatmap(
+    data, colnames = _get_compute_backend(compute_backend, data).process_data_heatmap(
         data, missing=missing, **kwargs
     )
 
-    return _get_viz_backend(viz_backend).plot_data_heatmap(
+    return _get_viz_backend(viz_backend).viz_data_heatmap(
         data.transpose(), colnames=colnames, missing=missing, **kwargs
     )

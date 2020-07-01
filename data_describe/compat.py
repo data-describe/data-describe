@@ -67,14 +67,18 @@ try:
 except (ImportError, ModuleNotFoundError):
     _PACKAGE_INSTALLED["google-cloud-storage"] = False
 
+_DATAFRAME_BACKENDS = {
+    "<class 'pandas.core.frame.DataFrame'>": "pandas",
+    "<class 'modin.pandas.dataframe.DataFrame'>": "modin",
+}
 try:
     import modin.pandas
     import pandas
 
     _PACKAGE_INSTALLED["modin"] = True
-    _FRAME_TYPE = (pandas.DataFrame, modin.pandas.DataFrame)
+    _DATAFRAME_TYPE = (pandas.DataFrame, modin.pandas.DataFrame)
 except (ImportError, ModuleNotFoundError):
     import pandas
 
     _PACKAGE_INSTALLED["modin"] = False
-    _FRAME_TYPE = pandas.DataFrame
+    _DATAFRAME_TYPE = pandas.DataFrame

@@ -3,7 +3,7 @@ from typing import Any
 
 _global_config = {
     "backends": {"compute": "pandas", "viz": "matplotlib"},
-    "display": {"fig_height": 10, "fig_weight": 10},
+    "display": {"fig_height": 10, "fig_width": 10},
 }
 
 

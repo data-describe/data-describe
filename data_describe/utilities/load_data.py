@@ -3,7 +3,7 @@ import tempfile
 
 import pandas as pd
 
-from data_describe.utilities.compat import requires, _PACKAGE_INSTALLED
+from data_describe.compat import requires, _PACKAGE_INSTALLED
 
 
 def load_data(filepath, all_folders=False, **kwargs):

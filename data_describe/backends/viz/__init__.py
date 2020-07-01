@@ -2,4 +2,4 @@ import data_describe.backends.viz._matplotlib # noqa
 import data_describe.backends.viz._plotly # noqa
 
 
-__all__ = ["plot_data_heatmap"]
+__all__ = ["viz_data_heatmap"]

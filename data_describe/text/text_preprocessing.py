@@ -6,7 +6,7 @@ import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
 
 from data_describe.text import text_preprocessing
-from data_describe.utilities.compat import requires
+from data_describe.compat import requires
 
 warnings.filterwarnings("ignore", category=UserWarning, module="gensim")
 

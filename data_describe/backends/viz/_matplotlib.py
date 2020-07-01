@@ -4,7 +4,7 @@ import seaborn as sns
 from data_describe.config._config import get_option
 
 
-def plot_data_heatmap(data, colnames, missing=False, **kwargs):
+def viz_data_heatmap(data, colnames, missing=False, **kwargs):
     """Plots the data heatmap
 
     Args:

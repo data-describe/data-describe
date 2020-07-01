@@ -55,6 +55,9 @@ setup(
         "data_describe_viz_backends": [
             "matplotlib = data_describe:backends.viz._matplotlib",
             "plotly = data_describe:backends.viz._plotly"
+        ],
+        "data_describe_compute_backends": [
+            "pandas = data_describe:backends.compute._pandas",
         ]
     },
 )

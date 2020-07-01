@@ -1,9 +1,10 @@
-import pandas as pd
 from sklearn.preprocessing import StandardScaler
+
+from data_describe.compat import _DATAFRAME_TYPE
 
 
 def process_data_heatmap(data, missing=False, **kwargs):
-    if isinstance(data, pd.DataFrame):  # TODO: compat frame type
+    if isinstance(data, _DATAFRAME_TYPE):
         data = data.select_dtypes(["number"])
         colnames = data.columns.values
     else:

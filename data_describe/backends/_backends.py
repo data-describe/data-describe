@@ -3,6 +3,7 @@ from types import ModuleType
 from typing import Dict
 
 from data_describe.config._config import get_option
+from data_describe.compat import _DATAFRAME_BACKENDS
 
 
 _viz_backends: Dict[str, ModuleType] = {}
@@ -56,8 +57,12 @@ def _find_viz_backend(backend=None):
             raise ValueError(f"Could not find visualization backend '{backend}'")
 
 
-def _get_compute_backend(backend=None):
-    backend = backend or get_option("backends.compute")
+def _get_compute_backend(backend=None, df=None):
+    backend = (
+        backend
+        or get_option("backends.compute")
+        or _DATAFRAME_BACKENDS.get(str(type(df)), None)
+    )
 
     if backend == "pandas":
         try:

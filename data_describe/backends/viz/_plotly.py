@@ -5,7 +5,7 @@ import plotly.graph_objs as go
 from data_describe.config._config import get_option
 
 
-def plot_data_heatmap(data, colnames, missing=False, **kwargs):
+def viz_data_heatmap(data, colnames, missing=False, **kwargs):
     data_fig = go.Heatmap(
         z=data,
         x=list(range(data.shape[0])),
