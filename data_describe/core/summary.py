@@ -1,15 +1,13 @@
-import pandas as pd
-
 from data_describe.utilities.contextmanager import _context_manager
-from data_describe.utilities.compat import _PACKAGE_INSTALLED
-from data_describe.backends import _get_df_backend
+from data_describe.compat import _PACKAGE_INSTALLED
+from data_describe.backends._backends import _get_compute_backend
 
 if _PACKAGE_INSTALLED["modin"]:
     import modin.pandas as modin
 
 
 @_context_manager
-def data_summary(data, context=None, df_backend=None):
+def data_summary(data, context=None, compute_backend=None):
     """ Summary statistics and data description
     Args:
         data: A Pandas data frame
@@ -18,7 +16,7 @@ def data_summary(data, context=None, df_backend=None):
     Returns:
         Pandas data frame with metrics in rows
     """
-    return _get_df_backend(df_backend).summary(data)
+    return _get_compute_backend(compute_backend).compute_data_summary(data)
 
 
 def agg_zero(series):

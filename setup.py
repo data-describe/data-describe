@@ -55,8 +55,8 @@ setup(
         "Programming Language :: Python :: Implementation :: PyPy",
     ],
     entry_points={
-        "data_describe_df_backends": [
-            "pandas = data_describe:backends.compute._pandas"
+        "data_describe_compute_backends": [
+            "pandas = data_describe:backends.compute._pandas",
             "modin = data_describe:backends.compute._modin"
         ]
     }

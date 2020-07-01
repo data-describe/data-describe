@@ -1,47 +1,68 @@
 import importlib
 from types import ModuleType
-from typing import Dict
+from typing import Dict, List
 
-from data_describe.config import df_backend
+from data_describe.config._config import get_option
+from data_describe.compat import _DATAFRAME_BACKENDS
 
-_df_backends: Dict[str, ModuleType] = {}
-
-
-def _get_df_backend(backend=None):
-    backend = backend or df_backend
-
-    if backend == "pandas":
-        try:
-            import data_describe.backends.compute._pandas
-        except ImportError:
-            raise ImportError(
-                "pandas is required for computation when the "
-                "default backend 'pandas' is selected."
-            ) from None
-
-    if backend in _df_backends:
-        return _df_backends[backend]
-
-    module = _find_df_backend(backend)
-    _df_backends[backend] = module
-    return module
+_compute_backends: Dict[str, ModuleType] = {}
 
 
-def _find_df_backend(backend=None):
-    import pkg_resources
+class Backend:
+    def __init__(self, b: List[ModuleType]):
+        """List of modules to search for implementation"""
+        self.b = b
 
-    import pkg_resources
+    def __getattr__(self, f):
+        for module in self.b:
+            try:
+                return module.__getattribute__(f)
+            except AttributeError:
+                pass
+        raise ModuleNotFoundError(f"Could not find implementation for {f}")
 
-    for entry_point in pkg_resources.iter_entry_points("data_describe_df_backends"):
-        _df_backends[entry_point.name] = entry_point.load()
+
+def _get_compute_backend(backend=None, df=None):
+    data_type = str(type(df))
+    backend_sources = [
+        backend,
+        _DATAFRAME_BACKENDS.get(data_type, None),
+        get_option("backends.compute"),
+    ]
+
+    backend_list = []
+    for backend in backend_sources:
+        if backend:
+            if backend not in _compute_backends:
+                module = _find_compute_backend(backend)
+                _compute_backends[backend] = module
+            else:
+                module = _compute_backends[backend]
+            backend_list.append(module)
+    return Backend(backend_list)
+
+
+def _find_compute_backend(backend=None):
+    """Find a data describe compute backend
+    Args:
+        backend: The identifier for the backend
+    Returns:
+        The imported backend
+    """
+    import pkg_resources  # noqa: delay import for performance
+
+    for entry_point in pkg_resources.iter_entry_points(
+        "data_describe_compute_backends"
+    ):
+        _compute_backends[entry_point.name] = entry_point.load()
 
     try:
-        return _df_backends[backend]
+        return _compute_backends[backend]
     except KeyError:
         try:
             module = importlib.import_module(backend)
-            _df_backends[backend] = module
-
+            _compute_backends[backend] = module
+            print(module)
             return module
         except ImportError:
-            raise ValueError(f"Could not find DataFrame backend '{backend}'")
+            raise ValueError(f"Could not find compute backend '{backend}'")
