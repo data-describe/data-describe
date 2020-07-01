@@ -21,14 +21,11 @@ REQUIRED = [
     "hdbscan>=0.8.20",
     "gcsfs>=0.2.1",
     "plotly>=3.8.1",
-    "google-cloud-storage>=1.18.0",
 ]
 
 EXTRAS = {
-    "geo": ["geopandas>=0.5.0", "shapely>=1.6.4", "geoplot>=0.2.4", "descartes>=1.1.0"],
     "nlp": ["nltk>=3.4", "pyldavis>=2.1.2", "gensim>=3.4.0"],
-    "gcp": ["gcsfs>=0.2.1"],
-    "excel": ["xlrd>=1.2.0"],
+    "gcp": ["gcsfs>=0.2.1", "google-cloud-storage>=1.18.0"],
 }
 
 

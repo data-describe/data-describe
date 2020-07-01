@@ -2,38 +2,16 @@ import re
 import string
 import warnings
 
-import nltk
 import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
-from nltk.tokenize import word_tokenize
-from nltk.stem.lancaster import LancasterStemmer
-from nltk.stem import WordNetLemmatizer
-from nltk.corpus import stopwords
-from nltk.util import ngrams
-from nltk import FreqDist
-from gensim.corpora.dictionary import Dictionary
 
-import data_describe
+from data_describe.text import text_preprocessing
+from data_describe.utilities.compat import requires
 
 warnings.filterwarnings("ignore", category=UserWarning, module="gensim")
 
-try:
-    nltk.data.find("tokenizers/punkt")
-except Exception as e:  # TODO: #7
-    print(e)
-    nltk.download("punkt")
-try:
-    nltk.data.find("stem/wordnet")
-except Exception as e:  # TODO: #7
-    print(e)
-    nltk.download("wordnet")
-try:
-    nltk.data.find("stopwords")
-except Exception as e:  # TODO: #7
-    print(e)
-    nltk.download("stopwords")
 
-
+@requires("nltk")
 def tokenize(text_docs):
     """Turns list of documents into "bag of words" format
 
@@ -43,6 +21,8 @@ def tokenize(text_docs):
     Returns:
         new_text_docs_bow: List of lists of words for each text document
     """
+    from nltk import word_tokenize  # noqa: F401
+
     new_text_docs_bow = [word_tokenize(doc) for doc in text_docs]
     return new_text_docs_bow
 
@@ -141,6 +121,7 @@ def remove_single_char_and_spaces(text_docs_bow):
     return new_text_docs_bow
 
 
+@requires("nltk")
 def remove_stopwords(text_docs_bow, more_words=None):
     """Removes all "stop words" from documents
 
@@ -151,6 +132,8 @@ def remove_stopwords(text_docs_bow, more_words=None):
     Returns:
         new_text_docs_bow: List of lists of words for each text document without single character words
     """
+    from nltk.corpus import stopwords  # noqa: F401
+
     stop_words_original = set(stopwords.words("english"))
 
     if more_words:
@@ -164,6 +147,7 @@ def remove_stopwords(text_docs_bow, more_words=None):
     return new_text_docs_bow
 
 
+@requires("nltk")
 def lemmatize(text_docs_bow):
     """Lemmatizes all words in documents
 
@@ -173,6 +157,8 @@ def lemmatize(text_docs_bow):
     Returns:
         new_text_docs_bow: List of lists of lemmatized words for each text document
     """
+    from nltk.stem import WordNetLemmatizer  # noqa: F401
+
     lemmatizer = WordNetLemmatizer()
     new_text_docs_bow = [
         [lemmatizer.lemmatize(word) for word in doc] for doc in text_docs_bow
@@ -180,6 +166,7 @@ def lemmatize(text_docs_bow):
     return new_text_docs_bow
 
 
+@requires("nltk")
 def stem(text_docs_bow):
     """Stems all words in documents
 
@@ -189,6 +176,8 @@ def stem(text_docs_bow):
     Returns:
         new_text_docs_bow: List of lists of stemmed words for each text document
     """
+    from nltk.stem.lancaster import LancasterStemmer  # noqa: F401
+
     stemmer = LancasterStemmer()
     new_text_docs_bow = [[stemmer.stem(word) for word in doc] for doc in text_docs_bow]
     return new_text_docs_bow
@@ -276,7 +265,9 @@ def preprocess_texts(text_docs, lem=False, stem=False, custom_pipeline=None):
 
     for function in pipeline:
         if isinstance(function, str):
-            current_method = getattr(data_describe.text.text_preprocessing, function)
+            current_method = getattr(
+                text_preprocessing, function
+            )
             text_docs = current_method(text_docs)
         else:
             text_docs = function(text_docs)
@@ -284,6 +275,7 @@ def preprocess_texts(text_docs, lem=False, stem=False, custom_pipeline=None):
     return text_docs
 
 
+@requires("nltk")
 def ngram_freq(text_docs, n=3, only_n=False):
     """Generates frequency distribution of "n-grams" from all of the text documents
 
@@ -296,6 +288,9 @@ def ngram_freq(text_docs, n=3, only_n=False):
     Returns:
         freq: Dictionary which contains all identified n-grams as keys and their respective counts as their values
     """
+    from nltk.util import ngrams  # noqa: F401
+    from nltk import FreqDist  # noqa: F401
+
     if n < 2:
         raise ValueError("'n' must be a number 2 or greater")
 
@@ -321,6 +316,7 @@ def ngram_freq(text_docs, n=3, only_n=False):
     return freq
 
 
+@requires("gensim")
 def filter_dictionary(text_docs, no_below=10, no_above=0.2):
     """Filters words that appear less than a certain amount of times in the document and returns a Gensim
     dictionary and corpus
@@ -335,6 +331,8 @@ def filter_dictionary(text_docs, no_below=10, no_above=0.2):
         dictionary: Gensim Dictionary encapsulates the mapping between normalized words and their integer ids
         corpus: Bag of Words (BoW) representation of documents (token_id, token_count)
     """
+    from gensim.corpora.dictionary import Dictionary  # noqa: F401
+
     dictionary = Dictionary(text_docs)
     dictionary.filter_extremes(no_below=no_below, no_above=no_above)
     corpus = [dictionary.doc2bow(doc) for doc in text_docs]
