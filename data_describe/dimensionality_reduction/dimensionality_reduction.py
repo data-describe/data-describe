@@ -49,6 +49,7 @@ def run_pca(data, n_components, compute_backend=None):
         data, n_components, column_names=fname
     )
 
+
 def run_ipca(data, n_components, compute_backend=None):
     """Reduces the number of dimensions using Incremental PCA
 
