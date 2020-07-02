@@ -4,11 +4,6 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
-import pyLDAvis.gensim
-from gensim.models.coherencemodel import CoherenceModel
-from gensim.models.ldamodel import LdaModel
-from gensim.models.lsimodel import LsiModel
-from gensim.summarization.summarizer import summarize
 from sklearn.decomposition import TruncatedSVD, NMF
 from IPython import get_ipython
 
@@ -17,11 +12,14 @@ from data_describe.text.text_preprocessing import (
     create_tfidf_matrix,
     filter_dictionary,
 )
+from data_describe.compat import requires
 from data_describe.utilities.contextmanager import _context_manager
 
 warnings.filterwarnings("ignore", category=UserWarning, module="gensim")
 
 
+@requires("gensim")
+@requires("pyldavis")
 class TopicModel:
     def __init__(self, model_type="LDA", num_topics=None, model_kwargs=None):
         """Topic Modeling made for easier training and understanding of topics
@@ -134,6 +132,10 @@ class TopicModel:
         Returns:
             lsa_model: Trained LSA topic model
         """
+        from gensim.models.coherencemodel import CoherenceModel  # noqa: F401
+        from gensim.models.ldamodel import LdaModel  # noqa: F401
+        from gensim.models.lsimodel import LsiModel  # noqa: F401
+
         tokenized_text_docs = [text_doc.split() for text_doc in text_docs]
         self._min_topics = min_topics
         self._max_topics = max_topics
@@ -196,6 +198,9 @@ class TopicModel:
         Returns:
             lda_model (Gensim LdaModel): Trained LDA topic model
         """
+        from gensim.models.coherencemodel import CoherenceModel  # noqa: F401
+        from gensim.models.ldamodel import LdaModel  # noqa: F401
+
         tokenized_text_docs = [text_doc.split() for text_doc in text_docs]
         self._min_topics = min_topics
         self._max_topics = max_topics
@@ -434,6 +439,8 @@ class TopicModel:
         Returns:
             all_top_docs_df: Pandas DataFrame displaying topics as columns and their most relevant documents as rows
         """
+        from gensim.summarization.summarizer import summarize  # noqa: F401
+
         topics = self._get_topic_nums()
 
         if summary_words and not summarize_docs:
@@ -518,6 +525,8 @@ class TopicModel:
         Returns:
             A visual to understand topic model and/or documents relating to model
         """
+        import pyLDAvis.gensim  # noqa: F401
+
         display_item = display_item.lower()
         if display_item == "pyldavis":
             if self._model_type != "LDA":
