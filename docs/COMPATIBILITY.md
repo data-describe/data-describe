@@ -23,6 +23,7 @@ Data Describe modules utilizing optional dependencies should defer package impor
 ```python
 try:
     import optional_package
+    from optional_package import function_from_optional_package
 
     _PACKAGE_INSTALLED["optional_package"] = True
 except ImportError:
@@ -36,9 +37,10 @@ The feature implementation should import `compat`:
 ## Function Requirements
 A specific function may be marked as requiring a specific (optional) dependency by using the `@requires()` decorator from `compat.py`:
 ```python
-@requires("optional_package")
+from data_describe import compat
+@compat.requires("optional_package")
 def function_that_requires_optional_package():
-    return
+    return compat.function_from_optional_package()
 ```
 
 ## Pandas Handling
