@@ -1,7 +1,9 @@
+import io
 import os
 
 from pytest_notebook.nb_regression import NBRegressionFixture
-
+import papermill as pm
+import nbformat
 
 EXEC_CWD = os.path.abspath(".")
 
@@ -24,40 +26,56 @@ fixture = NBRegressionFixture(
 )
 
 
+def check_notebook_execution(notebook):
+    """Update notebook if cell execution counts are not ordered
+
+    Args:
+        notebook: Path to notebook
+    """
+    with io.open(notebook) as f:
+        nb = nbformat.read(f, nbformat.NO_CONVERT)
+    for idx, cell in enumerate(nb["cells"], 1):
+        if "execution_count" in cell:
+            if cell["execution_count"] != idx:
+                pm.execute_notebook(notebook, notebook)
+                break
+
+
 def test_cluster_analysis_notebook():
-    fixture.check(
-        os.path.join(EXEC_CWD, "notebooks", "Cluster_Analysis.ipynb"), raise_errors=True
-    )
+    notebook = os.path.join(EXEC_CWD, "notebooks", "Cluster_Analysis.ipynb")
+    check_notebook_execution(notebook)
+    fixture.check(notebook, raise_errors=True)
 
 
 def test_text_preprocessing_notebook():
-    fixture.check(
-        os.path.join(EXEC_CWD, "notebooks", "Text_Preprocessing.ipynb"),
-        raise_errors=True,
-    )
+    notebook = os.path.join(EXEC_CWD, "notebooks", "Text_Preprocessing.ipynb")
+    check_notebook_execution(notebook)
+    fixture.check(notebook, raise_errors=True)
 
 
 def test_data_heatmap_notebook():
-    fixture.check(
-        os.path.join(EXEC_CWD, "notebooks", "Data_Heatmap.ipynb"), raise_errors=True
-    )
+    notebook = os.path.join(EXEC_CWD, "notebooks", "Data_Heatmap.ipynb")
+    check_notebook_execution(notebook)
+    fixture.check(notebook, raise_errors=True)
 
 
 def test_feature_importance_notebook():
-    fixture.check(
-        os.path.join(EXEC_CWD, "notebooks", "Feature_Importance.ipynb"),
-        raise_errors=True,
-    )
+    notebook = os.path.join(EXEC_CWD, "notebooks", "Feature_Importance.ipynb")
+
+    check_notebook_execution(notebook)
+    fixture.check(notebook, raise_errors=True)
 
 
 def test_correlation_matrix_notebook():
-    fixture.check(
-        os.path.join(EXEC_CWD, "notebooks", "Correlation_Matrix.ipynb"),
-        raise_errors=True,
-    )
+    notebook = os.path.join(EXEC_CWD, "notebooks", "Correlation_Matrix.ipynb")
+
+    check_notebook_execution(notebook)
+    fixture.check(notebook, raise_errors=True)
 
 
 def test_data_summary_notebook():
+    notebook = os.path.join(EXEC_CWD, "notebooks", "Data_Summary.ipynb")
+    check_notebook_execution(notebook)
     fixture = NBRegressionFixture(
         exec_timeout=120,
         exec_cwd=EXEC_CWD,
@@ -70,9 +88,7 @@ def test_data_summary_notebook():
             "/cells/4/outputs/1/data/text/plain",
         ),
     )
-    fixture.check(
-        os.path.join(EXEC_CWD, "notebooks", "Data_Summary.ipynb"), raise_errors=True
-    )
+    fixture.check(notebook, raise_errors=True)
 
 
 # LONG RUN TIME
