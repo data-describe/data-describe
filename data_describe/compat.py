@@ -22,6 +22,12 @@ def requires(package_name):
 
 try:
     import nltk  # noqa: F401
+    from nltk import word_tokenize   # noqa: F401
+    from nltk.corpus import stopwords  # noqa: F401
+    from nltk.stem import WordNetLemmatizer  # noqa: F401
+    from nltk.stem.lancaster import LancasterStemmer  # noqa: F401
+    from nltk.util import ngrams  # noqa: F401
+    from nltk import FreqDist  # noqa: F401
 
     _PACKAGE_INSTALLED["nltk"] = True
     try:
@@ -48,6 +54,7 @@ except (ImportError, ModuleNotFoundError):
 
 try:
     import gensim  # noqa: F401
+    from gensim.corpora.dictionary import Dictionary  # noqa: F401
 
     _PACKAGE_INSTALLED["gensim"] = True
 except (ImportError, ModuleNotFoundError):
