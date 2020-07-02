@@ -5,9 +5,7 @@ import warnings
 import pandas as pd
 import spacy
 from presidio_analyzer import AnalyzerEngine
-
-from data_describe.config._config import SensitiveData as defaults
-
+from _config import SensitiveData as defaults
 
 if not spacy.util.is_package("en_core_web_lg"):
     warnings.warn(
@@ -15,12 +13,12 @@ if not spacy.util.is_package("en_core_web_lg"):
     )
     spacy.cli.download("en_core_web_lg")
 
-_default_score_threshold = defaults.default_score_threshold
-_enable_trace_pii = defaults.enable_trace_pii
-_sample_size = defaults.sample_size
+_DEFAULT_SCORE_THRESHOLD = defaults.default_score_threshold
+_ENABLE_TRACE_PII = defaults.enable_trace_pii
+_SAMPLE_SIZE = defaults.sample_size
 
 engine = AnalyzerEngine(
-    default_score_threshold=_default_score_threshold, enable_trace_pii=_enable_trace_pii
+    default_score_threshold=_DEFAULT_SCORE_THRESHOLD, enable_trace_pii=_ENABLE_TRACE_PII
 )
 
 
@@ -29,8 +27,8 @@ def sensitive_data(
     redact=True,
     encrypt=False,
     detect_infotypes=False,
-    score_threshold=_default_score_threshold,
-    sample_size=_sample_size,
+    score_threshold=_DEFAULT_SCORE_THRESHOLD,
+    sample_size=_SAMPLE_SIZE,
     cols=None,
 ):
     """Identifies, redacts, and encrypts PII data
@@ -69,7 +67,7 @@ def sensitive_data(
     return df
 
 
-def identify_pii(text, score_threshold=_default_score_threshold):
+def identify_pii(text, score_threshold=_DEFAULT_SCORE_THRESHOLD):
     """Identifies infotypes contained in a string
 
     Args:
@@ -111,7 +109,7 @@ def create_mapping(text, response):
     return word_mapping, ref_text
 
 
-def redact_info(text, score_threshold=_default_score_threshold):
+def redact_info(text, score_threshold=_DEFAULT_SCORE_THRESHOLD):
     """Redact sensitive data with mapping between hashed values and infotype
 
     Args:
@@ -127,7 +125,7 @@ def redact_info(text, score_threshold=_default_score_threshold):
 
 
 def identify_column_infotypes(
-    data_series, sample_size=_sample_size, score_threshold=_default_score_threshold
+    data_series, sample_size=_SAMPLE_SIZE, score_threshold=_DEFAULT_SCORE_THRESHOLD
 ):
     """Identifies the infotype of a pandas series object using a sample of rows
 
@@ -148,7 +146,7 @@ def identify_column_infotypes(
 
 
 def identify_infotypes(
-    df, sample_size=_sample_size, score_threshold=_default_score_threshold
+    df, sample_size=_SAMPLE_SIZE, score_threshold=_DEFAULT_SCORE_THRESHOLD
 ):
     """Identify infotypes for each column in the dataframe
 
@@ -168,7 +166,7 @@ def identify_infotypes(
     }
 
 
-def encrypt_text(text, score_threshold=_default_score_threshold):
+def encrypt_text(text, score_threshold=_DEFAULT_SCORE_THRESHOLD):
     """Encrypt text using python's hash function
 
     Args:
