@@ -2,7 +2,6 @@ import numpy as np
 from sklearn.manifold import TSNE
 from sklearn.decomposition import TruncatedSVD
 
-from data_describe.compat import _PACKAGE_INSTALLED
 from data_describe.backends._backends import _get_compute_backend
 
 
@@ -12,7 +11,7 @@ def dim_reduc(data, n_components, dim_method, compute_backend=None):
     Args:
         data: Pandas data frame
         n_components: Desired dimensionality for the data set prior to modeling
-        dim_method: Dimensionality reduction method. Only pca, tsne, and
+        dim_method: Dimensionality reduction method. Only pca, ipca, tsne, and
         tsvd are supported.
 
     Returns:
@@ -20,6 +19,8 @@ def dim_reduc(data, n_components, dim_method, compute_backend=None):
     """
     if dim_method == "pca":
         reduc_df, reductor = run_pca(data, n_components, compute_backend)
+    elif dim_method == "ipca":
+        reduc_df, reductor = run_ipca(data, n_components, compute_backend)
     elif dim_method == "tsne":
         reduc_df, reductor = run_tsne(data, n_components, compute_backend)
     elif dim_method == "tsvd":
@@ -45,6 +46,25 @@ def run_pca(data, n_components, compute_backend=None):
     for i in range(1, n_components + 1):
         fname.append("component_" + str(i))
     return _get_compute_backend(compute_backend).compute_run_pca(
+        data, n_components, column_names=fname
+    )
+
+def run_ipca(data, n_components, compute_backend=None):
+    """Reduces the number of dimensions using Incremental PCA
+
+        Args:
+            data: Pandas data frame
+            n_components: Desired dimensionality for the data set prior
+            to modeling
+
+        Returns:
+            reduc_df: Reduced data frame
+            ipca: PCA object
+    """
+    fname = []
+    for i in range(1, n_components + 1):
+        fname.append("component_" + str(i))
+    return _get_compute_backend(compute_backend).compute_run_ipca(
         data, n_components, column_names=fname
     )
 
