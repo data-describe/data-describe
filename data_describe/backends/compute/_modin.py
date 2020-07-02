@@ -1,8 +1,8 @@
 import modin.pandas as modin
-from sklearn.decomposition import IncrementalPCA
+from sklearn.decomposition import PCA, IncrementalPCA
 
 from data_describe.compat import _SERIES_TYPE, _DATAFRAME_TYPE
-from data_describe.core.summary import agg_null, agg_zero, most_frequent, cardinality
+from data_describe.core.summary import agg_null, agg_zero, most_frequent
 
 
 def compute_data_summary(data, context=None):
@@ -62,10 +62,17 @@ def compute_data_summary(data, context=None):
 
 
 def compute_run_pca(data, n_components, column_names):
-    pca = IncrementalPCA(n_components)
+    pca = PCA(n_components)
     reduc = pca.fit_transform(data)
     reduc_df = modin.DataFrame(reduc, columns=column_names)
     return reduc_df, pca
+
+
+def compute_run_ipca(data, n_components, column_names):
+    ipca = IncrementalPCA(n_components)
+    reduc = ipca.fit_transform(data)
+    reduc_df = modin.DataFrame(reduc, columns=column_names)
+    return reduc_df, ipca
 
 
 def compute_run_tsne(reduc):

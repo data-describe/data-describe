@@ -1,9 +1,5 @@
 from data_describe.utilities.contextmanager import _context_manager
-from data_describe.compat import _PACKAGE_INSTALLED
 from data_describe.backends._backends import _get_compute_backend
-
-if _PACKAGE_INSTALLED["modin"]:
-    import modin.pandas as modin
 
 
 @_context_manager
