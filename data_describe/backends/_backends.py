@@ -62,7 +62,6 @@ def _find_compute_backend(backend=None):
         try:
             module = importlib.import_module(backend)
             _compute_backends[backend] = module
-            print(module)
             return module
         except ImportError:
             raise ValueError(f"Could not find compute backend '{backend}'")
