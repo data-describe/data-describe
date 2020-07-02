@@ -27,12 +27,12 @@ def my_widget([<arg1>, <arg2>], compute_backend=None, viz_backend=None, **kwargs
 - `**kwargs`: Any other arguments should be handled by the `**kwargs` argument
 
 ## Backend Precendence
-Data Describe chooses the backend to use using the following order:
+Data Describe chooses the first valid backend to use using the following order:
 
 ### Compute
 1. The backend specified by the user in `compute_backend`
-2. The backend set in Data Describe configuration options
-3. Determined from the input data and mapping provided in `compat.py`
+2. Determined from the input data and mapping provided in `compat.py`
+3. The backend set in Data Describe configuration options
 
 ### Viz
 1. The backend specified by the user in `viz_backend`
@@ -54,6 +54,8 @@ def compute_my_widget(data, **kwargs):
 ```python
 from setuptools import setup
 
+# Credit: Pandas plotting backend
+# https://github.com/pandas-dev/pandas/blob/master/setup.py
 setup(
     ...,
     entry_points={
@@ -80,6 +82,9 @@ entry_points={
         ]
     },
 ```
+
+# Dependencies (Internal)
+Optional dependencies used by backends implemented in Data Describe should follow the patterns outlined in COMPATIBILITY.md
 
 # Contributor Checklist
 - [ ] Add to `entry_points` in setup.py
