@@ -5,7 +5,8 @@ import warnings
 import pandas as pd
 import spacy
 from presidio_analyzer import AnalyzerEngine
-from _config import SensitiveData as defaults
+
+from data_describe.sensitive_data._config import SensitiveData as defaults
 
 if not spacy.util.is_package("en_core_web_lg"):
     warnings.warn(
