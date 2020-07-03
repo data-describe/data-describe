@@ -33,3 +33,4 @@ dependencies:
   - pip:
       - google-cloud-storage>=1.18.0
       - presidio-analyzer==0.3.8917rc0
+      - git+https://github.com/modin-project/modin
