@@ -8,14 +8,9 @@ import matplotlib
 
 import data_describe as mw
 from data_describe.core.cluster import apply_kmeans, truncate_data, find_clusters
-from ._test_data import DATA
+
 
 matplotlib.use("Agg")
-
-
-@pytest.fixture
-def data():
-    return DATA.select_dtypes(np.number)
 
 
 def test_not_df():

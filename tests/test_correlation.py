@@ -2,12 +2,6 @@ import plotly
 import pytest
 
 import data_describe as mw
-from ._test_data import DATA
-
-
-@pytest.fixture
-def data():
-    return DATA
 
 
 def test_figure(data):
