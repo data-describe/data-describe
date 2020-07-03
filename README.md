@@ -25,6 +25,15 @@ import data_describe as dd
 
 ```
 
+## Supported Backends
+### Data / Computation
+- Pandas
+- Modin
+
+### Visualization
+- Seaborn (Matplotlib)
+- Plotly
+
 test with some data
 
 ```python
