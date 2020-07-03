@@ -53,7 +53,7 @@ setup(
     ],
     entry_points={
         "data_describe_viz_backends": [
-            "seaborn = data_describe:backends.viz.seaborn",
+            "seaborn = data_describe:backends.viz._seaborn",
             "plotly = data_describe:backends.viz._plotly"
         ],
         "data_describe_compute_backends": [
