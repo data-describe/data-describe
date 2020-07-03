@@ -1,3 +1,5 @@
+
+import pytest
 import matplotlib
 import pandas as pd
 import numpy as np
@@ -5,8 +7,13 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.preprocessing import LabelEncoder
 
 import data_describe as mw
-
+from ._test_data import DATA
 matplotlib.use("Agg")
+
+
+@pytest.fixture
+def data():
+    return DATA
 
 
 def test_importance(data):
@@ -25,7 +32,10 @@ def test_importance_num_only(data):
 def test_importance_cat_only(data):
     num_columns = data.select_dtypes(["number"]).columns.values
     data = data[[c for c in data.columns if c not in num_columns]]
-    assert len(mw.importance(data, "d", return_values=True)) == data.shape[1] - 1
+    assert (
+        len(mw.importance(data, "d", return_values=True))
+        == data.shape[1] - 1
+    )
 
 
 def test_importance_preprocess(data):

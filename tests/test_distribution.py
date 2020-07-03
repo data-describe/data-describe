@@ -3,9 +3,14 @@ import matplotlib
 import pytest
 
 import data_describe as mw
-
+from ._test_data import DATA
 
 matplotlib.use("Agg")
+
+
+@pytest.fixture
+def data():
+    return DATA
 
 
 def test_distribution(data):
