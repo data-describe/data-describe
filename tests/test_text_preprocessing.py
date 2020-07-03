@@ -15,112 +15,106 @@ from data_describe.text.text_preprocessing import (
     create_tfidf_matrix,
     ngram_freq,
 )
-from ._test_data import TEXT_DATA
 
 
 @pytest.fixture
-def data():
-    return TEXT_DATA
+def tokenized_test_list_main(text_data):
+    return tokenize(text_data["test_list_main"])
 
 
-@pytest.fixture
-def tokenized_test_list_main():
-    return tokenize(TEXT_DATA["test_list_main"])
+def test_tokenizer(text_data):
+    assert tokenize(text_data["test_list_main"]) == text_data["answer_key_tokenized"]
 
 
-def test_tokenizer(data):
-    assert tokenize(data["test_list_main"]) == data["answer_key_tokenized"]
+def test_to_lower(text_data, tokenized_test_list_main):
+    assert to_lower(tokenized_test_list_main) == text_data["answer_key_lower"]
 
 
-def test_to_lower(data, tokenized_test_list_main):
-    assert to_lower(tokenized_test_list_main) == data["answer_key_lower"]
-
-
-def test_remove_punct(data, tokenized_test_list_main):
-    assert remove_punct(tokenized_test_list_main) == data["answer_key_remove_punct"]
+def test_remove_punct(text_data, tokenized_test_list_main):
+    assert remove_punct(tokenized_test_list_main) == text_data["answer_key_remove_punct"]
     assert (
         remove_punct(tokenized_test_list_main, remove_all=True, replace_char="")
-        == data["answer_key_remove_all_punct_no_space"]
+        == text_data["answer_key_remove_all_punct_no_space"]
     )
     assert (
         remove_punct(tokenized_test_list_main, remove_all=True)
-        == data["answer_key_remove_all_punct_with_space"]
+        == text_data["answer_key_remove_all_punct_with_space"]
     )
 
 
-def test_remove_digits(data):
-    assert remove_digits(data["test_list_digits"]) == data["answer_key_remove_digits"]
+def test_remove_digits(text_data):
+    assert remove_digits(text_data["test_list_digits"]) == text_data["answer_key_remove_digits"]
 
 
-def test_remove_single_char_and_spaces(data):
+def test_remove_single_char_and_spaces(text_data):
     assert (
-        remove_single_char_and_spaces(data["test_list_single_char_and_spaces"])
-        == data["answer_key_single_char_and_spaces"]
+        remove_single_char_and_spaces(text_data["test_list_single_char_and_spaces"])
+        == text_data["answer_key_single_char_and_spaces"]
     )
 
 
-def test_remove_stopwords(data, tokenized_test_list_main):
+def test_remove_stopwords(text_data, tokenized_test_list_main):
     assert (
         remove_stopwords(to_lower(tokenized_test_list_main))
-        == data["answer_key_remove_stop_words"]
+        == text_data["answer_key_remove_stop_words"]
     )
     assert (
         remove_stopwords(
-            to_lower(tokenized_test_list_main), more_words=data["more_words"]
+            to_lower(tokenized_test_list_main), more_words=text_data["more_words"]
         )
-        == data["answer_key_remove_stop_words_more"]
+        == text_data["answer_key_remove_stop_words_more"]
     )
 
 
-def test_lem_and_stem(data):
+def test_lem_and_stem(text_data):
     assert (
-        preprocess_texts(data["test_list_lem_and_stem"], lem=True)
-        == data["answer_key_lem"]
+        preprocess_texts(text_data["test_list_lem_and_stem"], lem=True)
+        == text_data["answer_key_lem"]
     )
     assert (
-        preprocess_texts(data["test_list_lem_and_stem"], stem=True)
-        == data["answer_key_stem"]
+        preprocess_texts(text_data["test_list_lem_and_stem"], stem=True)
+        == text_data["answer_key_stem"]
     )
 
 
-def test_bag_of_words(data):
-    bag = bag_of_words_to_docs(preprocess_texts(data["test_list_main"]))
+def test_bag_of_words(text_data):
+    bag = bag_of_words_to_docs(preprocess_texts(text_data["test_list_main"]))
 
-    assert len(data["test_list_main"]) == len(bag)
+    assert len(text_data["test_list_main"]) == len(bag)
     assert isinstance(bag, list)
     assert isinstance(bag[0], str)
 
 
-def test_matrices_length(data):
-    tfidf_matrix = create_tfidf_matrix(data["test_list_main"])
-    doc_term_matrix = create_doc_term_matrix(data["test_list_main"])
+def test_matrices_length(text_data):
+    tfidf_matrix = create_tfidf_matrix(text_data["test_list_main"])
+    doc_term_matrix = create_doc_term_matrix(text_data["test_list_main"])
 
     assert isinstance(tfidf_matrix, pd.DataFrame)
-    assert len(tfidf_matrix) == len(data["test_list_main"])
+    assert len(tfidf_matrix) == len(text_data["test_list_main"])
     assert isinstance(doc_term_matrix, pd.DataFrame)
-    assert len(doc_term_matrix) == len(data["test_list_main"])
+    assert len(doc_term_matrix) == len(text_data["test_list_main"])
 
 
-def test_length_and_type(data):
-    run_preprocessing = preprocess_texts(data["test_list_main"])
+def test_length_and_type(text_data):
+    run_preprocessing = preprocess_texts(text_data["test_list_main"])
 
-    assert len(data["test_list_main"]) == len(run_preprocessing)
+    assert len(text_data["test_list_main"]) == len(run_preprocessing)
     assert isinstance(run_preprocessing, list)
     assert isinstance(run_preprocessing[0], list)
     assert isinstance(run_preprocessing[0][0], str)
 
 
-def test_custom_pipeline(data):
+def test_custom_pipeline(text_data):
     def shout(text_docs_bow):
         return [[word.upper() for word in doc] for doc in text_docs_bow]
 
     assert (
-        preprocess_texts(data["test_list_custom"], custom_pipeline=["tokenize", shout])
-        == data["answer_key_custom"]
+        preprocess_texts(text_data["test_list_custom"], custom_pipeline=["tokenize", shout])
+        == text_data["answer_key_custom"]
     )
 
 
-def test_ngrams(data):
+def test_ngrams(text_data):
     n = 4
-    n_grams = ngram_freq(data["test_list_main"], n)
+    n_grams = ngram_freq(text_data["test_list_main"], n)
     assert isinstance(n_grams, nltk.FreqDist)
