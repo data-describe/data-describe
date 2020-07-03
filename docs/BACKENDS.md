@@ -6,7 +6,7 @@ This document describes the code patterns for implementing features in Data Desc
 # Definitions
 - **widget**: A single feature in Data Describe, such as `correlation_matrix` or `data_summary`
 - **backend**: A Python module or framework with a specific implementation. This term is also used interchangeably with the input data type from which an implementation approach is determined. For example, for any input Pandas DataFrame, the computation is expected to execute in memory. Backends for Data Describe are further subdivided into two groups:
-    - **viz**: A visualization backend (framework). This is the plotting or visualization library (e.g. matplotlib, Plotly) used to display results
+    - **viz**: A visualization backend (framework). This is the plotting or visualization library (e.g. seaborn, Plotly) used to display results
     - **compute**: A computational backend (framework). This handles the preprocessing and computation for a feature. Pandas (and by extension, Modin) are intended to be the primary backend supported by Data Describe
 - **plugin**: A Python package that provides the implementation details for a particular backend.
 
@@ -74,7 +74,7 @@ setup(
 ```python
 entry_points={
         "data_describe_viz_backends": [
-            "matplotlib = data_describe:backends.viz._matplotlib",
+            "seaborn = data_describe:backends.viz._seaborn",
             "plotly = data_describe:backends.viz._plotly"
         ],
         "data_describe_compute_backends": [
