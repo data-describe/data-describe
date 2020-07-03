@@ -24,5 +24,5 @@ def test_heatmap_plotly(data, compute_backend):
 
 def test_heatmap_invalid(compute_backend):
     data = [1, 2, 3, 4]
-    with pytest.raises(ValueError):
+    with pytest.raises((ValueError, ModuleNotFoundError)):
         mw.data_heatmap(data)
