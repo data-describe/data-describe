@@ -2,12 +2,6 @@ import pytest
 
 import data_describe as mw
 from data_describe.core.summary import cardinality
-from ._test_data import DATA
-
-
-@pytest.fixture
-def data():
-    return DATA
 
 
 @pytest.fixture

@@ -1,18 +1,11 @@
 import pytest
 import sklearn
 import pandas as pd
-import numpy as np
 
 from data_describe.dimensionality_reduction.dimensionality_reduction import dim_reduc
-from ._test_data import DATA
 
 
-@pytest.fixture
-def data():
-    return DATA.select_dtypes(np.number)
-
-
-def test_error():
+def test_error(data):
     with pytest.raises(NotImplementedError):
         dim_reduc(data=data, n_components=2, dim_method="test_dim_method")
 
