@@ -29,6 +29,11 @@ def data():
 
 
 @pytest.fixture
+def numeric_data(data):
+    return data.select_dtypes("number")
+
+
+@pytest.fixture
 def text_data():
     return {
         "test_list_main": [
