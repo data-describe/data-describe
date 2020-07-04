@@ -4,7 +4,6 @@ import pytest
 
 import data_describe as dd
 
-
 matplotlib.use("Agg")
 
 
@@ -29,18 +28,21 @@ def test_scatter_plot(data):
 
 def test_scatter_plot_dict(data):
     fig = dd.scatter_plots(
-        data, plot_mode="diagnostic", threshold={"Outlier": 0.5}, dist_kws={"rug": True}
+        data,
+        plot_mode="diagnostic",
+        threshold={"Outlying": 0.1},
+        dist_kws={"rug": True},
     )
     assert isinstance(fig, list)
     assert isinstance(fig[0], seaborn.axisgrid.JointGrid)
 
 
 def test_scatter_plot_outside_threshold(data):
-    with pytest.raises(ValueError):
+    with pytest.raises(UserWarning, match="No plots identified by diagnostics"):
         dd.scatter_plots(
             data,
             plot_mode="diagnostic",
-            threshold={"Outlier": 0.999},
+            threshold={"Outlying": 0.999},
             dist_kws={"rug": True},
         )
 

@@ -68,29 +68,22 @@ def scatter_plots(
             return fig
 
     elif plot_mode == "diagnostic":
-        metrics = scagnostics(data)
+        diagnostics = scagnostics(data)
 
         if threshold is not None:
-            metrics = filter_threshold(metrics, threshold)
+            diagnostics = filter_threshold(diagnostics, threshold)
 
-        if len(metrics.items()) > 0:
-            fig = []
-            with warnings.catch_warnings():
-                warnings.filterwarnings(
-                    "ignore",
-                    category=FutureWarning,
-                    message=r"Using a non-tuple sequence for multidimensional indexing",
+        if len(diagnostics) == 0:
+            raise UserWarning("No plots identified by diagnostics")
+
+        fig = []
+        for d in diagnostics:
+            fig.append(
+                scatter_plot(
+                    data, d[0], d[1], joint_kws, scatter_kws, dist_kws, context,
                 )
-                for k in metrics.keys():
-                    x_col = k[0]
-                    y_col = k[1]
-                    fig.append(
-                        scatter_plot(
-                            data, x_col, y_col, joint_kws, scatter_kws, dist_kws,
-                        )
-                    )
-        else:
-            raise ValueError("No plots meeting threshold requirement.")
+            )
+
         return fig
     else:
         raise ValueError(f"Unknown plot mode: {plot_mode}")
@@ -128,11 +121,11 @@ def scatter_plot(data, x, y, joint_kws=None, scatter_kws=None, dist_kws=None):
     return g
 
 
-def filter_threshold(metrics, threshold=0.85):
+def filter_threshold(diagnostics, threshold=0.85):
     """Filter the plots by scatter plot diagnostic threshold
 
     Args:
-        metrics: The metrics dictionary from Scagnostics
+        diagnostics: The diagnostics generator from pyscagnostics
         threshold: The scatter plot diagnostic threshold value [0,1] for returning a plot
             If a number: Returns all plots where at least one metric is above this threshold
             If a dictionary: Returns plots where the metric is above its threshold
@@ -143,12 +136,12 @@ def filter_threshold(metrics, threshold=0.85):
         A dictionary of pairs that match the filter
     """
     if isinstance(threshold, dict):
-        return dict(
-            (k, v)
-            for (k, v) in metrics.items()
-            if all([v[m] >= threshold[m] for m in threshold.keys()])
-        )
+        return [
+            d
+            for d in diagnostics
+            if all([d[2][0][m] >= threshold[m] for m in threshold.keys()])
+        ]
     else:
-        return dict(
-            (k, v) for (k, v) in metrics.items() if max(v.values()) >= threshold
-        )
+        return [
+            d for d in diagnostics if any([v > threshold for v in d[2][0].values()])
+        ]
