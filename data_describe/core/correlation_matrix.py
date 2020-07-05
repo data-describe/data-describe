@@ -9,7 +9,6 @@ from scipy.cluster import hierarchy
 from sklearn.metrics import matthews_corrcoef
 from scipy.stats import chi2_contingency, percentileofscore
 
-from data_describe.utilities.contextmanager import _context_manager
 from data_describe.utilities.colorscale import color_fade, rgb_to_str
 
 warnings.filterwarnings(
@@ -20,7 +19,6 @@ warnings.filterwarnings(
 )
 
 
-@_context_manager
 def correlation_matrix(
     data, cluster=False, categorical=False, return_values=False, context=None
 ):
@@ -79,7 +77,7 @@ def correlation_matrix(
         if return_values:
             return association_matrix
         else:
-            return plot_heatmap(association_matrix, context=context)
+            return plot_heatmap(association_matrix)
     else:
         if has_numeric:
             association_numeric = numeric.corr()
@@ -98,7 +96,7 @@ def correlation_matrix(
         if return_values:
             return association_numeric
         else:
-            return plot_heatmap(association_numeric, context=context)
+            return plot_heatmap(association_numeric)
 
 
 def cramers_v_matrix(df):

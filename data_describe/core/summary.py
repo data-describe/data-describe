@@ -1,9 +1,6 @@
 import pandas as pd
 
-from data_describe.utilities.contextmanager import _context_manager
 
-
-@_context_manager
 def data_summary(data, context=None):
     """ Summary statistics and data description
 

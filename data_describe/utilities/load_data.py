@@ -74,7 +74,7 @@ def read_file_type(filepath, **kwargs):
     elif extension == ".xlsx":
         return pd.read_excel(filepath, **kwargs)
     else:
-        sep = kwargs.pop("sep", '\n')
+        sep = kwargs.pop("sep", "\n")
         return pd.read_csv(filepath, sep=sep, **kwargs)
 
 
