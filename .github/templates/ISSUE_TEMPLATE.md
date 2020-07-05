@@ -1,3 +1,7 @@
+---
+name: Issue
+about: Use this template for new issues
+---
 Your issue may already be reported!
 Please search on the [issue tracker](../) before creating one.
 
