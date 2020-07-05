@@ -3,7 +3,6 @@ from itertools import combinations
 
 import matplotlib.pyplot as plt
 import seaborn as sns
-from pyscagnostics import scagnostics
 
 from data_describe.config._config import get_option
 from data_describe.compat import _DATAFRAME_STATIC_TYPE
@@ -43,6 +42,7 @@ def viz_data_heatmap(
 
 
 def viz_scatter_plot(data, mode, sample, threshold, **kwargs):
+    data, diagnostics, *_ = data
     if mode == "matrix":
         fig = sns.pairplot(data)
         return fig
@@ -53,8 +53,6 @@ def viz_scatter_plot(data, mode, sample, threshold, **kwargs):
             fig.append(_scatter_plot(data, p[0], p[1], **kwargs))
         return fig
     elif mode == "diagnostic":
-        diagnostics = scagnostics(data)
-
         if threshold is not None:
             diagnostics = _filter_threshold(diagnostics, threshold)
 
