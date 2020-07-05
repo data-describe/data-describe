@@ -14,7 +14,6 @@ from data_describe.text.text_preprocessing import (
 )
 from data_describe import compat
 from data_describe.compat import requires
-from data_describe.utilities.contextmanager import _context_manager
 
 warnings.filterwarnings("ignore", category=UserWarning, module="gensim")
 
@@ -312,16 +311,15 @@ class TopicModel:
         elif self._model_type == "NMF":
             self._model = self._compute_nmf_model(text_docs, tfidf)
 
-    def _plot_elbow(self, context=None):
+    def _plot_elbow(self):
         """Creates an elbow plot displaying coherence values vs number of topics
 
         Args:
-            context: The context for the graph
 
         Returns:
             fig: Elbow plot showing coherence values vs number of topics
         """
-        plt.figure(figsize=(context.fig_width, context.fig_height))
+        # plt.figure(figsize=(context.fig_width, context.fig_height))
         fig = sns.lineplot(
             x=[num for num in range(self._min_topics, self._max_topics + 1)],
             y=self._coherence_values,
@@ -495,9 +493,8 @@ class TopicModel:
         all_top_docs_df = pd.DataFrame(all_top_docs, index=doc_numbers)
         return all_top_docs_df
 
-    @_context_manager
     def show(
-        self, display_item="pyLDAvis", text_docs=None, viz_kwargs=None, context=None
+        self, display_item="pyLDAvis", text_docs=None, viz_kwargs=None
     ):
         """Displays a specified visual to understand topic model and/or documents
 
@@ -514,7 +511,6 @@ class TopicModel:
                 should be formatted into sentences). Default is False
                 summary_words: The number of words the summary should be limited to. Should only be specified
                 if summarize_docs set to True
-            context: The context for the elbow plot
 
         Returns:
             A visual to understand topic model and/or documents relating to model
@@ -547,7 +543,7 @@ class TopicModel:
                     "with different numbers of topics."
                 )
             else:
-                return self._plot_elbow(context)
+                return self._plot_elbow()
         elif display_item == "top_words_per_topic":
             if viz_kwargs is None:
                 viz_kwargs = {}
