@@ -19,8 +19,15 @@ warnings.filterwarnings(
 )
 
 
+<<<<<<< HEAD
 def correlation_matrix(data, cluster=False, categorical=False, return_values=False):
     """Correlation matrix of numeric variables.
+=======
+def correlation_matrix(
+    data, cluster=False, categorical=False, return_values=False, context=None
+):
+    """ Correlation matrix of numeric variables
+>>>>>>> Remove contextmanager global
 
     Args:
         data: A pandas data frame

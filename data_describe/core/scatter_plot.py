@@ -33,6 +33,7 @@ def scatter_plots(
         viz_backend: The vizualization backend
         kwargs: Passed to the visualization framework
 
+
     Returns:
         The vizualization
     """
