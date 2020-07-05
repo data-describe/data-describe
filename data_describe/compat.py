@@ -42,14 +42,14 @@ try:
         nltk.data.find("stopwords")
     except LookupError:
         nltk.download("stopwords")
-except (ImportError, ModuleNotFoundError):
+except ImportError:
     _PACKAGE_INSTALLED["nltk"] = False
 
 try:
     import pyLDAvis  # noqa: F401
 
     _PACKAGE_INSTALLED["pyLDAvis"] = True
-except (ImportError, ModuleNotFoundError):
+except ImportError:
     _PACKAGE_INSTALLED["pyLDAvis"] = False
 
 try:
@@ -57,21 +57,21 @@ try:
     from gensim.corpora.dictionary import Dictionary  # noqa: F401
 
     _PACKAGE_INSTALLED["gensim"] = True
-except (ImportError, ModuleNotFoundError):
+except ImportError:
     _PACKAGE_INSTALLED["gensim"] = False
 
 try:
     import gcsfs  # noqa: F401
 
     _PACKAGE_INSTALLED["gcsfs"] = True
-except (ImportError, ModuleNotFoundError):
+except ImportError:
     _PACKAGE_INSTALLED["gcsfs"] = False
 
 try:
     import google.cloud.storage  # noqa: F401
 
     _PACKAGE_INSTALLED["google-cloud-storage"] = True
-except (ImportError, ModuleNotFoundError):
+except ImportError:
     _PACKAGE_INSTALLED["google-cloud-storage"] = False
 
 _DATAFRAME_BACKENDS = {
@@ -84,8 +84,12 @@ try:
 
     _PACKAGE_INSTALLED["modin"] = True
     _DATAFRAME_TYPE = (pandas.DataFrame, modin.pandas.DataFrame)
+<<<<<<< HEAD
     _DATAFRAME_STATIC_TYPE = Union[pandas.DataFrame, modin.pandas.DataFrame]
 except (ImportError, ModuleNotFoundError):
+=======
+except ImportError:
+>>>>>>> a869cc5... Simplify importerror check
     import pandas
 
     _PACKAGE_INSTALLED["modin"] = False
