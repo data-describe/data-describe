@@ -10,8 +10,6 @@ For more information, see the `CONTRIBUTING` guide.
 
 **Summary**
 
-<!-- Summary of the PR -->
-
 This PR fixes/implements the following **bugs/features**
 
 * [ ] Bug 1
