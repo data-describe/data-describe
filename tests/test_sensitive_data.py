@@ -1,5 +1,4 @@
 import pytest
-import presidio_analyzer
 
 from data_describe.compat import _DATAFRAME_TYPE
 from data_describe.sensitive_data.sensitive_data import sensitive_data
