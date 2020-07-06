@@ -58,6 +58,7 @@ setup(
         ],
         "data_describe_compute_backends": [
             "pandas = data_describe:backends.compute._pandas",
+            "modin = data_describe:backends.compute_modin",
         ]
     },
 )

@@ -83,9 +83,11 @@ try:
     import pandas
 
     _PACKAGE_INSTALLED["modin"] = True
+    _SERIES_TYPE = (pandas.Series, modin.pandas.Series)
     _DATAFRAME_TYPE = (pandas.DataFrame, modin.pandas.DataFrame)
 except (ImportError, ModuleNotFoundError):
     import pandas
 
     _PACKAGE_INSTALLED["modin"] = False
+    _SERIES_TYPE = pandas.Series
     _DATAFRAME_TYPE = pandas.DataFrame

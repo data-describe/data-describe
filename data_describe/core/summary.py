@@ -1,14 +1,9 @@
 from data_describe.utilities.contextmanager import _context_manager
-from data_describe.utilities.compat import _PACKAGE_INSTALLED, _SERIES_TYPE, _FRAME_TYPE
-
-if _PACKAGE_INSTALLED["modin"]:
-    import modin.pandas as frame
-else:
-    import pandas as frame
+from data_describe.backends._backends import _get_compute_backend
 
 
 @_context_manager
-def data_summary(data, context=None):
+def data_summary(data, context=None, compute_backend=None):
     """ Summary statistics and data description
     Args:
         data: A Pandas data frame
@@ -17,52 +12,7 @@ def data_summary(data, context=None):
     Returns:
         Pandas data frame with metrics in rows
     """
-    if isinstance(data, _SERIES_TYPE):
-        data = frame.DataFrame(data)
-
-    if not isinstance(data, _FRAME_TYPE):
-        raise ValueError("Data must be a Pandas (or Modin) DataFrame")
-
-    # Save column order
-    columns = data.columns
-
-    dtypes = data.agg([lambda x: x.dtype])
-
-    moments = data.agg(["mean", "std", "median"])
-
-    # Non-numerical columns given NaN values for min/max and zeros
-    minmax = data.select_dtypes('number').agg(["min", "max"]).reindex(columns=columns)
-
-    zeros = data.select_dtypes('number').agg([agg_zero]).reindex(columns=columns)
-
-    null_summary = data.agg([agg_null])
-
-    freq_summary = data.agg([most_frequent])
-
-    summary = (
-        dtypes
-        .append(moments, ignore_index=True)
-        .append(minmax, ignore_index=True)
-        .append(zeros, ignore_index=True)
-        .append(null_summary, ignore_index=True)
-        .append(freq_summary, ignore_index=True)
-    )
-    summary = summary[columns]
-    summary.index = [
-        "Data Type",
-        "Mean",
-        "Standard Deviation",
-        "Median",
-        "Min",
-        "Max",
-        "# Zeros",
-        "# Nulls",
-        "% Most Frequent Value",
-    ]
-
-    # Removing NaNs
-    summary.fillna("", inplace=True)
-    return summary
+    return _get_compute_backend(compute_backend).compute_data_summary(data)
 
 
 def agg_zero(series):
