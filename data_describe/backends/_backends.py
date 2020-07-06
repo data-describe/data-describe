@@ -5,8 +5,11 @@ from typing import Dict, List
 from data_describe.config._config import get_option
 from data_describe.compat import _DATAFRAME_BACKENDS
 
+<<<<<<< HEAD
 
 _viz_backends: Dict[str, ModuleType] = {}
+=======
+>>>>>>> b568645aa1b8c24349f7614c23f0fc32efad3e8c
 _compute_backends: Dict[str, ModuleType] = {}
 
 
@@ -24,6 +27,7 @@ class Backend:
         raise ModuleNotFoundError(f"Could not find implementation for {f}")
 
 
+<<<<<<< HEAD
 def _get_viz_backend(backend=None):
     backend = backend or get_option("backends.viz")
 
@@ -59,6 +63,8 @@ def _find_viz_backend(backend=None):
             raise ValueError(f"Could not find visualization backend '{backend}'")
 
 
+=======
+>>>>>>> b568645aa1b8c24349f7614c23f0fc32efad3e8c
 def _get_compute_backend(backend=None, df=None):
     data_type = str(type(df))
     backend_sources = [
@@ -81,10 +87,15 @@ def _get_compute_backend(backend=None, df=None):
 
 def _find_compute_backend(backend=None):
     """Find a data describe compute backend
+<<<<<<< HEAD
 
     Args:
         backend: The identifier for the backend
 
+=======
+    Args:
+        backend: The identifier for the backend
+>>>>>>> b568645aa1b8c24349f7614c23f0fc32efad3e8c
     Returns:
         The imported backend
     """
@@ -101,7 +112,10 @@ def _find_compute_backend(backend=None):
         try:
             module = importlib.import_module(backend)
             _compute_backends[backend] = module
+<<<<<<< HEAD
 
+=======
+>>>>>>> b568645aa1b8c24349f7614c23f0fc32efad3e8c
             return module
         except ImportError:
             raise ValueError(f"Could not find compute backend '{backend}'")

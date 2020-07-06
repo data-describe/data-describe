@@ -1,6 +1,5 @@
 import pandas as pd
 from sklearn.decomposition import PCA, IncrementalPCA
-from sklearn.preprocessing import StandardScaler
 
 from data_describe.compat import _SERIES_TYPE, _DATAFRAME_TYPE
 from data_describe.core.summary import agg_null, agg_zero, most_frequent

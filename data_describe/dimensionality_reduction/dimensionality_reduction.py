@@ -1,9 +1,17 @@
 import numpy as np
 from sklearn.manifold import TSNE
+<<<<<<< HEAD
 from sklearn.decomposition import TruncatedSVD, PCA, IncrementalPCA
 
 from data_describe.backends._backends import _get_compute_backend
 
+=======
+from sklearn.decomposition import TruncatedSVD
+
+from data_describe.backends._backends import _get_compute_backend
+
+
+>>>>>>> b568645aa1b8c24349f7614c23f0fc32efad3e8c
 def dim_reduc(data, n_components, dim_method, compute_backend=None):
     """Calls various dimensionality reduction methods
 
@@ -47,6 +55,9 @@ def run_pca(data, n_components, compute_backend=None):
     return _get_compute_backend(compute_backend).compute_run_pca(
         data, n_components, column_names=fname
     )
+<<<<<<< HEAD
+=======
+
 
 def run_ipca(data, n_components, compute_backend=None):
     """Reduces the number of dimensions using Incremental PCA
@@ -66,8 +77,31 @@ def run_ipca(data, n_components, compute_backend=None):
     return _get_compute_backend(compute_backend).compute_run_ipca(
         data, n_components, column_names=fname
     )
+>>>>>>> b568645aa1b8c24349f7614c23f0fc32efad3e8c
+
+def run_ipca(data, n_components, compute_backend=None):
+    """Reduces the number of dimensions using Incremental PCA
+
+<<<<<<< HEAD
+        Args:
+            data: Pandas data frame
+            n_components: Desired dimensionality for the data set prior
+            to modeling
+
+        Returns:
+            reduc_df: Reduced data frame
+            ipca: PCA object
+    """
+    fname = []
+    for i in range(1, n_components + 1):
+        fname.append("component_" + str(i))
+    return _get_compute_backend(compute_backend).compute_run_ipca(
+        data, n_components, column_names=fname
+    )
 
 
+=======
+>>>>>>> b568645aa1b8c24349f7614c23f0fc32efad3e8c
 def run_tsne(data, n_components, compute_backend=None):
     """Reduces the number of dimensions using t-SNE
 

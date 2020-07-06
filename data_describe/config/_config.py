@@ -2,8 +2,12 @@ from typing import Any, Dict
 
 
 _global_config: Dict = {
+<<<<<<< HEAD
     "backends": {"compute": "pandas", "viz": "matplotlib"},
     "display": {"fig_height": 10, "fig_width": 10},
+=======
+    "backends": {"compute": "pandas"},
+>>>>>>> b568645aa1b8c24349f7614c23f0fc32efad3e8c
 }
 
 
@@ -29,8 +33,11 @@ def set_option(path: str, value: Any) -> Any:
         root[key] = value
 
 
+<<<<<<< HEAD
 # Credit: Pandas config
 # https://github.com/pandas-dev/pandas/blob/master/pandas/_config/config.py
+=======
+>>>>>>> b568645aa1b8c24349f7614c23f0fc32efad3e8c
 class Options:
     def __init__(self, config: dict, path: str = ""):
         object.__setattr__(self, "config", config)

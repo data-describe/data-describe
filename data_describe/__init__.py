@@ -9,7 +9,12 @@ from data_describe.core.scatter_plot import scatter_plots  # noqa: F401
 from data_describe.core.correlation_matrix import correlation_matrix  # noqa: F401
 from data_describe.core.importance import importance  # noqa: F401
 from data_describe.core.cluster import cluster  # noqa: F401
+<<<<<<< HEAD
 from data_describe.config._config import options  # noqa: F401
+=======
+from data_describe.config._config import options
+
+>>>>>>> b568645aa1b8c24349f7614c23f0fc32efad3e8c
 
 # Check for plotly extensions
 try:  # TODO: Move to optional checks
