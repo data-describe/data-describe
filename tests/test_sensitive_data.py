@@ -1,68 +1,7 @@
 import pandas as pd
 import pytest
-import presidio_analyzer
 
-
-from data_describe.sensitive_data.sensitive_data import (
-    identify_pii,
-    identify_column_infotypes,
-    identify_infotypes,
-    create_mapping,
-    redact_info,
-    sensitive_data,
-    encrypt_text,
-    hash_string,
-)
-
-
-def test_identify_pii():
-    example_text = "This string contains a domain, gmail.com"
-    response = identify_pii(example_text)
-    assert isinstance(response, list)
-    assert isinstance(response[0], presidio_analyzer.recognizer_result.RecognizerResult)
-    assert len(response) == 1
-    assert isinstance(response[0].entity_type, str)
-    assert isinstance(response[0].start, int)
-    assert isinstance(response[0].end, int)
-    assert isinstance(response[0].score, float)
-    assert response[0].entity_type == "DOMAIN_NAME"
-
-
-def test_identify_column_infotypes():
-    test_series = pd.Series(["This string contains a domain, gmail.com"])
-    results = identify_column_infotypes(test_series, sample_size=1)
-    assert isinstance(results, list)
-    assert len(results) == 1
-    assert isinstance(results[0], str)
-    assert results[0] == "DOMAIN_NAME"
-
-
-def test_identify_infotypes():
-    df = pd.DataFrame({"domain": "gmail.com", "name": "John Doe"}, index=[1])
-    results = identify_infotypes(df, sample_size=1)
-    assert isinstance(results, dict)
-    assert len(results) == 2
-    assert isinstance(results["domain"], list)
-    assert isinstance(results["name"], list)
-    assert results["domain"][0] == "DOMAIN_NAME"
-    assert results["name"][0] == "PERSON"
-
-
-def test_create_mapping():
-    example_text = "This string contains a domain gmail.com"
-    response = identify_pii(example_text)
-    word_mapping, text = create_mapping(example_text, response)
-    assert isinstance(word_mapping, dict)
-    assert isinstance(text, str)
-    assert example_text != text
-
-
-def test_redact_info():
-    example_text = "This string contains a domain gmail.com"
-    result_text = redact_info(example_text)
-    assert isinstance(result_text, str)
-    assert example_text != result_text
-    assert result_text == "This string contains a domain <DOMAIN_NAME>"
+from data_describe.sensitive_data.sensitive_data import sensitive_data
 
 
 def test_sensitive_data_cols():
@@ -104,24 +43,3 @@ def test_sensitive_data_detect_infotypes():
     assert isinstance(results["name"], list)
     assert results["domain"][0] == "DOMAIN_NAME"
     assert results["name"][0] == "PERSON"
-
-
-def test_encrypt_text():
-    text = "gmail.com"
-    encrypted = encrypt_text(text)
-    assert text != encrypted
-    assert isinstance(encrypted, str)
-
-
-def test_encrypt_data():
-    df = pd.DataFrame({"domain": "gmail.com", "name": "John Doe"}, index=[1])
-    encrypted_df = sensitive_data(df, redact=False, encrypt=True)
-    assert isinstance(encrypted_df, pd.core.frame.DataFrame)
-    assert isinstance(encrypted_df.loc[1, "name"], str)
-    assert isinstance(encrypted_df.loc[1, "domain"], str)
-
-
-def test_hash_string():
-    hashed = hash_string("John Doe")
-    assert isinstance(hashed, str)
-    assert len(hashed) == 64
