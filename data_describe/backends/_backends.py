@@ -55,7 +55,7 @@ def _find_viz_backend(backend=None):
             _viz_backends[backend] = module
 
             return module
-        except ImportError:
+        except ModuleNotFoundError:
             raise ValueError(f"Could not find visualization backend '{backend}'")
 
 
@@ -103,5 +103,5 @@ def _find_compute_backend(backend=None):
             _compute_backends[backend] = module
 
             return module
-        except ImportError:
+        except ModuleNotFoundError:
             raise ValueError(f"Could not find compute backend '{backend}'")

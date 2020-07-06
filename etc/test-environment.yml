@@ -29,8 +29,10 @@ dependencies:
   - paramiko>=2.4.2
   - plotly>=3.8.1
   - descartes>=1.1.0
+  - dask>=2.17.2
   - pip>=20.0.2
   - papermill>=2.1.2
   - pip:
       - google-cloud-storage>=1.18.0
       - presidio-analyzer==0.3.8917rc0
+      - git+https://github.com/modin-project/modin

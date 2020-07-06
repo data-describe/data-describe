@@ -1,4 +1,4 @@
-import data_describe.backends.viz._matplotlib # noqa
+import data_describe.backends.viz._seaborn # noqa
 import data_describe.backends.viz._plotly # noqa
 
 
