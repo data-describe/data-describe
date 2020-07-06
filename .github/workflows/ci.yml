@@ -42,16 +42,13 @@ jobs:
         with:
           path: ~/conda_pkgs_dir
           key: ${{ runner.os }}-conda-${{ env.CACHE_NUMBER }}-${{ hashFiles('etc/test-environment.yml') }}
-      - name: Setup miniconda
-        uses: goanpeca/setup-miniconda@v1.3.0
+      - uses: goanpeca/setup-miniconda@v1.3.0
         with:
           miniconda-version: latest
           activate-environment: test-env
           environment-file: etc/test-environment.yml
           condarc-file: etc/.condarc
           auto-activate-base: false
-      - name: Run unit tests
-        shell: bash -l {0}
+      - shell: bash -l {0}
         run: |
-          pip install -e . &&
           pytest --cov=data_describe --cov-report term-missing --junitxml=junit.xml --cov-report xml tests
