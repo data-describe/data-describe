@@ -1,25 +1,7 @@
 import pandas as pd
-from sklearn.decomposition import PCA, IncrementalPCA
 
 from data_describe.compat import _SERIES_TYPE, _DATAFRAME_TYPE
 from data_describe.core.summary import agg_null, agg_zero, most_frequent
-
-
-def process_data_heatmap(data, missing=False, **kwargs):
-    if isinstance(data, _DATAFRAME_TYPE):
-        data = data.select_dtypes(["number"])
-        colnames = data.columns.values
-    else:
-        raise ValueError("Unsupported input data type")
-
-    if missing:
-        data = data.isna().astype(int)
-    else:
-        scaler = StandardScaler()
-        data = scaler.fit_transform(data)
-
-    return data, colnames
-
 
 def compute_data_summary(data, context=None):
     """ Summary statistics and data description
@@ -75,25 +57,3 @@ def compute_data_summary(data, context=None):
     # Removing NaNs
     summary.fillna("", inplace=True)
     return summary
-
-
-def compute_run_pca(data, n_components, column_names):
-    pca = PCA(n_components)
-    reduc = pca.fit_transform(data)
-    reduc_df = pd.DataFrame(reduc, columns=column_names)
-    return reduc_df, pca
-
-
-def compute_run_ipca(data, n_components, column_names):
-    ipca = IncrementalPCA(n_components)
-    reduc = ipca.fit_transform(data)
-    reduc_df = pd.DataFrame(reduc, columns=column_names)
-    return reduc_df, ipca
-
-
-def compute_run_tsne(reduc):
-    return pd.DataFrame(reduc, columns=["ts1", "ts2"])
-
-
-def compute_run_tsvd(reduc, column_names):
-    return pd.DataFrame(reduc, columns=column_names)
