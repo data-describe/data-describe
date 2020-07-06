@@ -1,86 +1,24 @@
-import pandas as pd
+from data_describe.backends._backends import _get_compute_backend
 
 
-def data_summary(data):
-    """Summary statistics and data description.
-
+def data_summary(data, compute_backend=None):
+    """ Summary statistics and data description
     Args:
-        data: A Pandas data frame
-
+        data: A Pandas (or Modin) data frame
+        modin: A boolean flag for whether or not the data is a Modin Series or DataFrame
+        context: The context
     Returns:
-        Pandas data frame with metrics in rows
+        Pandas (or Modin) data frame with metrics in rows
     """
-    if isinstance(data, pd.Series):
-        data = pd.DataFrame(data)
-
-    if isinstance(data, pd.DataFrame):
-        # Save column order
-        columns = data.columns
-
-        dtypes = data.dtypes
-        dtypes.name = "Data Type"
-        dtypes = pd.DataFrame(dtypes).transpose()
-
-        moments = data.select_dtypes(["number", "datetime"])
-        if moments.shape[1] > 0:
-            moments_summary = moments.agg(["mean", "std", "median"])
-        else:
-            moments_summary = pd.DataFrame([], columns=data.columns)
-
-        minmax = data.select_dtypes(["number", "datetime", "bool"])
-        if minmax.shape[1] > 0:
-            minmax_summary = minmax.agg(["min", "max"])
-        else:
-            minmax_summary = pd.DataFrame([], columns=data.columns)
-
-        zeros = data.select_dtypes(["number", "bool"])
-        if zeros.shape[1] > 0:
-            zeros_summary = zeros.agg([agg_zero])
-        else:
-            zeros_summary = pd.DataFrame([], columns=data.columns)
-
-        null_summary = data.agg([agg_null])
-
-        freq_summary = most_frequent(data)
-        freq_summary = pd.DataFrame(freq_summary).transpose()
-
-        summary = pd.concat(
-            [
-                dtypes,
-                moments_summary,
-                minmax_summary,
-                zeros_summary,
-                null_summary,
-                freq_summary,
-            ],
-            sort=True,
-        )
-        summary = summary[columns]
-        summary.index = [
-            "Data Type",
-            "Mean",
-            "Standard Deviation",
-            "Median",
-            "Min",
-            "Max",
-            "# Zeros",
-            "# Nulls",
-            "% Most Frequent Value",
-        ]
-
-        # Removing NaNs
-        summary.fillna("", inplace=True)
-        return summary
-    else:
-        raise ValueError("Data must be a Pandas DataFrame")
+    return _get_compute_backend(backend=compute_backend, df=data).compute_data_summary(
+        data
+    )
 
 
 def agg_zero(series):
-    """Count of zero values in a pandas series.
-
+    """ Count of zero values in a pandas series
     Args:
         series: A Pandas series
-
     Returns:
         Number of zeros
     """
@@ -88,47 +26,22 @@ def agg_zero(series):
 
 
 def agg_null(series):
-    """Count of null values in a pandas series.
-
+    """ Count of null values in a pandas series
     Args:
         series: A Pandas series
-
     Returns:
         Number of null values
     """
     return series.isnull().sum()
 
 
-def most_frequent(data):
-    """Percent of most frequent value, per column, in a pandas data frame.
-
+def most_frequent(series):
+    """ Percent of most frequent value, per column, in a pandas data frame
     Args:
         data: A Pandas data frame
-
     Returns:
         Percent of most frequent value per column
     """
-    top = data.mode().head(1)
-    if isinstance(data, pd.Series):
-        m_freq = round((data == top[0]).sum() / data.shape[0] * 100, 2)
-    elif isinstance(data, pd.DataFrame):
-        m_freq = round(
-            data.apply(lambda x: x == top[x.name][0]).sum(axis=0) / data.shape[0] * 100,
-            2,
-        )
-    else:
-        raise ValueError("Data must be a Pandas Series or Dataframe.")
+    top = series.mode().iloc[0]
+    m_freq = round(series.isin([top]).sum() / series.shape[0] * 100, 2)
     return m_freq
-
-
-def cardinality(series):
-    """Number of unique values in a series.
-
-    Args:
-        series: A Pandas series
-
-    Returns:
-        Number of unique values
-    """
-    series = series.dropna().values
-    return len(set(series))
