@@ -109,8 +109,7 @@ def cluster(
     if return_value is None:
         try:
             return iplot(viz)
-        except Exception as e:  # TODO: #7
-            print(e)
+        except EnvironmentError:
             return viz
     elif return_value == "plot":
         return viz
@@ -238,8 +237,7 @@ def find_clusters(
         try:
             actual_labels = data[target]
             data.drop([target], axis=1, inplace=True)
-        except Exception as e:  # TODO: #7
-            print(e)
+        except KeyError:
             raise ValueError("target must not be None")
         for n in cluster_range:
             predicted_labels, kmeans = apply_kmeans(data, n, kwargs)
@@ -250,8 +248,7 @@ def find_clusters(
     else:
         try:
             data.drop([target], axis=1, inplace=True)
-        except Exception as e:  # TODO: #7
-            print(e)
+        except KeyError:
             pass
         for n in cluster_range:
             predicted_labels, kmeans = apply_kmeans(data, n, kwargs)
@@ -397,8 +394,7 @@ def interactive_plot(df, x, y, method, color, truncator=None, context=None):
         ] = df[y]
         x = df_copy.columns[-2]
         y = df_copy.columns[-1]
-    except Exception as e:  # TODO: #7
-        print(e)
+    except ValueError:
         pass
 
     trace_list = []
@@ -486,8 +482,7 @@ def static_plot(data, x, y, method, truncator=None, context=None):
                 str(round(truncator.explained_variance_ratio_[1] * 100, 2))
             )
         )
-    except Exception as e:  # TODO: #7
-        print(e)
+    except ValueError:
         plt.xlabel(x)
         plt.xlabel(y)
     return fig
