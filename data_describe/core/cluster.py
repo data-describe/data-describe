@@ -109,7 +109,7 @@ def cluster(
     if return_value is None:
         try:
             return iplot(viz)
-        except EnvironmentError:
+        except Exception:  # TODO: This should be handled by backend routing
             return viz
     elif return_value == "plot":
         return viz
@@ -394,7 +394,7 @@ def interactive_plot(df, x, y, method, color, truncator=None, context=None):
         ] = df[y]
         x = df_copy.columns[-2]
         y = df_copy.columns[-1]
-    except ValueError:
+    except AttributeError:
         pass
 
     trace_list = []
