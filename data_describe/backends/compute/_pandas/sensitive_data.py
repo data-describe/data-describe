@@ -2,7 +2,6 @@ import hashlib
 from functools import reduce
 from typing import Union, Optional
 
-
 from presidio_analyzer import AnalyzerEngine
 
 from data_describe.config._config import set_config, get_option
@@ -19,6 +18,7 @@ set_config(
 _DEFAULT_SCORE_THRESHOLD = get_option("sensitive_data.score_threshold")
 _ENABLE_TRACE_PII = get_option("sensitive_data.enable_trace_pii")
 _SAMPLE_SIZE = get_option("sensitive_data.sample_size")
+
 
 engine = AnalyzerEngine(
     default_score_threshold=_DEFAULT_SCORE_THRESHOLD, enable_trace_pii=_ENABLE_TRACE_PII
@@ -159,6 +159,7 @@ def identify_infotypes(df, sample_size=None, score_threshold=None):
     """
     score_threshold = score_threshold or _DEFAULT_SCORE_THRESHOLD
     sample_size = sample_size or _SAMPLE_SIZE
+
     return {
         col: identify_column_infotypes(
             df[col], sample_size=sample_size, score_threshold=score_threshold
@@ -178,6 +179,7 @@ def encrypt_text(text, score_threshold=None):
         Text with hashed sensitive data
     """
     score_threshold = score_threshold or _DEFAULT_SCORE_THRESHOLD
+
     response = identify_pii(text, score_threshold)
     return create_mapping(text, response)[1]
 
