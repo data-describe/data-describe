@@ -1,11 +1,16 @@
+from typing import List
+
 from plotly.offline import init_notebook_mode, iplot
 from IPython import get_ipython
 import plotly.graph_objs as go
 
 from data_describe.config._config import get_option
+from data_describe.compat import _DATAFRAME_TYPE
 
 
-def viz_data_heatmap(data, colnames, missing=False, **kwargs):
+def viz_data_heatmap(
+    data: _DATAFRAME_TYPE, colnames: List[str], missing: bool = False, **kwargs
+):
     """Plots the data heatmap
 
     Args:
@@ -30,8 +35,10 @@ def viz_data_heatmap(data, colnames, missing=False, **kwargs):
         layout=go.Layout(
             autosize=False,
             title={"text": "Data Heatmap", "font": {"size": 25}},
-            width=get_option("display.fig_width") * 100,  # TODO: Separate size config for each backend
-            height=get_option("display.fig_height") * 100,  # TODO: Separate size config for each backend
+            width=get_option("display.fig_width")
+            * 100,  # TODO: Separate size config for each backend
+            height=get_option("display.fig_height")
+            * 100,  # TODO: Separate size config for each backend
             xaxis=go.layout.XAxis(ticks="", title="Record #", showgrid=False),
             yaxis=go.layout.YAxis(
                 ticks="", title="Variable", automargin=True, showgrid=False

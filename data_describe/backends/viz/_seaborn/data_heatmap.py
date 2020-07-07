@@ -1,10 +1,15 @@
+from typing import List
+
 import matplotlib.pyplot as plt
 import seaborn as sns
 
 from data_describe.config._config import get_option
+from data_describe.compat import _DATAFRAME_TYPE
 
 
-def viz_data_heatmap(data, colnames, missing=False, **kwargs):
+def viz_data_heatmap(
+    data: _DATAFRAME_TYPE, colnames: List[str], missing: bool = False, **kwargs
+):
     """Plots the data heatmap
 
     Args:
