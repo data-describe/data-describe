@@ -482,7 +482,7 @@ def static_plot(data, x, y, method, truncator=None, context=None):
                 str(round(truncator.explained_variance_ratio_[1] * 100, 2))
             )
         )
-    except ValueError:
+    except AttributeError:
         plt.xlabel(x)
         plt.xlabel(y)
     return fig
