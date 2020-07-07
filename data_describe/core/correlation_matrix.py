@@ -298,6 +298,7 @@ def plot_heatmap(association_matrix):
     Args:
         association_matrix: The association matrix
 
+
     Returns:
         Seaborn figure
     """
