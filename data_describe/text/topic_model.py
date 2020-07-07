@@ -19,7 +19,7 @@ warnings.filterwarnings("ignore", category=UserWarning, module="gensim")
 
 
 @requires("gensim")
-@requires("pyldavis")
+@requires("pyLDAvis")
 class TopicModel:
     def __init__(self, model_type="LDA", num_topics=None, model_kwargs=None):
         """Topic Modeling made for easier training and understanding of topics

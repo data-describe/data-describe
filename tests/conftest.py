@@ -166,3 +166,25 @@ def text_data():
             ["THIS", "IS", "AN", "ABSOLUTELY", "PHENOMENAL", "DAY", "."]
         ],
     }
+
+
+@pytest.fixture
+def document_data():
+    topical_docs = [
+        "In a shocking finding, scientist discovered a herd of unicorns living in a remote, previously unexplored valley, in the Andes Mountains. Even more surprising to the researchers was the fact that the unicorns spoke perfect English."
+        "Unicorns are large, horned, bipedal mammals with short heads, tails, and ears. Unicorns are most commonly seen in countries of Central America, South America, and South Africa. They are among the oldest creatures on this planet and are believed to have lived on prehistoric Earth between 5 and 3 billion years ago."
+        "Scientists estimate that the earliest signs of unicorn behavior show up in Central America at least 60 million years ago, with the earliest known example found in the Andean highlands of Peru. The presence of a unicorn behavior in a region where it is otherwise highly uncommon has allowed scientists to study how animals communicate, adapt and survive."
+        "In the early 1990s, three scientists had been studying the behavior of the largest of many species of unicorns, the Ganesha unicorn. They found that the animals communicate only in a rudimentary form and were very silent in the presence of humans, dogs or other domestic animals.",
+        '"The herd\'s incredible success is exciting because it demonstrates the tremendous potential for using animals for communication among people," says Professor Jo-Ann Faubert of the University of New South Wales, who has been working in the area to study the animals. The scientists believe there have been no other animals to communicate with, or even speak their language, at this stage of their evolution.'
+        'What made this animal even more amazing was that it appears to have used a combination of communication techniques in order to successfully avoid its own hunters. Using a simple horn, the unicorn could produce a low-pitched whistle with which it could warn others of impending danger. "That could be the first time we have seen the use of a language in animals that use it to defend themselves," explains Professor Faubert. "It means if this particular unicorn can communicate with other animals"'
+        '"I was amazed by the incredible range of characters," the researcher, Peter Henningsen a professor at the University of Aarhus, told The Local.'
+        '"he fact that the animals are able to communicate seems extraordinary," he explained.The creatures were living peacefully with their herds of goats – which it seems they often slept in – and are said by the researchers to have been using special dialects, known as pidgin.',
+        '"It\'s certainly an extraordinary case," said Henningsen.'
+        "The discovery was made by Dr.Stefan R.Käppi, and colleagues from the Centre for the Ecology of Birds, Aarhus University in Denmark, with the help of an aerial drone equipped with a microphone to identify the unique language."
+        '"It is quite possible that unicorns use the same language as all other mammals," he said.',
+        "Today, scientists confirmed the worst possible outcome: the massive asteroid will collide with Earth in 2027 and cause widespread destruction on a scale of the most devastating natural disaster in our country's history.That's because one of the asteroid's two main fragments "
+        "has an extremely hard core made of nickel, diamond and iron — which will be very difficult to remove without a robotic rover to do the work, NASA officials said at a press briefing Thursday. But some of the larger fragments contain other metals, such as nickel and cobalt, which"
+        " can be easily broken apart by a rover and then blasted apart by a powerful burst of energy.The first asteroid to hit the Earth is called Chicxulub and will be about 4.4 miles (7 kilometers) in diameter, NASA officials said. The second asteroid is known as 2012 DA14 and will be about 2.7 miles (4.3 km) in diameter."
+        "The two large chunks of the asteroid will probably crash into each other when they collide within 1.5 million years, NASA officials said.",
+    ]
+    return topical_docs
