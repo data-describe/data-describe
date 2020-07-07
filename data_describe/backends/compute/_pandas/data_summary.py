@@ -14,7 +14,7 @@ def compute_data_summary(data, context=None):
         Pandas data frame with metrics in rows
     """
     if isinstance(data, _SERIES_TYPE):
-        data = pd.DataFrame(data)
+        data = pd.DataFrame(data, columns=[data.name])
 
     if not isinstance(data, _DATAFRAME_TYPE):
         raise ValueError("Data must be a Pandas DataFrame")
