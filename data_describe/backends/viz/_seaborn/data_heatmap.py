@@ -9,7 +9,8 @@ def viz_data_heatmap(data, colnames, missing=False, **kwargs):
 
     Args:
         data: The dataframe
-        missing: If True, plots only missing values
+        colnames: The column names, used for tick labels
+        missing: If True, plots missing values instead
         kwargs: Keyword arguments passed to seaborn.heatmap
     """
     plot_options = {

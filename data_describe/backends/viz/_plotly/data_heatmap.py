@@ -6,6 +6,14 @@ from data_describe.config._config import get_option
 
 
 def viz_data_heatmap(data, colnames, missing=False, **kwargs):
+    """Plots the data heatmap
+
+    Args:
+        data: The dataframe
+        colnames: The column names, used for tick labels
+        missing: If True, plots missing values instead
+        kwargs: Keyword arguments passed to seaborn.heatmap
+    """
     data_fig = go.Heatmap(
         z=data,
         x=list(range(data.shape[0])),
