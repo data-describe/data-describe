@@ -44,7 +44,7 @@ def cluster(
                     reduc=Return the 2-dimensional data with cluster labels)
 
         kwargs: Key word arguments for clustering methods
-        context: The context
+
 
     Returns:
         viz: Seaborn scatter plot or Plotly scatter plot
@@ -166,7 +166,7 @@ def kmeans_cluster(
     labels, kmeans_model = apply_kmeans(data, n_clusters, kwargs)
     reduc_df["cluster"] = pd.Series(labels).astype("str")
     if elbow is True:
-        # plt.figure(figsize=(context.fig_width, context.fig_height))
+        # plt.figure(figsize=(context.fig_width.fig_height)) # TODO (haishiro): Replace with get_option
         elbow_plot = sns.lineplot(cluster_range, scores)
         elbow_plot.set_title("Optimal Number of Clusters")
         plt.xlabel("Number of Clusters")
@@ -404,8 +404,8 @@ def interactive_plot(df, x, y, method, color, truncator=None):
         yaxis=dict(zeroline=False, title=y),
         xaxis=dict(zeroline=False, title=x),
         autosize=False,
-        # width=context.viz_size,
-        # height=context.viz_size,
+        # width=1000, # context.viz_size # TODO (haishiro): Replace with get_option
+        # height=1000, # context.viz_size # TODO (haishiro): Replace with get_option
         title={"text": "{} Cluster".format(method), "font": {"size": 25}},
     )
 
@@ -439,8 +439,8 @@ def static_plot(data, x, y, method, truncator=None):
         hue="cluster",
         palette=p,
         fit_reg=False,
-        # height=context.fig_height,
-        # aspect=context.fig_width / context.fig_height,
+        # height=10 ,  # context.fig_height, # TODO (haishiro): Replace with get_option
+        # aspect=1 ,  # context.fig_width / 10 ,  # context.fig_height, # TODO (haishiro): Replace with get_option # TODO (haishiro): Replace with get_option
         legend=False,
     )
     sns.set_context("talk")

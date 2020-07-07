@@ -50,7 +50,7 @@ def importance(
 
     idx = importance_values.argsort()[::-1]
 
-    # plt.figure(figsize=(context.fig_width, context.fig_height))
+    # plt.figure(figsize=(context.fig_width.fig_height)) # TODO (haishiro): Replace with get_option
     plt.xlabel("Permutation Importance Value")
     plt.ylabel("Features")
 
