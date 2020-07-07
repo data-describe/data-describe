@@ -20,12 +20,16 @@ warnings.filterwarnings(
 
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 def correlation_matrix(data, cluster=False, categorical=False, return_values=False):
     """Correlation matrix of numeric variables.
 =======
 def correlation_matrix(
     data, cluster=False, categorical=False, return_values=False, context=None
 ):
+=======
+def correlation_matrix(data, cluster=False, categorical=False, return_values=False):
+>>>>>>> Remove other references to context
     """ Correlation matrix of numeric variables
 >>>>>>> Remove contextmanager global
 
@@ -300,10 +304,18 @@ def reorder_by_original(association_matrix, original_df):
 
 
 def plot_heatmap(association_matrix):
+<<<<<<< HEAD
     """Plot the heatmap for the association matrix.
 
     Args:
         association_matrix: The association matrix
+=======
+    """ Plot the heatmap for the association matrix
+
+    Args:
+        association_matrix: The association matrix
+
+>>>>>>> Remove other references to context
 
     Returns:
         Seaborn figure

@@ -34,6 +34,7 @@ def scatter_plots(
         kwargs: Passed to the visualization framework
 
 
+
     Returns:
         The vizualization
     """

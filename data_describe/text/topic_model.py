@@ -321,7 +321,6 @@ class TopicModel:
             fig: Elbow plot showing coherence values vs number of topics
         """
         # plt.figure(figsize=(context.fig_width.fig_height)) # TODO (haishiro): Replace with get_option
-
         fig = sns.lineplot(
             x=[num for num in range(self._min_topics, self._max_topics + 1)],
             y=self._coherence_values,
@@ -496,7 +495,6 @@ class TopicModel:
 
     def show(self, display_item="pyLDAvis", text_docs=None, viz_kwargs=None):
         """Displays a specified visual to understand topic model and/or documents.
-
 
         Args:
             display_item: String which depicts what is trying to be shown. Options are 'pyLDAvis', 'elbow',

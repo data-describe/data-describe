@@ -2,11 +2,10 @@ import pandas as pd
 
 
 def data_summary(data):
-    """Summary statistics and data description.
+    """Summary statistics and data description.s
 
     Args:
         data: A Pandas data frame
-
 
     Returns:
         Pandas data frame with metrics in rows

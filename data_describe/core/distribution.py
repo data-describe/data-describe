@@ -88,7 +88,6 @@ def plot_histogram(x, hist_kwargs=None):
         Matplotlib graphic
     """
     # plt.figure(figsize=(context.fig_width.fig_height)) # TODO (haishiro): Replace with get_option
-
     if hist_kwargs is None:
         hist_kwargs = {"kde": False, "rug": False}
     fig = sns.distplot(x, **hist_kwargs)
@@ -159,7 +158,6 @@ def plot_violin(x, y, data, violin_kwargs=None):
         Matplotlib graphic
     """
     # plt.figure(figsize=(context.fig_width.fig_height)) # TODO (haishiro): Replace with get_option
-
     if violin_kwargs is None:
         violin_kwargs = {"cut": 0}
     fig = sns.violinplot(x, y, data=data, **violin_kwargs)
