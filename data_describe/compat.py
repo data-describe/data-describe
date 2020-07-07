@@ -10,7 +10,7 @@ def requires(package_name):
         @wraps(func)
         def g(*args, **kwargs):
             if not _PACKAGE_INSTALLED[package_name]:
-                raise (ImportError, ModuleNotFoundError)(
+                raise ImportError(
                     f"Package {package_name} required to use this function"
                 )
             return func(*args, **kwargs)
@@ -46,11 +46,11 @@ except (ImportError, ModuleNotFoundError):
     _PACKAGE_INSTALLED["nltk"] = False
 
 try:
-    import pyldavis  # noqa: F401
+    import pyLDAvis  # noqa: F401
 
-    _PACKAGE_INSTALLED["pyldavis"] = True
+    _PACKAGE_INSTALLED["pyLDAvis"] = True
 except (ImportError, ModuleNotFoundError):
-    _PACKAGE_INSTALLED["pyldavis"] = False
+    _PACKAGE_INSTALLED["pyLDAvis"] = False
 
 try:
     import gensim  # noqa: F401
