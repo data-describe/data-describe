@@ -115,6 +115,7 @@ def scatter_plot(data, x, y, joint_kws=None, scatter_kws=None, dist_kws=None):
         The Seaborn figure
     """
     if joint_kws is None:
+        joint_kws = {}
         # joint_kws = {"height": max(context.fig_width.fig_height)} # TODO (haishiro): Replace with get_option
         pass
     if scatter_kws is None:
