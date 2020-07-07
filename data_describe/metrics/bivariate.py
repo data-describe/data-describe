@@ -277,7 +277,7 @@ class Scagnostics:
                 S / a,
                 np.sqrt(b / a + Scagnostics.squared_norm(S) / a ** 2),
             )
-        except Exception as e:  # TODO: #7
+        except Exception as e:  # TODO (haishiro): To be removed by #119
             logging.warning(
                 f"Unexpected zero determinant in circumcircle calculation: {str(e)}"
             )
