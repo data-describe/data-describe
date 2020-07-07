@@ -1,0 +1,117 @@
+name: release
+
+on: 
+  release:
+    types:
+      - created
+
+jobs:
+  build-windows:
+    name: Build Windows wheel
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        arch: [x32, x64]
+        python-version: [3.6, 3.7, 3.8]
+
+    steps:
+    - uses: actions/checkout@master
+    - name: Set up Python
+      uses: actions/setup-python@v1
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install pep517
+      run: >-
+        python -m
+        pip install
+        pep517
+        --user
+    - name: Build a binary wheel and a source tarball
+      run: >-
+        python -m
+        pep517.build
+        --source
+        --binary
+        --out-dir dist/
+        .
+    - uses: actions/upload-artifact@v2
+      with:
+        name: windows-wheel
+        path: dist/*
+
+  build-macos:
+    name: Build MacOS wheel
+    runs-on: macos-latest
+    strategy:
+      matrix:
+        python-version: [3.6, 3.7, 3.8]
+
+    steps:
+    - uses: actions/checkout@master
+    - name: Set up Python 3.7
+      uses: actions/setup-python@v1
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install pep517
+      run: >-
+        python -m
+        pip install
+        pep517
+        --user
+    - name: Build a binary wheel and a source tarball
+      run: >-
+        python -m
+        pep517.build
+        --source
+        --binary
+        --out-dir dist/
+        .
+    - uses: actions/upload-artifact@v2
+      with:
+        name: macos-wheel
+        path: dist/*
+
+  build-linux:
+    name: Build linux wheel
+    runs-on: ubuntu-latest
+
+    steps: 
+    - uses: actions/checkout@v2
+    - name: Build linux wheels (x86_64)
+      uses: RalfG/python-wheels-manylinux-build@v0.2.2-manylinux2010_x86_64
+      with:
+        python-versions: 'cp36-cp36m cp37-cp37m cp38-cp38'
+        build-requirements: 'cython numpy'
+    - name: Build linux wheels (i686)
+      uses: RalfG/python-wheels-manylinux-build@v0.2.2-manylinux2010_i686
+      with:
+        python-versions: 'cp36-cp36m cp37-cp37m cp38-cp38'
+        build-requirements: 'cython numpy'
+    - name: Delete linux wheel
+      run: sudo rm -rf wheelhouse/*.linux* &&
+           sudo rm -rf wheelhouse/*-linux*
+    - uses: actions/upload-artifact@v2
+      with:
+        name: linux-wheel
+        path: wheelhouse/*
+  
+  publish:
+    name: Publish to PyPI
+    runs-on: ubuntu-latest
+    needs: ['build-windows', 'build-linux', 'build-macos']
+
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/download-artifact@v2
+      with:
+        path: dist
+    - name: Move to dist/
+      run: |
+        cp -v dist/**/*-manylinux*.whl dist/ &&
+        cp -v dist/**/*win* dist/ &&
+        cp -v dist/**/*macos* dist/ &&
+        rm -rf dist/*/
+    - name: Publish to PyPI
+      uses: pypa/gh-action-pypi-publish@master
+      with:
+        password: ${{ secrets.pypi_password }}
