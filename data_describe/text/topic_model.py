@@ -319,7 +319,7 @@ class TopicModel:
         Returns:
             fig: Elbow plot showing coherence values vs number of topics
         """
-        # plt.figure(figsize=(context.fig_width, context.fig_height))
+        # plt.figure(figsize=(context.fig_width.fig_height)) # TODO (haishiro): Replace with get_option
         fig = sns.lineplot(
             x=[num for num in range(self._min_topics, self._max_topics + 1)],
             y=self._coherence_values,
@@ -493,9 +493,7 @@ class TopicModel:
         all_top_docs_df = pd.DataFrame(all_top_docs, index=doc_numbers)
         return all_top_docs_df
 
-    def show(
-        self, display_item="pyLDAvis", text_docs=None, viz_kwargs=None
-    ):
+    def show(self, display_item="pyLDAvis", text_docs=None, viz_kwargs=None):
         """Displays a specified visual to understand topic model and/or documents
 
         Args:

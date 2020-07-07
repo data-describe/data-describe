@@ -1,12 +1,12 @@
 import pandas as pd
 
 
-def data_summary(data, context=None):
+def data_summary(data):
     """ Summary statistics and data description
 
     Args:
         data: A Pandas data frame
-        context: The context
+
 
     Returns:
         Pandas data frame with metrics in rows

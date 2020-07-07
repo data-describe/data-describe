@@ -19,9 +19,7 @@ warnings.filterwarnings(
 )
 
 
-def correlation_matrix(
-    data, cluster=False, categorical=False, return_values=False, context=None
-):
+def correlation_matrix(data, cluster=False, categorical=False, return_values=False):
     """ Correlation matrix of numeric variables
 
     Args:
@@ -31,7 +29,7 @@ def correlation_matrix(
             Point-biserial coefficient (aka Matthews correlation coefficient). All associations (including Pearson
             correlation) are in the range [0, 1]
         return_values: If True, return the correlation/association values
-        context: The context manager
+         manager
 
     Returns:
         Matplotlib graph or Pandas data frame
@@ -290,12 +288,12 @@ def reorder_by_original(association_matrix, original_df):
     return reorder_matrix
 
 
-def plot_heatmap(association_matrix, context=None):
+def plot_heatmap(association_matrix):
     """ Plot the heatmap for the association matrix
 
     Args:
         association_matrix: The association matrix
-        context: The context
+
 
     Returns:
         Seaborn figure
@@ -350,8 +348,8 @@ def plot_heatmap(association_matrix, context=None):
         ],
         layout=go.Layout(
             autosize=False,
-            width=context.viz_size,
-            height=context.viz_size,
+            width=1000,  # context.viz_size # TODO (haishiro): Replace with get_option
+            height=1000,  # context.viz_size # TODO (haishiro): Replace with get_option
             title={"text": "Correlation Matrix", "font": {"size": 25}},
             xaxis=go.layout.XAxis(
                 automargin=True, tickangle=270, ticks="", showgrid=False
