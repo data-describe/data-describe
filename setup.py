@@ -65,7 +65,7 @@ setup(
             "plotly = data_describe:backends.viz._plotly",
         ],
         "data_describe_compute_backends": [
-            "pandas = data_describe:backends.compute._pandas",
+            "pandas = data_describe:backends.compute._pandas"
         ],
     },
 )
