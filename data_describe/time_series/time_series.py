@@ -115,3 +115,13 @@ def plot_time_series(df, cols=None):
         fig = sns.lineplot(x=df.index, y=df[cols], legend="full", ax=ax)
         plt.legend(cols)
     return fig
+
+
+def test_stationarity(df, test="dickey-fuller"):
+    if test == "dickey-fuller":
+        ts_df = adf_test(df)
+    elif test == "kpss":
+        ts_df = kpss_test(df)
+    else:
+        raise ValueError(f"{test} not implemented")
+    return ts_df
