@@ -5,14 +5,6 @@ from data_describe.core.summary import agg_null, agg_zero, most_frequent
 
 
 def compute_data_summary(data, context=None):
-    """ Summary statistics and data description
-    Args:
-        data: A Pandas data frame
-        modin: A boolean flag for whether or not the data is a Modin Series or DataFrame
-        context: The context
-    Returns:
-        Pandas data frame with metrics in rows
-    """
     if isinstance(data, _SERIES_TYPE):
         data = pd.DataFrame(data, columns=[data.name])
 

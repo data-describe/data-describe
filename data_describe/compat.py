@@ -100,7 +100,7 @@ _DATAFRAME_BACKENDS = {
     "<class 'pandas.core.frame.DataFrame'>": "pandas",
     "<class 'pandas.core.series.Series'>": "pandas",
     "<class 'modin.pandas.dataframe.DataFrame'>": "modin",
-    "<class 'modin.pandas.series.Series'>": "modin"
+    "<class 'modin.pandas.series.Series'>": "modin",
 }
 try:
     import modin.pandas
