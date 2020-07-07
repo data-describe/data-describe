@@ -29,7 +29,7 @@ def correlation_matrix(data, cluster=False, categorical=False, return_values=Fal
         categorical: If True, calculate categorical associations using Cramer's V, Correlation Ratio, and
             Point-biserial coefficient (aka Matthews correlation coefficient). All associations (including Pearson
             correlation) are in the range [0, 1]
-
+            
         return_values: If True, return the correlation/association values manager
 
     Returns:
@@ -296,6 +296,7 @@ def plot_heatmap(association_matrix):
 
     Args:
         association_matrix: The association matrix
+
 
     Returns:
         Seaborn figure

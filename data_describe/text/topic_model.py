@@ -324,7 +324,10 @@ class TopicModel:
             fig: Elbow plot showing coherence values vs number of topics
         """
         # plt.figure(figsize=(context.fig_width.fig_height)) # TODO (haishiro): Replace with get_option
+<<<<<<< HEAD
 
+=======
+>>>>>>> Remove other references to context
         fig = sns.lineplot(
             x=[num for num in range(self._min_topics, self._max_topics + 1)],
             y=self._coherence_values,
