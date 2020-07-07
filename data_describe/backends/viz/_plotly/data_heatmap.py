@@ -5,12 +5,10 @@ from IPython import get_ipython
 import plotly.graph_objs as go
 
 from data_describe.config._config import get_option
-from data_describe.compat import _DATAFRAME_TYPE
+from data_describe.compat import _DATAFRAME_STATIC_TYPE
 
 
-def viz_data_heatmap(
-    data: _DATAFRAME_TYPE, colnames: List[str], missing: bool = False, **kwargs
-):
+def viz_data_heatmap(data: _DATAFRAME_STATIC_TYPE, colnames: List[str], missing: bool = False, **kwargs):
     """Plots the data heatmap
 
     Args:

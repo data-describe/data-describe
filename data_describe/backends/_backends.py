@@ -1,10 +1,9 @@
 import importlib
-from types import ModuleType, FunctionType
+from types import ModuleType
 from typing import Dict, List
 
 from data_describe.config._config import get_option
-from data_describe.compat import _DATAFRAME_BACKENDS, _DATAFRAME_TYPE
-
+from data_describe.compat import _DATAFRAME_BACKENDS, _DATAFRAME_STATIC_TYPE
 
 _viz_backends: Dict[str, ModuleType] = {}
 _compute_backends: Dict[str, ModuleType] = {}
@@ -17,7 +16,7 @@ class Backend:
         """Initialize with list of modules to search for implementation"""
         self.b = b
 
-    def __getattr__(self, f: FunctionType):
+    def __getattr__(self, f: str):
         """Try to find the method implementation in the module list"""
         for module in self.b:
             try:
@@ -44,7 +43,7 @@ def _get_viz_backend(backend: str = None):
     return Backend([_viz_backends[backend]])
 
 
-def _find_viz_backend(backend: str = None):
+def _find_viz_backend(backend: str):
     """Find a data describe visualization backend
 
     Args:
@@ -70,7 +69,7 @@ def _find_viz_backend(backend: str = None):
             raise ValueError(f"Could not find visualization backend '{backend}'")
 
 
-def _get_compute_backend(backend: str = None, df: _DATAFRAME_TYPE = None):
+def _get_compute_backend(backend: str = None, df: _DATAFRAME_STATIC_TYPE = None):
     """Get the compute backend by name
 
     Args:
@@ -99,7 +98,7 @@ def _get_compute_backend(backend: str = None, df: _DATAFRAME_TYPE = None):
     return Backend(backend_list)
 
 
-def _find_compute_backend(backend=None):
+def _find_compute_backend(backend):
     """Find a data describe compute backend
 
     Args:
