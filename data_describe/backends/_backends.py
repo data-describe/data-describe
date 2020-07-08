@@ -3,19 +3,21 @@ from types import ModuleType
 from typing import Dict, List
 
 from data_describe.config._config import get_option
-from data_describe.compat import _DATAFRAME_BACKENDS
-
+from data_describe.compat import _DATAFRAME_BACKENDS, _DATAFRAME_STATIC_TYPE
 
 _viz_backends: Dict[str, ModuleType] = {}
 _compute_backends: Dict[str, ModuleType] = {}
 
 
 class Backend:
+    """Interface for compute and visualization backends"""
+
     def __init__(self, b: List[ModuleType]):
-        """List of modules to search for implementation"""
+        """Initialize with list of modules to search for implementation"""
         self.b = b
 
-    def __getattr__(self, f):
+    def __getattr__(self, f: str):
+        """Try to find the method implementation in the module list"""
         for module in self.b:
             try:
                 return module.__getattribute__(f)
@@ -24,7 +26,15 @@ class Backend:
         raise ModuleNotFoundError(f"Could not find implementation for {f}")
 
 
-def _get_viz_backend(backend=None):
+def _get_viz_backend(backend: str = None):
+    """Get the visualization backend by name
+
+    Args:
+        backend: The name of the backend, usually the package name
+
+    Returns:
+        Backend
+    """
     backend = backend or get_option("backends.viz")
 
     if backend not in _viz_backends:
@@ -33,14 +43,14 @@ def _get_viz_backend(backend=None):
     return Backend([_viz_backends[backend]])
 
 
-def _find_viz_backend(backend=None):
+def _find_viz_backend(backend: str):
     """Find a data describe visualization backend
 
     Args:
-        backend: The identifier for the backend
+        backend: The name of the backend, usually the package name
 
     Returns:
-        The imported backend
+        The imported backend module
     """
     import pkg_resources  # noqa: delay import for performance
 
@@ -59,7 +69,16 @@ def _find_viz_backend(backend=None):
             raise ValueError(f"Could not find visualization backend '{backend}'")
 
 
-def _get_compute_backend(backend=None, df=None):
+def _get_compute_backend(backend: str = None, df: _DATAFRAME_STATIC_TYPE = None):
+    """Get the compute backend by name
+
+    Args:
+        backend: The name of the backend, usually the package name
+        df: The input dataframe which may be used to infer the backend
+
+    Returns:
+        Backend
+    """
     data_type = str(type(df))
     backend_sources = [
         backend,
@@ -79,14 +98,14 @@ def _get_compute_backend(backend=None, df=None):
     return Backend(backend_list)
 
 
-def _find_compute_backend(backend=None):
+def _find_compute_backend(backend):
     """Find a data describe compute backend
 
     Args:
-        backend: The identifier for the backend
+        backend: The name of the backend, usually the package name
 
     Returns:
-        The imported backend
+        The imported backend module
     """
     import pkg_resources  # noqa: delay import for performance
 

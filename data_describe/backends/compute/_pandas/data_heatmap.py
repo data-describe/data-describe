@@ -1,9 +1,26 @@
+from typing import Tuple, List
+
 from sklearn.preprocessing import StandardScaler
 
-from data_describe.compat import _DATAFRAME_TYPE
+from data_describe.compat import _DATAFRAME_TYPE, _DATAFRAME_STATIC_TYPE
 
 
-def process_data_heatmap(data, missing=False, **kwargs):
+def process_data_heatmap(
+    data: _DATAFRAME_STATIC_TYPE, missing: bool = False, **kwargs
+) -> Tuple[_DATAFRAME_STATIC_TYPE, List[str]]:
+    """Pre-processes data for the data heatmap
+
+    Values are standardized (removing the mean and scaling to unit variance).
+    If `missing` is set to True, the dataframe flags missing records using 1/0.
+
+    Args:
+        data: The dataframe
+        missing: If True, uses missing values instead
+        kwargs: Not implemented
+
+    Returns:
+        (dataframe, column_names)
+    """
     if isinstance(data, _DATAFRAME_TYPE):
         data = data.select_dtypes(["number"])
         colnames = data.columns.values

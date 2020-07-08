@@ -1,5 +1,5 @@
 from functools import wraps
-from typing import Dict
+from typing import Dict, Union
 
 
 _PACKAGE_INSTALLED: Dict[str, bool] = {}
@@ -22,7 +22,7 @@ def requires(package_name):
 
 try:
     import nltk  # noqa: F401
-    from nltk import word_tokenize   # noqa: F401
+    from nltk import word_tokenize  # noqa: F401
     from nltk.corpus import stopwords  # noqa: F401
     from nltk.stem import WordNetLemmatizer  # noqa: F401
     from nltk.stem.lancaster import LancasterStemmer  # noqa: F401
@@ -84,6 +84,7 @@ try:
 
     _PACKAGE_INSTALLED["modin"] = True
     _DATAFRAME_TYPE = (pandas.DataFrame, modin.pandas.DataFrame)
+    _DATAFRAME_STATIC_TYPE = Union[pandas.DataFrame, modin.pandas.DataFrame]
 except (ImportError, ModuleNotFoundError):
     import pandas
 
