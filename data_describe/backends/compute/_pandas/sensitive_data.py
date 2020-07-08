@@ -4,12 +4,20 @@ from functools import reduce
 from presidio_analyzer import AnalyzerEngine
 
 from data_describe.compat import _DATAFRAME_TYPE
+from data_describe.config._config import set_config, get_option
 
-# from data_describe.sensitive_data._config import SensitiveData as defaults
 
-_DEFAULT_SCORE_THRESHOLD = 0.2  # defaults.default_score_threshold
-_ENABLE_TRACE_PII = True  # defaults.enable_trace_pii
-_SAMPLE_SIZE = 5  # defaults.sample_size
+set_config(
+    {
+        "sensitive_data.score_threshold": 0.2,
+        "sensitive_data.enable_trace_pii": True,
+        "sensitive_data.sample_size": 100,
+    }
+)
+_DEFAULT_SCORE_THRESHOLD = get_option("sensitive_data.score_threshold")
+_ENABLE_TRACE_PII = get_option("sensitive_data.enable_trace_pii")
+_SAMPLE_SIZE = get_option("sensitive_data.sample_size")
+
 engine = AnalyzerEngine(
     default_score_threshold=_DEFAULT_SCORE_THRESHOLD, enable_trace_pii=_ENABLE_TRACE_PII
 )
@@ -21,8 +29,8 @@ def process_sensitive_data(
     encrypt=False,
     detect_infotypes=False,
     cols=None,
-    score_threshold=_DEFAULT_SCORE_THRESHOLD,
-    sample_size=_SAMPLE_SIZE,
+    score_threshold=None,
+    sample_size=None,
 ):
     """Identifies, redacts, and encrypts PII data
     Note: sensitive_data uses Microsoft's Presidio in the backend. Presidio can be help identify sensitive data.
@@ -41,6 +49,7 @@ def process_sensitive_data(
         A dataframe if redact or anonymize is True.
         Dictionary of column infotypes if detect_infotypes is True
     """
+    score_threshold = score_threshold or _DEFAULT_SCORE_THRESHOLD
     if not isinstance(df, _DATAFRAME_TYPE):
         raise TypeError("Pandas data frame or modin data frame required")
     if cols:
@@ -71,6 +80,7 @@ def identify_pii(text, score_threshold=_DEFAULT_SCORE_THRESHOLD):
         List of presidio_analyzer.recognizer_result.RecognizerResult
         Results contain infotype, position, and confidence
     """
+    score_threshold = score_threshold or _DEFAULT_SCORE_THRESHOLD
     response = engine.analyze(
         correlation_id=0,
         text=str(text).lower(),
@@ -112,6 +122,7 @@ def redact_info(text, score_threshold=_DEFAULT_SCORE_THRESHOLD):
     Returns:
         String with redacted information
     """
+    score_threshold = score_threshold or _DEFAULT_SCORE_THRESHOLD
     response = identify_pii(text, score_threshold)
     word_mapping, text = create_mapping(text, response)
     return reduce(lambda a, kv: a.replace(*kv), word_mapping.items(), text)
@@ -130,6 +141,9 @@ def identify_column_infotypes(
     Returns:
         List of infotypes detecteds
     """
+    score_threshold = score_threshold or _DEFAULT_SCORE_THRESHOLD
+    sample_size = sample_size or _SAMPLE_SIZE
+
     sampled_data = data_series.sample(sample_size, random_state=1)
     results = sampled_data.map(
         lambda x: identify_pii(text=x, score_threshold=score_threshold)
@@ -151,6 +165,8 @@ def identify_infotypes(
     Returns:
         Dictionary with columns as keys and values as infotypes detected
     """
+    score_threshold = score_threshold or _DEFAULT_SCORE_THRESHOLD
+    sample_size = sample_size or _SAMPLE_SIZE
     return {
         col: identify_column_infotypes(
             df[col], sample_size=sample_size, score_threshold=score_threshold
@@ -169,6 +185,7 @@ def encrypt_text(text, score_threshold=_DEFAULT_SCORE_THRESHOLD):
     Returns:
         Text with hashed sensitive data
     """
+    score_threshold = score_threshold or _DEFAULT_SCORE_THRESHOLD
     response = identify_pii(text, score_threshold)
     return create_mapping(text, response)[1]
 
