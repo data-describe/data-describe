@@ -47,6 +47,7 @@ except (ImportError, ModuleNotFoundError):
 
 try:
     import pyLDAvis  # noqa: F401
+    import pyLDAvis.gensim  # noqa: F401
 
     _PACKAGE_INSTALLED["pyLDAvis"] = True
 except (ImportError, ModuleNotFoundError):
@@ -55,6 +56,10 @@ except (ImportError, ModuleNotFoundError):
 try:
     import gensim  # noqa: F401
     from gensim.corpora.dictionary import Dictionary  # noqa: F401
+    from gensim.models.coherencemodel import CoherenceModel  # noqa: F401
+    from gensim.models.ldamodel import LdaModel  # noqa: F401
+    from gensim.models.lsimodel import LsiModel  # noqa: F401
+    from gensim.summarization.summarizer import summarize  # noqa: F401
 
     _PACKAGE_INSTALLED["gensim"] = True
 except (ImportError, ModuleNotFoundError):
@@ -68,7 +73,7 @@ except (ImportError, ModuleNotFoundError):
     _PACKAGE_INSTALLED["gcsfs"] = False
 
 try:
-    import google.cloud.storage  # noqa: F401
+    from google.cloud import storage  # noqa: F401
 
     _PACKAGE_INSTALLED["google-cloud-storage"] = True
 except (ImportError, ModuleNotFoundError):
