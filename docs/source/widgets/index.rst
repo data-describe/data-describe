@@ -6,6 +6,7 @@ Widgets
 .. toctree::
    :maxdepth: 1
 
+   ../_notebooks/auto_data_type
    ../_notebooks/cluster_analysis
    ../_notebooks/correlation_matrix
    ../_notebooks/data_heatmap
@@ -13,12 +14,10 @@ Widgets
    ../_notebooks/data_summary
    ../_notebooks/distributions
    ../_notebooks/feature_importance
-   ../_notebooks/geospatial_analysis
-   ../_notebooks/model_evaluation
    ../_notebooks/scatter_plots
+   ../_notebooks/sensitive_data
    ../_notebooks/text_preprocessing
    ../_notebooks/topic_modeling
-Blah
+Placeholder
 
 .. _`Data Describe`: https://bitbucket.org/mavenwave/mw-data_describe..
-
