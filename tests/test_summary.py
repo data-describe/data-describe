@@ -18,7 +18,7 @@ def load_modin_summary(modin_data):
 
 @pytest.fixture
 def load_modin_series_summary(modin_data):
-    return mw.data_summary(modin_data.iloc[:, 0], compute_backend="pandas")
+    return mw.data_summary(modin_data.iloc[:, 0], compute_backend="pandas"), modin_data.iloc[:,0]
 
 
 def test_type(load_summary):
