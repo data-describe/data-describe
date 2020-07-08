@@ -8,6 +8,11 @@ import pandas as pd
 _global_config: Dict = {
     "backends": {"compute": "pandas", "viz": "seaborn"},
     "display": {"fig_height": 10, "fig_width": 10},
+    "sensitive_data": {
+        "score_threshold": None,
+        "enable_trace_pii": None,
+        "sample_size": None,
+    },
 }
 
 
@@ -22,6 +27,7 @@ def get_root(path: str) -> Any:
     """
     pathlist = path.split(".")
     root: Dict = _global_config
+
     try:
         for p in pathlist[:-1]:
             root = root[p]
@@ -53,6 +59,7 @@ def set_option(path: str, value: Any) -> None:
     root, key = get_root(path)
     if not isinstance(root[key], dict):
         root[key] = value
+    print(f"final root:{root}")
 
 
 def get_config() -> Dict:
@@ -151,7 +158,6 @@ def update_context(*args):
     with dd.config.update_context("display.fig_height", 20):
         dd.plot() # fig_height = 20 # noqa:RST301
     ```
-
 
     Args:
         *args: May be one of two formats:
