@@ -11,7 +11,6 @@ dependencies:
   - scikit-learn==0.20.3
   - gensim==3.4.0
   - pyldavis==2.1.2
-  - eli5==0.8.1
   - shapely==1.6.4
   - networkx==2.2
   - nltk==3.4

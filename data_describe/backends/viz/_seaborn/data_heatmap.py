@@ -1,15 +1,21 @@
+from typing import List
+
 import matplotlib.pyplot as plt
 import seaborn as sns
 
 from data_describe.config._config import get_option
+from data_describe.compat import _DATAFRAME_STATIC_TYPE
 
 
-def viz_data_heatmap(data, colnames, missing=False, **kwargs):
+def viz_data_heatmap(
+    data: _DATAFRAME_STATIC_TYPE, colnames: List[str], missing: bool = False, **kwargs
+):
     """Plots the data heatmap
 
     Args:
         data: The dataframe
-        missing: If True, plots only missing values
+        colnames: The column names, used for tick labels
+        missing: If True, plots missing values instead
         kwargs: Keyword arguments passed to seaborn.heatmap
     """
     plot_options = {

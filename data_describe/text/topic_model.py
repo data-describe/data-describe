@@ -12,6 +12,7 @@ from data_describe.text.text_preprocessing import (
     create_tfidf_matrix,
     filter_dictionary,
 )
+from data_describe import compat
 from data_describe.compat import requires
 from data_describe.utilities.contextmanager import _context_manager
 
@@ -132,10 +133,6 @@ class TopicModel:
         Returns:
             lsa_model: Trained LSA topic model
         """
-        from gensim.models.coherencemodel import CoherenceModel  # noqa: F401
-        from gensim.models.ldamodel import LdaModel  # noqa: F401
-        from gensim.models.lsimodel import LsiModel  # noqa: F401
-
         tokenized_text_docs = [text_doc.split() for text_doc in text_docs]
         self._min_topics = min_topics
         self._max_topics = max_topics
@@ -160,8 +157,8 @@ class TopicModel:
                 self._coherence_values = []
                 for num in range(self._min_topics, self._max_topics + 1):
                     self._model_kwargs.update({"num_topics": num})
-                    lsa_model = LsiModel(**self._model_kwargs)
-                    coherence_model = CoherenceModel(
+                    lsa_model = compat.LsiModel(**self._model_kwargs)
+                    coherence_model = compat.CoherenceModel(
                         model=lsa_model,
                         texts=tokenized_text_docs,
                         dictionary=self._dictionary,
@@ -176,7 +173,7 @@ class TopicModel:
                 self._num_topics = max_coherence_index + self._min_topics
                 return lsa_model_list[max_coherence_index]
             else:
-                lsa_model = LsiModel(
+                lsa_model = compat.LsiModel(
                     corpus=self._corpus,
                     id2word=self._dictionary,
                     num_topics=self._num_topics,
@@ -198,8 +195,6 @@ class TopicModel:
         Returns:
             lda_model (Gensim LdaModel): Trained LDA topic model
         """
-        from gensim.models.coherencemodel import CoherenceModel  # noqa: F401
-        from gensim.models.ldamodel import LdaModel  # noqa: F401
 
         tokenized_text_docs = [text_doc.split() for text_doc in text_docs]
         self._min_topics = min_topics
@@ -225,8 +220,8 @@ class TopicModel:
                 self._coherence_values = []
                 for num in range(self._min_topics, self._max_topics + 1):
                     self._model_kwargs.update({"num_topics": num})
-                    lda_model = LdaModel(**self._model_kwargs)
-                    coherence_model = CoherenceModel(
+                    lda_model = compat.LdaModel(**self._model_kwargs)
+                    coherence_model = compat.CoherenceModel(
                         model=lda_model,
                         texts=tokenized_text_docs,
                         dictionary=self._dictionary,
@@ -241,7 +236,7 @@ class TopicModel:
                 self._num_topics = max_coherence_index + self._min_topics
                 return lda_model_list[max_coherence_index]
             else:
-                lda_model = LdaModel(**self._model_kwargs)
+                lda_model = compat.LdaModel(**self._model_kwargs)
                 return lda_model
 
     def _compute_nmf_model(self, text_docs, tfidf=True):
@@ -439,7 +434,6 @@ class TopicModel:
         Returns:
             all_top_docs_df: Pandas DataFrame displaying topics as columns and their most relevant documents as rows
         """
-        from gensim.summarization.summarizer import summarize  # noqa: F401
 
         topics = self._get_topic_nums()
 
@@ -464,7 +458,7 @@ class TopicModel:
                     if summary_words:
                         try:
                             summarized_docs.append(
-                                summarize(doc, word_count=summary_words)
+                                compat.summarize(doc, word_count=summary_words)
                             )
                         except ValueError:
                             sentence_check += 1
@@ -476,7 +470,7 @@ class TopicModel:
                             summarized_docs.append(doc)
                     else:
                         try:
-                            summarized_docs.append(summarize(doc))
+                            summarized_docs.append(compat.summarize(doc))
                         except ValueError:
                             sentence_check += 1
                             warnings.warn(
@@ -525,14 +519,12 @@ class TopicModel:
         Returns:
             A visual to understand topic model and/or documents relating to model
         """
-        import pyLDAvis.gensim  # noqa: F401
-
         display_item = display_item.lower()
         if display_item == "pyldavis":
             if self._model_type != "LDA":
                 raise TypeError("Model must be an LDA Model")
             elif get_ipython() is not None:
-                pyLDAvis.enable_notebook()
+                compat.pyLDAvis.enable_notebook()
                 with warnings.catch_warnings():
                     warnings.filterwarnings(
                         "ignore",
@@ -540,7 +532,7 @@ class TopicModel:
                         module="pyLDAvis",
                         message="Sorting because non-concatenation axis is not aligned.",
                     )
-                    vis = pyLDAvis.gensim.prepare(
+                    vis = compat.pyLDAvis.gensim.prepare(
                         self._model, self._corpus, self._dictionary
                     )
                     return vis

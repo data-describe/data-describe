@@ -18,7 +18,7 @@ sys.path.insert(0, os.path.abspath('../..'))
 # -- Project information -----------------------------------------------------
 
 project = 'Data Describe'
-copyright = '2019 Maven Wave'
+doc_copyright = '2019 Maven Wave'
 author = 'Akanksha Jindal, David Law, Richard Truong-Chau, Rishi Sheth, Ross Claytor, Jihua Wang'
 
 # The full version, including alpha/beta/rc tags
