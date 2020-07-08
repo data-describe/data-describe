@@ -1,26 +1,11 @@
-import warnings
-
 import seaborn as sns
 import numpy as np
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.inspection import permutation_importance
 import matplotlib.pyplot as plt
 
 from data_describe.utilities.preprocessing import preprocess
 from data_describe.utilities.contextmanager import _context_manager
-
-warnings.filterwarnings(
-    "ignore",
-    category=DeprecationWarning,
-    message=r"Using or importing the ABCs from 'collections",
-)
-with warnings.catch_warnings():
-    warnings.filterwarnings(
-        "ignore",
-        category=DeprecationWarning,
-        module="eli5",
-        message=r"inspect.getargspec()",
-    )
-    from eli5.sklearn import PermutationImportance
 
 
 @_context_manager
@@ -58,17 +43,11 @@ def importance(
     else:
         X, y = preprocess_func(data, target, **kwargs)
 
-    pi = PermutationImportance(estimator, cv=5, random_state=1)
-    with warnings.catch_warnings():
-        warnings.filterwarnings(
-            "ignore",
-            category=FutureWarning,
-            message=r"The default value of n_estimators",
-        )
-        pi.fit(X, y)
+    estimator.fit(X, y)
+    pi = permutation_importance(estimator, X, y, n_repeats=5, random_state=1)
 
     importance_values = np.array(
-        [max(0, x) if truncate else x for x in pi.feature_importances_]
+        [max(0, x) if truncate else x for x in pi.importances_mean]
     )
 
     idx = importance_values.argsort()[::-1]

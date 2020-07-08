@@ -16,7 +16,6 @@ REQUIRED = [
     "scipy>=1.1.0",
     "seaborn>=0.9.0",
     "scikit-learn>=0.20.3",
-    "eli5>=0.8.1",
     "networkx>=2.2",
     "hdbscan>=0.8.20",
     "gcsfs>=0.2.1",
