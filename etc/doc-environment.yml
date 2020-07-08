@@ -27,6 +27,7 @@ dependencies:
   - papermill>=2.1.2
   - sphinx>=3.1.2
   - nbsphinx>=0.7.1
+
   - pip:
       - google-cloud-storage>=1.18.0
       - presidio-analyzer==0.3.8917rc0

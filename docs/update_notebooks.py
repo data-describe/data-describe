@@ -3,7 +3,10 @@ import os
 import shutil
 import glob
 import pathlib
+<<<<<<< HEAD
 
+=======
+>>>>>>> Update doc build process
 
 widget_template = """.. _x-tutorial:
 
