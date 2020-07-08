@@ -1,5 +1,6 @@
 from functools import wraps
 from typing import Dict
+
 import warnings
 
 
@@ -92,7 +93,7 @@ try:
             "Downloading en_core_web_lg model for Spacy. This may take several minutes."
         )
         spacy.cli.download("en_core_web_lg")
-except (ImportError, ModuleNotFoundError):
+except ImportError:
     _PACKAGE_INSTALLED["spacy"] = False
 
 
