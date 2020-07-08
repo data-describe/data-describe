@@ -84,12 +84,8 @@ try:
 
     _PACKAGE_INSTALLED["modin"] = True
     _DATAFRAME_TYPE = (pandas.DataFrame, modin.pandas.DataFrame)
-<<<<<<< HEAD
     _DATAFRAME_STATIC_TYPE = Union[pandas.DataFrame, modin.pandas.DataFrame]
-except (ImportError, ModuleNotFoundError):
-=======
 except ImportError:
->>>>>>> a869cc5... Simplify importerror check
     import pandas
 
     _PACKAGE_INSTALLED["modin"] = False
