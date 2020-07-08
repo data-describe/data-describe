@@ -2,9 +2,8 @@ import pandas as pd
 import pytest
 import presidio_analyzer
 
-
 from data_describe.sensitive_data.sensitive_data import sensitive_data
-from data_describe.sensitive_data.backends.compute._pandas import (
+from data_describe.backends.compute._pandas.sensitive_data import (
     identify_pii,
     create_mapping,
     redact_info,
@@ -65,7 +64,7 @@ def test_redact_info():
     assert result_text == "This string contains a domain <DOMAIN_NAME>"
 
 
-def test_sensitive_data_cols():
+def test_sensitive_data_cols(compute_backend):
     df = pd.DataFrame({"domain": "gmail.com", "name": "John Doe"}, index=[1])
     redacted_df = sensitive_data(df, redact=True, cols=["name"])
     assert redacted_df.shape == (1, 1)
@@ -81,7 +80,9 @@ def test_type():
 
 def test_sample_size():
     with pytest.raises(ValueError):
-        sensitive_data(pd.DataFrame(), redact=False, detect_infotypes=True)
+        sensitive_data(
+            pd.DataFrame(), redact=False, detect_infotypes=True, sample_size=1
+        )
     with pytest.raises(ValueError):
         sensitive_data(pd.DataFrame(), redact=True, encrypt=True)
 
