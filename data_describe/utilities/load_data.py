@@ -3,6 +3,7 @@ import tempfile
 
 import pandas as pd
 
+from data_describe import compat
 from data_describe.compat import requires, _PACKAGE_INSTALLED
 
 
@@ -89,9 +90,7 @@ def download_gcs_file(filepath, bucket=None, prefix=None, **kwargs):
     Returns:
 
     """
-    from google.cloud import storage  # noqa: F401
-
-    client = storage.Client()
+    client = compat.storage.Client()
     bucket = client.bucket(bucket)
     max_results = kwargs.pop("max_results", None)
     blobs = bucket.list_blobs(prefix=prefix, max_results=max_results)
