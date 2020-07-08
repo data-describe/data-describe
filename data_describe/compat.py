@@ -2,8 +2,6 @@ from functools import wraps
 from typing import Dict
 import warnings
 
-import warnings
-
 
 _PACKAGE_INSTALLED: Dict[str, bool] = {}
 
@@ -95,7 +93,6 @@ try:
         )
         spacy.cli.download("en_core_web_lg")
 except ImportError:
-
     _PACKAGE_INSTALLED["spacy"] = False
 
 
