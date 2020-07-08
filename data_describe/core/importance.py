@@ -13,7 +13,7 @@ def importance(
     data,
     target,
     preprocess_func=None,
-    estimator=RandomForestClassifier(random_state=1),
+    estimator=None,
     return_values=False,
     truncate=True,
     context=None,
@@ -37,6 +37,8 @@ def importance(
     Returns:
         Matplotlib figure
     """
+    if estimator is None:
+        estimator = RandomForestClassifier(random_state=1)
 
     if preprocess_func is None:
         X, y = preprocess(data, target, **kwargs)

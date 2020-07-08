@@ -377,11 +377,11 @@ class DateTimeType(BaseType):
             return dt.strptime(value, self._format)
 
     @property
-    def format(self):
+    def date_format(self):
         return self._format
 
-    @format.setter
-    def format(self, value):
+    @date_format.setter
+    def date_format(self, value):
         self._format = value
 
 
