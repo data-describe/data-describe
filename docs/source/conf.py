@@ -45,7 +45,7 @@ exclude_patterns = []
 # a list of builtin themes.
 #
 # Currently doesn't work? https://github.com/spatialaudio/nbsphinx/issues/128
-# html_theme = "sphinx_rtd_theme"
+html_theme = "sphinx_rtd_theme"
 # html_theme_path = ["_themes", ]
 
 # Add any paths that contain custom static files (such as style sheets) here,

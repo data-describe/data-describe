@@ -1,0 +1,37 @@
+name: docs
+
+on:
+  workflow_dispatch:
+    branches: [master]
+
+jobs:
+  build-docs:
+    runs-on: "ubuntu-latest"
+    steps:
+      - uses: actions/checkout@v2
+      - name: Cache conda
+        uses: actions/cache@v1
+        env:
+          # Increase this value to reset cache if etc/test-environment.yml has not changed
+          CACHE_NUMBER: 0
+        with:
+          path: ~/conda_pkgs_dir
+          key: ${{ runner.os }}-conda-${{ env.CACHE_NUMBER }}-${{ hashFiles('etc/test-environment.yml') }}
+      - name: Setup miniconda
+        uses: goanpeca/setup-miniconda@v1.3.0
+        with:
+          miniconda-version: latest
+          activate-environment: doc-env
+          environment-file: etc/doc-environment.yml
+          condarc-file: etc/.condarc
+          auto-activate-base: false
+      - name: Build docs
+        shell: bash -l {0}
+        run: |
+          pip install -e . &&
+          python docs/make.py
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs
