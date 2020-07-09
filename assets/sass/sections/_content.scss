@@ -1,0 +1,260 @@
+/*--------------------------------------------------------------
+	## content
+--------------------------------------------------------------*/
+
+/********** home 1 content **********/
+.header-inner {
+	padding-top: 40px;
+}
+.service-area {
+	position: relative;
+	&:after {
+        content: '';
+	    position: absolute;
+	    background-image: url('../../assets/img/service/bg.png');
+	    background-repeat: no-repeat;
+	    right: 0;
+	    top: 50%;
+	    background-size: auto;
+	    left: 94%;
+	    bottom: 0;
+	    margin-top: -150px;
+	    z-index: -1;
+	}
+}
+.sbs-what-riyaqas {
+	background-repeat: no-repeat;
+    background-size: 48% 100%;
+}
+.sbs-testimonial-section {
+    margin-top: 90px;
+}
+// .sbs-talented-people {
+//     margin-top: 70px;
+// }
+.sbs-business-tool {
+	background-repeat: no-repeat;
+    background-size: 52% 100%;
+    padding-top: 70px;
+}
+
+
+/********** home 2 content **********/
+.sba-featute-area {
+	margin-bottom: 70px;
+}
+.sba-header-area {
+	position: relative;
+	padding: 0px 0 104px;
+	&:before {
+	    content: '';
+	    position: absolute;
+	    background-image: url(../../assets/img/app/banner/bg1.png);
+	    background-repeat: no-repeat;
+	    left: 0;
+	    top: 50px;
+	    background-size: 17%;
+	    right: 0;
+	    bottom: 0;
+	}
+	&:after {
+		content: '';
+	    position: absolute;
+	    background-image: url(../../assets/img/app/banner/bg2.png);
+	    background-repeat: no-repeat;
+	    left: 0;
+	    top: -20px;
+	    background-size: 51%;
+	    right: 0;
+	    bottom: 0;
+	    background-position: right;
+	    z-index: -1;
+	}
+}
+.sba-manage-data-area {
+	padding-top: 42px;
+}
+
+/******** home 3 centent *********/
+
+
+
+/********* home 4 content **********/
+.sbst-banner-area:before {
+    content: '';
+    position: absolute;
+    background-image: url(../../assets/img/bg/8h1.png);
+    background-repeat: no-repeat;
+    left: 0;
+    top: 50px;
+    background-size: contain;
+    right: 0;
+    bottom: 0;
+}
+.sbst-provide-security {
+	background-repeat: no-repeat;
+    background-size: 65% 100%;
+    background-position: right;
+    padding: 100px 0 70px 0;
+}
+.sbst-team-area-wrpper {
+	margin-top: 92px;
+}
+.team-area-wrpper {
+	padding: 112px 0 50px;
+	position: relative;
+	&:after {
+	    content: '';
+	    position: absolute;
+	    background-image: url(../../assets/img/startup/team/4.png);
+	    width: 100%;
+	    left: 0;
+	    right: 0;
+	    top: 0;
+	    bottom: 0;
+	    background-repeat: no-repeat;
+	    background-size: cover;
+	    z-index: -1;
+	}
+}
+
+
+/********* home 5 content *********/
+.sbtc-goal-counter-area {
+	position: relative;
+	.thumb {
+		position: relative;
+	} 
+	.goal-counter {
+		background: $dark-blue;
+		padding: 78px 76px 110px;
+		position: absolute;
+	    right: -37%;
+	    top: 18%;
+	    z-index: 1;
+	    width: 674px;
+	    max-height: 454px;
+		.section-title {
+			.title {
+				color: $white;
+			}
+		}
+		
+	}
+}
+
+
+/********** home 6 ********/
+.riyaqas-check-bg {
+	position: absolute;
+    z-index: -1;
+    margin-top: -80px;
+    width: 121%;
+    margin-left: -150px;
+}
+.riyaqas-check-bg2 {
+    position: absolute;
+    z-index: -1;
+    margin-top: -199px;
+    width: 100%;
+    margin-left: -150px;
+}
+.marketing-area {
+	.section-title {
+		padding: 85px 80px 80px;
+		.title {
+			color: $white;
+		}
+		p {
+			color: $white;
+			margin-top: 25px;
+		}
+	}
+}
+
+
+
+/*********** home 7 ***********/
+.sbdm-image-gurd {
+	position: relative;
+	.sbdm-image-2 {
+		position: absolute;
+		left: 0;
+		top: 90px;
+	}
+	.sbdm-image-3 {
+		position: absolute;
+	    bottom: 0;
+	    left: 200px;
+	    width: 80%;
+	}
+}
+.sbdm-image-gurd2 {
+	position: relative;
+	.sbdm-image-2 {
+	    position: absolute;
+	    right: 0;
+	    bottom: 0;
+	}
+	.sbdm-image-3 {
+		position: absolute;
+	    left: -40px;
+	    bottom: 0;
+	}
+}
+
+/******** home 8 *******/
+.sb-animate-img {
+	position: relative;
+	.thumb-2 {
+		position: absolute;
+		top: 0;
+	}
+}
+.h8-banner-area-bg {
+	position: relative;
+}
+.h8-banner-area-bg:before {
+    content: '';
+    position: absolute;
+    background-image: url(../../assets/img/bg/8h1.png);
+    background-repeat: no-repeat;
+    left: 0;
+    top: 50px;
+    background-size: contain;
+    right: 0;
+    bottom: 0;
+}
+
+.comment-form-area {
+	.single-input-wrap .single-input.textarea {
+		margin-bottom: 10px;
+	}
+	.riyaqas-form-wrap .btn {
+	    padding: 0 30px;
+	}
+}
+
+.sbtc-success-section.sbst-provide-security {
+    background-size: 48% 100%;
+}
+
+
+.accordion-h-five {
+	border-top: 1px dashed #8F98A8;
+	border-bottom: 1px dashed #8F98A8;
+	padding-top: 70px;
+	padding-bottom: 56px;
+}
+.about-area.sbst-provide-security {
+	background-size: 50%;
+}
+.bg-img-right-area {
+	background-position: 100%;
+	background-repeat: no-repeat;
+    padding: 150px 0;
+    background-size: 41% 100%;
+}
+
+
+

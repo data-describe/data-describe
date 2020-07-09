@@ -1,0 +1,188 @@
+/*--------------------------------------------------------------
+	## Comments
+--------------------------------------------------------------*/
+.comment-content a {
+	word-wrap: break-word;
+}
+
+.bypostauthor {
+	display: block;
+}
+
+.comments-area {
+	margin-top: 45px;
+}
+
+.comments-area .comments-title {
+	font-size: 24px;
+	line-height: 33px;
+	font-weight: 500;
+	margin-bottom: 40px;
+	color: $dark-blue;
+}
+.comments-area .comments-title span {
+	font-size: 18px;
+	line-height: 24px;
+	color: $light-gray;
+}
+.comments-area .comment-list .comment-respond {
+	margin-bottom: 30px;
+}
+.comments-area .comment-list {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	list-style-type: none;
+	margin-bottom: 20px;
+}
+
+.comments-area .comment-list li {
+	margin-bottom: 55px;
+}
+
+.comments-area .comment-list li:last-child {
+	margin-bottom: 0;
+}
+
+.comments-area .comment-list li ul.children {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	list-style-type: none;
+}
+.comments-area .comment-list li ul{
+	list-style: none;
+}
+.comments-area .comment-list li ul.children li {
+	margin-left: 50px;
+	list-style-type: none;
+	list-style: none;
+}
+
+.comments-area .comment-list li .single-comment-wrap {
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	-ms-flex-item-align: start;
+	align-self: flex-start;
+}
+
+.comments-area .comment-list li .single-comment-wrap .thumb {
+	margin-right: 35px;
+	height: 75px;
+	width: 75px;
+	border-radius: 50%;
+}
+.comments-area .comment-list li .single-comment-wrap .thumb img {
+	border-radius: 50%;
+}
+.comments-area .comment-list li .single-comment-wrap .date, 
+.blog-details-page-content-area .comments-area .comment-list li .single-comment-wrap .time {
+	display: block;
+	font-size: 13px;
+	line-height: 17px;
+	letter-spacing: 0.14px;
+	margin-bottom: 18px;
+	color: #97A1B2;
+}
+
+.comments-area .comment-list li .single-comment-wrap .content {
+	-webkit-box-flex: 1;
+	-ms-flex: 1;
+	flex: 1;
+	position: relative;
+}
+
+.comments-area .comment-list li .single-comment-wrap .content .title {
+	font-size: 20px;
+	line-height: 27px;
+	font-weight: 500;
+	letter-spacing: 0.22px;
+	color: $dark-blue;
+	margin-bottom: 6px;
+}
+.comments-area .comment-list li .single-comment-wrap .content .comment-content {
+	max-width: 620px;
+}
+.comments-area .comment-list li .single-comment-wrap .content p {
+	font-size: var(--body-font-size);
+	line-height: var(--line-height30);
+	letter-spacing: 0.3px;
+	margin-bottom: 15px;
+	color: $gray;
+	word-break: break-word;
+}
+
+.comments-area .comment-list li .single-comment-wrap .content p:last-child {
+	margin-bottom: 0;
+}
+
+.comments-area .comment-list li .single-comment-wrap .content .reply {
+	font-size: var(--body-font-size);
+	line-height: var(--line-height30);
+	letter-spacing: 0.3px;
+	color: $light-gray;
+	transition: 0.4s;
+}
+
+.comments-area .comment-list li .single-comment-wrap .content .reply:hover {
+	color: $dark-blue;
+}
+
+
+.comments-area .reply-title,
+.comments-area .comment-reply-title{
+	font-size: 26px;
+	line-height: 34px;
+	font-weight: 600;
+	margin-bottom: 20px;
+}
+.comments-area .form-submit{
+	margin-bottom: 0;
+}
+.comment-form .form-group.textarea .form-control {
+	min-height: 160px;
+	resize: none;
+	line-height: 26px;
+}
+.comment-form .form-group.textarea .form-control:focus{
+	outline: none;
+	-webkit-box-shadow: none;
+	-moz-box-shadow: none;
+	box-shadow: none;
+}
+.comment-form .form-group .form-control {
+	height: 50px;
+	line-height: 50px;
+	border: 1px solid #e2e2e2;
+}
+
+.comment-form .submit-btn {
+	height: 50px;
+	width: auto;
+	border-radius: 5px;
+	font-weight: 400;
+	background-color:var(--main-color-one);
+	border: none;
+	cursor: pointer;
+	transition: .3s ease-in;
+	color: $white;
+}
+.comment-form .submit-btn:hover {
+	background-color: var(--secondary-color);
+	color: #fff;
+}
+.comment-respond {
+	/*margin-top: 20px;*/
+}
+
+.comments-area .comment-list .children li:last-child {
+	margin-bottom: 30px;
+}
+
+.comments-area .comment-list li ul.children {
+	margin-top: 30px;
+}
+.comment-form-cookies-consent input[type=checkbox] {
+	margin-right: 5px;
+}

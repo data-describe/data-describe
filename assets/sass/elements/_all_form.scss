@@ -1,0 +1,162 @@
+/*----------------------------------------
+    ## All form
+------------------------------------------*/
+.riyaqas-form-wrap {
+	.btn {
+		height: 48px;
+		line-height: 48px;
+		padding: 0 60px;
+	    font-size: 15px;
+	    font-weight: 400;
+	    letter-spacing: 0.3px;
+	    margin-top: 30px;
+	}
+}
+//single form input
+.single-input-wrap {
+	position: relative;
+	.single-input {
+		width: 100%;
+		height: 52px;
+		background: transparent;
+		border: 1px solid #D9DDE4;
+		border-radius: 4px;
+		padding: 18px;
+		margin-bottom: 30px;
+		font-size: 15px;
+	    line-height: 1.2;
+	    letter-spacing: 0.3px;
+	    color: #97A1B2;
+	    &.textarea {
+	    	min-height: 134px;
+	    }
+	}
+    &.input-checkbox {
+    	margin-bottom: 30px;
+    	.single-input {
+	    	width: auto;
+	    	height: auto;
+	    }
+    }
+	.input-checkbox-text {
+		span {
+			color: var(--main-color-one);
+		}
+	}
+	.single-select {
+		width: 100%;
+		height: 52px;
+		background: transparent;
+		border: 1px solid #D9DDE4;
+		border-radius: 4px;
+		padding: 16px 18px;
+		margin-bottom: 30px;
+		font-size: 15px;
+	    line-height: 1.2;
+	    letter-spacing: 0.3px;
+	    color: #97A1B2;
+		span.current {
+			width: 180px;
+			display: block;
+		}
+		&:after {
+		    border-bottom: 1px solid #999;
+		    border-right: 1px solid #999;
+		    height: 7px;
+		    right: 20px;
+		    width: 7px;
+		}
+		.list {
+			width: 100%;
+			li {
+				font-size: 14px !important;
+				letter-spacing: 0.28 !important;
+				color: #97A1B2 !important;
+				font-weight: 400 !important;
+				transition: 0.4s !important;
+				&:hover,
+				&:focus,
+				&.selected {
+					color: $dark-blue !important;
+				}
+			}
+		}
+	}
+	label {
+		position: absolute;
+		top: 17px;
+		left: 20px;
+		color: #999;
+		cursor: text;
+		transition: all .15s ease-in-out 0s;
+		z-index: -1;
+		font-size: var(--body-font-size);
+	    line-height: 1.2;
+	    letter-spacing: 0.3px;
+	    color: #97A1B2;
+	}
+	label.active {
+	  	top: -6px;
+	    left: 17px;
+	    font-size: 11px;
+	    color: inherit;
+	    cursor: pointer;
+	    color: #97A1B2;
+	    background: #fff;
+	    z-index: 1;
+	    padding: 0 1px;
+	}
+}
+//single form input file upload
+.riyaqas-file-input-wrap {
+	margin-top: 10px;
+	height: 100%;
+	.riyaqas-file-input {
+		cursor: pointer;
+		height: 60px;
+		line-height: 60px;
+		width: 100%;
+	}
+	label {
+		cursor: pointer;
+		border: 0;
+	    color: $white;
+		border-radius: 0;
+		background: $light-green;
+		height: 62px;
+		line-height: 64px;
+		text-align: center;
+		padding: 0;
+	    cursor: cell;
+		&:after {
+			display: none !important;
+		}
+	}
+}
+.job-apply-area {
+	box-shadow: 0px 8px 30px #97A1B224;
+	border-radius: 8px;
+	padding: 120px 68px;
+	.single-input-wrap {
+		.single-input {
+			border: 0;
+			border-bottom: 1px solid #D9DDE4;
+			border-radius: 0;
+			padding: 0;
+		}
+		textarea {
+			padding: 10px 0 !important;
+		}
+		label {
+			left: 0;
+		}
+	}
+	.btn-blue {
+		margin-top: 70px;
+	}
+}
+
+
+
+
+

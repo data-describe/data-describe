@@ -1,0 +1,280 @@
+/*----------------------------------------
+  ## list
+----------------------------------------*/
+.riyaqas-check-list {
+    margin-bottom: 20px;
+    img {
+        margin-right: 17px;
+    }
+    span {
+        letter-spacing: 0.34px;
+        color: $gray;
+        font-size: var(--body-font-size);
+        line-height: 24px;
+    }
+    &.style-two {
+        margin-bottom: 3px;
+        list-style: none;
+        position: relative;
+        &:after {
+            content: '';
+            position: absolute;
+            height: 6px;
+            width: 6px;
+            border-radius: 50%;
+            left: -15px;
+            top: 9px;
+            border: 1px solid var(--main-color-one);
+        }
+    }
+}
+.talented-pepole-list {
+    ul {
+        margin-bottom: 0;
+        padding-left: 0;
+        li {
+            display: inline-block;
+            text-align: center;
+            position: relative;
+            padding: 0 34px;
+            h3 {
+                font-size: 32px;
+                letter-spacing: 0.64px;
+                color: $dark-blue;
+                line-height: 24px;
+                font-weight: 400;
+            }
+            span {
+                font-size: var(--body-font-size);
+                letter-spacing: 0.3px;
+                color: $light-gray;
+                line-height: 24px;
+            }
+            &:after {
+                content: '';
+                position: absolute;
+                height: 50px;
+                width: 1px;
+                top: 0;
+                right: 0;
+                background: $light-gray;
+                opacity: 0.46;
+            }
+            &:first-child {
+                padding: 0 34 0 0px;
+                padding-left: 0 !important;
+            }
+            &:last-child:after {
+                display: none;
+            }
+        }
+    }
+}
+.riyaqas-list-2 {
+    padding-left: 0 !important;
+    li {
+        box-shadow: 0px 5px 22px #01358D2E;
+        height: 100px;
+        width: 100px;
+        text-align: center;
+        line-height: 100px;
+        border-radius: 50%;
+        display: inline-block;
+        margin: 0 25px;
+        background: $white;
+        @include transition($transition);
+        img {
+            transition: 0.8s;
+        }
+        &:first-child {
+            margin-left: 0;
+        }
+        &:last-child {
+            margin-right: 0;
+        }
+        &:hover {
+            box-shadow: 0px 10px 22px #01358D2E;
+            img {
+                transform: rotateY(180deg);
+            }
+        }
+    }
+}
+.riyaqas-list-3 {
+    padding-left: 0 !important;
+    li {
+        list-style: none;
+        position: relative;
+        font-size: var(--body-font-size);
+        line-height: var(--line-height30);
+        letter-spacing: 0.3px;
+        color: $gray;
+        padding-left: 34px;
+        margin-bottom: 5px;
+        &:before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 10px;
+            height: 10px;
+            width: 10px;
+            border-radius: 50%;
+            border: 1px solid #01358D;
+            background: $white;
+        }
+    }
+}
+.riyaqas-check-list-wrap {
+    .riyaqas-check-list {
+        margin-bottom: 10px;
+        img {
+            margin-top: 6px;
+        }
+    }
+}
+.single-hosting-content {
+    padding-left: 50px;
+    p {
+        font-size: var(--body-font-size);
+        line-height: var(--line-height30);
+    }
+}
+
+
+
+
+/******** image shape *********/
+.shape-bg-image {
+    padding-bottom: 30px;
+    .thumb {
+        position: relative;
+        display: block;
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+        -webkit-mask-image: url('../../assets/img/startup/skill/2.png');
+        -webkit-mask-size: 100% 100%;
+        mask-size: 100% 100%;
+        overflow: hidden;
+        img {
+            width: 100%;
+            height: 100%
+        }
+    }
+    &:after {
+        content: '';
+        position: absolute;
+        background-image: url("../../assets/img/startup/skill/3.png");
+        background-repeat: no-repeat;
+        left: 25px;
+        top: 30px;
+        background-size: 98%;
+        right: 0;
+        bottom: 0;
+        background-position: right;
+        z-index: -1;
+    }
+}
+
+.mask-bg-wrap {
+    position: relative;
+    padding-bottom: 30px;
+    .thumb {
+        position: relative;
+        display: block;
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+        -webkit-mask-size: 100% 100%;
+        mask-size: 100% 100%;
+        overflow: hidden;
+        img {
+            width: 100%;
+            height: 100%
+        }
+    }
+    &:after {
+        content: '';
+        position: absolute;
+        background-repeat: no-repeat;
+        left: 0;
+        top: 0;
+        background-size: 100%;
+        right: 0;
+        bottom: 0;
+        background-position: right;
+        z-index: -1;
+    }
+    &.mask-bg-img-1 {
+        .thumb {
+            -webkit-mask-image: url('../../assets/img/bg/8h4.png');
+        }
+        &:after {
+            background-image: url('../../assets/img/bg/8h4.png');
+        }
+    }
+    &.mask-bg-img-2 {
+        .thumb {
+            -webkit-mask-image: url('../../assets/img/bg/8h5.png');
+        }
+        &:after {
+            background-image: url('../../assets/img/bg/8h5.png');
+            bottom: -20px;
+            right: -15px;
+        }
+    }
+    &.mask-bg-img-3 {
+        .thumb {
+            -webkit-mask-image: url('../../assets/img/bg/1.png');
+        }
+        &:after {
+            background-image: url('../../assets/img/bg/1.png');
+            bottom: -20px;
+            right: -15px;
+        }
+    }
+}
+
+
+.riyaqas-stab {
+    .nav-tabs {
+        .nav-item{
+            &:last-child {
+                .nav-link {
+                    margin-right: 0;
+                }
+            }
+        }
+        .nav-link {
+            border: 0 !important;
+            background: transparent;
+            font-size: 18px;
+            position: relative;
+            transition: 0.3s;
+            padding: 0 0 10px 0;
+            margin: 0 50px 0 10px;
+            &:hover,
+            &.active {
+                color: var(--main-color-one);
+                    &:after {
+                    visibility: visible;
+                    opacity: 1;
+                    transition: 0.3s;
+                }
+            }
+            &:after {
+                content: '';
+                position: absolute;
+                left: 0;
+                bottom: 0;
+                background: var(--main-color-one);
+                height: 1px;
+                width: 100%;
+                visibility: hidden;
+                opacity: 0;
+                transition: 0.3s;
+            }
+        }
+    }
+    .riyaqas-stab-content {
+        padding: 35px 0;
+    }
+}

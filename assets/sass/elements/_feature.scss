@@ -1,0 +1,44 @@
+/*----------------------------------------------
+	## Feature
+-----------------------------------------------*/
+.single-feature {
+	margin-bottom: 52px;
+	.media {
+		background: $white;
+		@include box-shadow(0px, 12px, 50px, #AFAFAF38);
+		border-radius: 0px 100px 0px 0px;
+		padding: 62px 57px 52px 52px;
+		.media-left {
+			margin-right: 26px;
+		}
+		.media-body {
+			h6 {
+				letter-spacing: 0.22px;
+				color: #01358D;
+				margin-bottom: 12px;
+				font-weight: 600;
+			}
+			p {
+				font-size: var(--body-font-size);
+				line-height: var(--line-height30);
+				letter-spacing: 0.3px;
+				color: $gray;
+			}
+		}
+	}
+	.border-radius-2 {
+		border-radius: 0px 0px 0px 100px;
+	}
+	.border-radius-3 {
+		border-radius: 100px 0px 0px 0px;
+	}
+	.border-radius-4 {
+		border-radius: 0px 0px 100px 0px;
+	}
+}
+.single-feature-left {
+	margin-right: 17px;
+}
+.single-feature-right {
+	margin-left: 17px;
+}

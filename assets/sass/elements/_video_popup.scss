@@ -1,0 +1,78 @@
+/*--------------------------------
+    ## Video popup
+----------------------------------*/
+// .img-with-video-area {
+// 	.section-title {
+// 		margin-top: 195px;
+// 	}
+// }
+.img-with-video {
+    background-position: center -2px;
+    background-size: 83%;
+    background-repeat: no-repeat;
+	.img-wrap {
+		position: relative;
+		.hover {
+			position: absolute;
+			left: 50%;
+            top: 50%;
+            margin-left: -33px;
+            margin-top: -52px;
+			img {
+				width: 76px;
+				height: 76px;
+			}
+			a {
+				position: relative;
+                display: inline-block;
+                i {
+                    font-size: 75px;
+                    color: var(--main-color-one);
+                }
+			}
+		}
+	}
+}
+.img-with-video-2 {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+/****** Vider Magnific-popup ***/
+.mfp-zoom-in .mfp-container {
+    padding-left: 15px !important;
+    padding-right: 15px !important;
+}
+.mfp-zoom-in {
+    .mfp-content {
+        opacity: 0;
+        @include transition($transition);
+        transform: scale(0.7); 
+    }
+  
+    &.mfp-bg {
+        opacity: 0;
+        @include transition($transition);
+    }
+  
+  /* animate in */
+    &.mfp-ready {
+        .mfp-content {
+            opacity: 1;
+            transform: scale(1); 
+        }
+        &.mfp-bg {
+            opacity: 0.7;
+        }
+    }
+  
+  /* animate out */
+    &.mfp-removing {
+        .mfp-content {
+            transform: scale(0.7); 
+            opacity: 0;
+        }
+        &.mfp-bg {
+            opacity: 0;
+        } 
+    }  
+}

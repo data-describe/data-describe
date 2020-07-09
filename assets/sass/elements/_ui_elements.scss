@@ -1,0 +1,71 @@
+/*----------------------------------------
+	## ui elements
+----------------------------------------*/
+.bs-popover-right {
+    top: 85px !important;
+    margin-left: 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: #424344 !important;
+	box-shadow: 0px 15px 18px #00000029;
+	.arrow {
+		display: none !important;
+	}
+	.popover-body {
+		font-size: 14px;
+		line-height: 24px;
+		letter-spacing: 0.42px;
+		color: #F6F6F6;
+		padding: 30px;
+	}
+}
+
+.navbar-area-ui-element {
+	position: inherit !important;
+}
+
+
+.single-alert {
+	max-width: 536px;
+	box-shadow: 0px 12px 50px #97A1B238;
+	border-radius: 6px;
+	padding: 70px 0 62px;
+	.thumb {
+		margin-bottom: 25px;
+	}
+	p {
+		font-size: 18px;
+		letter-spacing: 0;
+		color: #97A1B2;
+		margin-bottom: 0;
+	}
+}
+
+.single-alert-mail-check {
+	max-width: 536px;
+	box-shadow: 0px 12px 50px #97A1B238;
+	border-radius: 6px;
+	padding: 100px 0;
+	position: relative;
+	p {
+		margin-bottom: 0;
+	}
+	.mail-alert-close {
+		position: absolute;
+		right: -22px;
+    	top: -20px;
+    	cursor: pointer;
+	}
+}
+
+
+.login-register-basic {
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100%;
+    transform: translate(0);
+    visibility: visible;
+    opacity: 1;
+    z-index: 1;
+}

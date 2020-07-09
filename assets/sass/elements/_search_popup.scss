@@ -1,0 +1,194 @@
+
+/*----------------------------------------
+  ## Search Popup
+----------------------------------------*/
+.search-popup.active .search-form {
+    visibility: visible;
+    opacity: 1; 
+}
+.search-popup .search-form {
+    min-width: 600px;
+    position: absolute;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    -webkit-transition: 0.5s ease;
+    -moz-transition: 0.5s ease;
+    -o-transition: 0.5s ease;
+    transition: 0.5s ease;
+    visibility: hidden;
+    opacity: 0;
+    -ms-transform: translate(-50%, -50%);
+    /* IE 9 */
+    -webkit-transform: translate(-50%, -50%);
+    /* Chrome, Safari, Opera */
+    transform: translate(-50%, -50%);
+    z-index: 9; 
+}
+.search-popup .search-form .form-group .form-control {
+    border: none;
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px; 
+    height: 54px;
+    padding: 0 100px 0 30px ;
+}
+.search-popup .search-form .submit-btn {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 60px;
+    height: 54px;
+    border: 0;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px; 
+    background-color: var(--main-color-two);
+    color: $white;
+    @include transition($transition);
+    padding: 0;
+    text-align: center;
+    cursor: pointer;
+    &:hover{
+        background-color: $gray;
+    }
+}
+  
+.body-overlay {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    display: block;
+    background-color: rgba(2, 48, 71,.8);
+    z-index: 9;
+    content: '';
+    left: 0;
+    top: 0;
+    visibility: hidden;
+    opacity: 0;
+    -webkit-transition: all 0.3s ease-in;
+    -moz-transition: all 0.3s ease-in;
+    -o-transition: all 0.3s ease-in;
+    transition: all 0.3s ease-in;
+    cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABUAAAAVBAMAAABbObilAAAAMFBMVEVMaXH////////////////////////////////////////////////////////////6w4mEAAAAD3RSTlMAlAX+BKLcA5+b6hJ7foD4ZP1OAAAAkUlEQVR4XkWPoQ3CUBQAL4SktoKAbCUjgAKLJZ2ABYosngTJCHSD6joUI6BZgqSoB/+Shqde7sS9x3OGk81fdO+texMtRVTia+TsQtHEUJLdohJfgNNPJHyEJPZTsWLoxShqsWITazEwqePAn69Sw2TUxk1+euPis3EwaXy8RMHSZBIlRcKKnC5hRctjMf57/wJbBlAIs9k1BAAAAABJRU5ErkJggg==), progress; 
+}
+.body-overlay.active {
+    visibility: visible;
+    opacity: .80; 
+}
+
+
+
+/******** cart popup **********/
+.cart-popup.active .order-table {
+    visibility: visible;
+    opacity: 1; 
+}
+.cart-popup .order-table {
+    width: 57%;
+    position: absolute;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    -webkit-transition: 0.5s ease;
+    -moz-transition: 0.5s ease;
+    -o-transition: 0.5s ease;
+    transition: 0.5s ease;
+    visibility: hidden;
+    opacity: 0;
+    -ms-transform: translate(-50%, -50%);
+    /* IE 9 */
+    -webkit-transform: translate(-50%, -50%);
+    /* Chrome, Safari, Opera */
+    transform: translate(-50%, -50%);
+
+    max-height: calc(100% - 15%);
+    overflow-y: auto;
+
+    background: #FFFFFF;
+    box-shadow: 0px 3px 26px #01358D0D;
+    border-radius: 8px;
+    z-index: 99; 
+    padding: 60px 44px;
+    .table {
+        margin-bottom: 0;
+    }
+    .checkout-title h6 {
+        color: $dark-blue;
+        font-weight: 500;
+        margin-bottom: 30px;
+    }
+}
+
+
+
+.login-register-popup.active {
+    visibility: visible;
+    opacity: 1; 
+}
+.login-register-popup {
+    background: $white;
+    position: absolute;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 56%;
+    transition: 0.5s ease;
+    -ms-transform: translate(-50%, -50%);
+    /* IE 9 */
+    -webkit-transform: translate(-50%, -50%);
+    /* Chrome, Safari, Opera */
+    transform: translate(-50%, -50%);
+    max-height: calc(100% - 15%);
+    overflow-y: auto;
+    transition: 0.5s ease;
+    visibility: hidden;
+    opacity: 0;
+    z-index: 9999;
+    box-shadow: 0px 2px 69px #97A1B238;
+    .riyaqas-form-wrap {
+        display: block;
+        width: 100%;
+        padding: 0 55px;
+        .single-input-wrap label {
+            line-height: unset;
+        }
+        .widget-title {
+            font-size: 20px;
+        }
+        span,
+        label {
+            font-size: 12px;
+            color: $light-gray;
+            letter-spacing: 0.24px;
+        }
+        .check-box-area {
+            overflow: hidden;
+            input {
+                margin-right: 5px;
+                float: left;
+            }
+            label {
+                margin-bottom: 0;
+                margin-top: -3px;
+                float: left;
+            }
+        }
+        .btn-wrap {
+            line-height: 41px;
+            margin-top: 30px;
+            .btn {
+                height: 40px;
+                line-height: 41px;
+                padding: 0 30px;
+                border-radius: 0;
+                margin-top: 0;
+                margin-right: 15px;
+            }
+            a.signup {
+                color: $dark-blue;
+                font-size: 12px;
+                border-bottom: 1px solid $dark-blue;
+                margin-left: 5px;
+            }
+        }
+    }
+}

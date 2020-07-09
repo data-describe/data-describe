@@ -1,0 +1,86 @@
+/*
+Theme Name: Riyaqas
+Theme URI: 
+Author: 
+Author URI: 
+Description: Riyaqas is a Sass website template
+Version: 1.0.0
+*/
+
+
+/*--------------------------------------------------------------
+>>> TABLE OF CONTENTS:
+----------------------------------------------------------------
+
+# Typography
+# Normalize
+# Accessibility
+# Globals
+# Alignments
+# Clearings
+# Posts and pages
+# Captions
+# Galleries
+# Unit test
+# guterberg
+# Gutenberg	Default Style
+# Block Color Palette Colors
+# Sections
+    ## Breadcrumb
+    ## Comments
+    ## Widgets
+    ## Nav Bar
+    ## Info Bar
+    ## Header
+
+# Elements
+    ## Back Top
+    ## Preloader
+    ## Search Popup
+    ## Video Popup
+    ## Button
+    ## Section Title
+--------------------------------------------------------------*/
+
+//== Global Design
+@import "global/_mixins";
+@import "global/_variables";
+@import "global/_global";
+@import "global/_gutenberg";
+
+//== Pages
+//== Sections
+@import "sections/_breadcrumb";
+@import "sections/_comments";
+@import "sections/_widgets";
+@import "sections/_navbar";
+@import "sections/_info_bar";
+@import "sections/_header";
+@import "sections/_error_404";
+@import "sections/_shop";
+@import "sections/_job";
+@import "sections/_blog";
+@import "sections/_content";
+@import "sections/_footer";
+
+//== Elements
+@import "elements/_back_top";
+@import "elements/_preloader";
+@import "elements/_search_popup";
+@import "elements/_button";
+@import "elements/_section_title";
+@import "elements/_accordion";
+@import "elements/_list";
+@import "elements/_ui_elements";
+@import "elements/_map";
+@import "elements/_video_popup";
+@import "elements/_all_slider";
+@import "elements/_service";
+@import "elements/_feature";
+@import "elements/_pricing";
+@import "elements/_progress_bar";
+@import "elements/_team";
+@import "elements/_blog_post";
+@import "elements/_counter";
+@import "elements/_all_form";
+@import "elements/_gallery";

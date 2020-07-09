@@ -1,0 +1,98 @@
+/*-----------------------------------------
+    Accordion Item
+-----------------------------------------*/
+/********* single accordion *********/
+.single-accordion {
+    border: 1px solid #F5F9FF;
+    border-radius: 3px;
+    margin-bottom: 14px;
+    .card-header {
+        background: transparent;
+        border-radius: 0;
+        border: 0;
+        padding: 0;
+        h2 {
+            button {
+                font-size: 18px;
+                line-height: 30px;
+                letter-spacing: 0.32px;
+                color: $dark-blue;
+                padding: 0 0 0 37px;
+                width: 100%;
+                text-align: left;
+                position: relative;
+                background: #F5F9FF;
+                border-radius: 3px;
+                border: 0;
+                padding: 0 35px;
+                height: 60px;
+                line-height: 62px;
+                float: left;
+                font-weight: 500;
+                &:after {
+                    content: '';
+                    position: absolute;
+                    height: 2px;
+                    width: 12px;
+                    background: $dark-blue;
+                    top: 50%;
+                    right: 30px;
+                }
+                &:before {
+                    content: '';
+                    position: absolute;
+                    height: 2px;
+                    width: 12px;
+                    background: $dark-blue;
+                    top: 50%;
+                    transition: all .3s ease;
+                    right: 30px;
+                }
+                &:hover,&:focus,&:active {
+                    text-decoration: none;
+                }
+                i {
+                    float: right;
+                }
+                &.collapsed:before {
+                    transform: matrix(0, 1, -1, 0, 0, 0);
+                } 
+            }
+        }
+    }
+    .card-body {
+        padding: 21px 71px 23px 37px;
+        font-size: var(--body-font-size);
+        line-height: var(--line-height30);
+        letter-spacing: 0.3px;
+        color: $light-gray;
+    }
+}
+
+.accordion.style-two {
+    .single-accordion {
+        box-shadow: 0px 10px 54px #97A1B224;
+        border: 0;
+        .card-header {
+            h2 button {
+                background: transparent;
+                padding: 0 35px 0 55px;
+                color: #5B6880;
+                &:before,
+                &:after {
+                    left: 30px;
+                    background: var(--main-color-one);
+                }
+                &.collapsed {
+                    &:before,
+                    &:after {
+                        background: #5B6880;
+                    }
+                }
+            }
+        }
+        .card-body {
+            padding: 10px 30px 35px 53px;
+        }
+    }
+}

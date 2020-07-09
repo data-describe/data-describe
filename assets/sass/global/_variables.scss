@@ -1,0 +1,34 @@
+//== Template Main Color
+$white: #fff;
+$black: #313131;
+$danger: #dc3545;
+$yellow: #FFC82A;
+$gray: #5B6880;
+$light-gray: #97A1B3;
+$gray2: #FBFCFF;
+$dark-blue: #01358D;
+$dark-blue2: #175198;
+$light-green: #32E2A9;
+
+//== social media colors
+$facebook: #3b5999;
+$twitter: #55acee;
+$dribbble: #ea4c89;
+$behance: #131418;
+$google-plus: #dd4b39;
+$linkedin: #0077B5;
+$instagram: #e4405f;
+$pinterest: #c8232c;
+
+
+/*-----------------
+    # Typography
+-----------------*/
+
+@import url('https://fonts.googleapis.com/css?family=Poppins:400,400i,500,600,700|Rubik:400,400i,500,500i,700,700i&display=swap');
+
+
+//  transition
+$transition: all .3s ease-in;
+$transition-long: all .5s ease-in;
+

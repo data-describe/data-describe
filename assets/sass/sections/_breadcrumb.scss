@@ -1,0 +1,45 @@
+
+/*---------------------
+    ## Breadcumb 
+----------------------*/
+.breadcrumb-area {
+    background-image: url(../img/bg/breadcrumb-bg.jpg);
+    text-align: center;
+    padding: 194px 0 114px; 
+    background-size: cover;
+    .page-title {
+        font-size: 46px;
+        font-weight: 700;
+        letter-spacing: 1.38px;
+        color: $dark-blue;
+        margin-bottom: 15px;
+    }
+    .page-list {
+        margin: 0;
+        padding: 0;
+        li {
+            font-size: 16px;
+            font-weight: 400;
+            letter-spacing: 1.32px;
+            color: $gray;
+            list-style: none;
+            display: inline-block;
+            position: relative;
+            padding-left: 10px;
+            &:after {
+                position: absolute;
+                left: 0;
+                top: 0;
+                content: "/";
+                font-family:'fontawesome';
+            }
+            &:first-child {
+                padding-left: 0;
+                &:after {
+                    display: none;
+                }
+            }
+        }
+    }
+}
+

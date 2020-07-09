@@ -1,0 +1,224 @@
+/*---------------------------------------
+    ## Button
+---------------------------------------*/
+.box-shadow {
+    box-shadow: 0px 25px 70px #01358D1A;
+}
+.padding-60px {
+    padding: 60px;
+}
+.btn-wrapper  {
+    display: block;
+    .btn-appstore {
+        margin-right: 18px;
+        display: inline-block;
+        border-radius: 8px;
+        @include transition($transition);
+        &:hover {
+            box-shadow: 0px 15px 22px #5B68801C;
+        }
+    }
+    .btn-playstore {
+        display: inline-block;
+        border-radius: 8px;
+        @include transition($transition);
+        &:hover {
+            box-shadow: 0px 15px 22px #5B68801C;
+        }
+    }
+}
+
+.btn {
+    height: 52px;
+    line-height: 52px;
+    padding: 0 48px;
+    letter-spacing: 0.45px;
+    font-weight: 400;
+    @include transition($transition);
+    i {
+        margin-left: 15px;
+    }
+    &:focus {
+        outline: 0;
+        box-shadow: none;
+    }
+    &.btn-rounded {
+        border-radius: 30px;
+    }
+    &.btn-radius {
+        border-radius: 4px;
+    }
+}
+.btn-extra-small {
+    height: 36px;
+    line-height: 36px;
+    padding: 0 30px;
+    font-size: 14px;
+}
+.btn-small {
+    height: 42px;
+    line-height: 42px;
+    padding: 0 30px;
+    font-size: 14px;
+}
+.btn-large {
+    height: 48px;
+    line-height: 48px;
+    padding: 0 30px;
+}
+.btn-extra-large {
+    height: 60px;
+    line-height: 60px;
+    padding: 0 70px;
+}
+.btn-transparent {
+    border: 1px solid $white;
+    color: $white;
+    &:hover,
+    &:focus {
+        color: $gray;
+        background: $white;
+    }
+}
+.btn-no-border-radius {
+    border-radius: 0;
+}
+.btn-border-radius {
+    border-radius: 4px;
+}
+.btn-ex-border-radius {
+    border-radius: 40px;
+}
+.btn-white {
+    background: $white;
+    border: 1px solid $white;
+    color: $gray;
+    &:hover,
+    &:focus {
+        color: $white;
+        background: transparent;
+    }
+}
+.btn-normal {
+    background: $white;
+    border: 1px solid $light-gray;
+    color: $gray;
+    &:hover,
+    &:focus {
+        color: $light-gray;
+        background: transparent;
+    }
+}
+.btn-deactive {
+    background: $white;
+    border: 1px solid #D6DAE1;
+    color: #D6DAE1;
+    &:hover,
+    &:focus {
+        color: #D6DAE1;
+        background: transparent;
+    }
+}
+.btn-green {
+    background: $light-green;
+    box-shadow: 0px 11px 14px #32E2A94D;
+    color: $white;
+    &:hover,
+    &:focus {
+        opacity: 0.7;
+        color: $white;
+    }
+}
+.btn-blue {
+    background: $dark-blue;
+    color: $white;
+    &:hover {
+        opacity: 0.7;
+        color: $white;
+    }
+}
+.btn-red {
+    background: var(--main-color-one);
+    box-shadow: 0px 10px 14px #F524434F;
+    color: $white;
+    &:hover {
+        opacity: 0.8;
+        color: $white;
+    }
+}
+.btn-red-border {
+    background: $white;
+    border: 1px solid var(--main-color-one);
+    &:hover {
+        opacity: 0.8;
+        color: $white;
+        box-shadow: 0px 10px 14px #F524434F;
+        background: var(--main-color-one);
+    }
+}
+.btn-gray {
+    background: #F0F0F0;
+    color: #97A1B3;
+    &:hover {
+        background: var(--main-color-one);
+        color: $white;
+    }
+}
+.single-video-play {
+    span {
+        font-size: 16px;
+        line-height: 28px;
+        font-weight: 500;
+        letter-spacing: 0.96px;
+        color: $light-gray;
+        margin-right: 30px;
+    }
+    a {
+        width: 52px;
+        height: 52px;
+        display: inline-block;
+        background: #FF657C;
+        box-shadow: 0px 10px 16px #F9556D45;
+        border-radius: 50%;
+        line-height: 57px !important;
+        text-align: center;
+        display: inline-block !important;
+        i {
+            color: $white;
+            font-size: 18px;
+            padding-left: 5px;
+        }
+    }
+}
+.desktop-center {
+    text-align:center;
+}
+.desktop-left {
+    text-align:left;
+}
+.desktop-right {
+    text-align:right;
+}
+@media only screen and (max-width:768px){
+    .tablet-center {
+        text-align:center;
+    }
+    .tablet-left {
+        text-align:left;
+    }
+    .tablet-right {
+        text-align: right;
+    }
+}
+@media only screen and (max-width:414px){
+    .mobile-center {
+        text-align:center;
+    }
+    .mobile-left {
+        text-align:left;
+    }
+    .mobile-right {
+        text-align: right;
+    }
+      
+}

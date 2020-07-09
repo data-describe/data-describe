@@ -1,0 +1,72 @@
+/*--------------------------------
+    ## All map 
+----------------------------------*/
+.worldmap-wrap {
+	overflow: hidden;
+    height: 360px;
+    .world-map {
+	  height: 360px;
+	}
+	.water {
+	    fill: none;
+	}
+	.land {
+	  fill: #D9E3F1;
+	  stroke: #ffffff;
+	  stroke-width: 0.7px;
+	  width: 100% !important;
+	  margin: 0 auto;
+	}
+}
+
+/***** google map *****/
+.map-area-wrap {
+	box-shadow: 0px 25px 70px #01358D1A;
+    border-radius: 6px;
+    overflow: hidden;
+}
+#map {
+	height: 610px;
+}
+.map-area-wrap .desktop-center-item {
+	display: grid;
+}
+.contact-info {
+	padding: 50px;
+	.title {
+	    font-size: 36px;
+	    font-weight: 500;
+	    line-height: 1.2;
+	    letter-spacing: 0.36px;
+	    color: $dark-blue;
+	    position: relative;
+        margin-bottom: 15px;
+	    display: block;
+	}
+	.sub-title {
+		margin-bottom: 26px;
+	}
+	p {
+		font-size: var(--body-font-size);
+	    line-height: 28px;
+	    letter-spacing: 0.3px;
+	    color: $gray;
+	    span {
+	    	color: $dark-blue;
+	    	font-weight: 500;
+	    }
+	}
+}
+
+
+.more-question-area {
+	.single-service {
+		padding: 96px 40px 78px 40px;
+	}
+	.single-service img {
+		margin-bottom: 35px;
+	}
+	.single-service h6 {
+		margin-bottom: 16px;
+	}
+}

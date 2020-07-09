@@ -1,0 +1,38 @@
+/********* progress bar style **********/
+.progress-item {
+    padding-top: 5px;
+    padding-bottom: 18px;
+    .progress-heading {
+        text-align: left;
+        font-size: 18px;
+        font-weight: 500;
+        line-height: 22px;
+		letter-spacing: 0.18px;
+		color: $dark-blue;
+    }
+    .progress-count {
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 28px;
+		letter-spacing: 0.84px;
+		color: $dark-blue;
+        float: right;
+    }
+    .progress-bg {
+        position: relative;
+        height: 10px;
+        border-radius: 5px;
+        background: rgba(249, 85, 109, 0.2);
+        margin-top: 12px;
+        .progress-rate {
+            position: absolute;
+            left:0;
+            top:0;
+            width:0;
+            height: 100%;
+            background: #F9556D;
+            transition: 2.5s;
+        	border-radius: 5px;
+        }
+    }
+}

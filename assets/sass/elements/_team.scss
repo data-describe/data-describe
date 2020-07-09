@@ -1,0 +1,54 @@
+/******* team style ********/
+.single-team {
+	padding: 0 30px;
+	margin-bottom: 65px;
+	.thumb {
+		max-height: 220px;
+		max-width: 220px;
+		margin: 0 auto;
+		&:after {
+			content: '';
+		    position: absolute;
+		    background-image: url('../img/startup/team/bg.svg');
+	        background-repeat: no-repeat;
+		    height: 300px;
+		    width: 300px;
+		    margin: 0 auto;
+		    left: 0;
+		    right: 0;
+		    z-index: -1;
+		}
+		img {
+			border-radius: 50%;
+			border: 12px solid $dark-blue2;
+		}
+	}
+	h6 {
+		margin: 58px 0 5px;
+		a {
+			font-size: 24px;
+			font-weight: 500;
+			line-height: 30px;
+			letter-spacing: 0.48px;
+			color: $dark-blue;
+		}
+	}
+	span {
+		font-size: 14px;
+		font-weight: 500;
+		font-style: italic;
+		line-height: 28px;
+		letter-spacing: 1.02px;
+		color: $light-gray;
+		font-family: var(--raleway-font);
+		font-style: italic;
+	}
+	p {
+		font-size: var(--body-font-size);
+		line-height: 26px;
+		letter-spacing: 0.3px;
+		color: $gray;
+		margin-top: 18px;
+		margin-bottom: 0;
+	}
+}

@@ -1,0 +1,134 @@
+/********* songle blog post **********/
+.single-case-studies {
+	box-shadow: 0px 10px 34px #97A1B21F;
+	border-radius: 6px;
+	margin-bottom: 20px;
+	@include transition($transition);
+	.thumb {
+		overflow: hidden;
+		img {
+		    transform: scale(1);
+		    transition: 0.6s;
+		}
+	}
+	.details {
+		padding: 34px 28px 38px;
+		h6 {
+			margin-bottom: 0;
+			a {
+				font-size: 20px;
+				font-weight: 500;
+				letter-spacing: 0;
+				color: $dark-blue;
+				line-height: 1.2;
+			}
+		}
+		p {
+			margin-top: 15px;
+			font-size: var(--body-font-size);
+			line-height: var(--line-height30);
+			margin-bottom: 0;
+		}
+		.read-more {
+			color: #97A1B2;
+			margin-top: 15px;
+			display: inline-block;
+			position: relative;
+			i {
+			    position: absolute;
+    			bottom: 0px;
+    			right: -28px;
+    			transition: 0.3s;
+    			font-size: 22px;
+			}
+			&:hover {
+				color: var(--main-color-one);
+				i {
+					right: -33px;
+				}
+			}
+		}
+		.admin {
+			margin-top: 20px;
+			img {
+				width: 30px;
+				height: 30px;
+				border: 1px solid $light-gray;
+				border-radius: 50%;
+				margin-right: 5px;
+			}
+			span {
+				color: $light-gray;
+			}
+		}
+	}
+	&:hover {
+		box-shadow: 0px 16px 42px #97A1B230;
+		.thumb {
+			img {
+		        transform: scale(1.1) rotate(2deg);
+			}
+		}
+	}
+	&.style-two {
+		box-shadow: none;
+		.details {
+			padding: 28px 0 0 0;
+			.admin {
+				margin-bottom: 10px;
+				margin-top: 0;
+				font-size: 13px;
+			}
+		}
+	}
+}
+.single-post {
+	margin-bottom: 50px;
+	.thumb {
+		overflow: hidden;
+		img {
+		    transform: scale(1);
+		    transition: 0.6s;
+		}
+	}
+	&:hover {
+		.thumb {
+			img {
+		        transform: scale(1.1) rotate(2deg);
+			}
+		}
+	}
+	h6 {
+		margin: 17px 0 12px;
+		a {
+			font-size: 24px;
+			font-weight: 500;
+			line-height: 44px;
+			color: $dark-blue;
+		}
+	}
+	p {
+		font-size: var(--body-font-size);
+		line-height: var(--line-height30);
+		letter-spacing: 0.3px;
+		color: $gray;
+		margin-bottom: 16px;
+	}
+	a {
+		font-size: var(--body-font-size);
+		line-height: var(--line-height30);
+		letter-spacing: 0.3px;
+		color: #97A1B2;
+			@include transition($transition);
+		span {
+			@include transition($transition);
+		}
+		&:hover {
+			color: $dark-blue;
+			span {
+				padding-left: 3px;
+				color: $dark-blue;
+			}
+		}
+	}
+}

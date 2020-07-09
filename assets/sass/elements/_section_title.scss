@@ -1,0 +1,169 @@
+/*----------------------------------------
+  ## Section title
+----------------------------------------*/
+.section-title {
+    margin-bottom: 65px;
+    .counting-number {
+        font-size:  92px;
+        font-weight: 500;
+        letter-spacing: 1.84px;
+        color: #5B6880;
+        background: transparent;
+        -webkit-text-fill-color: transparent;
+        -webkit-text-stroke-width: 1px;
+        -webkit-text-stroke-color: black;
+        position: relative;
+        display: inline-block;
+        &:after {
+            content: '';
+            position: absolute;
+            height: 42px;
+            width: 42px;
+            background: rgba(216, 255, 243, 0.7);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            margin-top: -21px;
+            margin-left: -21px;
+            z-index: -1;
+        }
+    }
+    .title {
+        letter-spacing: 0.92px;
+        color: $dark-blue;
+        opacity: 1;
+        font-weight: 700;
+        margin-bottom: 0;
+        font-family: var(--poppins-font);
+        span {
+            color: var(--main-color-one);
+        }
+    }
+    .title-2 {
+        font-size: 36px;
+        line-height: 44px;
+    }
+    p {
+        letter-spacing: 0.32px;
+        color: $gray;
+        opacity: 1;
+        font-size: var(--body-font-size);
+        line-height: var(--line-height30);
+        margin-top: 18px;
+        margin-bottom: 0;
+        font-weight: 400;
+    }
+    a {
+        font-size: var(--body-font-size);
+        line-height: var(--line-height30);
+        font-weight: 500;
+        letter-spacing: 0.45px;
+        color: #97A1B3;
+        @include transition($transition);
+        margin-top: 24px;
+        display: inline-block;
+        position: relative;
+        img {
+            margin-left: 6px;
+            transition: 0.3s;
+        }
+        &:hover img {
+            margin-left: 9px;
+        }
+        &.read-more i {
+            font-size: 35px;
+            position: absolute;
+            right: -42px;
+            bottom: -3px;
+        }
+        &:hover {
+            color: var(--main-color-one);
+        }
+    }
+    &.style-two {
+        margin-bottom: 44px;
+    }
+    &.style-three {
+        max-width: 80%;
+        margin-bottom: 45px;
+    }
+    &.style-four {
+        .title {
+            font-size: 36px;
+            line-height: 1.2;
+        }
+        p{
+            line-height: 26px;
+        }
+    }
+    &.style-five {
+        .sub-title {
+            font-size: 18px;
+            font-weight: 500;
+            span {
+                color: var(--main-color-one);
+            }
+        }
+    }
+    &.ui-element-section-title {
+        margin-bottom: 0;
+        .title {
+            font-size: 32px;
+            line-height: 1.2;
+            color: $gray;
+        }
+        p{
+            font-size: 16px;
+            line-height: 26px;
+            color: $gray;
+            position: relative;
+            display: inline-block;
+            &:after {
+                content: '';
+                position: absolute;
+                right: -50px;
+                top: 50%;
+                background: #4B4B4B;
+                height: 1px;
+                width: 30px;
+            }
+        }
+    }
+}
+.section-title-3 {
+    max-width: 80%;
+}
+.riyaqas-check-list {
+    margin-bottom: 25px;
+    img {
+        margin-right: 18px;
+    }
+    span {
+        letter-spacing: 0.34px;
+        color: $gray;
+        font-size: 17px;
+        line-height: 28px;
+    }
+}
+// .leftside-image-area {
+//     background-repeat: no-repeat;
+//     background-position: 0 55%;
+//     background-size: 48%;
+//     padding-top: 115px;
+//     padding-bottom: 70px;
+//     .section-title-2 {
+//         padding-top: 75px;
+//     }
+// }
+.client-slider-title {
+    font-size: 32px;
+    line-height: 28px;
+    font-family: var(--poppins-font);
+    letter-spacing: 0.64px;
+    color: #5B6880;
+    font-weight: 400;
+    span {
+        color: var(--main-color-one);
+        font-weight: 500;
+    }
+}

@@ -1,0 +1,136 @@
+/**job-position-area **/
+.single-job-list {
+	background: $white;
+	box-shadow: 0px 4px 20px #9398A11A;
+	border-radius: 8px;
+	padding: 22px 35px 22px 26px;
+	transition: all 0.3s ease;
+	margin-bottom: 40px;
+	align-items: center;
+	&:hover {
+		box-shadow: 0px 7px 30px #9398A11C;
+	}
+	img {
+		width: 66px;
+		height: 66px;
+	}
+	.media-body {
+		border-left: 1px solid #EEEBF7;
+		margin-left: 26.5px;
+		padding-left: 25.5px;
+		h6 {
+			font-size: 18px;
+			font-weight: 500;
+			line-height: 22px;
+			letter-spacing: 0.18px;
+			color: $gray;
+			display: inline-block;
+			margin-bottom: 12px;
+		}
+		span {
+			font-size: var(--body-font-size);
+			line-height: var(--line-height30);
+			font-weight: 400;
+			letter-spacing: 0.3px;
+			color: $gray;
+			display: block;
+		}
+	}
+}
+.job-apply-btn {
+	background: #FFFFFF;
+	border: 1px solid #D6DAE1;
+	border-radius: 4px;
+	font-size: var(--body-font-size);
+	letter-spacing: 0.3px;
+	color: $light-gray;
+	height: 44px;
+	line-height: 44px;
+	transition: all 0.3s ease;
+	cursor: pointer;
+	padding: 0 30px;
+	display: inline-block;
+	&:hover {
+		box-shadow: 0px 7px 16px #01358D6B;
+		background: $dark-blue;
+		color: $white;
+		border: 1px solid $dark-blue;
+	}
+	&:focus,&:active {
+		box-shadow: none;
+		outline: 0;
+	}
+}
+
+/**job-details-area**/
+.job-details-area {
+	.section-title {
+		.title {
+			font-size: 36px;
+			margin-bottom: 0;
+			font-weight: 500;
+			letter-spacing: 0.72px;
+			border-bottom: 1px solid #01358D;
+			padding: 0;
+			display: inline-block;
+		}
+	}
+	h6.title {
+		font-size: 24px;
+		line-height: 28px;
+		font-weight: 500;
+		letter-spacing: 0.24px;
+		color: $dark-blue;
+		margin-bottom: 10px;
+	}
+	span {
+		font-size: 18px;
+		font-weight: 400;
+		line-height: 30px;
+		letter-spacing: 0.36px;
+		color: $gray;
+	}
+	.sub-title {
+		margin-top: 26px;
+		font-size: 20px;
+		line-height: 24px;
+		font-weight: 500;
+		letter-spacing: 0.2px;
+		color: $dark-blue;
+		margin-bottom: 10px;
+	}
+	ul {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+		li {
+			font-size: var(--body-font-size);
+			line-height: var(--line-height30);
+			letter-spacing: 0.3px;
+			color: $gray;
+			position: relative;
+			padding-left: 18px;
+			&:after {
+				content: '';
+				position: absolute;
+				height: 5px;
+				width: 5px;
+				left: 0;
+				top: 13px;
+				border-radius: 50%;
+				background: $gray;
+			}
+
+		}
+	}
+	.job-apply-btn {
+		margin-top: 69px;
+		border: 0;
+		box-shadow: 0px 7px 16px #01358D6B;
+		background: $dark-blue;
+		color: $white;
+		&:hover {
+			opacity: 0.9;
+		}
+	}
+}

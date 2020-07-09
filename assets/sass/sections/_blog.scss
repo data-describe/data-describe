@@ -1,0 +1,138 @@
+
+.single-blog-content {
+	border: 0;
+	margin-bottom: 40px;
+	.thumb {
+		margin-bottom: 30px;
+	}
+	.single-blog-details {
+		.post-meta {
+			list-style: none;
+			padding: 0;
+			margin: 0;
+			li {
+				font-size: var(--body-font-size);
+				line-height: 24px;
+				font-weight: 400;
+				letter-spacing: 0.3px;
+				color: $light-gray;
+				margin-right: 3px;
+				margin-bottom: 9px;
+				display: inline-block;
+				i {
+					margin-right: 5px;
+				    float: left;
+				    margin-top: 5px;
+				}
+				&.admin {
+					letter-spacing: 0.45px;
+					color: #DFE5EF;
+					background: $dark-blue;
+					border-radius: 2px;
+					height: 23px;
+					line-height: 24px;
+					padding: 0 15px;
+					margin-right: 17px;
+				}
+			}
+		}
+		h5 {
+			font-size: 36px;
+			line-height: 1.2;
+			font-weight: 600;
+			letter-spacing: 0.72px;
+			color: $dark-blue;
+			margin-bottom: 21px;
+			display: block;
+		}
+		h5 {
+			margin-top: 12px;
+			a {
+				font-size: 36px;
+				line-height: 1.2;
+				font-weight: 500;
+				letter-spacing: 0.72px;
+				color: $dark-blue;
+				display: block;
+			}
+		}
+		p {
+			font-size: var(--body-font-size);
+			line-height: 27px;
+			color: $gray;
+			margin-bottom: 16px;
+		}
+		a {
+			font-size: var(--body-font-size);
+			line-height: var(--line-height30);
+			letter-spacing: 0.3px;
+			color: $dark-blue;
+			transition: all 0.3s ease;				
+			span {
+				transition: all 0.3s ease;	
+				position: relative;			
+			}
+			&:hover {
+				color: var(--main-color-one);
+				span {
+					margin-left: 3px;
+				}
+			}
+			i {
+			    font-size: 22px;
+			    position: absolute;
+			    bottom: -3px;
+			    right: -28px
+			}
+		}
+	}
+	&.style-two {
+		.thumb img {
+			width: 100%;
+		}
+		.single-blog-details h5 a {
+			font-size: 26px;
+			line-height: 32px;
+		}
+	}
+	.audio-player {
+		iframe {
+			width: 100%;
+			border: 0;
+		}
+	}
+}
+
+
+/******* blog details style *******/
+.post-share-area {
+	border-top: 1px solid #E4E7EB;
+	border-bottom: 1px solid #E4E7EB;
+	padding: 40px 0; 
+	.sb-inner-title {
+		font-size: 24px;
+		line-height: auto;
+		font-weight: 500;
+		letter-spacing: 0.28px;
+		color: $dark-blue;
+		margin-bottom: 0;
+		margin-right: 30px;
+	}
+	.social-icon li:first-child {
+		margin-left: 0;
+	}
+}
+
+.rq-blockquote {
+	padding: 40px 30px 35px 30px;
+	position: relative;
+	margin: 13px 0 20px 0;
+	background: #F1F2F6;
+	p {
+		font-weight: 500;
+		font-size: 18px !important;
+		font-style: Italic;
+		color: #515D73;
+		font-family: var(--body-font);
+	}
+}

@@ -1,0 +1,73 @@
+
+/*---------------------------------------
+    ## Counter area
+---------------------------------------*/
+.single-counter {
+	.counting {
+		font-size: 45px;
+		line-height: 30px;
+		font-weight: 300;
+		letter-spacing: 1.04px;
+		color: $white;
+	}
+	h6 {
+		font-size: 16px;
+		line-height: 30px;
+		font-weight: 400;
+		font-family: var(--raleway-font);
+		letter-spacing: 0.36px;
+		color: $white;
+		margin: 5px 0 0; 
+	}
+}
+
+/******* comming soon count down ********/
+.comming-soon-area {
+	height: 100vh;
+	display: flex;
+	align-items: center;
+	.comming-soon-title {
+		margin-bottom: 50px;
+	}
+	.newsletter-subcribe {
+		margin-top: 200px;
+		p {
+			font-size: 20px;
+			color: $dark-blue;
+			margin-bottom: 35px;
+		}
+	}
+}
+.comming-soon-title {
+	font-size: 100px;
+	font-weight: 300;
+	letter-spacing: 0;
+	color: $dark-blue;
+}
+.countdown-item {
+	height: 160px;
+	width: 160px;
+	padding-top: 44px;
+	margin-right: 40px;
+	display: inline-block;
+	border: 1px solid var(--main-color-one);
+	border-radius: 50%;
+	text-align: center;
+	h2 {
+		margin: 0;
+		line-height: 1.3;
+		color: #5B6880;
+		font-weight: 300;
+		font-size: 36px;
+	}
+	span {
+		margin: 0;
+		line-height: 1.2;
+		color: #5B6880;
+		font-size: 18px;
+		font-weight: 300;
+	}
+	&:last-child{
+		margin-right: 0;
+	}
+}

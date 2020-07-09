@@ -1,0 +1,188 @@
+/*----------------------------
+    Info Bar
+----------------------------*/
+.info-bar-area{
+    &.style-three{
+        .info-bar-inner{
+            padding: 10px 0 18px 0;
+            .social-icon{
+                margin-top: 15px;
+            }
+        }
+    }
+    &.style-two{
+        .info-bar-inner{
+            padding: 0;
+        }
+    }
+    .social-icon{
+        .title{
+            font-size: 16px;
+            line-height: 26px;
+            font-weight: 700;
+            margin-bottom: 0;
+            color: var(--heading-color);
+        }
+    }
+}
+.info-bar-inner{
+    padding: 32px 0 35px 0;
+    div{
+        display: inline-block;
+    }
+    .logo-wrapper{
+        .logo{
+            margin-top: 5px;
+            display: block;
+        }
+        .site-title{
+            font-size: 35px;
+            font-weight: 700;
+            margin-top: 10px;
+        }
+    }
+    .right-content{
+        display: inline-block;
+        float: right;
+        .request-quote{
+            margin-left: 40px;
+            .rq-btn{
+                &.blank{
+                    background-color: #f1f1f1;
+                    border-radius: 0;
+                    top: 0;
+                    padding: 15px 40px;
+                    color: var(--heading-color);
+                    i{
+                        color: var(--main-color-one);
+                        @include transition($transition);
+                    }
+                    &:hover{
+                        background-color: var(--main-color-one);
+                        color: $white;
+                        i{
+                            color: $white;
+                        }
+                    }
+                }
+                padding: 15px 25px;
+                background-color: var(--main-color-one);
+                border-radius: 30px;
+                color: $white;
+                font-weight: 600;
+                text-transform: capitalize;
+                display: block;
+                position: relative;
+                top: -5px;
+                @include transition($transition);
+                &:hover{
+                    background-color: var(--secondary-color);
+                }
+            }
+        }
+        
+    }
+}
+
+.info-items{
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    li{
+        display: inline-block;
+        margin: 0 30px;
+        &:hover{
+            .single-info-item{
+                .content{
+                    .title{
+                        color: var(--main-color-one);
+                    }
+                }
+            }
+        }
+        &:first-child{
+            margin-left: 0;
+        }
+        &:last-child{
+            margin-right: 0;
+        }
+        .single-info-item{
+            display: flex;
+            align-self: flex-start;
+            .icon{
+                margin-right: 20px;
+                font-size: 40px;
+                line-height: 40px;
+                color: var(--main-color-one);
+            }
+            .content{
+                .title{
+                    font-size: 16px;
+                    line-height: 26px;
+                    font-weight: 700;
+                    margin-bottom: 0;
+                    @include transition($transition);
+                }
+                .details{
+                    font-size: 14px;
+                    line-height: 24px;
+                }
+            }
+        }
+    }
+}
+
+.info-items-two{
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    margin-top: 10px;
+    li{
+        display: inline-block;
+        margin: 0 30px;
+        &:hover{
+            .single-info-item{
+                .content{
+                    .title{
+                        color: var(--main-color-one);
+                    }
+                }
+            }
+        }
+        &:first-child{
+            margin-left: 0;
+        }
+        &:last-child{
+            margin-right: 0;
+        }
+        .single-info-item{
+            display: flex;
+            align-self: flex-start;
+            .icon{
+                margin-right: 15px;
+                font-size: 30px;
+                line-height: 30px;
+                color: var(--main-color-one);
+            }
+            .content{
+                margin-top: 3px;
+                .title{
+                    font-size: 16px;
+                    line-height: 26px;
+                    font-weight: 700;
+                    margin-bottom: 0;
+                    @include transition($transition);
+                }
+                .details{
+                    margin-left: 5px;
+                    font-size: 14px;
+                    line-height: 24px;
+                    font-weight: 500;
+                    color: var(--paragraph-color);
+                }
+            }
+        }
+    }
+}
