@@ -4,10 +4,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-from data_describe.utilities.contextmanager import _context_manager
 
-
-@_context_manager
 def scatter_plots(
     data,
     plot_mode="matrix",
@@ -15,7 +12,6 @@ def scatter_plots(
     joint_kws=None,
     scatter_kws=None,
     dist_kws=None,
-    context=None,
 ):
     """Scatter plots
 
@@ -33,7 +29,6 @@ def scatter_plots(
         joint_kws: Keywords to pass to seaborn.JointGrid
         scatter_kws: Keywords to pass to seaborn.scatterplot
         dist_kws: Keywords to pass to the seaborn.distplot
-        context: The context
 
     Returns:
         Seaborn figure or list of figures
@@ -67,9 +62,7 @@ def scatter_plots(
                 x_col = num_df.columns.values[p[0]]
                 y_col = num_df.columns.values[p[1]]
                 fig.append(
-                    scatter_plot(
-                        data, x_col, y_col, joint_kws, scatter_kws, dist_kws, context
-                    )
+                    scatter_plot(data, x_col, y_col, joint_kws, scatter_kws, dist_kws)
                 )
             return fig
 
@@ -96,13 +89,7 @@ def scatter_plots(
                     y_col = scag.names[k[1]]
                     fig.append(
                         scatter_plot(
-                            data,
-                            x_col,
-                            y_col,
-                            joint_kws,
-                            scatter_kws,
-                            dist_kws,
-                            context,
+                            data, x_col, y_col, joint_kws, scatter_kws, dist_kws,
                         )
                     )
         else:
@@ -112,9 +99,7 @@ def scatter_plots(
         raise ValueError(f"Unknown plot mode: {plot_mode}")
 
 
-def scatter_plot(
-    data, x, y, joint_kws=None, scatter_kws=None, dist_kws=None, context=None
-):
+def scatter_plot(data, x, y, joint_kws=None, scatter_kws=None, dist_kws=None):
     """Generate one scatter (joint) plot
 
     Args:
@@ -124,13 +109,15 @@ def scatter_plot(
         joint_kws: Keywords to pass to seaborn.JointGrid
         scatter_kws: Keywords to pass to seaborn.scatterplot
         dist_kws: Keywords to pass to the seaborn.distplot
-        context: The context
+
 
     Returns:
         The Seaborn figure
     """
     if joint_kws is None:
-        joint_kws = {"height": max(context.fig_width, context.fig_height)}
+        joint_kws = {}
+        # joint_kws = {"height": max(context.fig_width.fig_height)} # TODO (haishiro): Replace with get_option
+        pass
     if scatter_kws is None:
         scatter_kws = {}
     if dist_kws is None:

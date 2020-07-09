@@ -11,10 +11,8 @@ from plotly.offline import init_notebook_mode, iplot
 from IPython import get_ipython
 
 from data_describe.dimensionality_reduction.dimensionality_reduction import dim_reduc
-from data_describe.utilities.contextmanager import _context_manager
 
 
-@_context_manager
 def cluster(
     df,
     method="KMeans",
@@ -25,7 +23,6 @@ def cluster(
     analysis="silhouette_score",
     return_value=None,
     kwargs=None,
-    context=None,
 ):
     """ Creates cluster visualization
 
@@ -47,7 +44,7 @@ def cluster(
                     reduc=Return the 2-dimensional data with cluster labels)
 
         kwargs: Key word arguments for clustering methods
-        context: The context
+
 
     Returns:
         viz: Seaborn scatter plot or Plotly scatter plot
@@ -91,7 +88,6 @@ def cluster(
             elbow=elbow,
             truncator=truncator,
             kwargs=kwargs,
-            context=context,
         )
         df["cluster"] = reduc_df["cluster"]
 
@@ -102,7 +98,6 @@ def cluster(
             interactive=interactive,
             truncator=truncator,
             kwargs=kwargs,
-            context=context,
         )
         df["cluster"] = reduc_df["cluster"]
 
@@ -121,7 +116,6 @@ def cluster(
         raise ValueError("{} is not supported".format(return_value))
 
 
-@_context_manager
 def kmeans_cluster(
     data,
     reduc_df,
@@ -134,7 +128,6 @@ def kmeans_cluster(
     target=None,
     elbow=False,
     kwargs=None,
-    context=None,
 ):
     """Function to create K-Means clustering visualization
 
@@ -154,7 +147,6 @@ def kmeans_cluster(
         target: Name of the column that contains the response
         elbow: If true, create an elbow plot for the optimal number of clusters
         kwargs: Key word arguments to be passed into K-Means cluster
-        context: The context
 
     Returns:
         Seaborn plot or Plotly interactive scatter plot
@@ -174,7 +166,7 @@ def kmeans_cluster(
     labels, kmeans_model = apply_kmeans(data, n_clusters, kwargs)
     reduc_df["cluster"] = pd.Series(labels).astype("str")
     if elbow is True:
-        plt.figure(figsize=(context.fig_width, context.fig_height))
+        # plt.figure(figsize=(context.fig_width.fig_height)) # TODO (haishiro): Replace with get_option
         elbow_plot = sns.lineplot(cluster_range, scores)
         elbow_plot.set_title("Optimal Number of Clusters")
         plt.xlabel("Number of Clusters")
@@ -280,13 +272,7 @@ def apply_kmeans(data, n_clusters=None, kwargs=None):
 
 
 def hdbscan_cluster(
-    data,
-    reduc_df,
-    truncator=None,
-    interactive=True,
-    min_cluster_size=15,
-    kwargs=None,
-    context=None,
+    data, reduc_df, truncator=None, interactive=True, min_cluster_size=15, kwargs=None,
 ):
     """Function to create a HDBSCAN clustering visualization
 
@@ -298,7 +284,6 @@ def hdbscan_cluster(
                     If True, create plotly interactive plot
         min_cluster_size: Minimum size of grouping to be considered a cluster
         kwargs: Key word arguments for HDBSCAN
-        context: The context
 
     Returns:
         interactive plot: ploty scatter plot
@@ -321,7 +306,6 @@ def hdbscan_cluster(
                 x=reduc_df.columns[0],
                 y=reduc_df.columns[1],
                 truncator=truncator,
-                context=context,
             ),
             reduc_df,
         )
@@ -334,7 +318,6 @@ def hdbscan_cluster(
                 y=reduc_df.columns[1],
                 color="cluster",
                 truncator=truncator,
-                context=context,
             ),
             reduc_df,
         )
@@ -362,8 +345,7 @@ def truncate_data(data):
     return reduc_df, truncator
 
 
-@_context_manager
-def interactive_plot(df, x, y, method, color, truncator=None, context=None):
+def interactive_plot(df, x, y, method, color, truncator=None):
     """ Creates interactive scatter plot using plotly
 
     Args:
@@ -373,7 +355,6 @@ def interactive_plot(df, x, y, method, color, truncator=None, context=None):
         method: Method for creating a title for the plot
         color: Feature from df that determines color for data points
         truncator: Instance of a dimensionality reduction method
-        context: The context
 
     Returns:
         fig: Plotly scatter plot or plotly object
@@ -423,8 +404,8 @@ def interactive_plot(df, x, y, method, color, truncator=None, context=None):
         yaxis=dict(zeroline=False, title=y),
         xaxis=dict(zeroline=False, title=x),
         autosize=False,
-        width=context.viz_size,
-        height=context.viz_size,
+        # width=1000, # context.viz_size # TODO (haishiro): Replace with get_option
+        # height=1000, # context.viz_size # TODO (haishiro): Replace with get_option
         title={"text": "{} Cluster".format(method), "font": {"size": 25}},
     )
 
@@ -436,8 +417,7 @@ def interactive_plot(df, x, y, method, color, truncator=None, context=None):
     return fig
 
 
-@_context_manager
-def static_plot(data, x, y, method, truncator=None, context=None):
+def static_plot(data, x, y, method, truncator=None):
     """ Creates a plot using seaborn's lmplot
 
     Args:
@@ -446,7 +426,6 @@ def static_plot(data, x, y, method, truncator=None, context=None):
         y: y-axis column
         method: Method for creating a title for the plot
         truncator: Instance of a dimensionality reduction method
-        context: The context
 
     Returns:
         fig: Matplotlib scatter plot
@@ -460,8 +439,8 @@ def static_plot(data, x, y, method, truncator=None, context=None):
         hue="cluster",
         palette=p,
         fit_reg=False,
-        height=context.fig_height,
-        aspect=context.fig_width / context.fig_height,
+        # height=10 ,  # context.fig_height, # TODO (haishiro): Replace with get_option
+        # aspect=1 ,  # context.fig_width / 10 ,  # context.fig_height, # TODO (haishiro): Replace with get_option # TODO (haishiro): Replace with get_option
         legend=False,
     )
     sns.set_context("talk")

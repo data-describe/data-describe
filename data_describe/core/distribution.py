@@ -4,12 +4,10 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-from data_describe.utilities.contextmanager import _context_manager
 from data_describe.metrics.univariate import skewed, spikey
 from data_describe.metrics.bivariate import heteroscedastic, varying
 
 
-@_context_manager
 def distribution(
     data,
     plot_all=False,
@@ -18,7 +16,6 @@ def distribution(
     skew=3,
     hist_kwargs=None,
     violin_kwargs=None,
-    context=None,
 ):
     """ Plots all "interesting" distribution plots
 
@@ -30,7 +27,6 @@ def distribution(
         skew: The skew threshold for identifying skewed histograms
         hist_kwargs: Keyword arguments to be passed to seaborn.distplot
         violin_kwargs: Keyword arguments to be passed to seaborn.violinplot
-        context: The context
 
     Returns:
         Matplotlib graphics
@@ -42,21 +38,15 @@ def distribution(
         raise NotImplementedError
 
     fig_hist = plot_histograms(
-        num, plot_all, spike=spike, skew=skew, hist_kwargs=hist_kwargs, context=context
+        num, plot_all, spike=spike, skew=skew, hist_kwargs=hist_kwargs
     )
     fig_violin = plot_violins(
-        data,
-        num,
-        cat,
-        max_categories,
-        plot_all,
-        violin_kwargs=violin_kwargs,
-        context=context,
+        data, num, cat, max_categories, plot_all, violin_kwargs=violin_kwargs,
     )
     return fig_hist + fig_violin
 
 
-def plot_histograms(data, plot_all, spike=10, skew=6, hist_kwargs=None, context=None):
+def plot_histograms(data, plot_all, spike=10, skew=6, hist_kwargs=None):
     """ Makes histogram plots
 
     Args:
@@ -65,7 +55,6 @@ def plot_histograms(data, plot_all, spike=10, skew=6, hist_kwargs=None, context=
         spike: The factor threshold for identifying spikey histograms
         skew: The skew threshold for identifying skewed histograms
         hist_kwargs: Keyword arguments to be passed to seaborn.distplot
-        context: The context
 
     Returns:
         Matplotlib graphics
@@ -80,26 +69,25 @@ def plot_histograms(data, plot_all, spike=10, skew=6, hist_kwargs=None, context=
                 message=r"Using a non-tuple sequence for multidimensional indexing is deprecated",
             )
             if plot_all:
-                fig.append(plot_histogram(data[column].dropna(), hist_kwargs, context))
+                fig.append(plot_histogram(data[column].dropna(), hist_kwargs))
             elif spikey(data[column].dropna(), factor=spike) or skewed(
                 data[column].dropna(), threshold=skew
             ):
-                fig.append(plot_histogram(data[column].dropna(), hist_kwargs, context))
+                fig.append(plot_histogram(data[column].dropna(), hist_kwargs))
         return fig
 
 
-def plot_histogram(x, hist_kwargs=None, context=None):
+def plot_histogram(x, hist_kwargs=None):
     """ Make a single histogram plot
 
     Args:
         x: The 1-dimensional data, as a list or numpy array
         hist_kwargs: Keyword arguments to be passed to seaborn.distplot
-        context: The context
 
     Returns:
         Matplotlib graphic
     """
-    plt.figure(figsize=(context.fig_width, context.fig_height))
+    # plt.figure(figsize=(context.fig_width.fig_height)) # TODO (haishiro): Replace with get_option
     if hist_kwargs is None:
         hist_kwargs = {"kde": False, "rug": False}
     fig = sns.distplot(x, **hist_kwargs)
@@ -112,14 +100,7 @@ def plot_histogram(x, hist_kwargs=None, context=None):
 
 
 def plot_violins(
-    data,
-    num,
-    cat,
-    max_categories,
-    plot_all=False,
-    alpha=0.01,
-    violin_kwargs=None,
-    context=None,
+    data, num, cat, max_categories, plot_all=False, alpha=0.01, violin_kwargs=None,
 ):
     """ Makes violin plots
 
@@ -131,7 +112,6 @@ def plot_violins(
         plot_all: If True, plot all violin plots without variation or heteroscedascity
         alpha: The significance level for Levene's test and one-way ANOVA
         violin_kwargs: Keyword arguments to be passed to seaborn.violinplot
-        context: The context
 
     Returns:
         Matplotlib graphics
@@ -148,7 +128,7 @@ def plot_violins(
                         message=r"Using a non-tuple sequence for multidimensional",
                     )
                     y, x = roll_up_categories(data[n], data[c], max_categories)
-                    fig.append(plot_violin(x, y, data, violin_kwargs, context))
+                    fig.append(plot_violin(x, y, data, violin_kwargs,))
             else:
                 grp = split_by_category(data[[c, n]].dropna(), c, n)
                 y, x = roll_up_categories(data[n], data[c], max_categories)
@@ -160,11 +140,11 @@ def plot_violins(
                         message=r"Using a non-tuple sequence for multidimensional",
                     )
                     if varying(grp, alpha=alpha) or heteroscedastic(grp, alpha=alpha):
-                        fig.append(plot_violin(x, y, data, violin_kwargs, context))
+                        fig.append(plot_violin(x, y, data, violin_kwargs))
     return fig
 
 
-def plot_violin(x, y, data, violin_kwargs=None, context=None):
+def plot_violin(x, y, data, violin_kwargs=None):
     """ Make a single violin plot
 
     Args:
@@ -172,12 +152,12 @@ def plot_violin(x, y, data, violin_kwargs=None, context=None):
         y: The y (numeric) data vector or name string
         data: The data
         violin_kwargs: Keyword arguments to be passed to seaborn.violinplot
-        context: The context
+
 
     Returns:
         Matplotlib graphic
     """
-    plt.figure(figsize=(context.fig_width, context.fig_height))
+    # plt.figure(figsize=(context.fig_width.fig_height)) # TODO (haishiro): Replace with get_option
     if violin_kwargs is None:
         violin_kwargs = {"cut": 0}
     fig = sns.violinplot(x, y, data=data, **violin_kwargs)

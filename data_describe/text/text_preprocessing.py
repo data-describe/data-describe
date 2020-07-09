@@ -257,9 +257,7 @@ def preprocess_texts(text_docs, lem=False, stem=False, custom_pipeline=None):
 
     for function in pipeline:
         if isinstance(function, str):
-            current_method = getattr(
-                text_preprocessing, function
-            )
+            current_method = getattr(text_preprocessing, function)
             text_docs = current_method(text_docs)
         else:
             text_docs = function(text_docs)
