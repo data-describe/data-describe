@@ -65,6 +65,7 @@ def set_option(path: str, value: Any) -> None:
 def get_config() -> Dict:
     """Get a deep copy of the current configuration.
 
+
     Returns:
         The current configuration dictionary
     """
@@ -94,6 +95,7 @@ def flatten_config(config: Dict) -> Dict:
 
         {"backends": {"viz": "seaborn"}}
 
+
         becomes:
         {"backends.viz": "seaborn"}
     """
@@ -111,6 +113,7 @@ class Options:
 
     def __setattr__(self, key: str, value: Any):
         """Set attribute."""
+
         path = object.__getattribute__(self, "path")
         if path:
             path += "."
@@ -120,6 +123,7 @@ class Options:
 
     def __getattr__(self, key: str) -> Any:
         """Get attribute."""
+
         path = object.__getattribute__(self, "path")
         if path:
             path += "."
@@ -182,5 +186,6 @@ def update_context(*args):
 
     try:
         yield get_config()
+
     finally:
         set_config(old_config)
