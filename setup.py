@@ -20,6 +20,7 @@ REQUIRED = [
     "hdbscan>=0.8.20",
     "gcsfs>=0.2.1",
     "plotly>=3.8.1",
+    "statsmodels>=0.11.1",
 ]
 
 EXTRAS = {
@@ -53,10 +54,10 @@ setup(
     entry_points={
         "data_describe_viz_backends": [
             "seaborn = data_describe:backends.viz._seaborn",
-            "plotly = data_describe:backends.viz._plotly"
+            "plotly = data_describe:backends.viz._plotly",
         ],
         "data_describe_compute_backends": [
             "pandas = data_describe:backends.compute._pandas",
-        ]
+        ],
     },
 )
