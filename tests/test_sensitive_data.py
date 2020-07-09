@@ -64,7 +64,7 @@ def test_redact_info():
     assert result_text == "This string contains a domain <DOMAIN_NAME>"
 
 
-def test_sensitive_data_cols(compute_backend):
+def test_sensitive_data_cols():  # removed compute_backend
     df = pd.DataFrame({"domain": "gmail.com", "name": "John Doe"}, index=[1])
     redacted_df = sensitive_data(df, redact=True, cols=["name"])
     assert redacted_df.shape == (1, 1)
@@ -73,7 +73,7 @@ def test_sensitive_data_cols(compute_backend):
 
 def test_type():
     with pytest.raises(TypeError):
-        sensitive_data("this is not a dataframe")
+        sensitive_data("this is not a dataframe", compute_backend="pandas")
     with pytest.raises(TypeError):
         sensitive_data(pd.DataFrame(), cols="this is not a list")
 

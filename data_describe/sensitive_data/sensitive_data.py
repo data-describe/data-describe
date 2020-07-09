@@ -1,4 +1,5 @@
 from data_describe.backends import _get_compute_backend
+from data_describe.compat import _DATAFRAME_TYPE
 
 
 def sensitive_data(
@@ -28,6 +29,13 @@ def sensitive_data(
         A dataframe if redact or anonymize is True.
         Dictionary of column infotypes if detect_infotypes is True
     """
+    if not isinstance(df, _DATAFRAME_TYPE):
+        raise TypeError("Pandas data frame or modin data frame required")
+
+    x = _get_compute_backend(compute_backend, df)
+
+    print("########################")
+    print(x.b)
     df = _get_compute_backend(compute_backend, df).process_sensitive_data(
         df=df,
         redact=redact,
