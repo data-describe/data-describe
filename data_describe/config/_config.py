@@ -65,7 +65,6 @@ def set_option(path: str, value: Any) -> None:
 def get_config() -> Dict:
     """Get a deep copy of the current configuration.
 
-
     Returns:
         The current configuration dictionary
     """
@@ -94,8 +93,6 @@ def flatten_config(config: Dict) -> Dict:
         For example:
 
         {"backends": {"viz": "seaborn"}}
-
-
         becomes:
         {"backends.viz": "seaborn"}
     """
@@ -143,6 +140,7 @@ class Options:
         return f"{self.path}\n{self.config}"
 
     def __repr__(self):  # noqa:D105
+
         return self.config
 
 
@@ -165,7 +163,6 @@ def update_context(*args):
 
     Args:
         *args: May be one of two formats:
-
             1. A single dictionary, either nested or using the configuration "path"s for keys
             2. Pairs of arguments, where the first argument is the configuration "path" and the
                 second is the value
