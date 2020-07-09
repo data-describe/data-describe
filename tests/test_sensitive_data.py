@@ -77,6 +77,7 @@ def test_type_df_type(compute_backend_pii_text):
 
 
 def test_column_type(compute_backend_pii_df):
+
     with pytest.raises(TypeError):
         sensitive_data(compute_backend_pii_df, cols="this is not a list")
 
