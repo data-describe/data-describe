@@ -9,7 +9,7 @@ def sensitive_data(
     detect_infotypes=False,
     cols=None,
     compute_backend=None,
-    **kwargs
+    **kwargs,
 ):
     """Identifies, redacts, and encrypts PII data.
 
@@ -31,18 +31,19 @@ def sensitive_data(
     """
     if not isinstance(df, _DATAFRAME_TYPE):
         raise TypeError("Pandas data frame or modin data frame required")
+    if cols:
+        if not isinstance(cols, list):
+            raise TypeError("cols must be type list")
+    if (encrypt or detect_infotypes) and redact:
+        raise ValueError("Set redact=False to encrypt or detect_infotypes")
 
-    x = _get_compute_backend(compute_backend, df)
-
-    print("########################")
-    print(x.b)
-    df = _get_compute_backend(compute_backend, df).process_sensitive_data(
+    df = _get_compute_backend(compute_backend, df).compute_sensitive_data(
         df=df,
         redact=redact,
         encrypt=encrypt,
         detect_infotypes=detect_infotypes,
         cols=cols,
-        **kwargs
+        **kwargs,
     )
 
     return df
