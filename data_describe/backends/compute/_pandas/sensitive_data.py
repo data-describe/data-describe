@@ -1,9 +1,12 @@
 import hashlib
 from functools import reduce
+from typing import Union
+
 
 from presidio_analyzer import AnalyzerEngine
 
 from data_describe.config._config import set_config, get_option
+from data_describe.compat import _DATAFRAME_STATIC_TYPE
 
 
 set_config(
@@ -23,14 +26,14 @@ engine = AnalyzerEngine(
 
 
 def compute_sensitive_data(
-    df,
-    redact=True,
-    encrypt=False,
-    detect_infotypes=False,
-    cols=None,
-    score_threshold=None,
-    sample_size=None,
-):
+    df: _DATAFRAME_STATIC_TYPE,
+    redact: bool = True,
+    encrypt: bool = False,
+    detect_infotypes: bool = False,
+    cols: list = None,
+    score_threshold: float = None,
+    sample_size: int = None,
+) -> Union[_DATAFRAME_STATIC_TYPE, dict]:
     """Identifies, redacts, and encrypts PII data
     Note: sensitive_data uses Microsoft's Presidio in the backend. Presidio can be help identify sensitive data.
     However, because Presidio uses trained ML models, there is no guarantee that Presidio will find all sensitive information.
