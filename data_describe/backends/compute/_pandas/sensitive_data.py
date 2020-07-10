@@ -1,11 +1,10 @@
 import hashlib
 from functools import reduce
-from typing import Union, Optional
+from typing import Optional, Any, Union
 
 from presidio_analyzer import AnalyzerEngine
 
 from data_describe.config._config import set_config, get_option
-from data_describe.compat import _DATAFRAME_STATIC_TYPE
 
 
 set_config(
@@ -17,7 +16,7 @@ set_config(
 )
 _DEFAULT_SCORE_THRESHOLD = get_option("sensitive_data.score_threshold")
 _ENABLE_TRACE_PII = get_option("sensitive_data.enable_trace_pii")
-_SAMPLE_SIZE = get_option("sensitive_data.sample_size")
+_SAMPLE_SIZE: int = get_option("sensitive_data.sample_size")
 
 
 engine = AnalyzerEngine(
@@ -26,14 +25,14 @@ engine = AnalyzerEngine(
 
 
 def compute_sensitive_data(
-    df: _DATAFRAME_STATIC_TYPE,
+    df,
     redact: bool = True,
     encrypt: bool = False,
     detect_infotypes: bool = False,
-    cols: list = None,
+    cols: Optional[list] = None,
     score_threshold: Optional[float] = None,
     sample_size: Optional[int] = None,
-) -> Union[_DATAFRAME_STATIC_TYPE, dict]:
+) -> Union[Any, dict]:
     """Identifies, redacts, and encrypts PII data
     Note: sensitive_data uses Microsoft's Presidio in the backend. Presidio can be help identify sensitive data.
     However, because Presidio uses trained ML models, there is no guarantee that Presidio will find all sensitive information.
@@ -52,6 +51,7 @@ def compute_sensitive_data(
         Dictionary of column infotypes if detect_infotypes is True
     """
     score_threshold = score_threshold or _DEFAULT_SCORE_THRESHOLD
+    sample_size = sample_size or _SAMPLE_SIZE
     if cols:
         df = df[cols]
     if redact:

@@ -1,14 +1,16 @@
+from typing import Optional, Any, Union
+
 from data_describe.backends import _get_compute_backend
 from data_describe.compat import _DATAFRAME_TYPE
 
 
 def sensitive_data(
     df,
-    redact=True,
-    encrypt=False,
-    detect_infotypes=False,
-    cols=None,
-    compute_backend=None,
+    redact: bool = True,
+    encrypt: bool = False,
+    detect_infotypes: bool = False,
+    cols: Optional[list] = None,
+    compute_backend: Optional[str] = None,
     **kwargs,
 ):
     """Identifies, redacts, and encrypts PII data.
