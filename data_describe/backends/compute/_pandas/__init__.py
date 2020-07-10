@@ -16,5 +16,5 @@ from data_describe.backends.compute._pandas.sensitive_data import (  # noqa: F40
     compute_sensitive_data,
 )
 from data_describe.backends.compute._pandas.sensitive_data import (  # noqa: F401
-    process_sensitive_data,
+    compute_sensitive_data,
 )
