@@ -67,7 +67,6 @@ def test_sensitive_data_cols(compute_backend_pii_df):
     redacted_df = compute_sensitive_data(
         compute_backend_pii_df, redact=True, cols=["name"]
     )
-
     assert redacted_df.shape == (1, 1)
     assert redacted_df.loc[1, "name"] == "<PERSON>"
 
