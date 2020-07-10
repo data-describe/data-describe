@@ -1,7 +1,7 @@
-import pandas as pd
 import pytest
 import presidio_analyzer
 
+from data_describe.compat import _DATAFRAME_TYPE
 from data_describe.sensitive_data.sensitive_data import sensitive_data
 from data_describe.backends.compute._pandas.sensitive_data import (
     identify_pii,
@@ -11,6 +11,7 @@ from data_describe.backends.compute._pandas.sensitive_data import (
     identify_infotypes,
     encrypt_text,
     hash_string,
+    compute_sensitive_data,
 )
 
 
@@ -27,18 +28,16 @@ def test_identify_pii():
     assert response[0].entity_type == "DOMAIN_NAME"
 
 
-def test_identify_column_infotypes():
-    test_series = pd.Series(["This string contains a domain, gmail.com"])
-    results = identify_column_infotypes(test_series, sample_size=1)
+def test_identify_column_infotypes(compute_backend_column_infotype):
+    results = identify_column_infotypes(compute_backend_column_infotype, sample_size=1)
     assert isinstance(results, list)
     assert len(results) == 1
     assert isinstance(results[0], str)
     assert results[0] == "DOMAIN_NAME"
 
 
-def test_identify_infotypes():
-    df = pd.DataFrame({"domain": "gmail.com", "name": "John Doe"}, index=[1])
-    results = identify_infotypes(df, sample_size=1)
+def test_identify_infotypes(compute_backend_pii_df):
+    results = identify_infotypes(compute_backend_pii_df, sample_size=1)
     assert isinstance(results, dict)
     assert len(results) == 2
     assert isinstance(results["domain"], list)
@@ -64,41 +63,43 @@ def test_redact_info():
     assert result_text == "This string contains a domain <DOMAIN_NAME>"
 
 
-def test_sensitive_data_cols():  # removed compute_backend
-    df = pd.DataFrame({"domain": "gmail.com", "name": "John Doe"}, index=[1])
-    redacted_df = sensitive_data(df, redact=True, cols=["name"])
+def test_sensitive_data_cols(compute_backend_pii_df):
+    redacted_df = sensitive_data(compute_backend_pii_df, redact=True, cols=["name"])
     assert redacted_df.shape == (1, 1)
     assert redacted_df.loc[1, "name"] == "<PERSON>"
 
 
-def test_type():
+def test_type_df_type(compute_backend_pii_text):
     with pytest.raises(TypeError):
-        sensitive_data("this is not a dataframe", compute_backend="pandas")
-    with pytest.raises(TypeError):
-        sensitive_data(pd.DataFrame(), cols="this is not a list")
+        sensitive_data(compute_backend_pii_text)
 
 
-def test_sample_size():
+def test_column_type(compute_backend_pii_df):
+    with pytest.raises(TypeError):
+        sensitive_data(compute_backend_pii_df, cols="this is not a list")
+
+
+def test_sample_size(compute_backend_pii_df):
     with pytest.raises(ValueError):
-        sensitive_data(
-            pd.DataFrame(), redact=False, detect_infotypes=True, sample_size=1
+        compute_sensitive_data(
+            compute_backend_pii_df, redact=False, detect_infotypes=True, sample_size=9
         )
     with pytest.raises(ValueError):
-        sensitive_data(pd.DataFrame(), redact=True, encrypt=True)
+        sensitive_data(compute_backend_pii_df, redact=True, encrypt=True)
 
 
-def test_sensitive_data_redact():
-    df = pd.DataFrame({"domain": "gmail.com", "name": "John Doe"}, index=[1])
-    redacted_df = sensitive_data(df, redact=True, sample_size=1)
+def test_sensitive_data_redact(compute_backend_pii_df):
+    redacted_df = sensitive_data(compute_backend_pii_df, redact=True)
     assert redacted_df.shape == (1, 2)
     assert redacted_df.loc[1, "domain"] == "<DOMAIN_NAME>"
     assert redacted_df.loc[1, "name"] == "<PERSON>"
-    assert isinstance(redacted_df, pd.core.frame.DataFrame)
+    assert isinstance(redacted_df, _DATAFRAME_TYPE)
 
 
-def test_sensitive_data_detect_infotypes():
-    df = pd.DataFrame({"domain": "gmail.com", "name": "John Doe"}, index=[1])
-    results = sensitive_data(df, redact=False, detect_infotypes=True, sample_size=1)
+def test_sensitive_data_detect_infotypes(compute_backend_pii_df):
+    results = sensitive_data(
+        compute_backend_pii_df, redact=False, detect_infotypes=True, sample_size=1
+    )
     assert isinstance(results, dict)
     assert len(results) == 2
     assert isinstance(results["domain"], list)
@@ -114,10 +115,9 @@ def test_encrypt_text():
     assert isinstance(encrypted, str)
 
 
-def test_encrypt_data():
-    df = pd.DataFrame({"domain": "gmail.com", "name": "John Doe"}, index=[1])
-    encrypted_df = sensitive_data(df, redact=False, encrypt=True)
-    assert isinstance(encrypted_df, pd.core.frame.DataFrame)
+def test_encrypt_data(compute_backend_pii_df):
+    encrypted_df = sensitive_data(compute_backend_pii_df, redact=False, encrypt=True)
+    assert isinstance(encrypted_df, _DATAFRAME_TYPE)
     assert isinstance(encrypted_df.loc[1, "name"], str)
     assert isinstance(encrypted_df.loc[1, "domain"], str)
 
