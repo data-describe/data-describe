@@ -6,11 +6,15 @@ The goal of this document is to articulate the scope, motivations, and aspiratio
 
 > "[...exploratory data analysis (EDA) is an approach to analyzing data sets to summarize their main characteristics](https://en.wikipedia.org/wiki/Exploratory_data_analysis)"
 
-data describe aims accelerate the exploratory data analysis (EDA) process by enabling users to focus on analyzing data
+data describe aims to accelerate the exploratory data analysis (EDA) process by enabling users to focus on analyzing data
 
-The current Python ecosystem has many open source packages that are commonly used in EDA, with varied components for visualization (such as [matplotlib](https://matplotlib.org/), [Plotly](https://plotly.com/), [bokeh](https://docs.bokeh.org/en/latest/index.html)), tabular data manipulation and summarization ([Pandas](https://pandas.pydata.org/)), or analysis-specific toolkits ([pyLDAvis](https://github.com/bmabey/pyLDAvis), [geopandas](https://residentmario.github.io/geoplot/index.html)). However, few or none of them aim to provide a seamless experience for analyzing data from end-to-end. In practice, it is not uncommon to develop a significant amount of repetitive, boilerplate code to assemble these components into a cohesive analysis. data describe seeks to fill this gap by providing an end-to-end solution for exploratory data analysis.
+The current Python ecosystem has many open source packages that are commonly used in EDA, with varied components for visualization (such as [matplotlib](https://matplotlib.org/), [Plotly](https://plotly.com/), [bokeh](https://docs.bokeh.org/en/latest/index.html)), tabular data manipulation and summarization ([Pandas](https://pandas.pydata.org/)), or analysis-specific toolkits ([pyLDAvis](https://github.com/bmabey/pyLDAvis), [geopandas](https://residentmario.github.io/geoplot/index.html)). However, few or none of them aim to provide a seamless experience for analyzing data from end-to-end. In practice, it is not uncommon to develop a significant amount of repetitive, boilerplate code to assemble these components into a cohesive analysis. data describe seeks to fill this gap by providing an end-to-end solution for exploratory data analysis
 
 ## Guiding Principles
+
+### data describe is **accessible**
+
+data describe should be easy and straightforward to use. A good user experience (UX) should be an integral part of designing the API/UI of data describe. Following the Pareto principle, 80% of common user tasks should be achievable with minimal user configuration by the core 20% functionality
 
 ### data describe is **opportunistic**
 
@@ -30,14 +34,14 @@ While visualization is an important method of understanding data, the creation o
 
 ## UI or API
 
-data describe provides interfaces and convenience features for the purpose of *minimizing entry barriers to performing data analysis*. This may include, but is not limited to:
+In addition to specific data analyses features, data describe provides interfaces and convenient features for the purpose of *minimizing entry barriers to performing data analysis*. This may include, but is not limited to:
 
 - Integrations with data loading / processing frameworks, to allow analysis of extremely large datasets
 - Integrations with visualization frameworks, to enable different methods of visualizing data which may aid in understanding (e.g. interactive vs static plots)
 - Modeling algorithms, where the insights from the model is the focus rather than the pure predictive power
 
 
-## Supported Data Types: Arppoach
+## Supported Data Types: Approach
 
 As an initial launch goal, data describe does not explicitly define industry or domain specific support of data types, but rather focuses on the form of the data and the way in which it is analyzed.
 
