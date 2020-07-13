@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 from setuptools import find_packages, setup
 
 # Package meta-data.
@@ -8,7 +7,7 @@ URL = "https://github.com/brianray/data-describe"
 EMAIL = ""
 AUTHOR = "https://github.com/brianray/data-describe/graphs/contributors"
 REQUIRES_PYTHON = ">=3.7.0"
-VERSION = "0.2a"
+VERSION = "0.1.0a1"
 
 REQUIRED = [
     "pandas>=0.24.0",
@@ -53,10 +52,10 @@ setup(
     entry_points={
         "data_describe_viz_backends": [
             "seaborn = data_describe:backends.viz._seaborn",
-            "plotly = data_describe:backends.viz._plotly"
+            "plotly = data_describe:backends.viz._plotly",
         ],
         "data_describe_compute_backends": [
             "pandas = data_describe:backends.compute._pandas",
-        ]
+        ],
     },
 )

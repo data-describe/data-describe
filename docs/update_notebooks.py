@@ -16,24 +16,29 @@ widget_template = """.. _x-tutorial:
 def run(argv=None):
     os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
-    notebooks = glob.glob('../notebooks/*.ipynb')
+    notebooks = glob.glob("../notebooks/*.ipynb")
     outputs = []
     for notebook in notebooks:
         notebook_name = os.path.splitext(os.path.split(notebook)[1])[0]
-        output_name = notebook_name.lower().replace(' ', '_')
-        if output_name != 'tutorial':
+        output_name = notebook_name.lower().replace(" ", "_")
+        if output_name != "tutorial":
             outputs.append(output_name)
-        print('Updating {}...'.format(notebook_name))
+        print("Updating {}...".format(notebook_name))
 
-        shutil.copyfile(notebook, 'source/_notebooks/' + output_name + '.ipynb')
+        shutil.copyfile(notebook, "source/_notebooks/" + output_name + ".ipynb")
 
     # Insert links to the widget ToC
     print("Finalizing Widget Page")
-    text = open('source/widgets/index.rst', 'r').read()
-    text = re.sub(r'(:maxdepth: 1).*(Blah)',
-                  r'\1\n\n' + '\n'.join(['   ../_notebooks/' + name for name in outputs]) + r'\n\2', text,
-                  flags=re.S)
-    open('source/widgets/index.rst', 'w').write(text)
+    text = open("source/widgets/index.rst", "r").read()
+    text = re.sub(
+        r"(:maxdepth: 1).*(Blah)",
+        r"\1\n\n"
+        + "\n".join(["   ../_notebooks/" + name for name in outputs])
+        + r"\n\2",
+        text,
+        flags=re.S,
+    )
+    open("source/widgets/index.rst", "w").write(text)
 
 
 if __name__ == "__main__":
