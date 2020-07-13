@@ -1,5 +1,8 @@
+<<<<<<< HEAD
 import os
 
+=======
+>>>>>>> Clean up (Fixes #151) (#152)
 from setuptools import find_packages, setup
 
 # Package meta-data.
@@ -10,8 +13,10 @@ EMAIL = ""
 AUTHOR = "https://github.com/brianray/data-describe/graphs/contributors"
 REQUIRES_PYTHON = ">=3.7.0"
 version = {}
+
 with open(os.path.join("data_describe", "_version.py")) as fp:
     exec(fp.read(), version)
+
 
 REQUIRED = [
     "pandas>=0.24.0",

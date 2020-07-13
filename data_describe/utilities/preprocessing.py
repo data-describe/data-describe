@@ -5,7 +5,11 @@ from sklearn.impute import SimpleImputer
 
 
 def preprocess(data, target, impute="simple", encode="label"):
+<<<<<<< HEAD
     """Simple preprocessing pipeline for ML.
+=======
+    """Simple preprocessing pipeline for ML
+>>>>>>> Clean up (Fixes #151) (#152)
 
     Args:
         data: A Pandas dataframe

@@ -50,6 +50,7 @@ def guess_series_dtypes(
 ):
     """Use heuristics to determine the column data type for a pandas series.
 
+
     Args:
         series: A Pandas series
         strict: If True, will require a rule to pass for every sampled record in order to assign a data type
