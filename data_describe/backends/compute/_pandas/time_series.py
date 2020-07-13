@@ -1,11 +1,12 @@
-# import statsmodels.api as sm
 from statsmodels.tsa.seasonal import seasonal_decompose
+from statsmodels.tsa.stattools import acf, pacf
 from statsmodels.tsa.stattools import adfuller, kpss
+import pandas as pd
 
 from data_describe.compat import _DATAFRAME_TYPE
 
 
-def test_stationarity(df, test="dickey-fuller"):
+def compute_stationarity_test(df, test="dickey-fuller"):
     if test == "dickey-fuller":
         st_df = adf_test(df)
     elif test == "kpss":
@@ -17,32 +18,43 @@ def test_stationarity(df, test="dickey-fuller"):
 
 def adf_test(df, autolag="AIC"):
     test = adfuller(df, autolag=autolag)
-    adf_output = _DATAFRAME_TYPE.Series(
+    adf_output = pd.Series(
         test[0:4],
         index=[
             "Test Statistic",
             "p-value",
-            "#Lags Used",
+            "Lags Used",
             "Number of Observations Used",
         ],
     )
     for key, value in test[4].items():
         adf_output["Critical Value (%s)" % key] = value
-    return _DATAFRAME_TYPE.DataFrame(adf_output, columns=["stats"])
+    return pd.DataFrame(adf_output, columns=["stats"])
 
 
 def kpss_test(df):
     test = kpss(df, regression="c")
-    kpss_output = _DATAFRAME_TYPE.Series(
-        test[0:3], index=["Test Statistic", "p-value", "Lags Used"]
-    )
+    kpss_output = pd.Series(test[0:3], index=["Test Statistic", "p-value", "Lags Used"])
     for key, value in test[3].items():
         kpss_output["Critical Value (%s)" % key] = value
 
-    kpss_df = _DATAFRAME_TYPE.DataFrame(kpss_output, columns=["stats"])
+    kpss_df = pd.DataFrame(kpss_output, columns=["stats"])
     return kpss_df
 
 
-def decompose_ts(df, model):
-    result = seasonal_decompose(df, model=model)
+def compute_decompose_timeseries(df, model):
+    if isinstance(df, _DATAFRAME_TYPE):
+        result = seasonal_decompose(df, model=model)
+    else:
+        raise ValueError("Unsupported input data type")
     return result
+
+
+def compute_acf(df, n_lags=40):
+    acf_val = acf(df, n_lags)
+    return acf_val
+
+
+def compute_pacf(df, n_lags):
+    pacf_val = pacf(df, n_lags)
+    return pacf_val
