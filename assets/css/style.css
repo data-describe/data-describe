@@ -126,8 +126,8 @@ h6 {
 
 p {
   color: var(--paragraph-color);
-  -webkit-hyphens: auto;
-  hyphens: auto;
+  /*-webkit-hyphens: auto;
+  hyphens: auto;*/
   margin-bottom: 10px;
   line-height: var(--line-height30);
 }
