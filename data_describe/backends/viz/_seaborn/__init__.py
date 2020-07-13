@@ -7,4 +7,5 @@ from data_describe.backends.viz._seaborn.scatter_plot import (  # noqa: F401
 from data_describe.backends.viz._seaborn.importance import viz_importance  # noqa: F401
 from data_describe.backends.viz._seaborn.time_series import (  # noqa: F401
     viz_plot_time_series,
+    viz_plot_autocorrelation,
 )
