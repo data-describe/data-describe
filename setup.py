@@ -1,8 +1,5 @@
-<<<<<<< HEAD
 import os
 
-=======
->>>>>>> Clean up (Fixes #151) (#152)
 from setuptools import find_packages, setup
 
 # Package meta-data.
