@@ -35,11 +35,11 @@ try:
     except LookupError:
         nltk.download("punkt")
     try:
-        nltk.data.find("stem/wordnet")
+        nltk.data.find("corpora/wordnet")
     except LookupError:
         nltk.download("wordnet")
     try:
-        nltk.data.find("stopwords")
+        nltk.data.find("corpora/stopwords")
     except LookupError:
         nltk.download("stopwords")
 except ImportError:
