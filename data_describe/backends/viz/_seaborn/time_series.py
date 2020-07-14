@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 import seaborn as sns
-from statsmodels.api.graphics.tsa import plot_acf, plot_pacf
+import statsmodels.api as sm
 
 
 def viz_plot_time_series(df=None, cols=None, result=None, decompose=False):
@@ -27,9 +27,9 @@ def viz_decomposition(result):
 def viz_plot_autocorrelation(data, plot_type="acf"):
     fig, ax = plt.subplots(figsize=(11, 9))
     if plot_type == "acf":
-        fig = plot_acf(data, ax=ax)
+        fig = sm.graphics.tsa.plot_acf(data, ax=ax)
     elif plot_type == "pacf":
-        fig = plot_pacf(data, ax=ax)
+        fig = sm.graphics.tsa.plot_pacf(data, ax=ax)
     else:
         raise ValueError("Unsupported input data type")
     return fig
