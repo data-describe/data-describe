@@ -1,3 +1,4 @@
+from data_describe.compat import _DATAFRAME_TYPE
 from data_describe.backends import _get_compute_backend, _get_viz_backend
 
 
@@ -28,6 +29,9 @@ def scatter_plots(
         viz_backend: The vizualization backend
         kwargs: Passed to the visualization framework
     """
+    if not isinstance(data, _DATAFRAME_TYPE):
+        raise ValueError("Unsupported input data type")
+
     data = _get_compute_backend(compute_backend, data).compute_scatter_plot(
         data, mode, sample, threshold, **kwargs
     )
