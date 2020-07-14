@@ -1,4 +1,5 @@
 import re
+import os
 from unittest.mock import patch, mock_open
 import tempfile
 
@@ -41,7 +42,9 @@ def skip_io(monkeypatch):
 def test_local_dir():
     with patch("builtins.open", mock_open(read_data="data")) as mock_file:
         mw.load_data("data/Addresses", encoding="latin1")
-        mock_file.assert_called_with("data/Addresses\\file.txt", 'r', encoding='latin1')
+        mock_file.assert_called_with(
+            os.path.join("data/Addresses", "file.txt"), "r", encoding="latin1"
+        )
 
 
 def test_local_csv():
