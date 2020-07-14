@@ -4,7 +4,7 @@ from data_describe.compat import _SERIES_TYPE, _DATAFRAME_TYPE
 from data_describe.core.summary import agg_null, agg_zero, most_frequent
 
 
-def compute_data_summary(data, context=None):
+def compute_data_summary(data):
     if isinstance(data, _SERIES_TYPE):
         data = modin.DataFrame(data)
 
