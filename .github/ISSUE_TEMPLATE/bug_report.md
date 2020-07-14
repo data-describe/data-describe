@@ -4,7 +4,7 @@ about: Use this template to report bugs
 labels: 'bug'
 ---
 Your bug may already be reported!
-Please search on the [issue tracker](../) before creating one.
+Please search on the [issue tracker](../issues) before creating one.
 
 **Description**
 *Provide a concise description of the bug*
