@@ -152,6 +152,7 @@ def update_context(*args):
         dd.plot() # fig_height = 20 # noqa:RST301
     ```
 
+
     Args:
         *args: May be one of two formats:
 
