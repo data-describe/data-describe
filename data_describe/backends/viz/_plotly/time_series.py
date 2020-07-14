@@ -6,13 +6,16 @@ from IPython import get_ipython
 from data_describe.config._config import get_option
 
 
-def viz_plot_time_series(df=None, cols=None, result=None, decompose=False):
+def viz_plot_time_series(
+    df=None, cols=None, result=None, decompose=False, title="Time Series"
+):
     if isinstance(cols, list):
         data = [go.Scatter(x=df.index, y=df[c]) for c in cols]
-        fig = go.Figure(data=data, layout=figure_layout(ylabel=str))
+        fig = go.Figure(data=data, layout=figure_layout(title=title, ylabel=cols))
     elif isinstance(cols, str):
         fig = go.Figure(
-            data=go.Scatter(x=df, y=df[cols]), layout=figure_layout(y_label=str)
+            data=go.Scatter(x=df.index, y=df[cols]),
+            layout=figure_layout(title=title, ylabel=cols),
         )
     elif decompose:
         fig = viz_decomposition(result)  # need to pass into figure
@@ -23,12 +26,13 @@ def viz_plot_time_series(df=None, cols=None, result=None, decompose=False):
         return fig
 
 
-def viz_decomposition(result):
+def viz_decomposition(result, title="Time Series Decomposition", xlabel=None):
     decompose_results = [result.observed, result.trend, result.seasonal, result.resid]
-    fig = make_subplots(rows=4, cols=1, layout=figure_layout())
+    fig = make_subplots(rows=4, cols=1)
 
     for idx, timeseries in enumerate(decompose_results, 1):
         fig.add_trace(go.Scatter(y=timeseries), row=idx, col=1)
+    fig.update_layout(height=600, width=800, title_text=title)
     return fig
 
 
@@ -42,7 +46,7 @@ def viz_plot_autocorrelation(data, plot_type="acf"):
     return go.figure(data=data, layout=figure_layout("Autocorrelation Plot"))
 
 
-def figure_layout(title, xlabel="Date", ylabel="Variable"):
+def figure_layout(title="Time Series", xlabel="Date", ylabel="Variable"):
     layout = go.Layout(
         title={"text": title, "font": {"size": 25}},
         width=get_option("display.fig_width") * 100,
