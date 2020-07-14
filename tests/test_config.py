@@ -3,7 +3,7 @@ import data_describe as dd
 
 def test_option_context_nargs():
     assert dd.options.backends.viz == "seaborn", "Unexpected default for viz backend"
-    with dd.config.config_context("backends.viz", "mylib"):
+    with dd.config.update_context("backends.viz", "mylib"):
         assert dd.options.backends.viz == "mylib", "Config context failed to update"
     assert (
         dd.options.backends.viz == "seaborn"
@@ -13,7 +13,7 @@ def test_option_context_nargs():
 def test_option_context_dict():
     new_config = {"backends": {"viz": "mylib"}}
     assert dd.options.backends.viz == "seaborn", "Unexpected default for viz backend"
-    with dd.config.config_context(new_config):
+    with dd.config.update_context(new_config):
         assert dd.options.backends.viz == "mylib", "Config context failed to update"
     assert (
         dd.options.backends.viz == "seaborn"

@@ -1,1 +1,1 @@
-from data_describe.config._config import config_context  # noqa: F401
+from data_describe.config._config import update_context  # noqa: F401
