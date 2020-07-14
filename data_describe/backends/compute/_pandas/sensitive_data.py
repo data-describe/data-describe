@@ -30,8 +30,8 @@ def compute_sensitive_data(
     encrypt: bool = False,
     detect_infotypes: bool = False,
     cols: Optional[list] = None,
-    score_threshold: Optional[float] = None,
-    sample_size: Optional[int] = None,
+    score_threshold: float = _DEFAULT_SCORE_THRESHOLD,
+    sample_size: int = _SAMPLE_SIZE,
 ) -> Union[Any, dict]:
     """Identifies, redacts, and encrypts PII data
     Note: sensitive_data uses Microsoft's Presidio in the backend. Presidio can be help identify sensitive data.
@@ -50,8 +50,6 @@ def compute_sensitive_data(
         A dataframe if redact or anonymize is True.
         Dictionary of column infotypes if detect_infotypes is True
     """
-    score_threshold = score_threshold or _DEFAULT_SCORE_THRESHOLD
-    sample_size = sample_size or _SAMPLE_SIZE
     if cols:
         df = df[cols]
     if redact:
@@ -65,7 +63,7 @@ def compute_sensitive_data(
     return df
 
 
-def identify_pii(text, score_threshold=None):
+def identify_pii(text, score_threshold=_DEFAULT_SCORE_THRESHOLD):
     """Identifies infotypes contained in a string
 
     Args:
@@ -76,7 +74,6 @@ def identify_pii(text, score_threshold=None):
         List of presidio_analyzer.recognizer_result.RecognizerResult
         Results contain infotype, position, and confidence
     """
-    score_threshold = score_threshold or _DEFAULT_SCORE_THRESHOLD
     response = engine.analyze(
         correlation_id=0,
         text=str(text).lower(),
@@ -108,7 +105,7 @@ def create_mapping(text, response):
     return word_mapping, ref_text
 
 
-def redact_info(text, score_threshold=None):
+def redact_info(text, score_threshold=_DEFAULT_SCORE_THRESHOLD):
     """Redact sensitive data with mapping between hashed values and infotype
 
     Args:
@@ -118,13 +115,14 @@ def redact_info(text, score_threshold=None):
     Returns:
         String with redacted information
     """
-    score_threshold = score_threshold or _DEFAULT_SCORE_THRESHOLD
     response = identify_pii(text, score_threshold)
     word_mapping, text = create_mapping(text, response)
     return reduce(lambda a, kv: a.replace(*kv), word_mapping.items(), text)
 
 
-def identify_column_infotypes(data_series, sample_size=None, score_threshold=None):
+def identify_column_infotypes(
+    data_series, sample_size=_SAMPLE_SIZE, score_threshold=_DEFAULT_SCORE_THRESHOLD
+):
     """Identifies the infotype of a pandas series object using a sample of rows
 
     Args:
@@ -135,9 +133,6 @@ def identify_column_infotypes(data_series, sample_size=None, score_threshold=Non
     Returns:
         List of infotypes detecteds
     """
-    score_threshold = score_threshold or _DEFAULT_SCORE_THRESHOLD
-    sample_size = sample_size or _SAMPLE_SIZE
-
     sampled_data = data_series.sample(sample_size, random_state=1)
     results = sampled_data.map(
         lambda x: identify_pii(text=x, score_threshold=score_threshold)
@@ -146,7 +141,9 @@ def identify_column_infotypes(data_series, sample_size=None, score_threshold=Non
         return sorted(list(set([i.entity_type for obj in results for i in obj])))
 
 
-def identify_infotypes(df, sample_size=None, score_threshold=None):
+def identify_infotypes(
+    df, sample_size=_SAMPLE_SIZE, score_threshold=_DEFAULT_SCORE_THRESHOLD
+):
     """Identify infotypes for each column in the dataframe
 
     Args:
@@ -157,9 +154,6 @@ def identify_infotypes(df, sample_size=None, score_threshold=None):
     Returns:
         Dictionary with columns as keys and values as infotypes detected
     """
-    score_threshold = score_threshold or _DEFAULT_SCORE_THRESHOLD
-    sample_size = sample_size or _SAMPLE_SIZE
-
     return {
         col: identify_column_infotypes(
             df[col], sample_size=sample_size, score_threshold=score_threshold
@@ -168,7 +162,7 @@ def identify_infotypes(df, sample_size=None, score_threshold=None):
     }
 
 
-def encrypt_text(text, score_threshold=None):
+def encrypt_text(text, score_threshold=_DEFAULT_SCORE_THRESHOLD):
     """Encrypt text using python's hash function
 
     Args:
@@ -178,8 +172,6 @@ def encrypt_text(text, score_threshold=None):
     Returns:
         Text with hashed sensitive data
     """
-    score_threshold = score_threshold or _DEFAULT_SCORE_THRESHOLD
-
     response = identify_pii(text, score_threshold)
     return create_mapping(text, response)[1]
 
