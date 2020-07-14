@@ -1,7 +1,7 @@
 from enum import Enum
 
 
-class FileExtensionTypes(Enum):
+class _FileExtensionTypes(Enum):
     CSV = "csv"
     JSON = "json"
     EXCEL = "excel"
@@ -18,7 +18,7 @@ def is_filetype(filetype: str, extension: str) -> bool:
     """Checks if the file extension matches a given file type
 
     Args:
-        filetype (str): The type of file. See the enum FileExtensionTypes
+        filetype (str): The type of file. See the enum _FileExtensionTypes
         extension (str): The file extension
 
     Returns:
