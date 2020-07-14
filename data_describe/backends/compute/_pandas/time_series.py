@@ -42,7 +42,7 @@ def kpss_test(df):
     return kpss_df
 
 
-def compute_decompose_timeseries(df, model):
+def compute_decompose_timeseries(df, model="multiplicative"):
     if isinstance(df, _DATAFRAME_TYPE):
         result = seasonal_decompose(df, model=model)
     else:
