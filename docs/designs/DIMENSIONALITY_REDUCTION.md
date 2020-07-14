@@ -10,7 +10,7 @@ Implement a concise and easy-to-use feature where a user can reduce dimensions b
 
 ## Non-Goals
 
-Creating new dimensionality reduction method or inferring which dimensionality reduction method works best for the user-provided dataset.
+Creating new dimensionality reduction methods or inferring which dimensionality reduction methods work best for the user-provided dataset.
 
 ## UI or API
 
@@ -28,4 +28,4 @@ The user inputs their data frame, the number of components they want the data re
 
 ## Alternatives Considered
 
-Linear Discriminant Analysis is another dimensionality reduction method similar to PCA, but does not optimize based on explained variance. Autoencoder methods use neural networks to reduce dimensionality, but therefore require a large amount of data  and offer limited explainability. Future enhancements can include providing explainability metrics if possible (i.e. explained variance) and including an option to plot the output data as a visual upon completion of the dimensionality reduction.
+Linear Discriminant Analysis is another dimensionality reduction method similar to PCA, but does not optimize based on explained variance. Autoencoder methods use neural networks to reduce dimensionality, but therefore require a large amount of data and offer limited explainability. Future enhancements can include providing explainability metrics if possible (i.e. explained variance) and including an option to plot the output data as a visual upon completion of the dimensionality reduction.
