@@ -28,7 +28,7 @@ def scatter_plots(
         viz_backend: The vizualization backend
         kwargs: Passed to the visualization framework
     """
-    data = _get_compute_backend(compute_backend).compute_scatter_plot(
+    data = _get_compute_backend(compute_backend, data).compute_scatter_plot(
         data, mode, sample, threshold, **kwargs
     )
 
