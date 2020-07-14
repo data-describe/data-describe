@@ -5,11 +5,17 @@ from data_describe.compat import _DATAFRAME_TYPE
 
 
 def plot_time_series(
-    data, cols=None, decompose=False, compute_backend=None, viz_backend=None, **kwargs
+    data,
+    cols=None,
+    decompose=False,
+    model="multiplicative",
+    compute_backend=None,
+    viz_backend=None,
+    **kwargs
 ):
     if decompose:
         data = _get_compute_backend(compute_backend, data).compute_decompose_timeseries(
-            data, **kwargs
+            data, model, **kwargs
         )
 
     if isinstance(data, statsmodels.tsa.seasonal.DecomposeResult):
@@ -22,7 +28,7 @@ def plot_time_series(
     return fig
 
 
-def stationarity_test(data, test=None, compute_backend=None, **kwargs):
+def stationarity_test(data, test="dickey-fuller", compute_backend=None, **kwargs):
     data = _get_compute_backend(compute_backend, data).compute_stationarity_test(
         data, test, **kwargs
     )
