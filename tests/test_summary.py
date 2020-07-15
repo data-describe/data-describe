@@ -1,12 +1,12 @@
 import pytest
 
-import data_describe as mw
+import data_describe as dd
 from data_describe.core.summary import cardinality
 
 
 @pytest.fixture
 def load_summary(data):
-    return mw.data_summary(data), data
+    return dd.data_summary(data), data
 
 
 def test_shape(load_summary):
@@ -20,4 +20,4 @@ def test_cardinality(data):
 
 
 def test_pandas_series(data):
-    assert mw.data_summary(data.iloc[:, 0]).shape == (9, 1)
+    assert dd.data_summary(data.iloc[:, 0]).shape == (9, 1)
