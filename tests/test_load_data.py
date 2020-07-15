@@ -7,7 +7,7 @@ import pandas as pd
 import geopandas
 import pytest
 
-import data_describe as mw
+import data_describe as dd
 from data_describe.utilities.load_data import download_gcs_file, read_file_type
 
 
@@ -41,29 +41,29 @@ def skip_io(monkeypatch):
 
 def test_local_dir():
     with patch("builtins.open", mock_open(read_data="data")) as mock_file:
-        mw.load_data("data/Addresses", encoding="latin1")
+        dd.load_data("data/Addresses", encoding="latin1")
         mock_file.assert_called_with(
             os.path.join("data/Addresses", "file.txt"), "r", encoding="latin1"
         )
 
 
 def test_local_csv():
-    data = mw.load_data("data/er_data.csv")
+    data = dd.load_data("data/er_data.csv")
     assert isinstance(data, pd.DataFrame)
 
 
 def test_local_json():
-    data = mw.load_data("data/Sarcasm_Headlines_Dataset.json")
+    data = dd.load_data("data/Sarcasm_Headlines_Dataset.json")
     assert isinstance(data, pd.DataFrame)
 
 
 def test_gcp(monkeypatch):
-    df = mw.load_data(filepath="gs://file.txt")
+    df = dd.load_data(filepath="gs://file.txt")
     assert isinstance(df, pd.DataFrame)
 
 
 def test_local_excel():
-    data = mw.load_data("data/Financial Sample.xlsx")
+    data = dd.load_data("data/Financial Sample.xlsx")
     assert isinstance(data, pd.DataFrame)
 
 

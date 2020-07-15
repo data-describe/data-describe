@@ -6,7 +6,7 @@ import seaborn as sns
 import plotly
 import matplotlib
 
-import data_describe as mw
+import data_describe as dd
 from data_describe.core.cluster import apply_kmeans, truncate_data, find_clusters
 
 
@@ -15,7 +15,7 @@ matplotlib.use("Agg")
 
 def test_not_df():
     with pytest.raises(NotImplementedError):
-        mw.cluster("this_is_a_string")
+        dd.cluster("this_is_a_string")
 
 
 def test_find_clusters(numeric_data):
@@ -34,36 +34,36 @@ def test_apply_kmeans(numeric_data):
 
 
 def test_cluster_kmean(numeric_data):
-    viz = mw.cluster(
+    viz = dd.cluster(
         df=numeric_data, interactive=True, return_value="plot", kwargs={"n_clusters": 2}
     )
     assert isinstance(viz, plotly.graph_objs._figure.Figure)
-    df = mw.cluster(df=numeric_data, return_value="reduc", kwargs={"n_clusters": 2}, target="c")
+    df = dd.cluster(df=numeric_data, return_value="reduc", kwargs={"n_clusters": 2}, target="c")
     assert isinstance(df, pd.core.frame.DataFrame)
     assert df.shape[1] == 3
-    df = mw.cluster(df=numeric_data, return_value="data", kwargs={"n_clusters": 2}, elbow=True)
+    df = dd.cluster(df=numeric_data, return_value="data", kwargs={"n_clusters": 2}, elbow=True)
     assert isinstance(df, pd.core.frame.DataFrame)
     assert df.shape[1] == numeric_data.shape[1]
-    viz = mw.cluster(
+    viz = dd.cluster(
         df=numeric_data, dim_method="tsne", kwargs={"n_clusters": 2}, interactive=False
     )
     assert isinstance(viz, sns.axisgrid.FacetGrid)
-    viz = mw.cluster(df=numeric_data, dim_method="tsne", interactive=False)
+    viz = dd.cluster(df=numeric_data, dim_method="tsne", interactive=False)
     assert isinstance(viz, sns.axisgrid.FacetGrid)
 
 
 def test_cluster_hdbscan(numeric_data):
-    viz = mw.cluster(df=numeric_data, method="HDBSCAN", return_value="plot")
+    viz = dd.cluster(df=numeric_data, method="HDBSCAN", return_value="plot")
     assert isinstance(viz, plotly.graph_objs._figure.Figure)
-    viz = mw.cluster(df=numeric_data, method="HDBSCAN", interactive=False)
+    viz = dd.cluster(df=numeric_data, method="HDBSCAN", interactive=False)
     assert isinstance(viz, sns.axisgrid.FacetGrid)
 
 
 def test_cluster_unsupported(numeric_data):
     with pytest.raises(ValueError):
-        mw.cluster(df=numeric_data, method="random_model")
+        dd.cluster(df=numeric_data, method="random_model")
     with pytest.raises(ValueError):
-        mw.cluster(df=numeric_data, return_value="unsupported_return_value")
+        dd.cluster(df=numeric_data, return_value="unsupported_return_value")
     with pytest.raises(ValueError):
         find_clusters(
             data=numeric_data, analysis="adjusted_rand_score", cluster_min=2, cluster_max=3,
@@ -71,7 +71,7 @@ def test_cluster_unsupported(numeric_data):
 
 
 def test_cluster_args(numeric_data):
-    mw.cluster(df=numeric_data, interactive=False, method="HDBSCAN", kwargs={"alpha": 3.0})
+    dd.cluster(df=numeric_data, interactive=False, method="HDBSCAN", kwargs={"alpha": 3.0})
 
 
 def test_truncate_data(numeric_data):
