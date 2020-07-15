@@ -1,10 +1,12 @@
 import pytest
 import pandas as pd
+import modin.pandas as mpd
 import numpy as np
 
 import data_describe as dd
 
 _COMPUTE_BACKENDS = ["pandas", "modin"]
+_COMPUTE_MODULES = [pd, mpd]
 _VIZ_BACKENDS = ["seaborn", "plotly"]
 
 
@@ -188,3 +190,28 @@ def document_data():
         "The two large chunks of the asteroid will probably crash into each other when they collide within 1.5 million years, NASA officials said.",
     ]
     return topical_docs
+
+
+@pytest.fixture(params=_COMPUTE_MODULES)
+def compute_time_data(request):
+    dates = pd.to_datetime(
+        [
+            "2015-01-01",
+            "2015-01-02",
+            "2015-01-03",
+            "2015-01-04",
+            "2015-01-05",
+            "2015-01-06",
+            "2015-01-07",
+            "2015-01-08",
+            "2015-01-09",
+            "2015-01-10",
+            "2015-01-11",
+            "2015-01-12",
+            "2015-01-13",
+            "2015-01-14",
+            "2015-01-15",
+        ],
+        format="%Y-%m-%d",
+    )
+    return request.param.DataFrame({"var": list(range(15))}, index=dates)
