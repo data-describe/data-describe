@@ -25,6 +25,7 @@ def test_scatter_plot_all(data):
 
 def test_scatter_plot(data):
     fig = dd.scatter_plots(data, mode="diagnostic", threshold=0.15)
+
     assert isinstance(fig, list)
     assert isinstance(fig[0], seaborn.axisgrid.JointGrid)
 
