@@ -10,6 +10,7 @@ matplotlib.use("Agg")
 
 
 def test_importance(data, compute_backend):
+
     importance_vals = dd.importance(data, "d", return_values=True)
     assert len(importance_vals) == data.shape[1] - 1
 
