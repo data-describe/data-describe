@@ -42,9 +42,9 @@ def kpss_test(df):
     return kpss_df
 
 
-def compute_decompose_timeseries(df, model="multiplicative"):
+def compute_decompose_timeseries(df, cols, model="multiplicative"):
     if isinstance(df, _DATAFRAME_TYPE):
-        result = seasonal_decompose(df, model=model)
+        result = seasonal_decompose(df[cols], model=model)
     else:
         raise ValueError("Unsupported input data type")
     return result
