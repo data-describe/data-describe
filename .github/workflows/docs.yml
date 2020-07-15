@@ -27,9 +27,11 @@ jobs:
         shell: bash -l {0}
         run: |
           pip install -e . &&
-          python docs/make.py
+          VERSION=$(python setup.py --version) &&
+          python docs/make.py --version $VERSION
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./docs
+          publish_dir: /build/docs/
+          keep_files: true
