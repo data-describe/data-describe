@@ -1,3 +1,5 @@
+import os
+
 from setuptools import find_packages, setup
 
 # Package meta-data.
@@ -7,7 +9,9 @@ URL = "https://github.com/brianray/data-describe"
 EMAIL = ""
 AUTHOR = "https://github.com/brianray/data-describe/graphs/contributors"
 REQUIRES_PYTHON = ">=3.7.0"
-VERSION = "0.1.0a1"
+version = {}
+with open(os.path.join("data_describe", "_version.py")) as fp:
+    exec(fp.read(), version)
 
 REQUIRED = [
     "pandas>=0.24.0",
@@ -31,7 +35,7 @@ EXTRAS = {
 # Where the magic happens:
 setup(
     name=NAME,
-    version=VERSION,
+    version=version["__version__"],
     description=DESCRIPTION,
     long_description_content_type="text/markdown",
     author=AUTHOR,
