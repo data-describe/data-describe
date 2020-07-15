@@ -15,7 +15,6 @@ def compute_data_summary(data):
     columns = data.columns
     dtypes = data.agg([lambda x: x.dtype])
     moments = data.agg(["mean", "std", "median"])
-    # Non-numerical columns given NaN values for min/max and zeros
     minmax = data.select_dtypes("number").agg(["min", "max"]).reindex(columns=columns)
     zeros = data.select_dtypes("number").agg([agg_zero]).reindex(columns=columns)
     null_summary = data.agg([agg_null])
