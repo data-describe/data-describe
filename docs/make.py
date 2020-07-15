@@ -24,7 +24,7 @@ def run(argv=None):
                 "-b",
                 "html",
                 "docs/source",
-                f"/build/docs/{build_args.version}",
+                f"docs/build/{build_args.version}",
             ]
         )
 
