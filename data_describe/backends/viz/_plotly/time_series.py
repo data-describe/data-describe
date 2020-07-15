@@ -10,11 +10,11 @@ def viz_plot_time_series(
     df=None, cols=None, result=None, decompose=False, title="Time Series"
 ):
     if isinstance(cols, list):
-        data = [go.Scatter(x=df.index, y=df[c]) for c in cols]
-        fig = go.Figure(data=data, layout=figure_layout(title=title, ylabel=cols))
+        data = [go.Scatter(x=df.index, y=df[c], name=c) for c in cols]
+        fig = go.Figure(data=data, layout=figure_layout(title=title))
     elif isinstance(cols, str):
         fig = go.Figure(
-            data=go.Scatter(x=df.index, y=df[cols]),
+            data=go.Scatter(x=df.index, y=df[cols], name=cols),
             layout=figure_layout(title=title, ylabel=cols),
         )
     elif decompose:
@@ -26,24 +26,42 @@ def viz_plot_time_series(
         return fig
 
 
-def viz_decomposition(result, title="Time Series Decomposition", xlabel=None):
-    decompose_results = [result.observed, result.trend, result.seasonal, result.resid]
-    fig = make_subplots(rows=4, cols=1)
-
-    for idx, timeseries in enumerate(decompose_results, 1):
-        fig.add_trace(go.Scatter(y=timeseries), row=idx, col=1)
-    fig.update_layout(height=600, width=800, title_text=title)
+def viz_decomposition(result, title="Time Series Decomposition"):
+    fig = make_subplots(rows=4, cols=1, x_title="Time", shared_xaxes=True)
+    fig.add_trace(
+        go.Scatter(x=result.observed.index, y=result.observed, name="observed",),
+        row=1,
+        col=1,
+    )
+    fig.add_trace(
+        go.Scatter(x=result.trend.index, y=result.trend, name="trend"), row=2, col=1
+    )
+    fig.add_trace(
+        go.Scatter(x=result.seasonal.index, y=result.seasonal, name="seasonal"),
+        row=3,
+        col=1,
+    )
+    fig.add_trace(
+        go.Scatter(x=result.resid.index, y=result.resid, name="residual"), row=4, col=1
+    )
+    fig.update_layout(
+        height=get_option("display.fig_height") * 100,
+        width=get_option("display.fig_width") * 100,
+        title_text=title,
+        legend_title_text="Decomposition",
+    )
     return fig
 
 
-def viz_plot_autocorrelation(data, plot_type="acf"):
+def viz_plot_autocorrelation(data, plot_type="acf", title="Autocorrelation Plot"):
     if plot_type == "acf":
         data = [go.Bar(y=data)]
     elif plot_type == "pacf":
         data = [go.Bar(y=data)]
     else:
         raise ValueError("Unsupported input data type")
-    return go.figure(data=data, layout=figure_layout("Autocorrelation Plot"))
+    fig = go.Figure(data=data, layout=figure_layout(title))
+    return fig
 
 
 def figure_layout(title="Time Series", xlabel="Date", ylabel="Variable"):
@@ -52,6 +70,6 @@ def figure_layout(title="Time Series", xlabel="Date", ylabel="Variable"):
         width=get_option("display.fig_width") * 100,
         height=get_option("display.fig_height") * 100,
         xaxis=go.layout.XAxis(ticks="", title=xlabel, showgrid=True),
-        yaxis=go.layout.YAxis(ticks="", title=ylabel, automargin=True, showgrid=True,),
+        yaxis=go.layout.YAxis(ticks="", title=ylabel, automargin=True, showgrid=True),
     )
     return layout
