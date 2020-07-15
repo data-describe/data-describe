@@ -18,32 +18,25 @@ def viz_plot_time_series(
             layout=figure_layout(title=title, ylabel=cols),
         )
     elif decompose:
-        fig = viz_decomposition(result)  # need to pass into figure
-    if get_ipython() is not None:  # remove none?
+        fig = viz_decomposition(result, dates=df.index)
+    if get_ipython() is not None:
         init_notebook_mode(connected=True)
         return iplot(fig, config={"displayModeBar": False})
     else:
         return fig
 
 
-def viz_decomposition(result, title="Time Series Decomposition"):
+def viz_decomposition(result, dates, title="Time Series Decomposition"):
     fig = make_subplots(rows=4, cols=1, x_title="Time", shared_xaxes=True)
+    print(result)
     fig.add_trace(
-        go.Scatter(x=result.observed.index, y=result.observed, name="observed",),
-        row=1,
-        col=1,
+        go.Scatter(x=dates, y=result.observed, name="observed",), row=1, col=1,
     )
+    fig.add_trace(go.Scatter(x=dates, y=result.trend, name="trend"), row=2, col=1)
     fig.add_trace(
-        go.Scatter(x=result.trend.index, y=result.trend, name="trend"), row=2, col=1
+        go.Scatter(x=dates, y=result.seasonal, name="seasonal"), row=3, col=1,
     )
-    fig.add_trace(
-        go.Scatter(x=result.seasonal.index, y=result.seasonal, name="seasonal"),
-        row=3,
-        col=1,
-    )
-    fig.add_trace(
-        go.Scatter(x=result.resid.index, y=result.resid, name="residual"), row=4, col=1
-    )
+    fig.add_trace(go.Scatter(x=dates, y=result.resid, name="residual"), row=4, col=1)
     fig.update_layout(
         height=get_option("display.fig_height") * 100,
         width=get_option("display.fig_width") * 100,

@@ -1,65 +1,55 @@
 import matplotlib
 import pytest
-import plotly
+from plotly.graph_objects import Figure
 import statsmodels
+
 
 from data_describe.backends.compute._pandas.time_series import (
     compute_stationarity_test,
     adf_test,
     kpss_test,
     compute_decompose_timeseries,
+    compute_autocorrelation,
 )
-from data_describe.backends.viz._plotly import (
-    viz_decomposition as plotly_decomp,
-    viz_plot_time_series as plotly_viz,
-)
-from data_describe.backends.viz._seaborn import (
-    viz_decomposition as sns_decomp,
-    viz_plot_time_series as sns_viz,
-)
-import data_describe as mw
+import data_describe as dd
 from data_describe.compat import _DATAFRAME_TYPE
-
 
 matplotlib.use("Agg")
 
 
 def test_not_df():
-    with pytest.raises(NotImplementedError):
-        mw.time_series("this_is_a_string")
+    with pytest.raises(ValueError):
+        dd.plot_time_series("this_is_a_string")
 
 
-def test_compute_stationarity_test():
-    df = "test"  # need to replace
-    test_df = compute_stationarity_test(df, test="dickey-fuller")
+def test_compute_stationarity_test(compute_time_data):
+    test_df = compute_stationarity_test(compute_time_data, test="dickey-fuller")
     assert isinstance(test_df, _DATAFRAME_TYPE)
-    assert test_df.shape == (1, 7)
-    test_df = compute_stationarity_test(df, test="kpss")
-    assert isinstance(df, _DATAFRAME_TYPE)
-    assert test_df.shape == (1, 7)
+    assert test_df.shape == (7, 1)
+    test_df = compute_stationarity_test(compute_time_data, test="kpss")
+    assert isinstance(test_df, _DATAFRAME_TYPE)
+    assert test_df.shape == (7, 1)
 
 
-def test_adf_test():
-    df = "test"  # need to replace
-    df = adf_test(df)
+def test_adf_test(compute_time_data):
+    df = adf_test(compute_time_data)
     adf_idx = [
         "Test Statistic",
         "p-value",
-        "#Lags Used",
+        "Lags Used",
         "Number of Observations Used",
         "Critical Value (1%)",
         "Critical Value (5%)",
         "Critical Value (10%)",
     ]
 
-    assert df.shape == (1, 7)
-    df.index.tolist = adf_idx
-    # assert values
+    assert df.shape == (7, 1)
+    assert df.index.tolist() == adf_idx
+    assert df.columns[0] == "stats"
 
 
-def test_kpss_test():
-    df = "test"  # need to replace
-    df = kpss_test(df)
+def test_kpss_test(compute_time_data):
+    df = kpss_test(compute_time_data)
     kpss_idx = [
         "Test Statistic",
         "p-value",
@@ -69,37 +59,69 @@ def test_kpss_test():
         "Critical Value (2.5%)",
         "Critical Value (1%)",
     ]
+    assert df.shape == (7, 1)
+    assert df.index.tolist() == kpss_idx
+    assert df.columns[0] == "stats"
 
-    assert df.shape == (1, 7)
-    df.index.tolist = kpss_idx
-    # assert values
 
-
-def test_decompose_timeseries():
-    df = "test"  # need to replace
-    result = compute_decompose_timeseries(df)
+def test_decompose_timeseries(compute_time_data):
+    result = compute_decompose_timeseries(
+        compute_time_data, cols="var", model="additive"
+    )
     assert isinstance(result, statsmodels.tsa.seasonal.DecomposeResult)
+    assert len(result.trend) == 15
+    assert len(result.observed) == 15
+    assert len(result.seasonal) == 15
+    assert len(result.resid) == 15
 
 
-def test_plotly_viz_decomposition():
-    result = "test"  # need to remove
-    fig = plotly_decomp(result)
-    assert isinstance(fig, plotly.graph_objs._figure.Figure)
+# check kwargs are passed
+def test_compute_autocorrelation(compute_time_data):
+    data = compute_autocorrelation(
+        compute_time_data, cols="var", n_lags=1, plot_type="pacf"
+    )
+    assert len(data) == 2
+
+    data = compute_autocorrelation(
+        compute_time_data, cols="var", n_lags=1, plot_type="acf", fft=False
+    )
+    assert len(data) == 15
 
 
-def test_plotly_plot_time_series():
-    result = "test"  # need to remove
-    fig = plotly_viz(result)
-    assert isinstance(fig, plotly.graph_objs._figure.Figure)
+# NOTE: decomposition object in modin does not preserve index
+def test_plotly(compute_time_data):
+    fig = dd.plot_time_series(
+        compute_time_data, cols="var", viz_backend="plotly", model="additive"
+    )
+    assert isinstance(fig, Figure)
+    fig = dd.plot_time_series(
+        compute_time_data, cols=["var"], viz_backend="plotly", model="additive"
+    )
+    assert isinstance(fig, Figure)
+    fig = dd.plot_time_series(
+        compute_time_data,
+        cols="var",
+        decompose=True,
+        model="additive",
+        viz_backend="plotly",
+    )
+    assert isinstance(fig, Figure)
 
 
-def test_sns_viz_decomposition():
-    result = "test"  # need to remove
-    fig = sns_decomp(result)
+def test_seaborn(compute_time_data):
+    fig = dd.plot_time_series(compute_time_data, cols="var")
+    assert isinstance(fig, matplotlib.artist.Artist)
+    fig = dd.plot_time_series(compute_time_data, cols=["var"])
+    assert isinstance(fig, matplotlib.artist.Artist)
+    fig = dd.plot_time_series(
+        compute_time_data, cols="var", decompose=True, model="additive"
+    )
     assert isinstance(fig, matplotlib.figure.Figure)
 
 
-def test_sns_plot_time_series():
-    result = "test"  # need to remove
-    fig = sns_viz(result)
-    assert isinstance(fig, matplotlib.figure.Figure)
+# can not find plot_autocorrelations in dd
+# def test_auto(compute_time_data):
+#     data = dd.plot_autocorrelation(
+#         compute_time_data, cols="var", n_lags=1, plot_type="acf", fft=False
+#     )
+#     assert len(data) == 15
