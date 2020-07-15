@@ -24,12 +24,12 @@ def viz_decomposition(result):
     return fig
 
 
-def viz_plot_autocorrelation(data, plot_type="acf"):
+def viz_plot_autocorrelation(data, plot_type="acf", n_lags=40):
     fig, ax = plt.subplots(figsize=(11, 9))
     if plot_type == "acf":
-        fig = sm.graphics.tsa.plot_acf(data, ax=ax)
+        fig = sm.graphics.tsa.plot_acf(data, ax=ax, lags=n_lags)
     elif plot_type == "pacf":
-        fig = sm.graphics.tsa.plot_pacf(data, ax=ax)
+        fig = sm.graphics.tsa.plot_pacf(data, ax=ax, lags=n_lags)
     else:
         raise ValueError("Unsupported input data type")
     return fig
