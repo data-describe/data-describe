@@ -5,22 +5,22 @@ import statsmodels.api as sm
 
 def viz_plot_time_series(df=None, cols=None, result=None, decompose=False):
     fig, ax = plt.subplots(figsize=(11, 9))
-
     if isinstance(cols, list):
         for i in cols:
             fig = sns.lineplot(x=df.index, y=df[i], legend="full", ax=ax)
     elif isinstance(cols, str):
         fig = sns.lineplot(x=df.index, y=df[cols], legend="full", ax=ax)
     elif decompose:
-        fig = viz_decomposition(result)  # need to pass into figure
+        fig = viz_decomposition(df, result)
     return fig
 
 
-def viz_decomposition(result):
-    decompose_results = [result.observed, result.trend, result.seasonal, result.resid]
+def viz_decomposition(df, result):
     fig, ax = plt.subplots(nrows=4, ncols=1, figsize=(11, 9))
-    for idx, ts in enumerate(decompose_results):
-        sns.lineplot(y=ts, x=ts.index, ax=ax[idx])
+    sns.lineplot(y=result.observed, x=df.index, ax=ax[0])
+    sns.lineplot(y=result.trend, x=df.index, ax=ax[1])
+    sns.lineplot(y=result.seasonal, x=df.index, ax=ax[2])
+    sns.lineplot(y=result.resid, x=df.index, ax=ax[3])
     return fig
 
 
