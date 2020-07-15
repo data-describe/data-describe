@@ -50,11 +50,11 @@ def compute_decompose_timeseries(df, model="multiplicative"):
     return result
 
 
-def compute_acf(df, n_lags=40):
-    acf_val = acf(df, n_lags)
-    return acf_val
-
-
-def compute_pacf(df, n_lags):
-    pacf_val = pacf(df, n_lags)
-    return pacf_val
+def compute_autocorrelation(df, n_lags=40, plot_type="pacf"):
+    if plot_type == "pacf":
+        data = pacf(df, n_lags)
+    elif plot_type == "acf":
+        data = acf(df, n_lags)
+    else:
+        raise ValueError("Unsupported input data type")
+    return data
