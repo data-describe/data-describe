@@ -42,20 +42,22 @@ def kpss_test(df):
     return kpss_df
 
 
-def compute_decompose_timeseries(df, cols, model="multiplicative"):
+def compute_decompose_timeseries(df, col, model="multiplicative"):
     if isinstance(df, _DATAFRAME_TYPE):
-        result = seasonal_decompose(df[cols], model=model)
+        result = seasonal_decompose(df[col], model=model)
     else:
         raise ValueError("Unsupported input data type")
     return result
 
 
 # check kwargs are passed
-def compute_autocorrelation(df, cols, n_lags=40, plot_type="pacf", **kwargs):
+def compute_autocorrelation(
+    timeseries, n_lags=40, plot_type="pacf", fft=False, **kwargs
+):
     if plot_type == "pacf":
-        data = pacf(df[cols], n_lags, **kwargs)
+        data = pacf(timeseries, n_lags)
     elif plot_type == "acf":
-        data = acf(df[cols], n_lags, **kwargs)
+        data = acf(timeseries, n_lags, fft=fft)
     else:
         raise ValueError("Unsupported input data type")
     return data

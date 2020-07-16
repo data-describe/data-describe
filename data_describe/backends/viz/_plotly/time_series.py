@@ -7,15 +7,15 @@ from data_describe.config._config import get_option
 
 
 def viz_plot_time_series(
-    df=None, cols=None, result=None, decompose=False, title="Time Series"
+    df=None, col=None, result=None, decompose=False, title="Time Series"
 ):
-    if isinstance(cols, list):
-        data = [go.Scatter(x=df.index, y=df[c], name=c) for c in cols]
+    if isinstance(col, list):
+        data = [go.Scatter(x=df.index, y=df[c], name=c) for c in col]
         fig = go.Figure(data=data, layout=figure_layout(title=title))
-    elif isinstance(cols, str):
+    elif isinstance(col, str):
         fig = go.Figure(
-            data=go.Scatter(x=df.index, y=df[cols], name=cols),
-            layout=figure_layout(title=title, ylabel=cols),
+            data=go.Scatter(x=df.index, y=df[col], name=col),
+            layout=figure_layout(title=title, ylabel=col),
         )
     elif decompose:
         fig = viz_decomposition(result, dates=df.index)
@@ -28,7 +28,6 @@ def viz_plot_time_series(
 
 def viz_decomposition(result, dates, title="Time Series Decomposition"):
     fig = make_subplots(rows=4, cols=1, x_title="Time", shared_xaxes=True)
-    print(result)
     fig.add_trace(
         go.Scatter(x=dates, y=result.observed, name="observed",), row=1, col=1,
     )
