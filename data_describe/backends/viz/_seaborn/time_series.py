@@ -74,11 +74,11 @@ def viz_plot_autocorrelation(
         figsize=(get_option("display.fig_height"), get_option("display.fig_width"))
     )
     if plot_type == "acf":
-        fig = sm.graphics.tsa.plot_acf(timeseries, ax=ax, lags=n_lags, **kwargs)
-    elif plot_type == "pacf":
-        fig = sm.graphics.tsa.plot_pacf(
+        fig = sm.graphics.tsa.plot_acf(
             timeseries, ax=ax, lags=n_lags, fft=fft, **kwargs
         )
+    elif plot_type == "pacf":
+        fig = sm.graphics.tsa.plot_pacf(timeseries, ax=ax, lags=n_lags, **kwargs)
     else:
         raise ValueError("Unsupported input data type")
     return fig
