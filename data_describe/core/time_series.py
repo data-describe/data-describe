@@ -4,7 +4,7 @@ from data_describe.compat import _DATAFRAME_TYPE
 
 def plot_time_series(
     data,
-    cols=None,
+    col=None,
     decompose=False,
     model="multiplicative",
     compute_backend=None,
@@ -17,19 +17,19 @@ def plot_time_series(
         result = _get_compute_backend(
             compute_backend, data
         ).compute_decompose_timeseries(
-            data, cols=cols, model=model, **kwargs  # need to ensure4 that cols is a str
+            data, col=col, model=model, **kwargs  # need to ensure4 that col is a str
         )
         fig = _get_viz_backend(viz_backend).viz_plot_time_series(
             data, decompose=decompose, result=result, **kwargs
         )
     else:
-        fig = _get_viz_backend(viz_backend).viz_plot_time_series(data, cols, **kwargs)
+        fig = _get_viz_backend(viz_backend).viz_plot_time_series(data, col, **kwargs)
     return fig
 
 
-def stationarity_test(data, cols, test="dickey-fuller", compute_backend=None, **kwargs):
+def stationarity_test(data, col, test="dickey-fuller", compute_backend=None, **kwargs):
     data = _get_compute_backend(compute_backend, data).compute_stationarity_test(
-        data[cols], test, **kwargs
+        data[col], test, **kwargs
     )
     return data
 
@@ -39,6 +39,7 @@ def plot_autocorrelation(
     col,
     plot_type="acf",
     n_lags=40,
+    fft=False,
     compute_backend=None,
     viz_backend=None,
     **kwargs
