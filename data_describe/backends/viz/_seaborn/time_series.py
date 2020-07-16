@@ -1,7 +1,6 @@
 import matplotlib.pyplot as plt
 import seaborn as sns
 import statsmodels.api as sm
-import statsmodels
 
 from data_describe.config._config import get_option
 
@@ -21,13 +20,14 @@ def viz_plot_time_series(df, col, result=None, decompose=False, **kwargs):
     fig, ax = plt.subplots(
         figsize=(get_option("display.fig_height"), get_option("display.fig_width"))
     )
+
     if isinstance(col, list):
         for i in col:
             fig = sns.lineplot(x=df.index, y=df[i], legend="full", ax=ax, **kwargs)
         ax.legend(labels=col)
-    elif isinstance(col, str):
+    elif isinstance(col, str) and not decompose:
         fig = sns.lineplot(x=df.index, y=df[col], legend="full", ax=ax, **kwargs)
-    elif decompose and isinstance(result, statsmodels.tsa.seasonal.DecomposeResult):
+    elif decompose:
         fig = viz_decomposition(df, result)
         plt.close()
     return fig
@@ -66,7 +66,7 @@ def viz_plot_autocorrelation(timeseries, plot_type="acf", n_lags=40, **kwargs):
         n_lags: Number of lags to return autocorrelation for. Defaults to 40.
 
     Returns:
-        [type]: [description]
+        fig: The visualization
     """
     fig, ax = plt.subplots(
         figsize=(get_option("display.fig_height"), get_option("display.fig_width"))
