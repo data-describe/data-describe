@@ -26,26 +26,23 @@ def plot_time_series(
     """
     if not isinstance(df, _DATAFRAME_TYPE):
         raise ValueError("Unsupported input data type")
-    if isinstance(col, str):
-        if col not in df.columns:
-            raise ValueError(f"{col} not found in dataframe")
-    if isinstance(col, list):
-        for c in col:
-            if c not in df.columns:
-                raise ValueError(f"{col} not found in dataframe")
+    if not isinstance(col, (list, str)):
+        raise ValueError(f"{col} must be list type or string type")
     if decompose:
         result = _get_compute_backend(compute_backend, df).compute_decompose_timeseries(
-            df, col=col, model=model, **kwargs  # need to ensure4 that col is a str
+            df, col=col, model=model, **kwargs
         )
         fig = _get_viz_backend(viz_backend).viz_plot_time_series(
-            df, col=col, decompose=decompose, result=result, **kwargs
+            df, col=col, result=result, decompose=decompose, **kwargs
         )
     else:
         fig = _get_viz_backend(viz_backend).viz_plot_time_series(df, col, **kwargs)
     return fig
 
 
-def stationarity_test(df, col, test="dickey-fuller", compute_backend=None, **kwargs):
+def stationarity_test(
+    df, col, test="dickey-fuller", regression="c", compute_backend=None, **kwargs
+):
     """Perform stationarity tests to see if mean and variance are changing over time.
     Backend uses statsmodel's  statsmodels.tsa.stattools.adfuller or statsmodels.tsa.stattools.kpss
 
@@ -53,13 +50,19 @@ def stationarity_test(df, col, test="dickey-fuller", compute_backend=None, **kwa
         df: The dataframe. Must contain a datetime index
         col: The feature of interest
         test: Choice of stationarity test. "kpss" or "dickey-fuller". Defaults to "dickey-fuller".
+        regression: Constant and trend order to include in regression. Choose between 'c','ct','ctt', and 'nc'. Defaults to 'c'
         compute_backend: Select computing backend. Defaults to None (pandas).
 
     Returns:
         data: Pandas dataframe containing the statistics
     """
+    if not isinstance(df, _DATAFRAME_TYPE):
+        raise ValueError("Unsupported input data type")
+    if not isinstance(col, str):
+        raise ValueError(f"{col} not found in dataframe")
+
     data = _get_compute_backend(compute_backend, df).compute_stationarity_test(
-        df, col, test, **kwargs
+        df[col], test, regression, **kwargs
     )
     return data
 
@@ -88,15 +91,20 @@ def plot_autocorrelation(
     Returns:
         fig: The visualization
     """
+    if not isinstance(df, _DATAFRAME_TYPE):
+        raise ValueError("Unsupported input data type")
+    if isinstance(col, str):
+        if col not in df.columns:
+            raise ValueError(f"{col} not found in dataframe")
     if viz_backend == "plotly":
         data = _get_compute_backend(compute_backend, df).compute_autocorrelation(
-            df[col], plot_type=plot_type, n_lags=n_lags, **kwargs
+            df[col], plot_type=plot_type, n_lags=n_lags, fft=fft, **kwargs
         )
         fig = _get_viz_backend(viz_backend).viz_plot_autocorrelation(
             data, plot_type=plot_type, **kwargs
         )
     else:
         fig = _get_viz_backend(viz_backend).viz_plot_autocorrelation(
-            df[col], plot_type=plot_type, n_lags=n_lags, **kwargs
+            df[col], plot_type=plot_type, n_lags=n_lags, fft=fft, **kwargs
         )
     return fig
