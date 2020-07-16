@@ -6,12 +6,23 @@ from IPython import get_ipython
 from data_describe.config._config import get_option
 
 
-def viz_plot_time_series(
-    df=None, col=None, result=None, decompose=False, title="Time Series"
-):
+def viz_plot_time_series(df, col, result=None, decompose=False, title="Time Series"):
+    """Create timeseries visualization
+
+    Args:
+        df: The dataframe
+        col (str or [str]): Column of interest. Column datatype must be numerical.
+        result: The statsmodels.tsa.seasonal.DecomposeResult object. Defaults to None.
+        decompose: Set as True to decompose the timeseries with moving average. result must not be None. Defaults to False.
+        title: Title of the plot. Defaults to "Time Series".
+
+    Returns:
+        fig: The visualization
+    """
     if isinstance(col, list):
         data = [go.Scatter(x=df.index, y=df[c], name=c) for c in col]
-        fig = go.Figure(data=data, layout=figure_layout(title=title))
+        ylabel = "Variable" if len(col) > 1 else col[0]
+        fig = go.Figure(data=data, layout=figure_layout(title=title, ylabel=ylabel))
     elif isinstance(col, str):
         fig = go.Figure(
             data=go.Scatter(x=df.index, y=df[col], name=col),
@@ -27,6 +38,16 @@ def viz_plot_time_series(
 
 
 def viz_decomposition(result, dates, title="Time Series Decomposition"):
+    """Create timeseries decomposition visualization
+
+    Args:
+        result: The statsmodels.tsa.seasonal.DecomposeResult object. Defaults to None.
+        dates: The datetime index
+        title: Title of the plot. Defaults to "Time Series Decomposition".
+
+    Returns:
+        fig: The visualization
+    """
     fig = make_subplots(rows=4, cols=1, x_title="Time", shared_xaxes=True)
     fig.add_trace(
         go.Scatter(x=dates, y=result.observed, name="observed",), row=1, col=1,
@@ -46,6 +67,19 @@ def viz_decomposition(result, dates, title="Time Series Decomposition"):
 
 
 def viz_plot_autocorrelation(data, plot_type="acf", title="Autocorrelation Plot"):
+    """Create timeseries autocorrelation visualization
+
+    Args:
+        data: numpy.ndarray containing the correlations
+        plot_type: Choose between 'acf' or 'pacf. Defaults to "pacf".
+        title: Title of the plot. Defaults to "Autocorrelation Plot".
+
+    Raises:
+        ValueError: [description]
+
+    Returns:
+        [type]: [description]
+    """
     if plot_type == "acf":
         data = [go.Bar(y=data)]
     elif plot_type == "pacf":
@@ -57,6 +91,16 @@ def viz_plot_autocorrelation(data, plot_type="acf", title="Autocorrelation Plot"
 
 
 def figure_layout(title="Time Series", xlabel="Date", ylabel="Variable"):
+    """Generates the figure layout
+
+    Args:
+        title: Title of the plot. Defaults to "Time Series".
+        xlabel: x-axis label. Defaults to "Date".
+        ylabel; y-axis label. Defaults to "Variable".
+
+    Returns:
+        [type]: [description]
+    """
     layout = go.Layout(
         title={"text": title, "font": {"size": 25}},
         width=get_option("display.fig_width") * 100,

@@ -3,33 +3,63 @@ from data_describe.compat import _DATAFRAME_TYPE
 
 
 def plot_time_series(
-    data,
-    col=None,
+    df,
+    col,
     decompose=False,
-    model="multiplicative",
+    model="additive",
     compute_backend=None,
     viz_backend=None,
-    **kwargs
+    **kwargs,
 ):
-    if not isinstance(data, _DATAFRAME_TYPE):
+    """Plots time series given a dataframe with datetime index. Statistics are computed using the statsmodels API
+
+    Args:
+        df: The dataframe with datetime index
+        col (str or [str]): Column of interest. Column datatype must be numerical
+        decompose: Set as True to decompose the timeseries with moving average. Defaults to False.
+        model: Specify seasonal component when decompose is True. Defaults to "additive".
+        compute_backend: Select computing backend. Defaults to None (pandas).
+        viz_backend: Select visualization backend. Defaults to None (seaborn).
+
+    Returns:
+        fig: The visualization
+    """
+    if not isinstance(df, _DATAFRAME_TYPE):
         raise ValueError("Unsupported input data type")
+    if isinstance(col, str):
+        if col not in df.columns:
+            raise ValueError(f"{col} not found in dataframe")
+    if isinstance(col, list):
+        for c in col:
+            if c not in df.columns:
+                raise ValueError(f"{col} not found in dataframe")
     if decompose:
-        result = _get_compute_backend(
-            compute_backend, data
-        ).compute_decompose_timeseries(
-            data, col=col, model=model, **kwargs  # need to ensure4 that col is a str
+        result = _get_compute_backend(compute_backend, df).compute_decompose_timeseries(
+            df, col=col, model=model, **kwargs  # need to ensure4 that col is a str
         )
         fig = _get_viz_backend(viz_backend).viz_plot_time_series(
-            data, decompose=decompose, result=result, **kwargs
+            df, col=col, decompose=decompose, result=result, **kwargs
         )
     else:
-        fig = _get_viz_backend(viz_backend).viz_plot_time_series(data, col, **kwargs)
+        fig = _get_viz_backend(viz_backend).viz_plot_time_series(df, col, **kwargs)
     return fig
 
 
-def stationarity_test(data, col, test="dickey-fuller", compute_backend=None, **kwargs):
-    data = _get_compute_backend(compute_backend, data).compute_stationarity_test(
-        data[col], test, **kwargs
+def stationarity_test(df, col, test="dickey-fuller", compute_backend=None, **kwargs):
+    """Perform stationarity tests to see if mean and variance are changing over time.
+    Backend uses statsmodel's  statsmodels.tsa.stattools.adfuller or statsmodels.tsa.stattools.kpss
+
+    Args:
+        df: The dataframe. Must contain a datetime index
+        col: The feature of interest
+        test: Choice of stationarity test. "kpss" or "dickey-fuller". Defaults to "dickey-fuller".
+        compute_backend: Select computing backend. Defaults to None (pandas).
+
+    Returns:
+        data: Pandas dataframe containing the statistics
+    """
+    data = _get_compute_backend(compute_backend, df).compute_stationarity_test(
+        df, col, test, **kwargs
     )
     return data
 
@@ -42,8 +72,22 @@ def plot_autocorrelation(
     fft=False,
     compute_backend=None,
     viz_backend=None,
-    **kwargs
+    **kwargs,
 ):
+    """Correlation estimate using partial autocorrelation or autocorrelation. Statistics are computed using the statsmodels API
+
+    Args:
+        df: The dataframe with datetime index
+        col: The feature of interest
+        plot_type: Choose between 'acf' or 'pacf. Defaults to "pacf".
+        n_lags: Number of lags to return autocorrelation for. Defaults to 40.
+        fft: If True, computes ACF via fourier fast transform (FFT). Defaults to False.
+        compute_backend: Select computing backend. Defaults to None (pandas).
+        viz_backend: Select visualization backend. Defaults to None (seaborn).
+
+    Returns:
+        fig: The visualization
+    """
     if viz_backend == "plotly":
         data = _get_compute_backend(compute_backend, df).compute_autocorrelation(
             df[col], plot_type=plot_type, n_lags=n_lags, **kwargs
