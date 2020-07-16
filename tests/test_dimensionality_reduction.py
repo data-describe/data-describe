@@ -28,9 +28,11 @@ def test_ipca(compute_numeric_backend_df):
 
 def test_tsne(compute_numeric_backend_df):
     x = dim_reduc(data=compute_numeric_backend_df, n_components=2, dim_method="tsne")
+    y = dim_reduc(data=compute_numeric_backend_df, n_components=2, apply_tsvd=False, dim_method='tsne')
     assert isinstance(x, tuple)
     assert isinstance(x[0], _DATAFRAME_TYPE)
     assert isinstance(x[1], sklearn.manifold.TSNE)
+    assert not x[0].equals(y[0])
 
 
 def test_tsvd(compute_numeric_backend_df):
