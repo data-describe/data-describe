@@ -57,7 +57,9 @@ def viz_decomposition(df, result):
     return fig
 
 
-def viz_plot_autocorrelation(timeseries, plot_type="acf", n_lags=40, **kwargs):
+def viz_plot_autocorrelation(
+    timeseries, plot_type="acf", n_lags=40, fft=False, **kwargs
+):
     """Create timeseries autocorrelation visualization
 
     Args:
@@ -74,7 +76,9 @@ def viz_plot_autocorrelation(timeseries, plot_type="acf", n_lags=40, **kwargs):
     if plot_type == "acf":
         fig = sm.graphics.tsa.plot_acf(timeseries, ax=ax, lags=n_lags, **kwargs)
     elif plot_type == "pacf":
-        fig = sm.graphics.tsa.plot_pacf(timeseries, ax=ax, lags=n_lags, **kwargs)
+        fig = sm.graphics.tsa.plot_pacf(
+            timeseries, ax=ax, lags=n_lags, fft=fft, **kwargs
+        )
     else:
         raise ValueError("Unsupported input data type")
     return fig
