@@ -23,7 +23,7 @@ def viz_plot_time_series(df, col, result=None, decompose=False, title="Time Seri
         data = [go.Scatter(x=df.index, y=df[c], name=c) for c in col]
         ylabel = "Variable" if len(col) > 1 else col[0]
         fig = go.Figure(data=data, layout=figure_layout(title=title, ylabel=ylabel))
-    elif isinstance(col, str):
+    elif isinstance(col, str) and not decompose:
         fig = go.Figure(
             data=go.Scatter(x=df.index, y=df[col], name=col),
             layout=figure_layout(title=title, ylabel=col),
