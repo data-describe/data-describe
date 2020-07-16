@@ -11,39 +11,41 @@ from data_describe.backends.compute._pandas.time_series import (
     compute_decompose_timeseries,
     compute_autocorrelation,
 )
-from data_describe.core.time_series import plot_autocorrelation
+from data_describe.core.time_series import plot_autocorrelation, plot_time_series
 import data_describe as dd
 from data_describe.compat import _DATAFRAME_TYPE
 
 matplotlib.use("Agg")
 
 
-def test_unsupported(compute_time_data):
+def test_plot_unsupported(compute_time_data):
     with pytest.raises(ValueError):
         dd.plot_time_series("this_is_a_string", col="var")
+
     with pytest.raises(ValueError):
-        compute_stationarity_test(compute_time_data, col="var", test="not a valid test")
+        dd.plot_time_series(df=compute_time_data, col=1, decompose=True)
+
+
+def test_stationarity_unsupported(compute_time_data):
     with pytest.raises(ValueError):
-        compute_decompose_timeseries(df="not a valid type", col="Not a valid")
+        compute_stationarity_test(compute_time_data["var"], test="not a valid test")
     with pytest.raises(ValueError):
-        compute_stationarity_test(
-            compute_time_data, col=["var", "test_column"], test="not a valid test"
-        )
+        dd.stationarity_test(compute_time_data, col=["var"])
+    with pytest.raises(ValueError):
+        dd.stationarity_test("Not a dataframe", col=["var"])
 
 
 def test_compute_stationarity_test(compute_time_data):
-    test_df = compute_stationarity_test(
-        compute_time_data, col="var", test="dickey-fuller"
-    )
+    test_df = compute_stationarity_test(compute_time_data["var"], test="dickey-fuller")
     assert isinstance(test_df, _DATAFRAME_TYPE)
     assert test_df.shape == (7, 1)
-    test_df = compute_stationarity_test(compute_time_data, col="var", test="kpss")
+    test_df = compute_stationarity_test(compute_time_data["var"], test="kpss")
     assert isinstance(test_df, _DATAFRAME_TYPE)
     assert test_df.shape == (7, 1)
 
 
 def test_adf_test(compute_time_data):
-    df = adf_test(compute_time_data)
+    df = adf_test(compute_time_data["var"])
     adf_idx = [
         "Test Statistic",
         "p-value",
@@ -60,7 +62,7 @@ def test_adf_test(compute_time_data):
 
 
 def test_kpss_test(compute_time_data):
-    df = kpss_test(compute_time_data)
+    df = kpss_test(compute_time_data["var"])
     kpss_idx = [
         "Test Statistic",
         "p-value",
@@ -107,7 +109,7 @@ def test_plotly(compute_time_data):
         compute_time_data, col=["var"], viz_backend="plotly", model="additive"
     )
     assert isinstance(fig, Figure)
-    fig = dd.plot_time_series(
+    fig = plot_time_series(
         compute_time_data,
         col="var",
         decompose=True,
@@ -122,7 +124,7 @@ def test_seaborn(compute_time_data):
     assert isinstance(fig, matplotlib.artist.Artist)
     fig = dd.plot_time_series(compute_time_data, col=["var"])
     assert isinstance(fig, matplotlib.artist.Artist)
-    fig = dd.plot_time_series(
+    fig = plot_time_series(
         compute_time_data, col="var", decompose=True, model="additive"
     )
     assert isinstance(fig, matplotlib.artist.Artist)
