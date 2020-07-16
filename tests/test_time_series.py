@@ -20,18 +20,24 @@ matplotlib.use("Agg")
 
 def test_unsupported(compute_time_data):
     with pytest.raises(ValueError):
-        dd.plot_time_series("this_is_a_string")
+        dd.plot_time_series("this_is_a_string", col="var")
     with pytest.raises(ValueError):
-        compute_stationarity_test(compute_time_data, test="not a valid test")
+        compute_stationarity_test(compute_time_data, col="var", test="not a valid test")
     with pytest.raises(ValueError):
         compute_decompose_timeseries(df="not a valid type", col="Not a valid")
+    with pytest.raises(ValueError):
+        compute_stationarity_test(
+            compute_time_data, col=["var", "test_column"], test="not a valid test"
+        )
 
 
 def test_compute_stationarity_test(compute_time_data):
-    test_df = compute_stationarity_test(compute_time_data, test="dickey-fuller")
+    test_df = compute_stationarity_test(
+        compute_time_data, col="var", test="dickey-fuller"
+    )
     assert isinstance(test_df, _DATAFRAME_TYPE)
     assert test_df.shape == (7, 1)
-    test_df = compute_stationarity_test(compute_time_data, test="kpss")
+    test_df = compute_stationarity_test(compute_time_data, col="var", test="kpss")
     assert isinstance(test_df, _DATAFRAME_TYPE)
     assert test_df.shape == (7, 1)
 
@@ -119,7 +125,7 @@ def test_seaborn(compute_time_data):
     fig = dd.plot_time_series(
         compute_time_data, col="var", decompose=True, model="additive"
     )
-    assert isinstance(fig, matplotlib.figure.Figure)
+    assert isinstance(fig, matplotlib.artist.Artist)
 
 
 # can not find plot_autocorrelations in dd
