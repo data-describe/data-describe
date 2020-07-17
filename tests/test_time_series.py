@@ -11,7 +11,7 @@ from data_describe.backends.compute._pandas.time_series import (
     compute_decompose_timeseries,
     compute_autocorrelation,
 )
-from data_describe.core.time_series import plot_time_series  # plot_autocorrelation
+from data_describe.core.time_series import plot_autocorrelation, stationarity_test
 import data_describe as dd
 from data_describe.compat import _DATAFRAME_TYPE
 
@@ -30,9 +30,9 @@ def test_stationarity_unsupported(compute_time_data):
     with pytest.raises(ValueError):
         compute_stationarity_test(compute_time_data["var"], test="not a valid test")
     with pytest.raises(ValueError):
-        dd.stationarity_test(compute_time_data, col=["var"])
+        stationarity_test(compute_time_data, col=["var"])
     with pytest.raises(ValueError):
-        dd.stationarity_test("Not a dataframe", col=["var"])
+        stationarity_test("Not a dataframe", col=["var"])
 
 
 def test_compute_stationarity_test(compute_time_data):
@@ -105,11 +105,30 @@ def test_plotly(compute_time_data):
     )
     assert isinstance(fig, Figure)
     fig = dd.plot_time_series(
+        compute_time_data, col=["var"], viz_backend="plotly", model="additive"
+    )
+    assert isinstance(fig, Figure)
+    fig = dd.plot_time_series(
         compute_time_data,
         col="var",
         decompose=True,
         model="additive",
         viz_backend="plotly",
+        compute_backend="modin",
+    )
+    assert isinstance(fig, Figure)
+
+    fig = plot_autocorrelation(
+        compute_time_data,
+        col="var",
+        n_lags=1,
+        plot_type="acf",
+        fft=False,
+        viz_backend="plotly",
+    )
+    assert isinstance(fig, Figure)
+    fig = plot_autocorrelation(
+        compute_time_data, col="var", n_lags=1, plot_type="pacf", viz_backend="plotly"
     )
     assert isinstance(fig, Figure)
 
@@ -117,15 +136,13 @@ def test_plotly(compute_time_data):
 def test_seaborn(compute_time_data):
     fig = dd.plot_time_series(compute_time_data, col="var")
     assert isinstance(fig, matplotlib.artist.Artist)
-    fig = plot_time_series(
-        compute_time_data, col="var", decompose=True, model="additive"
+    fig = dd.plot_time_series(
+        compute_time_data,
+        col="var",
+        decompose=True,
+        model="additive",
+        compute_backend="modin",
     )
     assert isinstance(fig, matplotlib.artist.Artist)
-
-
-# can not find plot_autocorrelations in dd
-def test_auto(compute_time_data):
-    fig = dd.plot_autocorrelation(
-        compute_time_data, col="var", n_lags=1, plot_type="acf", fft=False
-    )
+    fig = plot_autocorrelation(compute_time_data, col="var", n_lags=1, plot_type="pacf")
     assert isinstance(fig, matplotlib.figure.Figure)
