@@ -53,6 +53,8 @@ def viz_decomposition(df, result):
     sns.lineplot(y=result.trend, x=df.index, ax=ax[1])
     sns.lineplot(y=result.seasonal, x=df.index, ax=ax[2])
     sns.lineplot(y=result.resid, x=df.index, ax=ax[3])
+    fig.suptitle("Time Series Decomposition", fontsize=18)
+
     plt.close()
     return fig
 
