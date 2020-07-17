@@ -114,7 +114,6 @@ def test_plotly(compute_time_data):
         decompose=True,
         model="additive",
         viz_backend="plotly",
-        compute_backend="modin",
     )
     assert isinstance(fig, Figure)
 
@@ -137,11 +136,7 @@ def test_seaborn(compute_time_data):
     fig = dd.plot_time_series(compute_time_data, col="var")
     assert isinstance(fig, matplotlib.artist.Artist)
     fig = dd.plot_time_series(
-        compute_time_data,
-        col="var",
-        decompose=True,
-        model="additive",
-        compute_backend="modin",
+        compute_time_data, col="var", decompose=True, model="additive",
     )
     assert isinstance(fig, matplotlib.artist.Artist)
     fig = plot_autocorrelation(compute_time_data, col="var", n_lags=1, plot_type="pacf")
