@@ -11,7 +11,7 @@ from data_describe.backends.compute._pandas.time_series import (
     compute_decompose_timeseries,
     compute_autocorrelation,
 )
-from data_describe.core.time_series import plot_autocorrelation, plot_time_series
+from data_describe.core.time_series import plot_time_series  # plot_autocorrelation
 import data_describe as dd
 from data_describe.compat import _DATAFRAME_TYPE
 
@@ -88,7 +88,6 @@ def test_decompose_timeseries(compute_time_data):
     assert len(result.resid) == 15
 
 
-# check kwargs are passed
 def test_compute_autocorrelation(compute_time_data):
     data = compute_autocorrelation(compute_time_data["var"], n_lags=1, plot_type="pacf")
     assert len(data) == 2
@@ -106,10 +105,6 @@ def test_plotly(compute_time_data):
     )
     assert isinstance(fig, Figure)
     fig = dd.plot_time_series(
-        compute_time_data, col=["var"], viz_backend="plotly", model="additive"
-    )
-    assert isinstance(fig, Figure)
-    fig = plot_time_series(
         compute_time_data,
         col="var",
         decompose=True,
@@ -122,8 +117,6 @@ def test_plotly(compute_time_data):
 def test_seaborn(compute_time_data):
     fig = dd.plot_time_series(compute_time_data, col="var")
     assert isinstance(fig, matplotlib.artist.Artist)
-    fig = dd.plot_time_series(compute_time_data, col=["var"])
-    assert isinstance(fig, matplotlib.artist.Artist)
     fig = plot_time_series(
         compute_time_data, col="var", decompose=True, model="additive"
     )
@@ -132,7 +125,7 @@ def test_seaborn(compute_time_data):
 
 # can not find plot_autocorrelations in dd
 def test_auto(compute_time_data):
-    fig = plot_autocorrelation(
+    fig = dd.plot_autocorrelation(
         compute_time_data, col="var", n_lags=1, plot_type="acf", fft=False
     )
     assert isinstance(fig, matplotlib.figure.Figure)
