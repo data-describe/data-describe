@@ -6,5 +6,3 @@ from data_describe.core.distribution import distribution  # noqa: F401
 from data_describe.core.scatter_plot import scatter_plots  # noqa: F401
 from data_describe.core.importance import importance  # noqa: F401
 from data_describe.core.time_series import plot_time_series  # noqa: F401
-from data_describe.core.time_series import plot_autocorrelation  # noqa: F401
-from data_describe.core.time_series import stationarity_test  # noqa: F401
