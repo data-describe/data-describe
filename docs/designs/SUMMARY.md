@@ -10,7 +10,7 @@ Implement the preferred approach for quickly and efficiently calculating all of 
 
 ## Non-Goals
 
-Displaying the measures on a visual plot or comparing each field to the others.
+Provide a full-scale report on the dataset.
 
 ## UI or API
 
@@ -34,4 +34,4 @@ Some are built-in functions, while others are user-defined. Each aggregation is 
 
 ## Alternatives Considered
 
-Pandas profiling was considered, but the output of this feature is meant to be relatively simple and just a brief overview of each field, as opposed to a full-scale report. Measures such as cardinality and mode were considered, but determined to be redundant information. Future iterations can include (but are not limited to) skew, quartiles, interquartile range, dependence (if target variable provided), and number of statistical outliers.
+Pandas profiling was considered, but the output of this feature is meant to be relatively simple and just a brief overview of each field, as opposed to a full-scale report. Measures such as cardinality and mode were considered, but determined to be redundant information. Future enhancements can include (but are not limited to) skew, quartiles, interquartile range, dependence (if target variable provided), and number of statistical outliers. Furthermore, possible future enhancements can also include the capability of comparing metrics and/or sorting and ranking on metrics.

@@ -10,7 +10,7 @@ Implement a concise and easy-to-use feature where a user can reduce dimensions b
 
 ## Non-Goals
 
-Creating new dimensionality reduction methods or inferring which dimensionality reduction methods work best for the user-provided dataset.
+Inferring which dimensionality reduction methods work best for the user-provided dataset.
 
 ## UI or API
 
@@ -19,13 +19,13 @@ The interface is based off the pattern in [#109](https://github.com/brianray/dat
 ## Design
 
 Functions have been created around 4 different methods of dimensionality reduction:
-* PCA
-* Incremental PCA
-* t-SNE
-* Truncated SVD
+* [PCA](https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html)
+* [Incremental PCA](https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.IncrementalPCA.html)
+* [t-SNE](https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.IncrementalPCA.html)
+* [Truncated SVD](https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.TruncatedSVD.html)
 
 The user inputs their data frame, the number of components they want the data reduced to, and the method of dimensionality reduction they want applied into the main function. Users are highly encouraged to use Incremental PCA for very large data frames. The output is a tuple consisting of the dimensionally-reduced data frame and the reductor which was applied and fitted to it.
 
 ## Alternatives Considered
 
-Linear Discriminant Analysis is another dimensionality reduction method similar to PCA, but does not optimize based on explained variance. Autoencoder methods use neural networks to reduce dimensionality, but therefore require a large amount of data and offer limited explainability. Future enhancements can include providing explainability metrics if possible (i.e. explained variance) and including an option to plot the output data as a visual upon completion of the dimensionality reduction.
+Linear Discriminant Analysis is another dimensionality reduction method similar to PCA, but does not optimize based on explained variance. Autoencoder methods use neural networks to reduce dimensionality, but therefore require a large amount of data and offer limited explainability. Future enhancements can include providing explainability metrics if possible (i.e. explained variance) and including an option to plot the output data as a visual upon completion of the dimensionality reduction. Furthermore, future enhancements can also include building out functionality to allow a user to plug in alternative user-provided dimensionality reduction methods.
