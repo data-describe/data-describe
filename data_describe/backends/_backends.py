@@ -23,7 +23,7 @@ class Backend:
                 return module.__getattribute__(f)
             except AttributeError:
                 pass
-        raise ModuleNotFoundError(f"Could not find implementation for {f}")
+        raise ModuleNotFoundError(f"Could not find implementation for {f} with available backends: {self.b}")
 
 
 def _get_viz_backend(backend: str = None):
