@@ -192,7 +192,7 @@ def document_data():
     return topical_docs
 
 
-@pytest.fixture(params=[pd])
+@pytest.fixture(params=_COMPUTE_MODULES)
 def compute_time_data(request):
     dates = pd.to_datetime(
         [
