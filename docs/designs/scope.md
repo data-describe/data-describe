@@ -51,5 +51,13 @@ As an initial launch goal, data describe does not explicitly define industry or 
 - Keep an eye out for opportunities to cover more niche data types where there is a need and is not already covered by other (open source) tools
 - Be judicious about how/where we provide "automated data preparation" / transformation for specific data types as this package is not intended to eliminate the need for data preparation. Users are still expected to manipulate their data as needed to prepare it for analysis
 
-### Data Examples
+## Roadmap
+
+Some features that are on the roadmap for future releases include (in no particular order):
+
+- Additional integrations for big data processing, such as with Spark
+- Features/utilities for geospatial mapping
+- A "pandas-profiling"-like, single function for rendering an automated, complete report of input data
+- Better export utilities for using data-describe visualizations in publications
+- Enhanced interactivity with data-describe, possibly via a Jupyter Lab extension
 
