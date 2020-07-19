@@ -94,15 +94,17 @@ def _get_compute_backend(backend: str = None, df=None):
     else:
         data_type = str(type(df))
         backend_types = [
-            _DATAFRAME_BACKENDS.get(data_type, None),
+            _DATAFRAME_BACKENDS.get(data_type, "None"),
             get_option("backends.compute"),
         ]
 
         # Remove duplicates, maintain order
         seen = set()
-        backend_types = [
-            b for b in backend_types if not (b in seen or seen.add(b)) and b is not None
-        ]
+        for idx, backend_name in enumerate(backend_types):
+            if backend_name in seen:
+                backend_types.pop(idx)
+            else:
+                seen.add(backend_name)
 
     backend_collection = []
     for backend in backend_types:
@@ -160,7 +162,7 @@ def _check_backend(
         if module is None:
             return True
         else:
-            if str(module.__path__) in loaded_backends[backend_type]:
+            if str(module.__path__) in loaded_backends[backend_type]:  # type: ignore # mypy issue 1422
                 return True
     return False
 
@@ -177,4 +179,4 @@ def _add_backend(backend_type: str, loaded_backends: dict, module: ModuleType):
     if backend_type not in loaded_backends:
         loaded_backends[backend_type] = {}
 
-    loaded_backends[backend_type][str(module.__path__)] = module
+    loaded_backends[backend_type][str(module.__path__)] = module  # type: ignore # mypy issue 1422
