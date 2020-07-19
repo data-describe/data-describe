@@ -1,7 +1,6 @@
 import importlib
 from types import ModuleType
 from typing import Dict, List, Optional
-import logging
 
 from data_describe.config._config import get_option
 from data_describe.compat import _DATAFRAME_BACKENDS
@@ -38,12 +37,20 @@ def _get_viz_backend(backend: str = None):
     Returns:
         Backend
     """
-    backend = backend or get_option("backends.viz")
+    if backend:
+        backend_types = [backend]
+    else:
+        backend_types = [get_option("backends.viz")]
 
-    if backend not in _viz_backends:
-        module = _find_viz_backend(backend)
-        _viz_backends[backend] = module
-    return Backend([_viz_backends[backend]])
+    backend_collection = []
+    for backend in backend_types:
+        if _check_backend(backend, _viz_backends):
+            modules = _viz_backends[backend]
+        else:
+            modules = _load_viz_backend(backend)
+        backend_collection.append(modules)
+    backend_list = [module for d in backend_collection for _, module in d.items()]
+    return Backend(backend_list)
 
 
 def _find_viz_backend(backend: str):
@@ -58,16 +65,16 @@ def _find_viz_backend(backend: str):
     import pkg_resources  # noqa: delay import for performance
 
     for entry_point in pkg_resources.iter_entry_points("data_describe_viz_backends"):
-        _viz_backends[entry_point.name] = entry_point.load()
+        _add_backend(entry_point.name, _viz_backends, entry_point.load())
 
     try:
         return _viz_backends[backend]
     except KeyError:
         try:
             module = importlib.import_module(backend)
-            _viz_backends[backend] = module
+            _add_backend(backend, _viz_backends, module)
 
-            return module
+            return _viz_backends[backend]
         except ModuleNotFoundError:
             raise ValueError(f"Could not find visualization backend '{backend}'")
 
@@ -82,25 +89,29 @@ def _get_compute_backend(backend: str = None, df=None):
     Returns:
         Backend
     """
-    data_type = str(type(df))
-    backend_types = set(
-        [
-            backend,
+    if backend:
+        backend_types = [backend]
+    else:
+        data_type = str(type(df))
+        backend_types = [
             _DATAFRAME_BACKENDS.get(data_type, None),
             get_option("backends.compute"),
         ]
-    )
-    logging.info(f"Backend sources are {backend_types}")
 
-    backend_list = []
+        # Remove duplicates, maintain order
+        seen = set()
+        backend_types = [
+            b for b in backend_types if not (b in seen or seen.add(b)) and b is not None
+        ]
+
+    backend_collection = []
     for backend in backend_types:
-        if backend:
-            if _check_backend(backend, _compute_backends):
-                modules = _compute_backends[backend]
-            else:
-                modules = _load_compute_backend(backend)
-            backend_list.append(modules)
-    backend_list = [module for d in backend_list for _, module in d.items()]
+        if _check_backend(backend, _compute_backends):
+            modules = _compute_backends[backend]
+        else:
+            modules = _load_compute_backend(backend)
+        backend_collection.append(modules)
+    backend_list = [module for d in backend_collection for _, module in d.items()]
     return Backend(backend_list)
 
 
@@ -118,12 +129,8 @@ def _find_compute_backend(backend):
     for entry_point in pkg_resources.iter_entry_points(
         "data_describe_compute_backends"
     ):
-        logging.info(
-            f"Loading entry point {entry_point.name} from {entry_point.load()}"
-        )
         _add_backend(entry_point.name, _compute_backends, entry_point.load())
 
-    logging.info(f"Loaded compute backends are {_compute_backends}")
     try:
         return _compute_backends[backend]
     except KeyError:
