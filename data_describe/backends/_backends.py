@@ -1,3 +1,4 @@
+import logging
 import importlib
 from types import ModuleType
 from typing import Dict, List, Optional
@@ -105,6 +106,9 @@ def _get_compute_backend(backend: str = None, df: _DATAFRAME_STATIC_TYPE = None)
                 backend_types.pop(idx)
             else:
                 seen.add(backend_name)
+
+    logging.info(f"Specified backend as {backend}")
+    logging.info(f"Collected backend names are {backend_types}")
 
     backend_collection = []
     for backend in backend_types:
