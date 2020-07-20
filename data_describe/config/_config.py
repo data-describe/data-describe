@@ -97,6 +97,7 @@ def flatten_config(config: Dict) -> Dict:
 # https://github.com/pandas-dev/pandas/blob/master/pandas/_config/config.py
 class Options:
     """Provides module-style access to configuration items"""
+
     def __init__(self, config: dict, path: str = ""):
         object.__setattr__(self, "config", config)
         object.__setattr__(self, "path", path)
@@ -162,7 +163,9 @@ def update_context(*args):
             k: v for k, v in [(args[i], args[i + 1]) for i in range(0, len(args), 2)]
         }
     else:
-        raise ValueError("Arguments must be either a dictionary or pairs of path, value")
+        raise ValueError(
+            "Arguments must be either a dictionary or pairs of path, value"
+        )
 
     old_config = flatten_config(get_config())
     set_config(new_config)

@@ -31,7 +31,9 @@ def test_to_lower(text_data, tokenized_test_list_main):
 
 
 def test_remove_punct(text_data, tokenized_test_list_main):
-    assert remove_punct(tokenized_test_list_main) == text_data["answer_key_remove_punct"]
+    assert (
+        remove_punct(tokenized_test_list_main) == text_data["answer_key_remove_punct"]
+    )
     assert (
         remove_punct(tokenized_test_list_main, remove_all=True, replace_char="")
         == text_data["answer_key_remove_all_punct_no_space"]
@@ -43,7 +45,10 @@ def test_remove_punct(text_data, tokenized_test_list_main):
 
 
 def test_remove_digits(text_data):
-    assert remove_digits(text_data["test_list_digits"]) == text_data["answer_key_remove_digits"]
+    assert (
+        remove_digits(text_data["test_list_digits"])
+        == text_data["answer_key_remove_digits"]
+    )
 
 
 def test_remove_single_char_and_spaces(text_data):
@@ -109,7 +114,9 @@ def test_custom_pipeline(text_data):
         return [[word.upper() for word in doc] for doc in text_docs_bow]
 
     assert (
-        preprocess_texts(text_data["test_list_custom"], custom_pipeline=["tokenize", shout])
+        preprocess_texts(
+            text_data["test_list_custom"], custom_pipeline=["tokenize", shout]
+        )
         == text_data["answer_key_custom"]
     )
 
