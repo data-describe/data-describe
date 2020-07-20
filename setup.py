@@ -19,7 +19,6 @@ REQUIRED = [
     "scipy>=1.1.0",
     "seaborn>=0.9.0",
     "scikit-learn>=0.20.3",
-    "eli5>=0.8.1",
     "networkx>=2.2",
     "hdbscan>=0.8.20",
     "gcsfs>=0.2.1",
@@ -57,10 +56,10 @@ setup(
     entry_points={
         "data_describe_viz_backends": [
             "seaborn = data_describe:backends.viz._seaborn",
-            "plotly = data_describe:backends.viz._plotly"
+            "plotly = data_describe:backends.viz._plotly",
         ],
         "data_describe_compute_backends": [
             "pandas = data_describe:backends.compute._pandas",
-        ]
+        ],
     },
 )

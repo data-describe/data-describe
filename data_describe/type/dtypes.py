@@ -53,8 +53,7 @@ class BaseType(object):
                     return 1
                 else:
                     return 0
-            except Exception as e:  # TODO: #7
-                print(e)
+            except ValueError:
                 return -1
 
     @staticmethod
@@ -204,8 +203,7 @@ class IntegerType(NumericType):
                     return 1  # Convertible to integer
             else:
                 return -1  # Not convertible to integer
-        except Exception as e:  # TODO: #7
-            print(e)
+        except ValueError:
             return super().test(value)
 
     def cast(self, value):
@@ -214,8 +212,7 @@ class IntegerType(NumericType):
 
         try:
             value = float(value)
-        except Exception as e:  # TODO: #7
-            print(e)
+        except ValueError:
             return locale.atoi(value)
 
         if value.is_integer():
@@ -247,8 +244,7 @@ class DecimalType(NumericType):
                     return 0  # Convertible but no decimal point
             else:
                 return -1  # Not convertible
-        except Exception as e:  # TODO: #7
-            print(e)
+        except ValueError:
             return super().test(value)
 
     def cast(self, value):
@@ -256,8 +252,7 @@ class DecimalType(NumericType):
             return None
         try:
             return decimal.Decimal(value)
-        except Exception as e:  # TODO: #7
-            print(e)
+        except ValueError:
             value = locale.atof(value)
             if sys.version_info < (2, 7):
                 value = str(value)
@@ -349,8 +344,7 @@ class DateTimeType(BaseType):
             try:
                 dt.strptime(value, self._format)
                 return 1
-            except Exception as e:  # TODO: #7
-                print(e)
+            except ValueError:
                 return super().test(value)
         else:
             try:
@@ -367,11 +361,9 @@ class DateTimeType(BaseType):
                         return 1
                     else:
                         return 0
-                except Exception as e:  # TODO: #7
-                    print(e)
+                except ValueError:
                     return super().test(value)
-            except Exception as e:  # TODO: #7
-                print(e)
+            except ValueError:
                 return super().test(value)
 
     def cast(self, value):
@@ -385,11 +377,11 @@ class DateTimeType(BaseType):
             return dt.strptime(value, self._format)
 
     @property
-    def format(self):
+    def date_format(self):
         return self._format
 
-    @format.setter
-    def format(self, value):
+    @date_format.setter
+    def date_format(self, value):
         self._format = value
 
 

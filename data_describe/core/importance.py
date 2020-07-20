@@ -1,37 +1,19 @@
-import warnings
-
 import seaborn as sns
 import numpy as np
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.inspection import permutation_importance
 import matplotlib.pyplot as plt
 
 from data_describe.utilities.preprocessing import preprocess
-from data_describe.utilities.contextmanager import _context_manager
-
-warnings.filterwarnings(
-    "ignore",
-    category=DeprecationWarning,
-    message=r"Using or importing the ABCs from 'collections",
-)
-with warnings.catch_warnings():
-    warnings.filterwarnings(
-        "ignore",
-        category=DeprecationWarning,
-        module="eli5",
-        message=r"inspect.getargspec()",
-    )
-    from eli5.sklearn import PermutationImportance
 
 
-@_context_manager
 def importance(
     data,
     target,
     preprocess_func=None,
-    estimator=RandomForestClassifier(random_state=1),
+    estimator=None,
     return_values=False,
     truncate=True,
-    context=None,
     **kwargs
 ):
     """ Variable importance chart
@@ -46,34 +28,29 @@ def importance(
         estimator: A custom sklearn estimator. Default is Random Forest Classifier
         return_values: If True, only the importance values as a numpy array
         truncate: If True, negative importance values will be truncated (set to zero)
-        context: The context
         **kwargs: Other arguments to be passed to the preprocess function
 
     Returns:
         Matplotlib figure
     """
+    if estimator is None:
+        estimator = RandomForestClassifier(random_state=1)
 
     if preprocess_func is None:
         X, y = preprocess(data, target, **kwargs)
     else:
         X, y = preprocess_func(data, target, **kwargs)
 
-    pi = PermutationImportance(estimator, cv=5, random_state=1)
-    with warnings.catch_warnings():
-        warnings.filterwarnings(
-            "ignore",
-            category=FutureWarning,
-            message=r"The default value of n_estimators",
-        )
-        pi.fit(X, y)
+    estimator.fit(X, y)
+    pi = permutation_importance(estimator, X, y, n_repeats=5, random_state=1)
 
     importance_values = np.array(
-        [max(0, x) if truncate else x for x in pi.feature_importances_]
+        [max(0, x) if truncate else x for x in pi.importances_mean]
     )
 
     idx = importance_values.argsort()[::-1]
 
-    plt.figure(figsize=(context.fig_width, context.fig_height))
+    # plt.figure(figsize=(context.fig_width.fig_height)) # TODO (haishiro): Replace with get_option
     plt.xlabel("Permutation Importance Value")
     plt.ylabel("Features")
 

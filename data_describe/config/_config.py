@@ -135,7 +135,7 @@ options = Options(_global_config)
 
 
 @contextlib.contextmanager
-def config_context(*args):
+def update_context(*args):
     """Data Describe configuration context
 
     This can be used to use certain configuration values for a limited block of code,
@@ -144,7 +144,7 @@ def config_context(*args):
     For example, if the current figure size is (10, 10), the following can be used to
     make one plot with a different figure size:
         ```
-        with dd.config.config_context("display.fig_height", 20):
+        with dd.config.update_context("display.fig_height", 20):
             dd.plot() # fig_height = 20
         ```
 

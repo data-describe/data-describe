@@ -10,7 +10,7 @@ def data_heatmap(data, missing=False, compute_backend=None, viz_backend=None, **
         data: A pandas data frame
         missing: If True, show only missing values
         interactive: If True, return an interactive visualization (using Plotly). Otherwise, uses Seaborn.
-        context: The context
+
 
     Returns:
         Visualization

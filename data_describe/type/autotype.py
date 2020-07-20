@@ -254,13 +254,12 @@ def cast_dtypes(df, dtypes=None, exclude=None):
         dtype = get_class_instance_by_name(dtype)
         try:
             dtype = dtype.result_type[0]
-        except Exception as e:  # TODO: #7
+        except IndexError:
             raise ValueError(
                 "Could not determine data type ({}) to cast feature {}".format(
                     dtype, column
                 )
             )
-            print(e)
 
         if not isinstance(dtype, type(None)):  # TODO: Check for NoneType
             try:
@@ -272,13 +271,12 @@ def cast_dtypes(df, dtypes=None, exclude=None):
                     )  # Workaround for pandas' nullable int dtype
                 else:
                     raise e
-            except Exception as e:  # TODO: #7
+            except ValueError:
                 warnings.warn(
                     "Failed to cast '{}' as a {}. Data type was kept as a string.".format(
                         column, dtype
                     )
                 )
-                print(e)
 
     return df
 
