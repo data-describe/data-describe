@@ -83,4 +83,5 @@ def viz_plot_autocorrelation(
         fig = sm.graphics.tsa.plot_pacf(timeseries, ax=ax, lags=n_lags, **kwargs)
     else:
         raise ValueError("Unsupported input data type")
+    plt.close()
     return fig
