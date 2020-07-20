@@ -168,6 +168,6 @@ def update_context(*args):
     set_config(new_config)
 
     try:
-        yield
+        yield get_config()
     finally:
         set_config(old_config)
