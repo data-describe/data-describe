@@ -5,6 +5,7 @@ import pandas as pd
 
 from data_describe import compat
 from data_describe.compat import requires, _PACKAGE_INSTALLED
+from data_describe.utilities.file_ext import _FileExtensionTypes, is_filetype
 
 
 def load_data(filepath, all_folders=False, **kwargs):
@@ -66,15 +67,15 @@ def read_file_type(filepath, **kwargs):
         A Pandas data frame
     """
     extension = os.path.splitext(filepath)[1]
-    if extension == ".csv":
+    if is_filetype(_FileExtensionTypes.CSV, extension):
         return pd.read_csv(filepath, **kwargs)
-    elif extension == ".json":
+    elif is_filetype(_FileExtensionTypes.JSON, extension):
         lines = kwargs.pop("lines", True)
         return pd.read_json(filepath, lines=lines, **kwargs)
-    elif extension == ".xlsx":
+    elif is_filetype(_FileExtensionTypes.EXCEL, extension):
         return pd.read_excel(filepath, **kwargs)
     else:
-        sep = kwargs.pop("sep", '\n')
+        sep = kwargs.pop("sep", "\n")
         return pd.read_csv(filepath, sep=sep, **kwargs)
 
 

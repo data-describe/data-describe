@@ -35,11 +35,11 @@ try:
     except LookupError:
         nltk.download("punkt")
     try:
-        nltk.data.find("stem/wordnet")
+        nltk.data.find("corpora/wordnet")
     except LookupError:
         nltk.download("wordnet")
     try:
-        nltk.data.find("stopwords")
+        nltk.data.find("corpora/stopwords")
     except LookupError:
         nltk.download("stopwords")
 except ImportError:
@@ -80,8 +80,8 @@ except ImportError:
     _PACKAGE_INSTALLED["google-cloud-storage"] = False
 
 _DATAFRAME_BACKENDS = {
-    "<class 'pandas.core.frame.DataFrame'>": "pandas",
-    "<class 'modin.pandas.dataframe.DataFrame'>": "modin",
+    "<class 'pandas.core.frame.DataFrame'>": ["pandas"],
+    "<class 'modin.pandas.dataframe.DataFrame'>": ["modin", "pandas"],
 }
 try:
     import modin.pandas

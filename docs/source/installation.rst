@@ -2,6 +2,10 @@
 
 Installation
 ============================================
-Installation guide.
+Data Describe can be installed using pip:
 
-.. _`Data Describe`: https://bitbucket.org/mavenwave/mw-data_describe
+.. code-block:: bash
+
+   pip install data_describe
+
+.. _`Data Describe`: https://github.com/brianray/data-describe

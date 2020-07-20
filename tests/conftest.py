@@ -12,7 +12,7 @@ _VIZ_BACKENDS = ["seaborn", "plotly"]
 
 @pytest.fixture(params=_COMPUTE_BACKENDS)
 def compute_backend(request):
-    with dd.config.config_context("backends.compute", request.param):
+    with dd.config.update_context("backends.compute", request.param):
         yield
 
 
@@ -192,7 +192,7 @@ def document_data():
     return topical_docs
 
 
-@pytest.fixture(params=[pd])
+@pytest.fixture(params=_COMPUTE_MODULES)
 def compute_time_data(request):
     dates = pd.to_datetime(
         [

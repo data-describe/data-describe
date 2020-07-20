@@ -1,5 +1,5 @@
 # import pandas as pd
-# import data_describe as mw
+# import data_describe as dd
 # import matplotlib
 # import pytest
 
@@ -24,7 +24,7 @@
 
 # @pytest.fixture
 # def scagnostic_class(data):
-#     return mw.metrics.bivariate.Scagnostics(data)
+#     return dd.metrics.bivariate.Scagnostics(data)
 
 
 # @pytest.fixture
@@ -39,14 +39,14 @@
 
 # def test_scagnostic_class_np(np_data):
 #     assert isinstance(
-#         mw.metrics.bivariate.Scagnostics(np_data), mw.metrics.bivariate.Scagnostics
+#         dd.metrics.bivariate.Scagnostics(np_data), dd.metrics.bivariate.Scagnostics
 #     )
 
 
 # def test_str_data_type():
 #     assert isinstance(
-#         mw.metrics.bivariate.Scagnostics("data/er_data.csv"),
-#         mw.metrics.bivariate.Scagnostics,
+#         dd.metrics.bivariate.Scagnostics("data/er_data.csv"),
+#         dd.metrics.bivariate.Scagnostics,
 #     )
 
 
