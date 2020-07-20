@@ -3,7 +3,7 @@ import pandas as pd
 import modin.pandas as modin
 
 from data_describe.compat import _DATAFRAME_TYPE
-from data_describe.core.summary import data_summary, cardinality
+from data_describe.core.summary import data_summary
 
 
 @pytest.fixture
@@ -32,8 +32,3 @@ def test_series(load_series_summary):
 def test_shape(load_summary):
     summary, data = load_summary
     assert summary.shape == (9, data.shape[1])
-
-
-def test_cardinality(compute_backend_df):
-    assert cardinality(compute_backend_df.d) == 2
-    assert cardinality(compute_backend_df.e) == 2

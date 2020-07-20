@@ -1,5 +1,6 @@
 import pytest
 import pandas as pd
+import modin.pandas as modin
 import numpy as np
 
 import data_describe as dd
@@ -32,6 +33,25 @@ def data():
 @pytest.fixture
 def numeric_data(data):
     return data.select_dtypes("number")
+
+
+@pytest.fixture(params=_COMPUTE_MODULES)
+def compute_backend_df(request):
+    np.random.seed(22)
+    return request.param.DataFrame(
+        {
+            "a": np.random.normal(2, 1.2, size=250),
+            "b": np.random.normal(3, 1.5, size=250),
+            "c": np.random.normal(9, 0.2, size=250),
+            "d": np.random.choice(["x", "y"], size=250),
+            "e": np.random.choice(["v", "w"], p=[0.01, 0.99], size=250),
+        }
+    )
+
+
+@pytest.fixture
+def compute_numeric_backend_df(compute_backend_df):
+    return compute_backend_df.select_dtypes("number")
 
 
 @pytest.fixture
