@@ -1,7 +1,5 @@
 import pytest
 import sklearn
-import pandas as pd
-import modin.pandas as modin
 
 from data_describe.compat import _DATAFRAME_TYPE
 from data_describe.dimensionality_reduction.dimensionality_reduction import dim_reduc

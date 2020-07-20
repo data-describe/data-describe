@@ -1,6 +1,4 @@
 import pytest
-import pandas as pd
-import modin.pandas as modin
 
 from data_describe.compat import _DATAFRAME_TYPE
 from data_describe.core.summary import data_summary
