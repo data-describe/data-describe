@@ -4,4 +4,4 @@ max-line-length = 88
 application-import-names = data_describe
 import-order-style = pep8
 docstring-convention = google
-per-file-ignores = tests/*:D103, D100
+per-file-ignores = tests/*:D103, D100, D414, D104, *__init__.py:D104, data_describe/type/dtypes.py:D102, D100, D107, D101, *:D100, *.py:D100, */autotype.py:D414, D100

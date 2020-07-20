@@ -20,7 +20,7 @@ def distribution(
     violin_kwargs=None,
     context=None,
 ):
-    """ Plots all "interesting" distribution plots
+    """Plots all "interesting" distribution plots.
 
     Args:
         data: A pandas data frame
@@ -57,7 +57,7 @@ def distribution(
 
 
 def plot_histograms(data, plot_all, spike=10, skew=6, hist_kwargs=None, context=None):
-    """ Makes histogram plots
+    """Makes histogram plots.
 
     Args:
         data: A pandas data frame
@@ -89,7 +89,7 @@ def plot_histograms(data, plot_all, spike=10, skew=6, hist_kwargs=None, context=
 
 
 def plot_histogram(x, hist_kwargs=None, context=None):
-    """ Make a single histogram plot
+    """Make a single histogram plot.
 
     Args:
         x: The 1-dimensional data, as a list or numpy array
@@ -121,7 +121,7 @@ def plot_violins(
     violin_kwargs=None,
     context=None,
 ):
-    """ Makes violin plots
+    """Makes violin plots.
 
     Args:
         data: A pandas data frame
@@ -165,7 +165,7 @@ def plot_violins(
 
 
 def plot_violin(x, y, data, violin_kwargs=None, context=None):
-    """ Make a single violin plot
+    """Make a single violin plot.
 
     Args:
         x: The x (categorical) data vector or name string
@@ -189,7 +189,7 @@ def plot_violin(x, y, data, violin_kwargs=None, context=None):
 
 
 def split_by_category(df, category, num):
-    """ Splits the numeric feature `num` by the categorical feature `category`
+    """Splits the numeric feature `num` by the categorical feature `category`.
 
     Args:
         df: A pandas data frame
@@ -204,7 +204,7 @@ def split_by_category(df, category, num):
 
 
 def roll_up_categories(num, cat, max_categories=20):
-    """ Combine "extra" categories into "__OTHER__"
+    """Combine "extra" categories into "__OTHER__".
 
     Args:
         num: The numeric data

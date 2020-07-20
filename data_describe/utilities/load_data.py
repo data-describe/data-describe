@@ -8,7 +8,7 @@ from data_describe.compat import requires, _PACKAGE_INSTALLED
 
 
 def load_data(filepath, all_folders=False, **kwargs):
-    """ Create pandas data frame from filepath
+    """Create pandas data frame from filepath.
 
     Args:
         filepath: The file path. Can be either a local filepath or Google Cloud Storage URI filepath
@@ -54,7 +54,7 @@ def load_data(filepath, all_folders=False, **kwargs):
 
 
 def read_file_type(filepath, **kwargs):
-    """ Read the file based on file extension
+    """Read the file based on file extension.
 
     Currently supports the following filetypes:
         csv, json, txt, shp
@@ -74,13 +74,13 @@ def read_file_type(filepath, **kwargs):
     elif extension == ".xlsx":
         return pd.read_excel(filepath, **kwargs)
     else:
-        sep = kwargs.pop("sep", '\n')
+        sep = kwargs.pop("sep", "\n")
         return pd.read_csv(filepath, sep=sep, **kwargs)
 
 
 @requires("google-cloud-storage")
 def download_gcs_file(filepath, bucket=None, prefix=None, **kwargs):
-    """ Downloads files from Google Cloud Storage
+    """Downloads files from Google Cloud Storage.
 
     Args:
         filepath: The file path

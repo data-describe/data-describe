@@ -8,8 +8,7 @@ import pandas as pd
 def compute_stationarity_test(
     timeseries, test="dickey-fuller", regression="c", **kwargs
 ):
-    """Perform stationarity tests to see if mean and variance are changing over time.
-    Backend uses statsmodel's  statsmodels.tsa.stattools.adfuller or statsmodels.tsa.stattools.kpss
+    """Perform stationarity tests to see if mean and variance are changing over time. Backend uses statsmodel's statsmodels.tsa.stattools.adfuller or statsmodels.tsa.stattools.kpss.
 
     Args:
         timeseries: Series containing a datetime index
@@ -29,8 +28,7 @@ def compute_stationarity_test(
 
 
 def adf_test(timeseries, autolag="AIC", regression="c"):
-    """Compute the Augmented Dickey-Fuller (ADF) test for stationarity
-    Backend uses statsmodels.tsa.stattools.adfuller
+    """Compute the Augmented Dickey-Fuller (ADF) test for stationarity. Backend uses statsmodels.tsa.stattools.adfuller.
 
     Args:
         timeseries: The timeseries
@@ -56,8 +54,7 @@ def adf_test(timeseries, autolag="AIC", regression="c"):
 
 
 def kpss_test(timeseries, regression="c", nlags=None):
-    """Compute the Kwiatkowski–Phillips–Schmidt–Shin (KPSS) test for stationarity.
-    Backend uses statsmodels.tsa.stattools.kpss
+    """Compute the Kwiatkowski–Phillips–Schmidt–Shin (KPSS) test for stationarity. Backend uses statsmodels.tsa.stattools.kpss.
 
     Args:
         timeseries: The timeseries
@@ -84,7 +81,7 @@ def kpss_test(timeseries, regression="c", nlags=None):
 
 # NOTE: decomposition object in modin does not preserve datetime index.
 def compute_decompose_timeseries(df, col, model="additive"):
-    """Seasonal decomposition using moving averages
+    """Seasonal decomposition using moving averages.
 
     Args:
         df: The dataframe
@@ -99,7 +96,7 @@ def compute_decompose_timeseries(df, col, model="additive"):
 
 # check kwargs are passed
 def compute_autocorrelation(timeseries, plot_type="acf", n_lags=40, fft=False):
-    """Correlation estimate using partial autocorrelation or autocorrelation
+    """Correlation estimate using partial autocorrelation or autocorrelation.
 
     Args:
         timeseries: Series object containing datetime index

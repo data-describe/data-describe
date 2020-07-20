@@ -29,7 +29,7 @@ fixture = NBRegressionFixture(
 
 
 def check_notebook_execution(notebook):
-    """Update notebook if cell execution counts are not ordered
+    """Update notebook if cell execution counts are not ordered.
 
     Args:
         notebook: Path to notebook

@@ -32,10 +32,10 @@ def sensitive_data(
     sample_size=_SAMPLE_SIZE,
     cols=None,
 ):
-    """Identifies, redacts, and encrypts PII data
-    Note: sensitive_data uses Microsoft's Presidio in the backend. Presidio can be help identify sensitive data.
-    However, because Presidio uses trained ML models, there is no guarantee that Presidio will find all sensitive information.
+    """Identifies, redacts, and encrypts PII data.
 
+    Note: sensitive_data uses Microsoft's Presidio in the backend.
+    Presidio can be help identify sensitive data. However, because Presidio uses trained ML models, there is no guarantee that Presidio will find all sensitive information.
     Args:
         df: The dataframe
         redact: If True, redact sensitive data
@@ -69,7 +69,7 @@ def sensitive_data(
 
 
 def identify_pii(text, score_threshold=_DEFAULT_SCORE_THRESHOLD):
-    """Identifies infotypes contained in a string
+    """Identifies infotypes contained in a string.
 
     Args:
         text: A string value
@@ -91,7 +91,7 @@ def identify_pii(text, score_threshold=_DEFAULT_SCORE_THRESHOLD):
 
 
 def create_mapping(text, response):
-    """Identifies sensitive data and creates a mapping with the hashed data
+    """Identifies sensitive data and creates a mapping with the hashed data.
 
     Args:
         text: String value
@@ -111,7 +111,7 @@ def create_mapping(text, response):
 
 
 def redact_info(text, score_threshold=_DEFAULT_SCORE_THRESHOLD):
-    """Redact sensitive data with mapping between hashed values and infotype
+    """Redact sensitive data with mapping between hashed values and infotype.
 
     Args:
         text: String value
@@ -128,7 +128,7 @@ def redact_info(text, score_threshold=_DEFAULT_SCORE_THRESHOLD):
 def identify_column_infotypes(
     data_series, sample_size=_SAMPLE_SIZE, score_threshold=_DEFAULT_SCORE_THRESHOLD
 ):
-    """Identifies the infotype of a pandas series object using a sample of rows
+    """Identifies the infotype of a pandas series object using a sample of rows.
 
     Args:
         data_series: A pandas series
@@ -149,7 +149,7 @@ def identify_column_infotypes(
 def identify_infotypes(
     df, sample_size=_SAMPLE_SIZE, score_threshold=_DEFAULT_SCORE_THRESHOLD
 ):
-    """Identify infotypes for each column in the dataframe
+    """Identify infotypes for each column in the dataframe.
 
     Args:
         df: The dataframe
@@ -168,7 +168,7 @@ def identify_infotypes(
 
 
 def encrypt_text(text, score_threshold=_DEFAULT_SCORE_THRESHOLD):
-    """Encrypt text using python's hash function
+    """Encrypt text using python's hash function.
 
     Args:
         text: A string value
@@ -182,7 +182,7 @@ def encrypt_text(text, score_threshold=_DEFAULT_SCORE_THRESHOLD):
 
 
 def hash_string(text):
-    """Applies SHA256 text hashing
+    """Applies SHA256 text hashing.
 
     Args:
         text: The string value

@@ -3,11 +3,10 @@ from functools import wraps
 
 
 class ContextManager:
-    """Manages the context and controls figure sizes
-
-    """
+    """Manages the context and controls figure sizes."""
 
     def __init__(self):
+        """Default plot values."""
         self.fig_width = 11
         self.fig_height = 9
         self.viz_size = 700

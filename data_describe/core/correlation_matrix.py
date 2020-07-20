@@ -24,7 +24,7 @@ warnings.filterwarnings(
 def correlation_matrix(
     data, cluster=False, categorical=False, return_values=False, context=None
 ):
-    """ Correlation matrix of numeric variables
+    """Correlation matrix of numeric variables.
 
     Args:
         data: A pandas data frame
@@ -102,7 +102,7 @@ def correlation_matrix(
 
 
 def cramers_v_matrix(df):
-    """ Computes Cramer's V for all column pairs
+    """Computes Cramer's V for all column pairs.
 
     Adapted from https://github.com/shakedzy/dython/blob/master/dython/nominal.py
     Args:
@@ -127,7 +127,7 @@ def cramers_v_matrix(df):
 
 
 def cramers_v(x, y):
-    """ Calculates Cramer's V statistic for categorical-categorical association.
+    """Calculates Cramer's V statistic for categorical-categorical association.
 
     Adapted from https://github.com/shakedzy/dython/blob/master/dython/nominal.py
     Args:
@@ -157,7 +157,7 @@ def cramers_v(x, y):
 
 
 def correlation_ratio_matrix(num_df, cat_df):
-    """ Computes correlation ratio for all numeric-categoric pairs of columns
+    """Computes correlation ratio for all numeric-categoric pairs of columns.
 
     Args:
         num_df: A pandas dataframe containing only numeric features
@@ -182,7 +182,7 @@ def correlation_ratio_matrix(num_df, cat_df):
 
 
 def correlation_ratio(categorical, numeric):
-    """ Computes correlation ratio between a categorical column and numeric column
+    """Computes correlation ratio between a categorical column and numeric column.
 
     Args:
         categorical: A Pandas Series of categorical values
@@ -214,7 +214,7 @@ def correlation_ratio(categorical, numeric):
 
 
 def reorder_by_cluster(association_matrix):
-    """ Reorder an association matrix by cluster distances
+    """Reorder an association matrix by cluster distances.
 
     Args:
         association_matrix: A matrix of associations (similarity)
@@ -263,7 +263,7 @@ def reorder_by_cluster(association_matrix):
 
 
 def reorder_by_original(association_matrix, original_df):
-    """ Reorder the matrix to the original order
+    """Reorder the matrix to the original order.
 
     Args:
         association_matrix: The square matrix of correlations/associations
@@ -293,7 +293,7 @@ def reorder_by_original(association_matrix, original_df):
 
 
 def plot_heatmap(association_matrix, context=None):
-    """ Plot the heatmap for the association matrix
+    """Plot the heatmap for the association matrix.
 
     Args:
         association_matrix: The association matrix
@@ -302,7 +302,6 @@ def plot_heatmap(association_matrix, context=None):
     Returns:
         Seaborn figure
     """
-
     # Plot lower left triangle
     x_ind, y_ind = np.triu_indices(association_matrix.shape[0])
     corr = association_matrix.to_numpy()

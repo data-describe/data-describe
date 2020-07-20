@@ -5,7 +5,7 @@ from data_describe.utilities.contextmanager import _context_manager
 
 @_context_manager
 def data_summary(data, context=None):
-    """ Summary statistics and data description
+    """Summary statistics and data description.
 
     Args:
         data: A Pandas data frame
@@ -80,7 +80,7 @@ def data_summary(data, context=None):
 
 
 def agg_zero(series):
-    """ Count of zero values in a pandas series
+    """Count of zero values in a pandas series.
 
     Args:
         series: A Pandas series
@@ -92,7 +92,7 @@ def agg_zero(series):
 
 
 def agg_null(series):
-    """ Count of null values in a pandas series
+    """Count of null values in a pandas series.
 
     Args:
         series: A Pandas series
@@ -104,7 +104,7 @@ def agg_null(series):
 
 
 def most_frequent(data):
-    """ Percent of most frequent value, per column, in a pandas data frame
+    """Percent of most frequent value, per column, in a pandas data frame.
 
     Args:
         data: A Pandas data frame
@@ -126,7 +126,7 @@ def most_frequent(data):
 
 
 def cardinality(series):
-    """ Number of unique values in a series
+    """Number of unique values in a series.
 
     Args:
         series: A Pandas series

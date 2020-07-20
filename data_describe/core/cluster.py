@@ -27,7 +27,7 @@ def cluster(
     kwargs=None,
     context=None,
 ):
-    """ Creates cluster visualization
+    """Creates cluster visualization.
 
     Args:
         df: Pandas data frame
@@ -136,7 +136,7 @@ def kmeans_cluster(
     kwargs=None,
     context=None,
 ):
-    """Function to create K-Means clustering visualization
+    """Function to create K-Means clustering visualization.
 
     Args:
         data: Pandas data frame
@@ -214,7 +214,7 @@ def find_clusters(
     target=None,
     kwargs=None,
 ):
-    """Finds the optimal number of clusters for K-Means clustering using the selected analysis
+    """Finds the optimal number of clusters for K-Means clustering using the selected analysis.
 
     Args:
         data: Pandas data frame
@@ -260,7 +260,7 @@ def find_clusters(
 
 
 def apply_kmeans(data, n_clusters=None, kwargs=None):
-    """ Fits and predicts data using K-Means
+    """Fits and predicts data using K-Means.
 
      Args:
         data: Pandas data frame
@@ -288,7 +288,7 @@ def hdbscan_cluster(
     kwargs=None,
     context=None,
 ):
-    """Function to create a HDBSCAN clustering visualization
+    """Function to create a HDBSCAN clustering visualization.
 
     Args:
         data: Pandas data frame
@@ -341,13 +341,13 @@ def hdbscan_cluster(
 
 
 def truncate_data(data):
-    """ Reduces the number of dimensions for t-SNE to speed up computation time and reduce noise
+    """Reduces the number of dimensions for t-SNE to speed up computation time and reduce noise.
 
-        Args:
-            data: Pandas data frame
-        Returns:
-            reduc_df: reduced data frame
-            truncator: Instance of a dimensionality reduction method
+    Args:
+        data: Pandas data frame
+    Returns:
+        reduc_df: reduced data frame
+        truncator: Instance of a dimensionality reduction method
     """
     if data.shape[1] > 50:
         data = data.to_numpy()
@@ -364,7 +364,7 @@ def truncate_data(data):
 
 @_context_manager
 def interactive_plot(df, x, y, method, color, truncator=None, context=None):
-    """ Creates interactive scatter plot using plotly
+    """Creates interactive scatter plot using plotly.
 
     Args:
         df: Pandas data frame
@@ -438,7 +438,7 @@ def interactive_plot(df, x, y, method, color, truncator=None, context=None):
 
 @_context_manager
 def static_plot(data, x, y, method, truncator=None, context=None):
-    """ Creates a plot using seaborn's lmplot
+    """Creates a plot using seaborn's lmplot.
 
     Args:
         data: Pandas data frame

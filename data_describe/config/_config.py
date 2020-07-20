@@ -12,7 +12,7 @@ _global_config: Dict = {
 
 
 def get_root(path: str) -> Any:
-    """Get the parent dict (node) of a given path from the global config nested dict
+    """Get the parent dict (node) of a given path from the global config nested dict.
 
     Args:
         path: The "dot-style" path to the configuration item, e.g. 'backends.viz'
@@ -31,7 +31,7 @@ def get_root(path: str) -> Any:
 
 
 def get_option(path: str) -> Any:
-    """Get the current value of the option
+    """Get the current value of the option.
 
     Args:
         path: The "dot-style" path to the configuration item, e.g. 'backends.viz'
@@ -44,7 +44,7 @@ def get_option(path: str) -> Any:
 
 
 def set_option(path: str, value: Any) -> None:
-    """Set the current value of the option
+    """Set the current value of the option.
 
     Args:
         path: The "dot-style" path to the configuration item, e.g. 'backends.viz'
@@ -56,7 +56,7 @@ def set_option(path: str, value: Any) -> None:
 
 
 def get_config() -> Dict:
-    """Get a deep copy of the current configuration
+    """Get a deep copy of the current configuration.
 
     Returns:
         The current configuration dictionary
@@ -65,7 +65,7 @@ def get_config() -> Dict:
 
 
 def set_config(config: Dict) -> None:
-    """Updates the current configuration dictionary
+    """Updates the current configuration dictionary.
 
     Args:
         config: A flattened configuration dictionary specifying values to update
@@ -75,7 +75,7 @@ def set_config(config: Dict) -> None:
 
 
 def flatten_config(config: Dict) -> Dict:
-    """Flattens the nested configuration dictionary into "dot-style" paths for each item
+    """Flattens the nested configuration dictionary into "dot-style" paths for each item.
 
     Args:
         config: A flattened configuration dictionary
@@ -96,12 +96,15 @@ def flatten_config(config: Dict) -> Dict:
 # Credit: Pandas config
 # https://github.com/pandas-dev/pandas/blob/master/pandas/_config/config.py
 class Options:
-    """Provides module-style access to configuration items"""
+    """Provides module-style access to configuration items."""
+
     def __init__(self, config: dict, path: str = ""):
+        """Initialize Options with configuration."""
         object.__setattr__(self, "config", config)
         object.__setattr__(self, "path", path)
 
     def __setattr__(self, key: str, value: Any):
+        """Set attribute."""
         path = object.__getattribute__(self, "path")
         if path:
             path += "."
@@ -110,6 +113,7 @@ class Options:
         set_option(path, value)
 
     def __getattr__(self, key: str) -> Any:
+        """Get attribute."""
         path = object.__getattribute__(self, "path")
         if path:
             path += "."
@@ -124,10 +128,10 @@ class Options:
         else:
             return get_option(path)
 
-    def __str__(self):
+    def __str__(self):  # noqa:105
         return f"{self.path}\n{self.config}"
 
-    def __repr__(self):
+    def __repr__(self):  # noqa:105
         return self.config
 
 
@@ -136,7 +140,7 @@ options = Options(_global_config)
 
 @contextlib.contextmanager
 def config_context(*args):
-    """Data Describe configuration context
+    """Data Describe configuration context.
 
     This can be used to use certain configuration values for a limited block of code,
     without needing to explicitly change these values to what they were previously.
@@ -162,7 +166,9 @@ def config_context(*args):
             k: v for k, v in [(args[i], args[i + 1]) for i in range(0, len(args), 2)]
         }
     else:
-        raise ValueError("Arguments must be either a dictionary or pairs of path, value")
+        raise ValueError(
+            "Arguments must be either a dictionary or pairs of path, value"
+        )
 
     old_config = flatten_config(get_config())
     set_config(new_config)

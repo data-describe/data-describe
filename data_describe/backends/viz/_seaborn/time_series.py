@@ -6,7 +6,7 @@ from data_describe.config._config import get_option
 
 
 def viz_plot_time_series(df, col, result=None, decompose=False, **kwargs):
-    """Create timeseries visualization
+    """Create timeseries visualization.
 
     Args:
         df: The dataframe
@@ -34,7 +34,7 @@ def viz_plot_time_series(df, col, result=None, decompose=False, **kwargs):
 
 
 def viz_decomposition(df, result):
-    """Create timeseries decomposition visualization
+    """Create timeseries decomposition visualization.
 
     Args:
         df: The dataframe
@@ -62,7 +62,7 @@ def viz_decomposition(df, result):
 def viz_plot_autocorrelation(
     timeseries, plot_type="acf", n_lags=40, fft=False, **kwargs
 ):
-    """Create timeseries autocorrelation visualization
+    """Create timeseries autocorrelation visualization.
 
     Args:
         timeseries: Series object containing datetime index

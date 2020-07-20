@@ -10,5 +10,5 @@ repos:
             "flake8-executable",
             "flake8-builtins",
             "flake8-docstrings",
-            "flake8-rst-docstrings",
           ]
+#"flake8-rst-docstrings",

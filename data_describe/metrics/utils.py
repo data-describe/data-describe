@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 
 
 def hexbin(x, y, **kwargs):
-    """ Make a hexagonal grid in two dimensions
+    """Make a hexagonal grid in two dimensions.
 
     Args:
         x: x data, as a 1-d array

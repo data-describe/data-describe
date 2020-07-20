@@ -17,7 +17,7 @@ def scatter_plots(
     dist_kws=None,
     context=None,
 ):
-    """Scatter plots
+    """Scatter plots.
 
     Args:
         data:  A Pandas data frame
@@ -115,7 +115,7 @@ def scatter_plots(
 def scatter_plot(
     data, x, y, joint_kws=None, scatter_kws=None, dist_kws=None, context=None
 ):
-    """Generate one scatter (joint) plot
+    """Generate one scatter (joint) plot.
 
     Args:
         data: A Pandas data frame
@@ -145,7 +145,7 @@ def scatter_plot(
 
 
 def filter_threshold(metrics, threshold=0.85):
-    """Filter the plots by scatter plot diagnostic threshold
+    """Filter the plots by scatter plot diagnostic threshold.
 
     Args:
         metrics: The metrics dictionary from Scagnostics

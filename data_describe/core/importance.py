@@ -19,7 +19,7 @@ def importance(
     context=None,
     **kwargs
 ):
-    """ Variable importance chart
+    """Variable importance chart.
 
     Uses Random Forest Classifier by default
 
