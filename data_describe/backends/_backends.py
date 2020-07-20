@@ -170,7 +170,6 @@ def _check_backend(
 def _add_backend(backend_type: str, loaded_backends: dict, module: ModuleType):
     """Adds the backend module to the global backends dictionary
 
-    Uses the MD5 hash of the module as the key
     Args:
         backend_type: The name of the backend
         loaded_backends: The global backends dictionary
