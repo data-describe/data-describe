@@ -4,4 +4,4 @@ max-line-length = 88
 application-import-names = data_describe
 import-order-style = pep8
 docstring-convention = google
-per-file-ignores = tests/*:D103
+per-file-ignores = tests/*:D103, D100
