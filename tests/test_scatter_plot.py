@@ -1,11 +1,11 @@
-import matplotlib
-import seaborn
-import pytest
+# import matplotlib
+# import seaborn
+# import pytest
 
-import data_describe as dd
+# import data_describe as dd
 
 
-matplotlib.use("Agg")
+# matplotlib.use("Agg")
 
 
 def test_scatter_plot_matrix(data):
@@ -51,3 +51,4 @@ def test_scatter_plot_outside_threshold(data):
 def test_scatter_plot_wrong_data_type(data):
     with pytest.raises(ValueError):
         dd.scatter_plots([1, 2, 3])
+

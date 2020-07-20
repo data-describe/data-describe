@@ -1,4 +1,3 @@
-import logging
 import importlib
 from types import ModuleType
 from typing import Dict, List, Optional
@@ -95,7 +94,7 @@ def _get_compute_backend(backend: str = None, df=None):
     else:
         data_type = str(type(df))
         backend_types = [
-            _DATAFRAME_BACKENDS.get(data_type, "None"),
+            *_DATAFRAME_BACKENDS.get(data_type, ["None"]),
             get_option("backends.compute"),
         ]
 
@@ -104,11 +103,8 @@ def _get_compute_backend(backend: str = None, df=None):
         for idx, backend_name in enumerate(backend_types):
             if backend_name in seen:
                 backend_types.pop(idx)
-            else:
+            elif backend_name != "None":
                 seen.add(backend_name)
-
-    logging.info(f"Specified backend as {backend}")
-    logging.info(f"Collected backend names are {backend_types}")
 
     backend_collection = []
     for backend in backend_types:

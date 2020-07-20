@@ -82,8 +82,8 @@ except ImportError:
     _PACKAGE_INSTALLED["google-cloud-storage"] = False
 
 _DATAFRAME_BACKENDS = {
-    "<class 'pandas.core.frame.DataFrame'>": "pandas",
-    "<class 'modin.pandas.dataframe.DataFrame'>": "modin",
+    "<class 'pandas.core.frame.DataFrame'>": ["pandas"],
+    "<class 'modin.pandas.dataframe.DataFrame'>": ["modin", "pandas"],
 }
 try:
     import modin.pandas
