@@ -44,39 +44,39 @@ def check_notebook_execution(notebook):
 
 
 def test_cluster_analysis_notebook():
-    notebook = os.path.join(EXEC_CWD, "notebooks", "Cluster_Analysis.ipynb")
+    notebook = os.path.join(EXEC_CWD, "examples", "Cluster_Analysis.ipynb")
     check_notebook_execution(notebook)
     fixture.check(notebook, raise_errors=True)
 
 
 def test_text_preprocessing_notebook():
-    notebook = os.path.join(EXEC_CWD, "notebooks", "Text_Preprocessing.ipynb")
+    notebook = os.path.join(EXEC_CWD, "examples", "Text_Preprocessing.ipynb")
     check_notebook_execution(notebook)
     fixture.check(notebook, raise_errors=True)
 
 
 def test_data_heatmap_notebook():
-    notebook = os.path.join(EXEC_CWD, "notebooks", "Data_Heatmap.ipynb")
+    notebook = os.path.join(EXEC_CWD, "examples", "Data_Heatmap.ipynb")
     check_notebook_execution(notebook)
     fixture.check(notebook, raise_errors=True)
 
 
 def test_feature_importance_notebook():
-    notebook = os.path.join(EXEC_CWD, "notebooks", "Feature_Importance.ipynb")
+    notebook = os.path.join(EXEC_CWD, "examples", "Feature_Importance.ipynb")
 
     check_notebook_execution(notebook)
     fixture.check(notebook, raise_errors=True)
 
 
 def test_correlation_matrix_notebook():
-    notebook = os.path.join(EXEC_CWD, "notebooks", "Correlation_Matrix.ipynb")
+    notebook = os.path.join(EXEC_CWD, "examples", "Correlation_Matrix.ipynb")
 
     check_notebook_execution(notebook)
     fixture.check(notebook, raise_errors=True)
 
 
 def test_data_summary_notebook():
-    notebook = os.path.join(EXEC_CWD, "notebooks", "Data_Summary.ipynb")
+    notebook = os.path.join(EXEC_CWD, "examples", "Data_Summary.ipynb")
     check_notebook_execution(notebook)
     fixture = NBRegressionFixture(
         exec_timeout=120,
@@ -96,7 +96,7 @@ def test_data_summary_notebook():
 # LONG RUN TIME
 # def test_scatter_plots_notebook():
 #     fixture.check(
-#         os.path.join(EXEC_CWD, "notebooks", "Scatter Plots.ipynb"),
+#         os.path.join(EXEC_CWD, "examples", "Scatter Plots.ipynb"),
 #         raise_errors=True,
 #     )
 
@@ -116,7 +116,7 @@ def test_data_summary_notebook():
 #         ),
 #     )
 #     fixture.check(
-#         os.path.join(EXEC_CWD, "notebooks", "Topic Modeling.ipynb"),
+#         os.path.join(EXEC_CWD, "examples", "Topic Modeling.ipynb"),
 #         raise_errors=True,
 #     )
 
@@ -144,6 +144,6 @@ def test_data_summary_notebook():
 
 # def test_geospatial_analysis_notebook():
 #     fixture.check(
-#         os.path.join(EXEC_CWD, "notebooks", "Geospatial_Analysis.ipynb"),
+#         os.path.join(EXEC_CWD, "examples", "Geospatial_Analysis.ipynb"),
 #         raise_errors=True,
 #     )
