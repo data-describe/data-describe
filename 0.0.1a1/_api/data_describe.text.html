@@ -1,0 +1,540 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>data_describe.text package &mdash; Data Describe 0.2a documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="data_describe.type package" href="data_describe.type.html" />
+    <link rel="prev" title="data_describe.sensitive_data package" href="data_describe.sensitive_data.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> Data Describe
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../_notebooks/tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../widgets/index.html">Widgets</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="data_describe.html">API Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="data_describe.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="data_describe.backends.html">data_describe.backends package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="data_describe.config.html">data_describe.config package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="data_describe.core.html">data_describe.core package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="data_describe.dimensionality_reduction.html">data_describe.dimensionality_reduction package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="data_describe.metrics.html">data_describe.metrics package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="data_describe.sensitive_data.html">data_describe.sensitive_data package</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">data_describe.text package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-data_describe.text.text_preprocessing">data_describe.text.text_preprocessing module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-data_describe.text.topic_model">data_describe.text.topic_model module</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="data_describe.type.html">data_describe.type package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="data_describe.utilities.html">data_describe.utilities package</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="data_describe.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="data_describe.html#module-data_describe.compat">data_describe.compat module</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Data Describe</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="data_describe.html">data_describe package</a> &raquo;</li>
+        
+      <li>data_describe.text package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/_api/data_describe.text.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="module-data_describe.text">
+<span id="data-describe-text-package"></span><h1>data_describe.text package<a class="headerlink" href="#module-data_describe.text" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-data_describe.text.text_preprocessing">
+<span id="data-describe-text-text-preprocessing-module"></span><h2>data_describe.text.text_preprocessing module<a class="headerlink" href="#module-data_describe.text.text_preprocessing" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="data_describe.text.text_preprocessing.bag_of_words_to_docs">
+<code class="sig-prename descclassname">data_describe.text.text_preprocessing.</code><code class="sig-name descname">bag_of_words_to_docs</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">text_docs_bow</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.text.text_preprocessing.bag_of_words_to_docs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts list of documents in “bag of words” format back into form of document being stored in one string</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>text_docs_bow</strong> – A list of lists of words from a document</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>List of strings of text documents</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>new_text_docs</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="data_describe.text.text_preprocessing.create_doc_term_matrix">
+<code class="sig-prename descclassname">data_describe.text.text_preprocessing.</code><code class="sig-name descname">create_doc_term_matrix</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">text_docs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.text.text_preprocessing.create_doc_term_matrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a document-term matrix which gives wordcount per document</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>text_docs</strong> – A list of strings of text documents</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Pandas DataFrame of document-term matrix with documents as rows and words as columns</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>matrix_df</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="data_describe.text.text_preprocessing.create_tfidf_matrix">
+<code class="sig-prename descclassname">data_describe.text.text_preprocessing.</code><code class="sig-name descname">create_tfidf_matrix</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">text_docs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.text.text_preprocessing.create_tfidf_matrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a TF_IDF matrix</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>text_docs</strong> – A list of strings of text documents</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Pandas DataFrame of TF-IDF matrix with documents as rows and words as columns</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>matrix_df</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="data_describe.text.text_preprocessing.filter_dictionary">
+<code class="sig-prename descclassname">data_describe.text.text_preprocessing.</code><code class="sig-name descname">filter_dictionary</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">text_docs</span></em>, <em class="sig-param"><span class="n">no_below</span><span class="o">=</span><span class="default_value">10</span></em>, <em class="sig-param"><span class="n">no_above</span><span class="o">=</span><span class="default_value">0.2</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.text.text_preprocessing.filter_dictionary" title="Permalink to this definition">¶</a></dt>
+<dd><p>Filters words that appear less than a certain amount of times in the document and returns a Gensim
+dictionary and corpus</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>text_docs</strong> – A list of list of words from a document, can include n-grams up to 3</p></li>
+<li><p><strong>no_below</strong> – Keep tokens which are contained in at least no_below documents. Default is 10</p></li>
+<li><p><strong>no_above</strong> – Keep tokens which are contained in no more than no_above portion of documents (fraction of total</p></li>
+<li><p><strong>size</strong><strong>)</strong><strong> Default is 0.2</strong> (<em>corpus</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Gensim Dictionary encapsulates the mapping between normalized words and their integer ids
+corpus: Bag of Words (BoW) representation of documents (token_id, token_count)</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dictionary</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="data_describe.text.text_preprocessing.lemmatize">
+<code class="sig-prename descclassname">data_describe.text.text_preprocessing.</code><code class="sig-name descname">lemmatize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">text_docs_bow</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.text.text_preprocessing.lemmatize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Lemmatizes all words in documents</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>text_docs_bow</strong> – A lists of list of words from a document</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>List of lists of lemmatized words for each text document</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>new_text_docs_bow</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="data_describe.text.text_preprocessing.ngram_freq">
+<code class="sig-prename descclassname">data_describe.text.text_preprocessing.</code><code class="sig-name descname">ngram_freq</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">text_docs</span></em>, <em class="sig-param"><span class="n">n</span><span class="o">=</span><span class="default_value">3</span></em>, <em class="sig-param"><span class="n">only_n</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.text.text_preprocessing.ngram_freq" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generates frequency distribution of “n-grams” from all of the text documents</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>text_docs</strong> – A list of text documents in string format</p></li>
+<li><p><strong>n</strong> – Highest ‘n’ for n-gram sequence to include. Default is 3</p></li>
+<li><p><strong>only_n</strong> – If True, will only include n-grams for specified value of ‘n’. Default is False, which also includes</p></li>
+<li><p><strong>for all numbers leading up to 'n'</strong> (<em>n-grams</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Dictionary which contains all identified n-grams as keys and their respective counts as their values</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>freq</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="data_describe.text.text_preprocessing.preprocess_texts">
+<code class="sig-prename descclassname">data_describe.text.text_preprocessing.</code><code class="sig-name descname">preprocess_texts</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">text_docs</span></em>, <em class="sig-param"><span class="n">lem</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">stem</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">custom_pipeline</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.text.text_preprocessing.preprocess_texts" title="Permalink to this definition">¶</a></dt>
+<dd><p>Cleans list of documents by running through customizable text-preprocessing pipeline</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>text_docs</strong> – A list of strings of text documents (also accepts arrays and Pandas series)</p></li>
+<li><p><strong>lem</strong> – If True, lemmatization becomes part of the pre-processing. Recommended to set as False and run</p></li>
+<li><p><strong>lemmatization function if pipeline is customized. Default is False</strong> (<em>user-created</em>) – </p></li>
+<li><p><strong>stem</strong> – If True, stemming becomes part of the pre-processing. Recommended to set as False and run</p></li>
+<li><p><strong>stemming function if pipeline is customized. Default is False</strong> (<em>user-created</em>) – </p></li>
+<li><p><strong>custom_pipeline</strong> – A custom list of strings and/or function objects which are the function names that</p></li>
+<li><p><strong>will run through. Default is None</strong><strong>, </strong><strong>which uses the pipeline</strong> (<em>text_docs_bow</em>) – [‘tokenize’, ‘to_lower’, ‘remove_punct’, ‘remove_digits’, ‘remove_single_char_and_spaces’,
+‘remove_stopwords’]</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>List of lists of words for each document which have undergone a pre-processing pipeline</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>text_docs</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="data_describe.text.text_preprocessing.remove_digits">
+<code class="sig-prename descclassname">data_describe.text.text_preprocessing.</code><code class="sig-name descname">remove_digits</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">text_docs_bow</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.text.text_preprocessing.remove_digits" title="Permalink to this definition">¶</a></dt>
+<dd><p>Removes all numbers and words containing digits from documents</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>text_docs_bow</strong> – A list of lists of words from a document</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>List of lists of words for each text documents without numbers or words containing numbers</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>new_text_docs_bow</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="data_describe.text.text_preprocessing.remove_punct">
+<code class="sig-prename descclassname">data_describe.text.text_preprocessing.</code><code class="sig-name descname">remove_punct</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">text_docs_bow</span></em>, <em class="sig-param"><span class="n">replace_char</span><span class="o">=</span><span class="default_value">' '</span></em>, <em class="sig-param"><span class="n">remove_all</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.text.text_preprocessing.remove_punct" title="Permalink to this definition">¶</a></dt>
+<dd><p>Removes all punctuation from documents</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>text_docs_bow</strong> – A list of lists of words from a document</p></li>
+<li><p><strong>replace_char</strong> – Character to replace puncutation instances with. Default is space</p></li>
+<li><p><strong>remove_all</strong> – If True, removes all instances of punctuation from document. Default is False, which only removes</p></li>
+<li><p><strong>and/or trailing instances</strong> (<em>leading</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>List of lists of words for each text document without punctuation</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>new_text_docs_bow_final</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="data_describe.text.text_preprocessing.remove_single_char_and_spaces">
+<code class="sig-prename descclassname">data_describe.text.text_preprocessing.</code><code class="sig-name descname">remove_single_char_and_spaces</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">text_docs_bow</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.text.text_preprocessing.remove_single_char_and_spaces" title="Permalink to this definition">¶</a></dt>
+<dd><p>Removes all single character words and spaces from documents</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>text_docs_bow</strong> – A list of lists of words from a document</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>List of lists of words for each text document without single character words</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>new_text_docs_bow</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="data_describe.text.text_preprocessing.remove_stopwords">
+<code class="sig-prename descclassname">data_describe.text.text_preprocessing.</code><code class="sig-name descname">remove_stopwords</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">text_docs_bow</span></em>, <em class="sig-param"><span class="n">more_words</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.text.text_preprocessing.remove_stopwords" title="Permalink to this definition">¶</a></dt>
+<dd><p>Removes all “stop words” from documents</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>text_docs_bow</strong> – A list of lists of words from a document</p></li>
+<li><p><strong>more_words</strong> – An optional list of words to remove along with the stop words. Default is None</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>List of lists of words for each text document without single character words</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>new_text_docs_bow</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="data_describe.text.text_preprocessing.stem">
+<code class="sig-prename descclassname">data_describe.text.text_preprocessing.</code><code class="sig-name descname">stem</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">text_docs_bow</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.text.text_preprocessing.stem" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stems all words in documents</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>text_docs_bow</strong> – A list of lists of words from a document</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>List of lists of stemmed words for each text document</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>new_text_docs_bow</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="data_describe.text.text_preprocessing.to_lower">
+<code class="sig-prename descclassname">data_describe.text.text_preprocessing.</code><code class="sig-name descname">to_lower</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">text_docs_bow</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.text.text_preprocessing.to_lower" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts all letters in documents (“bag of words” format) to lowercase</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>text_docs_bow</strong> – A list of lists of words from a document</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>List of lists of lowercase words for each text document</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>new_text_docs_bow</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="data_describe.text.text_preprocessing.tokenize">
+<code class="sig-prename descclassname">data_describe.text.text_preprocessing.</code><code class="sig-name descname">tokenize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">text_docs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.text.text_preprocessing.tokenize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Turns list of documents into “bag of words” format</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>text_docs</strong> – A list of text documents in string format</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>List of lists of words for each text document</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>new_text_docs_bow</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-data_describe.text.topic_model">
+<span id="data-describe-text-topic-model-module"></span><h2>data_describe.text.topic_model module<a class="headerlink" href="#module-data_describe.text.topic_model" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="data_describe.type.html" class="btn btn-neutral float-right" title="data_describe.type package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="data_describe.sensitive_data.html" class="btn btn-neutral float-left" title="data_describe.sensitive_data package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

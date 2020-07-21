@@ -1,0 +1,954 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>data_describe.core package &mdash; Data Describe 0.2a documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="data_describe.dimensionality_reduction package" href="data_describe.dimensionality_reduction.html" />
+    <link rel="prev" title="data_describe.config package" href="data_describe.config.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> Data Describe
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../_notebooks/tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../widgets/index.html">Widgets</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="data_describe.html">API Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="data_describe.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="data_describe.backends.html">data_describe.backends package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="data_describe.config.html">data_describe.config package</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">data_describe.core package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-data_describe.core.cluster">data_describe.core.cluster module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-data_describe.core.correlation_matrix">data_describe.core.correlation_matrix module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-data_describe.core.data_heatmap">data_describe.core.data_heatmap module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-data_describe.core.distribution">data_describe.core.distribution module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-data_describe.core.importance">data_describe.core.importance module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-data_describe.core.scatter_plot">data_describe.core.scatter_plot module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-data_describe.core.summary">data_describe.core.summary module</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="data_describe.dimensionality_reduction.html">data_describe.dimensionality_reduction package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="data_describe.metrics.html">data_describe.metrics package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="data_describe.sensitive_data.html">data_describe.sensitive_data package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="data_describe.text.html">data_describe.text package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="data_describe.type.html">data_describe.type package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="data_describe.utilities.html">data_describe.utilities package</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="data_describe.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="data_describe.html#module-data_describe.compat">data_describe.compat module</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Data Describe</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="data_describe.html">data_describe package</a> &raquo;</li>
+        
+      <li>data_describe.core package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/_api/data_describe.core.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="module-data_describe.core">
+<span id="data-describe-core-package"></span><h1>data_describe.core package<a class="headerlink" href="#module-data_describe.core" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-data_describe.core.cluster">
+<span id="data-describe-core-cluster-module"></span><h2>data_describe.core.cluster module<a class="headerlink" href="#module-data_describe.core.cluster" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="data_describe.core.cluster.apply_kmeans">
+<code class="sig-prename descclassname">data_describe.core.cluster.</code><code class="sig-name descname">apply_kmeans</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em>, <em class="sig-param"><span class="n">n_clusters</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">kwargs</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.core.cluster.apply_kmeans" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fits and predicts data using K-Means</p>
+<blockquote>
+<div><dl class="simple">
+<dt>Args:</dt><dd><p>data: Pandas data frame
+n_clusters: Number of clusters
+kwargs: Keyword arguments for kmeans</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Number of clusters
+y_kmeans: Predicted labels</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>n_clusters</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="data_describe.core.cluster.cluster">
+<code class="sig-prename descclassname">data_describe.core.cluster.</code><code class="sig-name descname">cluster</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">df</span></em>, <em class="sig-param"><span class="n">method</span><span class="o">=</span><span class="default_value">'KMeans'</span></em>, <em class="sig-param"><span class="n">target</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">interactive</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">elbow</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">dim_method</span><span class="o">=</span><span class="default_value">'pca'</span></em>, <em class="sig-param"><span class="n">analysis</span><span class="o">=</span><span class="default_value">'silhouette_score'</span></em>, <em class="sig-param"><span class="n">return_value</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">kwargs</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.core.cluster.cluster" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates cluster visualization</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> – Pandas data frame</p></li>
+<li><p><strong>method</strong> – Clustering method: KMeans or HDBSCAN</p></li>
+<li><p><strong>target</strong> – Name of the column that contains the response</p></li>
+<li><p><strong>interactive</strong> – If False, creates a seaborn plot
+If True, create plotly interactive plot</p></li>
+<li><p><strong>elbow</strong> – If true, create an elbow plot for the optimal number of clusters</p></li>
+<li><p><strong>dim_method</strong> – Select method to reduce the data to two dimensions for visualization
+Note: Only pca, tsne, and tsvd are supported</p></li>
+<li><p><strong>analysis</strong> – Metric to choose the optimal number of clusters (metrics from sklearn.metrics)
+Includes: silhouette_score, adjusted_rand_score, adjusted_mutual_info_score, homogeneity_score,
+completeness_score, v_measure_score, homogeneity_completeness_v_measure, fowlkes_mallows_score,
+davies_bouldin_score</p></li>
+<li><p><strong>return_value</strong> – Specifies the object that will be returned by the function. (None=Emit the plot, plot=Return
+plotly object if interactive is selected, data=Return the original data with cluster labels,
+reduc=Return the 2-dimensional data with cluster labels)</p></li>
+<li><p><strong>kwargs</strong> – Key word arguments for clustering methods</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Seaborn scatter plot or Plotly scatter plot
+reduc_df: reduced data frame with cluster labels
+df: original data frame with cluster labels
+elbow_plot: elbow plot if elbow parameter is True</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>viz</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="data_describe.core.cluster.find_clusters">
+<code class="sig-prename descclassname">data_describe.core.cluster.</code><code class="sig-name descname">find_clusters</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em>, <em class="sig-param"><span class="n">cluster_min</span></em>, <em class="sig-param"><span class="n">cluster_max</span></em>, <em class="sig-param"><span class="n">analysis</span><span class="o">=</span><span class="default_value">'silhouette_score'</span></em>, <em class="sig-param"><span class="n">target</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">kwargs</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.core.cluster.find_clusters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Finds the optimal number of clusters for K-Means clustering using the selected analysis</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> – Pandas data frame</p></li>
+<li><p><strong>cluster_min</strong> – Minimum number of clusters to be generated</p></li>
+<li><p><strong>cluster_max</strong> – Maximum number of clusters to be generated</p></li>
+<li><p><strong>analysis</strong> – Metric to choose the optimal number of clusters (metrics from sklearn.metrics)
+Includes: silhouette_score, adjusted_rand_score, adjusted_mutual_info_score, homogeneity_score,
+completeness_score, v_measure_score, homogeneity_completeness_v_measure, fowlkes_mallows_score,
+davies_bouldin_score</p></li>
+<li><p><strong>target</strong> – Name of the column that contains the response</p></li>
+<li><p><strong>kwargs</strong> – Key word arguments to be passed into K-Means cluster</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Optimal number of clusters for kmeans and/or elbow plot</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>n_cluster</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="data_describe.core.cluster.hdbscan_cluster">
+<code class="sig-prename descclassname">data_describe.core.cluster.</code><code class="sig-name descname">hdbscan_cluster</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em>, <em class="sig-param"><span class="n">reduc_df</span></em>, <em class="sig-param"><span class="n">truncator</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">interactive</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">min_cluster_size</span><span class="o">=</span><span class="default_value">15</span></em>, <em class="sig-param"><span class="n">kwargs</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.core.cluster.hdbscan_cluster" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to create a HDBSCAN clustering visualization</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> – Pandas data frame</p></li>
+<li><p><strong>reduc_df</strong> – Reduced data frame</p></li>
+<li><p><strong>truncator</strong> – Instance of a dimensionality reduction method</p></li>
+<li><p><strong>interactive</strong> – If False, create a seaborn plot
+If True, create plotly interactive plot</p></li>
+<li><p><strong>min_cluster_size</strong> – Minimum size of grouping to be considered a cluster</p></li>
+<li><p><strong>kwargs</strong> – Key word arguments for HDBSCAN</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>ploty scatter plot
+static_plot: Matplotlib scatter plott
+reduc_df: Reduced data frame</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>interactive plot</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="data_describe.core.cluster.interactive_plot">
+<code class="sig-prename descclassname">data_describe.core.cluster.</code><code class="sig-name descname">interactive_plot</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">df</span></em>, <em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">y</span></em>, <em class="sig-param"><span class="n">method</span></em>, <em class="sig-param"><span class="n">color</span></em>, <em class="sig-param"><span class="n">truncator</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.core.cluster.interactive_plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates interactive scatter plot using plotly</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> – Pandas data frame</p></li>
+<li><p><strong>x</strong> – x-axis column</p></li>
+<li><p><strong>y</strong> – y-axis column</p></li>
+<li><p><strong>method</strong> – Method for creating a title for the plot</p></li>
+<li><p><strong>color</strong> – Feature from df that determines color for data points</p></li>
+<li><p><strong>truncator</strong> – Instance of a dimensionality reduction method</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Plotly scatter plot or plotly object</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>fig</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="data_describe.core.cluster.kmeans_cluster">
+<code class="sig-prename descclassname">data_describe.core.cluster.</code><code class="sig-name descname">kmeans_cluster</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em>, <em class="sig-param"><span class="n">reduc_df</span></em>, <em class="sig-param"><span class="n">analysis</span><span class="o">=</span><span class="default_value">'silhouette_score'</span></em>, <em class="sig-param"><span class="n">n_clusters</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">cluster_min</span><span class="o">=</span><span class="default_value">2</span></em>, <em class="sig-param"><span class="n">cluster_max</span><span class="o">=</span><span class="default_value">20</span></em>, <em class="sig-param"><span class="n">interactive</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">truncator</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">target</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">elbow</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">kwargs</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.core.cluster.kmeans_cluster" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to create K-Means clustering visualization</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> – Pandas data frame</p></li>
+<li><p><strong>reduc_df</strong> – Reduced data frame</p></li>
+<li><p><strong>analysis</strong> – Metric to choose the optimal number of clusters (metrics from sklearn.metrics)
+Includes: silhouette_score, adjusted_rand_score, adjusted_mutual_info_score, homogeneity_score,
+completeness_score, v_measure_score, homogeneity_completeness_v_measure, fowlkes_mallows_score,
+davies_bouldin_score</p></li>
+<li><p><strong>n_clusters</strong> – Number of clusters</p></li>
+<li><p><strong>cluster_min</strong> – Minimum number of clusters to be generated</p></li>
+<li><p><strong>cluster_max</strong> – Maximum number of clusters to be generated</p></li>
+<li><p><strong>interactive</strong> – If False, creates a seaborn plot
+If True, create plotly interactive plot</p></li>
+<li><p><strong>truncator</strong> – Instance of a dimensionality reduction method</p></li>
+<li><p><strong>target</strong> – Name of the column that contains the response</p></li>
+<li><p><strong>elbow</strong> – If true, create an elbow plot for the optimal number of clusters</p></li>
+<li><p><strong>kwargs</strong> – Key word arguments to be passed into K-Means cluster</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Seaborn plot or Plotly interactive scatter plot
+elbow_plot: elbow plot
+reduc_df: reduced data frame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="data_describe.core.cluster.static_plot">
+<code class="sig-prename descclassname">data_describe.core.cluster.</code><code class="sig-name descname">static_plot</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em>, <em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">y</span></em>, <em class="sig-param"><span class="n">method</span></em>, <em class="sig-param"><span class="n">truncator</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.core.cluster.static_plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a plot using seaborn’s lmplot</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> – Pandas data frame</p></li>
+<li><p><strong>x</strong> – x-axis column</p></li>
+<li><p><strong>y</strong> – y-axis column</p></li>
+<li><p><strong>method</strong> – Method for creating a title for the plot</p></li>
+<li><p><strong>truncator</strong> – Instance of a dimensionality reduction method</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Matplotlib scatter plot</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>fig</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="data_describe.core.cluster.truncate_data">
+<code class="sig-prename descclassname">data_describe.core.cluster.</code><code class="sig-name descname">truncate_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.core.cluster.truncate_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reduces the number of dimensions for t-SNE to speed up computation time and reduce noise</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>data</strong> – Pandas data frame</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>reduced data frame
+truncator: Instance of a dimensionality reduction method</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>reduc_df</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-data_describe.core.correlation_matrix">
+<span id="data-describe-core-correlation-matrix-module"></span><h2>data_describe.core.correlation_matrix module<a class="headerlink" href="#module-data_describe.core.correlation_matrix" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="data_describe.core.correlation_matrix.correlation_matrix">
+<code class="sig-prename descclassname">data_describe.core.correlation_matrix.</code><code class="sig-name descname">correlation_matrix</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em>, <em class="sig-param"><span class="n">cluster</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">categorical</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">return_values</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.core.correlation_matrix.correlation_matrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Correlation matrix of numeric variables</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> – A pandas data frame</p></li>
+<li><p><strong>cluster</strong> – If True, use clustering to reorder similar columns together</p></li>
+<li><p><strong>categorical</strong> – If True, calculate categorical associations using Cramer’s V, Correlation Ratio, and
+Point-biserial coefficient (aka Matthews correlation coefficient). All associations (including Pearson
+correlation) are in the range [0, 1]</p></li>
+<li><p><strong>return_values</strong> – If True, return the correlation/association values
+manager</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Matplotlib graph or Pandas data frame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="data_describe.core.correlation_matrix.correlation_ratio">
+<code class="sig-prename descclassname">data_describe.core.correlation_matrix.</code><code class="sig-name descname">correlation_ratio</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">categorical</span></em>, <em class="sig-param"><span class="n">numeric</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.core.correlation_matrix.correlation_ratio" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes correlation ratio between a categorical column and numeric column</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>categorical</strong> – A Pandas Series of categorical values</p></li>
+<li><p><strong>numeric</strong> – A Pandas Series of numeric values</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Correlation Ratio value (float)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="data_describe.core.correlation_matrix.correlation_ratio_matrix">
+<code class="sig-prename descclassname">data_describe.core.correlation_matrix.</code><code class="sig-name descname">correlation_ratio_matrix</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">num_df</span></em>, <em class="sig-param"><span class="n">cat_df</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.core.correlation_matrix.correlation_ratio_matrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes correlation ratio for all numeric-categoric pairs of columns</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>num_df</strong> – A pandas dataframe containing only numeric features</p></li>
+<li><p><strong>cat_df</strong> – A pandas dataframe containing only categorical features</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A pandas data frame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="data_describe.core.correlation_matrix.cramers_v">
+<code class="sig-prename descclassname">data_describe.core.correlation_matrix.</code><code class="sig-name descname">cramers_v</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">y</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.core.correlation_matrix.cramers_v" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates Cramer’s V statistic for categorical-categorical association.</p>
+<p>Adapted from <a class="reference external" href="https://github.com/shakedzy/dython/blob/master/dython/nominal.py">https://github.com/shakedzy/dython/blob/master/dython/nominal.py</a>
+:param x: A list, numpy array, or pandas series of categorical measurements
+:param y: A list, numpy array, or pandas series of categorical measurements</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Cramer’s V value (float)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="data_describe.core.correlation_matrix.cramers_v_matrix">
+<code class="sig-prename descclassname">data_describe.core.correlation_matrix.</code><code class="sig-name descname">cramers_v_matrix</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">df</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.core.correlation_matrix.cramers_v_matrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes Cramer’s V for all column pairs</p>
+<p>Adapted from <a class="reference external" href="https://github.com/shakedzy/dython/blob/master/dython/nominal.py">https://github.com/shakedzy/dython/blob/master/dython/nominal.py</a>
+:param df: A pandas data frame containing only categorical features</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A pandas data frame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="data_describe.core.correlation_matrix.plot_heatmap">
+<code class="sig-prename descclassname">data_describe.core.correlation_matrix.</code><code class="sig-name descname">plot_heatmap</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">association_matrix</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.core.correlation_matrix.plot_heatmap" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot the heatmap for the association matrix</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>association_matrix</strong> – The association matrix</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Seaborn figure</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="data_describe.core.correlation_matrix.reorder_by_cluster">
+<code class="sig-prename descclassname">data_describe.core.correlation_matrix.</code><code class="sig-name descname">reorder_by_cluster</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">association_matrix</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.core.correlation_matrix.reorder_by_cluster" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reorder an association matrix by cluster distances</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>association_matrix</strong> – A matrix of associations (similarity)</p></li>
+<li><p><strong>data</strong> – The original data frame</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A Pandas data frame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="data_describe.core.correlation_matrix.reorder_by_original">
+<code class="sig-prename descclassname">data_describe.core.correlation_matrix.</code><code class="sig-name descname">reorder_by_original</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">association_matrix</span></em>, <em class="sig-param"><span class="n">original_df</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.core.correlation_matrix.reorder_by_original" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reorder the matrix to the original order</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>association_matrix</strong> – The square matrix of correlations/associations</p></li>
+<li><p><strong>original_df</strong> – The original data frame</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A Pandas Data frame</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-data_describe.core.data_heatmap">
+<span id="data-describe-core-data-heatmap-module"></span><h2>data_describe.core.data_heatmap module<a class="headerlink" href="#module-data_describe.core.data_heatmap" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="data_describe.core.data_heatmap.data_heatmap">
+<code class="sig-prename descclassname">data_describe.core.data_heatmap.</code><code class="sig-name descname">data_heatmap</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em>, <em class="sig-param"><span class="n">missing</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">compute_backend</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">viz_backend</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.core.data_heatmap.data_heatmap" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate a data heatmap showing standardized data or missing values</p>
+<p>The data heatmap shows an overview of numeric features that have been standardized.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> – A pandas data frame</p></li>
+<li><p><strong>missing</strong> – If True, show only missing values</p></li>
+<li><p><strong>interactive</strong> – If True, return an interactive visualization (using Plotly). Otherwise, uses Seaborn.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Visualization</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-data_describe.core.distribution">
+<span id="data-describe-core-distribution-module"></span><h2>data_describe.core.distribution module<a class="headerlink" href="#module-data_describe.core.distribution" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="data_describe.core.distribution.distribution">
+<code class="sig-prename descclassname">data_describe.core.distribution.</code><code class="sig-name descname">distribution</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em>, <em class="sig-param"><span class="n">plot_all</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">max_categories</span><span class="o">=</span><span class="default_value">20</span></em>, <em class="sig-param"><span class="n">spike</span><span class="o">=</span><span class="default_value">10</span></em>, <em class="sig-param"><span class="n">skew</span><span class="o">=</span><span class="default_value">3</span></em>, <em class="sig-param"><span class="n">hist_kwargs</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">violin_kwargs</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.core.distribution.distribution" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plots all “interesting” distribution plots</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> – A pandas data frame</p></li>
+<li><p><strong>plot_all</strong> – If True, plot all features without filtering for “interesting” features</p></li>
+<li><p><strong>max_categories</strong> – Maximum categories to show in violin plots. Additional categories will be combined into the “__OTHER__” category.</p></li>
+<li><p><strong>spike</strong> – The factor threshold for identifying spikey histograms</p></li>
+<li><p><strong>skew</strong> – The skew threshold for identifying skewed histograms</p></li>
+<li><p><strong>hist_kwargs</strong> – Keyword arguments to be passed to seaborn.distplot</p></li>
+<li><p><strong>violin_kwargs</strong> – Keyword arguments to be passed to seaborn.violinplot</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Matplotlib graphics</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="data_describe.core.distribution.plot_histogram">
+<code class="sig-prename descclassname">data_describe.core.distribution.</code><code class="sig-name descname">plot_histogram</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">hist_kwargs</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.core.distribution.plot_histogram" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make a single histogram plot</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> – The 1-dimensional data, as a list or numpy array</p></li>
+<li><p><strong>hist_kwargs</strong> – Keyword arguments to be passed to seaborn.distplot</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Matplotlib graphic</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="data_describe.core.distribution.plot_histograms">
+<code class="sig-prename descclassname">data_describe.core.distribution.</code><code class="sig-name descname">plot_histograms</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em>, <em class="sig-param"><span class="n">plot_all</span></em>, <em class="sig-param"><span class="n">spike</span><span class="o">=</span><span class="default_value">10</span></em>, <em class="sig-param"><span class="n">skew</span><span class="o">=</span><span class="default_value">6</span></em>, <em class="sig-param"><span class="n">hist_kwargs</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.core.distribution.plot_histograms" title="Permalink to this definition">¶</a></dt>
+<dd><p>Makes histogram plots</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> – A pandas data frame</p></li>
+<li><p><strong>plot_all</strong> – If True, plot all histograms without filtering for skew or spikes</p></li>
+<li><p><strong>spike</strong> – The factor threshold for identifying spikey histograms</p></li>
+<li><p><strong>skew</strong> – The skew threshold for identifying skewed histograms</p></li>
+<li><p><strong>hist_kwargs</strong> – Keyword arguments to be passed to seaborn.distplot</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Matplotlib graphics</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="data_describe.core.distribution.plot_violin">
+<code class="sig-prename descclassname">data_describe.core.distribution.</code><code class="sig-name descname">plot_violin</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">y</span></em>, <em class="sig-param"><span class="n">data</span></em>, <em class="sig-param"><span class="n">violin_kwargs</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.core.distribution.plot_violin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make a single violin plot</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> – The x (categorical) data vector or name string</p></li>
+<li><p><strong>y</strong> – The y (numeric) data vector or name string</p></li>
+<li><p><strong>data</strong> – The data</p></li>
+<li><p><strong>violin_kwargs</strong> – Keyword arguments to be passed to seaborn.violinplot</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Matplotlib graphic</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="data_describe.core.distribution.plot_violins">
+<code class="sig-prename descclassname">data_describe.core.distribution.</code><code class="sig-name descname">plot_violins</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em>, <em class="sig-param"><span class="n">num</span></em>, <em class="sig-param"><span class="n">cat</span></em>, <em class="sig-param"><span class="n">max_categories</span></em>, <em class="sig-param"><span class="n">plot_all</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">alpha</span><span class="o">=</span><span class="default_value">0.01</span></em>, <em class="sig-param"><span class="n">violin_kwargs</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.core.distribution.plot_violins" title="Permalink to this definition">¶</a></dt>
+<dd><p>Makes violin plots</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> – A pandas data frame</p></li>
+<li><p><strong>num</strong> – The numeric feature names</p></li>
+<li><p><strong>cat</strong> – The categorical feature names</p></li>
+<li><p><strong>max_categories</strong> – Maximum categories to show in violin plots. Additional categories will be combined into</p></li>
+<li><p><strong>plot_all</strong> – If True, plot all violin plots without variation or heteroscedascity</p></li>
+<li><p><strong>alpha</strong> – The significance level for Levene’s test and one-way ANOVA</p></li>
+<li><p><strong>violin_kwargs</strong> – Keyword arguments to be passed to seaborn.violinplot</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Matplotlib graphics</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="data_describe.core.distribution.roll_up_categories">
+<code class="sig-prename descclassname">data_describe.core.distribution.</code><code class="sig-name descname">roll_up_categories</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">num</span></em>, <em class="sig-param"><span class="n">cat</span></em>, <em class="sig-param"><span class="n">max_categories</span><span class="o">=</span><span class="default_value">20</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.core.distribution.roll_up_categories" title="Permalink to this definition">¶</a></dt>
+<dd><p>Combine “extra” categories into “__OTHER__”</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>num</strong> – The numeric data</p></li>
+<li><p><strong>cat</strong> – The categorical data</p></li>
+<li><p><strong>max_categories</strong> – The maximum number of categories, including __OTHER__</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A tuple of the numeric data and the categorical data, rolled up into <cite>max_categories</cite></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="data_describe.core.distribution.split_by_category">
+<code class="sig-prename descclassname">data_describe.core.distribution.</code><code class="sig-name descname">split_by_category</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">df</span></em>, <em class="sig-param"><span class="n">category</span></em>, <em class="sig-param"><span class="n">num</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.core.distribution.split_by_category" title="Permalink to this definition">¶</a></dt>
+<dd><p>Splits the numeric feature <cite>num</cite> by the categorical feature <cite>category</cite></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> – A pandas data frame</p></li>
+<li><p><strong>category</strong> – The name of the categorical feature, as a string</p></li>
+<li><p><strong>num</strong> – The name of the numeric feature, as a string</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A list of lists, where each list is the numeric data for a category</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-data_describe.core.importance">
+<span id="data-describe-core-importance-module"></span><h2>data_describe.core.importance module<a class="headerlink" href="#module-data_describe.core.importance" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="data_describe.core.importance.importance">
+<code class="sig-prename descclassname">data_describe.core.importance.</code><code class="sig-name descname">importance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em>, <em class="sig-param"><span class="n">target</span></em>, <em class="sig-param"><span class="n">preprocess_func</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">estimator</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">return_values</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">truncate</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.core.importance.importance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Variable importance chart</p>
+<p>Uses Random Forest Classifier by default</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> – A Pandas data frame</p></li>
+<li><p><strong>target</strong> – Name of the response column, as a string</p></li>
+<li><p><strong>preprocess_func</strong> – A custom preprocessing function that takes a Pandas dataframe and the target/response column</p></li>
+<li><p><strong>a string. Returns X and y as tuple</strong> (<em>as</em>) – </p></li>
+<li><p><strong>estimator</strong> – A custom sklearn estimator. Default is Random Forest Classifier</p></li>
+<li><p><strong>return_values</strong> – If True, only the importance values as a numpy array</p></li>
+<li><p><strong>truncate</strong> – If True, negative importance values will be truncated (set to zero)</p></li>
+<li><p><strong>**kwargs</strong> – Other arguments to be passed to the preprocess function</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Matplotlib figure</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-data_describe.core.scatter_plot">
+<span id="data-describe-core-scatter-plot-module"></span><h2>data_describe.core.scatter_plot module<a class="headerlink" href="#module-data_describe.core.scatter_plot" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="data_describe.core.scatter_plot.filter_threshold">
+<code class="sig-prename descclassname">data_describe.core.scatter_plot.</code><code class="sig-name descname">filter_threshold</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">metrics</span></em>, <em class="sig-param"><span class="n">threshold</span><span class="o">=</span><span class="default_value">0.85</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.core.scatter_plot.filter_threshold" title="Permalink to this definition">¶</a></dt>
+<dd><p>Filter the plots by scatter plot diagnostic threshold</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>metrics</strong> – The metrics dictionary from Scagnostics</p></li>
+<li><p><strong>threshold</strong> – The scatter plot diagnostic threshold value [0,1] for returning a plot
+If a number: Returns all plots where at least one metric is above this threshold
+If a dictionary: Returns plots where the metric is above its threshold
+For example, {“Outlier”: 0.9} returns plots with outlier metrics above 0.9
+The available metrics are: Outlier, Convex, Skinny, Skewed, Stringy, Straight, Monotonic, Clumpy, Striated</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A dictionary of pairs that match the filter</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="data_describe.core.scatter_plot.scatter_plot">
+<code class="sig-prename descclassname">data_describe.core.scatter_plot.</code><code class="sig-name descname">scatter_plot</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em>, <em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">y</span></em>, <em class="sig-param"><span class="n">joint_kws</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">scatter_kws</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">dist_kws</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.core.scatter_plot.scatter_plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate one scatter (joint) plot</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> – A Pandas data frame</p></li>
+<li><p><strong>x</strong> – The x-axis column name</p></li>
+<li><p><strong>y</strong> – The y-axis column name</p></li>
+<li><p><strong>joint_kws</strong> – Keywords to pass to seaborn.JointGrid</p></li>
+<li><p><strong>scatter_kws</strong> – Keywords to pass to seaborn.scatterplot</p></li>
+<li><p><strong>dist_kws</strong> – Keywords to pass to the seaborn.distplot</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The Seaborn figure</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="data_describe.core.scatter_plot.scatter_plots">
+<code class="sig-prename descclassname">data_describe.core.scatter_plot.</code><code class="sig-name descname">scatter_plots</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em>, <em class="sig-param"><span class="n">plot_mode</span><span class="o">=</span><span class="default_value">'matrix'</span></em>, <em class="sig-param"><span class="n">threshold</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">joint_kws</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">scatter_kws</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">dist_kws</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.core.scatter_plot.scatter_plots" title="Permalink to this definition">¶</a></dt>
+<dd><p>Scatter plots</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> – A Pandas data frame</p></li>
+<li><p><strong>plot_mode</strong> – Default = ‘diagnostic”
+diagnostic: Choose plots by scatter plot diagnostics
+matrix: Generate the full scatter plot matrix
+all: Generate all individual scatter plots</p></li>
+<li><p><strong>threshold</strong> – The scatter plot diagnostic threshold value [0,1] for returning a plot
+If a number: Returns all plots where at least one metric is above this threshold
+If a dictionary: Returns plots where the metric is above its threshold
+For example, {“Outlier”: 0.9} returns plots with outlier metrics above 0.9
+The available metrics are: Outlier, Convex, Skinny, Skewed, Stringy, Straight, Monotonic, Clumpy, Striated</p></li>
+<li><p><strong>joint_kws</strong> – Keywords to pass to seaborn.JointGrid</p></li>
+<li><p><strong>scatter_kws</strong> – Keywords to pass to seaborn.scatterplot</p></li>
+<li><p><strong>dist_kws</strong> – Keywords to pass to the seaborn.distplot</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Seaborn figure or list of figures</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-data_describe.core.summary">
+<span id="data-describe-core-summary-module"></span><h2>data_describe.core.summary module<a class="headerlink" href="#module-data_describe.core.summary" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="data_describe.core.summary.agg_null">
+<code class="sig-prename descclassname">data_describe.core.summary.</code><code class="sig-name descname">agg_null</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">series</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.core.summary.agg_null" title="Permalink to this definition">¶</a></dt>
+<dd><p>Count of null values in a pandas series</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>series</strong> – A Pandas series</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Number of null values</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="data_describe.core.summary.agg_zero">
+<code class="sig-prename descclassname">data_describe.core.summary.</code><code class="sig-name descname">agg_zero</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">series</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.core.summary.agg_zero" title="Permalink to this definition">¶</a></dt>
+<dd><p>Count of zero values in a pandas series</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>series</strong> – A Pandas series</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Number of zeros</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="data_describe.core.summary.cardinality">
+<code class="sig-prename descclassname">data_describe.core.summary.</code><code class="sig-name descname">cardinality</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">series</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.core.summary.cardinality" title="Permalink to this definition">¶</a></dt>
+<dd><p>Number of unique values in a series</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>series</strong> – A Pandas series</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Number of unique values</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="data_describe.core.summary.data_summary">
+<code class="sig-prename descclassname">data_describe.core.summary.</code><code class="sig-name descname">data_summary</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.core.summary.data_summary" title="Permalink to this definition">¶</a></dt>
+<dd><p>Summary statistics and data description</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>data</strong> – A Pandas data frame</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Pandas data frame with metrics in rows</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="data_describe.core.summary.most_frequent">
+<code class="sig-prename descclassname">data_describe.core.summary.</code><code class="sig-name descname">most_frequent</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.core.summary.most_frequent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Percent of most frequent value, per column, in a pandas data frame</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>data</strong> – A Pandas data frame</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Percent of most frequent value per column</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="data_describe.dimensionality_reduction.html" class="btn btn-neutral float-right" title="data_describe.dimensionality_reduction package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="data_describe.config.html" class="btn btn-neutral float-left" title="data_describe.config package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

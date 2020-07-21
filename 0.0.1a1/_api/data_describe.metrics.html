@@ -1,0 +1,747 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>data_describe.metrics package &mdash; Data Describe 0.2a documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="data_describe.sensitive_data package" href="data_describe.sensitive_data.html" />
+    <link rel="prev" title="data_describe.dimensionality_reduction package" href="data_describe.dimensionality_reduction.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> Data Describe
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../_notebooks/tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../widgets/index.html">Widgets</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="data_describe.html">API Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="data_describe.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="data_describe.backends.html">data_describe.backends package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="data_describe.config.html">data_describe.config package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="data_describe.core.html">data_describe.core package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="data_describe.dimensionality_reduction.html">data_describe.dimensionality_reduction package</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">data_describe.metrics package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-data_describe.metrics.bivariate">data_describe.metrics.bivariate module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-data_describe.metrics.univariate">data_describe.metrics.univariate module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-data_describe.metrics.utils">data_describe.metrics.utils module</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="data_describe.sensitive_data.html">data_describe.sensitive_data package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="data_describe.text.html">data_describe.text package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="data_describe.type.html">data_describe.type package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="data_describe.utilities.html">data_describe.utilities package</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="data_describe.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="data_describe.html#module-data_describe.compat">data_describe.compat module</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Data Describe</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="data_describe.html">data_describe package</a> &raquo;</li>
+        
+      <li>data_describe.metrics package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/_api/data_describe.metrics.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="module-data_describe.metrics">
+<span id="data-describe-metrics-package"></span><h1>data_describe.metrics package<a class="headerlink" href="#module-data_describe.metrics" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-data_describe.metrics.bivariate">
+<span id="data-describe-metrics-bivariate-module"></span><h2>data_describe.metrics.bivariate module<a class="headerlink" href="#module-data_describe.metrics.bivariate" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="data_describe.metrics.bivariate.Scagnostics">
+<em class="property">class </em><code class="sig-prename descclassname">data_describe.metrics.bivariate.</code><code class="sig-name descname">Scagnostics</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.metrics.bivariate.Scagnostics" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Scatter plot diagnostics</p>
+<p>Computes the scatter plot diagnostics (‘scagnostics’) for each pair of numeric features.</p>
+<dl class="simple">
+<dt>The algorithm implemented here is described in Wilkinson, L., Anand, A., and Grossman, R. (2005),</dt><dd><p>Graph-theoretic Scagnostics, in Proceedings of the IEEE Information Visualization 2005, pp. 157–164.</p>
+</dd>
+</dl>
+<p>Usage:
+``</p>
+<p>df = pd.read_csv(path)</p>
+<p>Scagnostics(df).calculate()
+``</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>data</strong> – A Pandas data frame</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="data_describe.metrics.bivariate.Scagnostics.calculate">
+<code class="sig-name descname">calculate</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">graphs</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">parallel</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.metrics.bivariate.Scagnostics.calculate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute scagnostics for all column pairs</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>graphs</strong> – If True, also return the network graphs and polygons calculated internally</p></li>
+<li><p><strong>parallel</strong> – If True, run in parallel using maximum CPUs available</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><p>A nested dictionary of metrics, keyed by the column pair tuple. For example, (i, j) refers to
+scagnostics for the column i and column j (zero-index).</p>
+<p>If <cite>graphs</cite> is False, each value is a dictionary of the 9 scagnostic measures
+If <cite>graphs</cite> is True, each value contains a dictionary with 2 keys: <cite>Metrics</cite> (for the scagnostics), and
+<cite>Graphs</cite> for the network graphs and polygons</p>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="data_describe.metrics.bivariate.Scagnostics.calculate_metrics">
+<em class="property">static </em><code class="sig-name descname">calculate_metrics</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">pair</span></em>, <em class="sig-param"><span class="n">data</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">graphs</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.metrics.bivariate.Scagnostics.calculate_metrics" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the 9 scagnostic measures for a single pair of columns</p>
+<p>The metrics are Outlier, Convex, Skinny, Skewed, Stringy, Straight, Monotonic, Clumpy, Striated</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pair</strong> – The column pair, as a tuple of the column indices</p></li>
+<li><p><strong>data</strong> – The data, as a numpy array</p></li>
+<li><p><strong>graphs</strong> – If true, return all of the intermediate polygons &amp; graphs used to calculate the measures</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A nested dictionary, keyed by the column pair tuple and then by metric</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="data_describe.metrics.bivariate.Scagnostics.calculate_omega">
+<em class="property">static </em><code class="sig-name descname">calculate_omega</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">weights</span></em>, <em class="sig-param"><span class="n">pct</span><span class="o">=</span><span class="default_value">75</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.metrics.bivariate.Scagnostics.calculate_omega" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the omega value to determine alpha shape</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>weights</strong> – The edge lengths (weights) from the minimum spanning tree</p></li>
+<li><p><strong>pct</strong> – The percentile cutoff for outliers</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Omega</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="data_describe.metrics.bivariate.Scagnostics.circumcircle">
+<em class="property">static </em><code class="sig-name descname">circumcircle</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">points</span></em>, <em class="sig-param"><span class="n">simplex</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.metrics.bivariate.Scagnostics.circumcircle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes the circumcenter and circumradius of a triangle</p>
+<p><a class="reference external" href="https://en.wikipedia.org/wiki/Circumscribed_circle#Circumcircle_equations">https://en.wikipedia.org/wiki/Circumscribed_circle#Circumcircle_equations</a>
+<a class="reference external" href="https://github.com/alpha-beta-soup/errorgeopy/blob/master/errorgeopy/utils.py">https://github.com/alpha-beta-soup/errorgeopy/blob/master/errorgeopy/utils.py</a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>points</strong> – The array of (x, y) points</p></li>
+<li><p><strong>simplex</strong> – The triangles</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The circumcircle center and radius</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="data_describe.metrics.bivariate.Scagnostics.clumpy">
+<em class="property">static </em><code class="sig-name descname">clumpy</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">minimum_spanning_tree</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.metrics.bivariate.Scagnostics.clumpy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clumpy metric</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>minimum_spanning_tree</strong> – The minimum spanning tree, as a NetworkX graph object</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Metric value</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="data_describe.metrics.bivariate.Scagnostics.concave_hull">
+<em class="property">static </em><code class="sig-name descname">concave_hull</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">points</span></em>, <em class="sig-param"><span class="n">minimum_spanning_tree</span></em>, <em class="sig-param"><span class="n">triangulation</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.metrics.bivariate.Scagnostics.concave_hull" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes the concave hull (alpha shape) of a set of points.</p>
+<p><a class="reference external" href="https://github.com/alpha-beta-soup/errorgeopy/blob/master/errorgeopy/utils.py">https://github.com/alpha-beta-soup/errorgeopy/blob/master/errorgeopy/utils.py</a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>points</strong> – The array of (x, y) points</p></li>
+<li><p><strong>minimum_spanning_tree</strong> – The minimum spanning tree, as a NetworkX graph object</p></li>
+<li><p><strong>triangulation</strong> – A pre-computed Delaunay triangulation. Is recomputed from the points if not provided.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The concave hull (alpha hull) Polygon</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="data_describe.metrics.bivariate.Scagnostics.convert_to_xy_tuples">
+<em class="property">static </em><code class="sig-name descname">convert_to_xy_tuples</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.metrics.bivariate.Scagnostics.convert_to_xy_tuples" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert arrays of x, y pairs in data into (x, y) tuples</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>data</strong> – A (n, 2) dimensional array. The 1st column is x-axis data and the 2nd column is y-axis data.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A numpy array of (x, y) tuples</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="data_describe.metrics.bivariate.Scagnostics.convex">
+<em class="property">static </em><code class="sig-name descname">convex</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">alpha_hull</span></em>, <em class="sig-param"><span class="n">convex_hull</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.metrics.bivariate.Scagnostics.convex" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convex metric</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>alpha_hull</strong> – The alpha hull shape, as a Shapely polygon</p></li>
+<li><p><strong>convex_hull</strong> – The convex hull shape</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Metric value</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="data_describe.metrics.bivariate.Scagnostics.get_alpha_complex">
+<em class="property">static </em><code class="sig-name descname">get_alpha_complex</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">alpha</span></em>, <em class="sig-param"><span class="n">points</span></em>, <em class="sig-param"><span class="n">simplexes</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.metrics.bivariate.Scagnostics.get_alpha_complex" title="Permalink to this definition">¶</a></dt>
+<dd><p>Obtain the alpha shape</p>
+<p><a class="reference external" href="https://github.com/alpha-beta-soup/errorgeopy/blob/master/errorgeopy/utils.py">https://github.com/alpha-beta-soup/errorgeopy/blob/master/errorgeopy/utils.py</a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>alpha</strong> – The disk radius parameter for the alpha shape</p></li>
+<li><p><strong>points</strong> – The array of (x, y) points</p></li>
+<li><p><strong>simplexes</strong> – The triangles, i.e. from scipy.spatial.Delaunay</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A list of points in the alpha complex</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="data_describe.metrics.bivariate.Scagnostics.get_mst_edges">
+<em class="property">static </em><code class="sig-name descname">get_mst_edges</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">mst</span></em>, <em class="sig-param"><span class="n">attr</span><span class="o">=</span><span class="default_value">'weight'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.metrics.bivariate.Scagnostics.get_mst_edges" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get all edges in the minimum spanning tree</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mst</strong> – The minimum spanning tree, as a NetworkX graph object</p></li>
+<li><p><strong>attr</strong> – The attribute name in the network graph to interpret as edge weight</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A list of edge lengths (weights)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="data_describe.metrics.bivariate.Scagnostics.hex_bin">
+<em class="property">static </em><code class="sig-name descname">hex_bin</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">y</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.metrics.bivariate.Scagnostics.hex_bin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply hexagon binning to the data</p>
+<p>Starts with a grid of 40*40 and halves the grid size until there are less than 250 non-empty bins</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> – The x data</p></li>
+<li><p><strong>y</strong> – The y data</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The binned hexagon center coordinates</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="data_describe.metrics.bivariate.Scagnostics.longest_shortest_path">
+<em class="property">static </em><code class="sig-name descname">longest_shortest_path</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">mst</span></em>, <em class="sig-param"><span class="n">where</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.metrics.bivariate.Scagnostics.longest_shortest_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the longest shortest-path in the minimum spanning tree</p>
+<p>Each node in the minimum spanning tree has a shortest path to each other node. Compute the longest path
+out of all shortest paths in the spanning tree. This represents the ‘diameter’ of the minimum spanning tree.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mst</strong> – The minimum spanning tree, as a NetworkX graph object</p></li>
+<li><p><strong>where</strong> – If True, return the start and end nodes instead of the path length</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>If where is False, returns the path length for the longest shortest path
+If where is True, returns the start node and end node of the longest shortest path</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="data_describe.metrics.bivariate.Scagnostics.minimum_spanning_tree">
+<em class="property">static </em><code class="sig-name descname">minimum_spanning_tree</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">points</span></em>, <em class="sig-param"><span class="n">triangulation</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.metrics.bivariate.Scagnostics.minimum_spanning_tree" title="Permalink to this definition">¶</a></dt>
+<dd><p>Determines the minimum spanning tree for the set of points</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>points</strong> – An array of (x, y) tuples</p></li>
+<li><p><strong>triangulation</strong> – The Delaunay triangulation, i.e. from scipy.spatial.Delaunay</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The minimum spanning tree as a NetworkX graph object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="data_describe.metrics.bivariate.Scagnostics.monotonic">
+<em class="property">static </em><code class="sig-name descname">monotonic</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">array_data</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.metrics.bivariate.Scagnostics.monotonic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Monotonic metric</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>array_data</strong> – The (n,2) data array</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Metric value</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="data_describe.metrics.bivariate.Scagnostics.names">
+<em class="property">property </em><code class="sig-name descname">names</code><a class="headerlink" href="#data_describe.metrics.bivariate.Scagnostics.names" title="Permalink to this definition">¶</a></dt>
+<dd><p>column names</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="data_describe.metrics.bivariate.Scagnostics.outlying">
+<em class="property">static </em><code class="sig-name descname">outlying</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">minimum_spanning_tree</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.metrics.bivariate.Scagnostics.outlying" title="Permalink to this definition">¶</a></dt>
+<dd><p>Outlier metric</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>minimum_spanning_tree</strong> – The minimum spanning tree, as a NetworkX graph object</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Metric value</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="data_describe.metrics.bivariate.Scagnostics.skewed">
+<em class="property">static </em><code class="sig-name descname">skewed</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">minimum_spanning_tree</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.metrics.bivariate.Scagnostics.skewed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Skewed metric</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>minimum_spanning_tree</strong> – The minimum spanning tree, as a NetworkX graph object</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Metric value</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="data_describe.metrics.bivariate.Scagnostics.skinny">
+<em class="property">static </em><code class="sig-name descname">skinny</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">alpha_hull</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.metrics.bivariate.Scagnostics.skinny" title="Permalink to this definition">¶</a></dt>
+<dd><p>Skinny metric</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>alpha_hull</strong> – The alpha hull shape, as a Shapely polygon</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Metric value</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="data_describe.metrics.bivariate.Scagnostics.squared_norm">
+<em class="property">static </em><code class="sig-name descname">squared_norm</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">v</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.metrics.bivariate.Scagnostics.squared_norm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes the squared norm (squared Euclidean distance) for a vector</p>
+<p><a class="reference external" href="https://github.com/alpha-beta-soup/errorgeopy/blob/master/errorgeopy/utils.py">https://github.com/alpha-beta-soup/errorgeopy/blob/master/errorgeopy/utils.py</a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>v</strong> – A vector</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The squared Euclidean distance</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="data_describe.metrics.bivariate.Scagnostics.straight">
+<em class="property">static </em><code class="sig-name descname">straight</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">minimum_spanning_tree</span></em>, <em class="sig-param"><span class="n">triangulation</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.metrics.bivariate.Scagnostics.straight" title="Permalink to this definition">¶</a></dt>
+<dd><p>Straight metric</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>minimum_spanning_tree</strong> – The minimum spanning tree, as a NetworkX graph object</p></li>
+<li><p><strong>triangulation</strong> – The Delaunay triangulation, i.e. from scipy.spatial.Delaunay</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Metric value</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="data_describe.metrics.bivariate.Scagnostics.striated">
+<em class="property">static </em><code class="sig-name descname">striated</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">minimum_spanning_tree</span></em>, <em class="sig-param"><span class="n">triangulation</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.metrics.bivariate.Scagnostics.striated" title="Permalink to this definition">¶</a></dt>
+<dd><p>Striated metric</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>minimum_spanning_tree</strong> – The minimum spanning tree, as a NetworkX graph object</p></li>
+<li><p><strong>triangulation</strong> – The Delaunay triangulation, i.e. from scipy.spatial.Delaunay</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Metric value</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="data_describe.metrics.bivariate.Scagnostics.stringy">
+<em class="property">static </em><code class="sig-name descname">stringy</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">minimum_spanning_tree</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.metrics.bivariate.Scagnostics.stringy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stringy metric</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>minimum_spanning_tree</strong> – The minimum spanning tree, as a NetworkX graph object</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Metric value</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt id="data_describe.metrics.bivariate.heteroscedastic">
+<code class="sig-prename descclassname">data_describe.metrics.bivariate.</code><code class="sig-name descname">heteroscedastic</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">grp</span></em>, <em class="sig-param"><span class="n">alpha</span><span class="o">=</span><span class="default_value">0.01</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.metrics.bivariate.heteroscedastic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Identifies heteroscedasticity in box plots using the Brown-Forscythe test</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>grp</strong> – The groups from <cite>split_by_category</cite></p></li>
+<li><p><strong>alpha</strong> – The significance level</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>True if statistically significant</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="data_describe.metrics.bivariate.varying">
+<code class="sig-prename descclassname">data_describe.metrics.bivariate.</code><code class="sig-name descname">varying</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">grp</span></em>, <em class="sig-param"><span class="n">alpha</span><span class="o">=</span><span class="default_value">0.01</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.metrics.bivariate.varying" title="Permalink to this definition">¶</a></dt>
+<dd><p>Identifies varying box plots (i.e. with different means) using the one-way ANOVA test</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>grp</strong> – The groups from <cite>split_by_category</cite></p></li>
+<li><p><strong>alpha</strong> – The significance level</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>True if statistically significant</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-data_describe.metrics.univariate">
+<span id="data-describe-metrics-univariate-module"></span><h2>data_describe.metrics.univariate module<a class="headerlink" href="#module-data_describe.metrics.univariate" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="data_describe.metrics.univariate.skewed">
+<code class="sig-prename descclassname">data_describe.metrics.univariate.</code><code class="sig-name descname">skewed</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em>, <em class="sig-param"><span class="n">threshold</span><span class="o">=</span><span class="default_value">3</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.metrics.univariate.skewed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Identifies skewed data as being over a threshold skew value</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> – The 1-d data array</p></li>
+<li><p><strong>threshold</strong> – The skew value</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>True if statistically significant</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="data_describe.metrics.univariate.spikey">
+<code class="sig-prename descclassname">data_describe.metrics.univariate.</code><code class="sig-name descname">spikey</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em>, <em class="sig-param"><span class="n">factor</span><span class="o">=</span><span class="default_value">10</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.metrics.univariate.spikey" title="Permalink to this definition">¶</a></dt>
+<dd><p>Identifies ‘spikey’ histograms where the tallest bin is <cite>factor</cite> times the average bin count</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> – The 1-d data array</p></li>
+<li><p><strong>factor</strong> – The factor</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>True if statistically significant</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-data_describe.metrics.utils">
+<span id="data-describe-metrics-utils-module"></span><h2>data_describe.metrics.utils module<a class="headerlink" href="#module-data_describe.metrics.utils" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="data_describe.metrics.utils.hexbin">
+<code class="sig-prename descclassname">data_describe.metrics.utils.</code><code class="sig-name descname">hexbin</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">y</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.metrics.utils.hexbin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make a hexagonal grid in two dimensions</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> – x data, as a 1-d array</p></li>
+<li><p><strong>y</strong> – y data, as a 1-d array</p></li>
+<li><p><strong>**kwargs</strong> – Keyword arguments to be passed to matplotlib.pyplot.hexbin</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A tuple of the counts in each bin, the bin centers, and the matplotlib.pyplot.hexbin object</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="data_describe.sensitive_data.html" class="btn btn-neutral float-right" title="data_describe.sensitive_data package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="data_describe.dimensionality_reduction.html" class="btn btn-neutral float-left" title="data_describe.dimensionality_reduction package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

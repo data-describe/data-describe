@@ -1,0 +1,1306 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Cluster Analysis &mdash; Data Describe 0.2a documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Topic Modeling" href="topic_modeling.html" />
+    <link rel="prev" title="Scatter Plots" href="scatter_plots.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> Data Describe
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../widgets/index.html">Widgets</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="feature_importance.html">Feature Importance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="text_preprocessing.html">Text Preprocessing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="data_loader.html">Data Loader</a></li>
+<li class="toctree-l2"><a class="reference internal" href="distributions.html">Distributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scatter_plots.html">Scatter Plots</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Cluster Analysis</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Load-sklearn-dataset">Load sklearn dataset</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Default-Cluster-Analysis">Default Cluster Analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Return-Elbow-Plot-for-K-Means">Return Elbow Plot for K-Means</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Return-Reduced-Data-with-Cluster-Labels">Return Reduced Data with Cluster Labels</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Return-Data-with-Cluster-Labels">Return Data with Cluster Labels</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Return-Plotly-object">Return Plotly object</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#KMeans---Selecting-number-of-clusters">KMeans - Selecting number of clusters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#KMeans-static-plot-using-a-different-metric-for-optimal-clusters">KMeans static plot using a different metric for optimal clusters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#HDBSCAN-with-t-SNE-selected">HDBSCAN with t-SNE selected</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="topic_modeling.html">Topic Modeling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contributing_guide.html">Environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contributing_guide.html#Style-Guide">Style Guide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sensitive_data.html">Create fake data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sensitive_data.html#Redact-sensitive-data">Redact sensitive data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sensitive_data.html#Redact-sensitive-data-using-selected-columns">Redact sensitive data using selected columns</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sensitive_data.html#Identify-infotypes-in-each-column">Identify infotypes in each column</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sensitive_data.html#Encrypt-Data">Encrypt Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="auto_data_type.html">Auto Data Type</a></li>
+<li class="toctree-l2"><a class="reference internal" href="data_summary.html">Data Summary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="correlation_matrix.html">Correlation Matrix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="data_heatmap.html">Data Heatmap</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../_api/data_describe.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Data Describe</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../widgets/index.html">Widgets</a> &raquo;</li>
+        
+      <li>Cluster Analysis</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/_notebooks/cluster_analysis.ipynb.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput.container,
+div.nbinput.container div.prompt,
+div.nbinput.container div.input_area,
+div.nbinput.container div[class*=highlight],
+div.nbinput.container div[class*=highlight] pre,
+div.nboutput.container,
+div.nboutput.container div.prompt,
+div.nboutput.container div.output_area,
+div.nboutput.container div[class*=highlight],
+div.nboutput.container div[class*=highlight] pre {
+    background: none;
+    border: none;
+    padding: 0 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+/* avoid gaps between output lines */
+div.nboutput.container div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput.container,
+div.nboutput.container {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput.container,
+    div.nboutput.container {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput.container {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast.container {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput.container div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput.container div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput.container div.prompt,
+div.nboutput.container div.prompt {
+    width: 4.5ex;
+    padding-top: 5px;
+    position: relative;
+    user-select: none;
+}
+
+div.nbinput.container div.prompt > div,
+div.nboutput.container div.prompt > div {
+    position: absolute;
+    right: 0;
+    margin-right: 0.3ex;
+}
+
+@media (max-width: 540px) {
+    div.nbinput.container div.prompt,
+    div.nboutput.container div.prompt {
+        width: unset;
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput.container div.prompt.empty {
+        padding: 0;
+    }
+
+    div.nbinput.container div.prompt > div,
+    div.nboutput.container div.prompt > div {
+        position: unset;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput.container div.prompt pre,
+div.nboutput.container div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput.container div.input_area,
+div.nboutput.container div.output_area {
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput.container div.input_area,
+    div.nboutput.container div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput.container div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    background: #f5f5f5;
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput.container div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput.container div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput.container div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+
+div.nbinput.container div.input_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight].math,
+div.nboutput.container div.output_area.rendered_html,
+div.nboutput.container div.output_area > div.output_javascript,
+div.nboutput.container div.output_area:not(.rendered_html) > img{
+    padding: 5px;
+}
+
+/* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
+div.nbinput.container div.input_area > div[class^='highlight'],
+div.nboutput.container div.output_area > div[class^='highlight']{
+    overflow-y: hidden;
+}
+
+/* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
+.prompt a.copybtn {
+    display: none;
+}
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="Cluster-Analysis">
+<h1>Cluster Analysis<a class="headerlink" href="#Cluster-Analysis" title="Permalink to this headline">¶</a></h1>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">data_describe.core.cluster</span> <span class="kn">import</span> <span class="n">cluster</span>
+<span class="kn">import</span> <span class="nn">plotly.graph_objs</span> <span class="k">as</span> <span class="nn">go</span>
+<span class="kn">from</span> <span class="nn">plotly.offline</span> <span class="kn">import</span> <span class="n">init_notebook_mode</span><span class="p">,</span> <span class="n">iplot</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="Load-sklearn-dataset">
+<h2>Load sklearn dataset<a class="headerlink" href="#Load-sklearn-dataset" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">load_wine</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">load_wine</span><span class="p">()</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">feature_names</span><span class="p">))</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;Target&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">target</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="Default-Cluster-Analysis">
+<h2>Default Cluster Analysis<a class="headerlink" href="#Default-Cluster-Analysis" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">cluster</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="s1">&#39;Target&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<script type="text/javascript">
+window.PlotlyConfig = {MathJaxConfig: 'local'};
+if (window.MathJax) {MathJax.Hub.Config({SVG: {font: "STIX-Web"}});}
+if (typeof require !== 'undefined') {
+require.undef("plotly");
+requirejs.config({
+    paths: {
+        'plotly': ['https://cdn.plot.ly/plotly-latest.min']
+    }
+});
+require(['plotly'], function(Plotly) {
+    window._Plotly = Plotly;
+});
+}
+</script></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+
+
+            <div id="9526abca-4a31-46a8-ac71-1dfcfcb4d2b4" class="plotly-graph-div" style="height:700px; width:700px;"></div>
+            <script type="text/javascript">
+                require(["plotly"], function(Plotly) {
+                    window.PLOTLYENV=window.PLOTLYENV || {};
+                    window.PLOTLYENV.BASE_URL='https://plot.ly';
+
+                if (document.getElementById("9526abca-4a31-46a8-ac71-1dfcfcb4d2b4")) {
+                    Plotly.newPlot(
+                        '9526abca-4a31-46a8-ac71-1dfcfcb4d2b4',
+                        [{"marker": {"colorscale": "earth", "line": {"width": 1}, "size": 10}, "mode": "markers", "name": "Cluster 2", "type": "scatter", "uid": "7493367b-f3a6-4cf4-acc3-1c53dcf9c1ff", "x": [3.316750812214776, 2.209464916918848, 2.5167401466103794, 3.7570656097732025, 1.008908493795713, 3.0502539224180767, 2.4490896695962303, 2.0594368714379123, 2.510874297398989, 2.7536281876339075, 3.4797366827312093, 1.7547529012945884, 2.1134623403150945, 3.4581568193367214, 4.312783906765558, 2.305188200827969, 2.17195527374151, 1.898971176562759, 3.541985081943465, 2.084522204730311, 3.1244025351671993, 1.086570068332239, 2.5352240799037142, 1.6449883412544688, 1.7615758722693005, 0.9900791016088537, 1.7752776281133669, 1.2354239643099048, 2.1884063344519604, 2.2561089812837074, 2.5002200257894223, 2.677411047444011, 1.6285791164309182, 1.9026908622381455, 1.4103885265954055, 1.9038262321944854, 1.384862230374838, 1.1222074104413093, 1.5021945006181914, 2.529801092371809, 2.5880954258544007, 0.6684819937541869, 3.070806990412006, 0.4622091375160074, 2.101351930538014, 1.1361661775610175, 2.7266009636408026, 2.821339274192247, 2.009850850912358, 2.707491304266391, 3.2149174747738205, 2.858959826717292, 3.5056043559232193, 2.224791380532171, 2.146987823563865, 2.469329483797785, 2.7415179142774506, 2.173740920965304, 3.139380151828992, 2.5622271731703568, 2.5438651841995488], "y": [-1.4434626343180104, 0.3333928870803012, -1.0311512962743201, -2.7563719137107134, -0.8698308214172069, -2.1224011146341915, -1.1748501316494742, -1.6089630683635083, -0.9180709573337763, -0.7894376738336062, -1.3023332371235952, -0.6119772287456308, -0.6757063391426186, -1.1306298761729372, -2.0959755753412623, -1.6625517299890575, -2.327305336191421, -1.631368878642839, -2.5183436693066463, -1.061137993583861, -0.7868971056508953, -0.24174355133284073, 0.09184062072088066, 0.5162789300672347, 0.3171489326843803, -0.9406673381906375, -0.6861751342850241, 0.0898070413606409, -0.6895696206616252, -0.1914619368866646, -1.2408338348969443, -1.4718736461032493, -0.05270445057532362, -1.6330604347699855, -0.6979343246113576, -0.17671095109545668, -0.65863985366115, -0.11410976029688852, 0.7694320064310096, -1.8030019760618292, -0.779616304192508, -0.16996094061987443, -1.1559189566098835, -0.33074213219227483, 0.07100892095406704, -1.7771073929776378, -1.1913346919571832, -0.6462585991417032, -1.247029460678761, -1.7519674072063378, -0.1669919949967895, -0.7452788039895889, -1.6127338560350115, -1.8751679995630257, -1.0167515377576601, -1.3290083106496233, -1.4365487835125148, -1.2121998406977952, -1.7315791159925131, -0.26019855065459924, -0.1692740227997427]}, {"marker": {"colorscale": "earth", "line": {"width": 1}, "size": 10}, "mode": "markers", "name": "Cluster 1", "type": "scatter", "uid": "2d557797-a973-49c3-9b52-d896d7ebb7b1", "x": [-0.9285819689218516, -1.542480137896879, 0.030606834086683007, 2.050261607576316, -0.6096808271776207, 0.9002278387071426, 2.248507190798395, 0.18338402668475726, -0.8128050273520699, 1.9756204987985526, -1.5722162196262999, 1.6576818088332907, -0.7253723880353532, 1.832567570049545, -0.8679929031954109, 0.37001440429478516, -1.4573770449061378, 1.2629308497284955, 0.3761503719342408, 0.7620639041096005, 1.0345779671651876, -0.494876755680326, 0.8353201453942963, 0.7879046149897106, -0.8068321559655369, -0.5580426248756822, -1.1151110419194465, -0.5557228299516997, -1.3492852824437287, -1.5644826057199046, -1.9325556106314612, 0.746665941988451, 0.9574553638036397, -0.5439525887762305, 1.0310497503881495, 2.251909422148122, 1.4102160153374603, 0.7977197926930418, -0.5495317266494619, -0.16117373994854525, -0.6597949416843591, 0.3923544081850838, -1.7724990779600323, -0.3662673573520631, -1.6206725727874767, 0.08253578349332848, 1.5782750709323794, 1.4205692478240137, -0.278702753648853, -1.3031449662482808, -0.4570718656526248, -0.49418584704437424, 0.48207440977309346, -0.2528888776531987, -0.10722763772912264, -0.5510895391746493, 0.7396219285682196, 1.3363217334183255, -1.177086996247772, -0.4623350080196777, 0.9784740793566471, -0.09680972631598514, 0.0384871459490252, -1.597158501207472, -0.47956491608312435, -1.792833473031143], "y": [3.0734861631889325, 1.3814435080942291, 1.262786144211404, 1.9250326046501012, 1.9080588050851868, 0.7639114736096088, 1.8845924845501347, 2.4271461147035724, 0.22051398690226987, 1.4032832253096144, 0.8849831369082221, 0.9567121974591483, 1.063645400706095, 1.2878781978605247, 2.444101185580865, 2.15390697515699, 1.3833517690762596, 0.770849529970117, 1.0270434033558216, 3.375053809963535, 1.4507097382440923, 2.381243526767369, 1.4736705514008661, 2.026626522462477, 2.233830390843911, 2.3729854288494536, 1.8022471916654537, 2.6575400353922927, 2.1180014697848186, 1.85221452176555, 1.5594954568986226, 2.3129317092207407, 2.2235284346674593, 0.36892654587731466, 2.5655693487335243, 1.4327413803542557, 2.166191769370384, 2.3769488030818624, 2.293128643245628, 1.1644833215600154, 2.679961185989636, 2.0987317087655377, 1.7172884693761419, 2.1693532978292835, 1.3555833880259576, 2.306234587748325, 1.4620342902048145, 1.4182066376337499, 1.930568088670468, 0.76317231365779, 2.2694156075896745, 1.9390450494868308, 3.8717838484072375, 2.821492374701593, 1.9289220425669578, 2.2221615507766224, 1.4089566673657112, -0.25333693116830996, 0.6639668398015696, 0.6182881794850426, 1.4455704988958267, 2.1099979931352255, 1.2667621091578847, 1.2081435741284834, 1.9388406603940471, 1.1502881044421052]}, {"marker": {"colorscale": "earth", "line": {"width": 1}, "size": 10}, "mode": "markers", "name": "Cluster 0", "type": "scatter", "uid": "35d2da18-469a-4536-a079-3fba1fa8ed08", "x": [-1.836249763466938, -2.538977084295118, -2.4330126025502143, -1.3271016561416014, -2.3845008347435286, -2.936940102146611, -2.146811133816063, -2.369869488333041, -3.0638415687203535, -3.9157537837118883, -3.936463390715962, -3.094276117762272, -2.3744716280069214, -2.7788129476325123, -2.286561284738468, -2.985633487449463, -2.3751946982271064, -2.209865525595873, -2.6256210046927193, -4.280638778751082, -3.582641372001103, -2.807063720081658, -2.8996593330239118, -2.3207369765492043, -2.5498309472261376, -1.8125412848422993, -2.76014464192395, -2.7371505006679904, -3.6048688681834236, -2.889825996873506, -3.3921560768357226, -1.0481818968536791, -1.609912282847937, -3.1431309667439744, -2.240156896269541, -2.847673776119519, -2.597497056648763, -2.949299373134843, -3.5300322663493082, -2.4061105404785526, -2.929084726967455, -2.1814127788126205, -2.38092778713564, -3.2116172150412465, -3.6779187209738144, -2.465555798040448, -3.370524145442859, -2.601955851224737, -2.6778394608645035, -2.3870170912797204, -3.208758164198021], "y": [0.8299841230557193, 0.08744335730498277, 1.2571410404943952, -0.17038923204902817, -0.3745826055246932, -0.2638618300683803, -0.36825495188646096, 0.45963480923116734, -0.3534128354584017, -0.15458251944173187, -0.6596872334097821, -0.3488427592737944, -0.29198035155999463, -0.28680487288217477, -0.37250784468529796, -0.4892179083470127, -0.4823337172448764, -1.1600525041576426, -0.5631607642108337, -0.6496709640237048, -1.2727027497273002, -1.5705337870411966, -2.0410570079384636, -2.356366075556675, -2.045283091019523, -1.5276459462687528, -2.13893234764261, -0.4098862708817896, -1.8023842175839655, -1.9252186131303413, -1.3118763884735967, -3.5150896912197314, -2.406638159574328, -0.7381610441757966, -1.1754652881188639, -0.5560439658826741, -0.6979655372009188, -1.5553089642839821, -0.8825267962042348, -2.592356175042398, -1.2744469479044807, -2.077537312734516, -2.5886674324185908, 0.25124910442559195, -0.8477478441497615, -2.1937983036540927, -2.216289139861135, -1.7572293509792742, -2.7608991316745453, -2.297346679712818, -2.7689195660475754]}],
+                        {"autosize": false, "height": 700, "title": {"font": {"size": 25}, "text": "KMeans Cluster"}, "width": 700, "xaxis": {"title": {"text": "component_1 (36.2% variance explained)"}, "zeroline": false}, "yaxis": {"title": {"text": "component_2 (19.21% variance explained)"}, "zeroline": false}},
+                        {"showLink": false, "linkText": "Export to plot.ly", "plotlyServerURL": "https://plot.ly", "responsive": true}
+                    ).then(function(){
+
+var gd = document.getElementById('9526abca-4a31-46a8-ac71-1dfcfcb4d2b4');
+var x = new MutationObserver(function (mutations, observer) {{
+        var display = window.getComputedStyle(gd).display;
+        if (!display || display === 'none') {{
+            console.log([gd, 'removed!']);
+            Plotly.purge(gd);
+            observer.disconnect();
+        }}
+}});
+
+// Listen for the removal of the full notebook cells
+var notebookContainer = gd.closest('#notebook-container');
+if (notebookContainer) {{
+    x.observe(notebookContainer, {childList: true});
+}}
+
+// Listen for the clearing of the current output cell
+var outputEl = gd.closest('.output');
+if (outputEl) {{
+    x.observe(outputEl, {childList: true});
+}}
+
+                        })
+                };
+                });
+            </script>
+        </div></div>
+</div>
+</div>
+<div class="section" id="Return-Elbow-Plot-for-K-Means">
+<h2>Return Elbow Plot for K-Means<a class="headerlink" href="#Return-Elbow-Plot-for-K-Means" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">cluster</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">elbow</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&#39;[None] not found in axis&#39;
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/_notebooks_cluster_analysis_7_1.png" src="../_images/_notebooks_cluster_analysis_7_1.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<script type="text/javascript">
+window.PlotlyConfig = {MathJaxConfig: 'local'};
+if (window.MathJax) {MathJax.Hub.Config({SVG: {font: "STIX-Web"}});}
+if (typeof require !== 'undefined') {
+require.undef("plotly");
+requirejs.config({
+    paths: {
+        'plotly': ['https://cdn.plot.ly/plotly-latest.min']
+    }
+});
+require(['plotly'], function(Plotly) {
+    window._Plotly = Plotly;
+});
+}
+</script></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+
+
+            <div id="2cdd2209-ae5e-448d-a9fc-6cbe2099c478" class="plotly-graph-div" style="height:700px; width:700px;"></div>
+            <script type="text/javascript">
+                require(["plotly"], function(Plotly) {
+                    window.PLOTLYENV=window.PLOTLYENV || {};
+                    window.PLOTLYENV.BASE_URL='https://plot.ly';
+
+                if (document.getElementById("2cdd2209-ae5e-448d-a9fc-6cbe2099c478")) {
+                    Plotly.newPlot(
+                        '2cdd2209-ae5e-448d-a9fc-6cbe2099c478',
+                        [{"marker": {"colorscale": "earth", "line": {"width": 1}, "size": 10}, "mode": "markers", "name": "Cluster 1", "type": "scatter", "uid": "d9129707-a9b8-4d85-b631-1bae45f64ddf", "x": [-3.5229339030817917, -2.5288580618463667, -2.785028984152025, -3.9225884077761344, -1.4075111119787491, -3.2881298147971276, -2.7505775413676363, -2.3928665198696386, -2.7952563305466684, -3.0055966640025806, -3.6786885545469126, -2.1096347671767877, -2.4384563616447075, -3.6734945318518655, -4.441575750799966, -2.6089238700112456, -2.4754284592737474, -2.226232434638652, -3.742269291543671, -2.3944114998317905, -3.3365689534243863, -1.4814039908115535, -2.828068672786215, -2.0077140461407557, -2.114636036069496, -1.3975375070423453, -2.1334880279339385, -1.6297038265623078, -2.5076075276115586, -2.559483178805786, -2.772444524957208, -2.935133741065427, -1.9912484163578472, -2.245709866282269, -1.786986277273288, -2.2276386659731715, -1.768028471599826, -1.5231779814686102, -1.8723649422225406, -2.797114343709258, -2.840935693150022, -1.1055721019048317, -3.306894824061966, -0.904798423422243, -2.3968356897732557, -1.5378123476239929, -2.9912164379372026, -3.0593163136602546, -2.318771457130335, -2.9594722867527703, -3.4121813013449382, -3.116378266983419, -3.7002111349385163, -2.537548275987768, -2.4447892385945216, -2.7228145085222035, -2.985316773607035, -2.488146899219527, -3.351286650943401, -2.299457157208585, -2.260607323549395], "y": [-1.4530984395358346, 0.3300192515214125, -1.036935952588962, -2.7682102618438553, -0.8677730872653784, -2.1301751291512523, -1.1791699854280013, -1.6112823206534388, -0.9231795169155206, -0.7962841694225445, -1.312523420767556, -0.6129819864028375, -0.6785233100295305, -1.1401213551662503, -2.110319170328118, -1.6664180107095607, -2.330896716738476, -1.6335901618386286, -2.528405266198828, -1.0645294568044452, -0.7960127940285904, -0.24008547418839268, 0.08685755238892397, 0.5156164866057932, 0.31592056924498324, -0.9382152852892927, -0.6871020460371798, 0.09118403034427085, -0.6927498334195386, -0.1954728996989226, -1.2463527918093686, -1.4782788337335762, -0.05325201449517835, -1.634669104870862, -0.6974803860124382, -0.17928891851084064, -0.6578723083726209, -0.11222505343923592, 0.7693057594963639, -1.8088088734120145, -0.7861615668759255, -0.16588492491652254, -1.1639554686140816, -0.3260724324592802, 0.06690594469848747, -1.7750776504276333, -1.1976225474089819, -0.6538219576136098, -1.2502366806982612, -1.7586036491081627, -0.17691580638574464, -0.7521087340243355, -1.6230918691251996, -1.8785279338760295, -1.020715155613374, -1.3352436903312168, -1.4436375861800792, -1.2154925032589694, -1.7406028303764618, -0.27435850687419433, -0.18428636996603254]}, {"marker": {"colorscale": "earth", "line": {"width": 1}, "size": 10}, "mode": "markers", "name": "Cluster 0", "type": "scatter", "uid": "ac5400d6-88ac-45b2-9f42-97dd22a8fc30", "x": [0.8749250405094338, 1.414660758390599, 1.7138791555721427, -0.012296860656526841, -1.8331012233314883, 0.574535949211862, -0.7914711563862609, -2.020031475359557, -0.1432809798662307, 0.7515076649843829, -1.7403257308074194, 1.4763004083985474, -1.4919777857723628, 0.6939668586318597, -1.6341313770491808, 0.8289993211530102, -0.3004317546738361, 1.3611781956286604, -1.0960485224074576, -0.31921973891355365, -0.6712575723174736, -0.9241109081104659, 0.46749204359158514, -0.7182232497559671, -0.6982960422675988, 0.7645743933746579, 0.5282492286427195, 1.037855074648828, 0.5214242504129982, 1.2533585938573946, 1.4607092605337513, 1.7912462937913698, -0.6533042815881046, -0.8361451004306529, 0.5554728283313032, -0.9149965048608714, -2.0209834709963412, -1.2654267654096187, -0.7014322859995962, 0.5308697853638039, 0.1761567182781067, 0.6427419694693175, -0.3377061432112835, 1.637211545576051, 0.35877264204089027, 1.513118742703068, -0.03009625701485336, -1.4094023621799239, -1.2182444358065994, 0.28831461935513897, 1.1960976186198646, 0.45161818890488586, 0.47183885648253904, -0.4233990896377012, 0.26437652725350286, 0.13745846640962997, 2.2504766336669073, 0.5307449841402215, -0.6412873530902893, -1.1843669061085862, 1.1069419459472476, 0.45864794388364966, -0.846107223272576, 0.11653671785625787, 0.007086700003461973, 1.495308629377787, 0.47860169415181425, 1.6641446188588769], "y": [3.0777238292242015, 1.3899542041903954, 0.838856075050148, 1.2626958918547175, 1.9133860842519343, 1.9111509684836925, 0.7587255185081002, 1.8721314194480656, 2.425756910761294, 0.22520901675074936, 1.3910081469602906, 0.8922485862943279, 0.9479270814536046, 1.066863319330408, 1.2773898037548965, 2.44770578898885, 2.1510645612464763, 1.3903462660428083, 0.7626428212465033, 1.0247704280518113, 3.370524964886798, 1.445106615399056, 2.3837655731811545, 1.4681139435689572, 2.0222341663915158, 2.2375041407905245, 2.37569723350345, 1.8078679876637718, 2.660383859685351, 2.124756386790704, 1.8596994046367539, 1.5691632317562567, 2.3083929653195123, 2.2175488795631044, 0.3701273267849951, 2.5596393442213907, 1.4202204126787736, 2.1584825070923364, 2.3722159154054134, 2.295355050469966, 1.1647900275956182, 2.6822895258703707, 2.0963966766393463, 1.7263642466768538, 2.170818617348034, 1.3633562761628062, 2.304507740267414, 1.4531115823371221, 1.408192823047817, 1.9312264114506341, 0.7704426230116233, 2.2710070558385214, 1.9413811889855555, 3.8689936073788767, 2.8219160832036936, 1.9284535272304644, 1.269325293905387, 2.22441679906472, 1.4043127168703895, -0.26095739713281085, 0.6694970022937176, 0.6198884845142811, 1.4391087987312392, 2.1099035537090227, 1.2655111176102642, 1.215679449517412, 1.9402783474077958, 1.1591914689223708]}, {"marker": {"colorscale": "earth", "line": {"width": 1}, "size": 10}, "mode": "markers", "name": "Cluster 2", "type": "scatter", "uid": "8b895f3b-346f-4543-87da-5bd3bf63d9d6", "x": [2.352416749617007, 1.7789455429241239, 2.7419189215685806, 3.2542969666910087, 2.5303663528848475, 2.713024373920333, 3.3489885805820827, 4.117166964930113, 4.144128442734934, 3.365925504931609, 2.7126767802176577, 3.0716452299668457, 2.626145460795554, 3.260396716028517, 2.704046991504902, 2.5908477457733863, 2.954011096835367, 4.459950064090985, 3.8292495694565134, 3.133650013321474, 3.2347141020843586, 2.712564719484425, 2.930940444500836, 2.250574247691136, 3.097520332808114, 3.077055667943962, 3.8561582374743364, 3.2083884241573224, 3.6584941723647324, 1.552981826999663, 2.0582838922805013, 3.438549339272359, 2.5844881469164114, 3.144457216146696, 2.9252939819963175, 3.2618267746097183, 3.777587166366854, 2.774639251547305, 3.242616177341212, 2.563743753043598, 2.7487294763078567, 3.491196196423806, 3.9291344048443984, 2.815295465726681, 3.627996201678905, 2.9427292151000963, 3.0272724323442395, 2.7552216641236607, 3.4963356540709185], "y": [0.1001399633176964, -0.17231476210599123, -0.3708572450124121, -0.2575634586273758, -0.365988656979526, 0.463874135363863, -0.3455621586947326, -0.1419730790545536, -0.6472132363130785, -0.3404106443485414, -0.2874643821471797, -0.2798059414046033, -0.36823287065160587, -0.48109080354364864, -0.4774598475326867, -1.1574998663047427, -0.5578514991369744, -0.6354790078086786, -1.2623296179738288, -1.5646461381567822, -2.035324428431755, -2.3538795989707273, -2.0419835289911696, -1.5279561439356462, -2.133481760037997, -0.4047909747456704, -1.792089432191093, -1.9188278825537155, -1.3025808161988164, -3.5190931117062814, -2.4075461028315153, -0.7305432433939159, -1.1713283863621025, -0.5490358406118718, -0.6926568440345039, -1.5485905677360545, -0.8723115459283661, -2.5887046452161533, -1.2678478947047265, -2.0749092700782437, -2.585082043781418, 0.2594602007965165, -0.8373860282192286, -2.189336141261738, -2.206617014001004, -1.7522632018638848, -2.756040238792648, -2.293784082205701, -2.76060799009587]}],
+                        {"autosize": false, "height": 700, "title": {"font": {"size": 25}, "text": "KMeans Cluster"}, "width": 700, "xaxis": {"title": {"text": "component_1 (39.54% variance explained)"}, "zeroline": false}, "yaxis": {"title": {"text": "component_2 (17.84% variance explained)"}, "zeroline": false}},
+                        {"showLink": false, "linkText": "Export to plot.ly", "plotlyServerURL": "https://plot.ly", "responsive": true}
+                    ).then(function(){
+
+var gd = document.getElementById('2cdd2209-ae5e-448d-a9fc-6cbe2099c478');
+var x = new MutationObserver(function (mutations, observer) {{
+        var display = window.getComputedStyle(gd).display;
+        if (!display || display === 'none') {{
+            console.log([gd, 'removed!']);
+            Plotly.purge(gd);
+            observer.disconnect();
+        }}
+}});
+
+// Listen for the removal of the full notebook cells
+var notebookContainer = gd.closest('#notebook-container');
+if (notebookContainer) {{
+    x.observe(notebookContainer, {childList: true});
+}}
+
+// Listen for the clearing of the current output cell
+var outputEl = gd.closest('.output');
+if (outputEl) {{
+    x.observe(outputEl, {childList: true});
+}}
+
+                        })
+                };
+                });
+            </script>
+        </div></div>
+</div>
+</div>
+<div class="section" id="Return-Reduced-Data-with-Cluster-Labels">
+<h2>Return Reduced Data with Cluster Labels<a class="headerlink" href="#Return-Reduced-Data-with-Cluster-Labels" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">cluster</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">return_value</span><span class="o">=</span><span class="s1">&#39;reduc&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&#39;[None] not found in axis&#39;
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<script type="text/javascript">
+window.PlotlyConfig = {MathJaxConfig: 'local'};
+if (window.MathJax) {MathJax.Hub.Config({SVG: {font: "STIX-Web"}});}
+if (typeof require !== 'undefined') {
+require.undef("plotly");
+requirejs.config({
+    paths: {
+        'plotly': ['https://cdn.plot.ly/plotly-latest.min']
+    }
+});
+require(['plotly'], function(Plotly) {
+    window._Plotly = Plotly;
+});
+}
+</script></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>component_1</th>
+      <th>component_2</th>
+      <th>cluster</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>-3.522934</td>
+      <td>-1.453098</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>-2.528858</td>
+      <td>0.330019</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>-2.785029</td>
+      <td>-1.036936</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>-3.922588</td>
+      <td>-2.768210</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>-1.407511</td>
+      <td>-0.867773</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+</div>
+<div class="section" id="Return-Data-with-Cluster-Labels">
+<h2>Return Data with Cluster Labels<a class="headerlink" href="#Return-Data-with-Cluster-Labels" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">cluster</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">return_value</span><span class="o">=</span><span class="s1">&#39;data&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&#39;[None] not found in axis&#39;
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<script type="text/javascript">
+window.PlotlyConfig = {MathJaxConfig: 'local'};
+if (window.MathJax) {MathJax.Hub.Config({SVG: {font: "STIX-Web"}});}
+if (typeof require !== 'undefined') {
+require.undef("plotly");
+requirejs.config({
+    paths: {
+        'plotly': ['https://cdn.plot.ly/plotly-latest.min']
+    }
+});
+require(['plotly'], function(Plotly) {
+    window._Plotly = Plotly;
+});
+}
+</script></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>alcohol</th>
+      <th>malic_acid</th>
+      <th>ash</th>
+      <th>alcalinity_of_ash</th>
+      <th>magnesium</th>
+      <th>total_phenols</th>
+      <th>flavanoids</th>
+      <th>nonflavanoid_phenols</th>
+      <th>proanthocyanins</th>
+      <th>color_intensity</th>
+      <th>hue</th>
+      <th>od280/od315_of_diluted_wines</th>
+      <th>proline</th>
+      <th>Target</th>
+      <th>cluster</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>14.23</td>
+      <td>1.71</td>
+      <td>2.43</td>
+      <td>15.6</td>
+      <td>127.0</td>
+      <td>2.80</td>
+      <td>3.06</td>
+      <td>0.28</td>
+      <td>2.29</td>
+      <td>5.64</td>
+      <td>1.04</td>
+      <td>3.92</td>
+      <td>1065.0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>13.20</td>
+      <td>1.78</td>
+      <td>2.14</td>
+      <td>11.2</td>
+      <td>100.0</td>
+      <td>2.65</td>
+      <td>2.76</td>
+      <td>0.26</td>
+      <td>1.28</td>
+      <td>4.38</td>
+      <td>1.05</td>
+      <td>3.40</td>
+      <td>1050.0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>13.16</td>
+      <td>2.36</td>
+      <td>2.67</td>
+      <td>18.6</td>
+      <td>101.0</td>
+      <td>2.80</td>
+      <td>3.24</td>
+      <td>0.30</td>
+      <td>2.81</td>
+      <td>5.68</td>
+      <td>1.03</td>
+      <td>3.17</td>
+      <td>1185.0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>14.37</td>
+      <td>1.95</td>
+      <td>2.50</td>
+      <td>16.8</td>
+      <td>113.0</td>
+      <td>3.85</td>
+      <td>3.49</td>
+      <td>0.24</td>
+      <td>2.18</td>
+      <td>7.80</td>
+      <td>0.86</td>
+      <td>3.45</td>
+      <td>1480.0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>13.24</td>
+      <td>2.59</td>
+      <td>2.87</td>
+      <td>21.0</td>
+      <td>118.0</td>
+      <td>2.80</td>
+      <td>2.69</td>
+      <td>0.39</td>
+      <td>1.82</td>
+      <td>4.32</td>
+      <td>1.04</td>
+      <td>2.93</td>
+      <td>735.0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+</div>
+<div class="section" id="Return-Plotly-object">
+<h2>Return Plotly object<a class="headerlink" href="#Return-Plotly-object" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">plotly_object</span> <span class="o">=</span> <span class="n">cluster</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">return_value</span><span class="o">=</span><span class="s1">&#39;plot&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&#39;[None] not found in axis&#39;
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<script type="text/javascript">
+window.PlotlyConfig = {MathJaxConfig: 'local'};
+if (window.MathJax) {MathJax.Hub.Config({SVG: {font: "STIX-Web"}});}
+if (typeof require !== 'undefined') {
+require.undef("plotly");
+requirejs.config({
+    paths: {
+        'plotly': ['https://cdn.plot.ly/plotly-latest.min']
+    }
+});
+require(['plotly'], function(Plotly) {
+    window._Plotly = Plotly;
+});
+}
+</script></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">iplot</span><span class="p">(</span><span class="n">plotly_object</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+
+
+            <div id="3c9b3122-2388-4a34-bb26-48758a5a5eaa" class="plotly-graph-div" style="height:700px; width:700px;"></div>
+            <script type="text/javascript">
+                require(["plotly"], function(Plotly) {
+                    window.PLOTLYENV=window.PLOTLYENV || {};
+                    window.PLOTLYENV.BASE_URL='https://plot.ly';
+
+                if (document.getElementById("3c9b3122-2388-4a34-bb26-48758a5a5eaa")) {
+                    Plotly.newPlot(
+                        '3c9b3122-2388-4a34-bb26-48758a5a5eaa',
+                        [{"marker": {"colorscale": "earth", "line": {"width": 1}, "size": 10}, "mode": "markers", "name": "Cluster 1", "type": "scatter", "uid": "77be8045-33a1-4688-b4c7-c2e5d7ed2092", "x": [-3.5229339030817917, -2.5288580618463667, -2.785028984152025, -3.9225884077761344, -1.4075111119787491, -3.2881298147971276, -2.7505775413676363, -2.3928665198696386, -2.7952563305466684, -3.0055966640025806, -3.6786885545469126, -2.1096347671767877, -2.4384563616447075, -3.6734945318518655, -4.441575750799966, -2.6089238700112456, -2.4754284592737474, -2.226232434638652, -3.742269291543671, -2.3944114998317905, -3.3365689534243863, -1.4814039908115535, -2.828068672786215, -2.0077140461407557, -2.114636036069496, -1.3975375070423453, -2.1334880279339385, -1.6297038265623078, -2.5076075276115586, -2.559483178805786, -2.772444524957208, -2.935133741065427, -1.9912484163578472, -2.245709866282269, -1.786986277273288, -2.2276386659731715, -1.768028471599826, -1.5231779814686102, -1.8723649422225406, -2.797114343709258, -2.840935693150022, -1.1055721019048317, -3.306894824061966, -0.904798423422243, -2.3968356897732557, -1.5378123476239929, -2.9912164379372026, -3.0593163136602546, -2.318771457130335, -2.9594722867527703, -3.4121813013449382, -3.116378266983419, -3.7002111349385163, -2.537548275987768, -2.4447892385945216, -2.7228145085222035, -2.985316773607035, -2.488146899219527, -3.351286650943401, -2.299457157208585, -2.260607323549395], "y": [-1.4530984395358346, 0.3300192515214125, -1.036935952588962, -2.7682102618438553, -0.8677730872653784, -2.1301751291512523, -1.1791699854280013, -1.6112823206534388, -0.9231795169155206, -0.7962841694225445, -1.312523420767556, -0.6129819864028375, -0.6785233100295305, -1.1401213551662503, -2.110319170328118, -1.6664180107095607, -2.330896716738476, -1.6335901618386286, -2.528405266198828, -1.0645294568044452, -0.7960127940285904, -0.24008547418839268, 0.08685755238892397, 0.5156164866057932, 0.31592056924498324, -0.9382152852892927, -0.6871020460371798, 0.09118403034427085, -0.6927498334195386, -0.1954728996989226, -1.2463527918093686, -1.4782788337335762, -0.05325201449517835, -1.634669104870862, -0.6974803860124382, -0.17928891851084064, -0.6578723083726209, -0.11222505343923592, 0.7693057594963639, -1.8088088734120145, -0.7861615668759255, -0.16588492491652254, -1.1639554686140816, -0.3260724324592802, 0.06690594469848747, -1.7750776504276333, -1.1976225474089819, -0.6538219576136098, -1.2502366806982612, -1.7586036491081627, -0.17691580638574464, -0.7521087340243355, -1.6230918691251996, -1.8785279338760295, -1.020715155613374, -1.3352436903312168, -1.4436375861800792, -1.2154925032589694, -1.7406028303764618, -0.27435850687419433, -0.18428636996603254]}, {"marker": {"colorscale": "earth", "line": {"width": 1}, "size": 10}, "mode": "markers", "name": "Cluster 0", "type": "scatter", "uid": "782ce75b-dccc-4a1f-8219-74bef37f9091", "x": [0.8749250405094338, 1.414660758390599, 1.7138791555721427, -0.012296860656526841, -1.8331012233314883, 0.574535949211862, -0.7914711563862609, -2.020031475359557, -0.1432809798662307, 0.7515076649843829, -1.7403257308074194, 1.4763004083985474, -1.4919777857723628, 0.6939668586318597, -1.6341313770491808, 0.8289993211530102, -0.3004317546738361, 1.3611781956286604, -1.0960485224074576, -0.31921973891355365, -0.6712575723174736, -0.9241109081104659, 0.46749204359158514, -0.7182232497559671, -0.6982960422675988, 0.7645743933746579, 0.5282492286427195, 1.037855074648828, 0.5214242504129982, 1.2533585938573946, 1.4607092605337513, 1.7912462937913698, -0.6533042815881046, -0.8361451004306529, 0.5554728283313032, -0.9149965048608714, -2.0209834709963412, -1.2654267654096187, -0.7014322859995962, 0.5308697853638039, 0.1761567182781067, 0.6427419694693175, -0.3377061432112835, 1.637211545576051, 0.35877264204089027, 1.513118742703068, -0.03009625701485336, -1.4094023621799239, -1.2182444358065994, 0.28831461935513897, 1.1960976186198646, 0.45161818890488586, 0.47183885648253904, -0.4233990896377012, 0.26437652725350286, 0.13745846640962997, 2.2504766336669073, 0.5307449841402215, -0.6412873530902893, -1.1843669061085862, 1.1069419459472476, 0.45864794388364966, -0.846107223272576, 0.11653671785625787, 0.007086700003461973, 1.495308629377787, 0.47860169415181425, 1.6641446188588769], "y": [3.0777238292242015, 1.3899542041903954, 0.838856075050148, 1.2626958918547175, 1.9133860842519343, 1.9111509684836925, 0.7587255185081002, 1.8721314194480656, 2.425756910761294, 0.22520901675074936, 1.3910081469602906, 0.8922485862943279, 0.9479270814536046, 1.066863319330408, 1.2773898037548965, 2.44770578898885, 2.1510645612464763, 1.3903462660428083, 0.7626428212465033, 1.0247704280518113, 3.370524964886798, 1.445106615399056, 2.3837655731811545, 1.4681139435689572, 2.0222341663915158, 2.2375041407905245, 2.37569723350345, 1.8078679876637718, 2.660383859685351, 2.124756386790704, 1.8596994046367539, 1.5691632317562567, 2.3083929653195123, 2.2175488795631044, 0.3701273267849951, 2.5596393442213907, 1.4202204126787736, 2.1584825070923364, 2.3722159154054134, 2.295355050469966, 1.1647900275956182, 2.6822895258703707, 2.0963966766393463, 1.7263642466768538, 2.170818617348034, 1.3633562761628062, 2.304507740267414, 1.4531115823371221, 1.408192823047817, 1.9312264114506341, 0.7704426230116233, 2.2710070558385214, 1.9413811889855555, 3.8689936073788767, 2.8219160832036936, 1.9284535272304644, 1.269325293905387, 2.22441679906472, 1.4043127168703895, -0.26095739713281085, 0.6694970022937176, 0.6198884845142811, 1.4391087987312392, 2.1099035537090227, 1.2655111176102642, 1.215679449517412, 1.9402783474077958, 1.1591914689223708]}, {"marker": {"colorscale": "earth", "line": {"width": 1}, "size": 10}, "mode": "markers", "name": "Cluster 2", "type": "scatter", "uid": "11d581c8-eb8f-4e51-9377-616d80c64703", "x": [2.352416749617007, 1.7789455429241239, 2.7419189215685806, 3.2542969666910087, 2.5303663528848475, 2.713024373920333, 3.3489885805820827, 4.117166964930113, 4.144128442734934, 3.365925504931609, 2.7126767802176577, 3.0716452299668457, 2.626145460795554, 3.260396716028517, 2.704046991504902, 2.5908477457733863, 2.954011096835367, 4.459950064090985, 3.8292495694565134, 3.133650013321474, 3.2347141020843586, 2.712564719484425, 2.930940444500836, 2.250574247691136, 3.097520332808114, 3.077055667943962, 3.8561582374743364, 3.2083884241573224, 3.6584941723647324, 1.552981826999663, 2.0582838922805013, 3.438549339272359, 2.5844881469164114, 3.144457216146696, 2.9252939819963175, 3.2618267746097183, 3.777587166366854, 2.774639251547305, 3.242616177341212, 2.563743753043598, 2.7487294763078567, 3.491196196423806, 3.9291344048443984, 2.815295465726681, 3.627996201678905, 2.9427292151000963, 3.0272724323442395, 2.7552216641236607, 3.4963356540709185], "y": [0.1001399633176964, -0.17231476210599123, -0.3708572450124121, -0.2575634586273758, -0.365988656979526, 0.463874135363863, -0.3455621586947326, -0.1419730790545536, -0.6472132363130785, -0.3404106443485414, -0.2874643821471797, -0.2798059414046033, -0.36823287065160587, -0.48109080354364864, -0.4774598475326867, -1.1574998663047427, -0.5578514991369744, -0.6354790078086786, -1.2623296179738288, -1.5646461381567822, -2.035324428431755, -2.3538795989707273, -2.0419835289911696, -1.5279561439356462, -2.133481760037997, -0.4047909747456704, -1.792089432191093, -1.9188278825537155, -1.3025808161988164, -3.5190931117062814, -2.4075461028315153, -0.7305432433939159, -1.1713283863621025, -0.5490358406118718, -0.6926568440345039, -1.5485905677360545, -0.8723115459283661, -2.5887046452161533, -1.2678478947047265, -2.0749092700782437, -2.585082043781418, 0.2594602007965165, -0.8373860282192286, -2.189336141261738, -2.206617014001004, -1.7522632018638848, -2.756040238792648, -2.293784082205701, -2.76060799009587]}],
+                        {"autosize": false, "height": 700, "title": {"font": {"size": 25}, "text": "KMeans Cluster"}, "width": 700, "xaxis": {"title": {"text": "component_1 (39.54% variance explained)"}, "zeroline": false}, "yaxis": {"title": {"text": "component_2 (17.84% variance explained)"}, "zeroline": false}},
+                        {"showLink": false, "linkText": "Export to plot.ly", "plotlyServerURL": "https://plot.ly", "responsive": true}
+                    ).then(function(){
+
+var gd = document.getElementById('3c9b3122-2388-4a34-bb26-48758a5a5eaa');
+var x = new MutationObserver(function (mutations, observer) {{
+        var display = window.getComputedStyle(gd).display;
+        if (!display || display === 'none') {{
+            console.log([gd, 'removed!']);
+            Plotly.purge(gd);
+            observer.disconnect();
+        }}
+}});
+
+// Listen for the removal of the full notebook cells
+var notebookContainer = gd.closest('#notebook-container');
+if (notebookContainer) {{
+    x.observe(notebookContainer, {childList: true});
+}}
+
+// Listen for the clearing of the current output cell
+var outputEl = gd.closest('.output');
+if (outputEl) {{
+    x.observe(outputEl, {childList: true});
+}}
+
+                        })
+                };
+                });
+            </script>
+        </div></div>
+</div>
+</div>
+<div class="section" id="KMeans---Selecting-number-of-clusters">
+<h2>KMeans - Selecting number of clusters<a class="headerlink" href="#KMeans---Selecting-number-of-clusters" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">cluster</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;n_clusters&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&#39;[None] not found in axis&#39;
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<script type="text/javascript">
+window.PlotlyConfig = {MathJaxConfig: 'local'};
+if (window.MathJax) {MathJax.Hub.Config({SVG: {font: "STIX-Web"}});}
+if (typeof require !== 'undefined') {
+require.undef("plotly");
+requirejs.config({
+    paths: {
+        'plotly': ['https://cdn.plot.ly/plotly-latest.min']
+    }
+});
+require(['plotly'], function(Plotly) {
+    window._Plotly = Plotly;
+});
+}
+</script></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+
+
+            <div id="55d11419-b2f6-4c7d-acd1-bcda4637dd5a" class="plotly-graph-div" style="height:700px; width:700px;"></div>
+            <script type="text/javascript">
+                require(["plotly"], function(Plotly) {
+                    window.PLOTLYENV=window.PLOTLYENV || {};
+                    window.PLOTLYENV.BASE_URL='https://plot.ly';
+
+                if (document.getElementById("55d11419-b2f6-4c7d-acd1-bcda4637dd5a")) {
+                    Plotly.newPlot(
+                        '55d11419-b2f6-4c7d-acd1-bcda4637dd5a',
+                        [{"marker": {"colorscale": "earth", "line": {"width": 1}, "size": 10}, "mode": "markers", "name": "Cluster 0", "type": "scatter", "uid": "f83f4ca4-97ac-4cbb-8f47-12b976d920de", "x": [-3.5229339030817917, -2.5288580618463667, -2.785028984152025, -3.9225884077761344, -1.4075111119787491, -3.2881298147971276, -2.7505775413676363, -2.3928665198696386, -2.7952563305466684, -3.0055966640025806, -3.6786885545469126, -2.1096347671767877, -2.4384563616447075, -3.6734945318518655, -4.441575750799966, -2.6089238700112456, -2.4754284592737474, -2.226232434638652, -3.742269291543671, -2.3944114998317905, -3.3365689534243863, -1.4814039908115535, -2.828068672786215, -2.0077140461407557, -2.114636036069496, -1.3975375070423453, -2.1334880279339385, -1.6297038265623078, -2.5076075276115586, -2.559483178805786, -2.772444524957208, -2.935133741065427, -1.9912484163578472, -2.245709866282269, -1.786986277273288, -2.2276386659731715, -1.768028471599826, -1.5231779814686102, -1.8723649422225406, -2.797114343709258, -2.840935693150022, -1.1055721019048317, -3.306894824061966, -0.904798423422243, -2.3968356897732557, -1.5378123476239929, -2.9912164379372026, -3.0593163136602546, -2.318771457130335, -2.9594722867527703, -3.4121813013449382, -3.116378266983419, -3.7002111349385163, -2.537548275987768, -2.4447892385945216, -2.7228145085222035, -2.985316773607035, -2.488146899219527, -3.351286650943401, 0.8749250405094338, -0.012296860656526841, -1.8331012233314883, 0.574535949211862, -0.7914711563862609, -2.020031475359557, -0.1432809798662307, -1.7403257308074194, -1.4919777857723628, 0.6939668586318597, -2.299457157208585, -1.6341313770491808, 0.8289993211530102, -0.3004317546738361, -1.0960485224074576, -0.31921973891355365, -0.6712575723174736, -0.9241109081104659, 0.46749204359158514, -0.7182232497559671, -0.6982960422675988, 0.7645743933746579, 0.5282492286427195, 0.5214242504129982, -0.6533042815881046, -0.8361451004306529, -2.260607323549395, 0.5554728283313032, -0.9149965048608714, -2.0209834709963412, -1.2654267654096187, -0.7014322859995962, 0.5308697853638039, 0.1761567182781067, 0.6427419694693175, -0.3377061432112835, 0.35877264204089027, -0.03009625701485336, -1.4094023621799239, -1.2182444358065994, 0.28831461935513897, 0.45161818890488586, 0.47183885648253904, -0.4233990896377012, 0.26437652725350286, 0.13745846640962997, 0.5307449841402215, -0.6412873530902893, -1.1843669061085862, 0.45864794388364966, -0.846107223272576, 0.11653671785625787, 0.007086700003461973, 0.47860169415181425], "y": [-1.4530984395358346, 0.3300192515214125, -1.036935952588962, -2.7682102618438553, -0.8677730872653784, -2.1301751291512523, -1.1791699854280013, -1.6112823206534388, -0.9231795169155206, -0.7962841694225445, -1.312523420767556, -0.6129819864028375, -0.6785233100295305, -1.1401213551662503, -2.110319170328118, -1.6664180107095607, -2.330896716738476, -1.6335901618386286, -2.528405266198828, -1.0645294568044452, -0.7960127940285904, -0.24008547418839268, 0.08685755238892397, 0.5156164866057932, 0.31592056924498324, -0.9382152852892927, -0.6871020460371798, 0.09118403034427085, -0.6927498334195386, -0.1954728996989226, -1.2463527918093686, -1.4782788337335762, -0.05325201449517835, -1.634669104870862, -0.6974803860124382, -0.17928891851084064, -0.6578723083726209, -0.11222505343923592, 0.7693057594963639, -1.8088088734120145, -0.7861615668759255, -0.16588492491652254, -1.1639554686140816, -0.3260724324592802, 0.06690594469848747, -1.7750776504276333, -1.1976225474089819, -0.6538219576136098, -1.2502366806982612, -1.7586036491081627, -0.17691580638574464, -0.7521087340243355, -1.6230918691251996, -1.8785279338760295, -1.020715155613374, -1.3352436903312168, -1.4436375861800792, -1.2154925032589694, -1.7406028303764618, 3.0777238292242015, 1.2626958918547175, 1.9133860842519343, 1.9111509684836925, 0.7587255185081002, 1.8721314194480656, 2.425756910761294, 1.3910081469602906, 0.9479270814536046, 1.066863319330408, -0.27435850687419433, 1.2773898037548965, 2.44770578898885, 2.1510645612464763, 0.7626428212465033, 1.0247704280518113, 3.370524964886798, 1.445106615399056, 2.3837655731811545, 1.4681139435689572, 2.0222341663915158, 2.2375041407905245, 2.37569723350345, 2.660383859685351, 2.3083929653195123, 2.2175488795631044, -0.18428636996603254, 0.3701273267849951, 2.5596393442213907, 1.4202204126787736, 2.1584825070923364, 2.3722159154054134, 2.295355050469966, 1.1647900275956182, 2.6822895258703707, 2.0963966766393463, 2.170818617348034, 2.304507740267414, 1.4531115823371221, 1.408192823047817, 1.9312264114506341, 2.2710070558385214, 1.9413811889855555, 3.8689936073788767, 2.8219160832036936, 1.9284535272304644, 2.22441679906472, 1.4043127168703895, -0.26095739713281085, 0.6198884845142811, 1.4391087987312392, 2.1099035537090227, 1.2655111176102642, 1.9402783474077958]}, {"marker": {"colorscale": "earth", "line": {"width": 1}, "size": 10}, "mode": "markers", "name": "Cluster 1", "type": "scatter", "uid": "56b21035-e855-4de6-985a-b2cc659c8e0d", "x": [1.414660758390599, 1.7138791555721427, 0.7515076649843829, 1.4763004083985474, 1.3611781956286604, 2.352416749617007, 1.037855074648828, 1.2533585938573946, 1.4607092605337513, 1.7912462937913698, 1.637211545576051, 1.513118742703068, 1.1960976186198646, 2.2504766336669073, 1.1069419459472476, 1.495308629377787, 1.6641446188588769, 1.7789455429241239, 2.7419189215685806, 3.2542969666910087, 2.5303663528848475, 2.713024373920333, 3.3489885805820827, 4.117166964930113, 4.144128442734934, 3.365925504931609, 2.7126767802176577, 3.0716452299668457, 2.626145460795554, 3.260396716028517, 2.704046991504902, 2.5908477457733863, 2.954011096835367, 4.459950064090985, 3.8292495694565134, 3.133650013321474, 3.2347141020843586, 2.712564719484425, 2.930940444500836, 2.250574247691136, 3.097520332808114, 3.077055667943962, 3.8561582374743364, 3.2083884241573224, 3.6584941723647324, 1.552981826999663, 2.0582838922805013, 3.438549339272359, 2.5844881469164114, 3.144457216146696, 2.9252939819963175, 3.2618267746097183, 3.777587166366854, 2.774639251547305, 3.242616177341212, 2.563743753043598, 2.7487294763078567, 3.491196196423806, 3.9291344048443984, 2.815295465726681, 3.627996201678905, 2.9427292151000963, 3.0272724323442395, 2.7552216641236607, 3.4963356540709185], "y": [1.3899542041903954, 0.838856075050148, 0.22520901675074936, 0.8922485862943279, 1.3903462660428083, 0.1001399633176964, 1.8078679876637718, 2.124756386790704, 1.8596994046367539, 1.5691632317562567, 1.7263642466768538, 1.3633562761628062, 0.7704426230116233, 1.269325293905387, 0.6694970022937176, 1.215679449517412, 1.1591914689223708, -0.17231476210599123, -0.3708572450124121, -0.2575634586273758, -0.365988656979526, 0.463874135363863, -0.3455621586947326, -0.1419730790545536, -0.6472132363130785, -0.3404106443485414, -0.2874643821471797, -0.2798059414046033, -0.36823287065160587, -0.48109080354364864, -0.4774598475326867, -1.1574998663047427, -0.5578514991369744, -0.6354790078086786, -1.2623296179738288, -1.5646461381567822, -2.035324428431755, -2.3538795989707273, -2.0419835289911696, -1.5279561439356462, -2.133481760037997, -0.4047909747456704, -1.792089432191093, -1.9188278825537155, -1.3025808161988164, -3.5190931117062814, -2.4075461028315153, -0.7305432433939159, -1.1713283863621025, -0.5490358406118718, -0.6926568440345039, -1.5485905677360545, -0.8723115459283661, -2.5887046452161533, -1.2678478947047265, -2.0749092700782437, -2.585082043781418, 0.2594602007965165, -0.8373860282192286, -2.189336141261738, -2.206617014001004, -1.7522632018638848, -2.756040238792648, -2.293784082205701, -2.76060799009587]}],
+                        {"autosize": false, "height": 700, "title": {"font": {"size": 25}, "text": "KMeans Cluster"}, "width": 700, "xaxis": {"title": {"text": "component_1 (39.54% variance explained)"}, "zeroline": false}, "yaxis": {"title": {"text": "component_2 (17.84% variance explained)"}, "zeroline": false}},
+                        {"showLink": false, "linkText": "Export to plot.ly", "plotlyServerURL": "https://plot.ly", "responsive": true}
+                    ).then(function(){
+
+var gd = document.getElementById('55d11419-b2f6-4c7d-acd1-bcda4637dd5a');
+var x = new MutationObserver(function (mutations, observer) {{
+        var display = window.getComputedStyle(gd).display;
+        if (!display || display === 'none') {{
+            console.log([gd, 'removed!']);
+            Plotly.purge(gd);
+            observer.disconnect();
+        }}
+}});
+
+// Listen for the removal of the full notebook cells
+var notebookContainer = gd.closest('#notebook-container');
+if (notebookContainer) {{
+    x.observe(notebookContainer, {childList: true});
+}}
+
+// Listen for the clearing of the current output cell
+var outputEl = gd.closest('.output');
+if (outputEl) {{
+    x.observe(outputEl, {childList: true});
+}}
+
+                        })
+                };
+                });
+            </script>
+        </div></div>
+</div>
+</div>
+<div class="section" id="KMeans-static-plot-using-a-different-metric-for-optimal-clusters">
+<h2>KMeans static plot using a different metric for optimal clusters<a class="headerlink" href="#KMeans-static-plot-using-a-different-metric-for-optimal-clusters" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">cluster</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="s1">&#39;Target&#39;</span><span class="p">,</span> <span class="n">interactive</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">elbow</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">analysis</span><span class="o">=</span><span class="s1">&#39;adjusted_rand_score&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/_notebooks_cluster_analysis_18_0.png" src="../_images/_notebooks_cluster_analysis_18_0.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+The `figure_or_data` positional argument must be `dict`-like, `list`-like, or an instance of plotly.graph_objs.Figure
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;seaborn.axisgrid.FacetGrid at 0x7f952d95fbe0&gt;
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/_notebooks_cluster_analysis_18_3.png" src="../_images/_notebooks_cluster_analysis_18_3.png" />
+</div>
+</div>
+</div>
+<div class="section" id="HDBSCAN-with-t-SNE-selected">
+<h2>HDBSCAN with t-SNE selected<a class="headerlink" href="#HDBSCAN-with-t-SNE-selected" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">cluster</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;HDBSCAN&#39;</span><span class="p">,</span> <span class="n">dim_method</span><span class="o">=</span><span class="s1">&#39;tsne&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&#39;TSNE&#39; object has no attribute &#39;explained_variance_ratio_&#39;
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<script type="text/javascript">
+window.PlotlyConfig = {MathJaxConfig: 'local'};
+if (window.MathJax) {MathJax.Hub.Config({SVG: {font: "STIX-Web"}});}
+if (typeof require !== 'undefined') {
+require.undef("plotly");
+requirejs.config({
+    paths: {
+        'plotly': ['https://cdn.plot.ly/plotly-latest.min']
+    }
+});
+require(['plotly'], function(Plotly) {
+    window._Plotly = Plotly;
+});
+}
+</script></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+
+
+            <div id="9e3dd9c1-1626-4b37-b231-caf603f10961" class="plotly-graph-div" style="height:700px; width:700px;"></div>
+            <script type="text/javascript">
+                require(["plotly"], function(Plotly) {
+                    window.PLOTLYENV=window.PLOTLYENV || {};
+                    window.PLOTLYENV.BASE_URL='https://plot.ly';
+
+                if (document.getElementById("9e3dd9c1-1626-4b37-b231-caf603f10961")) {
+                    Plotly.newPlot(
+                        '9e3dd9c1-1626-4b37-b231-caf603f10961',
+                        [{"marker": {"colorscale": "earth", "line": {"width": 1}, "size": 10}, "mode": "markers", "name": "Cluster 1", "type": "scatter", "uid": "21536fcb-c847-4025-9286-cf4a5fe13730", "x": [8.647660255432129, 5.730013847351074, 4.12396764755249, 7.117661476135254, 0.943736732006073, 6.29520320892334, 5.422388553619385, 2.3574728965759277, 6.044917583465576, 6.599316120147705, 5.282534599304199, 4.755319118499756, 4.740365505218506, 2.897219181060791, 2.7056946754455566, 2.444744110107422, 5.864354610443115, 7.993971347808838, 8.462653160095215, 5.469542980194092, 5.219603061676025, 3.595487594604492, 3.308157444000244, 3.763378381729126, 4.870127201080322, 1.7907190322875977, 5.80232572555542, 3.5442111492156982, 5.195975303649902, 3.8888769149780273, 2.8123390674591064, 4.0305023193359375, 2.2933459281921387, 3.1998748779296875, 4.889477252960205, 8.0276460647583, 6.449889183044434, 6.945399761199951, 7.077517986297607, 7.178927421569824, 7.235828399658203, 6.986680030822754, 4.870903491973877, 5.878551006317139, 4.742729187011719, 7.300142288208008, 2.7510318756103516, 7.414036750793457, 4.602499961853027, 7.730129241943359, 3.5218679904937744, 6.65806770324707, 1.2680881023406982, -2.3675649166107178, -1.6546047925949097, -3.5624868869781494, -2.1198410987854004, -1.1632914543151855, 0.5603252053260803, -3.1644349098205566, -1.6084604263305664, 0.04836076498031616, -0.2522266209125519, -0.03703581169247627, -1.236975908279419, -0.848731279373169, -0.21074387431144714, -0.5916303396224976, -1.9140371084213257, -2.9595847129821777, -2.7089874744415283, 1.3286329507827759, -0.9882994294166565, -1.6086012125015259, -1.6593050956726074, -1.6175450086593628, -0.665134608745575, 0.25303158164024353, 0.5760814547538757, 0.779490053653717, -1.3398756980895996, -0.5315757989883423, -0.22615009546279907, 1.7512290477752686, 0.5699784755706787, 1.0935348272323608, 0.4473939538002014], "y": [-10.653434753417969, -8.485347747802734, -12.641194343566895, -13.17750358581543, -9.886226654052734, -13.319784164428711, -10.487698554992676, -11.096858978271484, -10.572216987609863, -11.07128620147705, -13.277019500732422, -9.945886611938477, -10.575764656066895, -11.725768089294434, -12.618163108825684, -12.336614608764648, -14.055243492126465, -8.597744941711426, -10.470221519470215, -6.531862735748291, -9.29853630065918, -8.468629837036133, -8.348408699035645, -10.425250053405762, -8.320961952209473, -10.289005279541016, -9.818411827087402, -13.105240821838379, -12.985105514526367, -9.699735641479492, -9.93604564666748, -8.93370532989502, -9.840397834777832, -9.421177864074707, -8.142512321472168, -10.846315383911133, -6.754228115081787, -11.689424514770508, -9.991988182067871, -7.398904800415039, -9.10047721862793, -10.815400123596191, -12.022258758544922, -12.82491397857666, -11.349601745605469, -12.715887069702148, -11.832383155822754, -10.17963695526123, -12.580779075622559, -10.900716781616211, -11.2742280960083, -12.457372665405273, -2.004579782485962, 0.7931893467903137, 2.7834839820861816, 2.276393175125122, -0.2400677353143692, -0.26565369963645935, 4.582808017730713, 9.531450271606445, 0.018185138702392578, 4.91793966293335, 4.21287727355957, 3.5633320808410645, 4.69364595413208, 4.71058988571167, -0.27256298065185547, -1.4036425352096558, -0.6508412957191467, 0.012006757780909538, 1.614199161529541, 1.2661675214767456, 1.4548817873001099, 0.9144902229309082, 1.7289786338806152, 4.643093585968018, 1.1682226657867432, 1.3148307800292969, 3.876737356185913, 2.909444570541382, 1.4090949296951294, 2.2727668285369873, 0.8173345327377319, 0.07798502594232559, 1.4817780256271362, 1.5959559679031372, 2.438549518585205]}, {"marker": {"color": "grey", "line": {"width": 1}, "size": 10}, "mode": "markers", "name": "Noise", "type": "scatter", "uid": "8745f7fc-1501-472e-815b-426d9d63d0ef", "x": [7.472402572631836, 7.193795680999756, 0.30775949358940125, 1.4819388389587402, 8.537307739257812, 6.459817409515381, 8.775951385498047, -4.766956329345703, -4.83928918838501, -4.940737724304199, -3.763561725616455, -1.0971930027008057, 0.041388530284166336, -2.3444149494171143, -4.96212100982666, -2.7314939498901367, -3.1477255821228027, 1.5961381196975708, -0.2687065005302429, -0.13244479894638062, -3.5383973121643066, -3.479552984237671, -2.718637466430664, 2.8878531455993652, 1.9016668796539307, 0.9858430624008179, -1.709246277809143, -2.6768910884857178, -8.105596542358398, -1.142494797706604, 0.6311285495758057, -1.514676809310913, 1.9287312030792236, 3.7846901416778564, 0.058009058237075806, 1.6855885982513428, -4.375972747802734, -0.3608931303024292, 3.072967052459717, 3.9207262992858887, 3.638962507247925, 2.119908332824707, 2.2874345779418945, -8.333891868591309, -8.400984764099121, -5.996142864227295, -4.142518520355225, -8.520931243896484, -5.552502155303955, -10.46942138671875, -10.978157043457031, -8.782078742980957, -4.654258728027344, -11.352472305297852, -11.208511352539062, -9.911507606506348], "y": [-14.744175910949707, -14.414655685424805, -9.773685455322266, -11.938981056213379, -8.71618366241455, -6.634581565856934, -12.973628044128418, 1.4913042783737183, 5.744771957397461, 5.9821295738220215, 0.9534810781478882, -2.326751470565796, 5.911600589752197, -2.1074934005737305, 5.741134166717529, -6.143948554992676, 4.708282470703125, -5.564915657043457, -10.589695930480957, -2.5210800170898438, 0.4682500958442688, 4.007436752319336, -6.1590681076049805, 1.5528959035873413, -1.074319839477539, 4.776557445526123, 5.027807235717773, -6.289041519165039, 6.846749782562256, -2.5154130458831787, -0.71409672498703, 5.78511905670166, -1.0983144044876099, -0.7763814330101013, 6.563459396362305, 5.653099060058594, 7.854109287261963, -9.006950378417969, 2.1882455348968506, 0.5658204555511475, -0.25181788206100464, 4.217418193817139, 2.713857889175415, 8.508910179138184, 9.43184757232666, 9.129143714904785, 13.147297859191895, 15.009623527526855, 13.407787322998047, 14.427309036254883, 14.146800994873047, 10.942136764526367, 14.200298309326172, 12.097098350524902, 12.105986595153809, 15.101569175720215]}, {"marker": {"colorscale": "earth", "line": {"width": 1}, "size": 10}, "mode": "markers", "name": "Cluster 0", "type": "scatter", "uid": "37ab4ca4-4e78-4fab-ad6c-d6a6c8b96796", "x": [-8.140902519226074, -8.322392463684082, -6.203655242919922, -4.5539703369140625, -5.91420316696167, -4.224084377288818, -4.75235652923584, -6.488650798797607, -4.494149684906006, -5.398029804229736, -6.812531471252441, -6.705352306365967, -7.822184085845947, -9.318724632263184, -10.203672409057617, -9.465124130249023, -6.497241497039795, -7.542362213134766, -6.993165493011475, -5.2691969871521, -4.6416544914245605, -7.021105766296387, -8.348780632019043, -6.025033950805664, -9.110233306884766, -8.038414001464844, -9.525856971740723, -7.126252174377441, -8.149888038635254, -8.60496711730957, -6.398561954498291, -7.94596529006958, -8.755437850952148, -9.537492752075195, -7.423050403594971], "y": [9.654513359069824, 9.911301612854004, 9.84376335144043, 12.81711483001709, 11.815389633178711, 11.467911720275879, 11.061189651489258, 10.728378295898438, 11.256922721862793, 12.403948783874512, 11.300917625427246, 13.050509452819824, 12.857084274291992, 14.2852144241333, 14.126763343811035, 12.12527847290039, 13.988192558288574, 13.363344192504883, 12.632139205932617, 11.358283042907715, 11.515487670898438, 10.90937328338623, 12.469134330749512, 12.756543159484863, 13.754240989685059, 12.175544738769531, 13.501557350158691, 10.471951484680176, 11.641919136047363, 12.727972984313965, 13.802958488464355, 13.548124313354492, 14.281305313110352, 12.749191284179688, 14.436633110046387]}],
+                        {"autosize": false, "height": 700, "title": {"font": {"size": 25}, "text": "HDBSCAN Cluster"}, "width": 700, "xaxis": {"title": {"text": "ts1"}, "zeroline": false}, "yaxis": {"title": {"text": "ts2"}, "zeroline": false}},
+                        {"showLink": false, "linkText": "Export to plot.ly", "plotlyServerURL": "https://plot.ly", "responsive": true}
+                    ).then(function(){
+
+var gd = document.getElementById('9e3dd9c1-1626-4b37-b231-caf603f10961');
+var x = new MutationObserver(function (mutations, observer) {{
+        var display = window.getComputedStyle(gd).display;
+        if (!display || display === 'none') {{
+            console.log([gd, 'removed!']);
+            Plotly.purge(gd);
+            observer.disconnect();
+        }}
+}});
+
+// Listen for the removal of the full notebook cells
+var notebookContainer = gd.closest('#notebook-container');
+if (notebookContainer) {{
+    x.observe(notebookContainer, {childList: true});
+}}
+
+// Listen for the clearing of the current output cell
+var outputEl = gd.closest('.output');
+if (outputEl) {{
+    x.observe(outputEl, {childList: true});
+}}
+
+                        })
+                };
+                });
+            </script>
+        </div></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="topic_modeling.html" class="btn btn-neutral float-right" title="Topic Modeling" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="scatter_plots.html" class="btn btn-neutral float-left" title="Scatter Plots" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
