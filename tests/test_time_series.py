@@ -89,13 +89,17 @@ def test_decompose_timeseries(compute_time_data):
 
 
 def test_compute_autocorrelation(compute_time_data):
-    data = compute_autocorrelation(compute_time_data["var"], n_lags=1, plot_type="pacf")
+    data, white_noise = compute_autocorrelation(
+        compute_time_data["var"], n_lags=1, plot_type="pacf"
+    )
     assert len(data) == 2
+    assert isinstance(white_noise, float)
 
-    data = compute_autocorrelation(
+    data, white_noise = compute_autocorrelation(
         compute_time_data["var"], n_lags=1, plot_type="acf", fft=False
     )
     assert len(data) == 15
+    assert isinstance(white_noise, float)
 
 
 # NOTE: decomposition object in modin does not preserve index

@@ -66,27 +66,47 @@ def viz_decomposition(result, dates, title="Time Series Decomposition"):
     return fig
 
 
-def viz_plot_autocorrelation(data, plot_type="acf", title="Autocorrelation Plot"):
+def viz_plot_autocorrelation(
+    data, white_noise, n_lags, plot_type="acf", title="Autocorrelation Plot"
+):
     """Create timeseries autocorrelation visualization
 
     Args:
         data: numpy.ndarray containing the correlations
+        white_noise: Significance threshold
         plot_type: Choose between 'acf' or 'pacf. Defaults to "pacf".
         title: Title of the plot. Defaults to "Autocorrelation Plot".
 
-    Raises:
-        ValueError: [description]
-
     Returns:
-        [type]: [description]
+        fig: The visualization
     """
     if plot_type == "acf":
-        data = [go.Bar(y=data)]
+        data = [go.Bar(y=data, showlegend=False)]
     elif plot_type == "pacf":
-        data = [go.Bar(y=data)]
+        data = [go.Bar(y=data, showlegend=False)]
     else:
         raise ValueError("Unsupported input data type")
-    fig = go.Figure(data=data, layout=figure_layout(title))
+
+    fig = go.Figure(data=data, layout=figure_layout(title, "Lags", plot_type))
+    fig.add_trace(
+        go.Scatter(
+            x=[i for i in range(n_lags + 1)],
+            y=[white_noise for i in range(n_lags + 1)],
+            mode="lines",
+            name="95% Confidence",
+            line={"dash": "dash"},
+        )
+    )
+
+    fig.add_trace(
+        go.Scatter(
+            x=[i for i in range(n_lags + 1)],
+            y=[-white_noise for i in range(n_lags + 1)],
+            mode="lines",
+            line={"dash": "dash", "color": "red"},
+            showlegend=False,
+        )
+    )
     return fig
 
 
@@ -99,7 +119,7 @@ def figure_layout(title="Time Series", xlabel="Date", ylabel="Variable"):
         ylabel; y-axis label. Defaults to "Variable".
 
     Returns:
-        [type]: [description]
+        layour: The plotly layout
     """
     layout = go.Layout(
         title={"text": title, "font": {"size": 25}},
