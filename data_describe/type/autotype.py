@@ -24,7 +24,7 @@ def guess_dtypes(df, strict=True, sample_size=100, random_state=1, types=None):
         types: The type classes
 
     Returns:
-
+        Dictionary containing data types for each column
     """
     if not isinstance(df, pd.DataFrame):
         raise ValueError("df must be a Pandas Data Frame.")
