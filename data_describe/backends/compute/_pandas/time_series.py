@@ -3,6 +3,7 @@ import warnings
 from statsmodels.tsa.seasonal import seasonal_decompose
 from statsmodels.tsa.stattools import acf, pacf, adfuller, kpss
 import pandas as pd
+import numpy as np
 
 
 def compute_stationarity_test(
@@ -13,8 +14,9 @@ def compute_stationarity_test(
 
     Args:
         timeseries: Series containing a datetime index
-        regression: Constant and trend order to include in regression. Choose between 'c','ct','ctt', and 'nc'
         test: Choice of stationarity test. "kpss" or "dickey-fuller". Defaults to "dickey-fuller".
+        regression: Constant and trend order to include in regression. Choose between 'c','ct','ctt', and 'nc'
+        **kwargs: Keyword arguments for adf and kpss
 
     Returns:
         st: Pandas dataframe containing the statistics
@@ -28,7 +30,7 @@ def compute_stationarity_test(
     return st
 
 
-def adf_test(timeseries, autolag="AIC", regression="c"):
+def adf_test(timeseries, autolag="AIC", regression="c", **kwargs):
     """Compute the Augmented Dickey-Fuller (ADF) test for stationarity
     Backend uses statsmodels.tsa.stattools.adfuller
 
@@ -36,11 +38,12 @@ def adf_test(timeseries, autolag="AIC", regression="c"):
         timeseries: The timeseries
         autolag: Method to use when determining the number of lags. Defaults to 'AIC'. Choose between 'AIC', 'BIC', 't-stat', and None
         regression: Constant and trend order to include in regression. Choose between 'c','ct','ctt', and 'nc'
+        **kwargs: Keyword arguments for adfuller
 
     Returns:
         Pandas dataframe containing the statistics
     """
-    test = adfuller(timeseries, autolag=autolag, regression=regression)
+    test = adfuller(timeseries, autolag=autolag, regression=regression, **kwargs)
     adf_output = pd.Series(
         test[0:4],
         index=[
@@ -55,7 +58,7 @@ def adf_test(timeseries, autolag="AIC", regression="c"):
     return pd.DataFrame(adf_output, columns=["stats"])
 
 
-def kpss_test(timeseries, regression="c", nlags=None):
+def kpss_test(timeseries, regression="c", nlags=None, **kwargs):
     """Compute the Kwiatkowski–Phillips–Schmidt–Shin (KPSS) test for stationarity.
     Backend uses statsmodels.tsa.stattools.kpss
 
@@ -65,6 +68,7 @@ def kpss_test(timeseries, regression="c", nlags=None):
             'c' : The data is stationary around a constant (default).
             'ct' : The data is stationary around a trend.
         nlags:  Indicates the number of lags to be used. Defaults to None.
+        **kwargs: Keyword arguments for kpss
 
     Returns:
         Pandas dataframe containing the statistics
@@ -75,7 +79,7 @@ def kpss_test(timeseries, regression="c", nlags=None):
             category=FutureWarning,
             message="The behavior of using lags=None will change in the next release.",
         )
-        test = kpss(timeseries, regression="c")
+        test = kpss(timeseries, regression="c", **kwargs)
     kpss_output = pd.Series(test[0:3], index=["Test Statistic", "p-value", "Lags Used"])
     for key, value in test[3].items():
         kpss_output["Critical Value (%s)" % key] = value
@@ -83,37 +87,41 @@ def kpss_test(timeseries, regression="c", nlags=None):
 
 
 # NOTE: decomposition object in modin does not preserve datetime index.
-def compute_decompose_timeseries(df, col, model="additive"):
+def compute_decompose_timeseries(df, col, model="additive", **kwargs):
     """Seasonal decomposition using moving averages
 
     Args:
         df: The dataframe
         col: The col of interest. Must be numeric datatype
         model: Type of seasonal component. Defaults to "additive".
+        **kwargs: Keyword arguments
 
     Returns:
         result: statsmodels.tsa.seasonal.DecomposeResult object
     """
-    return seasonal_decompose(df[col], model=model)
+    return seasonal_decompose(df[col], model=model, **kwargs)
 
 
-# check kwargs are passed
-def compute_autocorrelation(timeseries, plot_type="acf", n_lags=40, fft=False):
+def compute_autocorrelation(
+    timeseries, n_lags=40, plot_type="acf", fft=False, **kwargs
+):
     """Correlation estimate using partial autocorrelation or autocorrelation
 
     Args:
         timeseries: Series object containing datetime index
-        plot_type: Choose between 'acf' or 'pacf. Defaults to "acf".
         n_lags: Number of lags to return autocorrelation for. Defaults to 40.
+        plot_type: Choose between 'acf' or 'pacf. Defaults to "acf".
         fft: If True, computes ACF via fourier fast transform (FFT). Defaults to False.
+        **kwargs: Keyword arguments
 
     Returns:
         data: numpy.ndarray containing the correlations
     """
     if plot_type == "pacf":
-        data = pacf(timeseries, n_lags)
+        data = pacf(timeseries, n_lags, **kwargs)
     elif plot_type == "acf":
-        data = acf(timeseries, n_lags, fft=fft)
+        data = acf(timeseries, n_lags, fft=fft, **kwargs)
     else:
         raise ValueError("Unsupported input data type")
-    return data
+    white_noise = 1.96 / np.sqrt(len(data))
+    return data, white_noise

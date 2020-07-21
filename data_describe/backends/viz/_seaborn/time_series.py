@@ -5,7 +5,7 @@ import statsmodels.api as sm
 from data_describe.config._config import get_option
 
 
-def viz_plot_time_series(df, col, result=None, decompose=False, **kwargs):
+def viz_plot_time_series(df, col, result=None, decompose=False):
     """Create timeseries visualization
 
     Args:
@@ -23,10 +23,10 @@ def viz_plot_time_series(df, col, result=None, decompose=False, **kwargs):
 
     if isinstance(col, list):
         for i in col:
-            fig = sns.lineplot(x=df.index, y=df[i], legend="full", ax=ax, **kwargs)
+            fig = sns.lineplot(x=df.index, y=df[i], legend="full", ax=ax)
         ax.legend(labels=col)
     elif isinstance(col, str) and not decompose:
-        fig = sns.lineplot(x=df.index, y=df[col], legend="full", ax=ax, **kwargs)
+        fig = sns.lineplot(x=df.index, y=df[col], legend="full", ax=ax)
     elif decompose:
         fig = viz_decomposition(df, result)
         plt.close()
@@ -68,6 +68,7 @@ def viz_plot_autocorrelation(
         timeseries: Series object containing datetime index
         plot_type: Choose between 'acf' or 'pacf. Defaults to "pacf".
         n_lags: Number of lags to return autocorrelation for. Defaults to 40.
+        **kwargs: Keyword arguments for plot_acf and plot_pacf
 
     Returns:
         fig: The visualization
@@ -83,5 +84,7 @@ def viz_plot_autocorrelation(
         fig = sm.graphics.tsa.plot_pacf(timeseries, ax=ax, lags=n_lags, **kwargs)
     else:
         raise ValueError("Unsupported input data type")
+    plt.xlabel("Lags")
+    plt.ylabel(plot_type)
     plt.close()
     return fig

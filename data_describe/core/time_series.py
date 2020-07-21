@@ -20,6 +20,7 @@ def plot_time_series(
         model: Specify seasonal component when decompose is True. Defaults to "additive".
         compute_backend: Select computing backend. Defaults to None (pandas).
         viz_backend: Select visualization backend. Defaults to None (seaborn).
+        **kwargs: Keyword arguments
 
     Returns:
         fig: The visualization
@@ -52,6 +53,7 @@ def stationarity_test(
         test: Choice of stationarity test. "kpss" or "dickey-fuller". Defaults to "dickey-fuller".
         regression: Constant and trend order to include in regression. Choose between 'c','ct','ctt', and 'nc'. Defaults to 'c'
         compute_backend: Select computing backend. Defaults to None (pandas).
+        **kwargs: Keyword arguments
 
     Returns:
         data: Pandas dataframe containing the statistics
@@ -87,6 +89,7 @@ def plot_autocorrelation(
         fft: If True, computes ACF via fourier fast transform (FFT). Defaults to False.
         compute_backend: Select computing backend. Defaults to None (pandas).
         viz_backend: Select visualization backend. Defaults to None (seaborn).
+        **kwargs: Keyword arguments
 
     Returns:
         fig: The visualization
@@ -97,11 +100,13 @@ def plot_autocorrelation(
         if col not in df.columns:
             raise ValueError(f"{col} not found in dataframe")
     if viz_backend == "plotly":
-        data = _get_compute_backend(compute_backend, df).compute_autocorrelation(
+        data, white_noise = _get_compute_backend(
+            compute_backend, df
+        ).compute_autocorrelation(
             df[col], plot_type=plot_type, n_lags=n_lags, fft=fft, **kwargs
         )
         fig = _get_viz_backend(viz_backend).viz_plot_autocorrelation(
-            data, plot_type=plot_type, **kwargs
+            data, plot_type=plot_type, white_noise=white_noise, n_lags=n_lags, **kwargs
         )
     else:
         fig = _get_viz_backend(viz_backend).viz_plot_autocorrelation(
