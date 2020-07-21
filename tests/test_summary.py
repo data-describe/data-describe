@@ -9,15 +9,15 @@ def load_summary(data):
     return dd.data_summary(data), data
 
 
-def test_shape(load_summary):
+def test_shape(load_summary, compute_backend):
     summary, data = load_summary
     assert summary.shape == (9, data.shape[1])
 
 
-def test_cardinality(data):
+def test_cardinality(data, compute_backend):
     assert cardinality(data.d) == 2
     assert cardinality(data.e) == 2
 
 
-def test_pandas_series(data):
+def test_pandas_series(data, compute_backend):
     assert dd.data_summary(data.iloc[:, 0]).shape == (9, 1)
