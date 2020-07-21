@@ -1,10 +1,4 @@
-import seaborn as sns
-import numpy as np
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.inspection import permutation_importance
-import matplotlib.pyplot as plt
-
-from data_describe.utilities.preprocessing import preprocess
+from data_describe.backends import _get_viz_backend, _get_compute_backend
 
 
 def importance(
@@ -14,9 +8,11 @@ def importance(
     estimator=None,
     return_values=False,
     truncate=True,
+    compute_backend=None,
+    viz_backend=None,
     **kwargs
 ):
-    """ Variable importance chart
+    """Variable importance chart.
 
     Uses Random Forest Classifier by default
 
@@ -28,37 +24,19 @@ def importance(
         estimator: A custom sklearn estimator. Default is Random Forest Classifier
         return_values: If True, only the importance values as a numpy array
         truncate: If True, negative importance values will be truncated (set to zero)
+        compute_backend: The compute backend,
+        viz_backend: The visualization backend,
         **kwargs: Other arguments to be passed to the preprocess function
 
     Returns:
         Matplotlib figure
     """
-    if estimator is None:
-        estimator = RandomForestClassifier(random_state=1)
-
-    if preprocess_func is None:
-        X, y = preprocess(data, target, **kwargs)
-    else:
-        X, y = preprocess_func(data, target, **kwargs)
-
-    estimator.fit(X, y)
-    pi = permutation_importance(estimator, X, y, n_repeats=5, random_state=1)
-
-    importance_values = np.array(
-        [max(0, x) if truncate else x for x in pi.importances_mean]
-    )
-
-    idx = importance_values.argsort()[::-1]
-
-    # plt.figure(figsize=(context.fig_width.fig_height)) # TODO (haishiro): Replace with get_option
-    plt.xlabel("Permutation Importance Value")
-    plt.ylabel("Features")
-
-    fig = sns.barplot(
-        y=X.columns[idx], x=importance_values[idx], palette="Blues_d"
-    ).set_title("Feature Importance")
-
+    importance_values, idx, cols = _get_compute_backend(
+        compute_backend, data
+    ).compute_importance(data, target, preprocess_func, estimator, truncate, **kwargs)
     if return_values:
         return importance_values
     else:
-        return fig
+        return _get_viz_backend(viz_backend).viz_importance(
+            importance_values, idx, cols
+        )
