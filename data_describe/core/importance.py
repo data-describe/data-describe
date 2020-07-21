@@ -24,8 +24,8 @@ def importance(
         estimator: A custom sklearn estimator. Default is Random Forest Classifier
         return_values: If True, only the importance values as a numpy array
         truncate: If True, negative importance values will be truncated (set to zero)
-        compute_backend: The compute backend,
-        viz_backend: The visualization backend,
+        compute_backend: The compute backend
+        viz_backend: The visualization backend
         **kwargs: Other arguments to be passed to the preprocess function
 
     Returns:
@@ -34,6 +34,7 @@ def importance(
     importance_values, idx, cols = _get_compute_backend(
         compute_backend, data
     ).compute_importance(data, target, preprocess_func, estimator, truncate, **kwargs)
+
     if return_values:
         return importance_values
     else:
