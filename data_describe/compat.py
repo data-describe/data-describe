@@ -1,5 +1,5 @@
 from functools import wraps
-from typing import Dict, Union
+from typing import Dict
 
 
 _PACKAGE_INSTALLED: Dict[str, bool] = {}
@@ -89,7 +89,6 @@ try:
 
     _PACKAGE_INSTALLED["modin"] = True
     _DATAFRAME_TYPE = (pandas.DataFrame, modin.pandas.DataFrame)
-    _DATAFRAME_STATIC_TYPE = Union[pandas.DataFrame, modin.pandas.DataFrame]
 except ImportError:
     import pandas
 

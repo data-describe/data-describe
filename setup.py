@@ -23,6 +23,7 @@ REQUIRED = [
     "hdbscan>=0.8.20",
     "gcsfs>=0.2.1",
     "plotly>=3.8.1",
+    "pyscagnostics>=0.1.0a4",
     "statsmodels>=0.11.1",
 ]
 
