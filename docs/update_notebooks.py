@@ -6,8 +6,12 @@ import pathlib
 
 
 widget_template = """.. _x-tutorial:
+
 .. note::
+
     This tutorial is intended to be run in an IPython notebook.
+
+
 .. include:: ../_notebooks/x.rst"""
 
 

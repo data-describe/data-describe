@@ -19,5 +19,3 @@ Widgets
    ../_notebooks/text_preprocessing
    ../_notebooks/topic_modeling
 Placeholder
-
-.. _`Data Describe`: https://bitbucket.org/mavenwave/mw-data_describe..
