@@ -9,12 +9,12 @@ import data_describe as dd
 matplotlib.use("Agg")
 
 
-def test_importance(data):
+def test_importance(data, compute_backend):
     importance_vals = dd.importance(data, "d", return_values=True)
     assert len(importance_vals) == data.shape[1] - 1
 
 
-def test_importance_num_only(data):
+def test_importance_num_only(data, compute_backend):
     data = data.select_dtypes(["number"])
     rfr = RandomForestRegressor(random_state=1)
     assert isinstance(
@@ -22,13 +22,13 @@ def test_importance_num_only(data):
     )
 
 
-def test_importance_cat_only(data):
+def test_importance_cat_only(data, compute_backend):
     num_columns = data.select_dtypes(["number"]).columns.values
     data = data[[c for c in data.columns if c not in num_columns]]
     assert len(dd.importance(data, "d", return_values=True)) == data.shape[1] - 1
 
 
-def test_importance_preprocess(data):
+def test_importance_preprocess(data, compute_backend):
     def pre(df, target):
         y = df[target]
         df = df.drop(target, axis=1)
