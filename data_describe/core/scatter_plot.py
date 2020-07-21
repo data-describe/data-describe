@@ -13,19 +13,23 @@ def scatter_plots(
     scatter_kws=None,
     dist_kws=None,
 ):
-    """Scatter plots
+    """Scatter plots.
 
     Args:
         data:  A Pandas data frame
         plot_mode: Default = 'diagnostic"
+
             diagnostic: Choose plots by scatter plot diagnostics
             matrix: Generate the full scatter plot matrix
             all: Generate all individual scatter plots
+
         threshold: The scatter plot diagnostic threshold value [0,1] for returning a plot
+
             If a number: Returns all plots where at least one metric is above this threshold
             If a dictionary: Returns plots where the metric is above its threshold
             For example, {"Outlier": 0.9} returns plots with outlier metrics above 0.9
             The available metrics are: Outlier, Convex, Skinny, Skewed, Stringy, Straight, Monotonic, Clumpy, Striated
+
         joint_kws: Keywords to pass to seaborn.JointGrid
         scatter_kws: Keywords to pass to seaborn.scatterplot
         dist_kws: Keywords to pass to the seaborn.distplot
@@ -100,7 +104,7 @@ def scatter_plots(
 
 
 def scatter_plot(data, x, y, joint_kws=None, scatter_kws=None, dist_kws=None):
-    """Generate one scatter (joint) plot
+    """Generate one scatter (joint) plot.
 
     Args:
         data: A Pandas data frame
@@ -132,11 +136,12 @@ def scatter_plot(data, x, y, joint_kws=None, scatter_kws=None, dist_kws=None):
 
 
 def filter_threshold(metrics, threshold=0.85):
-    """Filter the plots by scatter plot diagnostic threshold
+    """Filter the plots by scatter plot diagnostic threshold.
 
     Args:
         metrics: The metrics dictionary from Scagnostics
         threshold: The scatter plot diagnostic threshold value [0,1] for returning a plot
+
             If a number: Returns all plots where at least one metric is above this threshold
             If a dictionary: Returns plots where the metric is above its threshold
             For example, {"Outlier": 0.9} returns plots with outlier metrics above 0.9

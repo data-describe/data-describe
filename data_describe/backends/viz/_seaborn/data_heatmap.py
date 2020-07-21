@@ -10,7 +10,7 @@ from data_describe.compat import _DATAFRAME_STATIC_TYPE
 def viz_data_heatmap(
     data: _DATAFRAME_STATIC_TYPE, colnames: List[str], missing: bool = False, **kwargs
 ):
-    """Plots the data heatmap
+    """Plots the data heatmap.
 
     Args:
         data: The dataframe

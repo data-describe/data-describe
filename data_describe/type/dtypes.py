@@ -11,10 +11,10 @@ from dateutil.parser import parse, isoparse
 
 
 class BaseType(object):
-    """Base data type, unidentified"""
+    """Base data type, unidentified."""
 
     def __init__(self, weight=0, name="None", result_type=None, null_values=None):
-        """A class to test for data types
+        """A class to test for data types.
 
         Args:
             weight: The relative weight for this data type
@@ -37,7 +37,7 @@ class BaseType(object):
             self._null_values = ["", "na", "n/a", "null"]
 
     def test(self, value):
-        """Test if a given value passes the data type validation rules
+        """Test if a given value passes the data type validation rules.
 
         Args:
             value: The value to be tested
@@ -58,7 +58,7 @@ class BaseType(object):
 
     @staticmethod
     def test_meta(meta):
-        """Given some metadata about the entire feature / column, test if it passes the data type validation rules
+        """Given some metadata about the entire feature / column, test if it passes the data type validation rules.
 
         Args:
             meta: A dictionary containing meta features
@@ -69,7 +69,7 @@ class BaseType(object):
         return False
 
     def cast(self, value):
-        """Cast the value to this data type
+        """Cast the value to this data type.
 
         Args:
             value: The value to be converted
@@ -81,7 +81,7 @@ class BaseType(object):
 
     @classmethod
     def instances(cls):
-        """Return all instances of this type class
+        """Return all instances of this type class.
 
         Returns:
             A list of instances
@@ -90,7 +90,7 @@ class BaseType(object):
 
     @property
     def null_values(self):
-        """Get the null value strings
+        """Get the null value strings.
 
         Returns:
             A list of null value strings
@@ -99,7 +99,7 @@ class BaseType(object):
 
     @null_values.setter
     def null_values(self, value):
-        """Set the null value strings
+        """Set the null value strings.
 
         Args:
             value: A list of strings to be evaluated as null values (ignored)
@@ -107,13 +107,10 @@ class BaseType(object):
         self._null_values = value
 
     def append_null_value(self, value):
-        """Append a string value to be evaluated as a null value
+        """Append a string value to be evaluated as a null value.
 
         Args:
             value: A string for which exact matches will be counted as nulls
-
-        Returns:
-
         """
         self._null_values.append(value)
 
@@ -135,7 +132,7 @@ class BaseType(object):
 
 
 class StringType(BaseType):
-    """String data type"""
+    """String data type."""
 
     def __init__(
         self, weight=2, name="String", result_type=six.string_types, null_values=None
@@ -170,7 +167,7 @@ class CategoryType(StringType):
 
 
 class NumericType(BaseType):
-    """Numeric type for selection"""
+    """Numeric type for selection."""
 
     def __init__(self, weight=0, name="Numeric", result_type=None, null_values=None):
         super().__init__(
@@ -179,7 +176,7 @@ class NumericType(BaseType):
 
 
 class IntegerType(NumericType):
-    """Integer data type"""
+    """Integer data type."""
 
     def __init__(
         self,
@@ -222,7 +219,7 @@ class IntegerType(NumericType):
 
 
 class DecimalType(NumericType):
-    """Decimal or float data type"""
+    """Decimal or float data type."""
 
     def __init__(
         self,
@@ -260,7 +257,7 @@ class DecimalType(NumericType):
 
 
 class BoolType(BaseType):
-    """Boolean data type"""
+    """Boolean data type."""
 
     def __init__(
         self,
@@ -324,7 +321,7 @@ class BoolType(BaseType):
 
 
 class DateTimeType(BaseType):
-    """Date/time data type"""
+    """Date/time data type."""
 
     def __init__(
         self,
@@ -386,7 +383,7 @@ class DateTimeType(BaseType):
 
 
 class ReferenceType(BaseType):
-    """Reference/ID data type"""
+    """Reference/ID data type."""
 
     def __init__(self, weight=0, name="Reference", result_type=None, null_values=None):
         super().__init__(

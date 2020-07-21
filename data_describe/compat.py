@@ -6,6 +6,8 @@ _PACKAGE_INSTALLED: Dict[str, bool] = {}
 
 
 def requires(package_name):
+    """Import required packages."""
+
     def f(func):
         @wraps(func)
         def g(*args, **kwargs):

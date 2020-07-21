@@ -18,7 +18,7 @@ from data_describe import load_data
 
 
 class Scagnostics:
-    """Scatter plot diagnostics
+    """Scatter plot diagnostics.
 
     Computes the scatter plot diagnostics ('scagnostics') for each pair of numeric features.
 
@@ -59,11 +59,11 @@ class Scagnostics:
 
     @property
     def names(self):
-        """list: column names"""
+        """list: column names."""
         return self._colnames
 
     def calculate(self, graphs=False, parallel=True):
-        """ Compute scagnostics for all column pairs
+        """Compute scagnostics for all column pairs.
 
         Args:
             graphs: If True, also return the network graphs and polygons calculated internally
@@ -96,7 +96,7 @@ class Scagnostics:
 
     @staticmethod
     def calculate_metrics(pair, data=None, graphs=False):
-        """ Calculate the 9 scagnostic measures for a single pair of columns
+        """Calculate the 9 scagnostic measures for a single pair of columns.
 
         The metrics are Outlier, Convex, Skinny, Skewed, Stringy, Straight, Monotonic, Clumpy, Striated
 
@@ -182,7 +182,7 @@ class Scagnostics:
 
     @staticmethod
     def hex_bin(x, y):
-        """ Apply hexagon binning to the data
+        """Apply hexagon binning to the data.
 
         Starts with a grid of 40*40 and halves the grid size until there are less than 250 non-empty bins
 
@@ -213,7 +213,7 @@ class Scagnostics:
 
     @staticmethod
     def convert_to_xy_tuples(data):
-        """ Convert arrays of x, y pairs in data into (x, y) tuples
+        """Convert arrays of x, y pairs in data into (x, y) tuples.
 
         Args:
             data: A (n, 2) dimensional array. The 1st column is x-axis data and the 2nd column is y-axis data.
@@ -229,7 +229,7 @@ class Scagnostics:
 
     @staticmethod
     def squared_norm(v):
-        """ Computes the squared norm (squared Euclidean distance) for a vector
+        """Computes the squared norm (squared Euclidean distance) for a vector.
 
         https://github.com/alpha-beta-soup/errorgeopy/blob/master/errorgeopy/utils.py
 
@@ -243,7 +243,7 @@ class Scagnostics:
 
     @staticmethod
     def circumcircle(points, simplex):
-        """ Computes the circumcenter and circumradius of a triangle
+        """Computes the circumcenter and circumradius of a triangle.
 
         https://en.wikipedia.org/wiki/Circumscribed_circle#Circumcircle_equations
         https://github.com/alpha-beta-soup/errorgeopy/blob/master/errorgeopy/utils.py
@@ -286,7 +286,7 @@ class Scagnostics:
 
     @staticmethod
     def get_alpha_complex(alpha, points, simplexes):
-        """ Obtain the alpha shape
+        """Obtain the alpha shape.
 
         https://github.com/alpha-beta-soup/errorgeopy/blob/master/errorgeopy/utils.py
 
@@ -307,7 +307,7 @@ class Scagnostics:
 
     @staticmethod
     def concave_hull(points, minimum_spanning_tree, triangulation=None):
-        """ Computes the concave hull (alpha shape) of a set of points.
+        """Computes the concave hull (alpha shape) of a set of points.
 
         https://github.com/alpha-beta-soup/errorgeopy/blob/master/errorgeopy/utils.py
 
@@ -344,7 +344,7 @@ class Scagnostics:
 
     @staticmethod
     def minimum_spanning_tree(points, triangulation=None):
-        """ Determines the minimum spanning tree for the set of points
+        """Determines the minimum spanning tree for the set of points.
 
         Args:
             points: An array of (x, y) tuples
@@ -387,7 +387,7 @@ class Scagnostics:
 
     @staticmethod
     def get_mst_edges(mst, attr="weight"):
-        """ Get all edges in the minimum spanning tree
+        """Get all edges in the minimum spanning tree.
 
         Args:
             mst: The minimum spanning tree, as a NetworkX graph object
@@ -400,7 +400,7 @@ class Scagnostics:
 
     @staticmethod
     def calculate_omega(weights, pct=75):
-        """ Calculate the omega value to determine alpha shape
+        """Calculate the omega value to determine alpha shape.
 
         Args:
             weights: The edge lengths (weights) from the minimum spanning tree
@@ -413,7 +413,7 @@ class Scagnostics:
 
     @staticmethod
     def longest_shortest_path(mst, where=False):
-        """ Calculate the longest shortest-path in the minimum spanning tree
+        """Calculate the longest shortest-path in the minimum spanning tree.
 
         Each node in the minimum spanning tree has a shortest path to each other node. Compute the longest path
         out of all shortest paths in the spanning tree. This represents the 'diameter' of the minimum spanning tree.
@@ -436,7 +436,7 @@ class Scagnostics:
 
     @staticmethod
     def outlying(minimum_spanning_tree):
-        """ Outlier metric
+        """Outlier metric.
 
         Args:
             minimum_spanning_tree: The minimum spanning tree, as a NetworkX graph object
@@ -456,7 +456,7 @@ class Scagnostics:
 
     @staticmethod
     def convex(alpha_hull, convex_hull):
-        """ Convex metric
+        """Convex metric.
 
         Args:
             alpha_hull: The alpha hull shape, as a Shapely polygon
@@ -471,7 +471,7 @@ class Scagnostics:
 
     @staticmethod
     def skinny(alpha_hull):
-        """ Skinny metric
+        """Skinny metric.
 
         Args:
             alpha_hull: The alpha hull shape, as a Shapely polygon
@@ -483,7 +483,7 @@ class Scagnostics:
 
     @staticmethod
     def stringy(minimum_spanning_tree):
-        """ Stringy metric
+        """Stringy metric.
 
         Args:
             minimum_spanning_tree: The minimum spanning tree, as a NetworkX graph object
@@ -497,7 +497,7 @@ class Scagnostics:
 
     @staticmethod
     def straight(minimum_spanning_tree, triangulation):
-        """ Straight metric
+        """Straight metric.
 
         Args:
             minimum_spanning_tree: The minimum spanning tree, as a NetworkX graph object
@@ -515,7 +515,7 @@ class Scagnostics:
 
     @staticmethod
     def monotonic(array_data):
-        """ Monotonic metric
+        """Monotonic metric.
 
         Args:
             array_data: The (n,2) data array
@@ -527,7 +527,7 @@ class Scagnostics:
 
     @staticmethod
     def skewed(minimum_spanning_tree):
-        """ Skewed metric
+        """Skewed metric.
 
         Args:
             minimum_spanning_tree: The minimum spanning tree, as a NetworkX graph object
@@ -542,7 +542,7 @@ class Scagnostics:
 
     @staticmethod
     def clumpy(minimum_spanning_tree):
-        """ Clumpy metric
+        """Clumpy metric.
 
         Args:
             minimum_spanning_tree: The minimum spanning tree, as a NetworkX graph object
@@ -590,7 +590,7 @@ class Scagnostics:
 
     @staticmethod
     def striated(minimum_spanning_tree, triangulation):
-        """ Striated metric
+        """Striated metric.
 
         Args:
             minimum_spanning_tree: The minimum spanning tree, as a NetworkX graph object
@@ -615,7 +615,7 @@ class Scagnostics:
 
 
 def varying(grp, alpha=0.01):
-    """ Identifies varying box plots (i.e. with different means) using the one-way ANOVA test
+    """Identifies varying box plots (i.e. with different means) using the one-way ANOVA test.
 
     Args:
         grp: The groups from `split_by_category`
@@ -629,7 +629,7 @@ def varying(grp, alpha=0.01):
 
 
 def heteroscedastic(grp, alpha=0.01):
-    """ Identifies heteroscedasticity in box plots using the Brown-Forscythe test
+    """Identifies heteroscedasticity in box plots using the Brown-Forscythe test.
 
     Args:
         grp: The groups from `split_by_category`
