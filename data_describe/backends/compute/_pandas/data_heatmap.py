@@ -1,13 +1,13 @@
-from typing import Tuple, List
+from typing import Tuple, List, Any
 
 from sklearn.preprocessing import StandardScaler
 
-from data_describe.compat import _DATAFRAME_TYPE, _DATAFRAME_STATIC_TYPE
+from data_describe.compat import _DATAFRAME_TYPE
 
 
 def process_data_heatmap(
-    data: _DATAFRAME_STATIC_TYPE, missing: bool = False, **kwargs
-) -> Tuple[_DATAFRAME_STATIC_TYPE, List[str]]:
+    data, missing: bool = False, **kwargs
+) -> Tuple[Any, List[str]]:
     """Pre-processes data for the data heatmap
 
     Values are standardized (removing the mean and scaling to unit variance).

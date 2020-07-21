@@ -3,7 +3,7 @@ from types import ModuleType
 from typing import Dict, List
 
 from data_describe.config._config import get_option
-from data_describe.compat import _DATAFRAME_BACKENDS, _DATAFRAME_STATIC_TYPE
+from data_describe.compat import _DATAFRAME_BACKENDS
 
 _viz_backends: Dict[str, ModuleType] = {}
 _compute_backends: Dict[str, ModuleType] = {}
@@ -69,7 +69,7 @@ def _find_viz_backend(backend: str):
             raise ValueError(f"Could not find visualization backend '{backend}'")
 
 
-def _get_compute_backend(backend: str = None, df: _DATAFRAME_STATIC_TYPE = None):
+def _get_compute_backend(backend: str = None, df=None):
     """Get the compute backend by name
 
     Args:
