@@ -3,7 +3,7 @@ from data_describe.backends import _get_viz_backend, _get_compute_backend
 
 def importance(
     data,
-    target,
+    target: str,
     preprocess_func=None,
     estimator=None,
     return_values=False,
