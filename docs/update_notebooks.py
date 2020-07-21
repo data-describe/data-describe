@@ -17,7 +17,7 @@ widget_template = """.. _x-tutorial:
 def run(argv=None):
     os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
-    notebooks = glob.glob("../notebooks/*.ipynb")
+    notebooks = glob.glob("../examples/*.ipynb")
     outputs = []
     for notebook in notebooks:
         notebook_name = os.path.splitext(os.path.split(notebook)[1])[0]
