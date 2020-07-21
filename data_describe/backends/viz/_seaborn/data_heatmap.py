@@ -10,7 +10,7 @@ from data_describe.config._config import get_option
 def viz_data_heatmap(
     data, colnames: List[str], missing: bool = False, **kwargs
 ):
-    """Plots the data heatmap
+    """Plots the data heatmap.
 
     Args:
         data: The dataframe

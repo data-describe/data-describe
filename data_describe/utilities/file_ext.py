@@ -15,7 +15,7 @@ _FILE_EXTENSION_MAPPING = {
 
 
 def is_filetype(filetype: str, extension: str) -> bool:
-    """Checks if the file extension matches a given file type
+    """Checks if the file extension matches a given file type.
 
     Args:
         filetype (str): The type of file. See the enum _FileExtensionTypes

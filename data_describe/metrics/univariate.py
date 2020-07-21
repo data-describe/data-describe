@@ -3,7 +3,7 @@ from scipy.stats import skew
 
 
 def spikey(data, factor=10):
-    """ Identifies 'spikey' histograms where the tallest bin is `factor` times the average bin count
+    """Identifies 'spikey' histograms where the tallest bin is `factor` times the average bin count.
 
     Args:
         data: The 1-d data array
@@ -17,7 +17,7 @@ def spikey(data, factor=10):
 
 
 def skewed(data, threshold=3):
-    """ Identifies skewed data as being over a threshold skew value
+    """Identifies skewed data as being over a threshold skew value.
 
     Args:
         data: The 1-d data array

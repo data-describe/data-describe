@@ -13,7 +13,7 @@ warnings.filterwarnings("ignore", category=UserWarning, module="gensim")
 
 @compat.requires("nltk")
 def tokenize(text_docs):
-    """Turns list of documents into "bag of words" format
+    """Turns list of documents into "bag of words" format.
 
     Args:
         text_docs: A list of text documents in string format
@@ -26,7 +26,7 @@ def tokenize(text_docs):
 
 
 def to_lower(text_docs_bow):
-    """Converts all letters in documents ("bag of words" format) to lowercase
+    """Converts all letters in documents ("bag of words" format) to lowercase.
 
     Args:
         text_docs_bow: A list of lists of words from a document
@@ -39,7 +39,7 @@ def to_lower(text_docs_bow):
 
 
 def remove_punct(text_docs_bow, replace_char=" ", remove_all=False):
-    """Removes all punctuation from documents
+    """Removes all punctuation from documents.
 
     Args:
         text_docs_bow: A list of lists of words from a document
@@ -81,7 +81,7 @@ def remove_punct(text_docs_bow, replace_char=" ", remove_all=False):
 
 
 def remove_digits(text_docs_bow):
-    """Removes all numbers and words containing digits from documents
+    """Removes all numbers and words containing digits from documents.
 
     Args:
         text_docs_bow: A list of lists of words from a document
@@ -96,7 +96,7 @@ def remove_digits(text_docs_bow):
 
 
 def remove_single_char_and_spaces(text_docs_bow):
-    """Removes all single character words and spaces from documents
+    """Removes all single character words and spaces from documents.
 
     Args:
         text_docs_bow: A list of lists of words from a document
@@ -121,7 +121,7 @@ def remove_single_char_and_spaces(text_docs_bow):
 
 @compat.requires("nltk")
 def remove_stopwords(text_docs_bow, more_words=None):
-    """Removes all "stop words" from documents
+    """Removes all "stop words" from documents.
 
     Args:
         text_docs_bow: A list of lists of words from a document
@@ -145,7 +145,7 @@ def remove_stopwords(text_docs_bow, more_words=None):
 
 @compat.requires("nltk")
 def lemmatize(text_docs_bow):
-    """Lemmatizes all words in documents
+    """Lemmatizes all words in documents.
 
     Args:
         text_docs_bow: A lists of list of words from a document
@@ -162,7 +162,7 @@ def lemmatize(text_docs_bow):
 
 @compat.requires("nltk")
 def stem(text_docs_bow):
-    """Stems all words in documents
+    """Stems all words in documents.
 
     Args:
         text_docs_bow: A list of lists of words from a document
@@ -176,7 +176,7 @@ def stem(text_docs_bow):
 
 
 def bag_of_words_to_docs(text_docs_bow):
-    """Converts list of documents in "bag of words" format back into form of document being stored in one string
+    """Converts list of documents in "bag of words" format back into form of document being stored in one string.
 
     Args:
         text_docs_bow: A list of lists of words from a document
@@ -189,7 +189,7 @@ def bag_of_words_to_docs(text_docs_bow):
 
 
 def create_tfidf_matrix(text_docs):
-    """Creates a TF_IDF matrix
+    """Creates a TF_IDF matrix.
 
     Args:
         text_docs: A list of strings of text documents
@@ -204,7 +204,7 @@ def create_tfidf_matrix(text_docs):
 
 
 def create_doc_term_matrix(text_docs):
-    """Creates a document-term matrix which gives wordcount per document
+    """Creates a document-term matrix which gives wordcount per document.
 
     Args:
         text_docs: A list of strings of text documents
@@ -219,7 +219,7 @@ def create_doc_term_matrix(text_docs):
 
 
 def preprocess_texts(text_docs, lem=False, stem=False, custom_pipeline=None):
-    """Cleans list of documents by running through customizable text-preprocessing pipeline
+    """Cleans list of documents by running through customizable text-preprocessing pipeline.
 
     Args:
         text_docs: A list of strings of text documents (also accepts arrays and Pandas series)
@@ -229,8 +229,7 @@ def preprocess_texts(text_docs, lem=False, stem=False, custom_pipeline=None):
         user-created stemming function if pipeline is customized. Default is False
         custom_pipeline: A custom list of strings and/or function objects which are the function names that
         text_docs_bow will run through. Default is None, which uses the pipeline:
-                         ['tokenize', 'to_lower', 'remove_punct', 'remove_digits', 'remove_single_char_and_spaces',
-                         'remove_stopwords']
+        ['tokenize', 'to_lower', 'remove_punct', 'remove_digits', 'remove_single_char_and_spaces', 'remove_stopwords']
 
     Returns:
         text_docs: List of lists of words for each document which have undergone a pre-processing pipeline
@@ -267,7 +266,7 @@ def preprocess_texts(text_docs, lem=False, stem=False, custom_pipeline=None):
 
 @compat.requires("nltk")
 def ngram_freq(text_docs, n=3, only_n=False):
-    """Generates frequency distribution of "n-grams" from all of the text documents
+    """Generates frequency distribution of "n-grams" from all of the text documents.
 
     Args:
         text_docs: A list of text documents in string format
@@ -305,8 +304,7 @@ def ngram_freq(text_docs, n=3, only_n=False):
 
 @compat.requires("gensim")
 def filter_dictionary(text_docs, no_below=10, no_above=0.2):
-    """Filters words that appear less than a certain amount of times in the document and returns a Gensim
-    dictionary and corpus
+    """Filters words that appear less than a certain amount of times in the document and returns a Gensim.
 
     Args:
         text_docs: A list of list of words from a document, can include n-grams up to 3

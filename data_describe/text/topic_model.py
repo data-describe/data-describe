@@ -21,8 +21,10 @@ warnings.filterwarnings("ignore", category=UserWarning, module="gensim")
 @requires("gensim")
 @requires("pyLDAvis")
 class TopicModel:
+    """Create topic model."""
+
     def __init__(self, model_type="LDA", num_topics=None, model_kwargs=None):
-        """Topic Modeling made for easier training and understanding of topics
+        """Topic Modeling made for easier training and understanding of topics.
 
         The exact model type, number of topics, and keyword arguments can be input to initialize the object. The object
         can then be used to train the model using the 'fit' function, and visualizations of the model can be displayed,
@@ -47,51 +49,51 @@ class TopicModel:
 
     @property
     def model(self):
-        """Trained topic model"""
+        """Trained topic model."""
         return self._model
 
     @property
     def model_type(self):
-        """Type of model which either already has been or will be trained"""
+        """Type of model which either already has been or will be trained."""
         return self._model_type
 
     @property
     def num_topics(self):
-        """The number of topics in the model"""
+        """The number of topics in the model."""
         return self._num_topics
 
     @property
     def coherence_values(self):
-        """A list of coherence values mapped from min_topics to max_topics"""
+        """A list of coherence values mapped from min_topics to max_topics."""
         return self._coherence_values
 
     @property
     def dictionary(self):
-        """A Gensim dictionary mapping the words from the documents to their token_ids"""
+        """A Gensim dictionary mapping the words from the documents to their token_ids."""
         return self._dictionary
 
     @property
     def corpus(self):
-        """Bag of Words (BoW) representation of documents (token_id, token_count)"""
+        """Bag of Words (BoW) representation of documents (token_id, token_count)."""
         return self._corpus
 
     @property
     def matrix(self):
-        """Either TF-IDF or document-term matrix with documents as rows and words as columns"""
+        """Either TF-IDF or document-term matrix with documents as rows and words as columns."""
         return self._matrix
 
     @property
     def min_topics(self):
-        """If num_topics is None, this number is the first number of topics a model will be trained on"""
+        """If num_topics is None, this number is the first number of topics a model will be trained on."""
         return self._min_topics
 
     @property
     def max_topics(self):
-        """If num_topics is None, this number is the last number of topics a model will be trained on"""
+        """If num_topics is None, this number is the last number of topics a model will be trained on."""
         return self._max_topics
 
     def _compute_lsa_svd_model(self, text_docs, tfidf=True):
-        """Trains LSA TruncatedSVD scikit-learn model
+        """Trains LSA TruncatedSVD scikit-learn model.
 
         Args:
             text_docs: A list of text documents in string format. These documents should generally be pre-processed
@@ -120,7 +122,7 @@ class TopicModel:
     def _compute_lsi_model(
         self, text_docs, min_topics=2, max_topics=10, no_below=10, no_above=0.2
     ):
-        """Trains LSA Gensim model
+        """Trains LSA Gensim model.
 
         Args:
             text_docs: A list of text documents in string format. These documents should generally be pre-processed
@@ -182,7 +184,7 @@ class TopicModel:
     def _compute_lda_model(
         self, text_docs, min_topics=2, max_topics=10, no_below=10, no_above=0.2
     ):
-        """Trains LDA Gensim model
+        """Trains LDA Gensim model.
 
         Args:
             text_docs: A list of text documents in string format. These documents should generally be pre-processed
@@ -194,7 +196,6 @@ class TopicModel:
         Returns:
             lda_model (Gensim LdaModel): Trained LDA topic model
         """
-
         tokenized_text_docs = [text_doc.split() for text_doc in text_docs]
         self._min_topics = min_topics
         self._max_topics = max_topics
@@ -239,7 +240,7 @@ class TopicModel:
                 return lda_model
 
     def _compute_nmf_model(self, text_docs, tfidf=True):
-        """Trains NMF scikit-learn model
+        """Trains NMF scikit-learn model.
 
         Args:
             text_docs: A list of text documents in string format. These documents should generally be pre-processed
@@ -276,7 +277,7 @@ class TopicModel:
         tfidf=True,
         model_kwargs=None,
     ):
-        """Trains topic model and assigns model to object as attribute
+        """Trains topic model and assigns model to object as attribute.
 
         Args:
             text_docs: A list of text documents in string format. These documents should generally be pre-processed
@@ -312,7 +313,7 @@ class TopicModel:
             self._model = self._compute_nmf_model(text_docs, tfidf)
 
     def _plot_elbow(self):
-        """Creates an elbow plot displaying coherence values vs number of topics
+        """Creates an elbow plot displaying coherence values vs number of topics.
 
         Args:
 
@@ -330,7 +331,7 @@ class TopicModel:
         return fig
 
     def _get_topic_nums(self):
-        """Obtains topic distributions (LDA model) or scores (LSA/NMF model)
+        """Obtains topic distributions (LDA model) or scores (LSA/NMF model).
 
         Returns:
             doc_topics: Array of topic distributions (LDA model) or scores (LSA/NMF model)
@@ -356,7 +357,7 @@ class TopicModel:
             return np.array(doc_topics)
 
     def _display_topic_keywords(self, num_topic_words=10, topic_names=None):
-        """Creates Pandas DataFrame to display most relevant terms for each topic
+        """Creates Pandas DataFrame to display most relevant terms for each topic.
 
         Args:
             num_topic_words: The number of words to be displayed for each topic. Default is 10
@@ -417,7 +418,7 @@ class TopicModel:
         summarize_docs=False,
         summary_words=None,
     ):
-        """Creates Pandas DataFrame to display most relevant documents for each topic
+        """Creates Pandas DataFrame to display most relevant documents for each topic.
 
         Args:
             text_docs: A list of text documents in string format. Important to note that this list of documents
@@ -432,7 +433,6 @@ class TopicModel:
         Returns:
             all_top_docs_df: Pandas DataFrame displaying topics as columns and their most relevant documents as rows
         """
-
         topics = self._get_topic_nums()
 
         if summary_words and not summarize_docs:
@@ -494,13 +494,14 @@ class TopicModel:
         return all_top_docs_df
 
     def show(self, display_item="pyLDAvis", text_docs=None, viz_kwargs=None):
-        """Displays a specified visual to understand topic model and/or documents
+        """Displays a specified visual to understand topic model and/or documents.
 
         Args:
             display_item: String which depicts what is trying to be shown. Options are 'pyLDAvis', 'elbow',
             'top_words_per_topic', and 'top_documents_per_topic'. Default is 'pyLDAvis'
             text_docs: A list of text documents in string format. Important to note that this list of documents
             should be ordered in accordance with the matrix or corpus on which the document was trained
+
             viz_kwargs:
                 num_topic_words: The number of words to be displayed for each topic. Default is 10
                 topic_names: A list of pre-defined names set for each of the topics. Default is None
