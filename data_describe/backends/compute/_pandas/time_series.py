@@ -1,4 +1,5 @@
 import warnings
+from typing import Optional
 
 from statsmodels.tsa.seasonal import seasonal_decompose
 from statsmodels.tsa.stattools import acf, pacf, adfuller, kpss
@@ -7,7 +8,7 @@ import numpy as np
 
 
 def compute_stationarity_test(
-    timeseries, test="dickey-fuller", regression="c", **kwargs
+    timeseries, test: str = "dickey-fuller", regression: str = "c", **kwargs
 ):
     """Perform stationarity tests to see if mean and variance are changing over time.
     Backend uses statsmodel's  statsmodels.tsa.stattools.adfuller or statsmodels.tsa.stattools.kpss
@@ -30,7 +31,7 @@ def compute_stationarity_test(
     return st
 
 
-def adf_test(timeseries, autolag="AIC", regression="c", **kwargs):
+def adf_test(timeseries, autolag: str = "AIC", regression: str = "c", **kwargs):
     """Compute the Augmented Dickey-Fuller (ADF) test for stationarity
     Backend uses statsmodels.tsa.stattools.adfuller
 
@@ -58,7 +59,7 @@ def adf_test(timeseries, autolag="AIC", regression="c", **kwargs):
     return pd.DataFrame(adf_output, columns=["stats"])
 
 
-def kpss_test(timeseries, regression="c", nlags=None, **kwargs):
+def kpss_test(timeseries, regression: str = "c", nlags: Optional[int] = None, **kwargs):
     """Compute the Kwiatkowski–Phillips–Schmidt–Shin (KPSS) test for stationarity.
     Backend uses statsmodels.tsa.stattools.kpss
 
@@ -87,7 +88,7 @@ def kpss_test(timeseries, regression="c", nlags=None, **kwargs):
 
 
 # NOTE: decomposition object in modin does not preserve datetime index.
-def compute_decompose_timeseries(df, col, model="additive", **kwargs):
+def compute_decompose_timeseries(df, col, model: str = "additive", **kwargs):
     """Seasonal decomposition using moving averages
 
     Args:
@@ -103,7 +104,11 @@ def compute_decompose_timeseries(df, col, model="additive", **kwargs):
 
 
 def compute_autocorrelation(
-    timeseries, n_lags=40, plot_type="acf", fft=False, **kwargs
+    timeseries,
+    n_lags: Optional[int] = 40,
+    plot_type: str = "acf",
+    fft: bool = False,
+    **kwargs,
 ):
     """Correlation estimate using partial autocorrelation or autocorrelation
 
