@@ -2,6 +2,7 @@ import re
 import os
 import shutil
 import glob
+import pathlib
 
 widget_template = """.. _x-tutorial:
 
@@ -25,13 +26,14 @@ def run(argv=None):
             outputs.append(output_name)
         print("Updating {}...".format(notebook_name))
 
+        pathlib.Path("source/_notebooks").mkdir(exist_ok=True)
         shutil.copyfile(notebook, "source/_notebooks/" + output_name + ".ipynb")
 
     # Insert links to the widget ToC
     print("Finalizing Widget Page")
     text = open("source/widgets/index.rst", "r").read()
     text = re.sub(
-        r"(:maxdepth: 1).*(Blah)",
+        r"(:maxdepth: 1).*(Placeholder)",
         r"\1\n\n"
         + "\n".join(["   ../_notebooks/" + name for name in outputs])
         + r"\n\2",
