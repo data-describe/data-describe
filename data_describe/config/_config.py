@@ -147,7 +147,6 @@ def update_context(*args):
 
     For example, if the current figure size is (10, 10), the following can be used to
     make one plot with a different figure size:
-
     ```
     with dd.config.update_context("display.fig_height", 20):
         dd.plot() # fig_height = 20 # noqa:RST301
