@@ -20,16 +20,17 @@ warnings.filterwarnings(
 
 
 def correlation_matrix(data, cluster=False, categorical=False, return_values=False):
-    """ Correlation matrix of numeric variables
+    """Correlation matrix of numeric variables.
 
     Args:
         data: A pandas data frame
         cluster: If True, use clustering to reorder similar columns together
+
         categorical: If True, calculate categorical associations using Cramer's V, Correlation Ratio, and
             Point-biserial coefficient (aka Matthews correlation coefficient). All associations (including Pearson
             correlation) are in the range [0, 1]
-        return_values: If True, return the correlation/association values
-         manager
+
+        return_values: If True, return the correlation/association values manager
 
     Returns:
         Matplotlib graph or Pandas data frame
@@ -98,9 +99,10 @@ def correlation_matrix(data, cluster=False, categorical=False, return_values=Fal
 
 
 def cramers_v_matrix(df):
-    """ Computes Cramer's V for all column pairs
+    """Computes Cramer's V for all column pairs.
 
     Adapted from https://github.com/shakedzy/dython/blob/master/dython/nominal.py
+
     Args:
         df: A pandas data frame containing only categorical features
 
@@ -123,9 +125,10 @@ def cramers_v_matrix(df):
 
 
 def cramers_v(x, y):
-    """ Calculates Cramer's V statistic for categorical-categorical association.
+    """Calculates Cramer's V statistic for categorical-categorical association.
 
     Adapted from https://github.com/shakedzy/dython/blob/master/dython/nominal.py
+
     Args:
         x: A list, numpy array, or pandas series of categorical measurements
         y: A list, numpy array, or pandas series of categorical measurements
@@ -153,7 +156,7 @@ def cramers_v(x, y):
 
 
 def correlation_ratio_matrix(num_df, cat_df):
-    """ Computes correlation ratio for all numeric-categoric pairs of columns
+    """Computes correlation ratio for all numeric-categoric pairs of columns.
 
     Args:
         num_df: A pandas dataframe containing only numeric features
@@ -178,7 +181,7 @@ def correlation_ratio_matrix(num_df, cat_df):
 
 
 def correlation_ratio(categorical, numeric):
-    """ Computes correlation ratio between a categorical column and numeric column
+    """Computes correlation ratio between a categorical column and numeric column.
 
     Args:
         categorical: A Pandas Series of categorical values
@@ -210,7 +213,7 @@ def correlation_ratio(categorical, numeric):
 
 
 def reorder_by_cluster(association_matrix):
-    """ Reorder an association matrix by cluster distances
+    """Reorder an association matrix by cluster distances.
 
     Args:
         association_matrix: A matrix of associations (similarity)
@@ -259,7 +262,7 @@ def reorder_by_cluster(association_matrix):
 
 
 def reorder_by_original(association_matrix, original_df):
-    """ Reorder the matrix to the original order
+    """Reorder the matrix to the original order.
 
     Args:
         association_matrix: The square matrix of correlations/associations
@@ -289,11 +292,10 @@ def reorder_by_original(association_matrix, original_df):
 
 
 def plot_heatmap(association_matrix):
-    """ Plot the heatmap for the association matrix
+    """Plot the heatmap for the association matrix.
 
     Args:
         association_matrix: The association matrix
-
 
     Returns:
         Seaborn figure
