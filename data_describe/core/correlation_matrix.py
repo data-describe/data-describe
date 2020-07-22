@@ -27,10 +27,12 @@ def correlation_matrix(data, cluster=False, categorical=False, return_values=Fal
         cluster: If True, use clustering to reorder similar columns together
 
         categorical: If True, calculate categorical associations using Cramer's V, Correlation Ratio, and
+
             Point-biserial coefficient (aka Matthews correlation coefficient). All associations (including Pearson
             correlation) are in the range [0, 1]
 
-        return_values: If True, return the correlation/association values manager
+        return_values: If True, return the correlation/association values
+         manager
 
     Returns:
         Matplotlib graph or Pandas data frame
@@ -297,11 +299,9 @@ def plot_heatmap(association_matrix):
     Args:
         association_matrix: The association matrix
 
-
     Returns:
         Seaborn figure
     """
-
     # Plot lower left triangle
     x_ind, y_ind = np.triu_indices(association_matrix.shape[0])
     corr = association_matrix.to_numpy()

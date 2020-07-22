@@ -21,6 +21,8 @@ warnings.filterwarnings("ignore", category=UserWarning, module="gensim")
 @requires("gensim")
 @requires("pyLDAvis")
 class TopicModel:
+    """Create topic model."""
+
     def __init__(self, model_type="LDA", num_topics=None, model_kwargs=None):
         """Topic Modeling made for easier training and understanding of topics.
 
@@ -170,7 +172,7 @@ class TopicModel:
                 max_coherence_index = self._coherence_values.index(
                     max(self._coherence_values)
                 )
-                self._num_topics = max_coherence_index + self._min_topics
+                self._num_topics = len(lsa_model_list[max_coherence_index].get_topics())
                 return lsa_model_list[max_coherence_index]
             else:
                 lsa_model = compat.LsiModel(
@@ -195,7 +197,6 @@ class TopicModel:
         Returns:
             lda_model (Gensim LdaModel): Trained LDA topic model
         """
-
         tokenized_text_docs = [text_doc.split() for text_doc in text_docs]
         self._min_topics = min_topics
         self._max_topics = max_topics
@@ -233,7 +234,7 @@ class TopicModel:
                 max_coherence_index = self._coherence_values.index(
                     max(self._coherence_values)
                 )
-                self._num_topics = max_coherence_index + self._min_topics
+                self._num_topics = len(lda_model_list[max_coherence_index].get_topics())
                 return lda_model_list[max_coherence_index]
             else:
                 lda_model = compat.LdaModel(**self._model_kwargs)
@@ -437,7 +438,6 @@ class TopicModel:
         Returns:
             all_top_docs_df: Pandas DataFrame displaying topics as columns and their most relevant documents as rows
         """
-
         topics = self._get_topic_nums()
 
         if summary_words and not summarize_docs:
@@ -506,7 +506,7 @@ class TopicModel:
                 'top_words_per_topic', and 'top_documents_per_topic'. Default is 'pyLDAvis'
 
             text_docs: A list of text documents in string format. Important to note that this list of documents
-                should be ordered in accordance with the matrix or corpus on which the document was trained
+            should be ordered in accordance with the matrix or corpus on which the document was trained
 
             viz_kwargs:
                 num_topic_words: The number of words to be displayed for each topic. Default is 10

@@ -24,34 +24,34 @@ def cluster(
     return_value=None,
     kwargs=None,
 ):
-    """ Creates cluster visualization
+    """Creates cluster visualization.
 
     Args:
         df: Pandas data frame
         method: Clustering method: KMeans or HDBSCAN
         target: Name of the column that contains the response
-        interactive: If False, creates a seaborn plot
-                    If True, create plotly interactive plot
+        interactive: If False, creates a seaborn plot. If True, create plotly interactive plot
         elbow: If true, create an elbow plot for the optimal number of clusters
+
         dim_method: Select method to reduce the data to two dimensions for visualization
                     Note: Only pca, tsne, and tsvd are supported
+
         analysis: Metric to choose the optimal number of clusters (metrics from sklearn.metrics)
-                    Includes: silhouette_score, adjusted_rand_score, adjusted_mutual_info_score, homogeneity_score,
-                    completeness_score, v_measure_score, homogeneity_completeness_v_measure, fowlkes_mallows_score,
-                    davies_bouldin_score
+                Includes: silhouette_score, adjusted_rand_score, adjusted_mutual_info_score, homogeneity_score,
+                completeness_score, v_measure_score, homogeneity_completeness_v_measure, fowlkes_mallows_score,
+                davies_bouldin_score
+
         return_value: Specifies the object that will be returned by the function. (None=Emit the plot, plot=Return
                     plotly object if interactive is selected, data=Return the original data with cluster labels,
                     reduc=Return the 2-dimensional data with cluster labels)
 
         kwargs: Key word arguments for clustering methods
 
-
     Returns:
         viz: Seaborn scatter plot or Plotly scatter plot
         reduc_df: reduced data frame with cluster labels
         df: original data frame with cluster labels
         elbow_plot: elbow plot if elbow parameter is True
-
     """
     if isinstance(df, pd.DataFrame):
         num_df = df.select_dtypes(["number"]).astype("float64")
@@ -129,20 +129,21 @@ def kmeans_cluster(
     elbow=False,
     kwargs=None,
 ):
-    """Function to create K-Means clustering visualization
+    """Function to create K-Means clustering visualization.
 
     Args:
         data: Pandas data frame
         reduc_df: Reduced data frame
         analysis: Metric to choose the optimal number of clusters (metrics from sklearn.metrics)
-                Includes: silhouette_score, adjusted_rand_score, adjusted_mutual_info_score, homogeneity_score,
-                completeness_score, v_measure_score, homogeneity_completeness_v_measure, fowlkes_mallows_score,
-                davies_bouldin_score
+
+            Includes: silhouette_score, adjusted_rand_score, adjusted_mutual_info_score, homogeneity_score,
+            completeness_score, v_measure_score, homogeneity_completeness_v_measure, fowlkes_mallows_score,
+            davies_bouldin_score
+
         n_clusters: Number of clusters
         cluster_min: Minimum number of clusters to be generated
         cluster_max: Maximum number of clusters to be generated
-        interactive: If False, creates a seaborn plot
-                    If True, create plotly interactive plot
+        interactive: If False, creates a seaborn plot. If True, create plotly interactive plot
         truncator: Instance of a dimensionality reduction method
         target: Name of the column that contains the response
         elbow: If true, create an elbow plot for the optimal number of clusters
@@ -152,7 +153,6 @@ def kmeans_cluster(
         Seaborn plot or Plotly interactive scatter plot
         elbow_plot: elbow plot
         reduc_df: reduced data frame
-
     """
     if n_clusters is None:
         n_clusters, cluster_range, scores = find_clusters(
@@ -206,16 +206,18 @@ def find_clusters(
     target=None,
     kwargs=None,
 ):
-    """Finds the optimal number of clusters for K-Means clustering using the selected analysis
+    """Finds the optimal number of clusters for K-Means clustering using the selected analysis.
 
     Args:
         data: Pandas data frame
         cluster_min: Minimum number of clusters to be generated
         cluster_max: Maximum number of clusters to be generated
         analysis: Metric to choose the optimal number of clusters (metrics from sklearn.metrics)
-                Includes: silhouette_score, adjusted_rand_score, adjusted_mutual_info_score, homogeneity_score,
-                completeness_score, v_measure_score, homogeneity_completeness_v_measure, fowlkes_mallows_score,
-                davies_bouldin_score
+
+            Includes: silhouette_score, adjusted_rand_score, adjusted_mutual_info_score, homogeneity_score,
+            completeness_score, v_measure_score, homogeneity_completeness_v_measure, fowlkes_mallows_score,
+            davies_bouldin_score
+
         target: Name of the column that contains the response
         kwargs: Key word arguments to be passed into K-Means cluster
 
@@ -252,7 +254,7 @@ def find_clusters(
 
 
 def apply_kmeans(data, n_clusters=None, kwargs=None):
-    """ Fits and predicts data using K-Means
+    """Fits and predicts data using K-Means.
 
      Args:
         data: Pandas data frame
@@ -274,14 +276,13 @@ def apply_kmeans(data, n_clusters=None, kwargs=None):
 def hdbscan_cluster(
     data, reduc_df, truncator=None, interactive=True, min_cluster_size=15, kwargs=None,
 ):
-    """Function to create a HDBSCAN clustering visualization
+    """Function to create a HDBSCAN clustering visualization.
 
     Args:
         data: Pandas data frame
         reduc_df: Reduced data frame
         truncator: Instance of a dimensionality reduction method
-        interactive: If False, create a seaborn plot
-                    If True, create plotly interactive plot
+        interactive: If False, create a seaborn plot. If True, create plotly interactive plot
         min_cluster_size: Minimum size of grouping to be considered a cluster
         kwargs: Key word arguments for HDBSCAN
 
@@ -324,13 +325,13 @@ def hdbscan_cluster(
 
 
 def truncate_data(data):
-    """ Reduces the number of dimensions for t-SNE to speed up computation time and reduce noise
+    """Reduces the number of dimensions for t-SNE to speed up computation time and reduce noise.
 
-        Args:
-            data: Pandas data frame
-        Returns:
-            reduc_df: reduced data frame
-            truncator: Instance of a dimensionality reduction method
+    Args:
+        data: Pandas data frame
+    Returns:
+        reduc_df: reduced data frame
+        truncator: Instance of a dimensionality reduction method
     """
     if data.shape[1] > 50:
         data = data.to_numpy()
@@ -346,7 +347,7 @@ def truncate_data(data):
 
 
 def interactive_plot(df, x, y, method, color, truncator=None):
-    """ Creates interactive scatter plot using plotly
+    """Creates interactive scatter plot using plotly.
 
     Args:
         df: Pandas data frame
@@ -418,7 +419,7 @@ def interactive_plot(df, x, y, method, color, truncator=None):
 
 
 def static_plot(data, x, y, method, truncator=None):
-    """ Creates a plot using seaborn's lmplot
+    """Creates a plot using seaborn's lmplot.
 
     Args:
         data: Pandas data frame

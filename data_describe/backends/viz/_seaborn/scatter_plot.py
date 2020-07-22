@@ -6,6 +6,29 @@ from data_describe.config._config import get_option
 
 
 def viz_scatter_plot(data, mode, sample, threshold, **kwargs):
+    """Scatter plots.
+
+    Args:
+        data: A Pandas data frame
+
+        mode: The visualization mode
+            diagnostic: Plots selected by scagnostics (scatter plot diagnostics)
+            matrix: Generate the full scatter plot matrix
+            all: Generate all individual scatter plots
+
+        sample: The sampling method to use
+
+        threshold: The scatter plot diagnostic threshold value [0,1] for returning a plot. Only used with "diagnostic" mode.
+            If a number: Returns all plots where at least one metric is above this threshold
+            If a dictionary: Returns plots where the metric is above its threshold.
+            For example, {"Outlying": 0.9} returns plots with outlier metrics above 0.9.
+            See pyscagnostics.measure_names for a list of metrics.
+
+        kwargs: Passed to the visualization framework
+
+    Returns:
+        The seaborn visualization
+    """
     data, diagnostics, *_ = data
     if mode == "matrix":
         fig = sns.pairplot(data)
@@ -33,12 +56,14 @@ def viz_scatter_plot(data, mode, sample, threshold, **kwargs):
 
 
 def _scatter_plot(data, xname, yname, **kwargs):
-    """Generate one scatter (joint) plot
+    """Generate one scatter (joint) plot.
+
     Args:
         data: A Pandas data frame
         xname: The x-axis column name
         yname: The y-axis column name
         kwargs: Keyword arguments
+
     Returns:
         The Seaborn figure
     """
@@ -58,14 +83,17 @@ def _scatter_plot(data, xname, yname, **kwargs):
 
 
 def _filter_threshold(diagnostics, threshold=0.85):
-    """Filter the plots by scatter plot diagnostic threshold
+    """Filter the plots by scatter plot diagnostic threshold.
+
     Args:
         diagnostics: The diagnostics generator from pyscagnostics
+
         threshold: The scatter plot diagnostic threshold value [0,1] for returning a plot
             If a number: Returns all plots where at least one metric is above this threshold
             If a dictionary: Returns plots where the metric is above its threshold
             For example, {"Outlier": 0.9} returns plots with outlier metrics above 0.9
             The available metrics are: Outlier, Convex, Skinny, Skewed, Stringy, Straight, Monotonic, Clumpy, Striated
+
     Returns:
         A dictionary of pairs that match the filter
     """

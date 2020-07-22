@@ -16,6 +16,7 @@ widget_template = """.. _x-tutorial:
 
 
 def run(argv=None):
+    """Update notebooks."""
     os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
     notebooks = glob.glob("../examples/*.ipynb")

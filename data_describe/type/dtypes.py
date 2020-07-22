@@ -11,10 +11,10 @@ from dateutil.parser import parse, isoparse
 
 
 class BaseType(object):
-    """Base data type, unidentified"""
+    """Base data type, unidentified."""
 
     def __init__(self, weight=0, name="None", result_type=None, null_values=None):
-        """A class to test for data types
+        """A class to test for data types.
 
         Args:
             weight: The relative weight for this data type
@@ -37,7 +37,7 @@ class BaseType(object):
             self._null_values = ["", "na", "n/a", "null"]
 
     def test(self, value):
-        """Test if a given value passes the data type validation rules
+        """Test if a given value passes the data type validation rules.
 
         Args:
             value: The value to be tested
@@ -58,7 +58,7 @@ class BaseType(object):
 
     @staticmethod
     def test_meta(meta):
-        """Given some metadata about the entire feature / column, test if it passes the data type validation rules
+        """Given some metadata about the entire feature / column, test if it passes the data type validation rules.
 
         Args:
             meta: A dictionary containing meta features
@@ -69,7 +69,7 @@ class BaseType(object):
         return False
 
     def cast(self, value):
-        """Cast the value to this data type
+        """Cast the value to this data type.
 
         Args:
             value: The value to be converted
@@ -81,7 +81,7 @@ class BaseType(object):
 
     @classmethod
     def instances(cls):
-        """Return all instances of this type class
+        """Return all instances of this type class.
 
         Returns:
             A list of instances
@@ -90,7 +90,7 @@ class BaseType(object):
 
     @property
     def null_values(self):
-        """Get the null value strings
+        """Get the null value strings.
 
         Returns:
             A list of null value strings
@@ -99,7 +99,7 @@ class BaseType(object):
 
     @null_values.setter
     def null_values(self, value):
-        """Set the null value strings
+        """Set the null value strings.
 
         Args:
             value: A list of strings to be evaluated as null values (ignored)
@@ -107,35 +107,36 @@ class BaseType(object):
         self._null_values = value
 
     def append_null_value(self, value):
-        """Append a string value to be evaluated as a null value
+        """Append a string value to be evaluated as a null value.
 
         Args:
             value: A string for which exact matches will be counted as nulls
-
-        Returns:
-
         """
         self._null_values.append(value)
 
     @property
     def weight(self):
+        """The weight."""
         return self._weight
 
     @weight.setter
     def weight(self, value):
+        """Weight value."""
         self._weight = value
 
     @property
     def result_type(self):
+        """Result type."""
         return self._result_type
 
     @property
     def name(self):
+        """The name."""
         return self._name
 
 
 class StringType(BaseType):
-    """String data type"""
+    """String data type."""
 
     def __init__(
         self, weight=2, name="String", result_type=six.string_types, null_values=None
@@ -145,6 +146,7 @@ class StringType(BaseType):
         )
 
     def cast(self, value):
+        """Cast data as string."""
         if str(value).strip().lower() in self.null_values:
             return None
         if isinstance(value, self.result_type):
@@ -153,6 +155,7 @@ class StringType(BaseType):
             return str(value)
 
     def test(self, value):
+        """Test data value."""
         if str(value).strip().find(" ") > -1:
             return 1
         else:
@@ -160,17 +163,20 @@ class StringType(BaseType):
 
 
 class CategoryType(StringType):
+    """Category data type."""
+
     def __init__(self, weight=1, name="Category", result_type=None, null_values=None):
         super().__init__(
             weight=weight, name=name, result_type=result_type, null_values=null_values
         )
 
     def test(self, value):
+        """Test for category type."""
         return 1
 
 
 class NumericType(BaseType):
-    """Numeric type for selection"""
+    """Numeric type for selection."""
 
     def __init__(self, weight=0, name="Numeric", result_type=None, null_values=None):
         super().__init__(
@@ -179,7 +185,7 @@ class NumericType(BaseType):
 
 
 class IntegerType(NumericType):
-    """Integer data type"""
+    """Integer data type."""
 
     def __init__(
         self,
@@ -193,6 +199,7 @@ class IntegerType(NumericType):
         )
 
     def test(self, value):
+        """Test for integer type."""
         if str(value)[0] == "0" and len(str(value)) > 1:
             return -1  # No leading zeros
         try:
@@ -207,6 +214,7 @@ class IntegerType(NumericType):
             return super().test(value)
 
     def cast(self, value):
+        """Cast as integer type."""
         if str(value).strip().lower() in self.null_values:
             return None
 
@@ -222,7 +230,7 @@ class IntegerType(NumericType):
 
 
 class DecimalType(NumericType):
-    """Decimal or float data type"""
+    """Decimal or float data type."""
 
     def __init__(
         self,
@@ -236,6 +244,7 @@ class DecimalType(NumericType):
         )
 
     def test(self, value):
+        """Test for decimal type."""
         try:
             if isinstance(locale.atof(str(value)), self.result_type):
                 if locale.localeconv()["decimal_point"] in str(value):
@@ -248,6 +257,7 @@ class DecimalType(NumericType):
             return super().test(value)
 
     def cast(self, value):
+        """Cast as decimal type."""
         if str(value).strip().lower() in self.null_values:
             return None
         try:
@@ -260,7 +270,7 @@ class DecimalType(NumericType):
 
 
 class BoolType(BaseType):
-    """Boolean data type"""
+    """Boolean data type."""
 
     def __init__(
         self,
@@ -286,6 +296,7 @@ class BoolType(BaseType):
             self._false_values = ["no", "false", "1", "n", "f"]
 
     def test(self, value):
+        """Test for boolean type."""
         s = str(value).strip().lower()
         if s in self.null_values:
             return 0
@@ -297,6 +308,7 @@ class BoolType(BaseType):
         return super().test(value)
 
     def cast(self, value):
+        """Cast as boolean type."""
         s = str(value).strip().lower()
         if s in self.null_values:
             return None
@@ -308,23 +320,27 @@ class BoolType(BaseType):
 
     @property
     def true_values(self):
+        """True boolean value."""
         return self._true_values
 
     @true_values.setter
     def true_values(self, value):
+        """The True values."""
         self._true_values = value
 
     @property
     def false_values(self):
+        """False boolean values."""
         return self._false_values
 
     @false_values.setter
     def false_values(self, value):
+        """The False values."""
         self._false_values = value
 
 
 class DateTimeType(BaseType):
-    """Date/time data type"""
+    """Date/time data type."""
 
     def __init__(
         self,
@@ -340,6 +356,7 @@ class DateTimeType(BaseType):
         self._format = date_format
 
     def test(self, value):
+        """Test for date/time data."""
         if self._format is not None:
             try:
                 dt.strptime(value, self._format)
@@ -367,6 +384,7 @@ class DateTimeType(BaseType):
                 return super().test(value)
 
     def cast(self, value):
+        """Cast as date/time."""
         if isinstance(value, self.result_type):
             return value
         elif str(value).strip().lower() in self.null_values:
@@ -378,15 +396,17 @@ class DateTimeType(BaseType):
 
     @property
     def date_format(self):
+        """Date format."""
         return self._format
 
     @date_format.setter
     def date_format(self, value):
+        """Date values."""
         self._format = value
 
 
 class ReferenceType(BaseType):
-    """Reference/ID data type"""
+    """Reference/ID data type."""
 
     def __init__(self, weight=0, name="Reference", result_type=None, null_values=None):
         super().__init__(
@@ -395,6 +415,7 @@ class ReferenceType(BaseType):
 
     @staticmethod
     def test_meta(meta):
+        """Test for reference type."""
         if "size" in meta.keys() and "cardinality" in meta.keys():
             if meta["size"] == meta["cardinality"]:
                 return 1

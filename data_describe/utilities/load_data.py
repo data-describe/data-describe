@@ -9,7 +9,7 @@ from data_describe.utilities.file_ext import _FileExtensionTypes, is_filetype
 
 
 def load_data(filepath, all_folders=False, **kwargs):
-    """ Create pandas data frame from filepath
+    """Create pandas data frame from filepath.
 
     Args:
         filepath: The file path. Can be either a local filepath or Google Cloud Storage URI filepath
@@ -55,14 +55,16 @@ def load_data(filepath, all_folders=False, **kwargs):
 
 
 def read_file_type(filepath, **kwargs):
-    """ Read the file based on file extension
+    """Read the file based on file extension.
 
     Currently supports the following filetypes:
         csv, json, txt, shp
     Args:
         filepath: The filepath to open
+
         kwargs: Keyword arguments to pass to the reader
             .csv, .json, and other: Uses pandas.read_csv or pandas.read_json
+
     Returns:
         A Pandas data frame
     """
@@ -81,7 +83,7 @@ def read_file_type(filepath, **kwargs):
 
 @requires("google-cloud-storage")
 def download_gcs_file(filepath, bucket=None, prefix=None, **kwargs):
-    """ Downloads files from Google Cloud Storage
+    """Downloads files from Google Cloud Storage.
 
     Args:
         filepath: The file path
@@ -89,7 +91,7 @@ def download_gcs_file(filepath, bucket=None, prefix=None, **kwargs):
         prefix: parameter in list_blobs to limit the results to objects that have the specified prefix
         kwargs: Keyword arguments for list_blobs
     Returns:
-
+        shapefile_dir: The shape file
     """
     client = compat.storage.Client()
     bucket = client.bucket(bucket)
