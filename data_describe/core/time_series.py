@@ -11,7 +11,7 @@ def plot_time_series(
     viz_backend=None,
     **kwargs,
 ):
-    """Plots time series given a dataframe with datetime index. Statistics are computed using the statsmodels API
+    """Plots time series given a dataframe with datetime index. Statistics are computed using the statsmodels API.
 
     Args:
         df: The dataframe with datetime index
@@ -45,6 +45,7 @@ def stationarity_test(
     df, col, test="dickey-fuller", regression="c", compute_backend=None, **kwargs
 ):
     """Perform stationarity tests to see if mean and variance are changing over time.
+
     Backend uses statsmodel's  statsmodels.tsa.stattools.adfuller or statsmodels.tsa.stattools.kpss
 
     Args:
@@ -79,7 +80,9 @@ def plot_autocorrelation(
     viz_backend=None,
     **kwargs,
 ):
-    """Correlation estimate using partial autocorrelation or autocorrelation. Statistics are computed using the statsmodels API
+    """Correlation estimate using partial autocorrelation or autocorrelation.
+
+    Statistics are computed using the statsmodels API.
 
     Args:
         df: The dataframe with datetime index

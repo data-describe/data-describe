@@ -7,7 +7,7 @@ from data_describe.config._config import get_option
 
 
 def viz_plot_time_series(df, col, result=None, decompose=False, title="Time Series"):
-    """Create timeseries visualization
+    """Create timeseries visualization.
 
     Args:
         df: The dataframe
@@ -38,7 +38,7 @@ def viz_plot_time_series(df, col, result=None, decompose=False, title="Time Seri
 
 
 def viz_decomposition(result, dates, title="Time Series Decomposition"):
-    """Create timeseries decomposition visualization
+    """Create timeseries decomposition visualization.
 
     Args:
         result: The statsmodels.tsa.seasonal.DecomposeResult object. Defaults to None.
@@ -69,7 +69,7 @@ def viz_decomposition(result, dates, title="Time Series Decomposition"):
 def viz_plot_autocorrelation(
     data, white_noise, n_lags, plot_type="acf", title="Autocorrelation Plot"
 ):
-    """Create timeseries autocorrelation visualization
+    """Create timeseries autocorrelation visualization.
 
     Args:
         data: numpy.ndarray containing the correlations
@@ -111,7 +111,7 @@ def viz_plot_autocorrelation(
 
 
 def figure_layout(title="Time Series", xlabel="Date", ylabel="Variable"):
-    """Generates the figure layout
+    """Generates the figure layout.
 
     Args:
         title: Title of the plot. Defaults to "Time Series".

@@ -11,6 +11,7 @@ def compute_stationarity_test(
     timeseries, test: str = "dickey-fuller", regression: str = "c", **kwargs
 ):
     """Perform stationarity tests to see if mean and variance are changing over time.
+
     Backend uses statsmodel's  statsmodels.tsa.stattools.adfuller or statsmodels.tsa.stattools.kpss
 
     Args:
@@ -32,7 +33,8 @@ def compute_stationarity_test(
 
 
 def adf_test(timeseries, autolag: str = "AIC", regression: str = "c", **kwargs):
-    """Compute the Augmented Dickey-Fuller (ADF) test for stationarity
+    """Compute the Augmented Dickey-Fuller (ADF) test for stationarity.
+
     Backend uses statsmodels.tsa.stattools.adfuller
 
     Args:
@@ -61,13 +63,16 @@ def adf_test(timeseries, autolag: str = "AIC", regression: str = "c", **kwargs):
 
 def kpss_test(timeseries, regression: str = "c", nlags: Optional[int] = None, **kwargs):
     """Compute the Kwiatkowski–Phillips–Schmidt–Shin (KPSS) test for stationarity.
+
     Backend uses statsmodels.tsa.stattools.kpss
 
     Args:
         timeseries: The timeseries
+
         regression: The null hypothesis for the KPSS test.
             'c' : The data is stationary around a constant (default).
             'ct' : The data is stationary around a trend.
+
         nlags:  Indicates the number of lags to be used. Defaults to None.
         **kwargs: Keyword arguments for kpss
 
@@ -89,7 +94,7 @@ def kpss_test(timeseries, regression: str = "c", nlags: Optional[int] = None, **
 
 # NOTE: decomposition object in modin does not preserve datetime index.
 def compute_decompose_timeseries(df, col, model: str = "additive", **kwargs):
-    """Seasonal decomposition using moving averages
+    """Seasonal decomposition using moving averages.
 
     Args:
         df: The dataframe
@@ -110,7 +115,7 @@ def compute_autocorrelation(
     fft: bool = False,
     **kwargs,
 ):
-    """Correlation estimate using partial autocorrelation or autocorrelation
+    """Correlation estimate using partial autocorrelation or autocorrelation.
 
     Args:
         timeseries: Series object containing datetime index
