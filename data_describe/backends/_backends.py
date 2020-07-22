@@ -1,12 +1,12 @@
 import importlib
 from types import ModuleType
-from typing import Dict, List
+from typing import Dict, List, Optional
 
 from data_describe.config._config import get_option
 from data_describe.compat import _DATAFRAME_BACKENDS
 
-_viz_backends: Dict[str, ModuleType] = {}
-_compute_backends: Dict[str, ModuleType] = {}
+_viz_backends: Dict[str, Dict[str, ModuleType]] = {}
+_compute_backends: Dict[str, Dict[str, ModuleType]] = {}
 
 
 class Backend:
@@ -23,7 +23,9 @@ class Backend:
                 return module.__getattribute__(f)
             except AttributeError:
                 pass
-        raise ModuleNotFoundError(f"Could not find implementation for {f}")
+        raise ModuleNotFoundError(
+            f"Could not find implementation for {f} with available backends: {self.b}"
+        )
 
 
 def _get_viz_backend(backend: str = None):
@@ -35,15 +37,23 @@ def _get_viz_backend(backend: str = None):
     Returns:
         Backend
     """
-    backend = backend or get_option("backends.viz")
+    if backend:
+        backend_types = [backend]
+    else:
+        backend_types = [get_option("backends.viz")]
 
-    if backend not in _viz_backends:
-        module = _find_viz_backend(backend)
-        _viz_backends[backend] = module
-    return Backend([_viz_backends[backend]])
+    backend_collection = []
+    for backend in backend_types:
+        if _check_backend(backend, _viz_backends):
+            modules = _viz_backends[backend]
+        else:
+            modules = _load_viz_backend(backend)
+        backend_collection.append(modules)
+    backend_list = [module for d in backend_collection for _, module in d.items()]
+    return Backend(backend_list)
 
 
-def _find_viz_backend(backend: str):
+def _load_viz_backend(backend: str) -> Dict[str, ModuleType]:
     """Find a data describe visualization backend.
 
     Args:
@@ -55,16 +65,16 @@ def _find_viz_backend(backend: str):
     import pkg_resources  # noqa: delay import for performance
 
     for entry_point in pkg_resources.iter_entry_points("data_describe_viz_backends"):
-        _viz_backends[entry_point.name] = entry_point.load()
+        _add_backend(entry_point.name, _viz_backends, entry_point.load())
 
     try:
         return _viz_backends[backend]
     except KeyError:
         try:
             module = importlib.import_module(backend)
-            _viz_backends[backend] = module
+            _add_backend(backend, _viz_backends, module)
 
-            return module
+            return _viz_backends[backend]
         except ModuleNotFoundError:
             raise ValueError(f"Could not find visualization backend '{backend}'")
 
@@ -79,48 +89,93 @@ def _get_compute_backend(backend: str = None, df=None):
     Returns:
         Backend
     """
-    data_type = str(type(df))
-    backend_sources = [
-        backend,
-        _DATAFRAME_BACKENDS.get(data_type, None),
-        get_option("backends.compute"),
-    ]
+    if backend:
+        backend_types = [backend]
+    else:
+        data_type = str(type(df))
+        backend_types = [
+            *_DATAFRAME_BACKENDS.get(data_type, ["None"]),
+            get_option("backends.compute"),
+        ]
 
-    backend_list = []
-    for backend in backend_sources:
-        if backend:
-            if backend not in _compute_backends:
-                module = _find_compute_backend(backend)
-                _compute_backends[backend] = module
-            else:
-                module = _compute_backends[backend]
-            backend_list.append(module)
+        # Remove duplicates, maintain order
+        seen = set()
+        for idx, backend_name in enumerate(backend_types):
+            if backend_name in seen:
+                backend_types.pop(idx)
+            elif backend_name != "None":
+                seen.add(backend_name)
+
+    backend_collection = []
+    for backend in backend_types:
+        if _check_backend(backend, _compute_backends):
+            modules = _compute_backends[backend]
+        else:
+            modules = _load_compute_backend(backend)
+        backend_collection.append(modules)
+    backend_list = [module for d in backend_collection for _, module in d.items()]
     return Backend(backend_list)
 
 
-def _find_compute_backend(backend):
-    """Find a data describe compute backend.
+def _load_compute_backend(backend) -> Dict[str, ModuleType]:
+    """Load implementations for a data describe compute backend.
 
     Args:
         backend: The name of the backend, usually the package name
 
     Returns:
-        The imported backend module
+        The dictionary of loaded backend module(s)
     """
     import pkg_resources  # noqa: delay import for performance
 
     for entry_point in pkg_resources.iter_entry_points(
         "data_describe_compute_backends"
     ):
-        _compute_backends[entry_point.name] = entry_point.load()
+        _add_backend(entry_point.name, _compute_backends, entry_point.load())
 
     try:
         return _compute_backends[backend]
     except KeyError:
         try:
             module = importlib.import_module(backend)
-            _compute_backends[backend] = module
+            _add_backend(backend, _compute_backends, module)
 
-            return module
+            return _compute_backends[backend]
         except ModuleNotFoundError:
             raise ValueError(f"Could not find compute backend '{backend}'")
+
+
+def _check_backend(
+    backend_type: str, loaded_backends: dict, module: Optional[ModuleType] = None
+) -> bool:
+    """Checks if the backend has already been loaded.
+
+    Args:
+        backend_type: The name of the backend
+        loaded_backends: The global backends dictionary
+        module: The module that implements the backend
+
+    Returns:
+        True if the backend/module exists in the loaded backends dictionary
+    """
+    if backend_type in loaded_backends:
+        if module is None:
+            return True
+        else:
+            if str(module.__path__) in loaded_backends[backend_type]:  # type: ignore # mypy issue 1422
+                return True
+    return False
+
+
+def _add_backend(backend_type: str, loaded_backends: dict, module: ModuleType):
+    """Adds the backend module to the global backends dictionary.
+
+    Args:
+        backend_type: The name of the backend
+        loaded_backends: The global backends dictionary
+        module: The module that implements the backend
+    """
+    if backend_type not in loaded_backends:
+        loaded_backends[backend_type] = {}
+
+    loaded_backends[backend_type][str(module.__path__)] = module  # type: ignore # mypy issue 1422

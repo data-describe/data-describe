@@ -152,6 +152,7 @@ def update_context(*args):
         dd.plot() # fig_height = 20 # noqa:RST301
     ```
 
+
     Args:
         *args: May be one of two formats:
 
@@ -174,6 +175,6 @@ def update_context(*args):
     set_config(new_config)
 
     try:
-        yield
+        yield get_config()
     finally:
         set_config(old_config)

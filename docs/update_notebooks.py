@@ -4,6 +4,7 @@ import shutil
 import glob
 import pathlib
 
+
 widget_template = """.. _x-tutorial:
 
 .. note::
@@ -19,6 +20,7 @@ def run(argv=None):
     os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
     notebooks = glob.glob("../examples/*.ipynb")
+
     outputs = []
     for notebook in notebooks:
         notebook_name = os.path.splitext(os.path.split(notebook)[1])[0]
@@ -28,6 +30,7 @@ def run(argv=None):
         print("Updating {}...".format(notebook_name))
 
         pathlib.Path("source/_notebooks").mkdir(exist_ok=True)
+
         shutil.copyfile(notebook, "source/_notebooks/" + output_name + ".ipynb")
 
     # Insert links to the widget ToC

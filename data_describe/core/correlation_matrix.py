@@ -25,6 +25,7 @@ def correlation_matrix(data, cluster=False, categorical=False, return_values=Fal
     Args:
         data: A pandas data frame
         cluster: If True, use clustering to reorder similar columns together
+
         categorical: If True, calculate categorical associations using Cramer's V, Correlation Ratio, and
 
             Point-biserial coefficient (aka Matthews correlation coefficient). All associations (including Pearson
@@ -297,6 +298,7 @@ def plot_heatmap(association_matrix):
 
     Args:
         association_matrix: The association matrix
+
 
     Returns:
         Seaborn figure

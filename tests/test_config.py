@@ -21,6 +21,13 @@ def test_option_context_dict():
 
 
 def test_module_style_option():
-    assert dd.options.backends.compute == "pandas", "Unexpected default for compute backend"
-    dd.options.backends.compute = "modin"
-    assert dd.options.backends.compute == "modin", "Module-style configuration set failed"
+    assert (
+        dd.options.backends.compute == "pandas"
+    ), "Unexpected default for compute backend"
+    with dd.config.update_context(
+        "backends.viz", ""
+    ):  # Use context to prevent affecting other tests
+        dd.options.backends.compute = "modin"
+        assert (
+            dd.options.backends.compute == "modin"
+        ), "Module-style configuration set failed"

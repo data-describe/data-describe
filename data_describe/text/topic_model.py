@@ -97,6 +97,7 @@ class TopicModel:
 
         Args:
             text_docs: A list of text documents in string format. These documents should generally be pre-processed
+
             tfidf: If True, model created using TF-IDF matrix. Otherwise, document-term matrix with wordcounts is used.
             Default is True
 
@@ -244,6 +245,7 @@ class TopicModel:
 
         Args:
             text_docs: A list of text documents in string format. These documents should generally be pre-processed
+
             tfidf: If True, model created using TF-IDF matrix. Otherwise, document-term matrix with wordcounts is used.
             Default is True
 
@@ -286,8 +288,10 @@ class TopicModel:
             max_topics: Maximum number of topics to optimize for if number of topics not provided. Default is 10
             no_below: Minimum number of documents a word must appear in to be used in training. Default is 10
             no_above: Maximum proportion of documents a word may appear in to be used in training. Default is 0.2
+
             tfidf: If True, model created using TF-IDF matrix. Otherwise, document-term matrix with wordcounts is used.
             Default is True
+
             model_kwargs: Keyword arguments for the model, should be in agreement with 'model_type'
         """
         if model_kwargs is not None:
@@ -321,6 +325,7 @@ class TopicModel:
             fig: Elbow plot showing coherence values vs number of topics
         """
         # plt.figure(figsize=(context.fig_width.fig_height)) # TODO (haishiro): Replace with get_option
+
         fig = sns.lineplot(
             x=[num for num in range(self._min_topics, self._max_topics + 1)],
             y=self._coherence_values,
@@ -498,7 +503,8 @@ class TopicModel:
 
         Args:
             display_item: String which depicts what is trying to be shown. Options are 'pyLDAvis', 'elbow',
-            'top_words_per_topic', and 'top_documents_per_topic'. Default is 'pyLDAvis'
+                'top_words_per_topic', and 'top_documents_per_topic'. Default is 'pyLDAvis'
+
             text_docs: A list of text documents in string format. Important to note that this list of documents
             should be ordered in accordance with the matrix or corpus on which the document was trained
 

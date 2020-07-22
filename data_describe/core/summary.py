@@ -7,7 +7,6 @@ def data_summary(data):
     Args:
         data: A Pandas data frame
 
-
     Returns:
         Pandas data frame with metrics in rows
     """

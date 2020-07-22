@@ -3,7 +3,7 @@ from data_describe.backends import _get_viz_backend, _get_compute_backend
 
 def importance(
     data,
-    target,
+    target: str,
     preprocess_func=None,
     estimator=None,
     return_values=False,
@@ -26,6 +26,7 @@ def importance(
         truncate: If True, negative importance values will be truncated (set to zero)
         compute_backend: The compute backend
         viz_backend: The visualization backend
+
         **kwargs: Other arguments to be passed to the preprocess function
 
     Returns:

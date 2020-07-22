@@ -1,5 +1,6 @@
 import os
 
+
 from setuptools import find_packages, setup
 
 # Package meta-data.
@@ -10,8 +11,10 @@ EMAIL = ""
 AUTHOR = "https://github.com/brianray/data-describe/graphs/contributors"
 REQUIRES_PYTHON = ">=3.7.0"
 version = {}
+
 with open(os.path.join("data_describe", "_version.py")) as fp:
     exec(fp.read(), version)
+
 
 REQUIRED = [
     "pandas>=0.24.0",
@@ -24,6 +27,7 @@ REQUIRED = [
     "gcsfs>=0.2.1",
     "plotly>=3.8.1",
     "pyscagnostics>=0.1.0a4",
+    "statsmodels>=0.11.1",
 ]
 
 EXTRAS = {
