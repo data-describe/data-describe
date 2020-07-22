@@ -14,7 +14,7 @@ from data_describe.type.dtypes import (
 
 
 def guess_dtypes(df, strict=True, sample_size=100, random_state=1, types=None):
-    """Use heuristics to determine the column data types
+    """Use heuristics to determine the column data types.
 
     Args:
         df: The data, as a Pandas data frame
@@ -24,7 +24,7 @@ def guess_dtypes(df, strict=True, sample_size=100, random_state=1, types=None):
         types: The type classes
 
     Returns:
-
+        Dictionary containing data types for each column
     """
     if not isinstance(df, pd.DataFrame):
         raise ValueError("df must be a Pandas Data Frame.")
@@ -48,7 +48,7 @@ def guess_dtypes(df, strict=True, sample_size=100, random_state=1, types=None):
 def guess_series_dtypes(
     series, strict=True, sample_size=100, random_state=1, types=None
 ):
-    """Use heuristics to determine the column data type for a pandas series
+    """Use heuristics to determine the column data type for a pandas series.
 
     Args:
         series: A Pandas series
@@ -117,7 +117,7 @@ def sample_pandas_series(series, sample_size=100, random_state=1):
 
 
 def dtype_heuristics(series, strict=True, types=None):
-    """ Guess the data type for one Pandas series by testing each value
+    """Guess the data type for one Pandas series by testing each value.
 
     Args:
         series: A Pandas series
@@ -144,7 +144,7 @@ def dtype_heuristics(series, strict=True, types=None):
 
 
 def get_class_instance_by_name(name, types=None):
-    """Return the type class instance by its name property
+    """Return the type class instance by its name property.
 
     Args:
         name: The name
@@ -168,7 +168,7 @@ def get_class_instance_by_name(name, types=None):
 
 
 def meta_features(series):
-    """Calculate column meta features
+    """Calculate column meta features.
 
     Args:
         series: A Pandas series
@@ -185,7 +185,7 @@ def meta_features(series):
 
 
 def select_dtypes(df, types, omit=False, dtypes=None):
-    """Select columns in a dataframe by data type
+    """Select columns in a dataframe by data type.
 
     Args:
         df: A Pandas Data frame
@@ -225,7 +225,7 @@ def select_dtypes(df, types, omit=False, dtypes=None):
 
 
 def cast_dtypes(df, dtypes=None, exclude=None):
-    """Convert the data frame column types
+    """Convert the data frame column types.
 
     Args:
         df: A Pandas data frame
@@ -282,7 +282,7 @@ def cast_dtypes(df, dtypes=None, exclude=None):
 
 
 def _class_in_dtypes_module(member):
-    """Predicate function to find type classes defined in data_describe.type.dtypes
+    """Predicate function to find type classes defined in data_describe.type.dtypes.
 
     Args:
         member: A member of the current module

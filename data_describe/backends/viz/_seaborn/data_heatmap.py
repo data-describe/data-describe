@@ -7,16 +7,17 @@ import seaborn as sns
 from data_describe.config._config import get_option
 
 
-def viz_data_heatmap(
-    data, colnames: List[str], missing: bool = False, **kwargs
-):
-    """Plots the data heatmap
+def viz_data_heatmap(data, colnames: List[str], missing: bool = False, **kwargs):
+    """Plots the data heatmap.
 
     Args:
         data: The dataframe
         colnames: The column names, used for tick labels
         missing: If True, plots missing values instead
         kwargs: Keyword arguments passed to seaborn.heatmap
+
+    Returns:
+        The seaborn figure
     """
     plot_options = {
         "cmap": "PuRd" if missing else "viridis",
@@ -40,7 +41,7 @@ def viz_data_heatmap(
     return heatmap
 
 
-def viz_scatter_plot(data, mode, sample, threshold, **kwargs):
+def viz_scatter_plot(data, mode, sample, threshold, **kwargs):  # noqa: D103
     data, diagnostics, *_ = data
     if mode == "matrix":
         fig = sns.pairplot(data)
@@ -68,7 +69,7 @@ def viz_scatter_plot(data, mode, sample, threshold, **kwargs):
 
 
 def _scatter_plot(data, xname, yname, **kwargs):
-    """Generate one scatter (joint) plot
+    """Generate one scatter (joint) plot.
 
     Args:
         data: A Pandas data frame
@@ -95,10 +96,11 @@ def _scatter_plot(data, xname, yname, **kwargs):
 
 
 def _filter_threshold(diagnostics, threshold=0.85):
-    """Filter the plots by scatter plot diagnostic threshold
+    """Filter the plots by scatter plot diagnostic threshold.
 
     Args:
         diagnostics: The diagnostics generator from pyscagnostics
+
         threshold: The scatter plot diagnostic threshold value [0,1] for returning a plot
             If a number: Returns all plots where at least one metric is above this threshold
             If a dictionary: Returns plots where the metric is above its threshold
