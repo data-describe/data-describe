@@ -53,7 +53,7 @@ def _get_viz_backend(backend: str = None):
     return Backend(backend_list)
 
 
-def _find_viz_backend(backend: str):
+def _load_viz_backend(backend: str) -> Dict[str, ModuleType]:
     """Find a data describe visualization backend.
 
     Args:
@@ -117,8 +117,8 @@ def _get_compute_backend(backend: str = None, df=None):
     return Backend(backend_list)
 
 
-def _find_compute_backend(backend):
-    """Find a data describe compute backend.
+def _load_compute_backend(backend) -> Dict[str, ModuleType]:
+    """Load implementations for a data describe compute backend.
 
     Args:
         backend: The name of the backend, usually the package name

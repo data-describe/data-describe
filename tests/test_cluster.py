@@ -50,6 +50,7 @@ def test_cluster_kmean(numeric_data):
     df = dd.cluster(
         df=numeric_data, return_value="data", kwargs={"n_clusters": 2}, elbow=True
     )
+
     assert isinstance(df, pd.core.frame.DataFrame)
     assert df.shape[1] == numeric_data.shape[1]
     viz = dd.cluster(
