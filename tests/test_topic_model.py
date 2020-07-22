@@ -116,10 +116,7 @@ def test_unknown_type():
 def test_lda_attributes(lda_model):
     assert lda_model.model_type == "LDA"
     assert isinstance(lda_model.model, gensim.models.ldamodel.LdaModel)
-    assert (
-        lda_model.num_topics
-        == len(lda_model._model.get_topics())
-    )
+    assert lda_model.num_topics == len(lda_model._model.get_topics())
     assert (
         len(lda_model.coherence_values)
         == lda_model.max_topics - lda_model.min_topics + 1
@@ -131,10 +128,7 @@ def test_lda_attributes(lda_model):
 def test_lsi_attributes(lsi_model):
     assert lsi_model.model_type == "LSI"
     assert isinstance(lsi_model.model, gensim.models.lsimodel.LsiModel)
-    assert (
-        lsi_model.num_topics
-        == len(lsi_model._model.get_topics())
-    )
+    assert lsi_model.num_topics == len(lsi_model._model.get_topics())
     assert (
         len(lsi_model.coherence_values)
         == lsi_model.max_topics - lsi_model.min_topics + 1
