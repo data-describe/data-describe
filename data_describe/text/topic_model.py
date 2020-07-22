@@ -171,7 +171,7 @@ class TopicModel:
                 max_coherence_index = self._coherence_values.index(
                     max(self._coherence_values)
                 )
-                self._num_topics = max_coherence_index + self._min_topics
+                self._num_topics = len(lsa_model_list[max_coherence_index].get_topics())
                 return lsa_model_list[max_coherence_index]
             else:
                 lsa_model = compat.LsiModel(
@@ -233,7 +233,7 @@ class TopicModel:
                 max_coherence_index = self._coherence_values.index(
                     max(self._coherence_values)
                 )
-                self._num_topics = max_coherence_index + self._min_topics
+                self._num_topics = len(lda_model_list[max_coherence_index].get_topics())
                 return lda_model_list[max_coherence_index]
             else:
                 lda_model = compat.LdaModel(**self._model_kwargs)
