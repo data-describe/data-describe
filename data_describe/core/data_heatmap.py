@@ -2,7 +2,7 @@ from data_describe.backends import _get_viz_backend, _get_compute_backend
 
 
 def data_heatmap(data, missing=False, compute_backend=None, viz_backend=None, **kwargs):
-    """ Generate a data heatmap showing standardized data or missing values
+    """Generate a data heatmap showing standardized data or missing values.
 
     The data heatmap shows an overview of numeric features that have been standardized.
 

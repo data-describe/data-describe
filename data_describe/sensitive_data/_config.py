@@ -1,6 +1,5 @@
 class SensitiveData:
-    """Hold configurations for sensitive_data functions
-    """
+    """Hold configurations for sensitive_data functions."""
 
     sample_size = 100
     enable_trace_pii = True

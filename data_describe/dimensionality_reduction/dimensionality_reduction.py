@@ -5,13 +5,12 @@ from sklearn.decomposition import TruncatedSVD, PCA
 
 
 def dim_reduc(data, n_components, dim_method):
-    """Calls various dimensionality reduction methods
+    """Calls various dimensionality reduction methods.
 
     Args:
         data: Pandas data frame
         n_components: Desired dimensionality for the data set prior to modeling
-        dim_method: Dimensionality reduction method. Only pca, tsne, and
-        tsvd are supported.
+        dim_method: Dimensionality reduction method. Only pca, tsne, and tsvd are supported.
 
     Returns:
         Reduced data frame and reduction object
@@ -28,16 +27,15 @@ def dim_reduc(data, n_components, dim_method):
 
 
 def run_pca(data, n_components):
-    """Reduces the number of dimensions using PCA
+    """Reduces the number of dimensions using PCA.
 
-        Args:
-            data: Pandas data frame
-            n_components: Desired dimensionality for the data set prior
-            to modeling
+    Args:
+        data: Pandas data frame
+        n_components: Desired dimensionality for the data set prior to modeling
 
-        Returns:
-            reduc_df: Reduced data frame
-            pca: PCA object
+    Returns:
+        reduc_df: Reduced data frame
+        pca: PCA object
     """
     fname = []
     for i in range(1, n_components + 1):
@@ -49,16 +47,15 @@ def run_pca(data, n_components):
 
 
 def run_tsne(data, n_components):
-    """Reduces the number of dimensions using t-SNE
+    """Reduces the number of dimensions using t-SNE.
 
-        Args:
-            data: Pandas data frame
-            n_components: Desired dimensionality for the data set prior
-            to modeling
+    Args:
+        data: Pandas data frame
+        n_components: Desired dimensionality for the data set prior to modeling
 
-        Returns:
-            reduc_df: Reduced data frame
-            tsne: tsne object
+    Returns:
+        reduc_df: Reduced data frame
+        tsne: tsne object
     """
     tsne = TSNE(n_components, random_state=0)
     reduc = tsne.fit_transform(data)
@@ -67,16 +64,15 @@ def run_tsne(data, n_components):
 
 
 def run_tsvd(data, n_components):
-    """Reduces the number of dimensions using TSVD
+    """Reduces the number of dimensions using TSVD.
 
-        Args:
-            data: Pandas data frame
-            n_components: Desired dimensionality for the data set prior
-            to modeling
+    Args:
+        data: Pandas data frame
+        n_components: Desired dimensionality for the data set prior to modeling
 
-        Returns:
-            reduc_df: Reduced data frame
-            t_svd: tsvd object
+    Returns:
+        reduc_df: Reduced data frame
+        t_svd: tsvd object
     """
     fname = []
     with np.errstate(invalid="ignore"):

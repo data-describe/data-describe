@@ -1,5 +1,5 @@
 def color_fade(a, b, w):
-    """Interpolates between two RGB colors
+    """Interpolates between two RGB colors.
 
     Args:
         a: The first color as an RGB tuple
@@ -14,7 +14,7 @@ def color_fade(a, b, w):
 
 
 def rgb_to_str(rgb):
-    """Represents the RGB tuple as a string "rgb(r, g, b)" to be used in Plotly colorscale
+    """Represents the RGB tuple as a string "rgb(r, g, b)" to be used in Plotly colorscale.
 
     Args:
         rgb: RGB tuple

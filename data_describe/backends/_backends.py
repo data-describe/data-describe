@@ -10,14 +10,14 @@ _compute_backends: Dict[str, ModuleType] = {}
 
 
 class Backend:
-    """Interface for compute and visualization backends"""
+    """Interface for compute and visualization backends."""
 
     def __init__(self, b: List[ModuleType]):
-        """Initialize with list of modules to search for implementation"""
+        """Initialize with list of modules to search for implementation."""
         self.b = b
 
     def __getattr__(self, f: str):
-        """Try to find the method implementation in the module list"""
+        """Try to find the method implementation in the module list."""
         for module in self.b:
             try:
                 return module.__getattribute__(f)
@@ -27,7 +27,7 @@ class Backend:
 
 
 def _get_viz_backend(backend: str = None):
-    """Get the visualization backend by name
+    """Get the visualization backend by name.
 
     Args:
         backend: The name of the backend, usually the package name
@@ -44,7 +44,7 @@ def _get_viz_backend(backend: str = None):
 
 
 def _find_viz_backend(backend: str):
-    """Find a data describe visualization backend
+    """Find a data describe visualization backend.
 
     Args:
         backend: The name of the backend, usually the package name
@@ -70,7 +70,7 @@ def _find_viz_backend(backend: str):
 
 
 def _get_compute_backend(backend: str = None, df=None):
-    """Get the compute backend by name
+    """Get the compute backend by name.
 
     Args:
         backend: The name of the backend, usually the package name
@@ -99,7 +99,7 @@ def _get_compute_backend(backend: str = None, df=None):
 
 
 def _find_compute_backend(backend):
-    """Find a data describe compute backend
+    """Find a data describe compute backend.
 
     Args:
         backend: The name of the backend, usually the package name

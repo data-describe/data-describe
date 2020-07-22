@@ -3,6 +3,7 @@ import subprocess
 
 
 def run(argv=None):
+    """Run Sphinx to generate documents."""
     parser = ArgumentParser()
     parser.add_argument(
         "--version", help="Current version of documentation", default="dev"
