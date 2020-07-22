@@ -1,5 +1,4 @@
 from typing import List
-from itertools import combinations
 
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -7,9 +6,7 @@ import seaborn as sns
 from data_describe.config._config import get_option
 
 
-def viz_data_heatmap(
-    data, colnames: List[str], missing: bool = False, **kwargs
-):
+def viz_data_heatmap(data, colnames: List[str], missing: bool = False, **kwargs):
     """Plots the data heatmap
 
     Args:
