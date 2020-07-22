@@ -2,7 +2,7 @@ import pandas as pd
 
 
 def data_summary(data):
-    """Summary statistics and data description.s
+    """Summary statistics and data description.
 
     Args:
         data: A Pandas data frame

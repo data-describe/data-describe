@@ -117,25 +117,21 @@ class BaseType(object):
     @property
     def weight(self):
         """The weight."""
-
         return self._weight
 
     @weight.setter
     def weight(self, value):
         """Weight value."""
-
         self._weight = value
 
     @property
     def result_type(self):
         """Result type."""
-
         return self._result_type
 
     @property
     def name(self):
         """The name."""
-
         return self._name
 
 
@@ -151,7 +147,6 @@ class StringType(BaseType):
 
     def cast(self, value):
         """Cast data as string."""
-
         if str(value).strip().lower() in self.null_values:
             return None
         if isinstance(value, self.result_type):
@@ -161,7 +156,6 @@ class StringType(BaseType):
 
     def test(self, value):
         """Test data value."""
-
         if str(value).strip().find(" ") > -1:
             return 1
         else:
@@ -178,7 +172,6 @@ class CategoryType(StringType):
 
     def test(self, value):
         """Test for category type."""
-
         return 1
 
 
@@ -316,7 +309,6 @@ class BoolType(BaseType):
 
     def cast(self, value):
         """Cast as boolean type."""
-
         s = str(value).strip().lower()
         if s in self.null_values:
             return None
@@ -329,25 +321,21 @@ class BoolType(BaseType):
     @property
     def true_values(self):
         """True boolean value."""
-
         return self._true_values
 
     @true_values.setter
     def true_values(self, value):
         """The True values."""
-
         self._true_values = value
 
     @property
     def false_values(self):
         """False boolean values."""
-
         return self._false_values
 
     @false_values.setter
     def false_values(self, value):
         """The False values."""
-
         self._false_values = value
 
 
@@ -369,7 +357,6 @@ class DateTimeType(BaseType):
 
     def test(self, value):
         """Test for date/time data."""
-
         if self._format is not None:
             try:
                 dt.strptime(value, self._format)
@@ -398,7 +385,6 @@ class DateTimeType(BaseType):
 
     def cast(self, value):
         """Cast as date/time."""
-
         if isinstance(value, self.result_type):
             return value
         elif str(value).strip().lower() in self.null_values:
@@ -411,7 +397,6 @@ class DateTimeType(BaseType):
     @property
     def date_format(self):
         """Date format."""
-
         return self._format
 
     @date_format.setter
@@ -431,7 +416,6 @@ class ReferenceType(BaseType):
     @staticmethod
     def test_meta(meta):
         """Test for reference type."""
-
         if "size" in meta.keys() and "cardinality" in meta.keys():
             if meta["size"] == meta["cardinality"]:
                 return 1
