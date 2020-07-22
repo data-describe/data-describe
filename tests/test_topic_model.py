@@ -118,8 +118,7 @@ def test_lda_attributes(lda_model):
     assert isinstance(lda_model.model, gensim.models.ldamodel.LdaModel)
     assert (
         lda_model.num_topics
-        == lda_model.coherence_values.index(max(lda_model.coherence_values))
-        + lda_model.min_topics
+        == len(lda_model._model.get_topics())
     )
     assert (
         len(lda_model.coherence_values)
@@ -134,8 +133,7 @@ def test_lsi_attributes(lsi_model):
     assert isinstance(lsi_model.model, gensim.models.lsimodel.LsiModel)
     assert (
         lsi_model.num_topics
-        == lsi_model.coherence_values.index(max(lsi_model.coherence_values))
-        + lsi_model.min_topics
+        == len(lsi_model._model.get_topics())
     )
     assert (
         len(lsi_model.coherence_values)
