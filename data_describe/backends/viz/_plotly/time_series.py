@@ -81,9 +81,9 @@ def viz_plot_autocorrelation(
         fig: The visualization
     """
     if plot_type == "acf":
-        data = [go.Bar(y=data, showlegend=False)]
+        data = [go.Bar(y=data, showlegend=False, name=plot_type)]
     elif plot_type == "pacf":
-        data = [go.Bar(y=data, showlegend=False)]
+        data = [go.Bar(y=data, showlegend=False, name=plot_type)]
     else:
         raise ValueError("Unsupported input data type")
 
