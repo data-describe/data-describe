@@ -13,9 +13,10 @@ def dim_reduc(
     apply_tsvd: bool = True,
     compute_backend=None,
 ):
-    """Reduces the number of dimensions of the input data
+    """Reduces the number of dimensions of the input data.
+
     Args:
-        data: Data frame
+        data: The dataframe
         n_components: Desired dimensionality for the data set prior to modeling
         dim_method: {'pca', 'ipca', 'tsne', 'tsvd'}
             - pca: Principal Component Analysis
@@ -23,8 +24,9 @@ def dim_reduc(
             - tsne: T-distributed Stochastic Neighbor Embedding
             - tsvd: Truncated Singular Value Decomposition
         apply_tsvd: If True, TSVD will be run before t-SNE. This is highly recommended when running t-SNE
+
     Returns:
-        Dimensionally-reduced data frame and reduction object
+        The dimensionally-reduced dataframe and reduction object
     """
     if not isinstance(data, _DATAFRAME_TYPE):
         raise ValueError("Data must be a Pandas (or Modin) DataFrame")
@@ -43,14 +45,15 @@ def dim_reduc(
 
 
 def run_pca(data, n_components, compute_backend=None):
-    """Reduces the number of dimensions using PCA
+    """Reduces the number of dimensions of the input data using PCA.
+
         Args:
-            data: Data frame
-            n_components: Desired dimensionality for the data set prior
-            to modeling
+            data: The dataframe
+            n_components: Desired dimensionality for the data set prior to modeling
+
         Returns:
-            reduc_df: Reduced data frame
-            pca: PCA object
+            reduc_df: The dimensionally-reduced dataframe
+            pca: The applied PCA object
     """
     fname = []
     for i in range(1, n_components + 1):
@@ -61,14 +64,15 @@ def run_pca(data, n_components, compute_backend=None):
 
 
 def run_ipca(data, n_components, compute_backend=None):
-    """Reduces the number of dimensions using Incremental PCA
+    """Reduces the number of dimensions of the input data using Incremental PCA.
+
         Args:
-            data: Data frame
-            n_components: Desired dimensionality for the data set prior
-            to modeling
+            data: The dataframe
+            n_components: Desired dimensionality for the data set prior to modeling
+
         Returns:
-            reduc_df: Reduced data frame
-            ipca: PCA object
+            reduc_df: The dimensionally-reduced dataframe
+            ipca: The applied IncrementalPCA object
     """
     fname = []
     for i in range(1, n_components + 1):
@@ -79,15 +83,16 @@ def run_ipca(data, n_components, compute_backend=None):
 
 
 def run_tsne(data, n_components, apply_tsvd=True, compute_backend=None):
-    """Reduces the number of dimensions using t-SNE
+    """Reduces the number of dimensions of the input data using t-SNE.
+
         Args:
-            data: Data frame
-            n_components: Desired dimensionality for the data set prior
-            to modeling
+            data: The dataframe
+            n_components: Desired dimensionality for the output dataset
             apply_tsvd: If True, TSVD will be run before t-SNE. This is highly recommended when running t-SNE
+
         Returns:
-            reduc_df: Reduced data frame
-            tsne: tsne object
+            reduc_df: The dimensionally-reduced dataframe
+            tsne: The applied t-SNE object
     """
     if apply_tsvd:
         data = run_tsvd(data, n_components, compute_backend)[0]
@@ -97,14 +102,15 @@ def run_tsne(data, n_components, apply_tsvd=True, compute_backend=None):
 
 
 def run_tsvd(data, n_components, compute_backend=None):
-    """Reduces the number of dimensions using TSVD
+    """Reduces the number of dimensions of the input data using TSVD.
+
         Args:
-            data: Data frame
-            n_components: Desired dimensionality for the data set prior
-            to modeling
+            data: The dataframe
+            n_components: Desired dimensionality for the output dataset
+
         Returns:
-            reduc_df: Reduced data frame
-            t_svd: tsvd object
+            reduc_df: The dimensionally-reduced dataframe
+            tsne: The applied TSVD object
     """
     fname = []
     with np.errstate(invalid="ignore"):

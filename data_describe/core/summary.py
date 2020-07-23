@@ -2,13 +2,13 @@ from data_describe.backends._backends import _get_compute_backend
 
 
 def data_summary(data, compute_backend=None):
-    """ Summary statistics and data description
+    """Summary statistics and data description.
+
     Args:
-        data: A Pandas (or Modin) data frame
-        modin: A boolean flag for whether or not the data is a Modin Series or DataFrame
-        context: The context
+        data: The dataframe
+
     Returns:
-        Pandas (or Modin) data frame with metrics in rows
+        The dataframe with metrics in rows
     """
     return _get_compute_backend(backend=compute_backend, df=data).compute_data_summary(
         data
@@ -16,9 +16,11 @@ def data_summary(data, compute_backend=None):
 
 
 def agg_zero(series):
-    """ Count of zero values in a pandas series
+    """Count of zero values in a Pandas or Modin series.
+
     Args:
-        series: A Pandas series
+        series: The Pandas or Modin series
+
     Returns:
         Number of zeros
     """
@@ -26,9 +28,11 @@ def agg_zero(series):
 
 
 def agg_null(series):
-    """ Count of null values in a pandas series
+    """Count of null values in a Pandas or Modin series.
+
     Args:
-        series: A Pandas series
+        series: The Pandas or Modin series
+
     Returns:
         Number of null values
     """
@@ -36,9 +40,11 @@ def agg_null(series):
 
 
 def most_frequent(series):
-    """ Percent of most frequent value, per column, in a pandas data frame
+    """Percent of most frequent value, per column, in a Pandas or Modin data frame.
+
     Args:
-        data: A Pandas data frame
+        data: The Pandas or Modin dataframe
+
     Returns:
         Percent of most frequent value per column
     """

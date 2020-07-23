@@ -5,6 +5,14 @@ from data_describe.core.summary import agg_null, agg_zero, most_frequent
 
 
 def compute_data_summary(data):
+    """Perform computation for summary statistics and data description.
+
+    Args:
+        data: The dataframe
+
+    Returns:
+        The Pandas dataframe with metrics in rows
+    """
     if isinstance(data, _SERIES_TYPE):
         data = pd.DataFrame(data, columns=[data.name])
 
