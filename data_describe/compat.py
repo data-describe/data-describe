@@ -1,5 +1,6 @@
 from functools import wraps
 from typing import Dict
+import warnings
 
 
 _PACKAGE_INSTALLED: Dict[str, bool] = {}
@@ -80,6 +81,20 @@ try:
     _PACKAGE_INSTALLED["google-cloud-storage"] = True
 except ImportError:
     _PACKAGE_INSTALLED["google-cloud-storage"] = False
+
+try:
+    import spacy
+
+    _PACKAGE_INSTALLED["spacy"] = True
+
+    if not spacy.util.is_package("en_core_web_lg"):
+        warnings.warn(
+            "Downloading en_core_web_lg model for Spacy. This may take several minutes."
+        )
+        spacy.cli.download("en_core_web_lg")
+except ImportError:
+    _PACKAGE_INSTALLED["spacy"] = False
+
 
 _DATAFRAME_BACKENDS = {
     "<class 'pandas.core.frame.DataFrame'>": ["pandas"],

@@ -18,10 +18,10 @@ with open(os.path.join("data_describe", "_version.py")) as fp:
 
 REQUIRED = [
     "pandas>=0.24.0",
-    "numpy>=1.15.4",
+    "numpy>=1.16.0",
     "scipy>=1.1.0",
     "seaborn>=0.9.0",
-    "scikit-learn>=0.20.3",
+    "scikit-learn>=0.21",
     "networkx>=2.2",
     "hdbscan>=0.8.20",
     "gcsfs>=0.2.1",
@@ -33,6 +33,7 @@ REQUIRED = [
 EXTRAS = {
     "nlp": ["nltk>=3.4", "pyldavis>=2.1.2", "gensim>=3.4.0"],
     "gcp": ["gcsfs>=0.2.1", "google-cloud-storage>=1.18.0"],
+    "pii": ["presidio-analyzer==0.3.8917rc0"],
 }
 
 
