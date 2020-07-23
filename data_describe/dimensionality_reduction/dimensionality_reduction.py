@@ -55,9 +55,7 @@ def run_pca(data, n_components, compute_backend=None):
         reduc_df: The dimensionally-reduced dataframe
         pca: The applied PCA object
     """
-    fname = []
-    for i in range(1, n_components + 1):
-        fname.append("component_" + str(i))
+    fname = ["component_{}".format(i) for i in range(1, n_components + 1)]
     return _get_compute_backend(compute_backend, data).compute_run_pca(
         data, n_components, column_names=fname
     )
@@ -74,9 +72,7 @@ def run_ipca(data, n_components, compute_backend=None):
         reduc_df: The dimensionally-reduced dataframe
         ipca: The applied IncrementalPCA object
     """
-    fname = []
-    for i in range(1, n_components + 1):
-        fname.append("component_" + str(i))
+    fname = ["component_{}".format(i) for i in range(1, n_components + 1)]
     return _get_compute_backend(compute_backend, data).compute_run_ipca(
         data, n_components, column_names=fname
     )
@@ -112,10 +108,8 @@ def run_tsvd(data, n_components, compute_backend=None):
         reduc_df: The dimensionally-reduced dataframe
         tsne: The applied TSVD object
     """
-    fname = []
+    fname = ["component_{}".format(i) for i in range(1, n_components + 1)]
     with np.errstate(invalid="ignore"):
-        for i in range(1, n_components + 1):
-            fname.append("component_" + str(i))
         t_svd = TruncatedSVD(n_components, random_state=0)
         reduc = t_svd.fit_transform(data)
         return (
