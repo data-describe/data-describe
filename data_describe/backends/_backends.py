@@ -94,7 +94,7 @@ def _get_compute_backend(backend: str = None, df=None):
     else:
         data_type = str(type(df))
         backend_types = [
-            _DATAFRAME_BACKENDS.get(data_type, ["None"]),
+            *_DATAFRAME_BACKENDS.get(data_type, ["None"]),
             get_option("backends.compute"),
         ]
 
