@@ -27,4 +27,6 @@ from data_describe.backends.compute._pandas.dimensionality_reduction import (  #
 from data_describe.backends.compute._pandas.cluster import compute_cluster  # noqa: F401
 from data_describe.backends.compute._pandas.distribution import (  # noqa: F401
     compute_distribution
+from data_describe.backends.compute._pandas.correlation_matrix import (  # noqa: F401
+    compute_correlation_matrix,
 )
