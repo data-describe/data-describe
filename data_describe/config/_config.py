@@ -110,7 +110,6 @@ class Options:
 
     def __setattr__(self, key: str, value: Any):
         """Set attribute."""
-
         path = object.__getattribute__(self, "path")
         if path:
             path += "."
@@ -120,7 +119,6 @@ class Options:
 
     def __getattr__(self, key: str) -> Any:
         """Get attribute."""
-
         path = object.__getattribute__(self, "path")
         if path:
             path += "."
