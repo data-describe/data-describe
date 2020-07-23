@@ -1,6 +1,8 @@
 import hashlib
 from functools import reduce
 from typing import Optional, Any, Union
+import contextlib
+import logging
 
 from presidio_analyzer import AnalyzerEngine
 
@@ -18,10 +20,42 @@ _DEFAULT_SCORE_THRESHOLD = get_option("sensitive_data.score_threshold")
 _ENABLE_TRACE_PII = get_option("sensitive_data.enable_trace_pii")
 _SAMPLE_SIZE: int = get_option("sensitive_data.sample_size")
 
+logger = logging.getLogger("presidio")
+logger.setLevel(logging.ERROR)
 
-engine = AnalyzerEngine(
-    default_score_threshold=_DEFAULT_SCORE_THRESHOLD, enable_trace_pii=_ENABLE_TRACE_PII
-)
+# https://johnpaton.net/posts/redirect-logging/
+
+
+class OutputLogger:
+    """Redirect logs."""
+
+    def __init__(self, name="root", level="INFO"):
+        self.logger = logging.getLogger(name)
+        self.name = self.logger.name
+        self.level = getattr(logging, level)
+        self._redirector = contextlib.redirect_stdout(self)
+
+    def write(self, msg):  # noqa: D102
+        if msg and not msg.isspace():
+            self.logger.log(self.level, msg)
+
+    def flush(self):  # noqa: D102
+        pass
+
+    def __enter__(self):  # noqa: D105
+        self._redirector.__enter__()
+        return self
+
+    def __exit__(self, exc_type, exc_value, traceback):  # noqa: D105
+        # let contextlib do any exception handling here
+        self._redirector.__exit__(exc_type, exc_value, traceback)
+
+
+with OutputLogger("presidio", "WARN") as redirector:
+    engine = AnalyzerEngine(
+        default_score_threshold=_DEFAULT_SCORE_THRESHOLD,
+        enable_trace_pii=_ENABLE_TRACE_PII,
+    )
 
 
 def compute_sensitive_data(
