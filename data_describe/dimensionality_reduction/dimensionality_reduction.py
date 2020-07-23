@@ -19,10 +19,10 @@ def dim_reduc(
         data: The dataframe
         n_components: Desired dimensionality for the data set prior to modeling
         dim_method: {'pca', 'ipca', 'tsne', 'tsvd'}
-            - pca: Principal Component Analysis
-            - ipca: Incremental Principal Component Analysis. Highly suggested for very large datasets
-            - tsne: T-distributed Stochastic Neighbor Embedding
-            - tsvd: Truncated Singular Value Decomposition
+        - pca: Principal Component Analysis
+        - ipca: Incremental Principal Component Analysis. Highly suggested for very large datasets
+        - tsne: T-distributed Stochastic Neighbor Embedding
+        - tsvd: Truncated Singular Value Decomposition
         apply_tsvd: If True, TSVD will be run before t-SNE. This is highly recommended when running t-SNE
 
     Returns:
