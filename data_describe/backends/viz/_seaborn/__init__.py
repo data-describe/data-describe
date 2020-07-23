@@ -9,3 +9,7 @@ from data_describe.backends.viz._seaborn.time_series import (  # noqa: F401
     viz_plot_time_series,
     viz_plot_autocorrelation,
 )
+from data_describe.backends.viz._seaborn.cluster import (  # noqa: F401
+    viz_cluster,
+    viz_elbow_plot,
+)

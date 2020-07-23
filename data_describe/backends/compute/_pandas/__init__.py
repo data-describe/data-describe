@@ -24,3 +24,4 @@ from data_describe.backends.compute._pandas.dimensionality_reduction import (  #
     compute_run_tsne,
     compute_run_tsvd,
 )
+from data_describe.backends.compute._pandas.cluster import compute_cluster  # noqa: F401

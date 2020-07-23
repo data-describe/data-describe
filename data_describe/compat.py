@@ -2,6 +2,8 @@ from functools import wraps
 from typing import Dict
 import warnings
 
+from IPython import get_ipython
+
 
 _PACKAGE_INSTALLED: Dict[str, bool] = {}
 
@@ -116,3 +118,13 @@ except ImportError:
     _PACKAGE_INSTALLED["modin"] = False
     _SERIES_TYPE = pandas.Series
     _DATAFRAME_TYPE = pandas.DataFrame
+
+
+try:
+    import hdbscan  # noqa: F401
+
+    _PACKAGE_INSTALLED["hdbscan"] = True
+except ImportError:
+    _PACKAGE_INSTALLED["hdbscan"] = False
+
+_IN_NOTEBOOK = (get_ipython() is not None)
