@@ -3,7 +3,7 @@ from sklearn.decomposition import PCA, IncrementalPCA
 
 
 def compute_run_pca(data, n_components, column_names):
-    """Performs PCA on the provided dataset
+    """Performs PCA on the provided dataset.
 
     Args:
         data: The dataframe
@@ -21,7 +21,7 @@ def compute_run_pca(data, n_components, column_names):
 
 
 def compute_run_ipca(data, n_components, column_names):
-    """Performs Incremental PCA on the provided dataset
+    """Performs Incremental PCA on the provided dataset.
 
     Args:
         data: The dataframe
@@ -39,7 +39,7 @@ def compute_run_ipca(data, n_components, column_names):
 
 
 def compute_run_tsne(reduc):
-    """Transforms the dimensionally reduced array into a Pandas dataframe
+    """Transforms the dimensionally reduced array into a Pandas dataframe.
 
     Args:
         reduc: An array of the dimensionally reduced dataset
@@ -51,7 +51,7 @@ def compute_run_tsne(reduc):
 
 
 def compute_run_tsvd(reduc, column_names):
-    """Transforms the dimensionally reduced array into a Pandas dataframe
+    """Transforms the dimensionally reduced array into a Pandas dataframe.
 
     Args:
         reduc: An array of the dimensionally reduced dataset

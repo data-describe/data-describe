@@ -47,13 +47,13 @@ def dim_reduc(
 def run_pca(data, n_components, compute_backend=None):
     """Reduces the number of dimensions of the input data using PCA.
 
-        Args:
-            data: The dataframe
-            n_components: Desired dimensionality for the data set prior to modeling
+    Args:
+        data: The dataframe
+        n_components: Desired dimensionality for the data set prior to modeling
 
-        Returns:
-            reduc_df: The dimensionally-reduced dataframe
-            pca: The applied PCA object
+    Returns:
+        reduc_df: The dimensionally-reduced dataframe
+        pca: The applied PCA object
     """
     fname = []
     for i in range(1, n_components + 1):
@@ -66,13 +66,13 @@ def run_pca(data, n_components, compute_backend=None):
 def run_ipca(data, n_components, compute_backend=None):
     """Reduces the number of dimensions of the input data using Incremental PCA.
 
-        Args:
-            data: The dataframe
-            n_components: Desired dimensionality for the data set prior to modeling
+    Args:
+        data: The dataframe
+        n_components: Desired dimensionality for the data set prior to modeling
 
-        Returns:
-            reduc_df: The dimensionally-reduced dataframe
-            ipca: The applied IncrementalPCA object
+    Returns:
+        reduc_df: The dimensionally-reduced dataframe
+        ipca: The applied IncrementalPCA object
     """
     fname = []
     for i in range(1, n_components + 1):
@@ -85,14 +85,14 @@ def run_ipca(data, n_components, compute_backend=None):
 def run_tsne(data, n_components, apply_tsvd=True, compute_backend=None):
     """Reduces the number of dimensions of the input data using t-SNE.
 
-        Args:
-            data: The dataframe
-            n_components: Desired dimensionality for the output dataset
-            apply_tsvd: If True, TSVD will be run before t-SNE. This is highly recommended when running t-SNE
+    Args:
+        data: The dataframe
+        n_components: Desired dimensionality for the output dataset
+        apply_tsvd: If True, TSVD will be run before t-SNE. This is highly recommended when running t-SNE
 
-        Returns:
-            reduc_df: The dimensionally-reduced dataframe
-            tsne: The applied t-SNE object
+    Returns:
+        reduc_df: The dimensionally-reduced dataframe
+        tsne: The applied t-SNE object
     """
     if apply_tsvd:
         data = run_tsvd(data, n_components, compute_backend)[0]
@@ -104,13 +104,13 @@ def run_tsne(data, n_components, apply_tsvd=True, compute_backend=None):
 def run_tsvd(data, n_components, compute_backend=None):
     """Reduces the number of dimensions of the input data using TSVD.
 
-        Args:
-            data: The dataframe
-            n_components: Desired dimensionality for the output dataset
+    Args:
+        data: The dataframe
+        n_components: Desired dimensionality for the output dataset
 
-        Returns:
-            reduc_df: The dimensionally-reduced dataframe
-            tsne: The applied TSVD object
+    Returns:
+        reduc_df: The dimensionally-reduced dataframe
+        tsne: The applied TSVD object
     """
     fname = []
     with np.errstate(invalid="ignore"):
