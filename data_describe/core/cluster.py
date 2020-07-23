@@ -6,6 +6,7 @@
 # from numpy import count_nonzero  # type: ignore
 # from sklearn.cluster import KMeans
 from abc import ABC
+from typing import List
 
 from data_describe.compat import _DATAFRAME_TYPE
 from data_describe.backends import _get_viz_backend, _get_compute_backend
@@ -17,40 +18,28 @@ from data_describe.dimensionality_reduction.dimensionality_reduction import dim_
 def cluster(
     data,
     method="kmeans",
-    target=None,
     dim_method="pca",
-    elbow=False,
     compute_backend=None,
     viz_backend=None,
     **kwargs,
 ):
-    """ Creates cluster visualization
+    """Cluster analysis.
+
+    Performs clustering on the data and visualizes the results on a 2-d plot.
 
     Args:
-        df: Pandas data frame
-        method: Clustering method: kmeans or hdbscan
-        interactive: If False, creates a seaborn plot
-                    If True, create plotly interactive plot
-        elbow: If true, create an elbow plot for the optimal number of clusters
-        dim_method: Select method to reduce the data to two dimensions for visualization
-                    Note: Only pca, tsne, and tsvd are supported
-        analysis: Metric to choose the optimal number of clusters (metrics from sklearn.metrics)
-                    Includes: silhouette_score, adjusted_rand_score, adjusted_mutual_info_score, homogeneity_score,
-                    completeness_score, v_measure_score, homogeneity_completeness_v_measure, fowlkes_mallows_score,
-                    davies_bouldin_score
-        return_value: Specifies the object that will be returned by the function. (None=Emit the plot, plot=Return
-                    plotly object if interactive is selected, data=Return the original data with cluster labels,
-                    reduc=Return the 2-dimensional data with cluster labels)
+        data (DataFrame): The data.
+        method (str, optional): {'kmeans', 'hdbscan'} The clustering method. Defaults to "kmeans".
+        dim_method (str, optional): The method to use for dimensionality reduction. Defaults to "pca".
+        compute_backend (str, optional): The compute backend.
+        viz_backend (str, optional): The visualization backend.
 
-        kwargs: Key word arguments for clustering methods
-
+    Raises:
+        ValueError: Data frame required
+        ValueError: Clustering method not implemented
 
     Returns:
-        viz: Seaborn scatter plot or Plotly scatter plot
-        reduc_df: reduced data frame with cluster labels
-        df: original data frame with cluster labels
-        elbow_plot: elbow plot if elbow parameter is True
-
+        Cluster plot
     """
     if not isinstance(data, _DATAFRAME_TYPE):
         raise ValueError("Data frame required")
@@ -75,20 +64,18 @@ def cluster(
     #     str(round(truncator.explained_variance_ratio_[0] * 100, 2))
     # )
 
-    return _get_viz_backend(viz_backend).viz_cluster(
-        xy_data, method, **kwargs
-    )
+    return _get_viz_backend(viz_backend).viz_cluster(xy_data, method, **kwargs)
 
 
 class ClusterFit(ABC):
-    """Interface for collecting additional information about the clustering"""
+    """Interface for collecting additional information about the clustering."""
 
-    def __init__(self, clusters=None, method=None):
-        """Mandatory parameters
+    def __init__(self, clusters: List[int] = None, method: str = None):
+        """Mandatory parameters.
 
         Args:
-            clusters: The predicted clusters
-            method: The clustering algorithm
+            clusters (List[int], optional): The predicted cluster labels.
+            method (str, optional): {'kmeans', 'hdbscan'}. The specified cluster method.
         """
         self.clusters = clusters
         self.method = method
@@ -98,6 +85,8 @@ class ClusterFit(ABC):
 
 
 class KmeansFit(ClusterFit):
+    """Interface for collecting additional information about the k-Means clustering."""
+
     def __init__(
         self,
         clusters=None,
@@ -108,6 +97,17 @@ class KmeansFit(ClusterFit):
         cluster_range=None,
         metric=None,
     ):
+        """Mandatory parameters.
+
+        Args:
+            clusters (List[int], optional): The predicted cluster labels.
+            method (str, optional): The specified cluster method, "kmeans".
+            estimator (optional): The cluster estimator object.
+            n_clusters (int, optional): The number of clusters (k) used in the final clustering fit.
+            search (bool, optional): If True, a search was performed for optimal n_clusters.
+            cluster_range (Tuple[int, int], optional): The range of clusters searched as (min_cluster, max_cluster).
+            metric (str, optional): The metric used to evaluate the cluster search.
+        """
         self.clusters = clusters
         self.method = method
         self.estimator = estimator
@@ -117,6 +117,7 @@ class KmeansFit(ClusterFit):
         self.metric = metric
 
     def elbow_plot(self, viz_backend=None, **kwargs):
+        """Elbow plot."""
         if not self.search:
             raise ValueError(
                 "Elbow plot is not applicable when n_cluster is explicitly selected"
@@ -128,9 +129,18 @@ class KmeansFit(ClusterFit):
 
 
 class HDBSCANFit(ClusterFit):
+    """Interface for collecting additional information about the HDBSCAN clustering."""
+
     def __init__(
-        self, clusters=None, method=None, estimator=None,
+        self, clusters: List[int] = None, method: str = None, estimator=None,
     ):
+        """Mandatory parameters.
+
+        Args:
+            clusters (List[int], optional): The predicted cluster labels.
+            method (str, optional): The specified cluster method, "hdbscan".
+            estimator (optional): The HDBSCAN estimator object.
+        """
         self.clusters = clusters
         self.method = method
         self.estimator = estimator
