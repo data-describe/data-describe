@@ -12,7 +12,7 @@ def correlation_matrix(
     """Correlation matrix of numeric variables.
 
     Args:
-        data: A pandas data frame
+        data: A data frame
         cluster: If True, use clustering to reorder similar columns together
 
         categorical: If True, calculate categorical associations using Cramer's V, Correlation Ratio, and
@@ -20,9 +20,12 @@ def correlation_matrix(
             correlation) are in the range [0, 1]
 
         return_values: If True, return the correlation/association values manager
+        compute_backend: Select computing backend. Defaults to None (pandas).
+        viz_backend: The visualization backend. Only 'plotly' is supported. Defaults to plotly
 
     Returns:
-        Plotly figure
+        A plotly figure if return_values is False
+        association_matrix: A data frame if return_values is True
     """
     association_matrix = _get_compute_backend(
         compute_backend, data

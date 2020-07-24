@@ -1,6 +1,6 @@
 import warnings
 
-import pandas as pd
+import modin.pandas as modin
 import numpy as np
 from scipy.cluster import hierarchy
 from sklearn.metrics import matthews_corrcoef
@@ -21,7 +21,7 @@ def compute_correlation_matrix(
     """Correlation matrix of numeric variables.
 
     Args:
-        data: A data frame
+        data: A dataframe
         cluster: If True, use clustering to reorder similar columns together
 
         categorical: If True, calculate categorical associations using Cramer's V, Correlation Ratio, and
@@ -31,7 +31,7 @@ def compute_correlation_matrix(
         return_values: If True, return the correlation/association values manager
 
     Returns:
-        association_matrix: A data frame
+        association_matrix: A modin data frame
     """
     numeric = data.select_dtypes(["number"])
     categoric = data[[col for col in data.columns if col not in numeric.columns]]
@@ -54,10 +54,10 @@ def compute_correlation_matrix(
             association_cramers = cramers_v_matrix(categoric)
             association_cr = correlation_ratio_matrix(numeric, categoric)
 
-            association_matrix = pd.concat(
+            association_matrix = modin.concat(
                 [
-                    pd.concat([association_numeric, association_cr], axis=1),
-                    pd.concat([association_cr.T, association_cramers], axis=1),
+                    modin.concat([association_numeric, association_cr], axis=1),
+                    modin.concat([association_cr.T, association_cramers], axis=1),
                 ],
                 axis=0,
             )
@@ -94,13 +94,13 @@ def cramers_v_matrix(df):
     Adapted from https://github.com/shakedzy/dython/blob/master/dython/nominal.py
 
     Args:
-        df: A pandas data frame containing only categorical features
+        df: A Modin data frame containing only categorical features
 
     Returns:
-        A pandas data frame
+        A modin data frame
     """
     index = df.columns.values
-    cramers_matrix = pd.DataFrame(
+    cramers_matrix = modin.DataFrame(
         [[cramers_v(df[x], df[y]) for x in index] for y in index]
     )
 
@@ -120,13 +120,13 @@ def cramers_v(x, y):
     Adapted from https://github.com/shakedzy/dython/blob/master/dython/nominal.py
 
     Args:
-        x: A list, numpy array, or pandas series of categorical measurements
-        y: A list, numpy array, or pandas series of categorical measurements
+        x: A list, numpy array, or Modin series of categorical measurements
+        y: A list, numpy array, or Modin series of categorical measurements
 
     Returns:
         Cramer's V value (float)
     """
-    confusion_matrix = pd.crosstab(x, y)
+    confusion_matrix = modin.crosstab(x, y)
     if confusion_matrix.shape[0] == 2 and confusion_matrix.shape[1] == 2:
         # phi coefficient
         return matthews_corrcoef(x.astype(str), y.astype(str))
@@ -149,15 +149,15 @@ def correlation_ratio_matrix(num_df, cat_df):
     """Computes correlation ratio for all numeric-categoric pairs of columns.
 
     Args:
-        num_df: A pandas dataframe containing only numeric features
-        cat_df: A pandas dataframe containing only categorical features
+        num_df: A Modin dataframe containing only numeric features
+        cat_df: A Modin dataframe containing only categorical features
 
     Returns:
-        A pandas data frame
+        A modin data frame
     """
     num_index = num_df.columns.values
     cat_index = cat_df.columns.values
-    corr_ratio_mat = pd.DataFrame(
+    corr_ratio_mat = modin.DataFrame(
         [
             [correlation_ratio(cat_df[x], num_df[y]) for x in cat_index]
             for y in num_index
@@ -174,13 +174,13 @@ def correlation_ratio(categorical, numeric):
     """Computes correlation ratio between a categorical column and numeric column.
 
     Args:
-        categorical: A Pandas Series of categorical values
-        numeric: A Pandas Series of numeric values
+        categorical: A Modin Series of categorical values
+        numeric: A Modin Series of numeric values
 
     Returns:
         Correlation Ratio value (float)
     """
-    df = pd.concat([categorical, numeric], axis=1)
+    df = modin.concat([categorical, numeric], axis=1)
     n = numeric.shape[0]
     ybar = np.mean(numeric)
 
@@ -210,7 +210,7 @@ def reorder_by_cluster(association_matrix):
         data: The original data frame
 
     Returns:
-        A Pandas data frame
+        A Modin data frame
     """
     distance = 1 - association_matrix
 
@@ -237,7 +237,7 @@ def reorder_by_cluster(association_matrix):
     dendrogram = hierarchy.dendrogram(link, get_leaves=True, no_plot=True)
     new_order = [x for x in dendrogram["leaves"] if x < max_dim]
 
-    reorder_corr = pd.DataFrame(
+    reorder_corr = modin.DataFrame(
         [row[new_order] for row in association_matrix.values[new_order]]
     )
 
@@ -259,7 +259,7 @@ def reorder_by_original(association_matrix, original_df):
         original_df: The original data frame
 
     Returns:
-        A Pandas Data frame
+        A Modin Data frame
     """
     # Get the original column order
     order = [
@@ -268,7 +268,7 @@ def reorder_by_original(association_matrix, original_df):
         if label in association_matrix.columns.values
     ]
 
-    reorder_matrix = pd.DataFrame(
+    reorder_matrix = modin.DataFrame(
         [row[order] for row in association_matrix.values[order]]
     )
 

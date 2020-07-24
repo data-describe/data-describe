@@ -5,26 +5,22 @@ import data_describe as dd
 
 
 def test_figure(data):
-    fig = dd.correlation_matrix(data, viz_backend="plotly")
+    fig = dd.correlation_matrix(data)
     assert isinstance(fig, plotly.graph_objs._figure.Figure)
 
 
 def test_figure_no_cluster(data):
-    fig = dd.correlation_matrix(data, cluster=False, viz_backend="plotly")
+    fig = dd.correlation_matrix(data, cluster=False)
     assert isinstance(fig, plotly.graph_objs._figure.Figure)
 
 
 def test_figure_categorical_no_cluster(data):
-    fig = dd.correlation_matrix(
-        data, categorical=True, cluster=False, viz_backend="plotly"
-    )
+    fig = dd.correlation_matrix(data, categorical=True, cluster=False)
     assert isinstance(fig, plotly.graph_objs._figure.Figure)
 
 
 def test_figure_categorical_cluster(data):
-    fig = dd.correlation_matrix(
-        data, cluster=True, categorical=True, viz_backend="plotly"
-    )
+    fig = dd.correlation_matrix(data, cluster=True, categorical=True)
     assert isinstance(fig, plotly.graph_objs._figure.Figure)
 
 
