@@ -8,6 +8,8 @@
 from abc import ABC
 from typing import List
 
+from IPython.display import display
+
 from data_describe.compat import _DATAFRAME_TYPE
 from data_describe.backends import _get_viz_backend, _get_compute_backend
 from data_describe.dimensionality_reduction.dimensionality_reduction import dim_reduc
@@ -53,9 +55,9 @@ def cluster(
         data=data, method=method, **kwargs
     )
 
-    xy_data, _ = dim_reduc(data, 2, dim_method=dim_method)
-    xy_data.columns = ["x", "y"]
-    xy_data["clusters"] = clusters
+    viz_data, _ = dim_reduc(data, 2, dim_method=dim_method)
+    viz_data.columns = ["x", "y"]
+    viz_data["clusters"] = clusters
 
     # TODO (haishiro): Set x/y labels with explained variance if using PCA
     # x
@@ -64,24 +66,47 @@ def cluster(
     #     str(round(truncator.explained_variance_ratio_[0] * 100, 2))
     # )
 
-    return _get_viz_backend(viz_backend).viz_cluster(xy_data, method, **kwargs)
+    fit.viz_data = viz_data
+    fit.viz_backend = viz_backend
+
+    return fit
 
 
 class ClusterFit(ABC):
     """Interface for collecting additional information about the clustering."""
 
-    def __init__(self, clusters: List[int] = None, method: str = None):
+    def __init__(self, clusters: List[int] = None, **kwargs):
         """Mandatory parameters.
 
         Args:
             clusters (List[int], optional): The predicted cluster labels.
-            method (str, optional): {'kmeans', 'hdbscan'}. The specified cluster method.
         """
+        self.viz_backend = None
         self.clusters = clusters
-        self.method = method
+        for key, value in kwargs.items():
+            self.__setattr__(key, value)
 
     def __repr__(self):
         return "Cluster fit information"
+
+    def _repr_html_(self):
+        return self.show()
+
+    def show(self, viz_backend=None):
+        """Show the default output."""
+        try:
+            try:
+                backend = self.viz_backend
+            except AttributeError:
+                backend = viz_backend
+
+            display(
+                _get_viz_backend(backend).viz_cluster(
+                    self.viz_data, method=self.method
+                )
+            )
+        except AttributeError as err:
+            raise ValueError("Plot data was not found") from err
 
 
 class KmeansFit(ClusterFit):
@@ -90,130 +115,66 @@ class KmeansFit(ClusterFit):
     def __init__(
         self,
         clusters=None,
-        method=None,
         estimator=None,
         n_clusters=None,
         search=False,
         cluster_range=None,
         metric=None,
+        **kwargs,
     ):
         """Mandatory parameters.
 
         Args:
             clusters (List[int], optional): The predicted cluster labels.
-            method (str, optional): The specified cluster method, "kmeans".
             estimator (optional): The cluster estimator object.
             n_clusters (int, optional): The number of clusters (k) used in the final clustering fit.
             search (bool, optional): If True, a search was performed for optimal n_clusters.
             cluster_range (Tuple[int, int], optional): The range of clusters searched as (min_cluster, max_cluster).
             metric (str, optional): The metric used to evaluate the cluster search.
         """
+        super(KmeansFit, self).__init__(**kwargs)
         self.clusters = clusters
-        self.method = method
+        self.method = "kmeans"
         self.estimator = estimator
         self.n_clusters = n_clusters
         self.search = search
         self.cluster_range = cluster_range
         self.metric = metric
 
-    def elbow_plot(self, viz_backend=None, **kwargs):
-        """Elbow plot."""
+    def cluster_search_plot(self, viz_backend=None, **kwargs):
+        """Shows the results of cluster search.
+
+        Cluster search attempts to find an optimal n_clusters by maximizing on some criterion.
+        This plot shows a line plot of each n_cluster that was attempted and its score.
+
+        Args:
+            viz_backend: The visualization backend.
+            **kwargs: Additional keyword arguments to pass to the visualization backend.
+
+        Returns:
+            The plot
+        """
         if not self.search:
             raise ValueError(
-                "Elbow plot is not applicable when n_cluster is explicitly selected"
+                "Cluster search plot is not applicable when n_cluster is explicitly selected"
             )
 
-        return _get_viz_backend(viz_backend).viz_elbow_plot(
-            self.cluster_range, self.scores, self.metric ** kwargs
+        return _get_viz_backend(viz_backend).viz_cluster_search_plot(
+            self.cluster_range, self.scores, self.metric, **kwargs
         )
 
 
 class HDBSCANFit(ClusterFit):
     """Interface for collecting additional information about the HDBSCAN clustering."""
 
-    def __init__(
-        self, clusters: List[int] = None, method: str = None, estimator=None,
-    ):
+    def __init__(self, clusters: List[int] = None, estimator=None, **kwargs):
         """Mandatory parameters.
 
         Args:
             clusters (List[int], optional): The predicted cluster labels.
-            method (str, optional): The specified cluster method, "hdbscan".
             estimator (optional): The HDBSCAN estimator object.
         """
+        super(HDBSCANFit, self).__init__(**kwargs)
         self.clusters = clusters
-        self.method = method
+        self.method = "hdbscan"
         self.estimator = estimator
-
-    # if return_value is None:
-    #     try:
-    #         return iplot(viz)
-    #     except Exception:  # TODO: This should be handled by backend routing
-    #         return viz
-    # elif return_value == "plot":
-    #     return viz
-
-
-#     if interactive is False:
-#         return (
-#             static_plot(
-#                 data=reduc_df,
-#                 method="KMeans",
-#                 x=reduc_df.columns[0],
-#                 y=reduc_df.columns[1],
-#                 truncator=truncator,
-#             ),
-#             reduc_df,
-#         )
-#     else:
-#         return (
-#             interactive_plot(
-#                 df=reduc_df,
-#                 method="KMeans",
-#                 x=reduc_df.columns[0],
-#                 y=reduc_df.columns[1],
-#                 color="cluster",
-#                 truncator=truncator,
-#             ),
-#             reduc_df,
-#         )
-
-
-# TODO (haishiro): Move to dimensionality_reduction
-# def truncate_data(data):
-#     """ Reduces the number of dimensions for t-SNE to speed up computation time and reduce noise
-
-#         Args:
-#             data: Pandas data frame
-#         Returns:
-#             reduc_df: reduced data frame
-#             truncator: Instance of a dimensionality reduction method
-#     """
-#     if data.shape[1] > 50:
-#         data = data.to_numpy()
-#         sparsity = 1.0 - (count_nonzero(data) / float(data.size))
-#         if sparsity >= 0.5:
-#             reduc, truncator = dim_reduc(data, n_components=50, dim_method="tsvd")
-#         else:
-#             reduc, truncator = dim_reduc(data, n_components=50, dim_method="pca")
-#         reduc_df, truncator = dim_reduc(reduc, n_components=2, dim_method="tsne")
-#         return reduc_df, truncator
-#     reduc_df, truncator = dim_reduc(data, n_components=2, dim_method="tsne")
-#     return reduc_df, truncator
-
-
-# def interactive_plot(df, x, y, method, color, truncator=None):
-#     """ Creates interactive scatter plot using plotly
-
-#     Args:
-#         df: Pandas data frame
-#         x: x-axis column
-#         y: y-axis column
-#         method: Method for creating a title for the plot
-#         color: Feature from df that determines color for data points
-#         truncator: Instance of a dimensionality reduction method
-
-#     Returns:
-#         fig: Plotly scatter plot or plotly object
-#     """
-#
