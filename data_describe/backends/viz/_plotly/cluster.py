@@ -46,12 +46,12 @@ def viz_cluster(data, method: str, xlabel: str = None, ylabel: str = None, **kwa
         yaxis=dict(zeroline=False, title=data.columns[0]),
         xaxis=dict(zeroline=False, title=data.columns[1]),
         yaxis_title=ylabel,
-        xaxis_label=xlabel,
+        xaxis_title=xlabel,
         autosize=False,
         width=int(get_option("display.fig_width"))
-        * 100,  # TODO (haishiro): Smarter defaults for fig size
+        * 50,  # TODO (haishiro): Smarter defaults for fig size
         height=int(get_option("display.fig_height"))
-        * 100,  # TODO (haishiro): Smarter defaults for fig size
+        * 50,  # TODO (haishiro): Smarter defaults for fig size
         title={"text": "{} Cluster".format(method), "font": {"size": 25}},
     )
 

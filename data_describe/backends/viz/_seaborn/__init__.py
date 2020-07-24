@@ -11,5 +11,5 @@ from data_describe.backends.viz._seaborn.time_series import (  # noqa: F401
 )
 from data_describe.backends.viz._seaborn.cluster import (  # noqa: F401
     viz_cluster,
-    viz_elbow_plot,
+    viz_cluster_search_plot,
 )

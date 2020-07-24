@@ -48,20 +48,16 @@ def _run_kmeans(
     """Run K-Means clustering.
 
     Args:
-        data: Data frame
-        n_clusters: (Optional) Number of clusters (k)
-        metric: The metric to optimize (from sklearn.metrics)
-            Includes: silhouette_score, adjusted_rand_score, adjusted_mutual_info_score, homogeneity_score,
-            completeness_score, v_measure_score, homogeneity_completeness_v_measure, fowlkes_mallows_score,
-            davies_bouldin_score
-        target: (For supervised clustering) The labels, as a 1-D array
-        **kwargs: Keyword arguments to be passed to the specific clustering method
+        data (DataFrame): The data.
+        n_clusters (Optional[int], optional): The number of clusters.
+        cluster_range (Tuple[int, int], optional): A tuple of the minimum and
+        maximum cluster search range. Defaults to (2, 20).
+        metric (str, optional): The metric to optimize (from sklearn.metrics).
+        target: (For supervised clustering) The labels, as a 1-D array.
+        **kwargs: Keyword arguments to be passed into the K-Means estimator.
 
     Returns:
-        (clusters, KMeansFit)
-
-        clusters: The predicted cluster labels
-        KMeansFit: A class containing additional information about the fit
+        [type]: [description]
     """
     if n_clusters is None:
         clusters, fit = _find_clusters(
@@ -87,14 +83,12 @@ def _find_clusters(
     """Finds the optimal number of clusters for K-Means clustering using the selected metric.
 
     Args:
-        data: Data frame
-        cluster_range: A tuple of the minimum and maximum cluster search range. Defaults to (2, 20)
-        metric: The metric to optimize (from sklearn.metrics)
-            Includes: silhouette_score, adjusted_rand_score, adjusted_mutual_info_score, homogeneity_score,
-            completeness_score, v_measure_score, homogeneity_completeness_v_measure, fowlkes_mallows_score,
-            davies_bouldin_score
-        target: (For supervised clustering) The labels, as a 1-D array
-        **kwargs: Keyword arguments to be passed into the K-Means estimator
+        data: The data.
+        cluster_range: A tuple of the minimum and
+        maximum cluster search range. Defaults to (2, 20).
+        metric: The metric to optimize (from sklearn.metrics).
+        target: (For supervised clustering) The labels, as a 1-D array.
+        **kwargs: Keyword arguments to be passed into the K-Means estimator.
 
     Returns:
         clusters, KmeansFit
@@ -161,7 +155,6 @@ def _run_hdbscan(data, min_cluster_size=15, **kwargs):
     Returns:
         clusters, HDBSCANFit
     """
-
     default_hdbscan_kwargs = {"min_cluster_size": min_cluster_size}
     hdbscan_kwargs = {**default_hdbscan_kwargs, **(kwargs or {})}
     hdb = compat.hdbscan.HDBSCAN(**hdbscan_kwargs)

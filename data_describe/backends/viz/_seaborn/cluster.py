@@ -3,6 +3,7 @@ from typing import Tuple, List, Union
 import seaborn as sns
 import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib.ticker import MaxNLocator
 
 from data_describe.config._config import get_option
 
@@ -37,13 +38,13 @@ def viz_cluster(data, method: str, xlabel: str = None, ylabel: str = None, **kwa
     return ax
 
 
-def viz_elbow_plot(
+def viz_cluster_search_plot(
     cluster_range: Tuple[int, int],
     scores: List[Union[int, float]],
     metric: str,
     **kwargs
 ):
-    """Visualize the elbow plot for K-means clusters.
+    """Visualize the cluster search plot for K-means clusters.
 
     Args:
         cluster_range (Tuple[int, int]): The range of n_clusters (k) searched as (min_cluster, max_cluster)
@@ -53,12 +54,13 @@ def viz_elbow_plot(
     Returns:
         Seaborn plot
     """
-    n_clusters = list(range(cluster_range))
+    n_clusters = list(range(*cluster_range))
     plt.figure(
         figsize=(get_option("display.fig_width"), get_option("display.fig_height"))
     )
     ax = sns.lineplot(n_clusters, scores)
     ax.set_title("Optimal Number of Clusters")
+    ax.xaxis.set_major_locator(MaxNLocator(integer=True))
     plt.xlabel("Number of Clusters")
     plt.ylabel("Average {}".format(" ".join(metric.split("_"))))
     return ax
