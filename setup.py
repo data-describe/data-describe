@@ -11,10 +11,8 @@ EMAIL = ""
 AUTHOR = "https://github.com/brianray/data-describe/graphs/contributors"
 REQUIRES_PYTHON = ">=3.7.0"
 version = {}
-
 with open(os.path.join("data_describe", "_version.py")) as fp:
     exec(fp.read(), version)
-
 
 REQUIRED = [
     "pandas>=0.24.0",
@@ -34,6 +32,7 @@ EXTRAS = {
     "nlp": ["nltk>=3.4", "pyldavis>=2.1.2", "gensim>=3.4.0"],
     "gcp": ["gcsfs>=0.2.1", "google-cloud-storage>=1.18.0"],
     "pii": ["presidio-analyzer==0.3.8917rc0"],
+    "modin": ["modin>=0.7.3", "ray>=0.8.4"]
 }
 
 
@@ -66,6 +65,7 @@ setup(
         ],
         "data_describe_compute_backends": [
             "pandas = data_describe:backends.compute._pandas",
+            "modin = data_describe:backends.compute._modin",
         ],
     },
 )

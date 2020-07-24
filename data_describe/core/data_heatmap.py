@@ -15,7 +15,7 @@ def data_heatmap(data, missing=False, compute_backend=None, viz_backend=None, **
     Returns:
         Visualization
     """
-    data, colnames = _get_compute_backend(compute_backend, data).process_data_heatmap(
+    data, colnames = _get_compute_backend(compute_backend, data).compute_data_heatmap(
         data, missing=missing, **kwargs
     )
 

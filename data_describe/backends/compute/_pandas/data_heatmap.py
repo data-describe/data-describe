@@ -5,7 +5,7 @@ from sklearn.preprocessing import StandardScaler
 from data_describe.compat import _DATAFRAME_TYPE
 
 
-def process_data_heatmap(
+def compute_data_heatmap(
     data, missing: bool = False, **kwargs
 ) -> Tuple[Any, List[str]]:
     """Pre-processes data for the data heatmap.
