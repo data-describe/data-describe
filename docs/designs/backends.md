@@ -18,7 +18,7 @@ from data_describe.backends import _get_compute_backend, _get_viz_backend
 
 def my_widget([<arg1>, <arg2>], compute_backend=None, viz_backend=None, **kwargs):
     data = _get_compute_backend(compute_backend, data).compute_my_widget(<arg1>, **kwargs)
-    return _get_viz_backend(viz_backend, data).plot_my_widget(data, <arg1>, **kwargs)
+    return _get_viz_backend(viz_backend, data).viz_my_widget(data, <arg1>, **kwargs)
 ```
 
 ## Arguments
