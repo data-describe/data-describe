@@ -26,9 +26,9 @@ def viz_cluster(data, method: str, xlabel: str = None, ylabel: str = None, **kwa
         figsize=(get_option("display.fig_width"), get_option("display.fig_height"))
     )
     unique_labels = len(np.unique(data["clusters"]))
-    pal = sns.set_palette("tab10", n_colors=unique_labels + 1)
+    pal = sns.color_palette(n_colors=unique_labels)
     ax = sns.scatterplot(
-        data=data, x="x", y="y", hue="clusters", palette=pal, legend="brief",
+        data=data, x="x", y="y", hue="clusters", palette=pal, legend="full", alpha=0.7
     )
     sns.set_context("talk")
     ax.set_xlabel(xlabel)
@@ -62,5 +62,5 @@ def viz_cluster_search_plot(
     ax.set_title("Optimal Number of Clusters")
     ax.xaxis.set_major_locator(MaxNLocator(integer=True))
     plt.xlabel("Number of Clusters")
-    plt.ylabel("Average {}".format(" ".join(metric.split("_"))))
+    plt.ylabel(f"{' '.join(metric.split('_'))}")
     return ax

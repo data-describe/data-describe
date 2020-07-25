@@ -1,10 +1,3 @@
-# import hdbscan
-# import sklearn
-# import pandas as pd
-# import seaborn as sns
-# import matplotlib.pyplot as plt
-# from numpy import count_nonzero  # type: ignore
-# from sklearn.cluster import KMeans
 from abc import ABC
 from typing import List
 
@@ -13,8 +6,6 @@ from IPython.display import display
 from data_describe.compat import _DATAFRAME_TYPE
 from data_describe.backends import _get_viz_backend, _get_compute_backend
 from data_describe.dimensionality_reduction.dimensionality_reduction import dim_reduc
-
-# from data_describe.dimensionality_reduction.dimensionality_reduction import dim_reduc
 
 
 def cluster(
@@ -41,7 +32,7 @@ def cluster(
         ValueError: Clustering method not implemented
 
     Returns:
-        Cluster plot
+        ClusterWidget
     """
     if not isinstance(data, _DATAFRAME_TYPE):
         raise ValueError("Data frame required")
@@ -55,9 +46,12 @@ def cluster(
         data=data, method=method, **kwargs
     )
 
-    viz_data, _ = dim_reduc(data, 2, dim_method=dim_method)
+    viz_data, reductor = dim_reduc(fit.scaled_data, 2, dim_method=dim_method)
     viz_data.columns = ["x", "y"]
     viz_data["clusters"] = clusters
+
+    fit.viz_data = viz_data
+    fit.reductor = reductor
 
     # TODO (haishiro): Set x/y labels with explained variance if using PCA
     # x
@@ -66,13 +60,12 @@ def cluster(
     #     str(round(truncator.explained_variance_ratio_[0] * 100, 2))
     # )
 
-    fit.viz_data = viz_data
     fit.viz_backend = viz_backend
 
     return fit
 
 
-class ClusterFit(ABC):
+class ClusterWidget(ABC):
     """Interface for collecting additional information about the clustering."""
 
     def __init__(self, clusters: List[int] = None, **kwargs):
@@ -87,7 +80,7 @@ class ClusterFit(ABC):
             self.__setattr__(key, value)
 
     def __repr__(self):
-        return "Cluster fit information"
+        return "Data Describe Cluster Widget"
 
     def _repr_html_(self):
         return self.show()
@@ -95,21 +88,23 @@ class ClusterFit(ABC):
     def show(self, viz_backend=None):
         """Show the default output."""
         try:
-            try:
-                backend = self.viz_backend
-            except AttributeError:
-                backend = viz_backend
+            viz_data = self.viz_data
+        except AttributeError:
+            raise ValueError("Could not find the expected data to visualize on this widget")
 
-            display(
-                _get_viz_backend(backend).viz_cluster(
-                    self.viz_data, method=self.method
-                )
+        try:
+            backend = self.viz_backend
+        except AttributeError:
+            backend = viz_backend
+
+        display(
+            _get_viz_backend(backend).viz_cluster(
+                viz_data, method=self.method
             )
-        except AttributeError as err:
-            raise ValueError("Plot data was not found") from err
+        )
 
 
-class KmeansFit(ClusterFit):
+class KmeansFit(ClusterWidget):
     """Interface for collecting additional information about the k-Means clustering."""
 
     def __init__(
@@ -164,7 +159,7 @@ class KmeansFit(ClusterFit):
         )
 
 
-class HDBSCANFit(ClusterFit):
+class HDBSCANFit(ClusterWidget):
     """Interface for collecting additional information about the HDBSCAN clustering."""
 
     def __init__(self, clusters: List[int] = None, estimator=None, **kwargs):

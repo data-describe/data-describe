@@ -29,7 +29,7 @@ def viz_cluster(data, method: str, xlabel: str = None, ylabel: str = None, **kwa
                 y=data.loc[data["clusters"] == i, "y"],
                 name="Noise",
                 mode="markers",
-                marker=dict(size=10, color="grey", line=dict(width=1)),
+                marker=dict(size=10, color="grey", line=None, opacity=0.7),
             )
             trace_list.append(trace)
         else:
@@ -38,7 +38,7 @@ def viz_cluster(data, method: str, xlabel: str = None, ylabel: str = None, **kwa
                 y=data.loc[data["clusters"] == i, "y"],
                 name=f"Cluster #{i}",
                 mode="markers",
-                marker=dict(size=10, colorscale="earth", line=dict(width=1)),
+                marker=dict(size=10, colorscale="earth", line=None, opacity=0.7),
             )
             trace_list.append(trace)
 
@@ -49,9 +49,9 @@ def viz_cluster(data, method: str, xlabel: str = None, ylabel: str = None, **kwa
         xaxis_title=xlabel,
         autosize=False,
         width=int(get_option("display.fig_width"))
-        * 50,  # TODO (haishiro): Smarter defaults for fig size
+        * 75,  # TODO (haishiro): Smarter defaults for fig size
         height=int(get_option("display.fig_height"))
-        * 50,  # TODO (haishiro): Smarter defaults for fig size
+        * 75,  # TODO (haishiro): Smarter defaults for fig size
         title={"text": "{} Cluster".format(method), "font": {"size": 25}},
     )
 

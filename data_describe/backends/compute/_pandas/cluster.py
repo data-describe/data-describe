@@ -3,10 +3,11 @@ from typing import Optional, Tuple
 import numpy as np
 import sklearn
 from sklearn.cluster import KMeans
+from sklearn.preprocessing import StandardScaler
 
 from data_describe import compat
 from data_describe.compat import requires
-import data_describe.core.cluster as ddc
+import data_describe.core.cluster as ddcluster
 
 
 def compute_cluster(data, method: str, **kwargs):
@@ -25,14 +26,19 @@ def compute_cluster(data, method: str, **kwargs):
         clusters: The predicted cluster labels
         ClusterFit: A class containing additional information about the fit
     """
-    data = data.apply(lambda x: (x - x.mean()) / x.std(), axis=1)
+    scaler = StandardScaler()
+    scaled_data = scaler.fit_transform(data)
 
     if method == "kmeans":
-        clusters, fit = _run_kmeans(data, **kwargs)
+        clusters, fit = _run_kmeans(scaled_data, **kwargs)
     elif method == "hdbscan":
-        clusters, fit = _run_hdbscan(data)
+        clusters, fit = _run_hdbscan(scaled_data)
     else:
         raise NotImplementedError(f"{method} not implemented")
+
+    fit.scaler = scaler
+    fit.input_data = data
+    fit.scaled_data = scaled_data
 
     return clusters, fit
 
@@ -94,7 +100,7 @@ def _find_clusters(
         clusters, KmeansFit
     """
     cluster_range = cluster_range or (2, 20)
-    unsupervised_metrics = ["silhouette_score", "davies_bouldin_score"]
+    unsupervised_metrics = ["silhouette_score", "davies_bouldin_score", "calinski_harabasz_score"]
 
     scores = []
     fits = []
@@ -137,7 +143,7 @@ def _fit_kmeans(data, n_clusters, **kwargs):
     kmeans.fit(data)
     cluster_labels = kmeans.predict(data)
 
-    fit = ddc.KmeansFit(
+    fit = ddcluster.KmeansFit(
         clusters=cluster_labels, estimator=kmeans, n_clusters=n_clusters
     )
     return cluster_labels, fit
@@ -159,5 +165,5 @@ def _run_hdbscan(data, min_cluster_size=15, **kwargs):
     hdbscan_kwargs = {**default_hdbscan_kwargs, **(kwargs or {})}
     hdb = compat.hdbscan.HDBSCAN(**hdbscan_kwargs)
     clusters = hdb.fit_predict(data)
-    fit = ddc.HDBSCANFit(clusters, method="hdbscan", estimator=hdb)
+    fit = ddcluster.HDBSCANFit(clusters, method="hdbscan", estimator=hdb)
     return clusters, fit
