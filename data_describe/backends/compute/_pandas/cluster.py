@@ -1,5 +1,6 @@
 from typing import Optional, Tuple
 
+import pandas as pd
 import numpy as np
 import sklearn
 from sklearn.cluster import KMeans
@@ -27,7 +28,7 @@ def compute_cluster(data, method: str, **kwargs):
         ClusterFit: A class containing additional information about the fit
     """
     scaler = StandardScaler()
-    scaled_data = scaler.fit_transform(data)
+    scaled_data = pd.DataFrame(scaler.fit_transform(data), columns=data.columns)
 
     if method == "kmeans":
         clusters, fit = _run_kmeans(scaled_data, **kwargs)
@@ -143,7 +144,7 @@ def _fit_kmeans(data, n_clusters, **kwargs):
     kmeans.fit(data)
     cluster_labels = kmeans.predict(data)
 
-    fit = ddcluster.KmeansFit(
+    fit = ddcluster.KmeansClusterWidget(
         clusters=cluster_labels, estimator=kmeans, n_clusters=n_clusters
     )
     return cluster_labels, fit
@@ -165,5 +166,5 @@ def _run_hdbscan(data, min_cluster_size=15, **kwargs):
     hdbscan_kwargs = {**default_hdbscan_kwargs, **(kwargs or {})}
     hdb = compat.hdbscan.HDBSCAN(**hdbscan_kwargs)
     clusters = hdb.fit_predict(data)
-    fit = ddcluster.HDBSCANFit(clusters, method="hdbscan", estimator=hdb)
+    fit = ddcluster.HDBSCANClusterWidget(clusters, method="hdbscan", estimator=hdb)
     return clusters, fit

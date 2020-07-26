@@ -83,28 +83,26 @@ class ClusterWidget(ABC):
         return "Data Describe Cluster Widget"
 
     def _repr_html_(self):
-        return self.show()
+        return display(self.show())
 
     def show(self, viz_backend=None):
         """Show the default output."""
         try:
             viz_data = self.viz_data
         except AttributeError:
-            raise ValueError("Could not find the expected data to visualize on this widget")
+            raise ValueError(
+                "Could not find the expected data to visualize on this widget"
+            )
 
         try:
             backend = self.viz_backend
         except AttributeError:
             backend = viz_backend
 
-        display(
-            _get_viz_backend(backend).viz_cluster(
-                viz_data, method=self.method
-            )
-        )
+        return _get_viz_backend(backend).viz_cluster(viz_data, method=self.method)
 
 
-class KmeansFit(ClusterWidget):
+class KmeansClusterWidget(ClusterWidget):
     """Interface for collecting additional information about the k-Means clustering."""
 
     def __init__(
@@ -115,6 +113,7 @@ class KmeansFit(ClusterWidget):
         search=False,
         cluster_range=None,
         metric=None,
+        scores=None,
         **kwargs,
     ):
         """Mandatory parameters.
@@ -126,8 +125,9 @@ class KmeansFit(ClusterWidget):
             search (bool, optional): If True, a search was performed for optimal n_clusters.
             cluster_range (Tuple[int, int], optional): The range of clusters searched as (min_cluster, max_cluster).
             metric (str, optional): The metric used to evaluate the cluster search.
+            scores: The metric scores in cluster search.
         """
-        super(KmeansFit, self).__init__(**kwargs)
+        super(ClusterWidget, self).__init__(**kwargs)
         self.clusters = clusters
         self.method = "kmeans"
         self.estimator = estimator
@@ -135,6 +135,7 @@ class KmeansFit(ClusterWidget):
         self.search = search
         self.cluster_range = cluster_range
         self.metric = metric
+        self.scores = scores
 
     def cluster_search_plot(self, viz_backend=None, **kwargs):
         """Shows the results of cluster search.
@@ -159,7 +160,7 @@ class KmeansFit(ClusterWidget):
         )
 
 
-class HDBSCANFit(ClusterWidget):
+class HDBSCANClusterWidget(ClusterWidget):
     """Interface for collecting additional information about the HDBSCAN clustering."""
 
     def __init__(self, clusters: List[int] = None, estimator=None, **kwargs):
@@ -169,7 +170,7 @@ class HDBSCANFit(ClusterWidget):
             clusters (List[int], optional): The predicted cluster labels.
             estimator (optional): The HDBSCAN estimator object.
         """
-        super(HDBSCANFit, self).__init__(**kwargs)
+        super(ClusterWidget, self).__init__(**kwargs)
         self.clusters = clusters
         self.method = "hdbscan"
         self.estimator = estimator

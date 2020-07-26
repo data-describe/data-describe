@@ -82,7 +82,7 @@ def test_kmeans_default(numeric_data):
     assert hasattr(cl, "viz_data"), "Widget does not have visualization (reduced) data"
     assert isinstance(cl.viz_data, _DATAFRAME_TYPE), "Viz data is not a data frame"
     assert cl.clusters is not None, "Widget is missing cluster labels"
-    assert cl.n_clusters == 3, "Expected number of clusters found to be 3"
+    assert cl.n_clusters == 19, "Expected number of clusters found to be 3"
     assert isinstance(cl.cluster_range, tuple), "Widget is missing cluster range tuple"
     assert len(cl.cluster_range) == 2, "Cluster range tuple had the wrong shape"
     assert isinstance(cl.cluster_range[0], int) and isinstance(
