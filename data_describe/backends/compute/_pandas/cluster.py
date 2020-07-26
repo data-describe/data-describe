@@ -35,7 +35,7 @@ def compute_cluster(data, method: str, **kwargs):
     elif method == "hdbscan":
         clusters, fit = _run_hdbscan(scaled_data)
     else:
-        raise NotImplementedError(f"{method} not implemented")
+        raise ValueError(f"{method} not implemented")
 
     fit.scaler = scaler
     fit.input_data = data
@@ -101,6 +101,8 @@ def _find_clusters(
         clusters, KmeansFit
     """
     cluster_range = cluster_range or (2, 20)
+    if not cluster_range[0] < cluster_range[1]:
+        raise ValueError("cluster_range expected to be (min_cluster, max_cluster), but the min was >= the max")
     unsupervised_metrics = ["silhouette_score", "davies_bouldin_score", "calinski_harabasz_score"]
 
     scores = []
@@ -112,7 +114,7 @@ def _find_clusters(
             score = analysis_func(data, clusters)
         else:
             if target is None:
-                raise ValueError("'target' must be specified for supervised")
+                raise ValueError("'target' must be specified for supervised clustering")
             score = analysis_func(target, clusters)
         scores.append(score)
         fits.append(fit)
@@ -123,6 +125,8 @@ def _find_clusters(
     fit.cluster_range = cluster_range
     fit.metric = metric
     fit.scores = scores
+    if target is not None:
+        fit.target = target
 
     return fit.clusters, fit
 
@@ -167,4 +171,5 @@ def _run_hdbscan(data, min_cluster_size=15, **kwargs):
     hdb = compat.hdbscan.HDBSCAN(**hdbscan_kwargs)
     clusters = hdb.fit_predict(data)
     fit = ddcluster.HDBSCANClusterWidget(clusters, method="hdbscan", estimator=hdb)
+    fit.n_clusters = len(np.unique(clusters))
     return clusters, fit
