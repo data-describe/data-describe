@@ -127,7 +127,7 @@ class KmeansClusterWidget(ClusterWidget):
             metric (str, optional): The metric used to evaluate the cluster search.
             scores: The metric scores in cluster search.
         """
-        super(ClusterWidget, self).__init__(**kwargs)
+        super(KmeansClusterWidget, self).__init__(**kwargs)
         self.clusters = clusters
         self.method = "kmeans"
         self.estimator = estimator
@@ -170,7 +170,7 @@ class HDBSCANClusterWidget(ClusterWidget):
             clusters (List[int], optional): The predicted cluster labels.
             estimator (optional): The HDBSCAN estimator object.
         """
-        super(ClusterWidget, self).__init__(**kwargs)
+        super(HDBSCANClusterWidget, self).__init__(**kwargs)
         self.clusters = clusters
         self.method = "hdbscan"
         self.estimator = estimator
