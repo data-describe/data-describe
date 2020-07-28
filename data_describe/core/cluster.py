@@ -1,8 +1,6 @@
-from abc import ABC
 from typing import List
 
-from IPython.display import display
-
+from data_describe._widget import BaseWidget
 from data_describe.compat import _DATAFRAME_TYPE
 from data_describe.backends import _get_viz_backend, _get_compute_backend
 from data_describe.dimensionality_reduction.dimensionality_reduction import dim_reduc
@@ -65,41 +63,66 @@ def cluster(
     return fit
 
 
-class ClusterWidget(ABC):
+class ClusterWidget(BaseWidget):
     """Interface for collecting additional information about the clustering."""
 
-    def __init__(self, clusters: List[int] = None, **kwargs):
-        """Mandatory parameters.
+    def __init__(
+        self,
+        clusters: List[int] = None,
+        method: str = None,
+        estimator=None,
+        input_data=None,
+        scaled_data=None,
+        viz_data=None,
+        dim_method: str = None,
+        reductor=None,
+        xlabel: str = None,
+        ylabel: str = None,
+        **kwargs,
+    ):
+        """Cluster Analysis.
 
         Args:
-            clusters (List[int], optional): The predicted cluster labels.
+            clusters (List[int], optional): The predicted cluster labels
+            method (str): The clustering algorithm
+            estimator: The clustering estimator
+            input_data: The input data
+            scaled_data: The data after applying standardization
+            viz_data: The data used for the default visualization i.e. reduced to 2 dimensions
+            dim_method (str): The algorithm used for dimensionality reduction
+            reductor: The dimensionality reduction estimator
+            xlabel (str): The x-axis label for the cluster plot
+            ylabel (str): The y-axis label for the cluster plot
         """
-        self.viz_backend = None
+        super(ClusterWidget, self).__init__(**kwargs)
         self.clusters = clusters
-        for key, value in kwargs.items():
-            self.__setattr__(key, value)
+        self.method = method
+        self.estimator = estimator
+        self.input_data = input_data
+        self.scaled_data = scaled_data
+        self.viz_data = viz_data
+        self.dim_method = dim_method
+        self.reductor = reductor
+        self.xlabel = xlabel
+        self.ylabel = ylabel
 
     def __repr__(self):
-        return "Data Describe Cluster Widget"
+        return "data-describe Cluster Widget"
 
-    def _repr_html_(self):
-        return display(self.show())
+    def show(self, viz_backend=None, **kwargs):
+        """Show the cluster plot."""
+        backend = viz_backend or self.viz_backend
 
-    def show(self, viz_backend=None):
-        """Show the default output."""
-        try:
-            viz_data = self.viz_data
-        except AttributeError:
-            raise ValueError(
-                "Could not find the expected data to visualize on this widget"
-            )
+        if self.viz_data is None:
+            raise ValueError("Could not find data to visualize.")
 
-        try:
-            backend = self.viz_backend
-        except AttributeError:
-            backend = viz_backend
-
-        return _get_viz_backend(backend).viz_cluster(viz_data, method=self.method)
+        return _get_viz_backend(backend).viz_cluster(
+            self.viz_data,
+            method=self.method,
+            xlabel=self.xlabel,
+            ylabel=self.ylabel,
+            **kwargs,
+        )
 
 
 class KmeansClusterWidget(ClusterWidget):
@@ -107,8 +130,6 @@ class KmeansClusterWidget(ClusterWidget):
 
     def __init__(
         self,
-        clusters=None,
-        estimator=None,
         n_clusters=None,
         search=False,
         cluster_range=None,
@@ -128,9 +149,7 @@ class KmeansClusterWidget(ClusterWidget):
             scores: The metric scores in cluster search.
         """
         super(KmeansClusterWidget, self).__init__(**kwargs)
-        self.clusters = clusters
         self.method = "kmeans"
-        self.estimator = estimator
         self.n_clusters = n_clusters
         self.search = search
         self.cluster_range = cluster_range
@@ -171,6 +190,4 @@ class HDBSCANClusterWidget(ClusterWidget):
             estimator (optional): The HDBSCAN estimator object.
         """
         super(HDBSCANClusterWidget, self).__init__(**kwargs)
-        self.clusters = clusters
         self.method = "hdbscan"
-        self.estimator = estimator
