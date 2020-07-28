@@ -102,8 +102,14 @@ def _find_clusters(
     """
     cluster_range = cluster_range or (2, 20)
     if not cluster_range[0] < cluster_range[1]:
-        raise ValueError("cluster_range expected to be (min_cluster, max_cluster), but the min was >= the max")
-    unsupervised_metrics = ["silhouette_score", "davies_bouldin_score", "calinski_harabasz_score"]
+        raise ValueError(
+            "cluster_range expected to be (min_cluster, max_cluster), but the min was >= the max"
+        )
+    unsupervised_metrics = [
+        "silhouette_score",
+        "davies_bouldin_score",
+        "calinski_harabasz_score",
+    ]
 
     scores = []
     fits = []
@@ -170,6 +176,8 @@ def _run_hdbscan(data, min_cluster_size=15, **kwargs):
     hdbscan_kwargs = {**default_hdbscan_kwargs, **(kwargs or {})}
     hdb = compat.hdbscan.HDBSCAN(**hdbscan_kwargs)
     clusters = hdb.fit_predict(data)
-    fit = ddcluster.HDBSCANClusterWidget(clusters, method="hdbscan", estimator=hdb)
+    fit = ddcluster.HDBSCANClusterWidget(
+        clusters=clusters, method="hdbscan", estimator=hdb
+    )
     fit.n_clusters = len(np.unique(clusters))
     return clusters, fit

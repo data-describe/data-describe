@@ -106,7 +106,7 @@ class ClusterWidget(BaseWidget):
         self.xlabel = xlabel
         self.ylabel = ylabel
 
-    def __repr__(self):
+    def __str__(self):
         return "data-describe Cluster Widget"
 
     def show(self, viz_backend=None, **kwargs):
@@ -182,7 +182,7 @@ class KmeansClusterWidget(ClusterWidget):
 class HDBSCANClusterWidget(ClusterWidget):
     """Interface for collecting additional information about the HDBSCAN clustering."""
 
-    def __init__(self, clusters: List[int] = None, estimator=None, **kwargs):
+    def __init__(self, **kwargs):
         """Mandatory parameters.
 
         Args:

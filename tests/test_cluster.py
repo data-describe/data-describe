@@ -5,6 +5,7 @@ from matplotlib.axes import Axes as mpl_plot
 from sklearn.cluster import KMeans
 from sklearn.preprocessing import StandardScaler
 import hdbscan
+import plotly
 
 import data_describe as dd
 from data_describe.compat import _DATAFRAME_TYPE
@@ -20,7 +21,6 @@ from data_describe.backends.compute._pandas.cluster import (
     _fit_kmeans,
     _run_hdbscan,
 )
-
 
 matplotlib.use("Agg")
 
@@ -84,8 +84,13 @@ def test_hdbscan_cluster_widget():
     ), "HDBSCAN Cluster Widget missing `estimator` attribute"
 
 
-def test_kmeans_default(numeric_data):
-    cl = dd.cluster(numeric_data, method="kmeans")
+@pytest.fixture
+def kmeans_default(numeric_data):
+    return dd.cluster(numeric_data, method="kmeans")
+
+
+def test_kmeans_default(kmeans_default):
+    cl = kmeans_default
     assert isinstance(cl, KmeansClusterWidget)
     assert isinstance(cl.estimator, KMeans), "Saved cluster estimator was not KMeans"
     assert hasattr(cl, "input_data"), "Widget does not have input data"
@@ -117,9 +122,14 @@ def test_kmeans_default(numeric_data):
     assert hasattr(cl, "reductor")
 
 
+def test_kmeans_plotly(kmeans_default):
+    figure = kmeans_default.show(viz_backend="plotly")
+    assert isinstance(figure, plotly.graph_objs._figure.Figure)
+
+
 @pytest.fixture
 def monkeypatch_KMeans(monkeypatch):
-    class mock_kmeans:
+    class mock_kmeans(KMeans):
         def __init__(self, *args, **kwargs):
             pass
 
@@ -134,8 +144,8 @@ def monkeypatch_KMeans(monkeypatch):
 
 @pytest.fixture
 def monkeypatch_HDBSCAN(monkeypatch):
-    class mock_hdbscan:
-        def __init__(self, *args, **kwargs):
+    class mock_hdbscan(hdbscan.HDBSCAN):
+        def __init__(self, **kwargs):
             pass
 
         def fit_predict(self, X, **kwargs):
@@ -239,4 +249,5 @@ def test_pandas_run_hdbscan_default(numeric_data, monkeypatch_HDBSCAN):
         fit, HDBSCANClusterWidget
     ), "Fit object was not a HDBSCANClusterWidget"
     assert fit.n_clusters == 1, "n_clusters on the widget does not match expected value"
+    print(repr(fit))
     assert isinstance(fit.estimator, hdbscan.HDBSCAN), "Estimator is not HDBSCAN"
