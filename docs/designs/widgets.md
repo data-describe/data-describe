@@ -45,12 +45,12 @@ class BaseWidget(ABC):
 Each feature should subclass the `BaseWidget`:
 
 ### `__init__`
-Arguments in the `__init__()` signature should primarily be used to indicate the attributes that are expected on the widget. Not all expected attributes must be assigned during initialization; they may be assigned after instantiation.
+Arguments in the `__init__()` signature should primarily be used to indicate the attributes that are expected on the widget. Not all expected attributes must be assigned during initialization - they may be assigned after instantiation. Widgets may be used to pass data between internal calculations (possibly across different backends) as the final widget state is accumulated.
 
-> One can call `super(BaseWidget, self).__init__(**kwargs)` in the subclass to self-assign keyword arguments.
+> Developers should call `super(class, self).__init__(**kwargs)` in their subclass.
 
-### `__repr__()`
-`__repr__` should be implemented and return a human-readable string that provides a short description of the widget, e.g. "data-describe Cluster Widget"
+### `__str__()`
+`__str__` should be implemented and return a human-readable string that provides a short description of the widget, e.g. "data-describe Cluster Widget"
 
 ### `_repr_html_()`
 `_repr_html_` is used to [display the object](https://ipython.readthedocs.io/en/stable/config/integrating.html) in a IPython/Jupyter setting when the object is the last line in a cell. It expects output from the `show()` method.
