@@ -31,17 +31,17 @@ def compute_cluster(data, method: str, **kwargs):
     scaled_data = pd.DataFrame(scaler.fit_transform(data), columns=data.columns)
 
     if method == "kmeans":
-        clusters, fit = _run_kmeans(scaled_data, **kwargs)
+        clusterwidget = _run_kmeans(scaled_data, **kwargs)
     elif method == "hdbscan":
-        clusters, fit = _run_hdbscan(scaled_data)
+        clusterwidget = _run_hdbscan(scaled_data)
     else:
         raise ValueError(f"{method} not implemented")
 
-    fit.scaler = scaler
-    fit.input_data = data
-    fit.scaled_data = scaled_data
+    clusterwidget.scaler = scaler
+    clusterwidget.input_data = data
+    clusterwidget.scaled_data = scaled_data
 
-    return clusters, fit
+    return clusterwidget
 
 
 def _run_kmeans(
@@ -67,7 +67,7 @@ def _run_kmeans(
         [type]: [description]
     """
     if n_clusters is None:
-        clusters, fit = _find_clusters(
+        clusterwidget = _find_clusters(
             data=data,
             cluster_range=cluster_range,
             metric=metric,
@@ -75,9 +75,9 @@ def _run_kmeans(
             **kwargs,
         )
     else:
-        clusters, fit = _fit_kmeans(data, n_clusters, **kwargs)
+        clusterwidget = _fit_kmeans(data, n_clusters, **kwargs)
 
-    return clusters, fit
+    return clusterwidget
 
 
 def _find_clusters(
@@ -112,29 +112,29 @@ def _find_clusters(
     ]
 
     scores = []
-    fits = []
+    widgets = []
     for n in range(*cluster_range):
-        clusters, fit = _fit_kmeans(data, n, **kwargs)
+        clusterwidget = _fit_kmeans(data, n, **kwargs)
         analysis_func = getattr(sklearn.metrics, metric)
         if metric in unsupervised_metrics:
-            score = analysis_func(data, clusters)
+            score = analysis_func(data, clusterwidget.clusters)
         else:
             if target is None:
                 raise ValueError("'target' must be specified for supervised clustering")
-            score = analysis_func(target, clusters)
+            score = analysis_func(target, clusterwidget.clusters)
         scores.append(score)
-        fits.append(fit)
+        widgets.append(clusterwidget)
 
     best_idx = np.argmax(scores)
-    fit = fits[best_idx]
-    fit.search = True
-    fit.cluster_range = cluster_range
-    fit.metric = metric
-    fit.scores = scores
+    clusterwidget = widgets[best_idx]
+    clusterwidget.search = True
+    clusterwidget.cluster_range = cluster_range
+    clusterwidget.metric = metric
+    clusterwidget.scores = scores
     if target is not None:
-        fit.target = target
+        clusterwidget.target = target
 
-    return fit.clusters, fit
+    return clusterwidget
 
 
 def _fit_kmeans(data, n_clusters, **kwargs):
@@ -154,10 +154,10 @@ def _fit_kmeans(data, n_clusters, **kwargs):
     kmeans.fit(data)
     cluster_labels = kmeans.predict(data)
 
-    fit = ddcluster.KmeansClusterWidget(
+    clusterwidget = ddcluster.KmeansClusterWidget(
         clusters=cluster_labels, estimator=kmeans, n_clusters=n_clusters
     )
-    return cluster_labels, fit
+    return clusterwidget
 
 
 @requires("hdbscan")
@@ -176,8 +176,8 @@ def _run_hdbscan(data, min_cluster_size=15, **kwargs):
     hdbscan_kwargs = {**default_hdbscan_kwargs, **(kwargs or {})}
     hdb = compat.hdbscan.HDBSCAN(**hdbscan_kwargs)
     clusters = hdb.fit_predict(data)
-    fit = ddcluster.HDBSCANClusterWidget(
+    clusterwidget = ddcluster.HDBSCANClusterWidget(
         clusters=clusters, method="hdbscan", estimator=hdb
     )
-    fit.n_clusters = len(np.unique(clusters))
-    return clusters, fit
+    clusterwidget.n_clusters = len(np.unique(clusters))
+    return clusterwidget

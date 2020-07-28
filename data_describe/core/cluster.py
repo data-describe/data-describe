@@ -40,16 +40,16 @@ def cluster(
 
     data = data.select_dtypes("number")
 
-    clusters, fit = _get_compute_backend(compute_backend, data).compute_cluster(
+    clusterwidget = _get_compute_backend(compute_backend, data).compute_cluster(
         data=data, method=method, **kwargs
     )
 
-    viz_data, reductor = dim_reduc(fit.scaled_data, 2, dim_method=dim_method)
+    viz_data, reductor = dim_reduc(clusterwidget.scaled_data, 2, dim_method=dim_method)
     viz_data.columns = ["x", "y"]
-    viz_data["clusters"] = clusters
+    viz_data["clusters"] = clusterwidget.clusters
 
-    fit.viz_data = viz_data
-    fit.reductor = reductor
+    clusterwidget.viz_data = viz_data
+    clusterwidget.reductor = reductor
 
     # TODO (haishiro): Set x/y labels with explained variance if using PCA
     # x
@@ -58,9 +58,9 @@ def cluster(
     #     str(round(truncator.explained_variance_ratio_[0] * 100, 2))
     # )
 
-    fit.viz_backend = viz_backend
+    clusterwidget.viz_backend = viz_backend
 
-    return fit
+    return clusterwidget
 
 
 class ClusterWidget(BaseWidget):
