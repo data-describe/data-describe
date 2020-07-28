@@ -1,4 +1,4 @@
-from abc import ABC
+from abc import ABC, abstractmethod
 
 from IPython.display import display
 
@@ -39,14 +39,17 @@ class BaseWidget(ABC):
         """Displays the object (widget) when it is on the last line in a Jupyter Notebook cell."""
         return display(self.show())
 
+    @abstractmethod
     def show(self, viz_backend=None):
         """Show the default output.
 
-        Assembles the object to be displayed by _repr_html_. This should respect
-        the viz_backend, if applicable.
+        Assembles the object to be displayed by _repr_html_. This should respect the viz_backend, if applicable.
 
         Args:
-            viz_backend: The visualization backend.
+            viz_backend: The visualization backend
+
+        Returns:
+            The default visualization or output to be displayed.
         """
         backend = viz_backend or self.viz_backend  # noqa: F841
 
