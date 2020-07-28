@@ -34,9 +34,6 @@ class BaseWidget(ABC):
     def __str__(self):
         return "data-describe Base Widget"
 
-    def __repr__(self):
-        return f"{self.__class__.__name__}({_format_attributes(vars(self))})"
-
     # TODO (haishiro): Use @final from typing; requires Python 3.8+
     def _repr_html_(self):
         """Displays the object (widget) when it is on the last line in a Jupyter Notebook cell."""
@@ -56,7 +53,3 @@ class BaseWidget(ABC):
         raise NotImplementedError(
             "No default visualization defined defined on this widget."
         )
-
-
-def _format_attributes(variables):
-    return ", ".join([f"{k}={v}" for k, v in variables.items()])
