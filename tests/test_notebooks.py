@@ -74,10 +74,12 @@ def check_notebook_execution(notebook):
 #     check_notebook_execution(notebook)
 #     fixture.check(notebook, raise_errors=True)
 
-# def test_scatter_plots_notebook():
-#     notebook = os.path.join(EXEC_CWD, "examples", "Scatter_Plots.ipynb")
-#     check_notebook_execution(notebook)
-#     fixture.check(notebook, raise_errors=True)
+
+def test_scatter_plots_notebook():
+    notebook = os.path.join(EXEC_CWD, "examples", "Scatter_Plots.ipynb")
+    check_notebook_execution(notebook)
+    fixture.check(notebook, raise_errors=True)
+
 
 # def test_data_summary_notebook():
 #     notebook = os.path.join(EXEC_CWD, "examples", "Data_Summary.ipynb")
@@ -100,23 +102,23 @@ def check_notebook_execution(notebook):
 # LONG RUN TIME
 
 
-def test_topic_modeling():
-    fixture = NBRegressionFixture(
-        exec_timeout=120,
-        exec_cwd=EXEC_CWD,
-        diff_color_words=True,
-        diff_ignore=(
-            "/cells/*/outputs/*/data/text/html",
-            "/metadata/language_info/version",
-            "/cells/4/outputs/0/text",
-            "/cells/1/outputs/",
-            "/cells/7/outputs/0",
-            "/cells/*/outputs/*/data/text/plain",
-        ),
-    )
-    fixture.check(
-        os.path.join(EXEC_CWD, "examples", "Topic_Modeling.ipynb"), raise_errors=True,
-    )
+# def test_topic_modeling():
+#     fixture = NBRegressionFixture(
+#         exec_timeout=120,
+#         exec_cwd=EXEC_CWD,
+#         diff_color_words=True,
+#         diff_ignore=(
+#             "/cells/*/outputs/*/data/text/html",
+#             "/metadata/language_info/version",
+#             "/cells/4/outputs/0/text",
+#             "/cells/1/outputs/",
+#             "/cells/7/outputs/0",
+#             "/cells/*/outputs/*/data/text/plain",
+#         ),
+#     )
+#     fixture.check(
+#         os.path.join(EXEC_CWD, "examples", "Topic_Modeling.ipynb"), raise_errors=True,
+#     )
 
 
 # def test_tutorial_notebook():
