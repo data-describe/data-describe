@@ -238,6 +238,7 @@
     .single-service img {
         margin-bottom: 20px;
         width: 75px !important;
+        height: 75px;
     }
     .single-service h6 {
         margin-bottom: 15px;
