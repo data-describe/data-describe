@@ -1,17 +1,15 @@
 import pytest
-import presidio_analyzer
 
+from data_describe.compat import presidio_analyzer
 from data_describe.compat import _DATAFRAME_TYPE
-from data_describe.sensitive_data.sensitive_data import sensitive_data
-from data_describe.backends.compute._pandas.sensitive_data import (
+from data_describe.privacy.detection import sensitive_data
+from data_describe.backends.compute._pandas.detection import (
     identify_pii,
     create_mapping,
     redact_info,
     identify_column_infotypes,
-    identify_infotypes,
     encrypt_text,
     hash_string,
-    compute_sensitive_data,
 )
 
 
@@ -37,7 +35,9 @@ def test_identify_column_infotypes(compute_backend_column_infotype):
 
 
 def test_identify_infotypes(compute_backend_pii_df):
-    results = identify_infotypes(compute_backend_pii_df, sample_size=1)
+    results = sensitive_data(
+        compute_backend_pii_df, sample_size=1, detect_infotypes=True, redact=False
+    )
     assert isinstance(results, dict)
     assert len(results) == 2
     assert isinstance(results["domain"], list)
@@ -64,9 +64,7 @@ def test_redact_info():
 
 
 def test_sensitive_data_cols(compute_backend_pii_df):
-    redacted_df = compute_sensitive_data(
-        compute_backend_pii_df, redact=True, cols=["name"]
-    )
+    redacted_df = sensitive_data(compute_backend_pii_df, redact=True, cols=["name"])
     assert redacted_df.shape == (1, 1)
     assert redacted_df.loc[1, "name"] == "<PERSON>"
 
@@ -83,7 +81,7 @@ def test_column_type(compute_backend_pii_df):
 
 def test_sample_size(compute_backend_pii_df):
     with pytest.raises(ValueError):
-        compute_sensitive_data(
+        sensitive_data(
             compute_backend_pii_df, redact=False, detect_infotypes=True, sample_size=9
         )
     with pytest.raises(ValueError):
@@ -91,7 +89,7 @@ def test_sample_size(compute_backend_pii_df):
 
 
 def test_sensitive_data_redact(compute_backend_pii_df):
-    redacted_df = compute_sensitive_data(compute_backend_pii_df, redact=True)
+    redacted_df = sensitive_data(compute_backend_pii_df, redact=True)
     assert redacted_df.shape == (1, 2)
     assert redacted_df.loc[1, "domain"] == "<DOMAIN_NAME>"
     assert redacted_df.loc[1, "name"] == "<PERSON>"
@@ -99,7 +97,7 @@ def test_sensitive_data_redact(compute_backend_pii_df):
 
 
 def test_sensitive_data_detect_infotypes(compute_backend_pii_df):
-    results = compute_sensitive_data(
+    results = sensitive_data(
         compute_backend_pii_df, redact=False, detect_infotypes=True, sample_size=1
     )
     assert isinstance(results, dict)
@@ -118,9 +116,7 @@ def test_encrypt_text():
 
 
 def test_encrypt_data(compute_backend_pii_df):
-    encrypted_df = compute_sensitive_data(
-        compute_backend_pii_df, redact=False, encrypt=True
-    )
+    encrypted_df = sensitive_data(compute_backend_pii_df, redact=False, encrypt=True)
     assert isinstance(encrypted_df, _DATAFRAME_TYPE)
     assert isinstance(encrypted_df.loc[1, "name"], str)
     assert isinstance(encrypted_df.loc[1, "domain"], str)

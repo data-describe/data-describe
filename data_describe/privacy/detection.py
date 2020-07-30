@@ -2,6 +2,13 @@ from typing import Optional
 
 from data_describe.backends import _get_compute_backend
 from data_describe.compat import _DATAFRAME_TYPE
+from data_describe.config._config import set_config, get_option
+from data_describe.privacy.engine import engine
+
+set_config({"sensitive_data.engine": engine})
+
+_DEFAULT_SCORE_THRESHOLD = get_option("sensitive_data.score_threshold")
+_SAMPLE_SIZE = get_option("sensitive_data.sample_size")
 
 
 def sensitive_data(
@@ -10,6 +17,8 @@ def sensitive_data(
     encrypt: bool = False,
     detect_infotypes: bool = False,
     cols: Optional[list] = None,
+    score_threshold=_DEFAULT_SCORE_THRESHOLD,
+    sample_size=_SAMPLE_SIZE,
     compute_backend: Optional[str] = None,
     **kwargs,
 ):
@@ -23,9 +32,11 @@ def sensitive_data(
         redact: If True, redact sensitive data
         encrypt: If True, anonymize data. Redact must be set to False
         detect_infotypes: If True, identifies infotypes for each column. Redact must be set to False
+        cols: List of columns. Defaults to None
         score_threshold: Minimum confidence value for detected entities to be returned
         sample_size: Number of sampled rows used for identifying column infotypes
-        cols: List of columns. Defaults to None
+        compute_backend: Select compute backend
+        **kwargs: Keyword arguments
 
     Returns:
         A dataframe if redact or anonymize is True.
@@ -45,6 +56,8 @@ def sensitive_data(
         encrypt=encrypt,
         detect_infotypes=detect_infotypes,
         cols=cols,
+        score_threshold=score_threshold,
+        sample_size=sample_size,
         **kwargs,
     )
 

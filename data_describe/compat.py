@@ -127,4 +127,10 @@ try:
 except ImportError:
     _PACKAGE_INSTALLED["hdbscan"] = False
 
-_IN_NOTEBOOK = (get_ipython() is not None)
+try:
+    import presidio_analyzer  # noqa: F401
+
+    _PACKAGE_INSTALLED["presidio_analyzer"] = True
+except ImportError:
+    _PACKAGE_INSTALLED["presidio_analyzer"] = False
+_IN_NOTEBOOK = get_ipython() is not None
