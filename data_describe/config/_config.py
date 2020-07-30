@@ -8,11 +8,7 @@ import pandas as pd
 _global_config: Dict = {
     "backends": {"compute": "pandas", "viz": "seaborn"},
     "display": {"fig_height": 10, "fig_width": 10},
-    "sensitive_data": {
-        "score_threshold": None,
-        "enable_trace_pii": None,
-        "sample_size": None,
-    },
+    "sensitive_data": {"score_threshold": None, "sample_size": None, "engine": None},
 }
 
 

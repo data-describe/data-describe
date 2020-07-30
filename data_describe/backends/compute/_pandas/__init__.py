@@ -12,7 +12,7 @@ from data_describe.backends.compute._pandas.time_series import (  # noqa: F401
     compute_decompose_timeseries,
     compute_autocorrelation,
 )
-from data_describe.backends.compute._pandas.sensitive_data import (  # noqa: F401
+from data_describe.backends.compute._pandas.detection import (  # noqa: F401
     compute_sensitive_data,
 )
 from data_describe.backends.compute._pandas.summary import (  # noqa: F401

@@ -1,61 +1,13 @@
 import hashlib
 from functools import reduce
 from typing import Optional, Any, Union
-import contextlib
-import logging
+import warnings
 
-from presidio_analyzer import AnalyzerEngine
-
-from data_describe.config._config import set_config, get_option
+from data_describe.config._config import get_option
 
 
-set_config(
-    {
-        "sensitive_data.score_threshold": 0.2,
-        "sensitive_data.enable_trace_pii": True,
-        "sensitive_data.sample_size": 100,
-    }
-)
 _DEFAULT_SCORE_THRESHOLD = get_option("sensitive_data.score_threshold")
-_ENABLE_TRACE_PII = get_option("sensitive_data.enable_trace_pii")
 _SAMPLE_SIZE: int = get_option("sensitive_data.sample_size")
-
-logger = logging.getLogger("presidio")
-logger.setLevel(logging.ERROR)
-
-# https://johnpaton.net/posts/redirect-logging/
-
-
-class OutputLogger:
-    """Redirect logs."""
-
-    def __init__(self, name="root", level="INFO"):
-        self.logger = logging.getLogger(name)
-        self.name = self.logger.name
-        self.level = getattr(logging, level)
-        self._redirector = contextlib.redirect_stdout(self)
-
-    def write(self, msg):  # noqa: D102
-        if msg and not msg.isspace():
-            self.logger.log(self.level, msg)
-
-    def flush(self):  # noqa: D102
-        pass
-
-    def __enter__(self):  # noqa: D105
-        self._redirector.__enter__()
-        return self
-
-    def __exit__(self, exc_type, exc_value, traceback):  # noqa: D105
-        # let contextlib do any exception handling here
-        self._redirector.__exit__(exc_type, exc_value, traceback)
-
-
-with OutputLogger("presidio", "WARN") as redirector:
-    engine = AnalyzerEngine(
-        default_score_threshold=_DEFAULT_SCORE_THRESHOLD,
-        enable_trace_pii=_ENABLE_TRACE_PII,
-    )
 
 
 def compute_sensitive_data(
@@ -77,9 +29,9 @@ def compute_sensitive_data(
         redact: If True, redact sensitive data
         encrypt: If True, anonymize data. Redact must be set to False
         detect_infotypes: If True, identifies infotypes for each column. Redact must be set to False
+        cols: List of columns. Defaults to None
         score_threshold: Minimum confidence value for detected entities to be returned
         sample_size: Number of sampled rows used for identifying column infotypes
-        cols: List of columns. Defaults to None
 
     Returns:
         A dataframe if redact or anonymize is True.
@@ -88,13 +40,25 @@ def compute_sensitive_data(
     if cols:
         df = df[cols]
     if redact:
-        df = df.applymap(lambda x: redact_info(str(x), score_threshold))
+        with warnings.catch_warnings():
+            warnings.filterwarnings(
+                "ignore",
+                category=UserWarning,
+                message="User-defined function verification is still under development in Modin",
+            )
+            df = df.applymap(lambda x: redact_info(str(x), score_threshold))
     if detect_infotypes:
         if sample_size > len(df):
             raise ValueError(f"sample_size must be <= {len(df)}")
         df = identify_infotypes(df, sample_size)
     if encrypt:
-        df = df.applymap(lambda x: encrypt_text(str(x), score_threshold))
+        with warnings.catch_warnings():
+            warnings.filterwarnings(
+                "ignore",
+                category=UserWarning,
+                message="User-defined function verification is still under development in Modin",
+            )
+            df = df.applymap(lambda x: encrypt_text(str(x), score_threshold))
     return df
 
 
@@ -109,6 +73,10 @@ def identify_pii(text, score_threshold=_DEFAULT_SCORE_THRESHOLD):
         List of presidio_analyzer.recognizer_result.RecognizerResult
         Results contain infotype, position, and confidence
     """
+    engine = get_option("sensitive_data.engine")
+    if not engine:
+        from data_describe.privacy.engine import engine
+
     response = engine.analyze(
         correlation_id=0,
         text=str(text).lower(),
@@ -169,9 +137,11 @@ def identify_column_infotypes(
         List of infotypes detecteds
     """
     sampled_data = data_series.sample(sample_size, random_state=1)
-    results = sampled_data.map(
-        lambda x: identify_pii(text=x, score_threshold=score_threshold)
-    ).tolist()
+    results = list(
+        sampled_data.map(
+            lambda x: identify_pii(text=x, score_threshold=score_threshold)
+        )
+    )
     if results:
         return sorted(list(set([i.entity_type for obj in results for i in obj])))
 
