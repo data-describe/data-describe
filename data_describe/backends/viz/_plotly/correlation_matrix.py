@@ -66,11 +66,11 @@ def viz_plot_correlation_matrix(association_matrix):
         ],
         layout=go.Layout(
             autosize=False,
-            width=get_option("display.fig_width") * 100,
-            height=get_option("display.fig_height") * 100,
+            width=get_option("display.plotly.fig_width"),
+            height=get_option("display.plotly.fig_height"),
             title={
                 "text": "Correlation Matrix",
-                "font": {"size": get_option("display.plotly_title_size")},
+                "font": {"size": get_option("display.plotly.title_size")},
             },
             xaxis=go.layout.XAxis(
                 automargin=True, tickangle=270, ticks="", showgrid=False

@@ -7,7 +7,7 @@ def correlation_matrix(
     categorical=False,
     return_values=False,
     compute_backend=None,
-    viz_backend="plotly",
+    viz_backend=None,
 ):
     """Correlation matrix of numeric variables.
 

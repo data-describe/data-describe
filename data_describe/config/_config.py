@@ -7,8 +7,15 @@ import pandas as pd
 
 _global_config: Dict = {
     "backends": {"compute": "pandas", "viz": "seaborn"},
-    "display": {"fig_height": 10, "fig_width": 10},
-    "sensitive_data": {"score_threshold": None, "sample_size": None},
+    "display": {
+        "matplotlib": {"fig_height": 10, "fig_width": 10},
+        "plotly": {"fig_height": 750, "fig_width": 750, "title_size": 25},
+    },
+    "sensitive_data": {
+        "score_threshold": None,
+        "enable_trace_pii": None,
+        "sample_size": None,
+    },
 }
 
 
