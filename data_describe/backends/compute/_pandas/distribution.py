@@ -26,7 +26,7 @@ def compute_distribution(
     """
     num_data = data.select_dtypes("number")
     cat_data = data.select_dtypes(
-        exclude=["number", "datetime", "timedelta", "datetimez"]
+        exclude=["number", "datetime", "timedelta"]
     )
 
     spikeyness = num_data.apply(spikey, axis=1) if diagnostic else None

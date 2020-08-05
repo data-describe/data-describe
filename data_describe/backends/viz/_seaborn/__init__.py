@@ -13,3 +13,8 @@ from data_describe.backends.viz._seaborn.cluster import (  # noqa: F401
     viz_cluster,
     viz_cluster_search_plot,
 )
+from data_describe.backends.viz._seaborn.distribution import (  # noqa: F401
+    viz_distribution,
+    viz_single_histogram,
+    viz_multiple_histogram,
+)
