@@ -15,6 +15,7 @@ from data_describe.backends.viz._seaborn.cluster import (  # noqa: F401
 )
 from data_describe.backends.viz._seaborn.distribution import (  # noqa: F401
     viz_distribution,
-    viz_single_histogram,
-    viz_multiple_histogram,
+    viz_histogram,
+    viz_violin,
+    viz_bar,
 )

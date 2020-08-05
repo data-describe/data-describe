@@ -1,5 +1,5 @@
-import data_describe.core.distribution as ddd
 from data_describe.metrics.univariate import spikey, skewed
+import data_describe.core.distributions as dddist
 
 
 def compute_distribution(
@@ -34,7 +34,7 @@ def compute_distribution(
     cardinality = cat_data.nunique() if diagnostic else None
     categories_to_squash = cardinality[cardinality > max_categories].index if diagnostic else None
 
-    return ddd.DistributionWidget(
+    return dddist.DistributionWidget(
         input_data=data,
         num_data=num_data,
         cat_data=cat_data,
