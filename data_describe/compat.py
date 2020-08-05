@@ -106,12 +106,12 @@ _DATAFRAME_BACKENDS = {
 }
 
 try:
-    import modin.pandas
+    import modin.pandas as modin
     import pandas
 
     _PACKAGE_INSTALLED["modin"] = True
-    _SERIES_TYPE = (pandas.Series, modin.pandas.Series)
-    _DATAFRAME_TYPE = (pandas.DataFrame, modin.pandas.DataFrame)
+    _SERIES_TYPE = (pandas.Series, modin.Series)
+    _DATAFRAME_TYPE = (pandas.DataFrame, modin.DataFrame)
 except ImportError:
     import pandas
 
