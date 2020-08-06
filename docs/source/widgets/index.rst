@@ -6,18 +6,19 @@ Widgets
 .. toctree::
    :maxdepth: 1
 
-   ../_notebooks/auto_data_type
-   ../_notebooks/cluster_analysis
-   ../_notebooks/correlation_matrix
-   ../_notebooks/data_heatmap
-   ../_notebooks/data_loader
-   ../_notebooks/data_summary
-   ../_notebooks/distributions
-   ../_notebooks/feature_importance
-   ../_notebooks/scatter_plots
-   ../_notebooks/sensitive_data
-   ../_notebooks/text_preprocessing
-   ../_notebooks/topic_modeling
+   ../_examples/auto_data_type
+   ../_examples/cluster_analysis
+   ../_examples/correlation_matrix
+   ../_examples/data_heatmap
+   ../_examples/data_loader
+   ../_examples/data_summary
+   ../_examples/distributions
+   ../_examples/feature_importance
+   ../_examples/scatter_plots
+   ../_examples/sensitive_data
+   ../_examples/text_preprocessing
+   ../_examples/time_series
+   ../_examples/topic_modeling
 Placeholder
 
 .. _`Data Describe`: https://bitbucket.org/mavenwave/mw-data_describe..

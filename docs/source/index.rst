@@ -9,8 +9,9 @@ Data Describe
 
    overview
    installation
-   _notebooks/tutorial
+   _examples/tutorial
    widgets/index
+   _notebooks/contributing_guide
    API Reference <_api/data_describe>
 
 License is `Apache 2 <https://github.com/brianray/data-describe/blob/master/LICENSE>`_.

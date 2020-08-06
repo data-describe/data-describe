@@ -31,7 +31,7 @@ def run(argv=None):
 
         pathlib.Path("source/_notebooks").mkdir(exist_ok=True)
 
-        shutil.copyfile(notebook, "source/_notebooks/" + output_name + ".ipynb")
+        shutil.copyfile(notebook, "source/_examples/" + output_name + ".ipynb")
 
     # Insert links to the widget ToC
     print("Finalizing Widget Page")
@@ -39,7 +39,7 @@ def run(argv=None):
     text = re.sub(
         r"(:maxdepth: 1).*(Placeholder)",
         r"\1\n\n"
-        + "\n".join(["   ../_notebooks/" + name for name in outputs])
+        + "\n".join(["   ../_examples/" + name for name in outputs])
         + r"\n\2",
         text,
         flags=re.S,
