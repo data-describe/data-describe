@@ -1,55 +1,50 @@
 # data⎰describe
-Expediting data discovery and understanding
 
-## Install
+data-describe is a Python toolkit for Exploratory Data Analysis (EDA). It aims to accelerate data exploration and analysis by providing automated and polished analysis widgets.
 
-With Pip:
+![heatmap](/docs/imgs/heatmap.png)
+
+## Main Features
+
+data-describe implements the following basic features:
+
+* Data Summary
+* Cluster Analysis
+* Correlation Matrix
+* Data Heatmap
+* Distribution Plots
+* Scatterplots
+* Feature Ranking
+
+## Additional Features
+
+data-describe also implements the following additional features:
+
+* Dimensionality Reduction Methods
+* Sensitive Data Redaction
+* Text / NLP Analysis
+* Big Data Support
+
+
+## Installation
+
+data-describe can be installed using pip:
 
 ```
 pip install data-describe
 ```
 
-With Conda:
-
-```
-conda install data-describe
-```
-
-## Usage
-
-import
+## Getting Started
 
 ```python
-
 import data_describe as dd
-
 ```
 
-## Supported Backends
-### Data / Computation
-- Pandas
-- Modin
+See the [User Guide](https://brianray.github.io/data-describe/) for more information.
 
-### Visualization
-- Seaborn (Matplotlib)
-- Plotly
+## Contributing
 
-test with some data
-
-```python
-
-from sklearn.datasets import load_wine
-data = load_wine()
-df = pd.DataFrame(data.data, columns=list(data.feature_names))
-df['target'] = data.target
-
-dd.data_heatmap(df)
-
-```
-
-![heatmap](/docs/imgs/heatmap.png)
-
-
+data-describe welcomes [contributions from the community](./CONTRIBUTING.md).
 
 
 
