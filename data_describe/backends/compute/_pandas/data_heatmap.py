@@ -2,7 +2,7 @@ from typing import Tuple, List, Any
 
 from sklearn.preprocessing import StandardScaler
 
-from data_describe.compat import _DATAFRAME_TYPE
+from data_describe._compat import _DATAFRAME_TYPE
 
 
 def compute_data_heatmap(

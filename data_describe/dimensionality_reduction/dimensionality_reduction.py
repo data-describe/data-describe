@@ -1,4 +1,4 @@
-from data_describe.compat import _DATAFRAME_TYPE
+from data_describe._compat import _DATAFRAME_TYPE
 from data_describe.backends._backends import _get_compute_backend
 
 

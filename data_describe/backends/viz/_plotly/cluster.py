@@ -1,7 +1,7 @@
 import plotly.graph_objs as go
 import plotly.offline as po
 
-from data_describe.compat import _IN_NOTEBOOK
+from data_describe._compat import _IN_NOTEBOOK
 from data_describe.config._config import get_option
 
 

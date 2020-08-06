@@ -8,8 +8,8 @@ import hdbscan
 import plotly
 
 import data_describe as dd
-from data_describe.compat import _DATAFRAME_TYPE
-from data_describe.core.clusters import (
+from data_describe._compat import _DATAFRAME_TYPE
+from data_describe.core.cluster import (
     ClusterWidget,
     KmeansClusterWidget,
     HDBSCANClusterWidget,
@@ -156,9 +156,7 @@ def monkeypatch_HDBSCAN(monkeypatch):
 
 def test_pandas_compute_cluster(numeric_data, monkeypatch_KMeans):
     widget = compute_cluster(numeric_data, method="kmeans")
-    assert isinstance(
-        widget.clusters, np.ndarray
-    ), "Cluster labels was not a numpy array"
+    assert isinstance(widget.clusters, np.ndarray), "Cluster labels was not a numpy array"
     assert isinstance(
         widget, KmeansClusterWidget
     ), "Fit object was not a KmeansClusterWidget"
@@ -172,9 +170,7 @@ def test_pandas_compute_cluster(numeric_data, monkeypatch_KMeans):
 
 def test_pandas_compute_cluster_hdbscan(numeric_data, monkeypatch_HDBSCAN):
     widget = compute_cluster(numeric_data, method="hdbscan")
-    assert isinstance(
-        widget.clusters, np.ndarray
-    ), "Cluster labels was not a numpy array"
+    assert isinstance(widget.clusters, np.ndarray), "Cluster labels was not a numpy array"
     assert isinstance(
         widget, HDBSCANClusterWidget
     ), "Fit object was not a HDBSCANClusterWidget"
@@ -193,29 +189,21 @@ def test_pandas_compute_cluster_invalid_method(numeric_data):
 
 def test_pandas_run_kmeans_default(numeric_data, monkeypatch_KMeans):
     widget = _run_kmeans(numeric_data)
-    assert isinstance(
-        widget.clusters, np.ndarray
-    ), "Cluster labels was not a numpy array"
+    assert isinstance(widget.clusters, np.ndarray), "Cluster labels was not a numpy array"
     assert isinstance(
         widget, KmeansClusterWidget
     ), "Fit object was not a KmeansClusterWidget"
     assert hasattr(widget, "n_clusters"), "Missing `n_clusters` attribute"
-    assert (
-        widget.search
-    ), "Cluster search did not occur when n_clusters is None (default)"
+    assert widget.search, "Cluster search did not occur when n_clusters is None (default)"
 
 
 def test_pandas_run_kmeans_specified_cluster(numeric_data, monkeypatch_KMeans):
     widget = _run_kmeans(numeric_data, n_clusters=2)
-    assert isinstance(
-        widget.clusters, np.ndarray
-    ), "Cluster labels was not a numpy array"
+    assert isinstance(widget.clusters, np.ndarray), "Cluster labels was not a numpy array"
     assert isinstance(
         widget, KmeansClusterWidget
     ), "Fit object was not a KmeansClusterWidget"
-    assert (
-        widget.n_clusters == 2
-    ), "n_clusters on the widget does not match expected value"
+    assert widget.n_clusters == 2, "n_clusters on the widget does not match expected value"
     assert not widget.search, "`search` equals True although n_cluster is specified"
 
 
@@ -246,28 +234,20 @@ def test_pandas_find_clusters_param(numeric_data, monkeypatch_KMeans):
 
 def test_pandas_fit_kmeans(numeric_data, monkeypatch_KMeans):
     widget = _fit_kmeans(numeric_data, 2)
-    assert isinstance(
-        widget.clusters, np.ndarray
-    ), "Cluster labels was not a numpy array"
+    assert isinstance(widget.clusters, np.ndarray), "Cluster labels was not a numpy array"
     assert isinstance(
         widget, KmeansClusterWidget
     ), "Fit object was not a KmeansClusterWidget"
-    assert (
-        widget.n_clusters == 2
-    ), "n_clusters on the widget does not match expected value"
+    assert widget.n_clusters == 2, "n_clusters on the widget does not match expected value"
     assert isinstance(widget.estimator, KMeans), "Estimator is not KMeans"
 
 
 def test_pandas_run_hdbscan_default(numeric_data, monkeypatch_HDBSCAN):
     widget = _run_hdbscan(numeric_data, min_cluster_size=10)
-    assert isinstance(
-        widget.clusters, np.ndarray
-    ), "Cluster labels was not a numpy array"
+    assert isinstance(widget.clusters, np.ndarray), "Cluster labels was not a numpy array"
     assert isinstance(
         widget, HDBSCANClusterWidget
     ), "Fit object was not a HDBSCANClusterWidget"
-    assert (
-        widget.n_clusters == 1
-    ), "n_clusters on the widget does not match expected value"
+    assert widget.n_clusters == 1, "n_clusters on the widget does not match expected value"
     print(repr(widget))
     assert isinstance(widget.estimator, hdbscan.HDBSCAN), "Estimator is not HDBSCAN"

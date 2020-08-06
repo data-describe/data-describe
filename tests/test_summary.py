@@ -1,6 +1,6 @@
 import pytest
 
-from data_describe.compat import _DATAFRAME_TYPE
+from data_describe._compat import _DATAFRAME_TYPE
 from data_describe.core.summary import data_summary
 
 

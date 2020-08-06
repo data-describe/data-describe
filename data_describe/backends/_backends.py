@@ -3,7 +3,7 @@ from types import ModuleType
 from typing import Dict, List, Optional
 
 from data_describe.config._config import get_option
-from data_describe.compat import _DATAFRAME_BACKENDS
+from data_describe._compat import _DATAFRAME_BACKENDS
 
 _viz_backends: Dict[str, Dict[str, ModuleType]] = {}
 _compute_backends: Dict[str, Dict[str, ModuleType]] = {}

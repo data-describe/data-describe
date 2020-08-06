@@ -1,7 +1,7 @@
 from typing import List
 
 from data_describe._widget import BaseWidget
-from data_describe.compat import _DATAFRAME_TYPE
+from data_describe._compat import _DATAFRAME_TYPE
 from data_describe.backends import _get_viz_backend, _get_compute_backend
 from data_describe.dimensionality_reduction.dimensionality_reduction import dim_reduc
 

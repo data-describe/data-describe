@@ -1,7 +1,7 @@
 import pytest
 import sklearn
 
-from data_describe.compat import _DATAFRAME_TYPE
+from data_describe._compat import _DATAFRAME_TYPE
 from data_describe.dimensionality_reduction.dimensionality_reduction import dim_reduc
 
 

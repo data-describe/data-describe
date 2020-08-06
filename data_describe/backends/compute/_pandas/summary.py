@@ -1,6 +1,6 @@
 import pandas as pd
 
-from data_describe.compat import _SERIES_TYPE, _DATAFRAME_TYPE
+from data_describe._compat import _SERIES_TYPE, _DATAFRAME_TYPE
 from data_describe.core.summary import agg_null, agg_zero, most_frequent
 
 

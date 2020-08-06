@@ -13,7 +13,7 @@ from data_describe.backends.compute._pandas.time_series import (
 )
 from data_describe.core.time_series import plot_autocorrelation, stationarity_test
 import data_describe as dd
-from data_describe.compat import _DATAFRAME_TYPE
+from data_describe._compat import _DATAFRAME_TYPE
 
 matplotlib.use("Agg")
 
