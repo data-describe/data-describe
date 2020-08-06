@@ -38,6 +38,7 @@ pip install data-describe
 
 ```python
 import data_describe as dd
+help(dd)
 ```
 
 See the [User Guide](https://brianray.github.io/data-describe/) for more information.
