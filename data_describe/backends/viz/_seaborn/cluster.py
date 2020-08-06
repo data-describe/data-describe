@@ -23,7 +23,10 @@ def viz_cluster(data, method: str, xlabel: str = None, ylabel: str = None, **kwa
     xlabel = xlabel or "Reduced Dimension 1"
     ylabel = ylabel or "Reduced Dimension 2"
     plt.figure(
-        figsize=(get_option("display.fig_width"), get_option("display.fig_height"))
+        figsize=(
+            get_option("display.matplotlib.fig_width"),
+            get_option("display.matplotlib.fig_height"),
+        )
     )
     unique_labels = len(np.unique(data["clusters"]))
     pal = sns.color_palette(n_colors=unique_labels)

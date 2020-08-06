@@ -6,7 +6,7 @@ from scipy.cluster import hierarchy
 from sklearn.metrics import matthews_corrcoef
 from scipy.stats import chi2_contingency
 
-from data_describe.core.correlation_matrix import CorrelationMatrixWidget
+import data_describe.core.correlation_matrices as ddcorr
 
 warnings.filterwarnings(
     "error",
@@ -83,7 +83,7 @@ def compute_correlation_matrix(data, cluster=False, categorical=False):
         else:
             pass  # Pearson Correlation does not need reordering
 
-    return CorrelationMatrixWidget(
+    return ddcorr.CorrelationMatrixWidget(
         association_matrix=association_matrix,
         cluster_matrix=cluster_matrix if cluster else None,
         viz_data=cluster_matrix if cluster else association_matrix,
