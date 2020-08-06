@@ -5,11 +5,16 @@ import numpy as np
 from data_describe.config._config import get_option
 
 
-def viz_plot_correlation_matrix(association_matrix):
+def viz_correlation_matrix(
+    association_matrix, annot=False, xticks_rotation=90, yticks_rotation=0
+):
     """Plot the heatmap for the association matrix.
 
     Args:
-        association_matrix: The association matrix
+        association_matrix (DataFrame): The association matrix
+        annot (bool): If True, add correlation values to plot. Defaluts to False.
+        xticks_rotation (int): Degrees of rotation for the xticks. Defaults to 90.
+        yticks_rotation (int): Degrees of rotation for the yticks. Defaults to 0.
 
     Returns:
         The Seaborn figure
@@ -25,16 +30,19 @@ def viz_plot_correlation_matrix(association_matrix):
             get_option("display.matplotlib.fig_height"),
         )
     )
-    plt.xticks(rotation=90)
+
     ax = sns.heatmap(
-        corr,
+        association_matrix,
         vmin=vmin,
         vmax=vmax,
         cmap="coolwarm",
-        annot=True,
+        annot=annot,
         mask=mask,
         center=0,
         linewidths=2,
     )
+
     plt.title("Correlation Matrix")
+    plt.xticks(rotation=xticks_rotation)
+    plt.yticks(rotation=yticks_rotation)
     return ax

@@ -58,8 +58,8 @@ def viz_decomposition(result, dates, title="Time Series Decomposition"):
     )
     fig.add_trace(go.Scatter(x=dates, y=result.resid, name="residual"), row=4, col=1)
     fig.update_layout(
-        height=get_option("display.fig_height") * 100,
-        width=get_option("display.fig_width") * 100,
+        height=get_option("display.plotly.fig_height"),
+        width=get_option("display.plotly.fig_width"),
         title_text=title,
         legend_title_text="Decomposition",
     )
@@ -122,9 +122,12 @@ def figure_layout(title="Time Series", xlabel="Date", ylabel="Variable"):
         layour: The plotly layout
     """
     layout = go.Layout(
-        title={"text": title, "font": {"size": 25}},
-        width=get_option("display.fig_width") * 100,
-        height=get_option("display.fig_height") * 100,
+        title={
+            "text": title,
+            "font": {"size": get_option("display.plotly.title_size")},
+        },
+        width=get_option("display.plotly.fig_width"),
+        height=get_option("display.plotly.fig_height"),
         xaxis=go.layout.XAxis(ticks="", title=xlabel, showgrid=True),
         yaxis=go.layout.YAxis(ticks="", title=ylabel, automargin=True, showgrid=True),
     )

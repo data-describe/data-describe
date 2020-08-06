@@ -1,18 +1,18 @@
 import numpy as np
-from IPython import get_ipython
-import plotly.graph_objs as go
-from plotly.offline import init_notebook_mode, iplot
 from scipy.stats import percentileofscore
+import plotly.graph_objs as go
+import plotly.offline as po
 
-from data_describe.utilities.colorscale import color_fade, rgb_to_str
+from data_describe.compat import _IN_NOTEBOOK
 from data_describe.config._config import get_option
+from data_describe.utilities.colorscale import color_fade, rgb_to_str
 
 
-def viz_plot_correlation_matrix(association_matrix):
+def viz_correlation_matrix(association_matrix):
     """Plot the heatmap for the association matrix.
 
     Args:
-        association_matrix: The association matrix
+        association_matrix (DataFrame): The association matrix
 
     Returns:
         The plotly figure
@@ -81,8 +81,8 @@ def viz_plot_correlation_matrix(association_matrix):
         ),
     )
 
-    if get_ipython() is not None:
-        init_notebook_mode(connected=True)
-        return iplot(fig, config={"displayModeBar": False})
+    if _IN_NOTEBOOK:
+        po.init_notebook_mode(connected=True)
+        return po.iplot(fig, config={"displayModeBar": False})
     else:
         return fig

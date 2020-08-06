@@ -7,5 +7,5 @@ from data_describe.backends.viz._plotly.time_series import (  # noqa: F401
 )
 from data_describe.backends.viz._plotly.cluster import viz_cluster  # noqa: F401
 from data_describe.backends.viz._plotly.correlation_matrix import (  # noqa: F401
-    viz_plot_correlation_matrix,
+    viz_correlation_matrix,
 )

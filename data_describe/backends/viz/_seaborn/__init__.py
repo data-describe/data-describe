@@ -16,5 +16,5 @@ from data_describe.backends.viz._seaborn.cluster import (  # noqa: F401
 from data_describe.backends.viz._seaborn.distribution import (  # noqa: F401
     viz_distribution,
 from data_describe.backends.viz._seaborn.correlation_matrix import (  # noqa: F401
-    viz_plot_correlation_matrix,
+    viz_correlation_matrix,
 )

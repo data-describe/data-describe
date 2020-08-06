@@ -42,7 +42,7 @@ def viz_cluster_search_plot(
     cluster_range: Tuple[int, int],
     scores: List[Union[int, float]],
     metric: str,
-    **kwargs
+    **kwargs,
 ):
     """Visualize the cluster search plot for K-means clusters.
 
@@ -56,7 +56,10 @@ def viz_cluster_search_plot(
     """
     n_clusters = list(range(*cluster_range))
     plt.figure(
-        figsize=(get_option("display.fig_width"), get_option("display.fig_height"))
+        figsize=(
+            get_option("display.matplotlib.fig_width"),
+            get_option("display.matplotlib.fig_height"),
+        )
     )
     ax = sns.lineplot(n_clusters, scores)
     ax.set_title("Optimal Number of Clusters")
