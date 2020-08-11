@@ -2,20 +2,33 @@ import pytest
 
 from data_describe.compat import presidio_analyzer
 from data_describe.compat import _DATAFRAME_TYPE
-from data_describe.privacy.detection import sensitive_data
+from data_describe.privacy.detection import sensitive_data, SensitiveDataWidget
+from data_describe.privacy.engine import engine
 from data_describe.backends.compute._pandas.detection import (
     identify_pii,
-    create_mapping,
     redact_info,
-    identify_column_infotypes,
     encrypt_text,
     hash_string,
 )
 
 
+def test_senstive_data_widget():
+    sd = SensitiveDataWidget()
+    assert hasattr(sd, "engine"), "Sensitive Data Widget missing engine"
+    assert hasattr(sd, "redact"), "Sensitive Data Widget missing redact"
+    assert hasattr(sd, "encrypt"), "Sensitive Data Widget missing encrypt"
+    assert hasattr(sd, "infotypes"), "Sensitive Data Widget missing infotypes"
+    assert hasattr(sd, "sample_size"), "Sensitive Data Widget missing sample size"
+    assert hasattr(sd, "__repr__"), "Sensitive Data Widget missing __repr__ method"
+    assert hasattr(
+        sd, "_repr_html_"
+    ), "Sensitive Data Widget missing _repr_html_ method"
+    assert hasattr(sd, "show"), "Sensitive Data Widget missing show method"
+
+
 def test_identify_pii():
     example_text = "This string contains a domain, gmail.com"
-    response = identify_pii(example_text)
+    response = identify_pii(example_text, engine)
     assert isinstance(response, list)
     assert isinstance(response[0], presidio_analyzer.recognizer_result.RecognizerResult)
     assert len(response) == 1
@@ -26,47 +39,61 @@ def test_identify_pii():
     assert response[0].entity_type == "DOMAIN_NAME"
 
 
-def test_identify_column_infotypes(compute_backend_column_infotype):
-    results = identify_column_infotypes(compute_backend_column_infotype, sample_size=1)
-    assert isinstance(results, list)
-    assert len(results) == 1
-    assert isinstance(results[0], str)
-    assert results[0] == "DOMAIN_NAME"
-
-
-def test_identify_infotypes(compute_backend_pii_df):
-    results = sensitive_data(
-        compute_backend_pii_df, sample_size=1, detect_infotypes=True, redact=False
-    )
-    assert isinstance(results, dict)
-    assert len(results) == 2
-    assert isinstance(results["domain"], list)
-    assert isinstance(results["name"], list)
-    assert results["domain"][0] == "DOMAIN_NAME"
-    assert results["name"][0] == "PERSON"
-
-
-def test_create_mapping():
-    example_text = "This string contains a domain gmail.com"
-    response = identify_pii(example_text)
-    word_mapping, text = create_mapping(example_text, response)
-    assert isinstance(word_mapping, dict)
-    assert isinstance(text, str)
-    assert example_text != text
-
-
 def test_redact_info():
     example_text = "This string contains a domain gmail.com"
-    result_text = redact_info(example_text)
+    result_text = redact_info(example_text, engine)
     assert isinstance(result_text, str)
     assert example_text != result_text
     assert result_text == "This string contains a domain <DOMAIN_NAME>"
 
 
 def test_sensitive_data_cols(compute_backend_pii_df):
-    redacted_df = sensitive_data(compute_backend_pii_df, redact=True, cols=["name"])
-    assert redacted_df.shape == (1, 1)
-    assert redacted_df.loc[1, "name"] == "<PERSON>"
+    sensitivewidget = sensitive_data(
+        compute_backend_pii_df, mode="redact", columns=["name"], detect_infotypes=False
+    )
+    assert isinstance(sensitivewidget, SensitiveDataWidget)
+    assert sensitivewidget.redact.shape == (1, 1)
+    assert sensitivewidget.redact.loc[1, "name"] == "<PERSON>"
+
+
+def test_sensitive_data_redact(compute_backend_pii_df):
+    sensitivewidget = sensitive_data(
+        compute_backend_pii_df, mode="redact", detect_infotypes=False
+    )
+    assert isinstance(sensitivewidget, SensitiveDataWidget)
+    assert sensitivewidget.redact.shape == (1, 2)
+    assert sensitivewidget.redact.loc[1, "domain"] == "<DOMAIN_NAME>"
+    assert sensitivewidget.redact.loc[1, "name"] == "<PERSON>"
+    assert isinstance(sensitivewidget.redact, _DATAFRAME_TYPE)
+
+
+def test_encrypt_data_and_infotypes(compute_backend_pii_df):
+    sensitivewidget = sensitive_data(
+        compute_backend_pii_df, mode="encrypt", detect_infotypes=True, sample_size=1
+    )
+    assert isinstance(sensitivewidget, SensitiveDataWidget)
+    assert isinstance(sensitivewidget.encrypt, _DATAFRAME_TYPE)
+    assert isinstance(sensitivewidget.encrypt.loc[1, "name"], str)
+    assert isinstance(sensitivewidget.encrypt.loc[1, "domain"], str)
+    assert isinstance(sensitivewidget.infotypes, dict)
+    assert len(sensitivewidget.infotypes) == 2
+    assert isinstance(sensitivewidget.infotypes["domain"], list)
+    assert isinstance(sensitivewidget.infotypes["name"], list)
+    assert sensitivewidget.infotypes["domain"][0] == "DOMAIN_NAME"
+    assert sensitivewidget.infotypes["name"][0] == "PERSON"
+
+
+def test_encrypt_text():
+    text = "gmail.com"
+    encrypted = encrypt_text(text, engine)
+    assert text != encrypted
+    assert isinstance(encrypted, str)
+
+
+def test_hash_string():
+    hashed = hash_string("John Doe")
+    assert isinstance(hashed, str)
+    assert len(hashed) == 64
 
 
 def test_type_df_type(compute_backend_pii_text):
@@ -76,53 +103,16 @@ def test_type_df_type(compute_backend_pii_text):
 
 def test_column_type(compute_backend_pii_df):
     with pytest.raises(TypeError):
-        sensitive_data(compute_backend_pii_df, cols="this is not a list")
+        sensitive_data(compute_backend_pii_df, columns="this is not a list")
+
+
+def test_mode_value(compute_backend_pii_df):
+    with pytest.raises(ValueError):
+        sensitive_data(compute_backend_pii_df, mode="invalid mode")
 
 
 def test_sample_size(compute_backend_pii_df):
     with pytest.raises(ValueError):
         sensitive_data(
-            compute_backend_pii_df, redact=False, detect_infotypes=True, sample_size=9
+            compute_backend_pii_df, mode=None, detect_infotypes=True, sample_size=9
         )
-    with pytest.raises(ValueError):
-        sensitive_data(compute_backend_pii_df, redact=True, encrypt=True)
-
-
-def test_sensitive_data_redact(compute_backend_pii_df):
-    redacted_df = sensitive_data(compute_backend_pii_df, redact=True)
-    assert redacted_df.shape == (1, 2)
-    assert redacted_df.loc[1, "domain"] == "<DOMAIN_NAME>"
-    assert redacted_df.loc[1, "name"] == "<PERSON>"
-    assert isinstance(redacted_df, _DATAFRAME_TYPE)
-
-
-def test_sensitive_data_detect_infotypes(compute_backend_pii_df):
-    results = sensitive_data(
-        compute_backend_pii_df, redact=False, detect_infotypes=True, sample_size=1
-    )
-    assert isinstance(results, dict)
-    assert len(results) == 2
-    assert isinstance(results["domain"], list)
-    assert isinstance(results["name"], list)
-    assert results["domain"][0] == "DOMAIN_NAME"
-    assert results["name"][0] == "PERSON"
-
-
-def test_encrypt_text():
-    text = "gmail.com"
-    encrypted = encrypt_text(text)
-    assert text != encrypted
-    assert isinstance(encrypted, str)
-
-
-def test_encrypt_data(compute_backend_pii_df):
-    encrypted_df = sensitive_data(compute_backend_pii_df, redact=False, encrypt=True)
-    assert isinstance(encrypted_df, _DATAFRAME_TYPE)
-    assert isinstance(encrypted_df.loc[1, "name"], str)
-    assert isinstance(encrypted_df.loc[1, "domain"], str)
-
-
-def test_hash_string():
-    hashed = hash_string("John Doe")
-    assert isinstance(hashed, str)
-    assert len(hashed) == 64
