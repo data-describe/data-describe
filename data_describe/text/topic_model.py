@@ -2,8 +2,6 @@ import warnings
 
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
 from sklearn.decomposition import TruncatedSVD, NMF
 from IPython import get_ipython
 
@@ -12,7 +10,9 @@ from data_describe.text.text_preprocessing import (
     create_tfidf_matrix,
     filter_dictionary,
 )
+from data_describe.backends import _get_viz_backend
 from data_describe import compat
+from data_describe._widget import BaseWidget
 from data_describe.compat import requires
 
 warnings.filterwarnings("ignore", category=UserWarning, module="gensim")
@@ -20,7 +20,7 @@ warnings.filterwarnings("ignore", category=UserWarning, module="gensim")
 
 @requires("gensim")
 @requires("pyLDAvis")
-class TopicModel:
+class TopicModelWidget(BaseWidget):
     """Create topic model."""
 
     def __init__(self, model_type="LDA", num_topics=None, model_kwargs=None):
@@ -46,6 +46,9 @@ class TopicModel:
             )
         self._num_topics = num_topics
         self._model_kwargs = model_kwargs
+
+    def __str__(self):
+        return "data-describe Topic Model Widget"
 
     @property
     def model(self):
@@ -316,7 +319,7 @@ class TopicModel:
         elif self._model_type == "NMF":
             self._model = self._compute_nmf_model(text_docs, tfidf)
 
-    def _plot_elbow(self):
+    def _plot_elbow(self, viz_backend=None):
         """Creates an elbow plot displaying coherence values vs number of topics.
 
         Args:
@@ -324,16 +327,9 @@ class TopicModel:
         Returns:
             fig: Elbow plot showing coherence values vs number of topics
         """
-        # plt.figure(figsize=(context.fig_width.fig_height)) # TODO (haishiro): Replace with get_option
-
-        fig = sns.lineplot(
-            x=[num for num in range(self._min_topics, self._max_topics + 1)],
-            y=self._coherence_values,
+        return _get_viz_backend(viz_backend).viz_plot_elbow(
+            self._min_topics, self._max_topics, self._coherence_values
         )
-        fig.set_title("Coherence Values Across Topic Numbers")
-        plt.xlabel("Number of Topics")
-        plt.ylabel("Coherence Values")
-        return fig
 
     def _get_topic_nums(self):
         """Obtains topic distributions (LDA model) or scores (LSA/NMF model).
@@ -498,7 +494,9 @@ class TopicModel:
         all_top_docs_df = pd.DataFrame(all_top_docs, index=doc_numbers)
         return all_top_docs_df
 
-    def show(self, display_item="pyLDAvis", text_docs=None, viz_kwargs=None):
+    def show(
+        self, display_item="pyLDAvis", text_docs=None, viz_kwargs=None, viz_backend=None
+    ):
         """Displays a specified visual to understand topic model and/or documents.
 
         Args:
@@ -524,21 +522,12 @@ class TopicModel:
         if display_item == "pyldavis":
             if self._model_type != "LDA":
                 raise TypeError("Model must be an LDA Model")
-            elif get_ipython() is not None:
-                compat.pyLDAvis.enable_notebook()
-                with warnings.catch_warnings():
-                    warnings.filterwarnings(
-                        "ignore",
-                        category=FutureWarning,
-                        module="pyLDAvis",
-                        message="Sorting because non-concatenation axis is not aligned.",
-                    )
-                    vis = compat.pyLDAvis.gensim.prepare(
-                        self._model, self._corpus, self._dictionary
-                    )
-                    return vis
-            else:
+            elif get_ipython() is None:
                 raise EnvironmentError("Not in Jupyter Notebook")
+            else:
+                return _get_viz_backend(viz_backend).viz_pyLDAvis(
+                    self._model, self._corpus, self._dictionary
+                )
         elif display_item == "elbow":
             try:
                 self._coherence_values
@@ -548,7 +537,7 @@ class TopicModel:
                     "with different numbers of topics."
                 )
             else:
-                return self._plot_elbow()
+                return self._plot_elbow(viz_backend)
         elif display_item == "top_words_per_topic":
             if viz_kwargs is None:
                 viz_kwargs = {}

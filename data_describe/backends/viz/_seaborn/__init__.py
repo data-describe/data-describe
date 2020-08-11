@@ -13,3 +13,4 @@ from data_describe.backends.viz._seaborn.cluster import (  # noqa: F401
     viz_cluster,
     viz_cluster_search_plot,
 )
+from data_describe.backends.viz._seaborn.topic_model import viz_plot_elbow  # noqa: F401
