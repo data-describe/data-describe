@@ -20,6 +20,9 @@ def viz_histogram(data, x, contrast=None, **kwargs):
     Returns:
         Seaborn Axis Object
     """
+    if x not in data.select_dtypes("number").columns:
+        raise ValueError("x must be numeric column")
+
     # TODO (haishiro): Use histplot from seaborn PR #2125
     default_hist_kwargs = {"kde": False, "rug": False}
     hist_kwargs = {**default_hist_kwargs, **(kwargs or {})}
@@ -63,6 +66,9 @@ def viz_violin(data, x, contrast=None, **kwargs):
     Returns:
         Seaborn Axis Object
     """
+    if x not in data.select_dtypes("number").columns:
+        raise ValueError("x must be numeric column")
+
     default_violin_kwargs = {"cut": 0}
     plt.figure(
         figsize=(get_option("display.fig_width"), get_option("display.fig_height"))

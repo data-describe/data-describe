@@ -3,7 +3,9 @@ from data_describe.compat import _DATAFRAME_TYPE
 from data_describe.backends import _get_viz_backend, _get_compute_backend
 
 
-def distribution(data, diagnostic=True, compute_backend=None, viz_backend=None, **kwargs):
+def distribution(
+    data, diagnostic=True, compute_backend=None, viz_backend=None, **kwargs
+):
     """Distribution Plots.
 
     Args:
@@ -30,6 +32,7 @@ def distribution(data, diagnostic=True, compute_backend=None, viz_backend=None, 
 
 class DistributionWidget(BaseWidget):
     """Distribution Widget."""
+
     def __init__(
         self,
         input_data=None,
@@ -120,9 +123,7 @@ class DistributionWidget(BaseWidget):
                 data=self.input_data, x=x, contrast=contrast, **kwargs
             )
 
-    def plot_bar(
-        self, x: str = None, contrast: str = None, viz_backend=None, **kwargs
-    ):
+    def plot_bar(self, x: str = None, contrast: str = None, viz_backend=None, **kwargs):
         """Generate bar plot(s).
 
         Args:
