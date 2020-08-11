@@ -1,8 +1,9 @@
 import contextlib
 import logging
 
-from data_describe.compat import presidio_analyzer
-from data_describe.config._config import set_config, get_option
+from data_describe import compat
+from data_describe.compat import requires
+from data_describe.config._config import get_option, set_config
 
 
 set_config({"sensitive_data.sample_size": 100, "sensitive_data.score_threshold": 0.2})
@@ -38,7 +39,18 @@ class OutputLogger:
         self._redirector.__exit__(exc_type, exc_value, traceback)
 
 
-with OutputLogger("presidio", "WARN") as redirector:
-    engine = presidio_analyzer.AnalyzerEngine(
-        default_score_threshold=_DEFAULT_SCORE_THRESHOLD, enable_trace_pii=True
-    )
+@requires("presidio_analyzer")
+def presidio_engine():
+    """Initialize presidio engine.
+
+    Returns:
+        Presidio engine
+    """
+    with OutputLogger("presidio", "WARN") as redirector:  # noqa: F841
+        engine = compat.presidio_analyzer.AnalyzerEngine(
+            default_score_threshold=_DEFAULT_SCORE_THRESHOLD, enable_trace_pii=True
+        )
+    return engine
+
+
+engine = presidio_engine()

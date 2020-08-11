@@ -32,7 +32,7 @@ EXTRAS = {
     "nlp": ["nltk>=3.4", "pyldavis>=2.1.2", "gensim>=3.4.0"],
     "gcp": ["gcsfs>=0.2.1", "google-cloud-storage>=1.18.0"],
     "pii": ["presidio-analyzer==0.3.8917rc0"],
-    "modin": ["modin>=0.7.3", "ray>=0.8.4"]
+    "modin": ["modin>=0.7.3", "ray>=0.8.4"],
 }
 
 
@@ -60,12 +60,12 @@ setup(
     ],
     entry_points={
         "data_describe_viz_backends": [
-            "seaborn = data_describe:backends.viz._seaborn",
-            "plotly = data_describe:backends.viz._plotly",
+            "seaborn = data_describe.backends.viz:_seaborn",
+            "plotly = data_describe.backends.viz:_plotly",
         ],
         "data_describe_compute_backends": [
-            "pandas = data_describe:backends.compute._pandas",
-            "modin = data_describe:backends.compute._modin",
+            "pandas = data_describe.backends.compute:_pandas",
+            "modin = data_describe.backends.compute:_modin",
         ],
     },
 )
