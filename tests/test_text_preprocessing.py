@@ -19,53 +19,61 @@ from data_describe.text.text_preprocessing import (
 
 @pytest.fixture
 def tokenized_test_list_main(text_data):
-    return tokenize(text_data["test_list_main"])
+    return list(tokenize(text_data["test_list_main"]))
 
 
 def test_tokenizer(text_data):
-    assert tokenize(text_data["test_list_main"]) == text_data["answer_key_tokenized"]
+    assert (
+        list(tokenize(text_data["test_list_main"])) == text_data["answer_key_tokenized"]
+    )
 
 
 def test_to_lower(text_data, tokenized_test_list_main):
-    assert to_lower(tokenized_test_list_main) == text_data["answer_key_lower"]
+    assert list(to_lower(tokenized_test_list_main)) == text_data["answer_key_lower"]
 
 
 def test_remove_punct(text_data, tokenized_test_list_main):
     assert (
-        remove_punct(tokenized_test_list_main) == text_data["answer_key_remove_punct"]
+        list(remove_punct(tokenized_test_list_main))
+        == text_data["answer_key_remove_punct"]
     )
     assert (
-        remove_punct(tokenized_test_list_main, remove_all=True, replace_char="")
+        list(remove_punct(tokenized_test_list_main, remove_all=True, replace_char=""))
         == text_data["answer_key_remove_all_punct_no_space"]
     )
     assert (
-        remove_punct(tokenized_test_list_main, remove_all=True)
+        list(remove_punct(tokenized_test_list_main, remove_all=True))
         == text_data["answer_key_remove_all_punct_with_space"]
     )
 
 
 def test_remove_digits(text_data):
     assert (
-        remove_digits(text_data["test_list_digits"])
+        list(remove_digits(text_data["test_list_digits"]))
         == text_data["answer_key_remove_digits"]
     )
 
 
 def test_remove_single_char_and_spaces(text_data):
     assert (
-        remove_single_char_and_spaces(text_data["test_list_single_char_and_spaces"])
+        list(
+            remove_single_char_and_spaces(text_data["test_list_single_char_and_spaces"])
+        )
         == text_data["answer_key_single_char_and_spaces"]
     )
 
 
 def test_remove_stopwords(text_data, tokenized_test_list_main):
     assert (
-        remove_stopwords(to_lower(tokenized_test_list_main))
+        list(remove_stopwords(to_lower(tokenized_test_list_main)))
         == text_data["answer_key_remove_stop_words"]
     )
     assert (
-        remove_stopwords(
-            to_lower(tokenized_test_list_main), more_words=text_data["more_words"]
+        list(
+            remove_stopwords(
+                list(to_lower(tokenized_test_list_main)),
+                more_words=text_data["more_words"],
+            )
         )
         == text_data["answer_key_remove_stop_words_more"]
     )
@@ -83,7 +91,7 @@ def test_lem_and_stem(text_data):
 
 
 def test_bag_of_words(text_data):
-    bag = bag_of_words_to_docs(preprocess_texts(text_data["test_list_main"]))
+    bag = list(bag_of_words_to_docs(preprocess_texts(text_data["test_list_main"])))
 
     assert len(text_data["test_list_main"]) == len(bag)
     assert isinstance(bag, list)
