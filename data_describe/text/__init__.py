@@ -14,4 +14,4 @@ from data_describe.text.text_preprocessing import (  # noqa: F401
     ngram_freq,
     filter_dictionary,
 )
-from data_describe.text.topic_model import TopicModel  # noqa: F401
+from data_describe.text.topic_model import TopicModelWidget  # noqa: F401
