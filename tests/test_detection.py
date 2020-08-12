@@ -53,7 +53,7 @@ def test_sensitive_data_cols(compute_backend_pii_df):
     )
     assert isinstance(sensitivewidget, SensitiveDataWidget)
     assert sensitivewidget.redact.shape == (1, 1)
-    assert sensitivewidget.redact.loc[1, "name"] == "<PERSON>"
+    assert sensitivewidget.redact["name"][1] == "<PERSON>"
 
 
 def test_sensitive_data_redact(compute_backend_pii_df):
@@ -62,8 +62,8 @@ def test_sensitive_data_redact(compute_backend_pii_df):
     )
     assert isinstance(sensitivewidget, SensitiveDataWidget)
     assert sensitivewidget.redact.shape == (1, 2)
-    assert sensitivewidget.redact.loc[1, "domain"] == "<DOMAIN_NAME>"
-    assert sensitivewidget.redact.loc[1, "name"] == "<PERSON>"
+    assert sensitivewidget.redact["name"][1] == "<PERSON>"
+    assert sensitivewidget.redact["domain"][1] == "<DOMAIN_NAME>"
     assert isinstance(sensitivewidget.redact, _DATAFRAME_TYPE)
 
 
@@ -73,8 +73,8 @@ def test_encrypt_data_and_infotypes(compute_backend_pii_df):
     )
     assert isinstance(sensitivewidget, SensitiveDataWidget)
     assert isinstance(sensitivewidget.encrypt, _DATAFRAME_TYPE)
-    assert isinstance(sensitivewidget.encrypt.loc[1, "name"], str)
-    assert isinstance(sensitivewidget.encrypt.loc[1, "domain"], str)
+    assert isinstance(sensitivewidget.encrypt["name"][1], str)
+    assert isinstance(sensitivewidget.encrypt["domain"][1], str)
     assert isinstance(sensitivewidget.infotypes, dict)
     assert len(sensitivewidget.infotypes) == 2
     assert isinstance(sensitivewidget.infotypes["domain"], list)
