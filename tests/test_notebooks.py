@@ -14,9 +14,7 @@ fixture = NBRegressionFixture(
     diff_ignore=(
         "/cells/*/outputs/*/data/text/plain",
         "/cells/*/metadata/outputs/text",
-        "/metadata/language_info/version",
-        "/metadata/kernelspec/display_name/",
-        "/metadata/kernelspec/name/",
+        "/metadata/",
         "/cells/*/execution_count",
         "/cells/*/outputs/*/execution_count",
         "/cells/1/outputs",
