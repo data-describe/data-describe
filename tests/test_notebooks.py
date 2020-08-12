@@ -88,9 +88,7 @@ def test_data_summary_notebook():
             "/cells/1/outputs/",
             "/cells/4/outputs/1/data/text/plain",
             "/cells/*/metadata/outputs/text",
-            "/metadata/language_info/version",
-            "/metadata/kernelspec/display_name/",
-            "/metadata/kernelspec/name/",
+            "/metadata/",
         ),
     )
     fixture.check(notebook, raise_errors=True)
