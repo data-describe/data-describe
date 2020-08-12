@@ -243,6 +243,13 @@ def compute_backend_pii_df(request):
     )
 
 
+@pytest.fixture(params=[pd])
+def compute_pandas_pii_df(request):
+    return request.param.DataFrame(
+        {"domain": "gmail.com", "name": "John Doe"}, index=[1]
+    )
+
+
 @pytest.fixture(params=_COMPUTE_MODULES)
 def compute_backend_pii_text(request):
     return "this is not a dataframe"
