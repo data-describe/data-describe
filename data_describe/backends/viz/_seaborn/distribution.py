@@ -6,16 +6,24 @@ import seaborn as sns
 from data_describe.config._config import get_option
 
 
-def viz_distribution_diagnostic(data, is_skewed, is_spikey, **kwargs):
-    skew_plots = [
-        viz_distribution(data, x, **kwargs)
-        for x in is_skewed.where(lambda x: x).dropna().index
+def viz_distribution_diagnostic(data, is_skewed, is_spikey, top=3, **kwargs):
+    """Distribution plots selected by diagnostics.
+
+    Args:
+        data (DataFrame): The data
+        is_skewed (bool): Array of skew scores
+        is_spikey (bool): Array of spikey scores
+        top (int, optional): Number of plots to show. Defaults to 3.
+
+    Returns:
+        Matplotlib Axes object
+    """
+    skew_plots = is_skewed.sort_values(ascending=False).head(top).index
+    spikey_plots = is_spikey.sort_values(ascending=False).head(top).index
+    return [
+        viz_distribution(data, x, contrast=None, **kwargs)
+        for x in set(list(skew_plots) + list(spikey_plots))
     ]
-    spikey_plots = [
-        viz_distribution(data, x, **kwargs)
-        for x in is_skewed.where(lambda x: x).dropna().index
-    ]
-    return skew_plots + spikey_plots
 
 
 def viz_distribution(data, x, contrast=None, **kwargs):
