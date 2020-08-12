@@ -84,10 +84,13 @@ def test_data_summary_notebook():
         diff_color_words=True,
         diff_ignore=(
             "/cells/*/outputs/*/data/text/html",
-            "/metadata/language_info/version",
             "/cells/4/outputs/0/text",
             "/cells/1/outputs/",
             "/cells/4/outputs/1/data/text/plain",
+            "/cells/*/metadata/outputs/text",
+            "/metadata/language_info/version",
+            "/metadata/kernelspec/display_name/",
+            "/metadata/kernelspec/name/",
         ),
     )
     fixture.check(notebook, raise_errors=True)
