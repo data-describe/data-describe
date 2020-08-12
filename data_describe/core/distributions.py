@@ -38,8 +38,8 @@ class DistributionWidget(BaseWidget):
         input_data=None,
         num_data=None,
         cat_data=None,
-        spikeyness=None,
-        skewness=None,
+        is_spikey=None,
+        is_skewed=None,
         max_categories=None,
         label_name=None,
         spike_factor=None,
@@ -51,8 +51,8 @@ class DistributionWidget(BaseWidget):
         self.input_data = input_data
         self.num_data = num_data
         self.cat_data = cat_data
-        self.spikeyness = spikeyness
-        self.skewness = skewness
+        self.is_spikey = is_spikey
+        self.is_skewed = is_skewed
         self.max_categories = max_categories
         self.label_name = label_name
         self.spike_factor = spike_factor
@@ -67,15 +67,20 @@ class DistributionWidget(BaseWidget):
             viz_backend (str, optional): The visualization backend.
         """
         backend = viz_backend or self.viz_backend
-        return _get_viz_backend(backend).viz_distribution(self.input_data, **kwargs)
+        return _get_viz_backend(backend).viz_distribution_diagnostic(
+            self.input_data, self.is_skewed, self.is_spikey, **kwargs
+        )
 
-    def plot_histogram(
+    def plot_distribution(
         self, x: str = None, contrast: str = None, viz_backend=None, **kwargs
     ):
-        """Generate histogram plot(s).
+        """Generate distribution plot(s).
+
+        Numeric features will be visualized using a histogram/violin plot, and any other types will be
+        visualized using a categorical bar plot.
 
         Args:
-            x (str, optional): The feature name to plot. If None, will plot all numeric features.
+            x (str, optional): The feature name to plot. If None, will plot all features.
             contrast (str, optional): The feature name to compare histograms by contrast.
             viz_backend (optional): The visualization backend.
             **kwargs: Additional keyword arguments for the visualization backend.
@@ -86,67 +91,94 @@ class DistributionWidget(BaseWidget):
         backend = viz_backend or self.viz_backend
 
         if x is None:
-            return _get_viz_backend(backend).viz_all_histogram(
+            return _get_viz_backend(backend).viz_all_distributions(
                 data=self.input_data.drop(contrast, axis=1),
                 contrast=self.input_data[contrast],
                 **kwargs
             )
         else:
-            return _get_viz_backend(backend).viz_histogram(
+            return _get_viz_backend(backend).viz_distribution(
                 data=self.input_data, x=x, contrast=contrast, **kwargs
             )
 
-    def plot_violin(
-        self, x: str = None, contrast: str = None, viz_backend=None, **kwargs
-    ):
-        """Generate violin plot(s).
+    # def plot_histogram(
+    #     self, x: str = None, contrast: str = None, viz_backend=None, **kwargs
+    # ):
+    #     """Generate histogram plot(s).
 
-        Args:
-            x (str, optional): The feature name to plot. If None, will plot all numeric features.
-            contrast (str, optional): The feature name to compare histograms by contrast.
-            viz_backend (optional): The visualization backend.
-            **kwargs: Additional keyword arguments for the visualization backend.
+    #     Args:
+    #         x (str, optional): The feature name to plot. If None, will plot all numeric features.
+    #         contrast (str, optional): The feature name to compare histograms by contrast.
+    #         viz_backend (optional): The visualization backend.
+    #         **kwargs: Additional keyword arguments for the visualization backend.
 
-        Returns:
-            Violin plot(s).
-        """
-        backend = viz_backend or self.viz_backend
+    #     Returns:
+    #         Histogram plot(s).
+    #     """
+    #     backend = viz_backend or self.viz_backend
 
-        if x is None:
-            return _get_viz_backend(backend).viz_all_violins(
-                data=self.input_data.drop(contrast, axis=1),
-                contrast=self.input_data[contrast],
-                **kwargs
-            )
-        else:
-            return _get_viz_backend(backend).viz_violin(
-                data=self.input_data, x=x, contrast=contrast, **kwargs
-            )
+    #     if x is None:
+    #         return _get_viz_backend(backend).viz_all_histogram(
+    #             data=self.input_data.drop(contrast, axis=1),
+    #             contrast=self.input_data[contrast],
+    #             **kwargs
+    #         )
+    #     else:
+    #         return _get_viz_backend(backend).viz_histogram(
+    #             data=self.input_data, x=x, contrast=contrast, **kwargs
+    #         )
 
-    def plot_bar(self, x: str = None, contrast: str = None, viz_backend=None, **kwargs):
-        """Generate bar plot(s).
+    # def plot_violin(
+    #     self, x: str = None, contrast: str = None, viz_backend=None, **kwargs
+    # ):
+    #     """Generate violin plot(s).
 
-        Args:
-            x (str, optional): The feature name to plot. If None, will plot all categorical features.
-            contrast (str, optional): The feature name to compare using stacked or side-by-side bars.
-            viz_backend (optional): The visualization backend.
-            **kwargs: Additional keyword arguments for the visualization backend.
+    #     Args:
+    #         x (str, optional): The feature name to plot. If None, will plot all numeric features.
+    #         contrast (str, optional): The feature name to compare histograms by contrast.
+    #         viz_backend (optional): The visualization backend.
+    #         **kwargs: Additional keyword arguments for the visualization backend.
 
-        Returns:
-            Violin plot(s).
-        """
-        backend = viz_backend or self.viz_backend
+    #     Returns:
+    #         Violin plot(s).
+    #     """
+    #     backend = viz_backend or self.viz_backend
 
-        if x is None:
-            return _get_viz_backend(backend).viz_all_bar(
-                data=self.input_data.drop(contrast, axis=1),
-                contrast=self.input_data[contrast],
-                **kwargs
-            )
-        else:
-            return _get_viz_backend(backend).viz_bar(
-                data=self.input_data, x=x, contrast=contrast, **kwargs
-            )
+    #     if x is None:
+    #         return _get_viz_backend(backend).viz_all_violins(
+    #             data=self.input_data.drop(contrast, axis=1),
+    #             contrast=self.input_data[contrast],
+    #             **kwargs
+    #         )
+    #     else:
+    #         return _get_viz_backend(backend).viz_violin(
+    #             data=self.input_data, x=x, contrast=contrast, **kwargs
+    #         )
+
+    # def plot_bar(self, x: str = None, contrast: str = None, viz_backend=None, **kwargs):
+    #     """Generate bar plot(s).
+
+    #     Args:
+    #         x (str, optional): The feature name to plot. If None, will plot all categorical features.
+    #         contrast (str, optional): The feature name to compare using stacked or side-by-side bars.
+    #         viz_backend (optional): The visualization backend.
+    #         **kwargs: Additional keyword arguments for the visualization backend.
+
+    #     Returns:
+    #         Violin plot(s).
+    #     """
+    #     backend = viz_backend or self.viz_backend
+
+    #     if x is None:
+    #         return _get_viz_backend(backend).viz_all_bar(
+    #             data=self.input_data.drop(contrast, axis=1),
+    #             contrast=self.input_data[contrast],
+    #             **kwargs
+    #         )
+    #     else:
+    #         return _get_viz_backend(backend).viz_bar(
+    #             data=self.input_data, x=x, contrast=contrast, **kwargs
+    #         )
 
 
 # def plot_histograms(data, plot_all, spike=10, skew=6, hist_kwargs=None):

@@ -29,8 +29,8 @@ def compute_distribution(
         exclude=["number", "datetime", "timedelta"]
     )
 
-    spikeyness = num_data.apply(spikey, axis=1) if diagnostic else None
-    skewness = num_data.apply(skewed, axis=1) if diagnostic else None
+    is_spikey = num_data.apply(spikey, axis=0) if diagnostic else None
+    is_skewed = num_data.apply(skewed, axis=0) if diagnostic else None
     cardinality = cat_data.nunique() if diagnostic else None
     categories_to_squash = cardinality[cardinality > max_categories].index if diagnostic else None
 
@@ -38,8 +38,8 @@ def compute_distribution(
         input_data=data,
         num_data=num_data,
         cat_data=cat_data,
-        spikeyness=spikeyness,
-        skewness=skewness,
+        is_spikey=is_spikey,
+        is_skewed=is_skewed,
         max_categories=max_categories,
         label_name=label_name,
         spike_factor=spike_factor,
