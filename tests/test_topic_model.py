@@ -179,9 +179,9 @@ def test_svd_nmf_intermediates(svd_model, nmf_model):
 
 def test_pyldavis(lda_model, svd_model):
     with pytest.raises(OSError):
-        lda_model.show()
+        lda_model.show(viz_backend='pyLDAvis')
     with pytest.raises(TypeError):
-        svd_model.show()
+        svd_model.show(viz_backend='pyLDAvis')
 
 
 def test_elbow_plot(lsi_model, nmf_model):
