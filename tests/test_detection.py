@@ -111,6 +111,7 @@ def test_encrypt_data_and_infotypes(compute_backend_pii_df):
     assert sensitivewidget.infotypes["name"][0] == "PERSON"
     assert len(sensitivewidget.infotypes) == 2
     assert isinstance(sensitivewidget.redact, type(None))
+    assert isinstance(sensitivewidget.show(), _DATAFRAME_TYPE)
 
 
 def test_encrypt_text():
