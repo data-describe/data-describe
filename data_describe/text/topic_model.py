@@ -3,7 +3,6 @@ import warnings
 import pandas as pd
 import numpy as np
 from sklearn.decomposition import TruncatedSVD, NMF
-from IPython import get_ipython
 
 from data_describe.text.text_preprocessing import (
     create_doc_term_matrix,
