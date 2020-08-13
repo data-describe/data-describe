@@ -4,6 +4,7 @@ from typing import Optional
 import warnings
 
 from data_describe.config._config import get_option
+from data_describe import compat
 import data_describe.privacy.detection as ddsensitive
 
 _DEFAULT_SCORE_THRESHOLD = get_option("sensitive_data.score_threshold")
@@ -40,6 +41,12 @@ def compute_sensitive_data(
     Returns:
         SensitiveDataWidget
     """
+    if isinstance(df, compat.modin.pandas.DataFrame):
+        warnings.warn(
+            "Sensitive data does not currently support Modin DataFrames. Converting to Pandas."
+        )
+        df = df._to_pandas()
+
     if columns:
         df = df[columns]
 
@@ -52,27 +59,13 @@ def compute_sensitive_data(
         sensitivewidget.infotypes = infotypes
 
     if mode == "redact":
-        with warnings.catch_warnings():
-            warnings.filterwarnings(
-                "ignore",
-                category=UserWarning,
-                message="User-defined function verification is still under development in Modin",
-            )
-            df = df.applymap(
-                lambda x: redact_info(str(x), engine_backend, score_threshold)
-            )
+        df = df.applymap(lambda x: redact_info(str(x), engine_backend, score_threshold))
         sensitivewidget.redact = df
 
     elif mode == "encrypt":
-        with warnings.catch_warnings():
-            warnings.filterwarnings(
-                "ignore",
-                category=UserWarning,
-                message="User-defined function verification is still under development in Modin",
-            )
-            df = df.applymap(
-                lambda x: encrypt_text(str(x), engine_backend, score_threshold)
-            )
+        df = df.applymap(
+            lambda x: encrypt_text(str(x), engine_backend, score_threshold)
+        )
         sensitivewidget.encrypt = df
 
     return sensitivewidget

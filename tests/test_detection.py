@@ -52,21 +52,42 @@ def test_sensitive_data_cols(compute_backend_pii_df):
         compute_backend_pii_df, mode="redact", columns=["name"], detect_infotypes=False
     )
     assert isinstance(sensitivewidget, SensitiveDataWidget)
+    assert isinstance(sensitivewidget.redact, _DATAFRAME_TYPE)
     assert sensitivewidget.redact.shape == (1, 1)
+    assert isinstance(sensitivewidget.infotypes, type(None))
+    assert isinstance(sensitivewidget.encrypt, type(None))
 
 
-def test_sensitive_data_redact(compute_backend_pii_df):
+def test_only_redact_data(compute_backend_pii_df):
     sensitivewidget = sensitive_data(
         compute_backend_pii_df, mode="redact", detect_infotypes=False
     )
     assert isinstance(sensitivewidget, SensitiveDataWidget)
     assert sensitivewidget.redact.shape == (1, 2)
     assert isinstance(sensitivewidget.redact, _DATAFRAME_TYPE)
+    assert sensitivewidget.redact["name"][1] == "<PERSON>"
+    assert sensitivewidget.redact["domain"][1] == "<DOMAIN_NAME>"
+    assert isinstance(sensitivewidget.redact["name"][1], str)
+    assert isinstance(sensitivewidget.redact["domain"][1], str)
+    assert isinstance(sensitivewidget.encrypt, type(None))
+    assert isinstance(sensitivewidget.infotypes, type(None))
 
 
-def test_redact_cell_value(compute_pandas_pii_df):
+def test_only_encrypt_data(compute_backend_pii_df):
     sensitivewidget = sensitive_data(
-        compute_pandas_pii_df, mode="redact", detect_infotypes=True, sample_size=1
+        compute_backend_pii_df, mode="encrypt", detect_infotypes=False
+    )
+    assert isinstance(sensitivewidget, SensitiveDataWidget)
+    assert isinstance(sensitivewidget.encrypt, _DATAFRAME_TYPE)
+    assert isinstance(sensitivewidget.encrypt["name"][1], str)
+    assert isinstance(sensitivewidget.encrypt["domain"][1], str)
+    assert isinstance(sensitivewidget.redact, type(None))
+    assert isinstance(sensitivewidget.infotypes, type(None))
+
+
+def test_redact_data_and_infotypes(compute_backend_pii_df):
+    sensitivewidget = sensitive_data(
+        compute_backend_pii_df, mode="redact", detect_infotypes=True, sample_size=1
     )
     assert sensitivewidget.redact["name"][1] == "<PERSON>"
     assert sensitivewidget.redact["domain"][1] == "<DOMAIN_NAME>"
@@ -76,11 +97,12 @@ def test_redact_cell_value(compute_pandas_pii_df):
     assert sensitivewidget.infotypes["domain"][0] == "DOMAIN_NAME"
     assert sensitivewidget.infotypes["name"][0] == "PERSON"
     assert len(sensitivewidget.infotypes) == 2
+    assert isinstance(sensitivewidget.encrypt, type(None))
 
 
-def test_encrypt_cell_value(compute_pandas_pii_df):
+def test_encrypt_data_and_infotypes(compute_backend_pii_df):
     sensitivewidget = sensitive_data(
-        compute_pandas_pii_df, mode="encrypt", detect_infotypes=True, sample_size=1
+        compute_backend_pii_df, mode="encrypt", detect_infotypes=True, sample_size=1
     )
     assert isinstance(sensitivewidget.encrypt["name"][1], str)
     assert isinstance(sensitivewidget.encrypt["domain"][1], str)
@@ -88,14 +110,7 @@ def test_encrypt_cell_value(compute_pandas_pii_df):
     assert sensitivewidget.infotypes["domain"][0] == "DOMAIN_NAME"
     assert sensitivewidget.infotypes["name"][0] == "PERSON"
     assert len(sensitivewidget.infotypes) == 2
-
-
-def test_encrypt_data_and_infotypes(compute_backend_pii_df):
-    sensitivewidget = sensitive_data(
-        compute_backend_pii_df, mode="encrypt", detect_infotypes=False
-    )
-    assert isinstance(sensitivewidget, SensitiveDataWidget)
-    assert isinstance(sensitivewidget.encrypt, _DATAFRAME_TYPE)
+    assert isinstance(sensitivewidget.redact, type(None))
 
 
 def test_encrypt_text():
