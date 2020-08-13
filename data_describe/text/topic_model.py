@@ -319,7 +319,7 @@ class TopicModelWidget(BaseWidget):
         elif self._model_type == "NMF":
             self._model = self._compute_nmf_model(text_docs, tfidf)
 
-    def _plot_elbow(self, viz_backend=None):
+    def _elbow_plot(self, viz_backend=None):
         """Creates an elbow plot displaying coherence values vs number of topics.
 
         Args:
@@ -327,7 +327,7 @@ class TopicModelWidget(BaseWidget):
         Returns:
             fig: Elbow plot showing coherence values vs number of topics
         """
-        return _get_viz_backend(viz_backend).viz_plot_elbow(
+        return _get_viz_backend(viz_backend).viz_elbow_plot(
             self._min_topics, self._max_topics, self._coherence_values
         )
 
@@ -522,8 +522,6 @@ class TopicModelWidget(BaseWidget):
         if display_item == "pyldavis":
             if self._model_type != "LDA":
                 raise TypeError("Model must be an LDA Model")
-            elif get_ipython() is None:
-                raise EnvironmentError("Not in Jupyter Notebook")
             else:
                 return _get_viz_backend(viz_backend).viz_pyLDAvis(
                     self._model, self._corpus, self._dictionary
@@ -537,7 +535,7 @@ class TopicModelWidget(BaseWidget):
                     "with different numbers of topics."
                 )
             else:
-                return self._plot_elbow(viz_backend)
+                return self._elbow_plot(viz_backend)
         elif display_item == "top_words_per_topic":
             if viz_kwargs is None:
                 viz_kwargs = {}
