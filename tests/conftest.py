@@ -1,12 +1,9 @@
-import os
-
 import pytest
 import pandas as pd
-os.environ["MODIN_CPUS"] = "1"
-import modin.pandas as modin  # noqa: E402
-import numpy as np  # noqa: E402
+import modin.pandas as modin
+import numpy as np
 
-import data_describe as dd  # noqa: E402
+import data_describe as dd
 
 _COMPUTE_BACKENDS = ["pandas", "modin"]
 _COMPUTE_MODULES = [pd, modin]
