@@ -47,7 +47,7 @@ def sensitive_data(
     if not isinstance(df, compat._DATAFRAME_TYPE):
         raise TypeError("Pandas data frame or modin data frame required")
 
-    if isinstance(df, compat.modin.pandas.DataFrame):
+    if isinstance(df, compat._DATAFRAME_TYPE[-1]):
         warnings.warn(
             "Sensitive data does not currently support Modin DataFrames. Converting to Pandas."
         )
