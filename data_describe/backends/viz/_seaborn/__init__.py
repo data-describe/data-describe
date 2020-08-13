@@ -19,4 +19,4 @@ from data_describe.backends.viz._seaborn.distribution import (  # noqa: F401
 from data_describe.backends.viz._seaborn.correlation_matrix import (  # noqa: F401
     viz_correlation_matrix,
 )
-from data_describe.backends.viz._seaborn.topic_model import viz_plot_elbow  # noqa: F401
+from data_describe.backends.viz._seaborn.topic_model import viz_elbow_plot  # noqa: F401
