@@ -1,6 +1,7 @@
 from functools import wraps
 from typing import Dict
 import warnings
+from collections import namedtuple
 
 from IPython import get_ipython
 
@@ -110,8 +111,11 @@ try:
     import pandas
 
     _PACKAGE_INSTALLED["modin"] = True
-    _SERIES_TYPE = (pandas.Series, modin.Series)
-    _DATAFRAME_TYPE = (pandas.DataFrame, modin.DataFrame)
+
+    compute = namedtuple("compute", ["pd", "mpd"])
+
+    _SERIES_TYPE = compute(pd=pandas.Series, mpd=modin.pandas.Series)
+    _DATAFRAME_TYPE = compute(pd=pandas.DataFrame, mpd=modin.pandas.DataFrame)
 except ImportError:
     import pandas
 
