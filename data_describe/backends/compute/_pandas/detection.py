@@ -4,6 +4,7 @@ from typing import Optional
 import warnings
 
 from data_describe.config._config import get_option
+from data_describe import compat
 import data_describe.privacy.detection as ddsensitive
 
 _DEFAULT_SCORE_THRESHOLD = get_option("sensitive_data.score_threshold")
@@ -40,6 +41,10 @@ def compute_sensitive_data(
     Returns:
         SensitiveDataWidget
     """
+    if isinstance(df, compat.modin.pandas.DataFrame):
+        warnings.warn("Sensitive data does not currently work with Modin DataFrames. Converting to Pandas.")
+        df = df._to_pandas()
+
     if columns:
         df = df[columns]
 
