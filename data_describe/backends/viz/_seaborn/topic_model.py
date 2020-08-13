@@ -3,6 +3,8 @@ from typing import List
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+from data_describe.config._config import get_option
+
 
 def viz_elbow_plot(min_topics: int, max_topics: int, coherence_values: List[float]):
     """Creates an elbow plot displaying coherence values vs number of topics.
@@ -13,7 +15,7 @@ def viz_elbow_plot(min_topics: int, max_topics: int, coherence_values: List[floa
         coherence_values: A list of coherence values mapped from min_topics to max_topics
 
     Returns:
-        fig: Elbow plot showing coherence values vs number of topics
+        Elbow plot showing coherence values vs number of topics
     """
     # plt.figure(figsize=(context.fig_width.fig_height)) # TODO (haishiro): Replace with get_option
 
@@ -23,4 +25,7 @@ def viz_elbow_plot(min_topics: int, max_topics: int, coherence_values: List[floa
     fig.set_title("Coherence Values Across Topic Numbers")
     plt.xlabel("Number of Topics")
     plt.ylabel("Coherence Values")
+    plt.figure(
+        figsize=(get_option("display.fig_width"), get_option("display.fig_height"))
+    )
     return fig
