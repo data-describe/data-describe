@@ -41,7 +41,7 @@ def compute_sensitive_data(
     Returns:
         SensitiveDataWidget
     """
-    if isinstance(df, compat.modin.pandas.DataFrame):
+    if isinstance(df, compat.modin.DataFrame):
         warnings.warn("Sensitive data does not currently work with Modin DataFrames. Converting to Pandas.")
         df = df._to_pandas()
 
