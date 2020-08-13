@@ -1,10 +1,12 @@
 from typing import Optional
+import warnings
 
 from data_describe.backends import _get_compute_backend
-from data_describe.compat import _DATAFRAME_TYPE
+from data_describe import compat
 from data_describe.config._config import get_option
 from data_describe._widget import BaseWidget
 from data_describe.privacy.engine import engine
+
 
 _DEFAULT_SCORE_THRESHOLD = get_option("sensitive_data.score_threshold")
 _SAMPLE_SIZE = get_option("sensitive_data.sample_size")
@@ -42,8 +44,14 @@ def sensitive_data(
     Returns:
         SensitiveDataWidget
     """
-    if not isinstance(df, _DATAFRAME_TYPE):
+    if not isinstance(df, compat._DATAFRAME_TYPE):
         raise TypeError("Pandas data frame or modin data frame required")
+
+    if isinstance(df, compat.modin.pandas.DataFrame):
+        warnings.warn(
+            "Sensitive data does not currently support Modin DataFrames. Converting to Pandas."
+        )
+        df = df._to_pandas()
 
     if columns:
         if not isinstance(columns, list):
@@ -94,10 +102,10 @@ class SensitiveDataWidget(BaseWidget):
 
     def show(self, **kwargs):
         """Show the transformed data or infotypes."""
-        if isinstance(self.encrypt, _DATAFRAME_TYPE):
+        if isinstance(self.encrypt, compat._DATAFRAME_TYPE):
             viz_data = self.encrypt
 
-        elif isinstance(self.redact, _DATAFRAME_TYPE):
+        elif isinstance(self.redact, compat._DATAFRAME_TYPE):
             viz_data = self.redact
 
         elif self.infotypes:
