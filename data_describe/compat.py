@@ -114,8 +114,8 @@ try:
 
     compute = namedtuple("compute", ["pd", "mpd"])
 
-    _SERIES_TYPE = compute(pd=pandas.Series, mpd=modin.pandas.Series)
-    _DATAFRAME_TYPE = compute(pd=pandas.DataFrame, mpd=modin.pandas.DataFrame)
+    _SERIES_TYPE = compute(pd=pandas.Series, mpd=modin.Series)
+    _DATAFRAME_TYPE = compute(pd=pandas.DataFrame, mpd=modin.DataFrame)
 except ImportError:
     import pandas
 
