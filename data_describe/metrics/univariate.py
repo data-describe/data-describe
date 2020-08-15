@@ -16,7 +16,7 @@ def spikey(data):
         data = data.dropna()
     else:
         data = data[~np.isnan(data)]
-    counts, bins = np.histogram(data.dropna(), bins="sturges")
+    counts, bins = np.histogram(data, bins="sturges")
     return max(counts) / np.mean(counts)
 
 
