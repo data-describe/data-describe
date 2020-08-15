@@ -16,7 +16,6 @@ N/A
 
 Users should have the ability to:
 - Create a single plot with specified feature(s)
-- Generate all applicable plots (of a particular type) for any applicable data types
 
 In the future, users should be able to:
 - Display plots which meet diagnostic criteria (e.g. detected skew, outliers, etc.)

@@ -1,4 +1,3 @@
-import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
 from matplotlib.gridspec import GridSpec
 import seaborn as sns
@@ -6,68 +5,103 @@ import seaborn as sns
 from data_describe.config._config import get_option
 
 
-def viz_distribution_diagnostic(data, is_skewed, is_spikey, top=3, **kwargs):
-    """Distribution plots selected by diagnostics.
+def viz_distribution(data, x: str, contrast: str = None, **kwargs):
+    """Plots the distribution.
 
     Args:
         data (DataFrame): The data
-        is_skewed (bool): Array of skew scores
-        is_spikey (bool): Array of spikey scores
-        top (int, optional): Number of plots to show. Defaults to 3.
+        x (str): The column to visualize.
+        contrast (str, optional): The column to use as a contrast.
+        **kwargs: Keyword arguments passed to underlying plot functions.
 
     Returns:
-        Matplotlib Axes object
+        matplotlib.figure.Figure
     """
-    skew_plots = is_skewed.sort_values(ascending=False).head(top).index
-    spikey_plots = is_spikey.sort_values(ascending=False).head(top).index
-    return [
-        viz_distribution(data, x, contrast=None, **kwargs)
-        for x in set(list(skew_plots) + list(spikey_plots))
-    ]
-
-
-def viz_distribution(data, x, contrast=None, **kwargs):
-    """Plots the numeric or categorical distribution."""
     if x in data.select_dtypes("number").columns:
-        return viz_hist_violin(data, x, contrast, **kwargs)
+        return viz_numeric(data, x, contrast, **kwargs)
     else:
-        return viz_bar(data, x, contrast, **kwargs)
+        return viz_categorical(data, x, contrast, **kwargs)
 
 
-def viz_hist_violin(
-    data, x, contrast=None, hist_kwargs=None, violin_kwargs=None, **kwargs
+def viz_numeric(
+    data,
+    x: str,
+    contrast: str = None,
+    mode: str = "combo",
+    hist_kwargs: dict = None,
+    violin_kwargs: dict = None,
+    **kwargs,
 ):
-    """Plots a histogram/violin combo plot.
+    """Plots a histogram/violin plot.
 
     Args:
         data (DataFrame): The data
         x (str): The name of the column to plot
-        contrast (str, optional): The name of the categrical column to use for multiple contrasts.
+        contrast (str, optional): The name of the categorical column to use for multiple contrasts.
+        mode (str): {'combo', 'violin', 'hist'} The type of plot to display. Defaults to a combined histogram/violin plot.
         hist_kwargs (dict, optional): Keyword args for seaborn.distplot.
         violin_kwargs (dict, optional): Keyword args for seaborn.violinplot.
+        **kwargs: Keyword args to be passed to all underlying plotting functions.
     """
+    hist_kwargs = hist_kwargs or {}
+    violin_kwargs = violin_kwargs or {}
     fig = Figure(
         figsize=(get_option("display.fig_width"), get_option("display.fig_height"))
     )
-    gs = GridSpec(nrows=5, ncols=1)
-    ax1 = fig.add_subplot(gs.new_subplotspec((0, 0), 1, 1))
-    ax2 = fig.add_subplot(gs.new_subplotspec((1, 0), 4, 1))
+    if mode == "combo":
+        gs = GridSpec(nrows=5, ncols=1)
+        ax1 = fig.add_subplot(gs.new_subplotspec((0, 0), 1, 1))
+        ax2 = fig.add_subplot(gs.new_subplotspec((1, 0), 4, 1))
 
-    ax1.spines["right"].set_visible(False)
-    ax1.spines["top"].set_visible(False)
-    _viz_histogram(data, x, contrast=None, ax=ax1)
-    _viz_violin(data, x, contrast, ax=ax2)
-    ax1.set_title(x)
+        ax1.spines["right"].set_visible(False)
+        ax1.spines["top"].set_visible(False)
+        _viz_histogram(data, x, contrast=None, ax=ax1, **hist_kwargs)
+        _viz_violin(data, x, contrast, ax=ax2, **violin_kwargs)
+        ax1.set_title(x)
+        return fig
+    elif mode == "hist":
+        ax = fig.add_subplot()
+        _viz_histogram(data, x, contrast=None, ax=ax, **hist_kwargs, **kwargs)
+        ax.set_title(x)
+        return fig
+    elif mode == "violin":
+        ax = fig.add_subplot()
+        _viz_violin(data, x, contrast=None, ax=ax, **violin_kwargs, **kwargs)
+        ax.set_title(x)
+        return fig
+    else:
+        raise ValueError("Unknown value for 'mode' plot type")
+
+
+def viz_categorical(
+    data, x: str, contrast: str = None, bar_kwargs: dict = None,
+):
+    """Plots a bar count plot for a categorical feature.
+
+    Args:
+        data (DataFrame): The data
+        x (str): The name of the column to plot
+        contrast (str, optional): The name of the categorical column to use for multiple contrasts.
+        bar_kwargs (dict, optional): Keyword args for seaborn.countplot.
+    """
+    bar_kwargs = bar_kwargs or {}
+    fig = Figure(
+        figsize=(get_option("display.fig_width"), get_option("display.fig_height"))
+    )
+    ax = fig.add_subplot()
+    _viz_bar(data, x, contrast, ax=ax, **bar_kwargs)
+    ax.set_title(x)
     return fig
 
 
-def _viz_histogram(data, x, contrast=None, **kwargs):
+def _viz_histogram(data, x: str, contrast: str = None, **kwargs):
     """Plot a single histogram.
 
     Args:
         data (DataFrame): The data
         x (str): The name of the column to plot.
         contrast (str, optional): The name of the categorical column to use for multiple contrasts.
+        **kwargs: Keyword arguments passed to seaborn.distplot
 
     Returns:
         Seaborn Axis Object
@@ -88,26 +122,14 @@ def _viz_histogram(data, x, contrast=None, **kwargs):
     return ax
 
 
-def viz_multiple_histogram(data, columns=None, **kwargs):
-    """Plot histograms for multiple features.
-
-    Args:
-        data (DataFrame): The data
-        columns: The columns to plot
-
-    Returns:
-        Seaborn Axis Object
-    """
-    raise NotImplementedError()
-
-
-def _viz_violin(data, x, contrast=None, **kwargs):
+def _viz_violin(data, x: str, contrast: str = None, **kwargs):
     """Plot a single violin plot.
 
     Args:
         data (DataFrame): The data
         x (str): The name of the column to plot.
         contrast (str, optional): The name of the categorical column to use for multiple contrasts.
+        **kwargs: Keyword arguments passed to seaborn.violinplot
 
     Returns:
         Seaborn Axis Object
@@ -125,52 +147,22 @@ def _viz_violin(data, x, contrast=None, **kwargs):
     return ax
 
 
-def viz_multiple_violin(data, x, contrast=None, columns=None, **kwargs):
-    """Plot violin plots for multiple features.
-
-    Args:
-        data (DataFrame): The data
-        columns: The columns to plot
-
-    Returns:
-        Seaborn Axis Object
-    """
-    raise NotImplementedError()
-
-
-def viz_bar(data, x, contrast=None, **kwargs):
+def _viz_bar(data, x: str, contrast: str = None, **kwargs):
     """Plot a bar chart (count plot) for categorical features.
 
     Args:
         data (DataFrame): The data
         x (str): The name of the column to plot.
         contrast (str, optional): The name of the column to use for multiple histograms.
+        **kwargs: Keyword arguments passed to seaborn.countplot
 
     Returns:
         Seaborn Axis Object
     """
     default_bar_kwargs = {"orient": "h"}
-    plt.figure(
-        figsize=(get_option("display.fig_width"), get_option("display.fig_height"))
-    )
     bar_kwargs = {**default_bar_kwargs, **(kwargs or {})}
     if contrast:
         ax = sns.countplot(x=x, hue=contrast, data=data, **bar_kwargs)
-        ax.set_title(f"{x} vs {contrast}")
     else:
         ax = sns.countplot(x=x, data=data, **bar_kwargs)
-        ax.set_title(f"{x}")
     return ax
-
-
-def viz_multiple_bar(data, columns=None, **kwargs):
-    """Plot bar charts for multiple features.
-
-    Args:
-        data (DataFrame): The data
-        columns: The columns to plot
-
-    Returns:
-        Seaborn Axis Object
-    """
-    raise NotImplementedError()
