@@ -76,7 +76,9 @@ def test_correlation_matrix_notebook():
 
 def test_data_summary_notebook():
     notebook = os.path.join(EXEC_CWD, "examples", "Data_Summary.ipynb")
-    check_notebook_execution(notebook)
+    fixture.check(notebook, raise_errors=False)
+
+    # check_notebook_execution(notebook)
     # fixture = NBRegressionFixture(
     #     exec_timeout=120,
     #     exec_cwd=EXEC_CWD,
@@ -92,7 +94,6 @@ def test_data_summary_notebook():
     #         "/metadata/kernelspec/",
     #     ),
     # )
-    fixture.check(notebook, raise_errors=False)
 
 
 # LONG RUN TIME
