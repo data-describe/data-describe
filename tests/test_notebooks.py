@@ -51,15 +51,8 @@ def test_cluster_analysis_notebook():
 
 
 def test_data_summary_notebook():
-    notebook = os.path.join(EXEC_CWD, "examples", "Data_Summary.ipynb")
+    notebook = os.path.join(EXEC_CWD, "examples", "Data_Summary_V2.ipynb")
     check_notebook_execution(notebook)
-    fixture = NBRegressionFixture(
-        exec_timeout=180,
-        exec_cwd=EXEC_CWD,
-        diff_color_words=True,
-        force_regen=True,
-        diff_ignore=("/cells/", "/metadata/",),
-    )
     fixture.check(notebook, raise_errors=False)
 
 
