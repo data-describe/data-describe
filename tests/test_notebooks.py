@@ -77,21 +77,21 @@ def test_correlation_matrix_notebook():
 def test_data_summary_notebook():
     notebook = os.path.join(EXEC_CWD, "examples", "Data_Summary.ipynb")
     check_notebook_execution(notebook)
-    fixture = NBRegressionFixture(
-        exec_timeout=120,
-        exec_cwd=EXEC_CWD,
-        diff_color_words=True,
-        diff_ignore=(
-            "/cells/*/outputs/*/data/text/html",
-            "/cells/*/outputs/*/output/data/",
-            "/cells/4/outputs/1/data/text/plain",
-            "/cells/1/outputs/",
-            "/cells/*/metadata/",
-            "/cells/*/outputs/metadata/",
-            "/metadata/",
-            "/metadata/kernelspec/",
-        ),
-    )
+    # fixture = NBRegressionFixture(
+    #     exec_timeout=120,
+    #     exec_cwd=EXEC_CWD,
+    #     diff_color_words=True,
+    #     diff_ignore=(
+    #         "/cells/*/outputs/*/data/text/html",
+    #         "/cells/*/outputs/*/output/data/",
+    #         "/cells/4/outputs/1/data/text/plain",
+    #         "/cells/1/outputs/",
+    #         "/cells/*/metadata/",
+    #         "/cells/*/outputs/metadata/",
+    #         "/metadata/",
+    #         "/metadata/kernelspec/",
+    #     ),
+    # )
     fixture.check(notebook, raise_errors=True)
 
 
