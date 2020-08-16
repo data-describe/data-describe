@@ -1,6 +1,7 @@
 import re
 import string
 import warnings
+import itertools
 
 import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
@@ -21,8 +22,7 @@ def tokenize(text_docs):
     Returns:
         new_text_docs_bow: List of lists of words for each text document
     """
-    for doc in text_docs:
-        yield compat.word_tokenize(doc)
+    yield (compat.word_tokenize(doc) for doc in text_docs)
 
 
 def to_lower(text_docs_bow):
@@ -34,8 +34,7 @@ def to_lower(text_docs_bow):
     Returns:
         new_text_docs_bow: List of lists of lowercase words for each text document
     """
-    for doc in text_docs_bow:
-        yield [word.lower() for word in doc]
+    yield ((word.lower() for word in doc) for doc in text_docs_bow)
 
 
 def remove_punct(text_docs_bow, replace_char=" ", remove_all=False):
@@ -50,30 +49,28 @@ def remove_punct(text_docs_bow, replace_char=" ", remove_all=False):
     Returns:
         new_text_docs_bow_final: List of lists of words for each text document without punctuation
     """
+    new_docs = []
     if remove_all:
         for doc in text_docs_bow:
-            new_doc = [re.sub(r"[^\w\s]|_", replace_char, word) for word in doc]
-            new_doc = [
-                list(tokenize([word]))[0] if " " in word else [word] for word in new_doc
-            ]
-            new_doc = [item for sublist in new_doc for item in sublist]
-            new_doc = [
-                word
-                for word in new_doc
-                if not (len(word) == 1 and word in string.punctuation)
-            ]
-            yield new_doc
+            new_doc = [re.sub(r"[^\w\s]|_", " ", word) for word in doc]
+            new_doc = [list(itertools.chain.from_iterable(tokenize([word]))) if " " in word else [word] for word in new_doc]
+            new_doc = [item for sublist in new_doc for item in sublist if item]
+            if replace_char != " ":
+                new_doc = list(itertools.chain.from_iterable([[word] if isinstance(word, str) else [replace_char.join(word)] for word in new_doc]))
+            else:
+                new_doc = list(itertools.chain.from_iterable([[word] if isinstance(word, str) else word for word in new_doc]))
+            new_doc = [word for word in new_doc if not (len(word) == 1 and word in string.punctuation)]
+            new_docs.append(new_doc)
     else:
         for doc in text_docs_bow:
-            new_doc = [
-                re.sub(r"^([^\w\s]|_)?(.+?)([^\w\s]|_)?$", r"\2", word) for word in doc
-            ]
+            new_doc = [re.sub(r"^([^\w\s]|_)?(.+?)([^\w\s]|_)?$", r"\2", word) for word in doc]
             new_doc = [
                 word
                 for word in new_doc
                 if not (len(word) == 1 and word in string.punctuation)
             ]
-            yield new_doc
+            new_docs.append(new_doc)
+    yield (doc for doc in new_docs)
 
 
 def remove_digits(text_docs_bow):
@@ -85,8 +82,7 @@ def remove_digits(text_docs_bow):
     Returns:
         new_text_docs_bow: List of lists of words for each text documents without numbers or words containing numbers
     """
-    for doc in text_docs_bow:
-        yield [re.sub(r"\w*\d\w*", "", word) for word in doc]
+    yield ((re.sub(r"\w*\d\w*", "", word) for word in doc) for doc in text_docs_bow)
 
 
 def remove_single_char_and_spaces(text_docs_bow):
@@ -98,6 +94,7 @@ def remove_single_char_and_spaces(text_docs_bow):
     Returns:
         new_text_docs_bow: List of lists of words for each text document without single character words
     """
+    new_docs = []
     for doc in text_docs_bow:
         new_doc = []
         for word in doc:
@@ -108,7 +105,8 @@ def remove_single_char_and_spaces(text_docs_bow):
                     new_doc.append(item)
             elif len(new_word) > 1:
                 new_doc.append(new_word)
-        yield new_doc
+        new_docs.append(new_doc)
+    yield (doc for doc in new_docs)
 
 
 @compat.requires("nltk")
@@ -129,8 +127,7 @@ def remove_stopwords(text_docs_bow, more_words=None):
     else:
         stop_words = stop_words_original
 
-    for doc in text_docs_bow:
-        yield [word for word in doc if word not in stop_words]
+    yield ((word for word in doc if word not in stop_words) for doc in text_docs_bow)
 
 
 @compat.requires("nltk")
@@ -144,8 +141,7 @@ def lemmatize(text_docs_bow):
         new_text_docs_bow: List of lists of lemmatized words for each text document
     """
     lemmatizer = compat.WordNetLemmatizer()
-    for doc in text_docs_bow:
-        yield [lemmatizer.lemmatize(word) for word in doc]
+    yield ((lemmatizer.lemmatize(word) for word in doc) for doc in text_docs_bow)
 
 
 @compat.requires("nltk")
@@ -159,8 +155,7 @@ def stem(text_docs_bow):
         new_text_docs_bow: List of lists of stemmed words for each text document
     """
     stemmer = compat.LancasterStemmer()
-    for doc in text_docs_bow:
-        yield [stemmer.stem(word) for word in doc]
+    yield ((stemmer.stem(word) for word in doc) for doc in text_docs_bow)
 
 
 def bag_of_words_to_docs(text_docs_bow):
@@ -172,8 +167,7 @@ def bag_of_words_to_docs(text_docs_bow):
     Returns:
         new_text_docs: List of strings of text documents
     """
-    for doc in text_docs_bow:
-        yield " ".join(doc)
+    yield (" ".join(doc) for doc in text_docs_bow)
 
 
 def create_tfidf_matrix(text_docs):
@@ -245,7 +239,10 @@ def preprocess_texts(text_docs, lem=False, stem=False, custom_pipeline=None):
     for function in pipeline:
         if isinstance(function, str):
             current_method = getattr(text_preprocessing, function)
-            text_docs = list(current_method(text_docs))
+            if function == 'tokenize':
+                text_docs = list(itertools.chain.from_iterable(current_method(text_docs)))
+            else:
+                text_docs = [list(generator) for generator in list(itertools.chain.from_iterable(current_method(text_docs)))]
         else:
             text_docs = function(text_docs)
 

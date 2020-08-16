@@ -1,6 +1,7 @@
 import pytest
 import pandas as pd
 import nltk
+import itertools
 
 from data_describe.text.text_preprocessing import (
     tokenize,
@@ -19,62 +20,60 @@ from data_describe.text.text_preprocessing import (
 
 @pytest.fixture
 def tokenized_test_list_main(text_data):
-    return list(tokenize(text_data["test_list_main"]))
+    return list(itertools.chain.from_iterable(tokenize(text_data["test_list_main"])))
 
 
 def test_tokenizer(text_data):
     assert (
-        list(tokenize(text_data["test_list_main"])) == text_data["answer_key_tokenized"]
+        list(itertools.chain.from_iterable(tokenize(text_data["test_list_main"]))) == text_data["answer_key_tokenized"]
     )
 
 
 def test_to_lower(text_data, tokenized_test_list_main):
-    assert list(to_lower(tokenized_test_list_main)) == text_data["answer_key_lower"]
+    assert [list(generator) for generator in list(itertools.chain.from_iterable(to_lower(tokenized_test_list_main)))] == text_data["answer_key_lower"]
 
 
 def test_remove_punct(text_data, tokenized_test_list_main):
     assert (
-        list(remove_punct(tokenized_test_list_main))
+        [list(generator) for generator in list(itertools.chain.from_iterable(remove_punct(tokenized_test_list_main)))]
         == text_data["answer_key_remove_punct"]
     )
     assert (
-        list(remove_punct(tokenized_test_list_main, remove_all=True, replace_char=""))
+        [list(generator) for generator in list(itertools.chain.from_iterable(remove_punct(tokenized_test_list_main, remove_all=True, replace_char="")))]
         == text_data["answer_key_remove_all_punct_no_space"]
     )
     assert (
-        list(remove_punct(tokenized_test_list_main, remove_all=True))
+        [list(generator) for generator in list(itertools.chain.from_iterable(remove_punct(tokenized_test_list_main, remove_all=True)))]
         == text_data["answer_key_remove_all_punct_with_space"]
     )
 
 
 def test_remove_digits(text_data):
     assert (
-        list(remove_digits(text_data["test_list_digits"]))
+        [list(generator) for generator in list(itertools.chain.from_iterable(remove_digits(text_data["test_list_digits"])))]
         == text_data["answer_key_remove_digits"]
     )
 
 
 def test_remove_single_char_and_spaces(text_data):
     assert (
-        list(
-            remove_single_char_and_spaces(text_data["test_list_single_char_and_spaces"])
-        )
+        [list(generator) for generator in list(itertools.chain.from_iterable(remove_single_char_and_spaces(text_data["test_list_single_char_and_spaces"])))]
         == text_data["answer_key_single_char_and_spaces"]
     )
 
 
 def test_remove_stopwords(text_data, tokenized_test_list_main):
     assert (
-        list(remove_stopwords(to_lower(tokenized_test_list_main)))
+        [list(generator) for generator in list(itertools.chain.from_iterable(remove_stopwords(
+            [list(generator) for generator in list(itertools.chain.from_iterable(to_lower(tokenized_test_list_main)))],
+        )))]
         == text_data["answer_key_remove_stop_words"]
     )
     assert (
-        list(
-            remove_stopwords(
-                list(to_lower(tokenized_test_list_main)),
-                more_words=text_data["more_words"],
-            )
-        )
+        [list(generator) for generator in list(itertools.chain.from_iterable(remove_stopwords(
+            [list(generator) for generator in list(itertools.chain.from_iterable(to_lower(tokenized_test_list_main)))],
+            more_words=text_data["more_words"]
+        )))]
         == text_data["answer_key_remove_stop_words_more"]
     )
 
@@ -91,7 +90,7 @@ def test_lem_and_stem(text_data):
 
 
 def test_bag_of_words(text_data):
-    bag = list(bag_of_words_to_docs(preprocess_texts(text_data["test_list_main"])))
+    bag = list(itertools.chain.from_iterable(bag_of_words_to_docs(preprocess_texts(text_data["test_list_main"]))))
 
     assert len(text_data["test_list_main"]) == len(bag)
     assert isinstance(bag, list)
