@@ -50,10 +50,16 @@ def test_cluster_analysis_notebook():
     fixture.check(notebook, raise_errors=True)
 
 
+# def test_data_summary_notebook():
+#     notebook = os.path.join(EXEC_CWD, "examples", "Data_Summary.ipynb")
+#     check_notebook_execution(notebook)
+#     fixture.check(notebook, raise_errors=True)
+
+
 def test_data_summary_notebook():
-    notebook = os.path.join(EXEC_CWD, "examples", "Data_Summary.ipynb")
+    notebook = os.path.join(EXEC_CWD, "examples", "Data_Summary_Test.ipynb")
     check_notebook_execution(notebook)
-    fixture.check(notebook, raise_errors=False)
+    fixture.check(notebook, raise_errors=True)
 
 
 def test_text_preprocessing_notebook():
