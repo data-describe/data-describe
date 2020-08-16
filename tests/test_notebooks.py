@@ -46,6 +46,12 @@ def check_notebook_execution(notebook):
 
 def test_cluster_analysis_notebook():
     notebook = os.path.join(EXEC_CWD, "examples", "Cluster_Analysis.ipynb")
+    fixture = NBRegressionFixture(
+        exec_timeout=120,
+        exec_cwd=EXEC_CWD,
+        diff_color_words=True,
+        diff_ignore=("/cells/", "/metadata/",),
+    )
     check_notebook_execution(notebook)
     fixture.check(notebook, raise_errors=True)
 
@@ -56,10 +62,10 @@ def test_cluster_analysis_notebook():
 #     fixture.check(notebook, raise_errors=True)
 
 
-def test_data_summary_notebook():
-    notebook = os.path.join(EXEC_CWD, "examples", "Data_Summary_Test.ipynb")
-    check_notebook_execution(notebook)
-    fixture.check(notebook, raise_errors=True)
+# def test_data_summary_notebook():
+#     notebook = os.path.join(EXEC_CWD, "examples", "Data_Summary_Test.ipynb")
+#     check_notebook_execution(notebook)
+#     fixture.check(notebook, raise_errors=True)
 
 
 def test_text_preprocessing_notebook():
