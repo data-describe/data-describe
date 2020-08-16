@@ -1,7 +1,8 @@
+import itertools
+
 import pytest
 import pandas as pd
 import nltk
-import itertools
 
 from data_describe.text.text_preprocessing import (
     tokenize,
