@@ -20,7 +20,7 @@ def tokenize(text_docs):
         text_docs: A list of text documents in string format
 
     Returns:
-        new_text_docs_bow: List of lists of words for each text document
+        A generator expression for all of the processed documents
     """
     yield (compat.word_tokenize(doc) for doc in text_docs)
 
@@ -32,7 +32,7 @@ def to_lower(text_docs_bow):
         text_docs_bow: A list of lists of words from a document
 
     Returns:
-        new_text_docs_bow: List of lists of lowercase words for each text document
+        A generator expression for all of the processed documents
     """
     yield ((word.lower() for word in doc) for doc in text_docs_bow)
 
@@ -47,7 +47,7 @@ def remove_punct(text_docs_bow, replace_char=" ", remove_all=False):
         leading and/or trailing instances
 
     Returns:
-        new_text_docs_bow_final: List of lists of words for each text document without punctuation
+        A generator expression for all of the processed documents
     """
     new_docs = []
     if remove_all:
@@ -80,7 +80,7 @@ def remove_digits(text_docs_bow):
         text_docs_bow: A list of lists of words from a document
 
     Returns:
-        new_text_docs_bow: List of lists of words for each text documents without numbers or words containing numbers
+        A generator expression for all of the processed documents
     """
     yield ((re.sub(r"\w*\d\w*", "", word) for word in doc) for doc in text_docs_bow)
 
@@ -92,7 +92,7 @@ def remove_single_char_and_spaces(text_docs_bow):
         text_docs_bow: A list of lists of words from a document
 
     Returns:
-        new_text_docs_bow: List of lists of words for each text document without single character words
+        A generator expression for all of the processed documents
     """
     new_docs = []
     for doc in text_docs_bow:
@@ -118,7 +118,7 @@ def remove_stopwords(text_docs_bow, more_words=None):
         more_words: An optional list of words to remove along with the stop words. Default is None
 
     Returns:
-        new_text_docs_bow: List of lists of words for each text document without single character words
+        A generator expression for all of the processed documents
     """
     stop_words_original = set(compat.stopwords.words("english"))
 
@@ -138,7 +138,7 @@ def lemmatize(text_docs_bow):
         text_docs_bow: A lists of list of words from a document
 
     Returns:
-        new_text_docs_bow: List of lists of lemmatized words for each text document
+        A generator expression for all of the processed documents
     """
     lemmatizer = compat.WordNetLemmatizer()
     yield ((lemmatizer.lemmatize(word) for word in doc) for doc in text_docs_bow)
@@ -152,7 +152,7 @@ def stem(text_docs_bow):
         text_docs_bow: A list of lists of words from a document
 
     Returns:
-        new_text_docs_bow: List of lists of stemmed words for each text document
+        A generator expression for all of the processed documents
     """
     stemmer = compat.LancasterStemmer()
     yield ((stemmer.stem(word) for word in doc) for doc in text_docs_bow)
@@ -165,7 +165,7 @@ def bag_of_words_to_docs(text_docs_bow):
         text_docs_bow: A list of lists of words from a document
 
     Returns:
-        new_text_docs: List of strings of text documents
+        A generator expression for all of the processed documents
     """
     yield (" ".join(doc) for doc in text_docs_bow)
 
