@@ -200,7 +200,7 @@ def hash_string(text):
         text (str): The string value
 
     Returns:
-        sha_signature: Salted hash of the text
+        sha_signature: Hashed text
     """
     sha_signature = hashlib.sha256(text.encode()).hexdigest()
     return sha_signature
