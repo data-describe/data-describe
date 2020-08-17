@@ -13,14 +13,14 @@ fixture = NBRegressionFixture(
     diff_color_words=True,
     diff_ignore=(
         "/cells/*/outputs/*/data/text/plain",
-        "/cells/*/metadata/outputs/text",
-        "/metadata/language_info/version",
-        "/metadata/kernelspec/display_name/",
-        "/metadata/kernelspec/name/",
+        "/cells/*/metadata/",
+        "/metdata/",
         "/cells/*/execution_count",
+        "/cells/1/outputs/",
+        "/cells/*/outputs/",
+        # "/cells/*/outputs/*/text/",
         "/cells/*/outputs/*/execution_count",
-        "/cells/1/outputs",
-        "/cells/*/outputs/*/text",
+        "/cells/*/outputs/*/output/",
         "/cells/*/outputs/*/data/image/png",
         "/cells/*/outputs/*/data/text/html",
         "/cells/*/outputs/*/data/application/vnd.plotly.v1+json",
@@ -88,6 +88,7 @@ def test_data_summary_notebook():
             "/cells/4/outputs/0/text",
             "/cells/1/outputs/",
             "/cells/4/outputs/1/data/text/plain",
+            "/metadata/",
         ),
     )
     fixture.check(notebook, raise_errors=True)
