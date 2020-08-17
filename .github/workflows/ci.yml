@@ -4,11 +4,11 @@ on:
   push:
     branches: [master]
     paths:
-      - '**.py'
+      - "**.py"
   pull_request:
     branches: [master]
     paths:
-      - '**.py'
+      - "**.py"
 
 jobs:
   lint:
@@ -58,4 +58,5 @@ jobs:
         shell: bash -l {0}
         run: |
           pip install -e . &&
+          python -m ipykernel install --user
           pytest --cov=data_describe --cov-report term-missing --junitxml=junit.xml --cov-report xml tests
