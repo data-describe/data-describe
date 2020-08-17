@@ -32,7 +32,6 @@ dependencies:
   - pip>=20.0.2
   - papermill>=2.1.2
   - statsmodels>=0.11.1
-  - ipykernel>=5.3.4
   - pip:
       - google-cloud-storage>=1.18.0
       - presidio-analyzer==0.3.8917rc0

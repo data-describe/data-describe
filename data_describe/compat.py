@@ -112,10 +112,10 @@ try:
 
     _PACKAGE_INSTALLED["modin"] = True
 
-    compute = namedtuple("compute", ["pd", "mpd"])
+    compute = namedtuple("compute", ["pandas", "modin"])
 
-    _SERIES_TYPE = compute(pd=pandas.Series, mpd=modin.Series)
-    _DATAFRAME_TYPE = compute(pd=pandas.DataFrame, mpd=modin.DataFrame)
+    _SERIES_TYPE = compute(pandas=pandas.Series, modin=modin.Series)
+    _DATAFRAME_TYPE = compute(pandas=pandas.DataFrame, modin=modin.DataFrame)
 except ImportError:
     import pandas
 

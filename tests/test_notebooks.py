@@ -1,4 +1,4 @@
-# TO DO (truongc2): Fix notebook tests
+# TODO (truongc2): Fix notebook tests
 # import io
 # import os
 
