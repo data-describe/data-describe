@@ -17,10 +17,52 @@ from data_describe.compat import requires
 warnings.filterwarnings("ignore", category=UserWarning, module="gensim")
 
 
+def topic_model(
+    text_docs,
+    model_type="LDA",
+    num_topics=None,
+    min_topics=2,
+    max_topics=10,
+    no_below=10,
+    no_above=0.2,
+    tfidf=True,
+    model_kwargs=None,
+):
+    """Creates topic model object, trains topic model, and assigns relevant attributes to topic model object.
+
+    Args:
+        text_docs: A list of text documents in string format. These documents should generally be pre-processed
+        model_type: Defines the type of model which will be used, either 'LDA', 'LSA', 'LSI', 'SVD', or 'NMF'
+        num_topics: Sets the number of topics for the model. If None, will be optimized using coherence values
+        min_topics: Starting number of topics to optimize for if number of topics not provided. Default is 2
+        max_topics: Maximum number of topics to optimize for if number of topics not provided. Default is 10
+        no_below: Minimum number of documents a word must appear in to be used in training. Default is 10
+        no_above: Maximum proportion of documents a word may appear in to be used in training. Default is 0.2
+        tfidf: If True, model created using TF-IDF matrix. Otherwise, document-term matrix with wordcounts is used.
+        Default is True
+        model_kwargs: Keyword arguments for the model, should be in agreement with 'model_type'
+
+    Returns:
+        Topic model widget.
+    """
+    topicwidget = TopicModelWidget(model_type, num_topics, model_kwargs)
+    topicwidget.fit(
+        text_docs,
+        model_type,
+        min_topics,
+        max_topics,
+        no_below,
+        no_above,
+        tfidf,
+        model_kwargs,
+    )
+    return topicwidget
+
+
 @requires("gensim")
 @requires("pyLDAvis")
 class TopicModelWidget(BaseWidget):
-    """Create topic model."""
+    """Create topic model widget."""
 
     def __init__(self, model_type="LDA", num_topics=None, model_kwargs=None):
         """Topic Modeling made for easier training and understanding of topics.
