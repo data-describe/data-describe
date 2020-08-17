@@ -58,5 +58,5 @@ jobs:
         shell: bash -l {0}
         run: |
           pip install -e . &&
-          python -m ipykernel install --user
+          python -m ipykernel install --user &&
           pytest --cov=data_describe --cov-report term-missing --junitxml=junit.xml --cov-report xml tests
