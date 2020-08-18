@@ -8,7 +8,7 @@ from sklearn.preprocessing import StandardScaler
 
 from data_describe import compat
 from data_describe.compat import requires
-import data_describe.core.cluster as ddcluster
+import data_describe.core.clusters as ddcluster
 
 
 def compute_cluster(data, method: str, **kwargs):

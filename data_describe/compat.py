@@ -1,6 +1,7 @@
 from functools import wraps
 from typing import Dict
 import warnings
+from collections import namedtuple
 
 from IPython import get_ipython
 
@@ -110,8 +111,11 @@ try:
     import pandas
 
     _PACKAGE_INSTALLED["modin"] = True
-    _SERIES_TYPE = (pandas.Series, modin.Series)
-    _DATAFRAME_TYPE = (pandas.DataFrame, modin.DataFrame)
+
+    compute = namedtuple("compute", ["pandas", "modin"])
+
+    _SERIES_TYPE = compute(pandas=pandas.Series, modin=modin.Series)
+    _DATAFRAME_TYPE = compute(pandas=pandas.DataFrame, modin=modin.DataFrame)
 except ImportError:
     import pandas
 
@@ -127,4 +131,10 @@ try:
 except ImportError:
     _PACKAGE_INSTALLED["hdbscan"] = False
 
-_IN_NOTEBOOK = (get_ipython() is not None)
+try:
+    import presidio_analyzer  # noqa: F401
+
+    _PACKAGE_INSTALLED["presidio_analyzer"] = True
+except ImportError:
+    _PACKAGE_INSTALLED["presidio_analyzer"] = False
+_IN_NOTEBOOK = get_ipython() is not None
