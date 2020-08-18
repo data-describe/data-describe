@@ -3,7 +3,7 @@ import warnings
 from data_describe import compat
 
 
-def viz_pyLDAvis(model, corpus, dictionary):
+def viz_pyLDAvis_display(model, corpus, dictionary):
     """Displays interactive pyLDAvis visual to understand topic model and documents.
 
     Args:
