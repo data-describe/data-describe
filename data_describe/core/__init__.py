@@ -1,5 +1,5 @@
 from data_describe.core.clusters import cluster  # noqa: F401
-from data_describe.core.correlation_matrices import correlation_matrix  # noqa: F401
+from data_describe.core.correlations import correlation_matrix  # noqa: F401
 from data_describe.core.data_heatmap import data_heatmap  # noqa: F401
 from data_describe.core.summary import data_summary  # noqa: F401
 from data_describe.core.distributions import distribution  # noqa: F401

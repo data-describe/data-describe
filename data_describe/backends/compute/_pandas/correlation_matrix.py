@@ -6,7 +6,7 @@ from scipy.cluster import hierarchy
 from sklearn.metrics import matthews_corrcoef
 from scipy.stats import chi2_contingency
 
-import data_describe.core.correlation_matrices as ddcorr
+import data_describe.core.correlations as ddcorr
 
 warnings.filterwarnings(
     "error",
