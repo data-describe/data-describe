@@ -5,8 +5,6 @@ import data_describe.core.distributions as dddist
 def compute_distribution(
     data,
     diagnostic=True,
-    max_categories=20,
-    label_name="(OTHER)",
     spike_factor=10,
     skew_factor=3,
     **kwargs
