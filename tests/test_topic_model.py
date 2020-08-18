@@ -175,47 +175,46 @@ def test_svd_nmf_intermediates(svd_model, nmf_model):
 
 def test_pyldavis(lda_model, svd_model):
     with pytest.raises(OSError):
-        lda_model.show(viz_backend='pyLDAvis')
+        lda_model.pyLDAvis_display()
     with pytest.raises(TypeError):
-        svd_model.show(viz_backend='pyLDAvis')
+        svd_model.pyLDAvis_display()
 
 
 def test_elbow_plot(lsi_model, nmf_model):
-    assert isinstance(lsi_model.show("elbow"), matplotlib.axes._subplots.Axes)
+    assert isinstance(lsi_model.elbow_plot(), matplotlib.axes._subplots.Axes)
     with pytest.raises(TypeError):
-        nmf_model.show("elbow")
+        nmf_model.elbow_plot()
 
 
 def test_topic_keywords(lda_model, nmf_model):
-    lda_keywords_df = lda_model.show(
-        "top_words_per_topic", viz_kwargs={"num_topic_words": 5}
-    )
+    lda_keywords_df = lda_model.show(num_topic_words=5)
     assert lda_keywords_df.shape == (5, 2 * lda_model.num_topics)
     assert isinstance(lda_keywords_df, pd.DataFrame)
-    nmf_keywords_df = nmf_model.show("top_words_per_topic")
+    nmf_keywords_df = nmf_model.show()
     assert nmf_keywords_df.shape == (10, 3)
     assert isinstance(nmf_keywords_df, pd.DataFrame)
 
 
 def test_topic_top_documents(lsi_model, svd_model, document_data):
-    lsi_top_docs_df = lsi_model.show(
-        "top_documents_per_topic", text_docs=document_data, viz_kwargs={"num_docs": 2}
+    lsi_top_docs_df = lsi_model.top_documents_per_topic(
+        text_docs=document_data, num_docs=2
     )
     assert isinstance(lsi_top_docs_df, pd.DataFrame)
-    # assert lsi_top_docs_df.shape == (2, lsi_model.num_topics)  # TODO (sheth108): _get_topics_nums function needs refactoring
+    assert lsi_top_docs_df.shape == (2, lsi_model.num_topics)
 
-    svd_top_docs_df = svd_model.show(
-        "top_documents_per_topic", text_docs=document_data, viz_kwargs={"num_docs": 2}
+    svd_top_docs_df = svd_model.top_documents_per_topic(
+        text_docs=document_data, num_docs=2
     )
-    svd_top_docs_df_summarized = svd_model.show(
-        "top_documents_per_topic",
+    svd_top_docs_df_summarized = svd_model.top_documents_per_topic(
         text_docs=document_data,
-        viz_kwargs={"summarize_docs": True, "num_docs": 2},
+        summarize_docs=True,
+        num_docs=2,
     )
-    svd_top_docs_df_summarized_words = svd_model.show(
-        "top_documents_per_topic",
+    svd_top_docs_df_summarized_words = svd_model.top_documents_per_topic(
         text_docs=document_data,
-        viz_kwargs={"summarize_docs": True, "summary_words": 15, "num_docs": 2},
+        summarize_docs=True,
+        summary_words=15,
+        num_docs=2,
     )
     assert not svd_top_docs_df.equals(svd_top_docs_df_summarized)
     assert not svd_top_docs_df_summarized.equals(svd_top_docs_df_summarized_words)

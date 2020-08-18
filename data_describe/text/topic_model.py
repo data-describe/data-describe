@@ -136,6 +136,14 @@ class TopicModelWidget(BaseWidget):
         """If num_topics is None, this number is the last number of topics a model will be trained on."""
         return self._max_topics
 
+    def show(self, num_topic_words=10, topic_names=None):
+        """Displays topic distributions (LDA model) or scores (LSA/NMF model).
+
+        Returns:
+            doc_topics: Array of topic distributions (LDA model) or scores (LSA/NMF model)
+        """
+        return self.display_topic_keywords(num_topic_words=num_topic_words, topic_names=topic_names)
+
     def _compute_lsa_svd_model(self, text_docs, tfidf=True):
         """Trains LSA TruncatedSVD scikit-learn model.
 
@@ -360,7 +368,7 @@ class TopicModelWidget(BaseWidget):
         elif self._model_type == "NMF":
             self._model = self._compute_nmf_model(text_docs, tfidf)
 
-    def _elbow_plot(self, viz_backend=None):
+    def elbow_plot(self, viz_backend=None):
         """Creates an elbow plot displaying coherence values vs number of topics.
 
         Args:
@@ -368,11 +376,16 @@ class TopicModelWidget(BaseWidget):
         Returns:
             fig: Elbow plot showing coherence values vs number of topics
         """
-        return _get_viz_backend(viz_backend).viz_elbow_plot(
-            self._min_topics, self._max_topics, self._coherence_values
-        )
+        try:
+            self._coherence_values
+        except AttributeError:
+            raise TypeError("Coherence values not defined. At least 2 LDA or LSI models need to be trained with different numbers of topics.")
+        else:
+            return _get_viz_backend(viz_backend).viz_elbow_plot(
+                self._min_topics, self._max_topics, self._coherence_values
+            )
 
-    def _get_topic_nums(self):
+    def get_topic_nums(self):
         """Obtains topic distributions (LDA model) or scores (LSA/NMF model).
 
         Returns:
@@ -398,7 +411,7 @@ class TopicModelWidget(BaseWidget):
                     doc_topics.append([0] * len(self._model.get_topics()))
             return np.array(doc_topics)
 
-    def _display_topic_keywords(self, num_topic_words=10, topic_names=None):
+    def display_topic_keywords(self, num_topic_words=10, topic_names=None):
         """Creates Pandas DataFrame to display most relevant terms for each topic.
 
         Args:
@@ -452,7 +465,7 @@ class TopicModelWidget(BaseWidget):
         display_topics_df = pd.DataFrame(display_topics_dict, index=term_numbers)
         return display_topics_df
 
-    def _top_documents_per_topic(
+    def top_documents_per_topic(
         self,
         text_docs,
         topic_names=None,
@@ -475,7 +488,7 @@ class TopicModelWidget(BaseWidget):
         Returns:
             all_top_docs_df: Pandas DataFrame displaying topics as columns and their most relevant documents as rows
         """
-        topics = self._get_topic_nums()
+        topics = self.get_topic_nums()
 
         if summary_words and not summarize_docs:
             warnings.warn("'summary_words' specified, but 'summarize' set to False.")
@@ -535,58 +548,22 @@ class TopicModelWidget(BaseWidget):
         all_top_docs_df = pd.DataFrame(all_top_docs, index=doc_numbers)
         return all_top_docs_df
 
-    def show(
-        self, display_item="pyLDAvis", text_docs=None, viz_kwargs=None, viz_backend=None
+    def pyLDAvis_display(
+        self, viz_backend="pyLDAvis",
     ):
-        """Displays a specified visual to understand topic model and/or documents.
+        """Displays interactive pyLDAvis visual to understand topic model and documents.
 
         Args:
-            display_item: String which depicts what is trying to be shown. Options are 'pyLDAvis', 'elbow',
-                'top_words_per_topic', and 'top_documents_per_topic'. Default is 'pyLDAvis'
-
-            text_docs: A list of text documents in string format. Important to note that this list of documents
-            should be ordered in accordance with the matrix or corpus on which the document was trained
-
-            viz_kwargs:
-                num_topic_words: The number of words to be displayed for each topic. Default is 10
-                topic_names: A list of pre-defined names set for each of the topics. Default is None
-                num_docs: The number of documents to display for each topic. Default is 10
-                summarize_docs: If True, the documents will be summarized (if this is the case, 'text_docs'
-                should be formatted into sentences). Default is False
-                summary_words: The number of words the summary should be limited to. Should only be specified
-                if summarize_docs set to True
+            model: LDA topic model
+            corpus: Bag of Words (BoW) representation of documents (token_id, token_count)
+            dictionary: Gensim Dictionary encapsulates the mapping between normalized words and their integer ids
 
         Returns:
             A visual to understand topic model and/or documents relating to model
         """
-        display_item = display_item.lower()
-        if display_item == "pyldavis":
-            if self._model_type != "LDA":
-                raise TypeError("Model must be an LDA Model")
-            else:
-                return _get_viz_backend(viz_backend).viz_pyLDAvis(
-                    self._model, self._corpus, self._dictionary
-                )
-        elif display_item == "elbow":
-            try:
-                self._coherence_values
-            except AttributeError:
-                raise TypeError(
-                    "Coherence Values not defined. At least 2 LDA or LSI models need to be trained "
-                    "with different numbers of topics."
-                )
-            else:
-                return self._elbow_plot(viz_backend)
-        elif display_item == "top_words_per_topic":
-            if viz_kwargs is None:
-                viz_kwargs = {}
-            return self._display_topic_keywords(**viz_kwargs)
-        elif display_item == "top_documents_per_topic":
-            if viz_kwargs is None:
-                viz_kwargs = {}
-            return self._top_documents_per_topic(text_docs, **viz_kwargs)
+        if self._model_type != "LDA":
+            raise TypeError("Model must be an LDA Model")
         else:
-            raise ValueError(
-                "The input for display_item must be either: 'pyLDAvis', 'elbow', 'top_words_per_topic', "
-                "or 'top_documents_per_topic'"
+            return _get_viz_backend(viz_backend).viz_pyLDAvis_display(
+                self._model, self._corpus, self._dictionary
             )
