@@ -30,19 +30,19 @@
 # )
 
 
-# # def check_notebook_execution(notebook):
-# #     """Update notebook if cell execution counts are not ordered.
+# def check_notebook_execution(notebook):
+#     """Update notebook if cell execution counts are not ordered.
 
-# #     Args:
-# #         notebook: Path to notebook
-# #     """
-# #     with io.open(notebook) as f:
-# #         nb = nbformat.read(f, nbformat.NO_CONVERT)
-# #     for idx, cell in enumerate(nb["cells"], 1):
-# #         if "execution_count" in cell:
-# #             if cell["execution_count"] != idx:
-# #                 pm.execute_notebook(notebook, notebook)
-# #                 break
+#     Args:
+#         notebook: Path to notebook
+#     """
+#     with io.open(notebook) as f:
+#         nb = nbformat.read(f, nbformat.NO_CONVERT)
+#     for idx, cell in enumerate(nb["cells"], 1):
+#         if "execution_count" in cell:
+#             if cell["execution_count"] != idx:
+#                 pm.execute_notebook(notebook, notebook)
+#                 break
 
 
 # def test_cluster_analysis_notebook():
@@ -77,7 +77,7 @@
 
 # def test_correlation_matrix_notebook():
 #     notebook = os.path.join(EXEC_CWD, "examples", "Correlation_Matrix.ipynb")
-#     # check_notebook_execution(notebook)
+#     check_notebook_execution(notebook)
 #     fixture.check(notebook, raise_errors=True)
 
 
