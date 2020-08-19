@@ -15,7 +15,11 @@ widget_template = """.. _x-tutorial:
 .. include:: ../_notebooks/x.rst"""
 
 
-def setup():
+def setup(app):
+    app.connect("builder-inited", load_notebooks)
+
+
+def load_notebooks():
     """Load notebooks from the /example directory"""
 
     notebooks = glob.glob("../../examples/*.ipynb")
@@ -37,9 +41,7 @@ def setup():
     text = open("widgets/index.rst", "r").read()
     text = re.sub(
         r"(:maxdepth: 1).*(Placeholder)",
-        r"\1\n\n"
-        + "\n".join(["   _notebooks/" + name for name in outputs])
-        + r"\n\2",
+        r"\1\n\n" + "\n".join(["   _notebooks/" + name for name in outputs]) + r"\n\2",
         text,
         flags=re.S,
     )
