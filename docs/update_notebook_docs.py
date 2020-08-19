@@ -16,7 +16,7 @@ widget_template = """.. _x-tutorial:
 
 
 def load_notebooks():
-    """Load notebooks from the /example directory"""
+    """Load notebooks from the /example directory."""
     notebooks = glob.glob("../examples/*.ipynb")
 
     outputs = []
