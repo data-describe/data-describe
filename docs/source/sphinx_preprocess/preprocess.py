@@ -15,11 +15,10 @@ widget_template = """.. _x-tutorial:
 .. include:: ../_notebooks/x.rst"""
 
 
-def run(argv=None):
-    """Update notebooks."""
-    os.chdir(os.path.dirname(os.path.abspath(__file__)))
+def load_notebooks():
+    """Load notebooks from the /example directory"""
 
-    notebooks = glob.glob("../examples/*.ipynb")
+    notebooks = glob.glob("../../examples/*.ipynb")
 
     outputs = []
     for notebook in notebooks:
@@ -29,23 +28,19 @@ def run(argv=None):
             outputs.append(output_name)
         print("Updating {}...".format(notebook_name))
 
-        pathlib.Path("source/_notebooks").mkdir(exist_ok=True)
+        pathlib.Path("_notebooks").mkdir(exist_ok=True)
 
-        shutil.copyfile(notebook, "source/_notebooks/" + output_name + ".ipynb")
+        shutil.copyfile(notebook, "_notebooks/" + output_name + ".ipynb")
 
     # Insert links to the widget ToC
     print("Finalizing Widget Page")
-    text = open("source/widgets/index.rst", "r").read()
+    text = open("widgets/index.rst", "r").read()
     text = re.sub(
         r"(:maxdepth: 1).*(Placeholder)",
         r"\1\n\n"
-        + "\n".join(["   ../_notebooks/" + name for name in outputs])
+        + "\n".join(["   _notebooks/" + name for name in outputs])
         + r"\n\2",
         text,
         flags=re.S,
     )
-    open("source/widgets/index.rst", "w").write(text)
-
-
-if __name__ == "__main__":
-    run()
+    open("widgets/index.rst", "w").write(text)
