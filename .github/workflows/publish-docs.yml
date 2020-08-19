@@ -1,20 +1,23 @@
 name: docs
 
-on: workflow_dispatch
+on:
+  release:
+    types:
+      - created
 
 jobs:
-  build-docs:
+  publish-docs:
     runs-on: "ubuntu-latest"
     steps:
       - uses: actions/checkout@v2
       - name: Cache conda
         uses: actions/cache@v1
         env:
-          # Increase this value to reset cache if etc/test-environment.yml has not changed
+          # Increase this value to reset cache if etc/doc-environment.yml has not changed
           CACHE_NUMBER: 0
         with:
           path: ~/conda_pkgs_dir
-          key: ${{ runner.os }}-conda-${{ env.CACHE_NUMBER }}-${{ hashFiles('etc/test-environment.yml') }}
+          key: ${{ runner.os }}-conda-${{ env.CACHE_NUMBER }}-${{ hashFiles('etc/doc-environment.yml') }}
       - name: Setup miniconda
         uses: goanpeca/setup-miniconda@v1.3.0
         with:
@@ -27,12 +30,11 @@ jobs:
         shell: bash -l {0}
         run: |
           pip install -e . &&
-          VERSION=$(python setup.py --version) &&
-          python docs/make.py --version $VERSION
-
+          python docs/make.py
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./docs/build/
+          destination_dir: docs
           keep_files: true
