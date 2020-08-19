@@ -21,11 +21,9 @@ def run(argv=None):
     if not build_args.no_build:
         subprocess.call(
             [
-                "sphinx-build",
-                "-b",
-                "html",
+                "sphinx-multiversion"
                 "docs/source",
-                f"docs/build/{build_args.version}",
+                "docs/build",
             ]
         )
 
