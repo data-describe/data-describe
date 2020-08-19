@@ -11,6 +11,22 @@ from data_describe import compat
 
 warnings.filterwarnings("ignore", category=UserWarning, module="gensim")
 
+"""Text preprocessing module.
+
+This module contains a number of methods by which text documents can be preprocessed. The individual preprocessing functions can be classified as "Bag of Words Functions"
+(to_lower, remove_punct, remove_digits, remove_single_char_and_spaces, remove_stopwords, lemmatize, stem) or "Document Functions" (tokenize, bag_of_words_to_docs).
+Each of the functions in these groups return generator objects, and when using them on their own, the formatting depicted below should be applied.
+
+Example:
+    Individual Document Functions should be processed as such::
+
+        tokenized_docs = list(itertools.chain.from_iterable(tokenize(original_docs)))
+
+    Individual Bag of Words Functions should be processed as such::
+
+        lower_case_docs_bow = [list(generator) for generator in list(itertools.chain.from_iterable(to_lower(original_docs_bow)))]
+"""
+
 
 @compat.requires("nltk")
 def tokenize(text_docs):
@@ -53,17 +69,41 @@ def remove_punct(text_docs_bow, replace_char=" ", remove_all=False):
     if remove_all:
         for doc in text_docs_bow:
             new_doc = [re.sub(r"[^\w\s]|_", " ", word) for word in doc]
-            new_doc = [list(itertools.chain.from_iterable(tokenize([word]))) if " " in word else [word] for word in new_doc]
+            new_doc = [
+                list(itertools.chain.from_iterable(tokenize([word])))
+                if " " in word
+                else [word]
+                for word in new_doc
+            ]
             new_doc = [item for sublist in new_doc for item in sublist if item]
             if replace_char != " ":
-                new_doc = list(itertools.chain.from_iterable([[word] if isinstance(word, str) else [replace_char.join(word)] for word in new_doc]))
+                new_doc = list(
+                    itertools.chain.from_iterable(
+                        [
+                            [word]
+                            if isinstance(word, str)
+                            else [replace_char.join(word)]
+                            for word in new_doc
+                        ]
+                    )
+                )
             else:
-                new_doc = list(itertools.chain.from_iterable([[word] if isinstance(word, str) else word for word in new_doc]))
-            new_doc = [word for word in new_doc if not (len(word) == 1 and word in string.punctuation)]
+                new_doc = list(
+                    itertools.chain.from_iterable(
+                        [[word] if isinstance(word, str) else word for word in new_doc]
+                    )
+                )
+            new_doc = [
+                word
+                for word in new_doc
+                if not (len(word) == 1 and word in string.punctuation)
+            ]
             new_docs.append(new_doc)
     else:
         for doc in text_docs_bow:
-            new_doc = [re.sub(r"^([^\w\s]|_)?(.+?)([^\w\s]|_)?$", r"\2", word) for word in doc]
+            new_doc = [
+                re.sub(r"^([^\w\s]|_)?(.+?)([^\w\s]|_)?$", r"\2", word) for word in doc
+            ]
             new_doc = [
                 word
                 for word in new_doc
@@ -239,10 +279,17 @@ def preprocess_texts(text_docs, lem=False, stem=False, custom_pipeline=None):
     for function in pipeline:
         if isinstance(function, str):
             current_method = getattr(text_preprocessing, function)
-            if function == 'tokenize':
-                text_docs = list(itertools.chain.from_iterable(current_method(text_docs)))
+            if function == "tokenize":
+                text_docs = list(
+                    itertools.chain.from_iterable(current_method(text_docs))
+                )
             else:
-                text_docs = [list(generator) for generator in list(itertools.chain.from_iterable(current_method(text_docs)))]
+                text_docs = [
+                    list(generator)
+                    for generator in list(
+                        itertools.chain.from_iterable(current_method(text_docs))
+                    )
+                ]
         else:
             text_docs = function(text_docs)
 

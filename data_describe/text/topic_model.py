@@ -137,19 +137,26 @@ class TopicModelWidget(BaseWidget):
         return self._max_topics
 
     def show(self, num_topic_words=10, topic_names=None):
-        """Displays topic distributions (LDA model) or scores (LSA/NMF model).
+        """Displays most relevant terms for each topic.
+
+        Args:
+            num_topic_words: The number of words to be displayed for each topic. Default is 10
+            topic_names: A list of pre-defined names set for each of the topics. Default is None
 
         Returns:
-            doc_topics: Array of topic distributions (LDA model) or scores (LSA/NMF model)
+            display_topics_df: Pandas DataFrame displaying topics as columns and their relevant terms as rows.
+            LDA/LSI models will display an extra column to the right of each topic column, showing each term's
+            corresponding coefficient value
         """
-        return self.display_topic_keywords(num_topic_words=num_topic_words, topic_names=topic_names)
+        return self.display_topic_keywords(
+            num_topic_words=num_topic_words, topic_names=topic_names
+        )
 
     def _compute_lsa_svd_model(self, text_docs, tfidf=True):
         """Trains LSA TruncatedSVD scikit-learn model.
 
         Args:
             text_docs: A list of text documents in string format. These documents should generally be pre-processed
-
             tfidf: If True, model created using TF-IDF matrix. Otherwise, document-term matrix with wordcounts is used.
             Default is True
 
@@ -340,7 +347,6 @@ class TopicModelWidget(BaseWidget):
             max_topics: Maximum number of topics to optimize for if number of topics not provided. Default is 10
             no_below: Minimum number of documents a word must appear in to be used in training. Default is 10
             no_above: Maximum proportion of documents a word may appear in to be used in training. Default is 0.2
-
             tfidf: If True, model created using TF-IDF matrix. Otherwise, document-term matrix with wordcounts is used.
             Default is True
 
@@ -371,15 +377,15 @@ class TopicModelWidget(BaseWidget):
     def elbow_plot(self, viz_backend=None):
         """Creates an elbow plot displaying coherence values vs number of topics.
 
-        Args:
-
         Returns:
             fig: Elbow plot showing coherence values vs number of topics
         """
         try:
             self._coherence_values
         except AttributeError:
-            raise TypeError("Coherence values not defined. At least 2 LDA or LSI models need to be trained with different numbers of topics.")
+            raise TypeError(
+                "Coherence values not defined. At least 2 LDA or LSI models need to be trained with different numbers of topics."
+            )
         else:
             return _get_viz_backend(viz_backend).viz_elbow_plot(
                 self._min_topics, self._max_topics, self._coherence_values
@@ -552,11 +558,6 @@ class TopicModelWidget(BaseWidget):
         self, viz_backend="pyLDAvis",
     ):
         """Displays interactive pyLDAvis visual to understand topic model and documents.
-
-        Args:
-            model: LDA topic model
-            corpus: Bag of Words (BoW) representation of documents (token_id, token_count)
-            dictionary: Gensim Dictionary encapsulates the mapping between normalized words and their integer ids
 
         Returns:
             A visual to understand topic model and/or documents relating to model
