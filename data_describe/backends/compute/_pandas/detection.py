@@ -2,13 +2,14 @@ import hashlib
 from functools import reduce
 from typing import Optional
 
+from data_describe.compat import requires
 from data_describe.config._config import get_option
-import data_describe.privacy.detection as ddsensitive
 
 _DEFAULT_SCORE_THRESHOLD = get_option("sensitive_data.score_threshold")
 _SAMPLE_SIZE: int = get_option("sensitive_data.sample_size")
 
 
+@requires("presidio_analyzer")
 def compute_sensitive_data(
     df,
     mode: str = "redact",
@@ -39,6 +40,8 @@ def compute_sensitive_data(
     Returns:
         SensitiveDataWidget
     """
+    import data_describe.privacy.detection as ddsensitive # noqa: Lazy load
+
     if columns:
         df = df[columns]
 

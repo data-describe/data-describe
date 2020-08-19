@@ -6,7 +6,7 @@ import sklearn
 from sklearn.cluster import KMeans
 from sklearn.preprocessing import StandardScaler
 
-from data_describe import compat
+from data_describe import _compat
 from data_describe.compat import requires
 import data_describe.core.clusters as ddcluster
 
@@ -174,7 +174,7 @@ def _run_hdbscan(data, min_cluster_size=15, **kwargs):
     """
     default_hdbscan_kwargs = {"min_cluster_size": min_cluster_size}
     hdbscan_kwargs = {**default_hdbscan_kwargs, **(kwargs or {})}
-    hdb = compat.hdbscan.HDBSCAN(**hdbscan_kwargs)
+    hdb = _compat.hdbscan.HDBSCAN(**hdbscan_kwargs)
     clusters = hdb.fit_predict(data)
     clusterwidget = ddcluster.HDBSCANClusterWidget(
         clusters=clusters, method="hdbscan", estimator=hdb

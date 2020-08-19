@@ -24,12 +24,12 @@ import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
 
 from data_describe.text import text_preprocessing
-from data_describe import compat
+from data_describe.compat import requires, _compat
 
 warnings.filterwarnings("ignore", category=UserWarning, module="gensim")
 
 
-@compat.requires("nltk")
+@requires("nltk")
 def tokenize(text_docs: Iterable[str]) -> Iterable[Iterable[str]]:
     """Turns list of documents into "bag of words" format.
 
@@ -39,7 +39,7 @@ def tokenize(text_docs: Iterable[str]) -> Iterable[Iterable[str]]:
     Returns:
         A generator expression for all of the processed documents
     """
-    return (compat.word_tokenize(doc) for doc in text_docs)
+    return (_compat.word_tokenize(doc) for doc in text_docs)
 
 
 def to_lower(text_docs_bow: Iterable[Iterable[str]]) -> Iterable[Iterable[str]]:
@@ -136,7 +136,7 @@ def remove_single_char_and_spaces(
     return (doc for doc in new_docs)
 
 
-@compat.requires("nltk")
+@requires("nltk")
 def remove_stopwords(
     text_docs_bow: Iterable[Iterable[str]], custom_stopwords: Optional[List[str]] = None
 ) -> Iterable[Iterable[str]]:
@@ -149,7 +149,7 @@ def remove_stopwords(
     Returns:
         A generator expression for all of the processed documents
     """
-    stop_words_original = set(compat.stopwords.words("english"))
+    stop_words_original = set(_compat.stopwords.words("english"))
 
     if custom_stopwords:
         stop_words = stop_words_original.union(custom_stopwords)
@@ -159,7 +159,7 @@ def remove_stopwords(
     return ((word for word in doc if word not in stop_words) for doc in text_docs_bow)
 
 
-@compat.requires("nltk")
+@requires("nltk")
 def lemmatize(text_docs_bow: Iterable[Iterable[str]],) -> Iterable[Iterable[str]]:
     """Lemmatizes all words in documents. Lemmatization is grouping words together by their reducing them to their inflected forms so they can be analyzed as a single item.
 
@@ -173,7 +173,7 @@ def lemmatize(text_docs_bow: Iterable[Iterable[str]],) -> Iterable[Iterable[str]
     return ((lemmatizer.lemmatize(word) for word in doc) for doc in text_docs_bow)
 
 
-@compat.requires("nltk")
+@requires("nltk")
 def stem(text_docs_bow: Iterable[Iterable[str]],) -> Iterable[Iterable[str]]:
     """Stems all words in documents. Stemming is grouping words together by taking the stems of their inflected forms so they can be analyzed as a single item.
 
@@ -183,7 +183,7 @@ def stem(text_docs_bow: Iterable[Iterable[str]],) -> Iterable[Iterable[str]]:
     Returns:
         A generator expression for all of the processed documents
     """
-    stemmer = compat.LancasterStemmer()
+    stemmer = _compat.LancasterStemmer()
     return ((stemmer.stem(word) for word in doc) for doc in text_docs_bow)
 
 
@@ -292,7 +292,7 @@ def to_list(text_docs_gen) -> List[Any]:
         return [to_list(i) for i in text_docs_gen]
 
 
-@compat.requires("nltk")
+@requires("nltk")
 def ngram_freq(
     text_docs_bow: Iterable[Iterable[str]], n: int = 3, only_n: bool = False
 ) -> compat.FreqDist:
@@ -310,7 +310,7 @@ def ngram_freq(
     if n < 2:
         raise ValueError("'n' must be a number 2 or greater")
 
-    freq = compat.FreqDist()
+    freq = _compat.FreqDist()
     for doc in text_docs_bow:
         if only_n:
             current_ngrams = compat.ngrams(doc, n)
@@ -322,7 +322,7 @@ def ngram_freq(
     return freq
 
 
-@compat.requires("gensim")
+@requires("gensim")
 def filter_dictionary(text_docs: List[str], no_below: int = 10, no_above: float = 0.2):
     """Filters words that appear less than a certain amount of times in the document and returns a Gensim.
 
@@ -336,7 +336,7 @@ def filter_dictionary(text_docs: List[str], no_below: int = 10, no_above: float 
         dictionary: Gensim Dictionary encapsulates the mapping between normalized words and their integer ids
         corpus: Bag of Words (BoW) representation of documents (token_id, token_count)
     """
-    dictionary = compat.Dictionary(text_docs)
+    dictionary = _compat.Dictionary(text_docs)
     dictionary.filter_extremes(no_below=no_below, no_above=no_above)
     corpus = [dictionary.doc2bow(doc) for doc in text_docs]
     return dictionary, corpus
