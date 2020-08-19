@@ -15,10 +15,6 @@ import sys
 
 sys.path.append(os.path.abspath(os.path.dirname(__file__)))
 
-from sphinx_preprocess import load_notebooks
-
-load_notebooks()
-
 
 # -- Project information -----------------------------------------------------
 

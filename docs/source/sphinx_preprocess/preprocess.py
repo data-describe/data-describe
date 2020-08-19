@@ -15,7 +15,7 @@ widget_template = """.. _x-tutorial:
 .. include:: ../_notebooks/x.rst"""
 
 
-def load_notebooks():
+def setup():
     """Load notebooks from the /example directory"""
 
     notebooks = glob.glob("../../examples/*.ipynb")
