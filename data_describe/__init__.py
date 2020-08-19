@@ -34,3 +34,4 @@ from data_describe.core.clusters import cluster  # noqa: F401
 from data_describe.core.time_series import plot_time_series  # noqa: F401
 from data_describe.config._config import options  # noqa: F401
 from data_describe.compat import _compat  # noqa: F401
+from data_describe._version import __version__  # noqa: F401
