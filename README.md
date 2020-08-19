@@ -2,7 +2,9 @@
 
 data-describe is a Python toolkit for Exploratory Data Analysis (EDA). It aims to accelerate data exploration and analysis by providing automated and polished analysis widgets.
 
-![heatmap](/docs/imgs/heatmap.png)
+![](/docs/imgs/demo.gif)
+
+For more examples of data-describe in action, see the [Quick Start Tutorial](examples/Tutorial.ipynb).
 
 ## Main Features
 
