@@ -1,4 +1,5 @@
-import importlib
+from importlib.util import find_spec
+from importlib import import_module
 import warnings
 from functools import wraps
 from types import ModuleType
@@ -24,9 +25,9 @@ class DependencyManager:
                 run additional download or other set up processes that should happen on import.
         """
         self.imports = imports
-        self.installed_modules = {}
-        self.modules = {}
-        self.search_install(imports.keys())
+        self.installed_modules: Dict[str, bool] = {}
+        self.modules: Dict[str, ModuleType] = {}
+        self.search_install(list(imports.keys()))
 
     def search_install(self, modules: List[str]):
         """Searches for installed modules and determines if they exist.
@@ -38,7 +39,7 @@ class DependencyManager:
             modules (List[str]): List of module names
         """
         for module in modules:
-            if importlib.util.find_spec(module) is not None:
+            if find_spec(module) is not None:
                 self.installed_modules[module] = True
             else:
                 self.installed_modules[module] = False
@@ -62,10 +63,10 @@ class DependencyManager:
                     return self.modules[item]
                 else:
                     try:
-                        module = importlib.import_module(item)
+                        module = import_module(item)
                         self.modules[item] = module
                         if self.imports[item] is not None:
-                            self.imports[item]()
+                            self.imports[item](module)
                         return module
                     except ImportError:
                         raise ImportError(
@@ -76,7 +77,7 @@ class DependencyManager:
         )
 
 
-def nltk_import(module):
+def nltk_download(module):
     """Downloads NLTK corpora."""
     try:
         module.data.find("tokenizers/punkt")
@@ -92,7 +93,7 @@ def nltk_import(module):
         module.download("stopwords")
 
 
-def spacy_import(module):
+def spacy_download(module):
     """Downloads SpaCy language model."""
     if not module.util.is_package("en_core_web_lg"):
         warnings.warn(
@@ -101,17 +102,22 @@ def spacy_import(module):
         module.cli.download("en_core_web_lg")
 
 
+def no_side_import(module):
+    """Placeholder for imports that should not do anything additional on import."""
+    pass
+
+
 _compat = DependencyManager(
     {
-        "nltk": nltk_import,
-        "gensim": None,
-        "pyLDAvis": None,
-        "gcsfs": None,
-        "google.cloud.storage": None,
-        "spacy": spacy_import,
-        "modin": None,
-        "hdbscan": None,
-        "presidio_analyzer": None,
+        "nltk": nltk_download,
+        "gensim": no_side_import,
+        "pyLDAvis": no_side_import,
+        "gcsfs": no_side_import,
+        "google.cloud.storage": no_side_import,
+        "spacy": spacy_download,
+        "modin.pandas": no_side_import,
+        "hdbscan": no_side_import,
+        "presidio_analyzer": no_side_import,
     }
 )
 
