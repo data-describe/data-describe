@@ -58,9 +58,7 @@ junit.xml
 *.log
 
 # Sphinx documentation
-docs/_build/
 docs/source/_api/
-docs/source/_notebooks/
 
 
 # PyBuilder
