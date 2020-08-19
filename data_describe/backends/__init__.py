@@ -1,4 +1,4 @@
-from ._backends import (  # noqa
+from data_describe.backends._backends import (  # noqa
     _get_viz_backend,
     _get_compute_backend,
 )

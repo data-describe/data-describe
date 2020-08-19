@@ -1,29 +1,31 @@
 import numpy as np
 from scipy.stats import skew
 
-
-def spikey(data, factor=10):
-    """Identifies 'spikey' histograms where the tallest bin is `factor` times the average bin count.
-
-    Args:
-        data: The 1-d data array
-        factor: The factor
-
-    Returns:
-        True if statistically significant
-    """
-    counts, bins = np.histogram(data, bins="auto")
-    return max(counts) >= factor * np.mean(counts)
+from data_describe import compat
 
 
-def skewed(data, threshold=3):
-    """Identifies skewed data as being over a threshold skew value.
+def spikey(data):
+    """Calculates the "spikey-ness" of the histogram.
+
+    Spikeyness is the ratio between the tallest bin and the average bin height.
 
     Args:
         data: The 1-d data array
-        threshold: The skew value
-
-    Returns:
-        True if statistically significant
     """
-    return skew(data) >= threshold
+    if isinstance(data, compat._SERIES_TYPE):
+        data = data.dropna()
+    else:
+        data = data[~np.isnan(data)]
+    counts, bins = np.histogram(data, bins="sturges")
+    return max(counts) / np.mean(counts)
+
+
+def skewed(data):
+    """Calculates skew.
+
+    Utilizes scipy.stats.
+
+    Args:
+        data: The 1-d data array
+    """
+    return skew(data)

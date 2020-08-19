@@ -1,32 +1,30 @@
-import numpy as np
 import matplotlib
-import pytest
 
 import data_describe as dd
-
-
-matplotlib.use("Agg")
+from data_describe import compat
+from data_describe.core.distributions import DistributionWidget
 
 
 def test_distribution(data):
-    fig = dd.distribution(data, plot_all=True)
-    assert isinstance(fig, list)
-    assert isinstance(fig[0], matplotlib.artist.Artist)
-
-
-def test_distribution_all(data):
-    fig = dd.distribution(data, plot_all=True)
-    assert isinstance(fig, list)
-    assert isinstance(fig[0], matplotlib.artist.Artist)
-
-
-def test_distribution_cats(data):
-    fig = dd.distribution(data, max_categories=None)
-    assert isinstance(fig, list)
-    assert isinstance(fig[0], matplotlib.artist.Artist)
-
-
-def test_distribution_nonimplemented():
-    err_type = np.array([1, 2, 3])
-    with pytest.raises(NotImplementedError):
-        dd.distribution(err_type)
+    w = dd.distribution(data)
+    assert isinstance(w, DistributionWidget), "Output was not a DistributionWidget"
+    assert isinstance(
+        w.plot_distribution("a"), matplotlib.figure.Figure
+    ), "plot_distribution[numeric] was not a mpl figure"
+    assert isinstance(
+        w.plot_distribution("a", contrast="e"), matplotlib.figure.Figure
+    ), "plot_distribution[numeric] with contrast was not a mpl figure"
+    assert isinstance(
+        w.plot_distribution("d"), matplotlib.figure.Figure
+    ), "plot_distribution[categorical] was not a mpl figure"
+    assert isinstance(
+        w.plot_distribution("d", contrast="e"), matplotlib.figure.Figure
+    ), "plot_distribution[categorical] with contrast was not a mpl figure"
+    assert w.spike_factor == 10, "Wrong default spike factor"
+    assert w.skew_factor == 3, "Wrong default skew factor"
+    assert isinstance(
+        w.spike_value, compat._SERIES_TYPE.pandas
+    ), "Spike values not a Pandas series"
+    assert isinstance(
+        w.skew_value, compat._SERIES_TYPE.pandas
+    ), "Skew values not a Pandas series"
