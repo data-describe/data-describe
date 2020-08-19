@@ -13,8 +13,6 @@
 import os
 import sys
 
-sys.path.append(os.path.abspath(os.path.dirname(__file__)))
-
 
 # -- Project information -----------------------------------------------------
 
@@ -30,7 +28,7 @@ release = "0.0.1a"
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-extensions = ["sphinx_preprocess", "sphinx.ext.napoleon", "nbsphinx", "sphinx_multiversion"]
+extensions = ["sphinx.ext.napoleon", "nbsphinx", "sphinx_multiversion"]
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]
