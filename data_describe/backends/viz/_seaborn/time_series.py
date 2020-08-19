@@ -18,7 +18,10 @@ def viz_plot_time_series(df, col, result=None, decompose=False):
         fig: The visualization
     """
     fig, ax = plt.subplots(
-        figsize=(get_option("display.fig_height"), get_option("display.fig_width"))
+        figsize=(
+            get_option("display.matplotlib.fig_width"),
+            get_option("display.matplotlib.fig_height"),
+        )
     )
 
     if isinstance(col, list):
@@ -47,7 +50,10 @@ def viz_decomposition(df, result):
         nrows=4,
         ncols=1,
         sharex=True,
-        figsize=(get_option("display.fig_height"), get_option("display.fig_width")),
+        figsize=(
+            get_option("display.matplotlib.fig_width"),
+            get_option("display.matplotlib.fig_height"),
+        ),
     )
     sns.lineplot(y=result.observed, x=df.index, ax=ax[0])
     sns.lineplot(y=result.trend, x=df.index, ax=ax[1])
@@ -74,7 +80,10 @@ def viz_plot_autocorrelation(
         fig: The visualization
     """
     fig, ax = plt.subplots(
-        figsize=(get_option("display.fig_height"), get_option("display.fig_width"))
+        figsize=(
+            get_option("display.matplotlib.fig_width"),
+            get_option("display.matplotlib.fig_height"),
+        )
     )
     if plot_type == "acf":
         fig = sm.graphics.tsa.plot_acf(

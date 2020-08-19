@@ -68,7 +68,10 @@ def _scatter_plot(data, xname, yname, **kwargs):
         The Seaborn figure
     """
     default_joint_kwargs = {
-        "height": max(get_option("display.fig_width"), get_option("display.fig_height"))
+        "height": max(
+            get_option("display.matplotlib.fig_width"),
+            get_option("display.matplotlib.fig_height"),
+        )
     }
     default_scatter_kwargs = {}
     default_dist_kwargs = {"kde": False, "rug": False}

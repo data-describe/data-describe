@@ -23,7 +23,10 @@ def viz_cluster(data, method: str, xlabel: str = None, ylabel: str = None, **kwa
     xlabel = xlabel or "Reduced Dimension 1"
     ylabel = ylabel or "Reduced Dimension 2"
     plt.figure(
-        figsize=(get_option("display.fig_width"), get_option("display.fig_height"))
+        figsize=(
+            get_option("display.matplotlib.fig_width"),
+            get_option("display.matplotlib.fig_height"),
+        )
     )
     unique_labels = len(np.unique(data["clusters"]))
     pal = sns.color_palette(n_colors=unique_labels)
@@ -42,7 +45,7 @@ def viz_cluster_search_plot(
     cluster_range: Tuple[int, int],
     scores: List[Union[int, float]],
     metric: str,
-    **kwargs
+    **kwargs,
 ):
     """Visualize the cluster search plot for K-means clusters.
 
@@ -56,7 +59,10 @@ def viz_cluster_search_plot(
     """
     n_clusters = list(range(*cluster_range))
     plt.figure(
-        figsize=(get_option("display.fig_width"), get_option("display.fig_height"))
+        figsize=(
+            get_option("display.matplotlib.fig_width"),
+            get_option("display.matplotlib.fig_height"),
+        )
     )
     ax = sns.lineplot(n_clusters, scores)
     ax.set_title("Optimal Number of Clusters")

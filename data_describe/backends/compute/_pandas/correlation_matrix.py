@@ -2,14 +2,11 @@ import warnings
 
 import pandas as pd
 import numpy as np
-from IPython import get_ipython
-import plotly.graph_objs as go
-from plotly.offline import init_notebook_mode, iplot
 from scipy.cluster import hierarchy
 from sklearn.metrics import matthews_corrcoef
-from scipy.stats import chi2_contingency, percentileofscore
+from scipy.stats import chi2_contingency
 
-from data_describe.utilities.colorscale import color_fade, rgb_to_str
+import data_describe.core.correlations as ddcorr
 
 warnings.filterwarnings(
     "error",
@@ -19,23 +16,19 @@ warnings.filterwarnings(
 )
 
 
-def correlation_matrix(data, cluster=False, categorical=False, return_values=False):
+def compute_correlation_matrix(data, cluster=False, categorical=False):
     """Correlation matrix of numeric variables.
 
     Args:
-        data: A pandas data frame
-        cluster: If True, use clustering to reorder similar columns together
+        data (DataFrame): The data frame
+        cluster (bool): If True, use clustering to reorder similar columns together
 
-        categorical: If True, calculate categorical associations using Cramer's V, Correlation Ratio, and
-
+        categorical (bool): If True, calculate categorical associations using Cramer's V, Correlation Ratio, and
             Point-biserial coefficient (aka Matthews correlation coefficient). All associations (including Pearson
             correlation) are in the range [0, 1]
 
-        return_values: If True, return the correlation/association values
-         manager
-
     Returns:
-        Matplotlib graph or Pandas data frame
+        CorrelationMatrixWidget
     """
     numeric = data.select_dtypes(["number"])
     categoric = data[[col for col in data.columns if col not in numeric.columns]]
@@ -71,33 +64,30 @@ def correlation_matrix(data, cluster=False, categorical=False, return_values=Fal
         association_matrix.fillna(0, inplace=True)
 
         if cluster:
-            association_matrix = reorder_by_cluster(association_matrix)
+            cluster_matrix = reorder_by_cluster(association_matrix)
         else:
             association_matrix = reorder_by_original(association_matrix, data)
 
-        if return_values:
-            return association_matrix
-        else:
-            return plot_heatmap(association_matrix)
     else:
         if has_numeric:
-            association_numeric = numeric.corr()
+            association_matrix = numeric.corr()
         else:
             raise ValueError(
                 "No numerical features were found. Could not compute correlation."
             )
 
-        association_numeric.fillna(0, inplace=True)
+        association_matrix.fillna(0, inplace=True)
 
         if cluster:
-            association_numeric = reorder_by_cluster(association_numeric)
+            cluster_matrix = reorder_by_cluster(association_matrix)
         else:
             pass  # Pearson Correlation does not need reordering
 
-        if return_values:
-            return association_numeric
-        else:
-            return plot_heatmap(association_numeric)
+    return ddcorr.CorrelationMatrixWidget(
+        association_matrix=association_matrix,
+        cluster_matrix=cluster_matrix if cluster else None,
+        viz_data=cluster_matrix if cluster else association_matrix,
+    )
 
 
 def cramers_v_matrix(df):
@@ -106,7 +96,7 @@ def cramers_v_matrix(df):
     Adapted from https://github.com/shakedzy/dython/blob/master/dython/nominal.py
 
     Args:
-        df: A pandas data frame containing only categorical features
+        df (DataFrame): A data frame containing only categorical features
 
     Returns:
         A pandas data frame
@@ -161,8 +151,8 @@ def correlation_ratio_matrix(num_df, cat_df):
     """Computes correlation ratio for all numeric-categoric pairs of columns.
 
     Args:
-        num_df: A pandas dataframe containing only numeric features
-        cat_df: A pandas dataframe containing only categorical features
+        num_df (DataFrame): A dataframe containing only numeric features
+        cat_df (DataFrame)): A dataframe containing only categorical features
 
     Returns:
         A pandas data frame
@@ -186,8 +176,8 @@ def correlation_ratio(categorical, numeric):
     """Computes correlation ratio between a categorical column and numeric column.
 
     Args:
-        categorical: A Pandas Series of categorical values
-        numeric: A Pandas Series of numeric values
+        categorical (Series): A Series of categorical values
+        numeric (Series): A Series of numeric values
 
     Returns:
         Correlation Ratio value (float)
@@ -218,8 +208,8 @@ def reorder_by_cluster(association_matrix):
     """Reorder an association matrix by cluster distances.
 
     Args:
-        association_matrix: A matrix of associations (similarity)
-        data: The original data frame
+        association_matrix (DataFrame): A matrix of associations (similarity)
+        data (DataFrame): The original data frame
 
     Returns:
         A Pandas data frame
@@ -267,8 +257,8 @@ def reorder_by_original(association_matrix, original_df):
     """Reorder the matrix to the original order.
 
     Args:
-        association_matrix: The square matrix of correlations/associations
-        original_df: The original data frame
+        association_matrix ((DataFrame): The square matrix of correlations/associations
+        original_df (DataFrame): The original data frame
 
     Returns:
         A Pandas Data frame
@@ -291,81 +281,3 @@ def reorder_by_original(association_matrix, original_df):
     )
 
     return reorder_matrix
-
-
-def plot_heatmap(association_matrix):
-    """Plot the heatmap for the association matrix.
-
-    Args:
-        association_matrix: The association matrix
-
-
-    Returns:
-        Seaborn figure
-    """
-    # Plot lower left triangle
-    x_ind, y_ind = np.triu_indices(association_matrix.shape[0])
-    corr = association_matrix.to_numpy()
-    for x, y in zip(x_ind, y_ind):
-        corr[x, y] = None
-
-    # Set up the color scale
-    blue_anchor = (65, 124, 167)
-    white_anchor = (242, 242, 242)
-    red_anchor = (217, 58, 70)
-
-    vmin = min(corr.flatten()[~np.isnan(corr.flatten())])
-    vmax = max(corr.flatten()[~np.isnan(corr.flatten())])
-
-    if vmin > 0:
-        cmin = color_fade(white_anchor, red_anchor, 1 - vmin)
-        cmax = color_fade(white_anchor, red_anchor, 1 - vmax)
-        cscale = [[0, rgb_to_str(cmin)], [1.0, rgb_to_str(cmax)]]
-    elif vmax < 0:
-        cmin = color_fade(blue_anchor, white_anchor, -vmin)
-        cmax = color_fade(blue_anchor, white_anchor, -vmax)
-        cscale = [[0, rgb_to_str(cmin)], [1.0, rgb_to_str(cmax)]]
-    else:
-        cmin = color_fade(blue_anchor, white_anchor, -vmin)
-        cmax = color_fade(white_anchor, red_anchor, 1 - vmax)
-        corr_values = corr[~np.isnan(corr)].flatten()
-        z_val = percentileofscore(corr_values, 0.0) / 100.0
-        cscale = [
-            [0, rgb_to_str(cmin)],
-            [z_val, rgb_to_str(white_anchor)],
-            [1.0, rgb_to_str(cmax)],
-        ]
-
-    # Generate a custom diverging colormap
-    fig = go.Figure(
-        data=[
-            go.Heatmap(
-                z=np.flip(corr, axis=0),
-                x=association_matrix.columns.values,
-                y=association_matrix.columns.values[::-1],
-                connectgaps=False,
-                xgap=2,
-                ygap=2,
-                colorscale=cscale,
-                colorbar={"title": "Strength"},
-            )
-        ],
-        layout=go.Layout(
-            autosize=False,
-            width=1000,  # context.viz_size # TODO (haishiro): Replace with get_option
-            height=1000,  # context.viz_size # TODO (haishiro): Replace with get_option
-            title={"text": "Correlation Matrix", "font": {"size": 25}},
-            xaxis=go.layout.XAxis(
-                automargin=True, tickangle=270, ticks="", showgrid=False
-            ),
-            yaxis=go.layout.YAxis(automargin=True, ticks="", showgrid=False),
-            plot_bgcolor="rgb(0,0,0,0)",
-            paper_bgcolor="rgb(0,0,0,0)",
-        ),
-    )
-
-    if get_ipython() is not None:
-        init_notebook_mode(connected=True)
-        return iplot(fig, config={"displayModeBar": False})
-    else:
-        return fig

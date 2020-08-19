@@ -31,11 +31,12 @@ def viz_data_heatmap(data, colnames: List[str], missing: bool = False, **kwargs)
         data=[data_fig],
         layout=go.Layout(
             autosize=False,
-            title={"text": "Data Heatmap", "font": {"size": 25}},
-            width=get_option("display.fig_width")
-            * 100,  # TODO: Separate size config for each backend
-            height=get_option("display.fig_height")
-            * 100,  # TODO: Separate size config for each backend
+            title={
+                "text": "Data Heatmap",
+                "font": {"size": get_option("display.plotly.title_size")},
+            },
+            width=get_option("display.plotly.fig_width"),
+            height=get_option("display.plotly.fig_height"),
             xaxis=go.layout.XAxis(ticks="", title="Record #", showgrid=False),
             yaxis=go.layout.YAxis(
                 ticks="", title="Variable", automargin=True, showgrid=False

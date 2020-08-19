@@ -16,7 +16,10 @@ def viz_importance(importance_values, idx, cols):
         fig: The figure
     """
     plt.figure(
-        figsize=(get_option("display.fig_width"), get_option("display.fig_height"))
+        figsize=(
+            get_option("display.matplotlib.fig_width"),
+            get_option("display.matplotlib.fig_height"),
+        )
     )
     plt.xlabel("Permutation Importance Value")
     plt.ylabel("Features")

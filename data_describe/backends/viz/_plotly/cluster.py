@@ -48,11 +48,12 @@ def viz_cluster(data, method: str, xlabel: str = None, ylabel: str = None, **kwa
         yaxis_title=ylabel,
         xaxis_title=xlabel,
         autosize=False,
-        width=int(get_option("display.fig_width"))
-        * 75,  # TODO (haishiro): Smarter defaults for fig size
-        height=int(get_option("display.fig_height"))
-        * 75,  # TODO (haishiro): Smarter defaults for fig size
-        title={"text": "{} Cluster".format(method), "font": {"size": 25}},
+        width=int(get_option("display.plotly.fig_width")),
+        height=int(get_option("display.plotly.fig_height")),
+        title={
+            "text": "{} Cluster".format(method),
+            "font": {"size": get_option("display.plotly.title_size")},
+        },
     )
 
     fig = go.Figure(dict(data=trace_list, layout=layout))

@@ -30,7 +30,10 @@ def viz_data_heatmap(data, colnames: List[str], missing: bool = False, **kwargs)
     plot_options.update(kwargs)
 
     plt.figure(
-        figsize=(get_option("display.fig_width"), get_option("display.fig_height"))
+        figsize=(
+            get_option("display.matplotlib.fig_width"),
+            get_option("display.matplotlib.fig_height"),
+        )
     )
     heatmap = sns.heatmap(data, **plot_options)
     plt.title("Data Heatmap")
