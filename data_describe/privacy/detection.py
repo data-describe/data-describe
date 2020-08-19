@@ -2,7 +2,7 @@ from typing import Optional
 import warnings
 
 from data_describe.backends import _get_compute_backend
-from data_describe.compat import _DATAFRAME_TYPE
+from data_describe._compat import _DATAFRAME_TYPE
 from data_describe.config._config import get_option
 from data_describe._widget import BaseWidget
 from data_describe.privacy.engine import engine

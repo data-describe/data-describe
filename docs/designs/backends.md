@@ -31,7 +31,7 @@ Data Describe chooses the first valid backend to use using the following order:
 
 ### Compute
 1. The backend specified by the user in `compute_backend`
-2. Determined from the input data and mapping provided in `compat.py`
+2. Determined from the input data and mapping provided in `_compat.py`
 3. The backend set in Data Describe configuration options
 
 ### Viz

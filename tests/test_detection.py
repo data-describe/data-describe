@@ -1,7 +1,7 @@
 import pytest
 
-from data_describe.compat import presidio_analyzer
-from data_describe.compat import _DATAFRAME_TYPE
+from data_describe._compat import presidio_analyzer
+from data_describe._compat import _DATAFRAME_TYPE
 from data_describe.privacy.detection import sensitive_data, SensitiveDataWidget
 from data_describe.privacy.engine import engine
 from data_describe.backends.compute._pandas.detection import (

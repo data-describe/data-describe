@@ -2,7 +2,7 @@ import contextlib
 import logging
 
 from data_describe import compat
-from data_describe.compat import requires
+from data_describe._compat import requires
 from data_describe.config._config import get_option, set_config
 
 

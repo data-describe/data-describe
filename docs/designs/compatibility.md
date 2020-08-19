@@ -30,17 +30,17 @@ except ImportError:
     _PACKAGE_INSTALLED["optional_package"] = False
 ```
 
-The feature implementation should import `compat`:
+The feature implementation should import `_compat`:
 
-`from data_describe import compat`
+`from data_describe import _compat`
 
 ## Function Requirements
-A specific function may be marked as requiring a specific (optional) dependency by using the `@requires()` decorator from `compat.py`:
+A specific function may be marked as requiring a specific (optional) dependency by using the `@requires()` decorator from `_compat.py`:
 ```python
-from data_describe import compat
-@compat.requires("optional_package")
+from data_describe import _compat
+@_compat.requires("optional_package")
 def function_that_requires_optional_package():
-    return compat.function_from_optional_package()
+    return _compat.function_from_optional_package()
 ```
 
 ## Pandas Handling
@@ -53,7 +53,7 @@ df = df.agg(min)
 df = pd.DataFrame()
 ```
 
-Currently, this only applies to Pandas and Modin, however this may expand to other frameworks in the future. `compat.py` contains a `_DATAFRAME_TYPE` that may be used to check for a *Pandas Dataframe-like* object, e.g.:
+Currently, this only applies to Pandas and Modin, however this may expand to other frameworks in the future. `_compat.py` contains a `_DATAFRAME_TYPE` that may be used to check for a *Pandas Dataframe-like* object, e.g.:
 ```python
 if isinstance(df, _DATAFRAME_TYPE):
     ...
