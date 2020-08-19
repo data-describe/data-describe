@@ -54,7 +54,7 @@ New functionalities are as follows:
 3. Anonymization of data 
     - Once sensitive data is identified, users should have the ability to anonymize their data while maintaining distributions.
 4. Handle large datasets
-    - A Dataframe, as the input, can be processed in parallel using *modin*, which is compatible with existing pandas code.
+    - A Dataframe, as the input, can be processed in parallel using *modin*, which is _compatible with existing pandas code.
 
 ### Presidio
 *[Presidio](https://github.com/microsoft/presidio)* is a context aware and customizable PII anonymization service for text and images. 

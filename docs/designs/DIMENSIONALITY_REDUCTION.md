@@ -14,7 +14,7 @@ Inferring which dimensionality reduction methods work best for the user-provided
 
 ## UI or API
 
-The interface is based off the pattern in [#109](https://github.com/brianray/data-describe/pull/109). Current data frame compatibility includes pandas and modin.
+The interface is based off the pattern in [#109](https://github.com/brianray/data-describe/pull/109). Current data frame _compatibility includes pandas and modin.
 
 ## Design
 

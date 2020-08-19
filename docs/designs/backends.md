@@ -84,7 +84,7 @@ entry_points={
 ```
 
 # Dependencies (Internal)
-Optional dependencies used by backends implemented in Data Describe should follow the patterns outlined in COMPATIBILITY.md
+Optional dependencies used by backends implemented in Data Describe should follow the patterns outlined in _compatIBILITY.md
 
 # Contributor Checklist
 - [ ] Add to `entry_points` in setup.py

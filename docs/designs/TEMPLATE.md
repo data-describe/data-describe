@@ -16,7 +16,7 @@ Issues or changes not being addressed by this proposal.
 
 ## UI or API
 
-New interfaces or changes to existing interfaces. Backward compatibility must be considered.
+New interfaces or changes to existing interfaces. Backward _compatibility must be considered.
 
 ## Design
 
