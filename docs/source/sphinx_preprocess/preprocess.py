@@ -16,7 +16,7 @@ widget_template = """.. _x-tutorial:
 
 
 def setup(app):
-    app.connect("builder-inited", load_notebooks)
+    app.connect("env-before-read-docs", load_notebooks)
 
 
 def load_notebooks():
