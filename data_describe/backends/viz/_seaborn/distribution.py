@@ -46,7 +46,10 @@ def viz_numeric(
     hist_kwargs = hist_kwargs or {}
     violin_kwargs = violin_kwargs or {}
     fig = Figure(
-        figsize=(get_option("display.fig_width"), get_option("display.fig_height"))
+        figsize=(
+            get_option("display.matplotlib.fig_width"),
+            get_option("display.matplotlib.fig_height"),
+        )
     )
     if mode == "combo":
         gs = GridSpec(nrows=5, ncols=1)
@@ -86,7 +89,10 @@ def viz_categorical(
     """
     bar_kwargs = bar_kwargs or {}
     fig = Figure(
-        figsize=(get_option("display.fig_width"), get_option("display.fig_height"))
+        figsize=(
+            get_option("display.matplotlib.fig_width"),
+            get_option("display.matplotlib.fig_height"),
+        )
     )
     ax = fig.add_subplot()
     _viz_bar(data, x, contrast, ax=ax, **bar_kwargs)
