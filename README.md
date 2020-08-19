@@ -1,8 +1,8 @@
-# data⎰describe
+# data ⎰ describe
 
 data-describe is a Python toolkit for Exploratory Data Analysis (EDA). It aims to accelerate data exploration and analysis by providing automated and polished analysis widgets.
 
-![](/docs/imgs/demo.gif)
+<img src="/docs/imgs/demo.gif" height="100" width="100" />
 
 For more examples of data-describe in action, see the [Quick Start Tutorial](examples/Tutorial.ipynb).
 
