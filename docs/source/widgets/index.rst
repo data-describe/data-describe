@@ -6,8 +6,8 @@ Widgets
 .. toctree::
    :maxdepth: 1
 
-   ../_notebooks/auto_data_type
    ../_notebooks/cluster_analysis
+   ../_notebooks/contributing_guide
    ../_notebooks/correlation_matrix
    ../_notebooks/data_heatmap
    ../_notebooks/data_loader
@@ -17,6 +17,7 @@ Widgets
    ../_notebooks/scatter_plots
    ../_notebooks/sensitive_data
    ../_notebooks/text_preprocessing
+   ../_notebooks/time_series
    ../_notebooks/topic_modeling
 Placeholder
 
