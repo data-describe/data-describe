@@ -58,10 +58,6 @@ jobs:
           environment-file: etc/test-environment.yml
           condarc-file: etc/.condarc
           auto-activate-base: false
-      - name: Rerun notebooks
-        run: |
-          pip install papermill
-          python3 etc/run_notebooks.py
       - name: Run unit tests
         shell: bash -l {0}
         run: |
