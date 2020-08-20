@@ -53,8 +53,8 @@ jobs:
           auto-activate-base: false
       - name: Rerun notebooks
         run: |
-          pip install papermill &&
-          python etc/run_notebooks.py
+          python3 -m papermill install --user
+          python3 etc/run_notebooks.py
       - name: Run unit tests
         shell: bash -l {0}
         run: |
