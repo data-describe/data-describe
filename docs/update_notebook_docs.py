@@ -37,7 +37,7 @@ def load_notebooks():
     text = re.sub(
         r"(:maxdepth: 1).*(Placeholder)",
         r"\1\n\n"
-        + "\n".join(["   ../_notebooks/" + name for name in outputs])
+        + "\n".join(["   ../_examples/" + name for name in outputs])
         + r"\n\2",
         text,
         flags=re.S,
