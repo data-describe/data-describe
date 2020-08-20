@@ -14,9 +14,16 @@ extensions = [
     "sphinx_multiversion",
 ]
 
-autoapi_dirs = ['../../data_describe']
+autoapi_dirs = ["../../data_describe"]
 autoapi_root = "_api"
 autoapi_keep_files = True
+autoapi_options = [
+    "members",
+    "show-inheritance",
+    "show-module-summary",
+    "special-members",
+    "imported-members",
+]
 
 templates_path = ["_templates"]
 
