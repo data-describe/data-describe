@@ -80,7 +80,7 @@ def read_file_type(filepath, **kwargs):
         return pd.read_csv(filepath, sep=sep, **kwargs)
 
 
-@requires("google-cloud-storage")
+@requires("google.cloud.storage")
 def download_gcs_file(filepath, bucket=None, prefix=None, **kwargs):
     """Downloads files from Google Cloud Storage.
 
