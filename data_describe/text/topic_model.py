@@ -229,8 +229,8 @@ class TopicModelWidget(BaseWidget):
                 self._coherence_values = []
                 for num in range(self._min_topics, self._max_topics + 1):
                     self._model_kwargs.update({"num_topics": num})
-                    lsa_model = _compat.gensim.models.lsimodel.LsiModel(**self._model_kwargs)
-                    coherence_model = _compat.gensim.models.coherencemodel.CoherenceModel(
+                    lsa_model = _compat["gensim"].models.lsimodel.LsiModel(**self._model_kwargs)
+                    coherence_model = _compat["gensim"].models.coherencemodel.CoherenceModel(
                         model=lsa_model,
                         texts=tokenized_text_docs,
                         dictionary=self._dictionary,
@@ -245,7 +245,7 @@ class TopicModelWidget(BaseWidget):
                 self._num_topics = len(lsa_model_list[max_coherence_index].get_topics())
                 return lsa_model_list[max_coherence_index]
             else:
-                lsa_model = _compat.gensim.models.lsimodel.LsiModel(
+                lsa_model = _compat["gensim"].models.lsimodel.LsiModel(
                     corpus=self._corpus,
                     id2word=self._dictionary,
                     num_topics=self._num_topics,
@@ -296,8 +296,8 @@ class TopicModelWidget(BaseWidget):
                 self._coherence_values = []
                 for num in range(self._min_topics, self._max_topics + 1):
                     self._model_kwargs.update({"num_topics": num})
-                    lda_model = _compat.gensim.models.ldamodel.LdaModel(**self._model_kwargs)
-                    coherence_model = _compat.gensim.models.coherencemodel.CoherenceModel(
+                    lda_model = _compat["gensim"].models.ldamodel.LdaModel(**self._model_kwargs)
+                    coherence_model = _compat["gensim"].models.coherencemodel.CoherenceModel(
                         model=lda_model,
                         texts=tokenized_text_docs,
                         dictionary=self._dictionary,
@@ -312,7 +312,7 @@ class TopicModelWidget(BaseWidget):
                 self._num_topics = len(lda_model_list[max_coherence_index].get_topics())
                 return lda_model_list[max_coherence_index]
             else:
-                lda_model = _compat.gensim.models.ldamodel.LdaModel(**self._model_kwargs)
+                lda_model = _compat["gensim"].models.ldamodel.LdaModel(**self._model_kwargs)
                 return lda_model
 
     def _compute_nmf_model(self, text_docs: List[str], tfidf: bool = True):
@@ -535,7 +535,7 @@ class TopicModelWidget(BaseWidget):
                     if summary_words:
                         try:
                             summarized_docs.append(
-                                _compat.gensim.summarization.summarizer.summarize(doc, word_count=summary_words)
+                                _compat["gensim"].summarization.summarizer.summarize(doc, word_count=summary_words)
                             )
                         except ValueError:
                             sentence_check += 1
@@ -547,7 +547,7 @@ class TopicModelWidget(BaseWidget):
                             summarized_docs.append(doc)
                     else:
                         try:
-                            summarized_docs.append(_compat.gensim.summarization.summarizer.summarize(doc))
+                            summarized_docs.append(_compat["gensim"].summarization.summarizer.summarize(doc))
                         except ValueError:
                             sentence_check += 1
                             warnings.warn(
@@ -580,8 +580,48 @@ class TopicModelWidget(BaseWidget):
         Returns:
             A visual to understand topic model and/or documents relating to model
         """
+<<<<<<< HEAD
         if self._model_type != "LDA":
             raise TypeError("Model must be an LDA Model")
+=======
+        display_item = display_item.lower()
+        if display_item == "pyldavis":
+            if self._model_type != "LDA":
+                raise TypeError("Model must be an LDA Model")
+            elif get_ipython() is not None:
+                _compat["pyLDAvis"].enable_notebook()
+                with warnings.catch_warnings():
+                    warnings.filterwarnings(
+                        "ignore",
+                        category=FutureWarning,
+                        module="pyLDAvis",
+                        message="Sorting because non-concatenation axis is not aligned.",
+                    )
+                    vis = _compat["pyLDAvis"].gensim.prepare(
+                        self._model, self._corpus, self._dictionary
+                    )
+                    return vis
+            else:
+                raise EnvironmentError("Not in Jupyter Notebook")
+        elif display_item == "elbow":
+            try:
+                self._coherence_values
+            except AttributeError:
+                raise TypeError(
+                    "Coherence Values not defined. At least 2 LDA or LSI models need to be trained "
+                    "with different numbers of topics."
+                )
+            else:
+                return self._plot_elbow()
+        elif display_item == "top_words_per_topic":
+            if viz_kwargs is None:
+                viz_kwargs = {}
+            return self._display_topic_keywords(**viz_kwargs)
+        elif display_item == "top_documents_per_topic":
+            if viz_kwargs is None:
+                viz_kwargs = {}
+            return self._top_documents_per_topic(text_docs, **viz_kwargs)
+>>>>>>> Change compat module access to __getitem__ instead of __getattr__
         else:
             return _get_viz_backend(viz_backend).viz_visualize_topic_summary(
                 self._model, self._corpus, self._dictionary

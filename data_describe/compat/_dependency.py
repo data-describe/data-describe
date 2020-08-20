@@ -13,7 +13,7 @@ class DependencyManager:
         Optional modules can be accessed as an attribute::
 
             _compat = DependencyManager({"presidio": None})
-            engine = _compat.presidio_analyzer.AnalyzerEngine()
+            engine = _compat["presidio_analyzer"].AnalyzerEngine()
     """
 
     def __init__(self, imports: Dict[str, Callable]):
@@ -48,32 +48,32 @@ class DependencyManager:
         """Checks to see if a module is installed."""
         return self.installed_modules[module]
 
-    def __getattr__(self, item: str) -> ModuleType:
+    def __getitem__(self, key: str) -> ModuleType:
         """Allows attribute-style access to optional modules.
 
         Args:
-            item (str): The module.
+            key (str): The module.
 
         Returns:
             The module.
         """
-        if item in self.installed_modules.keys():
-            if self.installed_modules[item]:
-                if item in self.modules.keys():
-                    return self.modules[item]
+        if key in self.installed_modules.keys():
+            if self.installed_modules[key]:
+                if key in self.modules.keys():
+                    return self.modules[key]
                 else:
                     try:
-                        module = import_module(item)
-                        if self.imports[item] is not None:
-                            self.imports[item](module)
-                        self.modules[item] = module
+                        module = import_module(key)
+                        if self.imports[key] is not None:
+                            self.imports[key](module)
+                        self.modules[key] = module
                         return module
                     except ImportError:
                         raise ImportError(
-                            f"Unable to import {item} which is required by this feature."
+                            f"Unable to import {key} which is required by this feature."
                         )
         raise AttributeError(
-            f"Requested module dependency {item} was not initialized by data-describe"
+            f"Requested module dependency {key} was not initialized by data-describe"
         )
 
 

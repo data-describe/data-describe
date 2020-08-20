@@ -174,7 +174,7 @@ def _run_hdbscan(data, min_cluster_size=15, **kwargs):
     """
     default_hdbscan_kwargs = {"min_cluster_size": min_cluster_size}
     hdbscan_kwargs = {**default_hdbscan_kwargs, **(kwargs or {})}
-    hdb = _compat.hdbscan.HDBSCAN(**hdbscan_kwargs)
+    hdb = _compat["hdbscan"].HDBSCAN(**hdbscan_kwargs)
     clusters = hdb.fit_predict(data)
     clusterwidget = ddcluster.HDBSCANClusterWidget(
         clusters=clusters, method="hdbscan", estimator=hdb

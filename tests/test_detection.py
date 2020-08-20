@@ -30,7 +30,7 @@ def test_identify_pii():
     response = identify_pii(example_text, engine)
     assert isinstance(response, list)
     assert isinstance(
-        response[0], _compat.presidio_analyzer.recognizer_result.RecognizerResult
+        response[0], _compat["presidio_analyzer"].recognizer_result.RecognizerResult
     )
     assert len(response) == 1
     assert isinstance(response[0].entity_type, str)

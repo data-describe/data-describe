@@ -47,7 +47,7 @@ def presidio_engine():
         Presidio engine
     """
     # with OutputLogger("presidio", "WARN") as redirector:  # noqa: F841
-    engine = _compat.presidio_analyzer.AnalyzerEngine(
+    engine = _compat["presidio_analyzer"].AnalyzerEngine(
         default_score_threshold=_DEFAULT_SCORE_THRESHOLD, enable_trace_pii=True
     )
     return engine

@@ -14,7 +14,7 @@ def compute_data_summary(data):
         The Modin dataframe with metrics in rows
     """
     if isinstance(data, _SERIES_TYPE):
-        data = _compat.modin.pandas.DataFrame(data)
+        data = _compat["modin"].pandas.DataFrame(data)
 
     if not isinstance(data, _DATAFRAME_TYPE):
         raise ValueError("Data must be a Modin DataFrame")

@@ -39,7 +39,7 @@ def tokenize(text_docs: Iterable[str]) -> Iterable[Iterable[str]]:
     Returns:
         A generator expression for all of the processed documents
     """
-    return (_compat.word_tokenize(doc) for doc in text_docs)
+    return (_compat["nltk"].word_tokenize(doc) for doc in text_docs)
 
 
 def to_lower(text_docs_bow: Iterable[Iterable[str]]) -> Iterable[Iterable[str]]:
@@ -149,7 +149,7 @@ def remove_stopwords(
     Returns:
         A generator expression for all of the processed documents
     """
-    stop_words_original = set(_compat.nltk.corpus.stopwords.words("english"))
+    stop_words_original = set(_compat["nltk"].corpus.stopwords.words("english"))
 
     if custom_stopwords:
         stop_words = stop_words_original.union(custom_stopwords)
@@ -169,7 +169,7 @@ def lemmatize(text_docs_bow: Iterable[Iterable[str]],) -> Iterable[Iterable[str]
     Returns:
         A generator expression for all of the processed documents
     """
-    lemmatizer = _compat.nltk.stem.WordNetLemmatizer()
+    lemmatizer = _compat["nltk"].stem.WordNetLemmatizer()
     return ((lemmatizer.lemmatize(word) for word in doc) for doc in text_docs_bow)
 
 
@@ -183,7 +183,7 @@ def stem(text_docs_bow: Iterable[Iterable[str]],) -> Iterable[Iterable[str]]:
     Returns:
         A generator expression for all of the processed documents
     """
-    stemmer = _compat.nltk.stem.lancaster.LancasterStemmer()
+    stemmer = _compat["nltk"].stem.lancaster.LancasterStemmer()
     return ((stemmer.stem(word) for word in doc) for doc in text_docs_bow)
 
 
@@ -310,7 +310,7 @@ def ngram_freq(
     if n < 2:
         raise ValueError("'n' must be a number 2 or greater")
 
-    freq = _compat.FreqDist()
+    freq = _compat["nltk"].FreqDist()
     for doc in text_docs_bow:
         if only_n:
             current_ngrams = _compat.ngrams(doc, n)
@@ -336,7 +336,7 @@ def filter_dictionary(text_docs: List[str], no_below: int = 10, no_above: float 
         dictionary: Gensim Dictionary encapsulates the mapping between normalized words and their integer ids
         corpus: Bag of Words (BoW) representation of documents (token_id, token_count)
     """
-    dictionary = _compat.gensim.corpora.Dictionary(text_docs)
+    dictionary = _compat["gensim"].corpora.Dictionary(text_docs)
     dictionary.filter_extremes(no_below=no_below, no_above=no_above)
     corpus = [dictionary.doc2bow(doc) for doc in text_docs]
     return dictionary, corpus
