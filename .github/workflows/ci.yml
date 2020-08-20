@@ -49,7 +49,7 @@ jobs:
           CACHE_NUMBER: 0
         with:
           path: ~/.cache/pip
-          key: ${{ runner.os }}-conda-${{ env.CACHE_NUMBER }}-${{ hashFiles('etc/test-environment.yml') }} 
+          key: ${{ runner.os }}-conda-${{ env.CACHE_NUMBER }}-${{ hashFiles('etc/test-environment.yml') }}
       - name: Setup miniconda
         uses: conda-incubator/setup-miniconda@v1.7.0
         with:
@@ -60,7 +60,6 @@ jobs:
           auto-activate-base: false
       - name: Rerun notebooks
         run: |
-          python3 -m papermill install --user
           python3 etc/run_notebooks.py
       - name: Run unit tests
         shell: bash -l {0}
