@@ -62,6 +62,7 @@ setup(
         "data_describe_viz_backends": [
             "seaborn = data_describe.backends.viz:_seaborn",
             "plotly = data_describe.backends.viz:_plotly",
+            "pyLDAvis = data_describe.backends.viz:_pyLDAvis",
         ],
         "data_describe_compute_backends": [
             "pandas = data_describe.backends.compute:_pandas",
