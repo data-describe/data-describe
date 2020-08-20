@@ -10,7 +10,7 @@ Data Describe
    overview
    installation
    _notebooks/tutorial
-   widgets/index
+   examples/index
    API Reference <data_describe/index>
 
 License is `Apache 2 <https://github.com/brianray/data-describe/blob/master/LICENSE>`_.
