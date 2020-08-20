@@ -1,9 +1,10 @@
+from typing import List, Tuple
 import warnings
 
 from data_describe import compat
 
 
-def viz_pyLDAvis_display(model, corpus, dictionary):
+def viz_visualize_topic_summary(model: compat.LdaModel, corpus: List[List[Tuple[int, int]]], dictionary: compat.Dictionary):
     """Displays interactive pyLDAvis visual to understand topic model and documents.
 
     Args:

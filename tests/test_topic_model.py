@@ -173,11 +173,11 @@ def test_svd_nmf_intermediates(svd_model, nmf_model):
         assert svd_model.corpus
 
 
-def test_pyldavis(lda_model, svd_model):
+def test_visualize_topic_summary(lda_model, svd_model):
     with pytest.raises(OSError):
-        lda_model.pyLDAvis_display()
+        lda_model.visualize_topic_summary()
     with pytest.raises(TypeError):
-        svd_model.pyLDAvis_display()
+        svd_model.visualize_topic_summary()
 
 
 def test_elbow_plot(lsi_model, nmf_model):

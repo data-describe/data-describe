@@ -554,7 +554,7 @@ class TopicModelWidget(BaseWidget):
         all_top_docs_df = pd.DataFrame(all_top_docs, index=doc_numbers)
         return all_top_docs_df
 
-    def pyLDAvis_display(
+    def visualize_topic_summary(
         self, viz_backend="pyLDAvis",
     ):
         """Displays interactive pyLDAvis visual to understand topic model and documents.
@@ -565,6 +565,6 @@ class TopicModelWidget(BaseWidget):
         if self._model_type != "LDA":
             raise TypeError("Model must be an LDA Model")
         else:
-            return _get_viz_backend(viz_backend).viz_pyLDAvis_display(
+            return _get_viz_backend(viz_backend).viz_visualize_topic_summary(
                 self._model, self._corpus, self._dictionary
             )
