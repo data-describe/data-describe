@@ -28,6 +28,8 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install --upgrade pre-commit
           python -m pip install mypy
+          python -m pip install papermill
+
       - name: Lint with pre-commit
         run: |
           pre-commit run --all-files
@@ -53,7 +55,6 @@ jobs:
           auto-activate-base: false
       - name: Rerun notebooks
         run: |
-          python3 -m papermill install --user
           python3 etc/run_notebooks.py
       - name: Run unit tests
         shell: bash -l {0}
