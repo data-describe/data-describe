@@ -24,6 +24,7 @@ autoapi_options = [
     "special-members",
     "imported-members",
 ]
+autoapi_add_toctree_entry = False
 
 templates_path = ["_templates"]
 
