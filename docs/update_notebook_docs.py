@@ -33,7 +33,7 @@ def load_notebooks():
 
     # Insert links to the examples ToC
     print("Finalizing examples Page")
-    text = open("source/exampless/index.rst", "r").read()
+    text = open("source/examples/index.rst", "r").read()
     text = re.sub(
         r"(:maxdepth: 1).*(Placeholder)",
         r"\1\n\n"
@@ -42,7 +42,7 @@ def load_notebooks():
         text,
         flags=re.S,
     )
-    open("source/exampless/index.rst", "w").write(text)
+    open("source/examples/index.rst", "w").write(text)
 
 
 if __name__ == "__main__":
