@@ -9,7 +9,7 @@ author = "Maven Wave Data Science"
 
 extensions = [
     "sphinx.ext.autodoc",
-    # "sphinx.ext.napoleon",
+    "sphinx.ext.napoleon",
     "sphinx.ext.inheritance_diagram",
     "autoapi.sphinx",
     "nbsphinx",
@@ -23,7 +23,7 @@ templates_path = ["_templates"]
 html_sidebars = {"**": ["versioning.html"]}
 
 # Multiversioning
-smv_branch_whitelist = "master"
+smv_branch_whitelist = "feature.*"
 
 exclude_patterns = []
 
