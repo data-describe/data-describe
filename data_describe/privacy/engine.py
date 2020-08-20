@@ -40,6 +40,7 @@ class OutputLogger:
 
 
 @requires("presidio_analyzer")
+@requires("spacy")
 def presidio_engine():
     """Initialize presidio engine.
 
