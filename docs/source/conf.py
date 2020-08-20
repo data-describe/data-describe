@@ -12,18 +12,19 @@ extensions = [
     "sphinx.ext.napoleon",
     "sphinx.ext.inheritance_diagram",
     "autoapi.sphinx",
+    # "autoapi.extension",
     "nbsphinx",
     "sphinx_multiversion",
 ]
 
-autoapi_modules = {"data_describe": {"prune": True, "output": "_api"}}
+autoapi_modules = {"data_describe": {"output": "_api"}}
 
 templates_path = ["_templates"]
 
 html_sidebars = {"**": ["versioning.html"]}
 
 # Multiversioning
-smv_branch_whitelist = "feature.*"
+smv_branch_whitelist = "feature/apidoc.*"
 
 exclude_patterns = []
 
