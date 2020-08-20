@@ -26,6 +26,6 @@ def viz_elbow_plot(min_topics: int, max_topics: int, coherence_values: List[floa
     plt.xlabel("Number of Topics")
     plt.ylabel("Coherence Values")
     plt.figure(
-        figsize=(get_option("display.fig_width"), get_option("display.fig_height"))
+        figsize=(get_option("display.matplotlib.fig_width"), get_option("display.matplotlib.fig_height"))
     )
     return fig
