@@ -1,4 +1,5 @@
 import warnings
+from typing import List, Optional, Dict
 
 import pandas as pd
 import numpy as np
@@ -18,15 +19,15 @@ warnings.filterwarnings("ignore", category=UserWarning, module="gensim")
 
 
 def topic_model(
-    text_docs,
-    model_type="LDA",
-    num_topics=None,
-    min_topics=2,
-    max_topics=10,
-    no_below=10,
-    no_above=0.2,
-    tfidf=True,
-    model_kwargs=None,
+    text_docs: List[str],
+    model_type: str = "LDA",
+    num_topics: Optional[int] = None,
+    min_topics: int = 2,
+    max_topics: int = 10,
+    no_below: int = 10,
+    no_above: float = 0.2,
+    tfidf: bool = True,
+    model_kwargs: Optional[Dict[str, str]] = None,
 ):
     """Creates topic model object, trains topic model, and assigns relevant attributes to topic model object.
 
@@ -64,7 +65,12 @@ def topic_model(
 class TopicModelWidget(BaseWidget):
     """Create topic model widget."""
 
-    def __init__(self, model_type="LDA", num_topics=None, model_kwargs=None):
+    def __init__(
+        self,
+        model_type: str = "LDA",
+        num_topics: Optional[int] = None,
+        model_kwargs: Optional[Dict[str, str]] = None,
+    ):
         """Topic Modeling made for easier training and understanding of topics.
 
         The exact model type, number of topics, and keyword arguments can be input to initialize the object. The object
@@ -136,7 +142,7 @@ class TopicModelWidget(BaseWidget):
         """If num_topics is None, this number is the last number of topics a model will be trained on."""
         return self._max_topics
 
-    def show(self, num_topic_words=10, topic_names=None):
+    def show(self, num_topic_words: int = 10, topic_names: Optional[List[str]] = None):
         """Displays most relevant terms for each topic.
 
         Args:
@@ -152,7 +158,7 @@ class TopicModelWidget(BaseWidget):
             num_topic_words=num_topic_words, topic_names=topic_names
         )
 
-    def _compute_lsa_svd_model(self, text_docs, tfidf=True):
+    def _compute_lsa_svd_model(self, text_docs: List[str], tfidf: bool = True):
         """Trains LSA TruncatedSVD scikit-learn model.
 
         Args:
@@ -180,7 +186,12 @@ class TopicModelWidget(BaseWidget):
         return lsa_model
 
     def _compute_lsi_model(
-        self, text_docs, min_topics=2, max_topics=10, no_below=10, no_above=0.2
+        self,
+        text_docs: List[str],
+        min_topics: int = 2,
+        max_topics: int = 10,
+        no_below: int = 10,
+        no_above: float = 0.2,
     ):
         """Trains LSA Gensim model.
 
@@ -242,7 +253,12 @@ class TopicModelWidget(BaseWidget):
                 return lsa_model
 
     def _compute_lda_model(
-        self, text_docs, min_topics=2, max_topics=10, no_below=10, no_above=0.2
+        self,
+        text_docs: List[str],
+        min_topics: int = 2,
+        max_topics: int = 10,
+        no_below: int = 10,
+        no_above: float = 0.2,
     ):
         """Trains LDA Gensim model.
 
@@ -299,7 +315,7 @@ class TopicModelWidget(BaseWidget):
                 lda_model = compat.LdaModel(**self._model_kwargs)
                 return lda_model
 
-    def _compute_nmf_model(self, text_docs, tfidf=True):
+    def _compute_nmf_model(self, text_docs: List[str], tfidf: bool = True):
         """Trains NMF scikit-learn model.
 
         Args:
@@ -329,14 +345,14 @@ class TopicModelWidget(BaseWidget):
 
     def fit(
         self,
-        text_docs,
-        model_type=None,
-        min_topics=2,
-        max_topics=10,
-        no_below=10,
-        no_above=0.2,
-        tfidf=True,
-        model_kwargs=None,
+        text_docs: List[str],
+        model_type: Optional[str] = None,
+        min_topics: int = 2,
+        max_topics: int = 10,
+        no_below: int = 10,
+        no_above: float = 0.2,
+        tfidf: bool = True,
+        model_kwargs: Optional[dict[str, str]] = None,
     ):
         """Trains topic model and assigns model to object as attribute.
 
@@ -374,7 +390,7 @@ class TopicModelWidget(BaseWidget):
         elif self._model_type == "NMF":
             self._model = self._compute_nmf_model(text_docs, tfidf)
 
-    def elbow_plot(self, viz_backend=None):
+    def elbow_plot(self, viz_backend: str = None):
         """Creates an elbow plot displaying coherence values vs number of topics.
 
         Returns:
@@ -417,7 +433,9 @@ class TopicModelWidget(BaseWidget):
                     doc_topics.append([0] * len(self._model.get_topics()))
             return np.array(doc_topics)
 
-    def display_topic_keywords(self, num_topic_words=10, topic_names=None):
+    def display_topic_keywords(
+        self, num_topic_words: int = 10, topic_names: Optional[List[str]] = None
+    ):
         """Creates Pandas DataFrame to display most relevant terms for each topic.
 
         Args:
@@ -473,11 +491,11 @@ class TopicModelWidget(BaseWidget):
 
     def top_documents_per_topic(
         self,
-        text_docs,
-        topic_names=None,
-        num_docs=10,
-        summarize_docs=False,
-        summary_words=None,
+        text_docs: List[str],
+        topic_names: Optional[List[str]] = None,
+        num_docs: int = 10,
+        summarize_docs: bool = False,
+        summary_words: Optional[int] = None,
     ):
         """Creates Pandas DataFrame to display most relevant documents for each topic.
 
@@ -555,7 +573,7 @@ class TopicModelWidget(BaseWidget):
         return all_top_docs_df
 
     def visualize_topic_summary(
-        self, viz_backend="pyLDAvis",
+        self, viz_backend: str = "pyLDAvis",
     ):
         """Displays interactive pyLDAvis visual to understand topic model and documents.
 

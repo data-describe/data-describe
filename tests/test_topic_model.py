@@ -88,19 +88,25 @@ def lda_model(document_data):
 
 @pytest.fixture
 def lsi_model(document_data):
-    lsi_model = topic_model(document_data, model_type="LSI", max_topics=6, no_below=1, no_above=0.8)
+    lsi_model = topic_model(
+        document_data, model_type="LSI", max_topics=6, no_below=1, no_above=0.8
+    )
     return lsi_model
 
 
 @pytest.fixture
 def svd_model(document_data):
-    svd_model = topic_model(document_data, model_type="SVD", num_topics=5, no_below=1, no_above=0.8)
+    svd_model = topic_model(
+        document_data, model_type="SVD", num_topics=5, no_below=1, no_above=0.8
+    )
     return svd_model
 
 
 @pytest.fixture
 def nmf_model(document_data):
-    nmf_model = topic_model(document_data, model_type="NMF", tfidf=False, no_below=1, no_above=0.8)
+    nmf_model = topic_model(
+        document_data, model_type="NMF", tfidf=False, no_below=1, no_above=0.8
+    )
     return nmf_model
 
 
@@ -206,15 +212,10 @@ def test_topic_top_documents(lsi_model, svd_model, document_data):
         text_docs=document_data, num_docs=2
     )
     svd_top_docs_df_summarized = svd_model.top_documents_per_topic(
-        text_docs=document_data,
-        summarize_docs=True,
-        num_docs=2,
+        text_docs=document_data, summarize_docs=True, num_docs=2,
     )
     svd_top_docs_df_summarized_words = svd_model.top_documents_per_topic(
-        text_docs=document_data,
-        summarize_docs=True,
-        summary_words=15,
-        num_docs=2,
+        text_docs=document_data, summarize_docs=True, summary_words=15, num_docs=2,
     )
     assert not svd_top_docs_df.equals(svd_top_docs_df_summarized)
     assert not svd_top_docs_df_summarized.equals(svd_top_docs_df_summarized_words)

@@ -25,7 +25,8 @@ def tokenized_test_list_main(text_data):
 
 def test_tokenizer(text_data):
     assert (
-        to_list(tokenize(text_data["test_list_main"]), bow=False) == text_data["answer_key_tokenized"]
+        to_list(tokenize(text_data["test_list_main"]), bow=False)
+        == text_data["answer_key_tokenized"]
     )
 
 
@@ -39,7 +40,9 @@ def test_remove_punct(text_data, tokenized_test_list_main):
         == text_data["answer_key_remove_punct"]
     )
     assert (
-        to_list(remove_punct(tokenized_test_list_main, remove_all=True, replace_char=""))
+        to_list(
+            remove_punct(tokenized_test_list_main, remove_all=True, replace_char="")
+        )
         == text_data["answer_key_remove_all_punct_no_space"]
     )
     assert (
@@ -57,7 +60,9 @@ def test_remove_digits(text_data):
 
 def test_remove_single_char_and_spaces(text_data):
     assert (
-        to_list(remove_single_char_and_spaces(text_data["test_list_single_char_and_spaces"]))
+        to_list(
+            remove_single_char_and_spaces(text_data["test_list_single_char_and_spaces"])
+        )
         == text_data["answer_key_single_char_and_spaces"]
     )
 
@@ -68,7 +73,12 @@ def test_remove_stopwords(text_data, tokenized_test_list_main):
         == text_data["answer_key_remove_stop_words"]
     )
     assert (
-        to_list(remove_stopwords(to_list(to_lower(tokenized_test_list_main)), more_words=text_data["more_words"]))
+        to_list(
+            remove_stopwords(
+                to_list(to_lower(tokenized_test_list_main)),
+                more_words=text_data["more_words"],
+            )
+        )
         == text_data["answer_key_remove_stop_words_more"]
     )
 
@@ -85,7 +95,9 @@ def test_lem_and_stem(text_data):
 
 
 def test_bag_of_words(text_data):
-    bag = to_list(bag_of_words_to_docs(preprocess_texts(text_data["test_list_main"])), bow=False)
+    bag = to_list(
+        bag_of_words_to_docs(preprocess_texts(text_data["test_list_main"])), bow=False
+    )
 
     assert len(text_data["test_list_main"]) == len(bag)
     assert isinstance(bag, list)
