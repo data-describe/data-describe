@@ -15,6 +15,8 @@ extensions = [
 ]
 
 autoapi_dirs = ['../../data_describe']
+autoapi_root = "_api"
+autoapi_keep_files = True
 
 templates_path = ["_templates"]
 
