@@ -28,7 +28,6 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install --upgrade pre-commit
           python -m pip install mypy
-          python -m pip install papermill
 
       - name: Lint with pre-commit
         run: |
@@ -53,10 +52,6 @@ jobs:
           environment-file: etc/test-environment.yml
           condarc-file: etc/.condarc
           auto-activate-base: false
-      - name: Rerun notebooks
-        run: |
-          pip install papermill
-          python3 etc/run_notebooks.py
       - name: Run unit tests
         shell: bash -l {0}
         run: |
