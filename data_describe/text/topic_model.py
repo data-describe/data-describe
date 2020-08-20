@@ -229,8 +229,8 @@ class TopicModelWidget(BaseWidget):
                 self._coherence_values = []
                 for num in range(self._min_topics, self._max_topics + 1):
                     self._model_kwargs.update({"num_topics": num})
-                    lsa_model = _compat.LsiModel(**self._model_kwargs)
-                    coherence_model = _compat.CoherenceModel(
+                    lsa_model = _compat.gensim.models.lsimodel.LsiModel(**self._model_kwargs)
+                    coherence_model = _compat.gensim.models.coherencemodel.CoherenceModel(
                         model=lsa_model,
                         texts=tokenized_text_docs,
                         dictionary=self._dictionary,
@@ -245,7 +245,7 @@ class TopicModelWidget(BaseWidget):
                 self._num_topics = len(lsa_model_list[max_coherence_index].get_topics())
                 return lsa_model_list[max_coherence_index]
             else:
-                lsa_model = _compat.LsiModel(
+                lsa_model = _compat.gensim.models.lsimodel.LsiModel(
                     corpus=self._corpus,
                     id2word=self._dictionary,
                     num_topics=self._num_topics,
@@ -296,8 +296,8 @@ class TopicModelWidget(BaseWidget):
                 self._coherence_values = []
                 for num in range(self._min_topics, self._max_topics + 1):
                     self._model_kwargs.update({"num_topics": num})
-                    lda_model = _compat.LdaModel(**self._model_kwargs)
-                    coherence_model = _compat.CoherenceModel(
+                    lda_model = _compat.gensim.models.ldamodel.LdaModel(**self._model_kwargs)
+                    coherence_model = _compat.gensim.models.coherencemodel.CoherenceModel(
                         model=lda_model,
                         texts=tokenized_text_docs,
                         dictionary=self._dictionary,
@@ -312,7 +312,7 @@ class TopicModelWidget(BaseWidget):
                 self._num_topics = len(lda_model_list[max_coherence_index].get_topics())
                 return lda_model_list[max_coherence_index]
             else:
-                lda_model = _compat.LdaModel(**self._model_kwargs)
+                lda_model = _compat.gensim.models.ldamodel.LdaModel(**self._model_kwargs)
                 return lda_model
 
     def _compute_nmf_model(self, text_docs: List[str], tfidf: bool = True):
@@ -535,7 +535,7 @@ class TopicModelWidget(BaseWidget):
                     if summary_words:
                         try:
                             summarized_docs.append(
-                                _compat.summarize(doc, word_count=summary_words)
+                                _compat.gensim.summarization.summarizer.summarize(doc, word_count=summary_words)
                             )
                         except ValueError:
                             sentence_check += 1
@@ -547,7 +547,7 @@ class TopicModelWidget(BaseWidget):
                             summarized_docs.append(doc)
                     else:
                         try:
-                            summarized_docs.append(_compat.summarize(doc))
+                            summarized_docs.append(_compat.gensim.summarization.summarizer.summarize(doc))
                         except ValueError:
                             sentence_check += 1
                             warnings.warn(
