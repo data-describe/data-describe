@@ -8,16 +8,13 @@ doc_copyright = "2020 Maven Wave Partners"
 author = "Maven Wave Data Science"
 
 extensions = [
-    "sphinx.ext.autodoc",
     "sphinx.ext.napoleon",
-    "sphinx.ext.inheritance_diagram",
-    "autoapi.sphinx",
-    # "autoapi.extension",
+    "autoapi.extension",
     "nbsphinx",
     "sphinx_multiversion",
 ]
 
-autoapi_modules = {"data_describe": {"output": "_api"}}
+autoapi_dirs = ['../../data_describe']
 
 templates_path = ["_templates"]
 
