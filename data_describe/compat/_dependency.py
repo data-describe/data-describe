@@ -130,7 +130,7 @@ def requires(package_name):
         def g(*args, **kwargs):
             if not _compat.check_install(package_name):
                 raise ImportError(f"{package_name} required to use this feature.")
-            _compat.__getattr__(package_name)
+            _compat[package_name]
             return func(*args, **kwargs)
 
         return g
