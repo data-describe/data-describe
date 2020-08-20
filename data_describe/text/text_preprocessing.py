@@ -313,11 +313,11 @@ def ngram_freq(
     freq = _compat.FreqDist()
     for doc in text_docs_bow:
         if only_n:
-            current_ngrams = compat.ngrams(doc, n)
+            current_ngrams = _compat.ngrams(doc, n)
             freq.update(current_ngrams)
         else:
             for num in range(2, n + 1):
-                current_ngrams = compat.ngrams(doc, num)
+                current_ngrams = _compat.ngrams(doc, num)
                 freq.update(current_ngrams)
     return freq
 
