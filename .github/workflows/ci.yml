@@ -59,7 +59,9 @@ jobs:
           condarc-file: etc/.condarc
           auto-activate-base: false
       - name: Rerun notebooks
-        run: python etc/run_notebooks.py
+        run: |
+          pip install papermill &&
+          python etc/run_notebooks.py
       - name: Run unit tests
         shell: bash -l {0}
         run: |
