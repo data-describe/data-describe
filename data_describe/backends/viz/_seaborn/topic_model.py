@@ -17,15 +17,13 @@ def viz_elbow_plot(min_topics: int, max_topics: int, coherence_values: List[floa
     Returns:
         Elbow plot showing coherence values vs number of topics
     """
-    # plt.figure(figsize=(context.fig_width.fig_height)) # TODO (haishiro): Replace with get_option
-
-    fig = sns.lineplot(
+    ax = sns.lineplot(
         x=[num for num in range(min_topics, max_topics + 1)], y=coherence_values,
     )
-    fig.set_title("Coherence Values Across Topic Numbers")
+    ax.set_title("Coherence Values Across Topic Numbers")
     plt.xlabel("Number of Topics")
     plt.ylabel("Coherence Values")
     plt.figure(
         figsize=(get_option("display.matplotlib.fig_width"), get_option("display.matplotlib.fig_height"))
     )
-    return fig
+    return ax
