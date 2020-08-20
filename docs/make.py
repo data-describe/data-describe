@@ -11,6 +11,6 @@ if __name__ == "__main__":
             "-D",
             "autoapi_dirs=${sourcedir}/../../data_describe",
             "-D",
-            "autoapi_root=${sourcedir}/_api"
+            "autoapi_root=${sourcedir}"
         ]
     )

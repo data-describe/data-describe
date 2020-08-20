@@ -15,8 +15,8 @@ extensions = [
 ]
 
 autoapi_dirs = ["../../data_describe"]
-autoapi_root = "_api"
-autoapi_keep_files = True
+autoapi_root = "."
+# autoapi_keep_files = True
 autoapi_options = [
     "members",
     "show-inheritance",

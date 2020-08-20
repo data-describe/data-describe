@@ -5,7 +5,7 @@ import glob
 import pathlib
 
 
-widget_template = """.. _x-tutorial:
+examples_template = """.. _x-tutorial:
 
 .. note::
 
@@ -16,7 +16,7 @@ widget_template = """.. _x-tutorial:
 
 
 def load_notebooks():
-    """Load notebooks from the /example directory."""
+    """Load notebooks from the /example directory"""
     notebooks = glob.glob("../examples/*.ipynb")
 
     outputs = []
@@ -27,13 +27,13 @@ def load_notebooks():
             outputs.append(output_name)
         print("Updating {}...".format(notebook_name))
 
-        pathlib.Path("source/_notebooks").mkdir(exist_ok=True)
+        pathlib.Path("source/_examples").mkdir(exist_ok=True)
 
-        shutil.copyfile(notebook, "source/_notebooks/" + output_name + ".ipynb")
+        shutil.copyfile(notebook, "source/_examples/" + output_name + ".ipynb")
 
-    # Insert links to the widget ToC
-    print("Finalizing Widget Page")
-    text = open("source/widgets/index.rst", "r").read()
+    # Insert links to the examples ToC
+    print("Finalizing examples Page")
+    text = open("source/exampless/index.rst", "r").read()
     text = re.sub(
         r"(:maxdepth: 1).*(Placeholder)",
         r"\1\n\n"
@@ -42,7 +42,7 @@ def load_notebooks():
         text,
         flags=re.S,
     )
-    open("source/widgets/index.rst", "w").write(text)
+    open("source/exampless/index.rst", "w").write(text)
 
 
 if __name__ == "__main__":
