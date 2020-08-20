@@ -64,9 +64,9 @@ class DependencyManager:
                 else:
                     try:
                         module = import_module(item)
-                        self.modules[item] = module
                         if self.imports[item] is not None:
                             self.imports[item](module)
+                        self.modules[item] = module
                         return module
                     except ImportError:
                         raise ImportError(
@@ -130,6 +130,7 @@ def requires(package_name):
         def g(*args, **kwargs):
             if not _compat.check_install(package_name):
                 raise ImportError(f"{package_name} required to use this feature.")
+            _compat.__getattr__(package_name)
             return func(*args, **kwargs)
 
         return g
