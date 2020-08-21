@@ -1,10 +1,18 @@
-from typing import List, Tuple
+from typing import List, Tuple, TYPE_CHECKING
 import warnings
 
-from data_describe import compat
+from data_describe.compat import _compat, requires, _IN_NOTEBOOK
+
+if TYPE_CHECKING:
+    gensim = _compat["gensim"]
 
 
-def viz_visualize_topic_summary(model: compat.LdaModel, corpus: List[List[Tuple[int, int]]], dictionary: compat.Dictionary):
+@requires("pyLDAvis")
+def viz_visualize_topic_summary(
+    model: _compat["gensim"].models.ldamodel.LdaModel,  # type: ignore
+    corpus: List[List[Tuple[int, int]]],
+    dictionary: _compat["gensim"].corpora.dictionary.Dictionary,  # type: ignore
+):
     """Displays interactive pyLDAvis visual to understand topic model and documents.
 
     Args:
@@ -15,11 +23,16 @@ def viz_visualize_topic_summary(model: compat.LdaModel, corpus: List[List[Tuple[
     Returns:
         A visual to understand topic model and/or documents relating to model
     """
-    if compat.get_ipython() is None:
+    if not _IN_NOTEBOOK:
         raise EnvironmentError("Not in Jupyter Notebook")
-    else:
-        compat.pyLDAvis.enable_notebook()
-        with warnings.catch_warnings():
-            warnings.filterwarnings("ignore", category=FutureWarning, module="pyLDAvis", message="Sorting because non-concatenation axis is not aligned.",)
-            vis = compat.pyLDAvis.gensim.prepare(model, corpus, dictionary)
-            return vis
+
+    _compat["pyLDAvis"].enable_notebook()  # type: ignore
+    with warnings.catch_warnings():
+        warnings.filterwarnings(
+            "ignore",
+            category=FutureWarning,
+            module="pyLDAvis",
+            message="Sorting because non-concatenation axis is not aligned.",
+        )
+        vis = _compat["pyLDAvis"].gensim.prepare(model, corpus, dictionary)  # type: ignore
+        return vis

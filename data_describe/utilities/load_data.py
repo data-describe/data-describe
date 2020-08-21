@@ -3,8 +3,7 @@ import tempfile
 
 import pandas as pd
 
-from data_describe import compat
-from data_describe.compat import requires, _PACKAGE_INSTALLED
+from data_describe.compat import _compat, requires
 from data_describe.utilities.file_ext import _FileExtensionTypes, is_filetype
 
 
@@ -24,7 +23,7 @@ def load_data(filepath, all_folders=False, **kwargs):
     if os.path.isfile(filepath):
         df = read_file_type(filepath, **kwargs)
     elif "gs://" in filepath:
-        if _PACKAGE_INSTALLED["gcsfs"]:
+        if _compat.check_install("gcsfs"):
             df = read_file_type(filepath, **kwargs)
         else:
             raise ImportError("Package gcsfs required to load from GCS")
@@ -81,7 +80,7 @@ def read_file_type(filepath, **kwargs):
         return pd.read_csv(filepath, sep=sep, **kwargs)
 
 
-@requires("google-cloud-storage")
+@requires("google.cloud.storage")
 def download_gcs_file(filepath, bucket=None, prefix=None, **kwargs):
     """Downloads files from Google Cloud Storage.
 
@@ -93,7 +92,7 @@ def download_gcs_file(filepath, bucket=None, prefix=None, **kwargs):
     Returns:
         shapefile_dir: The shape file
     """
-    client = compat.storage.Client()
+    client = _compat["google.cloud.storage"].Client()
     bucket = client.bucket(bucket)
     max_results = kwargs.pop("max_results", None)
     blobs = bucket.list_blobs(prefix=prefix, max_results=max_results)

@@ -1,7 +1,7 @@
 import numpy as np
 from scipy.stats import skew
 
-from data_describe import compat
+from data_describe.compat import _SERIES_TYPE
 
 
 def spikey(data):
@@ -12,7 +12,7 @@ def spikey(data):
     Args:
         data: The 1-d data array
     """
-    if isinstance(data, compat._SERIES_TYPE):
+    if isinstance(data, _SERIES_TYPE):
         data = data.dropna()
     else:
         data = data[~np.isnan(data)]

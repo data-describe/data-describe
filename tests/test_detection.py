@@ -1,7 +1,6 @@
 import pytest
 
-from data_describe.compat import presidio_analyzer
-from data_describe.compat import _DATAFRAME_TYPE
+from data_describe.compat import _compat, _DATAFRAME_TYPE
 from data_describe.privacy.detection import sensitive_data, SensitiveDataWidget
 from data_describe.privacy.engine import engine
 from data_describe.backends.compute._pandas.detection import (
@@ -30,7 +29,9 @@ def test_identify_pii():
     example_text = "This string contains a domain, gmail.com"
     response = identify_pii(example_text, engine)
     assert isinstance(response, list)
-    assert isinstance(response[0], presidio_analyzer.recognizer_result.RecognizerResult)
+    assert isinstance(
+        response[0], _compat["presidio_analyzer"].recognizer_result.RecognizerResult
+    )
     assert len(response) == 1
     assert isinstance(response[0].entity_type, str)
     assert isinstance(response[0].start, int)

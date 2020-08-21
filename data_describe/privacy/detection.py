@@ -2,7 +2,7 @@ from typing import Optional
 import warnings
 
 from data_describe.backends import _get_compute_backend
-from data_describe.compat import _DATAFRAME_TYPE
+from data_describe.compat import _DATAFRAME_TYPE, _compat
 from data_describe.config._config import get_option
 from data_describe._widget import BaseWidget
 from data_describe.privacy.engine import engine
@@ -47,11 +47,12 @@ def sensitive_data(
     if not isinstance(df, _DATAFRAME_TYPE):
         raise TypeError("Pandas data frame or modin data frame required")
 
-    if isinstance(df, _DATAFRAME_TYPE.modin):
-        warnings.warn(
-            "Sensitive data does not currently support Modin DataFrames. Converting to Pandas."
-        )
-        df = df._to_pandas()
+    if _compat.check_install("modin"):
+        if isinstance(df, _DATAFRAME_TYPE.modin):
+            warnings.warn(
+                "Sensitive data does not currently support Modin DataFrames. Converting to Pandas."
+            )
+            df = df._to_pandas()
 
     if columns:
         if not isinstance(columns, list):

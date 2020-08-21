@@ -1,8 +1,7 @@
 import contextlib
 import logging
 
-from data_describe import compat
-from data_describe.compat import requires
+from data_describe.compat import _compat, requires
 from data_describe.config._config import get_option, set_config
 
 
@@ -40,16 +39,17 @@ class OutputLogger:
 
 
 @requires("presidio_analyzer")
+@requires("spacy")
 def presidio_engine():
     """Initialize presidio engine.
 
     Returns:
         Presidio engine
     """
-    with OutputLogger("presidio", "WARN") as redirector:  # noqa: F841
-        engine = compat.presidio_analyzer.AnalyzerEngine(
-            default_score_threshold=_DEFAULT_SCORE_THRESHOLD, enable_trace_pii=True
-        )
+    # with OutputLogger("presidio", "WARN") as redirector:  # noqa: F841
+    engine = _compat["presidio_analyzer"].AnalyzerEngine(
+        default_score_threshold=_DEFAULT_SCORE_THRESHOLD, enable_trace_pii=True
+    )
     return engine
 
 

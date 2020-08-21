@@ -162,7 +162,7 @@ def _check_backend(
         if module is None:
             return True
         else:
-            if str(module.__path__) in loaded_backends[backend_type]:  # type: ignore # mypy issue 1422
+            if str(module.__path__) in loaded_backends[backend_type]:  # type: ignore
                 return True
     return False
 
@@ -178,4 +178,4 @@ def _add_backend(backend_type: str, loaded_backends: dict, module: ModuleType):
     if backend_type not in loaded_backends:
         loaded_backends[backend_type] = {}
 
-    loaded_backends[backend_type][str(module.__path__)] = module  # type: ignore # mypy issue 1422
+    loaded_backends[backend_type][str(module.__path__)] = module  # type: ignore
