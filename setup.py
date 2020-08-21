@@ -10,7 +10,7 @@ URL = "https://github.com/brianray/data-describe"
 EMAIL = ""
 AUTHOR = "https://github.com/brianray/data-describe/graphs/contributors"
 REQUIRES_PYTHON = ">=3.7.0"
-version: Dict[str] = {}
+version: Dict[str, str] = {}
 with open(os.path.join("data_describe", "_version.py")) as fp:
     exec(fp.read(), version)
 
