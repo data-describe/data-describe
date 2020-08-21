@@ -141,7 +141,7 @@ def remove_digits(text_docs_bow: List[List[str]]) -> Generator[Generator[str, No
 
 
 def remove_single_char_and_spaces(
-    text_docs_bow: [List[List[str]]],
+    text_docs_bow: List[List[str]],
 ) -> Generator[List[Any], None, None]:
     """Removes all words that contain only one character and blank spaces from documents.
 
