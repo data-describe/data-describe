@@ -13,8 +13,8 @@ _DATAFRAME_BACKENDS = {
 
 if _compat.check_install("modin"):
     compute = namedtuple("compute", ["pandas", "modin"])
-    _SERIES_TYPE = compute(pandas=pandas.Series, modin=_compat["modin"].pandas.Series)  # type: ignore
-    _DATAFRAME_TYPE = compute(pandas=pandas.DataFrame, modin=_compat["modin"].pandas.DataFrame)  # type: ignore
+    _SERIES_TYPE = compute(pandas=pandas.Series, modin=_compat["modin"].pandas.Series)  # type: ignore mypy #5059
+    _DATAFRAME_TYPE = compute(pandas=pandas.DataFrame, modin=_compat["modin"].pandas.DataFrame)  # type: ignore mypy #5059
 else:
     _SERIES_TYPE = pandas.Series
     _DATAFRAME_TYPE = pandas.DataFrame

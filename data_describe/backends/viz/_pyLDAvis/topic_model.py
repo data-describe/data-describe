@@ -1,16 +1,17 @@
 from typing import List, Tuple, TYPE_CHECKING
 import warnings
 
-from data_describe.compat import _compat, _IN_NOTEBOOK
+from data_describe.compat import _compat, requires, _IN_NOTEBOOK
 
 if TYPE_CHECKING:
     gensim = _compat["gensim"]
 
 
+@requires("pyLDAvis")
 def viz_visualize_topic_summary(
-    model: gensim.models.ldamodel.LdaModel,
+    model: gensim.models.ldamodel.LdaModel,  # type: ignore mypy #5059
     corpus: List[List[Tuple[int, int]]],
-    dictionary: gensim.corpora.dictionary.Dictionary,
+    dictionary: gensim.corpora.dictionary.Dictionary,  # type: ignore mypy #5059
 ):
     """Displays interactive pyLDAvis visual to understand topic model and documents.
 
@@ -25,7 +26,7 @@ def viz_visualize_topic_summary(
     if not _IN_NOTEBOOK:
         raise EnvironmentError("Not in Jupyter Notebook")
 
-    _compat["pyLDAvis"].enable_notebook()
+    _compat["pyLDAvis"].enable_notebook()  # type: ignore mypy #5059
     with warnings.catch_warnings():
         warnings.filterwarnings(
             "ignore",
@@ -33,5 +34,5 @@ def viz_visualize_topic_summary(
             module="pyLDAvis",
             message="Sorting because non-concatenation axis is not aligned.",
         )
-        vis = _compat["pyLDAvis"].gensim.prepare(model, corpus, dictionary)
+        vis = _compat["pyLDAvis"].gensim.prepare(model, corpus, dictionary)  # type: ignore mypy #5059
         return vis

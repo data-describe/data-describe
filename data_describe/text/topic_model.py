@@ -229,8 +229,8 @@ class TopicModelWidget(BaseWidget):
                 self._coherence_values = []
                 for num in range(self._min_topics, self._max_topics + 1):
                     self._model_kwargs.update({"num_topics": num})
-                    lsa_model = _compat["gensim"].models.lsimodel.LsiModel(**self._model_kwargs)
-                    coherence_model = _compat["gensim"].models.coherencemodel.CoherenceModel(
+                    lsa_model = _compat["gensim"].models.lsimodel.LsiModel(**self._model_kwargs)  # type: ignore mypy #5059
+                    coherence_model = _compat["gensim"].models.coherencemodel.CoherenceModel(  # type: ignore mypy #5059
                         model=lsa_model,
                         texts=tokenized_text_docs,
                         dictionary=self._dictionary,
@@ -245,7 +245,7 @@ class TopicModelWidget(BaseWidget):
                 self._num_topics = len(lsa_model_list[max_coherence_index].get_topics())
                 return lsa_model_list[max_coherence_index]
             else:
-                lsa_model = _compat["gensim"].models.lsimodel.LsiModel(
+                lsa_model = _compat["gensim"].models.lsimodel.LsiModel(  # type: ignore mypy #5059
                     corpus=self._corpus,
                     id2word=self._dictionary,
                     num_topics=self._num_topics,
@@ -296,8 +296,8 @@ class TopicModelWidget(BaseWidget):
                 self._coherence_values = []
                 for num in range(self._min_topics, self._max_topics + 1):
                     self._model_kwargs.update({"num_topics": num})
-                    lda_model = _compat["gensim"].models.ldamodel.LdaModel(**self._model_kwargs)
-                    coherence_model = _compat["gensim"].models.coherencemodel.CoherenceModel(
+                    lda_model = _compat["gensim"].models.ldamodel.LdaModel(**self._model_kwargs)  # type: ignore mypy #5059
+                    coherence_model = _compat["gensim"].models.coherencemodel.CoherenceModel(  # type: ignore mypy #5059
                         model=lda_model,
                         texts=tokenized_text_docs,
                         dictionary=self._dictionary,
@@ -312,7 +312,7 @@ class TopicModelWidget(BaseWidget):
                 self._num_topics = len(lda_model_list[max_coherence_index].get_topics())
                 return lda_model_list[max_coherence_index]
             else:
-                lda_model = _compat["gensim"].models.ldamodel.LdaModel(**self._model_kwargs)
+                lda_model = _compat["gensim"].models.ldamodel.LdaModel(**self._model_kwargs)  # type: ignore mypy #5059
                 return lda_model
 
     def _compute_nmf_model(self, text_docs: List[str], tfidf: bool = True):
@@ -535,7 +535,7 @@ class TopicModelWidget(BaseWidget):
                     if summary_words:
                         try:
                             summarized_docs.append(
-                                _compat["gensim"].summarization.summarizer.summarize(doc, word_count=summary_words)
+                                _compat["gensim"].summarization.summarizer.summarize(doc, word_count=summary_words)  # type: ignore mypy #5059
                             )
                         except ValueError:
                             sentence_check += 1
@@ -547,7 +547,7 @@ class TopicModelWidget(BaseWidget):
                             summarized_docs.append(doc)
                     else:
                         try:
-                            summarized_docs.append(_compat["gensim"].summarization.summarizer.summarize(doc))
+                            summarized_docs.append(_compat["gensim"].summarization.summarizer.summarize(doc))  # type: ignore mypy #5059
                         except ValueError:
                             sentence_check += 1
                             warnings.warn(
@@ -564,9 +564,7 @@ class TopicModelWidget(BaseWidget):
                 all_top_docs["Topic: " + topic_names[topic_num]] = top_docs
 
         if sentence_check > (num_docs * len(topics[0]) / 4):
-            warnings.warn(
-                "WARNING: DOCUMENTS MUST BE FORMATTED IN SENTENCES FOR SUMMARIZATION"
-            )
+            warnings.warn("Documents must be formatted as sentences for summarization.")
 
         doc_numbers = ["Document #" + str(num + 1) for num in range(num_docs)]
         all_top_docs_df = pd.DataFrame(all_top_docs, index=doc_numbers)
