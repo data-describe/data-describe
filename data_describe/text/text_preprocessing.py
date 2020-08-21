@@ -17,8 +17,8 @@ Example:
 import re
 import string
 import warnings
-import itertools
-from typing import List, Generator, Optional, Any
+from types import GeneratorType
+from typing import List, Optional, Any, Iterable
 
 import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
@@ -30,7 +30,7 @@ warnings.filterwarnings("ignore", category=UserWarning, module="gensim")
 
 
 @compat.requires("nltk")
-def tokenize(text_docs: List[str]) -> Generator[str, None, None]:
+def tokenize(text_docs: Iterable[str]) -> Iterable[Iterable[str]]:
     """Turns list of documents into "bag of words" format.
 
     Args:
@@ -39,10 +39,10 @@ def tokenize(text_docs: List[str]) -> Generator[str, None, None]:
     Returns:
         A generator expression for all of the processed documents
     """
-    yield (compat.word_tokenize(doc) for doc in text_docs)
+    return (compat.word_tokenize(doc) for doc in text_docs)
 
 
-def to_lower(text_docs_bow: List[List[str]]) -> Generator[Generator[str, None, None], None, None]:
+def to_lower(text_docs_bow: Iterable[Iterable[str]]) -> Iterable[Iterable[str]]:
     """Converts all letters in documents ("bag of words" format) to lowercase.
 
     Args:
@@ -51,17 +51,19 @@ def to_lower(text_docs_bow: List[List[str]]) -> Generator[Generator[str, None, N
     Returns:
         A generator expression for all of the processed documents
     """
-    yield ((word.lower() for word in doc) for doc in text_docs_bow)
+    return ((word.lower() for word in doc) for doc in text_docs_bow)
 
 
 def remove_punct(
-    text_docs_bow: List[List[str]], replace_char: str = " ", remove_all: bool = False
-) -> Generator[Generator[str, None, None], None, None]:
+    text_docs_bow: Iterable[Iterable[str]],
+    replace_char: str = "",
+    remove_all: bool = False,
+) -> Iterable[Iterable[str]]:
     """Removes all instances of punctuation from documents (e.g. periods, question marks, etc.).
 
     Args:
         text_docs_bow: A list of lists of words from a document
-        replace_char: Character to replace puncutation instances with. Default is space
+        replace_char: Character to replace punctuation instances with. Default is space
         remove_all: If True, removes all instances of punctuation from document. Default is False, which only removes
         leading and/or trailing instances
 
@@ -70,46 +72,14 @@ def remove_punct(
     """
     if remove_all:
         new_docs = (
-            (re.sub(r"[^\w\s]|_", " ", word) for word in doc) for doc in text_docs_bow
+            (re.sub(r"[^\w\s]|_", replace_char, word) for word in doc)
+            for doc in text_docs_bow
         )
-        new_docs = (
-            (
-                to_list(tokenize([word]), bow=False) if " " in word else [word]
-                for word in doc
-            )
-            for doc in new_docs
-        )
-        new_docs = (
-            (item for sublist in doc for item in sublist if item) for doc in new_docs
-        )
-        if replace_char != " ":
-            new_docs = (
-                list(
-                    itertools.chain.from_iterable(
-                        [
-                            [word]
-                            if isinstance(word, str)
-                            else [replace_char.join(word)]
-                            for word in doc
-                        ]
-                    )
-                )
-                for doc in new_docs
-            )
-        else:
-            new_docs = (
-                list(
-                    itertools.chain.from_iterable(
-                        [[word] if isinstance(word, str) else word for word in doc]
-                    )
-                )
-                for doc in new_docs
-            )
-        yield (
+        return (
             (
                 word
                 for word in doc
-                if not (len(word) == 1 and word in string.punctuation)
+                if not (word in string.punctuation or word.strip() == "")
             )
             for doc in new_docs
         )
@@ -118,7 +88,7 @@ def remove_punct(
             (re.sub(r"^([^\w\s]|_)?(.+?)([^\w\s]|_)?$", r"\2", word) for word in doc)
             for doc in text_docs_bow
         )
-        yield (
+        return (
             (
                 word
                 for word in doc
@@ -128,7 +98,7 @@ def remove_punct(
         )
 
 
-def remove_digits(text_docs_bow: List[List[str]]) -> Generator[Generator[str, None, None], None, None]:
+def remove_digits(text_docs_bow: Iterable[Iterable[str]],) -> Iterable[Iterable[str]]:
     """Removes all numbers and words containing numerical digits from documents.
 
     Args:
@@ -137,12 +107,12 @@ def remove_digits(text_docs_bow: List[List[str]]) -> Generator[Generator[str, No
     Returns:
         A generator expression for all of the processed documents
     """
-    yield ((re.sub(r"\w*\d\w*", "", word) for word in doc) for doc in text_docs_bow)
+    return ((re.sub(r"\w*\d\w*", "", word) for word in doc) for doc in text_docs_bow)
 
 
 def remove_single_char_and_spaces(
-    text_docs_bow: List[List[str]],
-) -> Generator[List[Any], None, None]:
+    text_docs_bow: Iterable[Iterable[str]],
+) -> Iterable[Iterable[str]]:
     """Removes all words that contain only one character and blank spaces from documents.
 
     Args:
@@ -163,34 +133,34 @@ def remove_single_char_and_spaces(
             elif len(new_word) > 1:
                 new_doc.append(new_word)
         new_docs.append(new_doc)
-    yield (doc for doc in new_docs)
+    return (doc for doc in new_docs)
 
 
 @compat.requires("nltk")
 def remove_stopwords(
-    text_docs_bow: List[List[str]], more_words: Optional[List[str]] = None
-) -> Generator[Generator[str, None, None], None, None]:
+    text_docs_bow: Iterable[Iterable[str]], custom_stopwords: Optional[List[str]] = None
+) -> Iterable[Iterable[str]]:
     """Removes all "stop words" from documents. "Stop words" can be defined as commonly used words which are typically useless for NLP.
 
     Args:
         text_docs_bow: A list of lists of words from a document
-        more_words: An optional list of words to remove along with the stop words. Default is None
+        custom_stopwords: An optional list of words to remove along with the stop words. Default is None
 
     Returns:
         A generator expression for all of the processed documents
     """
     stop_words_original = set(compat.stopwords.words("english"))
 
-    if more_words:
-        stop_words = stop_words_original.union(more_words)
+    if custom_stopwords:
+        stop_words = stop_words_original.union(custom_stopwords)
     else:
         stop_words = stop_words_original
 
-    yield ((word for word in doc if word not in stop_words) for doc in text_docs_bow)
+    return ((word for word in doc if word not in stop_words) for doc in text_docs_bow)
 
 
 @compat.requires("nltk")
-def lemmatize(text_docs_bow: List[List[str]]) -> Generator[Generator[str, None, None], None, None]:
+def lemmatize(text_docs_bow: Iterable[Iterable[str]],) -> Iterable[Iterable[str]]:
     """Lemmatizes all words in documents. Lemmatization is grouping words together by their reducing them to their inflected forms so they can be analyzed as a single item.
 
     Args:
@@ -200,11 +170,11 @@ def lemmatize(text_docs_bow: List[List[str]]) -> Generator[Generator[str, None, 
         A generator expression for all of the processed documents
     """
     lemmatizer = compat.WordNetLemmatizer()
-    yield ((lemmatizer.lemmatize(word) for word in doc) for doc in text_docs_bow)
+    return ((lemmatizer.lemmatize(word) for word in doc) for doc in text_docs_bow)
 
 
 @compat.requires("nltk")
-def stem(text_docs_bow: List[List[str]]) -> Generator[Generator[str, None, None], None, None]:
+def stem(text_docs_bow: Iterable[Iterable[str]],) -> Iterable[Iterable[str]]:
     """Stems all words in documents. Stemming is grouping words together by taking the stems of their inflected forms so they can be analyzed as a single item.
 
     Args:
@@ -214,10 +184,10 @@ def stem(text_docs_bow: List[List[str]]) -> Generator[Generator[str, None, None]
         A generator expression for all of the processed documents
     """
     stemmer = compat.LancasterStemmer()
-    yield ((stemmer.stem(word) for word in doc) for doc in text_docs_bow)
+    return ((stemmer.stem(word) for word in doc) for doc in text_docs_bow)
 
 
-def bag_of_words_to_docs(text_docs_bow: List[List[str]]) -> Generator[str, None, None]:
+def bag_of_words_to_docs(text_docs_bow: Iterable[Iterable[str]]) -> Iterable[str]:
     """Converts list of documents in "bag of words" format back into form of document being stored in one string.
 
     Args:
@@ -226,10 +196,10 @@ def bag_of_words_to_docs(text_docs_bow: List[List[str]]) -> Generator[str, None,
     Returns:
         A generator expression for all of the processed documents
     """
-    yield (" ".join(doc) for doc in text_docs_bow)
+    return (" ".join(doc) for doc in text_docs_bow)
 
 
-def create_tfidf_matrix(text_docs: List[str]):
+def create_tfidf_matrix(text_docs: Iterable[str]) -> pd.DataFrame:
     """Creates a Term Frequency-Inverse Document Frequency matrix.
 
     Args:
@@ -244,7 +214,7 @@ def create_tfidf_matrix(text_docs: List[str]):
     return matrix_df
 
 
-def create_doc_term_matrix(text_docs: List[str]):
+def create_doc_term_matrix(text_docs: Iterable[str]) -> pd.DataFrame:
     """Creates a document-term matrix which gives wordcount per document.
 
     Args:
@@ -260,11 +230,11 @@ def create_doc_term_matrix(text_docs: List[str]):
 
 
 def preprocess_texts(
-    text_docs: List[str],
+    text_docs: Iterable[str],
     lem: bool = False,
     stem: bool = False,
     custom_pipeline: List = None,
-) -> List[List[str]]:
+) -> Iterable[Any]:
     """Cleans list of documents by running through a customizable text-preprocessing pipeline.
 
     Args:
@@ -280,9 +250,6 @@ def preprocess_texts(
     Returns:
         text_docs: List of lists of words for each document which have undergone a pre-processing pipeline
     """
-    if type(text_docs) != list:
-        text_docs = list(text_docs)
-
     if not custom_pipeline:
         pipeline = [
             "tokenize",
@@ -303,41 +270,36 @@ def preprocess_texts(
     for function in pipeline:
         if isinstance(function, str):
             current_method = getattr(text_preprocessing, function)
-            if isinstance(text_docs[0], str):
-                text_docs = to_list(current_method(text_docs), bow=False)
-            else:
-                text_docs = to_list(current_method(text_docs))
+            text_docs = current_method(text_docs)
         else:
             text_docs = function(text_docs)
 
-    return text_docs
+    return to_list(text_docs)
 
 
-def to_list(text_docs_gen, bow: bool = True):
+def to_list(text_docs_gen) -> List[Any]:
     """Converts a generator expression from an individual preprocessing function into a list.
 
     Args:
         text_docs_gen: A generator expression for the processed text documents
-        bow: A boolean for whether the generator is returning a list of lists or a list of strings
 
     Returns:
-        A list of processed text documents or a list of list of processed words of text documents
+        A list of processed text documents or a list of tokens (list of strings) for each document
     """
-    if bow:
-        return [
-            list(generator)
-            for generator in list(itertools.chain.from_iterable(text_docs_gen))
-        ]
+    if not isinstance(text_docs_gen, GeneratorType):
+        return text_docs_gen
     else:
-        return list(itertools.chain.from_iterable(text_docs_gen))
+        return [to_list(i) for i in text_docs_gen]
 
 
 @compat.requires("nltk")
-def ngram_freq(text_docs: List[str], n: int = 3, only_n: bool = False):
+def ngram_freq(
+    text_docs_bow: Iterable[Iterable[str]], n: int = 3, only_n: bool = False
+) -> compat.FreqDist:
     """Generates frequency distribution of "n-grams" from all of the text documents.
 
     Args:
-        text_docs: A list of text documents in string format
+        text_docs_bow: A list of lists of words from a document
         n: Highest 'n' for n-gram sequence to include. Default is 3
         only_n: If True, will only include n-grams for specified value of 'n'. Default is False, which also includes
         n-grams for all numbers leading up to 'n'
@@ -349,23 +311,13 @@ def ngram_freq(text_docs: List[str], n: int = 3, only_n: bool = False):
         raise ValueError("'n' must be a number 2 or greater")
 
     freq = compat.FreqDist()
-    for line in text_docs:
-        tokens = preprocess_texts(
-            [line],
-            custom_pipeline=[
-                "tokenize",
-                "remove_stopwords",
-                "remove_punct",
-                "remove_digits",
-                "remove_single_char_and_spaces",
-            ],
-        )
+    for doc in text_docs_bow:
         if only_n:
-            current_ngrams = list(compat.ngrams(tokens[0], n))
+            current_ngrams = compat.ngrams(doc, n)
             freq.update(current_ngrams)
         else:
             for num in range(2, n + 1):
-                current_ngrams = list(compat.ngrams(tokens[0], num))
+                current_ngrams = compat.ngrams(doc, num)
                 freq.update(current_ngrams)
     return freq
 
