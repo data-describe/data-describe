@@ -13,7 +13,6 @@ from data_describe.text.text_preprocessing import (
 from data_describe.backends import _get_viz_backend
 from data_describe import compat
 from data_describe._widget import BaseWidget
-from data_describe.compat import requires
 
 warnings.filterwarnings("ignore", category=UserWarning, module="gensim")
 
@@ -60,8 +59,8 @@ def topic_model(
     return topicwidget
 
 
-@requires("gensim")
-@requires("pyLDAvis")
+@compat.requires("gensim")
+@compat.requires("pyLDAvis")
 class TopicModelWidget(BaseWidget):
     """Create topic model widget."""
 
@@ -352,7 +351,7 @@ class TopicModelWidget(BaseWidget):
         no_below: int = 10,
         no_above: float = 0.2,
         tfidf: bool = True,
-        model_kwargs: Optional[dict[str, str]] = None,
+        model_kwargs: Optional[Dict[str, str]] = None,
     ):
         """Trains topic model and assigns model to object as attribute.
 

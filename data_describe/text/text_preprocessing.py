@@ -2,16 +2,16 @@
 
 This module contains a number of methods by which text documents can be preprocessed. The individual preprocessing functions can be classified as "Bag of Words Functions"
 (to_lower, remove_punct, remove_digits, remove_single_char_and_spaces, remove_stopwords, lemmatize, stem) or "Document Functions" (tokenize, bag_of_words_to_docs).
-Each of the functions in these groups return generator objects, and when using them on their own, the formatting depicted below should be applied.
+Each of the functions in these groups return generator objects, and when using them on their own, the internal function to_list can be utilized as depicted below.
 
 Example:
     Individual Document Functions should be processed as such::
 
-        tokenized_docs = list(itertools.chain.from_iterable(tokenize(original_docs)))
+        tokenized_docs = to_list(tokenize(original_docs), bow=False)
 
     Individual Bag of Words Functions should be processed as such::
 
-        lower_case_docs_bow = [list(generator) for generator in list(itertools.chain.from_iterable(to_lower(original_docs_bow)))]
+        lower_case_docs_bow = to_list(to_lower(original_docs_bow))
 """
 
 import re
@@ -314,7 +314,7 @@ def preprocess_texts(
 
 
 def to_list(text_docs_gen, bow: bool = True):
-    """Converts a generator expression from an individual preprocessing function into a list
+    """Converts a generator expression from an individual preprocessing function into a list.
 
     Args:
         text_docs_gen: A generator expression for the processed text documents
