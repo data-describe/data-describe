@@ -42,7 +42,7 @@ def tokenize(text_docs: Iterable[str]) -> Iterable[Iterable[str]]:
     Returns:
         A generator expression for all of the processed documents
     """
-    return (_compat["nltk"].word_tokenize(doc) for doc in text_docs)  # type: ignore mypy #5059
+    return (_compat["nltk"].word_tokenize(doc) for doc in text_docs)  # type: ignore
 
 
 def to_lower(text_docs_bow: Iterable[Iterable[str]]) -> Iterable[Iterable[str]]:
@@ -152,7 +152,7 @@ def remove_stopwords(
     Returns:
         A generator expression for all of the processed documents
     """
-    stop_words_original = set(_compat["nltk"].corpus.stopwords.words("english"))  # type: ignore mypy #5059
+    stop_words_original = set(_compat["nltk"].corpus.stopwords.words("english"))  # type: ignore
 
     if custom_stopwords:
         stop_words = stop_words_original.union(custom_stopwords)
@@ -172,7 +172,7 @@ def lemmatize(text_docs_bow: Iterable[Iterable[str]],) -> Iterable[Iterable[str]
     Returns:
         A generator expression for all of the processed documents
     """
-    lemmatizer = _compat["nltk"].stem.WordNetLemmatizer()  # type: ignore mypy #5059
+    lemmatizer = _compat["nltk"].stem.WordNetLemmatizer()  # type: ignore
     return ((lemmatizer.lemmatize(word) for word in doc) for doc in text_docs_bow)
 
 
@@ -186,7 +186,7 @@ def stem(text_docs_bow: Iterable[Iterable[str]],) -> Iterable[Iterable[str]]:
     Returns:
         A generator expression for all of the processed documents
     """
-    stemmer = _compat["nltk"].stem.lancaster.LancasterStemmer()  # type: ignore mypy #5059
+    stemmer = _compat["nltk"].stem.lancaster.LancasterStemmer()  # type: ignore
     return ((stemmer.stem(word) for word in doc) for doc in text_docs_bow)
 
 
@@ -298,7 +298,7 @@ def to_list(text_docs_gen) -> List[Any]:
 @requires("nltk")
 def ngram_freq(
     text_docs_bow: Iterable[Iterable[str]], n: int = 3, only_n: bool = False
-) -> nltk.FreqDist:  # type: ignore mypy #5059
+) -> nltk.FreqDist:  # type: ignore
     """Generates frequency distribution of "n-grams" from all of the text documents.
 
     Args:
@@ -313,14 +313,14 @@ def ngram_freq(
     if n < 2:
         raise ValueError("'n' must be a number 2 or greater")
 
-    freq = _compat["nltk"].FreqDist()  # type: ignore mypy #5059
+    freq = _compat["nltk"].FreqDist()  # type: ignore
     for doc in text_docs_bow:
         if only_n:
-            current_ngrams = _compat["nltk"].ngrams(doc, n)  # type: ignore mypy #5059
+            current_ngrams = _compat["nltk"].ngrams(doc, n)  # type: ignore
             freq.update(current_ngrams)
         else:
             for num in range(2, n + 1):
-                current_ngrams = _compat["nltk"].ngrams(doc, num)  # type: ignore mypy #5059
+                current_ngrams = _compat["nltk"].ngrams(doc, num)  # type: ignore
                 freq.update(current_ngrams)
     return freq
 
@@ -339,7 +339,7 @@ def filter_dictionary(text_docs: List[str], no_below: int = 10, no_above: float 
         dictionary: Gensim Dictionary encapsulates the mapping between normalized words and their integer ids
         corpus: Bag of Words (BoW) representation of documents (token_id, token_count)
     """
-    dictionary = _compat["gensim"].corpora.Dictionary(text_docs)  # type: ignore mypy #5059
+    dictionary = _compat["gensim"].corpora.Dictionary(text_docs)  # type: ignore
     dictionary.filter_extremes(no_below=no_below, no_above=no_above)
     corpus = [dictionary.doc2bow(doc) for doc in text_docs]
     return dictionary, corpus
