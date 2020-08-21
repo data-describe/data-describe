@@ -19,6 +19,7 @@ fixture = NBRegressionFixture(
         "/cells/*/outputs/*/execution_count",
         "/cells/*/execution_count",
         "/cells/1/outputs/",
+        "/cells/*/execution_count/",
         "/cells/*/metadata/",
         "/cells/*/outputs/metadata/",
         "/metadata/",
@@ -38,11 +39,6 @@ def test_data_summary_notebook():
 
 def test_text_preprocessing_notebook():
     notebook = os.path.join(EXEC_CWD, "examples", "Text_Preprocessing.ipynb")
-    fixture.check(notebook, raise_errors=True)
-
-
-def test_topic_modeling_notebook():
-    notebook = os.path.join(EXEC_CWD, "examples", "Topic_Modeling.ipynb")
     fixture.check(notebook, raise_errors=True)
 
 
@@ -68,6 +64,11 @@ def test_scatter_plots_notebook():
 
 def test_tutorial_notebook():
     notebook = os.path.join(EXEC_CWD, "examples", "Tutorial.ipynb")
+    fixture.check(notebook, raise_errors=True)
+
+
+def test_topic_modeling_notebook():
+    notebook = os.path.join(EXEC_CWD, "examples", "Topic_Modeling.ipynb")
     fixture.check(notebook, raise_errors=True)
 
 
