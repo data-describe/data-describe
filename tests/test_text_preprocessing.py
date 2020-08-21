@@ -20,12 +20,12 @@ from data_describe.text.text_preprocessing import (
 
 @pytest.fixture
 def tokenized_test_list_main(text_data):
-    return to_list(tokenize(text_data["test_list_main"]), bow=False)
+    return to_list(tokenize(text_data["test_list_main"]))
 
 
 def test_tokenizer(text_data):
     assert (
-        to_list(tokenize(text_data["test_list_main"]), bow=False)
+        to_list(tokenize(text_data["test_list_main"]))
         == text_data["answer_key_tokenized"]
     ), "Output did not correctly tokenize documents"
 
@@ -40,17 +40,17 @@ def test_remove_punct(text_data, tokenized_test_list_main):
     assert (
         to_list(remove_punct(tokenized_test_list_main))
         == text_data["answer_key_remove_punct"]
-    ), "Output did not correctly remove punctuation inside of words from documents and replace them with spaces"
+    ), "Output did not correctly remove punctuation inside of words from documents"
     assert (
         to_list(
-            remove_punct(tokenized_test_list_main, remove_all=True, replace_char="")
+            remove_punct(tokenized_test_list_main, remove_all=True, replace_char="|")
         )
-        == text_data["answer_key_remove_all_punct_no_space"]
-    ), "Output did not correctly remove all punctuation from documents and replace them with nothing"
+        == text_data["answer_key_replace_all_punct_with_pipe"]
+    ), "Output did not correctly replace all punctuation with the | character"
     assert (
         to_list(remove_punct(tokenized_test_list_main, remove_all=True))
-        == text_data["answer_key_remove_all_punct_with_space"]
-    ), "Output did not correctly remove all punctuation from documents and replace them with spaces"
+        == text_data["answer_key_remove_all_punct"]
+    ), "Output did not correctly remove all punctuation from documents"
 
 
 def test_remove_digits(text_data):
@@ -78,7 +78,7 @@ def test_remove_stopwords(text_data, tokenized_test_list_main):
         to_list(
             remove_stopwords(
                 to_list(to_lower(tokenized_test_list_main)),
-                more_words=text_data["more_words"],
+                custom_stopwords=text_data["more_words"],
             )
         )
         == text_data["answer_key_remove_stop_words_more"]
@@ -97,9 +97,7 @@ def test_lem_and_stem(text_data):
 
 
 def test_bag_of_words(text_data):
-    bag = to_list(
-        bag_of_words_to_docs(preprocess_texts(text_data["test_list_main"])), bow=False
-    )
+    bag = to_list(bag_of_words_to_docs(preprocess_texts(text_data["test_list_main"])))
 
     assert len(text_data["test_list_main"]) == len(
         bag
@@ -150,8 +148,10 @@ def test_custom_pipeline(text_data):
         return [[word.upper() for word in doc] for doc in text_docs_bow]
 
     assert (
-        preprocess_texts(
-            text_data["test_list_custom"], custom_pipeline=["tokenize", shout]
+        to_list(
+            preprocess_texts(
+                text_data["test_list_custom"], custom_pipeline=["tokenize", shout]
+            )
         )
         == text_data["answer_key_custom"]
     ), "Output did not correctly incorporate custom function into preprocessing pipeline"
