@@ -1,18 +1,10 @@
 ..
 
-Data Describe
+Overview
 ============================================
 `Data Describe`_ is a Python library which accelerates the Exploratory Data Analysis process by providing widgets for common analyses.
 
-.. toctree::
-   :maxdepth: 2
-
-   overview
-   installation
-   _notebooks/tutorial
-   examples/index
-   API Reference <data_describe/index>
 
 License is `Apache 2 <https://github.com/data-describe/data-describe/blob/master/LICENSE>`_.
 
-.. _`Data Describe`: https://github.com/data-describe/data-describe
+.. _`Data Describe`: hhttps://github.com/data-describe/data-describe/

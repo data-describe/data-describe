@@ -8,4 +8,4 @@ Examples
 
 Placeholder
 
-.. _`Data Describe`: https://bitbucket.org/mavenwave/mw-data_describe..
+.. _`Data Describe`: https://github.com/data-describe/data-describe..
