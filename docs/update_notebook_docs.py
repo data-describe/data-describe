@@ -25,11 +25,11 @@ def load_notebooks():
         output_name = notebook_name.lower().replace(" ", "_")
         if output_name != "tutorial":
             outputs.append(output_name)
-        print("Updating {}...".format(notebook_name))
+            print("Updating {}...".format(notebook_name))
 
-        pathlib.Path("source/examples").mkdir(exist_ok=True)
+            pathlib.Path("source/examples").mkdir(exist_ok=True)
 
-        shutil.copyfile(notebook, "source/examples/" + output_name + ".ipynb")
+            shutil.copyfile(notebook, "source/examples/" + output_name + ".ipynb")
 
     # Insert links to the examples ToC
     print("Finalizing examples Page")

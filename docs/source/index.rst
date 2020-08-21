@@ -11,6 +11,7 @@ Data Describe
    installation
    _notebooks/tutorial
    examples/index
+   _notebooks/contributing_guide
    API Reference <data_describe/index>
 
 License is `Apache 2 <https://github.com/data-describe/data-describe/blob/master/LICENSE>`_.
