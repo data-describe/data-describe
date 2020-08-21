@@ -18,13 +18,16 @@ import re
 import string
 import warnings
 from types import GeneratorType
-from typing import List, Optional, Any, Iterable
+from typing import List, Optional, Any, Iterable, TYPE_CHECKING
 
 import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
 
 from data_describe.text import text_preprocessing
 from data_describe.compat import requires, _compat
+
+if TYPE_CHECKING:
+    nltk = _compat["nltk"]
 
 warnings.filterwarnings("ignore", category=UserWarning, module="gensim")
 
@@ -295,7 +298,7 @@ def to_list(text_docs_gen) -> List[Any]:
 @requires("nltk")
 def ngram_freq(
     text_docs_bow: Iterable[Iterable[str]], n: int = 3, only_n: bool = False
-) -> _compat["nltk"].FreqDist:
+) -> nltk.FreqDist:
     """Generates frequency distribution of "n-grams" from all of the text documents.
 
     Args:

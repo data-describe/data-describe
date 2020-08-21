@@ -1,13 +1,16 @@
-from typing import List, Tuple
+from typing import List, Tuple, TYPE_CHECKING
 import warnings
 
 from data_describe.compat import _compat, _IN_NOTEBOOK
 
+if TYPE_CHECKING:
+    gensim = _compat["gensim"]
+
 
 def viz_visualize_topic_summary(
-    model: _compat["gensim"].models.ldamodel.LdaModel,
+    model: gensim.models.ldamodel.LdaModel,
     corpus: List[List[Tuple[int, int]]],
-    dictionary: _compat["gensim"].corpora.dictionary.Dictionary,
+    dictionary: gensim.corpora.dictionary.Dictionary,
 ):
     """Displays interactive pyLDAvis visual to understand topic model and documents.
 
