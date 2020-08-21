@@ -5,7 +5,7 @@ sys.path.insert(0, os.path.abspath("../.."))
 
 project = "data-describe"
 doc_copyright = "2020 Maven Wave Partners"
-author = "Maven Wave Data Science"
+author = "Maven Wave Atos Data Science"
 
 extensions = [
     "sphinx.ext.napoleon",
@@ -17,14 +17,15 @@ extensions = [
 autoapi_dirs = ["../../data_describe"]
 autoapi_root = "."
 # autoapi_keep_files = True
-autoapi_options = [
-    "members",
-    "show-inheritance",
-    "show-module-summary",
-    "special-members",
-    "imported-members",
-]
+# autoapi_options = [
+#     "members",
+#     "show-inheritance",
+#     "show-module-summary",
+#     "special-members",
+#     "imported-members",
+# ]
 autoapi_add_toctree_entry = False
+autoapi_template_dir = '_autoapi_templates'
 
 templates_path = ["_templates"]
 
