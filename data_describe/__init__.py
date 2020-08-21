@@ -18,7 +18,7 @@ Main Features
     - importance: Feature ranking
     - plot_time_series: Time series analysis and visualizations
 
-Example:
+Examples:
     ::
         import data_describe as dd
         dd.data_summary(df)
