@@ -60,8 +60,8 @@ def topic_model(
     return topicwidget
 
 
-@compat.requires("gensim")
-@compat.requires("pyLDAvis")
+@requires("gensim")
+@requires("pyLDAvis")
 class TopicModelWidget(BaseWidget):
     """Create topic model widget."""
 
@@ -580,48 +580,8 @@ class TopicModelWidget(BaseWidget):
         Returns:
             A visual to understand topic model and/or documents relating to model
         """
-<<<<<<< HEAD
         if self._model_type != "LDA":
             raise TypeError("Model must be an LDA Model")
-=======
-        display_item = display_item.lower()
-        if display_item == "pyldavis":
-            if self._model_type != "LDA":
-                raise TypeError("Model must be an LDA Model")
-            elif get_ipython() is not None:
-                _compat["pyLDAvis"].enable_notebook()
-                with warnings.catch_warnings():
-                    warnings.filterwarnings(
-                        "ignore",
-                        category=FutureWarning,
-                        module="pyLDAvis",
-                        message="Sorting because non-concatenation axis is not aligned.",
-                    )
-                    vis = _compat["pyLDAvis"].gensim.prepare(
-                        self._model, self._corpus, self._dictionary
-                    )
-                    return vis
-            else:
-                raise EnvironmentError("Not in Jupyter Notebook")
-        elif display_item == "elbow":
-            try:
-                self._coherence_values
-            except AttributeError:
-                raise TypeError(
-                    "Coherence Values not defined. At least 2 LDA or LSI models need to be trained "
-                    "with different numbers of topics."
-                )
-            else:
-                return self._plot_elbow()
-        elif display_item == "top_words_per_topic":
-            if viz_kwargs is None:
-                viz_kwargs = {}
-            return self._display_topic_keywords(**viz_kwargs)
-        elif display_item == "top_documents_per_topic":
-            if viz_kwargs is None:
-                viz_kwargs = {}
-            return self._top_documents_per_topic(text_docs, **viz_kwargs)
->>>>>>> Change compat module access to __getitem__ instead of __getattr__
         else:
             return _get_viz_backend(viz_backend).viz_visualize_topic_summary(
                 self._model, self._corpus, self._dictionary

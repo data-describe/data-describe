@@ -295,7 +295,7 @@ def to_list(text_docs_gen) -> List[Any]:
 @requires("nltk")
 def ngram_freq(
     text_docs_bow: Iterable[Iterable[str]], n: int = 3, only_n: bool = False
-) -> compat.FreqDist:
+) -> _compat["nltk"].FreqDist:
     """Generates frequency distribution of "n-grams" from all of the text documents.
 
     Args:
