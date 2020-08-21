@@ -16,7 +16,7 @@ examples_template = """.. _x-tutorial:
 
 
 def load_notebooks():
-    """Load notebooks from the /example directory"""
+    """Load notebooks from the /example directory."""
     notebooks = glob.glob("../examples/*.ipynb")
 
     outputs = []
@@ -27,17 +27,17 @@ def load_notebooks():
             outputs.append(output_name)
         print("Updating {}...".format(notebook_name))
 
-        pathlib.Path("source/_examples").mkdir(exist_ok=True)
+        pathlib.Path("source/examples").mkdir(exist_ok=True)
 
-        shutil.copyfile(notebook, "source/_examples/" + output_name + ".ipynb")
+        shutil.copyfile(notebook, "source/examples/" + output_name + ".ipynb")
 
     # Insert links to the examples ToC
     print("Finalizing examples Page")
     text = open("source/examples/index.rst", "r").read()
     text = re.sub(
-        r"(:maxdepth: 1).*(Placeholder)",
+        r"(:maxdepth: 1).*(\.\.\s_)",
         r"\1\n\n"
-        + "\n".join(["   ../_examples/" + name for name in outputs])
+        + "\n".join(["   ../examples/" + name for name in outputs])
         + r"\n\2",
         text,
         flags=re.S,
