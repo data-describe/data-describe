@@ -136,8 +136,7 @@ class Options:
         return f"{self.path}\n{self.config}"
 
     def __repr__(self):  # noqa:D105
-
-        return self.config
+        return str(self.config)
 
 
 options = Options(_global_config)
