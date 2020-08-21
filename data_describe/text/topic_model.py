@@ -26,7 +26,7 @@ def topic_model(
     no_below: int = 10,
     no_above: float = 0.2,
     tfidf: bool = True,
-    model_kwargs: Optional[Dict[str, str]] = None,
+    model_kwargs: Optional[Dict] = None,
 ):
     """Creates topic model object, trains topic model, and assigns relevant attributes to topic model object.
 
@@ -68,7 +68,7 @@ class TopicModelWidget(BaseWidget):
         self,
         model_type: str = "LDA",
         num_topics: Optional[int] = None,
-        model_kwargs: Optional[Dict[str, str]] = None,
+        model_kwargs: Optional[Dict] = None,
     ):
         """Topic Modeling made for easier training and understanding of topics.
 
@@ -351,7 +351,7 @@ class TopicModelWidget(BaseWidget):
         no_below: int = 10,
         no_above: float = 0.2,
         tfidf: bool = True,
-        model_kwargs: Optional[Dict[str, str]] = None,
+        model_kwargs: Optional[Dict] = None,
     ):
         """Trains topic model and assigns model to object as attribute.
 

@@ -18,7 +18,7 @@ import re
 import string
 import warnings
 import itertools
-from typing import List, Iterable, Optional
+from typing import List, Generator, Optional, Any
 
 import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
@@ -30,7 +30,7 @@ warnings.filterwarnings("ignore", category=UserWarning, module="gensim")
 
 
 @compat.requires("nltk")
-def tokenize(text_docs: List[str]) -> Iterable[str]:
+def tokenize(text_docs: List[str]) -> Generator[str, None, None]:
     """Turns list of documents into "bag of words" format.
 
     Args:
@@ -42,7 +42,7 @@ def tokenize(text_docs: List[str]) -> Iterable[str]:
     yield (compat.word_tokenize(doc) for doc in text_docs)
 
 
-def to_lower(text_docs_bow: List[List[str]]) -> Iterable[List[str]]:
+def to_lower(text_docs_bow: List[List[str]]) -> Generator[Generator[str, None, None], None, None]:
     """Converts all letters in documents ("bag of words" format) to lowercase.
 
     Args:
@@ -56,7 +56,7 @@ def to_lower(text_docs_bow: List[List[str]]) -> Iterable[List[str]]:
 
 def remove_punct(
     text_docs_bow: List[List[str]], replace_char: str = " ", remove_all: bool = False
-) -> Iterable[List[str]]:
+) -> Generator[Generator[str, None, None], None, None]:
     """Removes all instances of punctuation from documents (e.g. periods, question marks, etc.).
 
     Args:
@@ -128,7 +128,7 @@ def remove_punct(
         )
 
 
-def remove_digits(text_docs_bow: List[List[str]]) -> Iterable[List[str]]:
+def remove_digits(text_docs_bow: List[List[str]]) -> Generator[Generator[str, None, None], None, None]:
     """Removes all numbers and words containing numerical digits from documents.
 
     Args:
@@ -142,7 +142,7 @@ def remove_digits(text_docs_bow: List[List[str]]) -> Iterable[List[str]]:
 
 def remove_single_char_and_spaces(
     text_docs_bow: [List[List[str]]],
-) -> Iterable[List[str]]:
+) -> Generator[List[Any], None, None]:
     """Removes all words that contain only one character and blank spaces from documents.
 
     Args:
@@ -169,7 +169,7 @@ def remove_single_char_and_spaces(
 @compat.requires("nltk")
 def remove_stopwords(
     text_docs_bow: List[List[str]], more_words: Optional[List[str]] = None
-) -> Iterable[List[str]]:
+) -> Generator[Generator[str, None, None], None, None]:
     """Removes all "stop words" from documents. "Stop words" can be defined as commonly used words which are typically useless for NLP.
 
     Args:
@@ -190,7 +190,7 @@ def remove_stopwords(
 
 
 @compat.requires("nltk")
-def lemmatize(text_docs_bow: List[List[str]]) -> Iterable[List[str]]:
+def lemmatize(text_docs_bow: List[List[str]]) -> Generator[Generator[str, None, None], None, None]:
     """Lemmatizes all words in documents. Lemmatization is grouping words together by their reducing them to their inflected forms so they can be analyzed as a single item.
 
     Args:
@@ -204,7 +204,7 @@ def lemmatize(text_docs_bow: List[List[str]]) -> Iterable[List[str]]:
 
 
 @compat.requires("nltk")
-def stem(text_docs_bow: List[List[str]]) -> Iterable[List[str]]:
+def stem(text_docs_bow: List[List[str]]) -> Generator[Generator[str, None, None], None, None]:
     """Stems all words in documents. Stemming is grouping words together by taking the stems of their inflected forms so they can be analyzed as a single item.
 
     Args:
@@ -217,7 +217,7 @@ def stem(text_docs_bow: List[List[str]]) -> Iterable[List[str]]:
     yield ((stemmer.stem(word) for word in doc) for doc in text_docs_bow)
 
 
-def bag_of_words_to_docs(text_docs_bow: List[List[str]]) -> Iterable[str]:
+def bag_of_words_to_docs(text_docs_bow: List[List[str]]) -> Generator[str, None, None]:
     """Converts list of documents in "bag of words" format back into form of document being stored in one string.
 
     Args:
