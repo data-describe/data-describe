@@ -95,8 +95,8 @@ def text_data():
             ["This", "is", "an", "article", "talking", "about", "Spider-man"],
             ["Spiders", "are", "one", "of", "the", "weirdest", "things", "on", "earth"],
         ],
-        "answer_key_remove_all_punct_no_space": [
-            ["This", "is", "an", "article", "talking", "about", "Spiderman", ""],
+        "answer_key_replace_all_punct_with_pipe": [
+            ["This", "is", "an", "article", "talking", "about", "Spider|man"],
             [
                 "Spiders",
                 "are",
@@ -107,11 +107,10 @@ def text_data():
                 "things",
                 "on",
                 "earth",
-                "",
             ],
         ],
-        "answer_key_remove_all_punct_with_space": [
-            ["This", "is", "an", "article", "talking", "about", "Spider", "man"],
+        "answer_key_remove_all_punct": [
+            ["This", "is", "an", "article", "talking", "about", "Spiderman"],
             ["Spiders", "are", "one", "of", "the", "weirdest", "things", "on", "earth"],
         ],
         "answer_key_remove_stop_words": [

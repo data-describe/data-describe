@@ -1,29 +1,75 @@
 import warnings
+from typing import List, Optional, Dict
 
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
 from sklearn.decomposition import TruncatedSVD, NMF
-from IPython import get_ipython
 
 from data_describe.text.text_preprocessing import (
     create_doc_term_matrix,
     create_tfidf_matrix,
     filter_dictionary,
 )
+from data_describe.backends import _get_viz_backend
 from data_describe import compat
-from data_describe.compat import requires
+from data_describe._widget import BaseWidget
 
 warnings.filterwarnings("ignore", category=UserWarning, module="gensim")
 
 
-@requires("gensim")
-@requires("pyLDAvis")
-class TopicModel:
-    """Create topic model."""
+def topic_model(
+    text_docs: List[str],
+    model_type: str = "LDA",
+    num_topics: Optional[int] = None,
+    min_topics: int = 2,
+    max_topics: int = 10,
+    no_below: int = 10,
+    no_above: float = 0.2,
+    tfidf: bool = True,
+    model_kwargs: Optional[Dict] = None,
+):
+    """Creates topic model object, trains topic model, and assigns relevant attributes to topic model object.
 
-    def __init__(self, model_type="LDA", num_topics=None, model_kwargs=None):
+    Args:
+        text_docs: A list of text documents in string format. These documents should generally be pre-processed
+        model_type: Defines the type of model which will be used, either 'LDA', 'LSA', 'LSI', 'SVD', or 'NMF'
+        num_topics: Sets the number of topics for the model. If None, will be optimized using coherence values
+        min_topics: Starting number of topics to optimize for if number of topics not provided. Default is 2
+        max_topics: Maximum number of topics to optimize for if number of topics not provided. Default is 10
+        no_below: Minimum number of documents a word must appear in to be used in training. Default is 10
+        no_above: Maximum proportion of documents a word may appear in to be used in training. Default is 0.2
+        tfidf: If True, model created using TF-IDF matrix. Otherwise, document-term matrix with wordcounts is used.
+        Default is True
+        model_kwargs: Keyword arguments for the model, should be in agreement with 'model_type'
+
+    Returns:
+        Topic model widget.
+    """
+    topicwidget = TopicModelWidget(model_type, num_topics, model_kwargs)
+    topicwidget.fit(
+        text_docs,
+        model_type,
+        min_topics,
+        max_topics,
+        no_below,
+        no_above,
+        tfidf,
+        model_kwargs,
+    )
+    return topicwidget
+
+
+@compat.requires("gensim")
+@compat.requires("pyLDAvis")
+class TopicModelWidget(BaseWidget):
+    """Create topic model widget."""
+
+    def __init__(
+        self,
+        model_type: str = "LDA",
+        num_topics: Optional[int] = None,
+        model_kwargs: Optional[Dict] = None,
+    ):
         """Topic Modeling made for easier training and understanding of topics.
 
         The exact model type, number of topics, and keyword arguments can be input to initialize the object. The object
@@ -46,6 +92,9 @@ class TopicModel:
             )
         self._num_topics = num_topics
         self._model_kwargs = model_kwargs
+
+    def __str__(self):
+        return "data-describe Topic Model Widget"
 
     @property
     def model(self):
@@ -92,12 +141,27 @@ class TopicModel:
         """If num_topics is None, this number is the last number of topics a model will be trained on."""
         return self._max_topics
 
-    def _compute_lsa_svd_model(self, text_docs, tfidf=True):
+    def show(self, num_topic_words: int = 10, topic_names: Optional[List[str]] = None):
+        """Displays most relevant terms for each topic.
+
+        Args:
+            num_topic_words: The number of words to be displayed for each topic. Default is 10
+            topic_names: A list of pre-defined names set for each of the topics. Default is None
+
+        Returns:
+            display_topics_df: Pandas DataFrame displaying topics as columns and their relevant terms as rows.
+            LDA/LSI models will display an extra column to the right of each topic column, showing each term's
+            corresponding coefficient value
+        """
+        return self.display_topic_keywords(
+            num_topic_words=num_topic_words, topic_names=topic_names
+        )
+
+    def _compute_lsa_svd_model(self, text_docs: List[str], tfidf: bool = True):
         """Trains LSA TruncatedSVD scikit-learn model.
 
         Args:
             text_docs: A list of text documents in string format. These documents should generally be pre-processed
-
             tfidf: If True, model created using TF-IDF matrix. Otherwise, document-term matrix with wordcounts is used.
             Default is True
 
@@ -121,7 +185,12 @@ class TopicModel:
         return lsa_model
 
     def _compute_lsi_model(
-        self, text_docs, min_topics=2, max_topics=10, no_below=10, no_above=0.2
+        self,
+        text_docs: List[str],
+        min_topics: int = 2,
+        max_topics: int = 10,
+        no_below: int = 10,
+        no_above: float = 0.2,
     ):
         """Trains LSA Gensim model.
 
@@ -183,7 +252,12 @@ class TopicModel:
                 return lsa_model
 
     def _compute_lda_model(
-        self, text_docs, min_topics=2, max_topics=10, no_below=10, no_above=0.2
+        self,
+        text_docs: List[str],
+        min_topics: int = 2,
+        max_topics: int = 10,
+        no_below: int = 10,
+        no_above: float = 0.2,
     ):
         """Trains LDA Gensim model.
 
@@ -240,7 +314,7 @@ class TopicModel:
                 lda_model = compat.LdaModel(**self._model_kwargs)
                 return lda_model
 
-    def _compute_nmf_model(self, text_docs, tfidf=True):
+    def _compute_nmf_model(self, text_docs: List[str], tfidf: bool = True):
         """Trains NMF scikit-learn model.
 
         Args:
@@ -270,14 +344,14 @@ class TopicModel:
 
     def fit(
         self,
-        text_docs,
-        model_type=None,
-        min_topics=2,
-        max_topics=10,
-        no_below=10,
-        no_above=0.2,
-        tfidf=True,
-        model_kwargs=None,
+        text_docs: List[str],
+        model_type: Optional[str] = None,
+        min_topics: int = 2,
+        max_topics: int = 10,
+        no_below: int = 10,
+        no_above: float = 0.2,
+        tfidf: bool = True,
+        model_kwargs: Optional[Dict] = None,
     ):
         """Trains topic model and assigns model to object as attribute.
 
@@ -288,7 +362,6 @@ class TopicModel:
             max_topics: Maximum number of topics to optimize for if number of topics not provided. Default is 10
             no_below: Minimum number of documents a word must appear in to be used in training. Default is 10
             no_above: Maximum proportion of documents a word may appear in to be used in training. Default is 0.2
-
             tfidf: If True, model created using TF-IDF matrix. Otherwise, document-term matrix with wordcounts is used.
             Default is True
 
@@ -316,26 +389,24 @@ class TopicModel:
         elif self._model_type == "NMF":
             self._model = self._compute_nmf_model(text_docs, tfidf)
 
-    def _plot_elbow(self):
+    def elbow_plot(self, viz_backend: str = None):
         """Creates an elbow plot displaying coherence values vs number of topics.
-
-        Args:
 
         Returns:
             fig: Elbow plot showing coherence values vs number of topics
         """
-        # plt.figure(figsize=(context.fig_width.fig_height)) # TODO (haishiro): Replace with get_option
+        try:
+            self._coherence_values
+        except AttributeError:
+            raise TypeError(
+                "Coherence values not defined. At least 2 LDA or LSI models need to be trained with different numbers of topics."
+            )
+        else:
+            return _get_viz_backend(viz_backend).viz_elbow_plot(
+                self._min_topics, self._max_topics, self._coherence_values
+            )
 
-        fig = sns.lineplot(
-            x=[num for num in range(self._min_topics, self._max_topics + 1)],
-            y=self._coherence_values,
-        )
-        fig.set_title("Coherence Values Across Topic Numbers")
-        plt.xlabel("Number of Topics")
-        plt.ylabel("Coherence Values")
-        return fig
-
-    def _get_topic_nums(self):
+    def get_topic_nums(self):
         """Obtains topic distributions (LDA model) or scores (LSA/NMF model).
 
         Returns:
@@ -361,7 +432,9 @@ class TopicModel:
                     doc_topics.append([0] * len(self._model.get_topics()))
             return np.array(doc_topics)
 
-    def _display_topic_keywords(self, num_topic_words=10, topic_names=None):
+    def display_topic_keywords(
+        self, num_topic_words: int = 10, topic_names: Optional[List[str]] = None
+    ):
         """Creates Pandas DataFrame to display most relevant terms for each topic.
 
         Args:
@@ -415,13 +488,13 @@ class TopicModel:
         display_topics_df = pd.DataFrame(display_topics_dict, index=term_numbers)
         return display_topics_df
 
-    def _top_documents_per_topic(
+    def top_documents_per_topic(
         self,
-        text_docs,
-        topic_names=None,
-        num_docs=10,
-        summarize_docs=False,
-        summary_words=None,
+        text_docs: List[str],
+        topic_names: Optional[List[str]] = None,
+        num_docs: int = 10,
+        summarize_docs: bool = False,
+        summary_words: Optional[int] = None,
     ):
         """Creates Pandas DataFrame to display most relevant documents for each topic.
 
@@ -438,7 +511,7 @@ class TopicModel:
         Returns:
             all_top_docs_df: Pandas DataFrame displaying topics as columns and their most relevant documents as rows
         """
-        topics = self._get_topic_nums()
+        topics = self.get_topic_nums()
 
         if summary_words and not summarize_docs:
             warnings.warn("'summary_words' specified, but 'summarize' set to False.")
@@ -498,67 +571,17 @@ class TopicModel:
         all_top_docs_df = pd.DataFrame(all_top_docs, index=doc_numbers)
         return all_top_docs_df
 
-    def show(self, display_item="pyLDAvis", text_docs=None, viz_kwargs=None):
-        """Displays a specified visual to understand topic model and/or documents.
-
-        Args:
-            display_item: String which depicts what is trying to be shown. Options are 'pyLDAvis', 'elbow',
-                'top_words_per_topic', and 'top_documents_per_topic'. Default is 'pyLDAvis'
-
-            text_docs: A list of text documents in string format. Important to note that this list of documents
-            should be ordered in accordance with the matrix or corpus on which the document was trained
-
-            viz_kwargs:
-                num_topic_words: The number of words to be displayed for each topic. Default is 10
-                topic_names: A list of pre-defined names set for each of the topics. Default is None
-                num_docs: The number of documents to display for each topic. Default is 10
-                summarize_docs: If True, the documents will be summarized (if this is the case, 'text_docs'
-                should be formatted into sentences). Default is False
-                summary_words: The number of words the summary should be limited to. Should only be specified
-                if summarize_docs set to True
+    def visualize_topic_summary(
+        self, viz_backend: str = "pyLDAvis",
+    ):
+        """Displays interactive pyLDAvis visual to understand topic model and documents.
 
         Returns:
             A visual to understand topic model and/or documents relating to model
         """
-        display_item = display_item.lower()
-        if display_item == "pyldavis":
-            if self._model_type != "LDA":
-                raise TypeError("Model must be an LDA Model")
-            elif get_ipython() is not None:
-                compat.pyLDAvis.enable_notebook()
-                with warnings.catch_warnings():
-                    warnings.filterwarnings(
-                        "ignore",
-                        category=FutureWarning,
-                        module="pyLDAvis",
-                        message="Sorting because non-concatenation axis is not aligned.",
-                    )
-                    vis = compat.pyLDAvis.gensim.prepare(
-                        self._model, self._corpus, self._dictionary
-                    )
-                    return vis
-            else:
-                raise EnvironmentError("Not in Jupyter Notebook")
-        elif display_item == "elbow":
-            try:
-                self._coherence_values
-            except AttributeError:
-                raise TypeError(
-                    "Coherence Values not defined. At least 2 LDA or LSI models need to be trained "
-                    "with different numbers of topics."
-                )
-            else:
-                return self._plot_elbow()
-        elif display_item == "top_words_per_topic":
-            if viz_kwargs is None:
-                viz_kwargs = {}
-            return self._display_topic_keywords(**viz_kwargs)
-        elif display_item == "top_documents_per_topic":
-            if viz_kwargs is None:
-                viz_kwargs = {}
-            return self._top_documents_per_topic(text_docs, **viz_kwargs)
+        if self._model_type != "LDA":
+            raise TypeError("Model must be an LDA Model")
         else:
-            raise ValueError(
-                "The input for display_item must be either: 'pyLDAvis', 'elbow', 'top_words_per_topic', "
-                "or 'top_documents_per_topic'"
+            return _get_viz_backend(viz_backend).viz_visualize_topic_summary(
+                self._model, self._corpus, self._dictionary
             )
