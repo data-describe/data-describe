@@ -17,13 +17,16 @@ extensions = [
 autoapi_dirs = ["../../data_describe"]
 autoapi_root = "."
 # autoapi_keep_files = True
-# autoapi_options = [
-#     "members",
-#     "show-inheritance",
-#     "show-module-summary",
-#     "special-members",
-#     "imported-members",
-# ]
+autoapi_options = [
+    "members",
+    "inherited-members",
+    "undoc-members",
+    # "private-members",
+    # "special-members",
+    "show-inheritance",
+    "show-module-summary",
+    # "imported-members",
+]
 autoapi_add_toctree_entry = False
 autoapi_template_dir = '_autoapi_templates'
 
