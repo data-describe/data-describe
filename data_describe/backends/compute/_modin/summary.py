@@ -3,7 +3,7 @@ from data_describe.compat import _SERIES_TYPE, _DATAFRAME_TYPE, requires
 from data_describe.core.summary import agg_null, agg_zero, most_frequent
 
 
-@requires("modin")
+@requires("modin.pandas")
 def compute_data_summary(data):
     """Perform computation for summary statistics and data description.
 
@@ -14,7 +14,7 @@ def compute_data_summary(data):
         The Modin dataframe with metrics in rows
     """
     if isinstance(data, _SERIES_TYPE):
-        data = _compat["modin"].pandas.DataFrame(data)
+        data = _compat["modin.pandas"].DataFrame(data)
 
     if not isinstance(data, _DATAFRAME_TYPE):
         raise ValueError("Data must be a Modin DataFrame")
