@@ -153,7 +153,7 @@ def update_context(*args):
     make one plot with a different figure size:
     ```
     with dd.config.update_context("display.fig_height", 20):
-        dd.plot() # fig_height = 20 # noqa:RST301
+        dd.plot(df) # fig_height = 20 # noqa:RST301
     ```
 
     Args:
