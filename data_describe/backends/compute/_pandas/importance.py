@@ -2,7 +2,7 @@ import numpy as np
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.inspection import permutation_importance
 
-from data_describe.utilities.preprocessing import preprocess
+from data_describe.misc.preprocessing import preprocess
 
 
 def compute_importance(

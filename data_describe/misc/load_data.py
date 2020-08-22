@@ -4,7 +4,7 @@ import tempfile
 import pandas as pd
 
 from data_describe.compat import _compat, requires
-from data_describe.utilities.file_ext import _FileExtensionTypes, is_filetype
+from data_describe.misc.file_ext import _FileExtensionTypes, is_filetype
 
 
 def load_data(filepath, all_folders=False, **kwargs):

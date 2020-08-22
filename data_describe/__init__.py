@@ -23,7 +23,7 @@ Examples:
         import data_describe as dd
         dd.data_summary(df)
 """
-from data_describe.utilities.load_data import load_data  # noqa: F401
+from data_describe.misc.load_data import load_data  # noqa: F401
 from data_describe.core.summary import data_summary  # noqa: F401
 from data_describe.core.data_heatmap import data_heatmap  # noqa: F401
 from data_describe.core.distributions import distribution  # noqa: F401

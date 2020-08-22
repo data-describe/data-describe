@@ -8,7 +8,7 @@ import geopandas
 import pytest
 
 import data_describe as dd
-from data_describe.utilities.load_data import download_gcs_file, read_file_type
+from data_describe.misc.load_data import download_gcs_file, read_file_type
 
 
 @pytest.fixture(autouse=True)
