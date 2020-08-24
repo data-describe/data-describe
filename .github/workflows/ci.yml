@@ -31,9 +31,6 @@ jobs:
       - name: Lint with pre-commit
         run: |
           pre-commit run --all-files
-      - name: mypy check
-        run: |
-          mypy --config-file mypy.ini
   test:
     runs-on: "ubuntu-latest"
     steps:
