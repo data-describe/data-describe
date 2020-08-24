@@ -5,7 +5,7 @@ import plotly.offline as po
 
 from data_describe.compat import _IN_NOTEBOOK
 from data_describe.config._config import get_option
-from data_describe.utilities.colorscale import color_fade, rgb_to_str
+from data_describe.misc.colorscale import color_fade, rgb_to_str
 
 
 def viz_correlation_matrix(association_matrix):

@@ -1,3 +1,7 @@
+"""data-describe text.
+
+This subpackage provides functionality to process and analyze unstructured, free-form text using text analytics & Natural Language Processing (NLP).
+"""
 from data_describe.text.text_preprocessing import (  # noqa: F401
     tokenize,
     to_lower,

@@ -115,7 +115,7 @@ _compat = DependencyManager(
         "gcsfs": no_side_import,
         "google.cloud.storage": no_side_import,
         "spacy": spacy_download,
-        "modin": no_side_import,
+        "modin.pandas": no_side_import,
         "hdbscan": no_side_import,
         "presidio_analyzer": no_side_import,
     }

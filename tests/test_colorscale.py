@@ -1,4 +1,4 @@
-from data_describe.utilities.colorscale import color_fade, rgb_to_str
+from data_describe.misc.colorscale import color_fade, rgb_to_str
 
 
 def test_colorfade():

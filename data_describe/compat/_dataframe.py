@@ -11,10 +11,10 @@ _DATAFRAME_BACKENDS = {
     "<class 'modin.pandas.series.Series'>": ["modin", "pandas"],
 }
 
-if _compat.check_install("modin"):
+if _compat.check_install("modin.pandas"):
     compute = namedtuple("compute", ["pandas", "modin"])
-    _SERIES_TYPE = compute(pandas=pandas.Series, modin=_compat["modin"].pandas.Series)  # type: ignore
-    _DATAFRAME_TYPE = compute(pandas=pandas.DataFrame, modin=_compat["modin"].pandas.DataFrame)  # type: ignore
+    _SERIES_TYPE = compute(pandas=pandas.Series, modin=_compat["modin.pandas"].Series)  # type: ignore
+    _DATAFRAME_TYPE = compute(pandas=pandas.DataFrame, modin=_compat["modin.pandas"].DataFrame)  # type: ignore
 else:
     _SERIES_TYPE = pandas.Series
     _DATAFRAME_TYPE = pandas.DataFrame

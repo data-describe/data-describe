@@ -1,4 +1,29 @@
-from data_describe.utilities.load_data import load_data  # noqa: F401
+"""data-describe.
+
+data-describe
+=============
+
+data-describe is a Python toolkit for Exploratory Data Analysis (EDA).
+It aims to accelerate data exploration and analysis by providing automated
+and polished analysis widgets.
+
+Main Features
+-------------
+    - clusters: Clustering analysis and visualization on a 2D plot
+    - correlations: Association measures for both numeric and categorical features
+    - data_heatmap: Data variation and missingness heatmap
+    - data_summary: Selected summary (descriptive) statistics
+    - distributions: Histograms, violin plots, bar charts
+    - scatter_plots: Scatterplots
+    - importance: Feature ranking
+    - time_series: Time series analysis and visualizations
+
+Examples:
+    ::
+        import data_describe as dd
+        dd.data_summary(df)
+"""
+from data_describe.misc.load_data import load_data  # noqa: F401
 from data_describe.core.summary import data_summary  # noqa: F401
 from data_describe.core.data_heatmap import data_heatmap  # noqa: F401
 from data_describe.core.distributions import distribution  # noqa: F401

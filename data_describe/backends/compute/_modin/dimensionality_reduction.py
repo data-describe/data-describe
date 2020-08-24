@@ -7,7 +7,7 @@ from data_describe import _compat
 from data_describe.compat import requires
 
 
-@requires("modin")
+@requires("modin.pandas")
 def compute_run_pca(data, n_components, column_names):
     """Performs PCA on the provided dataset.
 
@@ -22,10 +22,10 @@ def compute_run_pca(data, n_components, column_names):
     """
     pca = PCA(n_components)
     reduc = pca.fit_transform(data)
-    return _compat["modin"].pandas.DataFrame(reduc, columns=column_names), pca
+    return _compat["modin.pandas"].DataFrame(reduc, columns=column_names), pca
 
 
-@requires("modin")
+@requires("modin.pandas")
 def compute_run_ipca(data, n_components, column_names):
     """Performs Incremental PCA on the provided dataset.
 
@@ -40,10 +40,10 @@ def compute_run_ipca(data, n_components, column_names):
     """
     ipca = IncrementalPCA(n_components)
     reduc = ipca.fit_transform(data)
-    return _compat["modin"].pandas.DataFrame(reduc, columns=column_names), ipca
+    return _compat["modin.pandas"].DataFrame(reduc, columns=column_names), ipca
 
 
-@requires("modin")
+@requires("modin.pandas")
 def compute_run_tsne(data, n_components, apply_tsvd):
     """Performs dimensionality reduction using t-SNE on the provided dataset.
 
@@ -61,10 +61,10 @@ def compute_run_tsne(data, n_components, apply_tsvd):
         data = compute_run_tsvd(data, n_components, fname)[0]
     tsne = TSNE(n_components, random_state=0)
     reduc = tsne.fit_transform(data)
-    return _compat["modin"].pandas.DataFrame(reduc, columns=["ts1", "ts2"]), tsne
+    return _compat["modin.pandas"].DataFrame(reduc, columns=["ts1", "ts2"]), tsne
 
 
-@requires("modin")
+@requires("modin.pandas")
 def compute_run_tsvd(data, n_components, column_names):
     """Performs dimensionality reduction using TSVD on the provided dataset.
 
@@ -80,4 +80,4 @@ def compute_run_tsvd(data, n_components, column_names):
     with np.errstate(invalid="ignore"):
         t_svd = TruncatedSVD(n_components, random_state=0)
         reduc = t_svd.fit_transform(data)
-    return _compat["modin"].pandas.DataFrame(reduc, columns=column_names), t_svd
+    return _compat["modin.pandas"].DataFrame(reduc, columns=column_names), t_svd
