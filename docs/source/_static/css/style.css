@@ -11,6 +11,9 @@
 
 .wy-side-nav-search {
     background-color: #FFFFFF;
+}
+
+.wy-side-nav-search input[type="text"] {
     border-color: #333333;
 }
 
@@ -22,6 +25,18 @@
     color: #000000;
 }
 
+.wy-menu-vertical a:active {
+    background-color: #6c698d;
+}
+
+.wy-menu-vertical a:hover {
+    background-color: #a3a1ba;
+}
+
 a {
     color: #6c698d;
+}
+
+a:visited {
+    color: #333333;
 }
