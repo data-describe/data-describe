@@ -18,10 +18,13 @@ Main Features
     - importance: Feature ranking
     - time_series: Time series analysis and visualizations
 
-Examples:
-    ::
+Examples
+--------
+    Basic Usage::
+
         import data_describe as dd
         dd.data_summary(df)
+
 """
 from data_describe.misc.load_data import load_data  # noqa: F401
 from data_describe.core.summary import data_summary  # noqa: F401
