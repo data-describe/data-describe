@@ -1,10 +1,18 @@
 @import url("css/theme.css");
 @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;600&display=swap');
+* {
+    font-family: "Source Sans Pro", sans-serif;
+}
 
 .wy-nav-content {
     max-width: none;
+    background-color: #F5F8FF;
 }
 
 .wy-side-nav-search {
-    background-color: #a2b1bd;
-  }
+    background-color: #c9c9c9;
+}
+
+a {
+    color: #6c698d;
+}
