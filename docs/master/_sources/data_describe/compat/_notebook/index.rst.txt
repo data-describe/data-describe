@@ -1,0 +1,14 @@
+:orphan:
+
+data_describe.compat._notebook
+=====================================
+
+.. py:module:: data_describe.compat._notebook
+
+
+
+.. data:: p
+   
+
+   
+

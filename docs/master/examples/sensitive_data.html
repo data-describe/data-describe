@@ -1,0 +1,1066 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Sensitive Data &mdash; data-describe  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/style.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../_static/favicon.png"/>
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Topic Modeling" href="topic_modeling.html" />
+    <link rel="prev" title="Scatter Plots" href="scatter_plots.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html">
+          
+
+          
+            
+            <img src="../_static/logo.svg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../_notebooks/tutorial.html">Tutorial</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Examples</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="cluster_analysis.html">Cluster Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="correlation_matrix.html">Correlation Matrix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="time_series.html">Time Series</a></li>
+<li class="toctree-l2"><a class="reference internal" href="data_loader.html">Data Loader</a></li>
+<li class="toctree-l2"><a class="reference internal" href="distributions.html">Distributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="data_summary.html">Data Summary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="feature_importance.html">Feature Importance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="data_heatmap.html">Data Heatmap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scatter_plots.html">Scatter Plots</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Sensitive Data</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Create-Sample-Profile">Create Sample Profile</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Redact-sensitive-data">Redact sensitive data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Redact-sensitive-data-using-selected-columns">Redact sensitive data using selected columns</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Encrypt-Data">Encrypt Data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Identify-infotypes-in-each-column">Identify infotypes in each column</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="topic_modeling.html">Topic Modeling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="text_preprocessing.html">Text Preprocessing</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../_notebooks/contributing_guide.html">Contributing Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../data_describe/index.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">data-describe</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="index.html">Examples</a> &raquo;</li>
+        
+      <li>Sensitive Data</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/examples/sensitive_data.ipynb.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput.container,
+div.nbinput.container div.prompt,
+div.nbinput.container div.input_area,
+div.nbinput.container div[class*=highlight],
+div.nbinput.container div[class*=highlight] pre,
+div.nboutput.container,
+div.nboutput.container div.prompt,
+div.nboutput.container div.output_area,
+div.nboutput.container div[class*=highlight],
+div.nboutput.container div[class*=highlight] pre {
+    background: none;
+    border: none;
+    padding: 0 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+/* avoid gaps between output lines */
+div.nboutput.container div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput.container,
+div.nboutput.container {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput.container,
+    div.nboutput.container {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput.container {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast.container {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput.container div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput.container div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput.container div.prompt,
+div.nboutput.container div.prompt {
+    width: 4.5ex;
+    padding-top: 5px;
+    position: relative;
+    user-select: none;
+}
+
+div.nbinput.container div.prompt > div,
+div.nboutput.container div.prompt > div {
+    position: absolute;
+    right: 0;
+    margin-right: 0.3ex;
+}
+
+@media (max-width: 540px) {
+    div.nbinput.container div.prompt,
+    div.nboutput.container div.prompt {
+        width: unset;
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput.container div.prompt.empty {
+        padding: 0;
+    }
+
+    div.nbinput.container div.prompt > div,
+    div.nboutput.container div.prompt > div {
+        position: unset;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput.container div.prompt pre,
+div.nboutput.container div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput.container div.input_area,
+div.nboutput.container div.output_area {
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput.container div.input_area,
+    div.nboutput.container div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput.container div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    background: #f5f5f5;
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput.container div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput.container div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput.container div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+
+div.nbinput.container div.input_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight].math,
+div.nboutput.container div.output_area.rendered_html,
+div.nboutput.container div.output_area > div.output_javascript,
+div.nboutput.container div.output_area:not(.rendered_html) > img{
+    padding: 5px;
+}
+
+/* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
+div.nbinput.container div.input_area > div[class^='highlight'],
+div.nboutput.container div.output_area > div[class^='highlight']{
+    overflow-y: hidden;
+}
+
+/* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
+.prompt a.copybtn {
+    display: none;
+}
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="Sensitive-Data">
+<h1>Sensitive Data<a class="headerlink" href="#Sensitive-Data" title="Permalink to this headline">¶</a></h1>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">datetime</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="kn">from</span> <span class="nn">data_describe.privacy.detection</span> <span class="kn">import</span> <span class="n">sensitive_data</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="Create-Sample-Profile">
+<h2>Create Sample Profile<a class="headerlink" href="#Create-Sample-Profile" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">sample_profile</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;company&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="mi">0</span><span class="p">:</span> <span class="s2">&quot;Fisher, Green and Dixon&quot;</span><span class="p">,</span>
+        <span class="mi">1</span><span class="p">:</span> <span class="s2">&quot;Lawrence, Herring and Riley&quot;</span><span class="p">,</span>
+        <span class="mi">2</span><span class="p">:</span> <span class="s2">&quot;Thompson-Ruiz&quot;</span><span class="p">,</span>
+        <span class="mi">3</span><span class="p">:</span> <span class="s2">&quot;Sloan PLC&quot;</span><span class="p">,</span>
+        <span class="mi">4</span><span class="p">:</span> <span class="s2">&quot;Smith LLC&quot;</span><span class="p">,</span>
+        <span class="mi">5</span><span class="p">:</span> <span class="s2">&quot;Nolan, Meyers and Johnson&quot;</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;ssn&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="mi">0</span><span class="p">:</span> <span class="s2">&quot;415-39-7809&quot;</span><span class="p">,</span>
+        <span class="mi">1</span><span class="p">:</span> <span class="s2">&quot;462-64-5856&quot;</span><span class="p">,</span>
+        <span class="mi">2</span><span class="p">:</span> <span class="s2">&quot;420-73-8333&quot;</span><span class="p">,</span>
+        <span class="mi">3</span><span class="p">:</span> <span class="s2">&quot;119-33-2186&quot;</span><span class="p">,</span>
+        <span class="mi">4</span><span class="p">:</span> <span class="s2">&quot;532-38-7349&quot;</span><span class="p">,</span>
+        <span class="mi">5</span><span class="p">:</span> <span class="s2">&quot;152-33-9873&quot;</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;residence&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="mi">0</span><span class="p">:</span> <span class="s2">&quot;24219 Archer Mountain Suite 924</span><span class="se">\n</span><span class="s2">North Melissaborough, LA 41945&quot;</span><span class="p">,</span>
+        <span class="mi">1</span><span class="p">:</span> <span class="s2">&quot;5330 Wilson Fields Suite 560</span><span class="se">\n</span><span class="s2">East Heiditown, VA 70519&quot;</span><span class="p">,</span>
+        <span class="mi">2</span><span class="p">:</span> <span class="s2">&quot;PSC 5642, Box 8071</span><span class="se">\n</span><span class="s2">APO AA 06490&quot;</span><span class="p">,</span>
+        <span class="mi">3</span><span class="p">:</span> <span class="s2">&quot;1240 Jamie Forks Apt. 590</span><span class="se">\n</span><span class="s2">Alistad, NY 60619&quot;</span><span class="p">,</span>
+        <span class="mi">4</span><span class="p">:</span> <span class="s2">&quot;PSC 9361, Box 5349</span><span class="se">\n</span><span class="s2">APO AP 57022&quot;</span><span class="p">,</span>
+        <span class="mi">5</span><span class="p">:</span> <span class="s2">&quot;7118 Williams Flat Apt. 075</span><span class="se">\n</span><span class="s2">Owenhaven, LA 50600&quot;</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;website&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="mi">0</span><span class="p">:</span> <span class="p">[</span>
+            <span class="s2">&quot;http://sellers.com/&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;https://garrett.com/&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;https://stark.net/&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;http://kaiser.org/&quot;</span><span class="p">,</span>
+        <span class="p">],</span>
+        <span class="mi">1</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;https://wood-hooper.com/&quot;</span><span class="p">,</span> <span class="s2">&quot;http://martinez.net/&quot;</span><span class="p">],</span>
+        <span class="mi">2</span><span class="p">:</span> <span class="p">[</span>
+            <span class="s2">&quot;http://www.arroyo-schultz.biz/&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;https://www.curtis-smith.com/&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;http://www.gray-hutchinson.com/&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;http://www.barnes.com/&quot;</span><span class="p">,</span>
+        <span class="p">],</span>
+        <span class="mi">3</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;http://hernandez.info/&quot;</span><span class="p">,</span> <span class="s2">&quot;https://www.williams-martin.org/&quot;</span><span class="p">],</span>
+        <span class="mi">4</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;https://www.wilson.com/&quot;</span><span class="p">],</span>
+        <span class="mi">5</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;https://mooney.com/&quot;</span><span class="p">],</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;username&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="mi">0</span><span class="p">:</span> <span class="s2">&quot;sandraharris&quot;</span><span class="p">,</span>
+        <span class="mi">1</span><span class="p">:</span> <span class="s2">&quot;jeffreylucas&quot;</span><span class="p">,</span>
+        <span class="mi">2</span><span class="p">:</span> <span class="s2">&quot;karla07&quot;</span><span class="p">,</span>
+        <span class="mi">3</span><span class="p">:</span> <span class="s2">&quot;johnwilliams&quot;</span><span class="p">,</span>
+        <span class="mi">4</span><span class="p">:</span> <span class="s2">&quot;amyhernandez&quot;</span><span class="p">,</span>
+        <span class="mi">5</span><span class="p">:</span> <span class="s2">&quot;eprice&quot;</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="mi">0</span><span class="p">:</span> <span class="s2">&quot;Doris Martinez&quot;</span><span class="p">,</span>
+        <span class="mi">1</span><span class="p">:</span> <span class="s2">&quot;Jeffery Garcia&quot;</span><span class="p">,</span>
+        <span class="mi">2</span><span class="p">:</span> <span class="s2">&quot;Kelsey Freeman&quot;</span><span class="p">,</span>
+        <span class="mi">3</span><span class="p">:</span> <span class="s2">&quot;Kimberly Carter&quot;</span><span class="p">,</span>
+        <span class="mi">4</span><span class="p">:</span> <span class="s2">&quot;Charles Gonzalez&quot;</span><span class="p">,</span>
+        <span class="mi">5</span><span class="p">:</span> <span class="s2">&quot;Roger Olson&quot;</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;address&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="mi">0</span><span class="p">:</span> <span class="s2">&quot;19659 Ivan Stravenue Apt. 471</span><span class="se">\n</span><span class="s2">Lake Nancyside, VT 71358&quot;</span><span class="p">,</span>
+        <span class="mi">1</span><span class="p">:</span> <span class="s2">&quot;0916 Michael Row</span><span class="se">\n</span><span class="s2">Sellersville, WI 08109&quot;</span><span class="p">,</span>
+        <span class="mi">2</span><span class="p">:</span> <span class="s2">&quot;63812 Morales Ranch Apt. 300</span><span class="se">\n</span><span class="s2">Lowestad, NM 26520&quot;</span><span class="p">,</span>
+        <span class="mi">3</span><span class="p">:</span> <span class="s2">&quot;65461 Regina Mall Suite 517</span><span class="se">\n</span><span class="s2">South Benjaminborough, DE 22331&quot;</span><span class="p">,</span>
+        <span class="mi">4</span><span class="p">:</span> <span class="s2">&quot;Unit 7296 Box 6875</span><span class="se">\n</span><span class="s2">DPO AP 65859&quot;</span><span class="p">,</span>
+        <span class="mi">5</span><span class="p">:</span> <span class="s2">&quot;0248 Cook Mews Apt. 466</span><span class="se">\n</span><span class="s2">Brownfurt, IN 44282&quot;</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;mail&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="mi">0</span><span class="p">:</span> <span class="s2">&quot;mary84@yahoo.com&quot;</span><span class="p">,</span>
+        <span class="mi">1</span><span class="p">:</span> <span class="s2">&quot;imoore@yahoo.com&quot;</span><span class="p">,</span>
+        <span class="mi">2</span><span class="p">:</span> <span class="s2">&quot;yramirez@gmail.com&quot;</span><span class="p">,</span>
+        <span class="mi">3</span><span class="p">:</span> <span class="s2">&quot;nicholas11@hotmail.com&quot;</span><span class="p">,</span>
+        <span class="mi">4</span><span class="p">:</span> <span class="s2">&quot;nancy89@hotmail.com&quot;</span><span class="p">,</span>
+        <span class="mi">5</span><span class="p">:</span> <span class="s2">&quot;johnsonrobert@yahoo.com&quot;</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;birthdate&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="mi">0</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="p">(</span><span class="mi">1936</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span>
+        <span class="mi">1</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="p">(</span><span class="mi">1920</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">30</span><span class="p">),</span>
+        <span class="mi">2</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="p">(</span><span class="mi">1958</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">13</span><span class="p">),</span>
+        <span class="mi">3</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="p">(</span><span class="mi">1931</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">31</span><span class="p">),</span>
+        <span class="mi">4</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="p">(</span><span class="mi">1905</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">12</span><span class="p">),</span>
+        <span class="mi">5</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="p">(</span><span class="mi">1986</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">21</span><span class="p">),</span>
+    <span class="p">}</span>
+
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">sample_profile</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>company</th>
+      <th>ssn</th>
+      <th>residence</th>
+      <th>website</th>
+      <th>username</th>
+      <th>name</th>
+      <th>address</th>
+      <th>mail</th>
+      <th>birthdate</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Fisher, Green and Dixon</td>
+      <td>415-39-7809</td>
+      <td>24219 Archer Mountain Suite 924\nNorth Melissa...</td>
+      <td>[http://sellers.com/, https://garrett.com/, ht...</td>
+      <td>sandraharris</td>
+      <td>Doris Martinez</td>
+      <td>19659 Ivan Stravenue Apt. 471\nLake Nancyside,...</td>
+      <td>mary84@yahoo.com</td>
+      <td>1936-07-05</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Lawrence, Herring and Riley</td>
+      <td>462-64-5856</td>
+      <td>5330 Wilson Fields Suite 560\nEast Heiditown, ...</td>
+      <td>[https://wood-hooper.com/, http://martinez.net/]</td>
+      <td>jeffreylucas</td>
+      <td>Jeffery Garcia</td>
+      <td>0916 Michael Row\nSellersville, WI 08109</td>
+      <td>imoore@yahoo.com</td>
+      <td>1920-05-30</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+</div>
+<div class="section" id="Redact-sensitive-data">
+<h2>Redact sensitive data<a class="headerlink" href="#Redact-sensitive-data" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">sensitive_data</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;redact&#39;</span><span class="p">,</span> <span class="n">sample_size</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>company</th>
+      <th>ssn</th>
+      <th>residence</th>
+      <th>website</th>
+      <th>username</th>
+      <th>name</th>
+      <th>address</th>
+      <th>mail</th>
+      <th>birthdate</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>&lt;PERSON&gt;, &lt;PERSON&gt; and &lt;PERSON&gt;</td>
+      <td>&lt;US_SSN&gt;</td>
+      <td>24219 &lt;LOCATION&gt; Suite 924\nNorth Melissaborou...</td>
+      <td>['http://&lt;DOMAIN_NAME&gt;/', 'https://&lt;DOMAIN_NAM...</td>
+      <td>sandraharris</td>
+      <td>&lt;PERSON&gt;</td>
+      <td>&lt;DATE_TIME&gt; &lt;PERSON&gt; Apt. 471\nLake Nancyside,...</td>
+      <td>&lt;EMAIL_ADDRESS&gt;</td>
+      <td>&lt;DATE_TIME&gt;</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>&lt;PERSON&gt;, &lt;PERSON&gt; and &lt;PERSON&gt;</td>
+      <td>&lt;US_SSN&gt;</td>
+      <td>5330 Wilson Fields Suite 560\n&lt;LOCATION&gt;, &lt;LOC...</td>
+      <td>['https://&lt;DOMAIN_NAME&gt;/', 'http://&lt;DOMAIN_NAM...</td>
+      <td>jeffreylucas</td>
+      <td>&lt;PERSON&gt;</td>
+      <td>&lt;DATE_TIME&gt;&lt;US_DRIVER_LICENSE&gt;, &lt;LOCATION&gt; 08109</td>
+      <td>&lt;EMAIL_ADDRESS&gt;</td>
+      <td>&lt;DATE_TIME&gt;</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Thompson-Ruiz</td>
+      <td>&lt;US_SSN&gt;</td>
+      <td>PSC 5642, Box 8071\nAPO AA 06490</td>
+      <td>['http://&lt;DOMAIN_NAME&gt;/', 'https://&lt;DOMAIN_NAM...</td>
+      <td>karla07</td>
+      <td>&lt;PERSON&gt;</td>
+      <td>&lt;DATE_TIME&gt; &lt;PERSON&gt; Ranch Apt. 300\n&lt;PERSON&gt;,...</td>
+      <td>&lt;EMAIL_ADDRESS&gt;</td>
+      <td>&lt;DATE_TIME&gt;</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Sloan PLC</td>
+      <td>&lt;US_SSN&gt;</td>
+      <td>1240 Jamie Forks Apt. 590\n&lt;PERSON&gt;, &lt;LOCATION...</td>
+      <td>['http://&lt;DOMAIN_NAME&gt;/', 'https://&lt;DOMAIN_NAM...</td>
+      <td>johnwilliams</td>
+      <td>&lt;PERSON&gt;</td>
+      <td>65461 Regina Mall Suite 517\nSouth Benjaminbor...</td>
+      <td>&lt;EMAIL_ADDRESS&gt;</td>
+      <td>&lt;DATE_TIME&gt;</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Smith LLC</td>
+      <td>&lt;US_SSN&gt;</td>
+      <td>PSC 9361, Box 5349\nAPO AP 57022</td>
+      <td>['https://&lt;DOMAIN_NAME&gt;/']</td>
+      <td>amyhernandez</td>
+      <td>&lt;PERSON&gt;</td>
+      <td>Unit 7296 Box 6875\nDPO AP &lt;DATE_TIME&gt;</td>
+      <td>&lt;EMAIL_ADDRESS&gt;</td>
+      <td>&lt;DATE_TIME&gt;</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>&lt;PERSON&gt;, &lt;PERSON&gt; and &lt;PERSON&gt;</td>
+      <td>&lt;US_SSN&gt;</td>
+      <td>&lt;DATE_TIME&gt; &lt;PERSON&gt;. 075\nOwenhaven, LA 50600</td>
+      <td>['https://&lt;DOMAIN_NAME&gt;/']</td>
+      <td>eprice</td>
+      <td>&lt;PERSON&gt;</td>
+      <td>0248 Cook Mews Apt. 466\nBrownfurt, IN 44282</td>
+      <td>&lt;EMAIL_ADDRESS&gt;</td>
+      <td>&lt;DATE_TIME&gt;</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;data_describe.privacy.detection.SensitiveDataWidget at 0x7fbdf59d4390&gt;
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="Redact-sensitive-data-using-selected-columns">
+<h2>Redact sensitive data using selected columns<a class="headerlink" href="#Redact-sensitive-data-using-selected-columns" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">sensitive_data</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;redact&quot;</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;birthdate&quot;</span><span class="p">,</span> <span class="s2">&quot;mail&quot;</span><span class="p">,</span> <span class="s2">&quot;ssn&quot;</span><span class="p">],</span> <span class="n">sample_size</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">),</span> <span class="n">detect_infotypes</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>birthdate</th>
+      <th>mail</th>
+      <th>ssn</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>&lt;DATE_TIME&gt;</td>
+      <td>&lt;EMAIL_ADDRESS&gt;</td>
+      <td>&lt;US_SSN&gt;</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>&lt;DATE_TIME&gt;</td>
+      <td>&lt;EMAIL_ADDRESS&gt;</td>
+      <td>&lt;US_SSN&gt;</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>&lt;DATE_TIME&gt;</td>
+      <td>&lt;EMAIL_ADDRESS&gt;</td>
+      <td>&lt;US_SSN&gt;</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>&lt;DATE_TIME&gt;</td>
+      <td>&lt;EMAIL_ADDRESS&gt;</td>
+      <td>&lt;US_SSN&gt;</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>&lt;DATE_TIME&gt;</td>
+      <td>&lt;EMAIL_ADDRESS&gt;</td>
+      <td>&lt;US_SSN&gt;</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>&lt;DATE_TIME&gt;</td>
+      <td>&lt;EMAIL_ADDRESS&gt;</td>
+      <td>&lt;US_SSN&gt;</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;data_describe.privacy.detection.SensitiveDataWidget at 0x7fbdfc187190&gt;
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="Encrypt-Data">
+<h2>Encrypt Data<a class="headerlink" href="#Encrypt-Data" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># encrypt with SHA256</span>
+<span class="n">sensitivewidget</span> <span class="o">=</span> <span class="n">sensitive_data</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;encrypt&quot;</span><span class="p">,</span> <span class="n">sample_size</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">))</span>
+<span class="n">sensitivewidget</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>company</th>
+      <th>ssn</th>
+      <th>residence</th>
+      <th>website</th>
+      <th>username</th>
+      <th>name</th>
+      <th>address</th>
+      <th>mail</th>
+      <th>birthdate</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>ea49f5ee27409740ce7f74997ccf0184f3bbe9a72a86c0...</td>
+      <td>9fc2a689acf5f89d888c7acb3d43add7c4ddb320ca0fe0...</td>
+      <td>24219 2cee30d46d5a9c636d0ce08afea6aaba9b48cd9d...</td>
+      <td>['http://7f6bcdcd8eb28186cd2bd93cdd66bf2abba0f...</td>
+      <td>sandraharris</td>
+      <td>779b878ad9f68899e5de5daac8322dd5b3a3991b10e3ed...</td>
+      <td>26f70e334556abc2841f5312a9984aa9a7f21b1924015d...</td>
+      <td>b43ca3c683dabab5b42fee6181836eeea80dad950c1428...</td>
+      <td>bd4b000796139f1fe01d62a9e6ccc8d50c8ca861fedd9c...</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>76364d81ab4c1832d9181572cc0d408f7bdd3900a61113...</td>
+      <td>567e4a168b80d74c435b22ec74bf56f52d1480372ee3db...</td>
+      <td>5330 Wilson Fields Suite 560\n2ab6e79e04018666...</td>
+      <td>['https://b5e885e576b91d7f332cecd36e1078e1c8ff...</td>
+      <td>jeffreylucas</td>
+      <td>b79d0309ea6eb45b8e8dee995c996184641de208262b0b...</td>
+      <td>b6e3258d0f1106cf9ac124221f4bbdd7c327eb5dcb5880...</td>
+      <td>42ea5e56df211dbed485dc611277fe0932bb3139c4815e...</td>
+      <td>7e7bebf19314f96de0b1231c7c89627c3a87dd110c2614...</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Thompson-Ruiz</td>
+      <td>06f11d164b97a22cd2a3a2a1a1b6df50268a8a21ee8a97...</td>
+      <td>PSC 5642, Box 8071\nAPO AA 06490</td>
+      <td>['http://7aad9afb51f77260b55915f74a5498b5850cc...</td>
+      <td>karla07</td>
+      <td>08471f7bf132fdfb2a1a9ad7529fca6942425dc9d32834...</td>
+      <td>51ae0e05ffebf0ab306c50cfaa433765e089e781ddbfaf...</td>
+      <td>4ca073222470748ed4fb77ad0011402af414dd561cd645...</td>
+      <td>1b739ba212c2fec7848fbe6cffeffeb2f3737f40748542...</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Sloan PLC</td>
+      <td>e7ed1ca0c627c7e1928f4a969225b761133dfb3d9f687f...</td>
+      <td>1240 Jamie Forks Apt. 590\nc9e009c6a1baa39f305...</td>
+      <td>['http://587d2a51617478f91f145b2b261629d100768...</td>
+      <td>johnwilliams</td>
+      <td>29b8f8f54a0405dc20c84f25d2344ddb3fa644459453c1...</td>
+      <td>65461 Regina Mall Suite 517\nSouth Benjaminbor...</td>
+      <td>14080d914340529a7af82567e749c5443108be5b9b945e...</td>
+      <td>8ce998bb9305cb1a1f92f8ce0b17261280cee95c3b4ec6...</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Smith LLC</td>
+      <td>6c2264d952abb164d584bb7eba89cf41f94fbba413208c...</td>
+      <td>PSC 9361, Box 5349\nAPO AP 57022</td>
+      <td>['https://68bd3a706676d6fbfffbde3da0c7da6164da...</td>
+      <td>amyhernandez</td>
+      <td>070f7870e5befe421c6dd0e1fd941a34d877b6b4758b90...</td>
+      <td>Unit 7296 Box 6875\nDPO AP b51b9c2cd8d34bc45e1...</td>
+      <td>66d6d0dac0ba4a8f0e415c24d87448f6d100cb11083f18...</td>
+      <td>607431ddb916648b0af79f1795e50d8e5512efc7631d77...</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>71f90b7c03aad530eafa769b2ad97cb333ca6dd455fce1...</td>
+      <td>2d982e60214173e9d9dcace8376a3b33e224374465e289...</td>
+      <td>eace48a195da1586d8c63aae19aa2be8ddd8712c79f29a...</td>
+      <td>['https://3328a0e4658c855acde71f8d85e98eac5d63...</td>
+      <td>eprice</td>
+      <td>3b4cef0bb0914adbe31e209262f261589133e5a90f1788...</td>
+      <td>0248 Cook Mews Apt. 466\nBrownfurt, IN 44282</td>
+      <td>731feae7800d583626f6fe1ffda859e274ba4f7813c223...</td>
+      <td>a8f11f485ed632115deb5cccd3d251ec901c445c6896d7...</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;data_describe.privacy.detection.SensitiveDataWidget at 0x7fbdfc19cbd0&gt;
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="Identify-infotypes-in-each-column">
+<h2>Identify infotypes in each column<a class="headerlink" href="#Identify-infotypes-in-each-column" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">sensitivewidget</span><span class="o">.</span><span class="n">infotypes</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;company&#39;: [&#39;PERSON&#39;],
+ &#39;ssn&#39;: [&#39;US_SSN&#39;],
+ &#39;residence&#39;: [&#39;DATE_TIME&#39;, &#39;LOCATION&#39;, &#39;PERSON&#39;],
+ &#39;website&#39;: [&#39;DOMAIN_NAME&#39;],
+ &#39;username&#39;: [],
+ &#39;name&#39;: [&#39;PERSON&#39;],
+ &#39;address&#39;: [&#39;DATE_TIME&#39;, &#39;LOCATION&#39;, &#39;PERSON&#39;, &#39;US_DRIVER_LICENSE&#39;],
+ &#39;mail&#39;: [&#39;DOMAIN_NAME&#39;, &#39;EMAIL_ADDRESS&#39;],
+ &#39;birthdate&#39;: [&#39;DATE_TIME&#39;]}
+</pre></div></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="topic_modeling.html" class="btn btn-neutral float-right" title="Topic Modeling" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="scatter_plots.html" class="btn btn-neutral float-left" title="Scatter Plots" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Maven Wave Partners
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

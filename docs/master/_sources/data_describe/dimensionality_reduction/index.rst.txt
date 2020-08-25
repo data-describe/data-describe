@@ -1,0 +1,20 @@
+data_describe.dimensionality_reduction
+=============================================
+
+.. py:module:: data_describe.dimensionality_reduction
+
+.. autoapi-nested-parse::
+
+   data-describe dimensionality reduction.
+
+   Dimensionality reduction in data-describe is primarily used as a method of visualizing high-dimensional data in 2D plots.
+
+
+
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+
+   dimensionality_reduction/index.rst
+
+

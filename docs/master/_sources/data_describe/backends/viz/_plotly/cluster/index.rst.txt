@@ -1,0 +1,30 @@
+data_describe.backends.viz._plotly.cluster
+=================================================
+
+.. py:module:: data_describe.backends.viz._plotly.cluster
+
+
+
+
+
+.. autoapisummary::
+
+   data_describe.backends.viz._plotly.cluster.viz_cluster
+
+
+.. function:: viz_cluster(data, method: str, xlabel: str = None, ylabel: str = None, **kwargs)
+
+   Visualize clusters using Plotly.
+
+   :param data: The data
+   :type data: DataFrame
+   :param method: The clustering method, to be used as the plot title
+   :type method: str
+   :param xlabel: The x-axis label. Defaults to "Reduced Dimension 1".
+   :type xlabel: str, optional
+   :param ylabel: The y-axis label. Defaults to "Reduced Dimension 2".
+   :type ylabel: str, optional
+
+   :returns: Plotly plot
+
+
