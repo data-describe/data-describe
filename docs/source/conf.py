@@ -29,7 +29,7 @@ autoapi_template_dir = "_autoapi_templates"
 
 
 # Multiversioning
-smv_branch_whitelist = "feature/apidoc.*"
+smv_branch_whitelist = "master"
 html_sidebars = {"**": ["versioning.html"]}
 
 # Theme / Style
