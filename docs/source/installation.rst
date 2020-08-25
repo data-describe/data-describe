@@ -8,4 +8,4 @@ Data Describe can be installed using pip:
 
    pip install data_describe
 
-.. _`Data Describe`: https://github.com/brianray/data-describe
+.. _`Data Describe`: https://github.com/data-describe/data-describe

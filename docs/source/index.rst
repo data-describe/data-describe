@@ -10,9 +10,10 @@ Data Describe
    overview
    installation
    _notebooks/tutorial
-   widgets/index
-   API Reference <_api/data_describe>
+   examples/index
+   _notebooks/contributing_guide
+   API Reference <data_describe/index>
 
-License is `Apache 2 <https://github.com/brianray/data-describe/blob/master/LICENSE>`_.
+License is `Apache 2 <https://github.com/data-describe/data-describe/blob/master/LICENSE>`_.
 
-.. _`Data Describe`: https://bitbucket.org/mavenwave/mw-data_describe
+.. _`Data Describe`: https://github.com/data-describe/data-describe

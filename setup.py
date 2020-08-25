@@ -6,9 +6,9 @@ from setuptools import find_packages, setup
 # Package meta-data.
 NAME = "data_describe"
 DESCRIPTION = "Data Describe"
-URL = "https://github.com/brianray/data-describe"
+URL = "https://github.com/data-describe/data-describe"
 EMAIL = ""
-AUTHOR = "https://github.com/brianray/data-describe/graphs/contributors"
+AUTHOR = "https://github.com/data-describe/data-describe/graphs/contributors"
 REQUIRES_PYTHON = ">=3.7.0"
 version: Dict[str, str] = {}
 with open(os.path.join("data_describe", "_version.py")) as fp:

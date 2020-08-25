@@ -1,0 +1,63 @@
+name: update-notebook-docs
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - "examples/*.ipynb"
+
+jobs:
+  move-notebooks:
+    runs-on: "ubuntu-latest"
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.7'
+      - name: Build docs from master and tags
+        run: python docs/update_notebook_docs.py
+      - name: Commit files
+        run: |
+          git add .
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git commit -m "CI: Automated notebook docs update" -a | exit 0
+      - name: Push changes
+        if: github.ref == 'refs/heads/master'
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+  publish-docs:
+    runs-on: "ubuntu-latest"
+    needs: ['move-notebooks']
+    steps:
+      - uses: actions/checkout@v2
+      - name: Cache conda
+        uses: actions/cache@v1
+        env:
+          # Increase this value to reset cache if etc/doc-environment.yml has not changed
+          CACHE_NUMBER: 0
+        with:
+          path: ~/conda_pkgs_dir
+          key: ${{ runner.os }}-conda-${{ env.CACHE_NUMBER }}-${{ hashFiles('etc/doc-environment.yml') }}
+      - name: Setup miniconda
+        uses: goanpeca/setup-miniconda@v1.3.0
+        with:
+          miniconda-version: latest
+          activate-environment: doc-env
+          environment-file: etc/doc-environment.yml
+          condarc-file: etc/.condarc
+          auto-activate-base: false
+      - name: Build docs
+        shell: bash -l {0}
+        run: |
+          pip install -e . &&
+          python docs/make.py
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs/build/
+          destination_dir: docs
+          keep_files: true
