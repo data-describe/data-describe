@@ -10,7 +10,16 @@
 }
 
 .wy-side-nav-search {
-    background-color: #c9c9c9;
+    background-color: #FFFFFF;
+    border-color: #333333;
+}
+
+.wy-nav-side {
+    background-color: #FFFFFF;
+}
+
+.wy-menu-vertical a {
+    color: #000000;
 }
 
 a {
