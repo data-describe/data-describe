@@ -1,13 +1,34 @@
-name: docs
+name: publish-master-docs
 
 on:
-  release:
-    types:
-      - created
+  push:
+    branches: [master]
 
 jobs:
+  move-notebooks:
+    runs-on: "ubuntu-latest"
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.7'
+      - name: Build docs from master and tags
+        run: python docs/update_notebook_docs.py
+      - name: Commit files
+        run: |
+          git add .
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git commit -m "CI: Automated notebook docs update" -a | exit 0
+      - name: Push changes
+        if: github.ref == 'refs/heads/master'
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
   publish-docs:
     runs-on: "ubuntu-latest"
+    needs: ['move-notebooks']
     steps:
       - uses: actions/checkout@v2
       - name: Cache conda
