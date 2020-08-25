@@ -3,9 +3,11 @@ name: update-notebook-docs
 on:
   push:
     branches: [master]
+    paths:
+      - "examples/*.ipynb"
 
 jobs:
-  build-docs:
+  move-notebooks:
     runs-on: "ubuntu-latest"
     steps:
       - uses: actions/checkout@v2
@@ -20,7 +22,7 @@ jobs:
           git add .
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git commit -m "CI: Automated notebook update" -a | exit 0
+          git commit -m "CI: Automated notebook docs update" -a | exit 0
       - name: Push changes
         if: github.ref == 'refs/heads/master'
         uses: ad-m/github-push-action@master
@@ -28,7 +30,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
   publish-docs:
     runs-on: "ubuntu-latest"
-    needs: ['build-docs']
+    needs: ['move-notebooks']
     steps:
       - uses: actions/checkout@v2
       - name: Cache conda
