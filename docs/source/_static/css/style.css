@@ -10,19 +10,19 @@
 }
 
 .wy-side-nav-search {
-    background-color: #FFFFFF;
+    background-color: #FFF;
 }
 
 .wy-side-nav-search input[type="text"] {
-    border-color: #333333;
+    border-color: #333;
 }
 
 .wy-nav-side {
-    background-color: #FFFFFF;
+    background-color: #FFF;
 }
 
 .wy-menu-vertical a {
-    color: #000000;
+    color: #000;
 }
 
 .wy-menu-vertical a:active {
@@ -37,6 +37,10 @@ a {
     color: #6c698d;
 }
 
+a.icon {
+    color: #000;
+}
+
 a:visited {
-    color: #333333;
+    color: #333;
 }
