@@ -12,6 +12,7 @@ fixture = NBRegressionFixture(
         "/cells/*/outputs/*/data/text/plain",
         "/cells/*/outputs/*/data/image/svg+xml",
         "/cells/*/outputs/*/text",
+        "/cells/*/outputs/",
         "/cells/*/outputs/*/data/image/png",
         "/cells/*/outputs/*/data/text/html",
         "/cells/*/outputs/*/output/data/"
