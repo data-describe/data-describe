@@ -2,7 +2,7 @@
 
 Package overview
 ============================================
-The current Python ecosystem has many open source packages that are commonly used in EDA, however, few or none of them aim to provide a seamless experience for analyzing data from end-to-end. `data-describe`_ seeks to fill this gap by providing an holistic solution for exploratory data analysis.
+The current Python ecosystem has many open source packages that are commonly used in EDA, however, few or none of them aim to provide a seamless experience for analyzing data from end-to-end. `data-describe`_ seeks to fill this gap by providing a holistic solution for exploratory data analysis.
 
 Core Design Principles
 ======================
