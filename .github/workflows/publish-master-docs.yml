@@ -58,4 +58,4 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./docs/build/
           destination_dir: docs
-          keep_files: true
+          keep_files: false
