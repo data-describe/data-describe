@@ -5,7 +5,7 @@ import matplotlib
 import sklearn
 import pytest
 
-from data_describe.text.topic_model import topic_model
+from data_describe.text.topic_modeling import topic_model
 
 
 @pytest.fixture(autouse=True)
