@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Overview &mdash; data-describe  documentation</title>
+  <title>Package overview &mdash; data-describe  documentation</title>
   
 
   
@@ -91,7 +91,15 @@
             
             
               <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Overview</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Package overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#core-design-principles">Core Design Principles</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#data-describe-is-accessible">data describe is <em>accessible</em></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#data-describe-is-opportunistic">data describe is <em>opportunistic</em></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#data-describe-is-opinionated">data describe is <em>opinionated</em></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#data-describe-is-exploratory">data describe is <em>exploratory</em></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#data-describe-is-analytical">data describe is <em>analytical</em></a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="_notebooks/tutorial.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples/index.html">Examples</a></li>
@@ -143,7 +151,7 @@
     
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
-      <li>Overview</li>
+      <li>Package overview</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -186,10 +194,32 @@
     text-align: unset;
 }
 </style>
-<div class="section" id="overview">
-<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h1>
-<p><a class="reference external" href="hhttps://github.com/data-describe/data-describe/">Data Describe</a> is a Python library which accelerates the Exploratory Data Analysis process by providing widgets for common analyses.</p>
-<p>License is <a class="reference external" href="https://github.com/data-describe/data-describe/blob/master/LICENSE">Apache 2</a>.</p>
+<div class="section" id="package-overview">
+<h1>Package overview<a class="headerlink" href="#package-overview" title="Permalink to this headline">¶</a></h1>
+<p>The current Python ecosystem has many open source packages that are commonly used in EDA, however, few or none of them aim to provide a seamless experience for analyzing data from end-to-end. <a class="reference external" href="https://github.com/data-describe/data-describe/">data-describe</a> seeks to fill this gap by providing a holistic solution for exploratory data analysis.</p>
+</div>
+<div class="section" id="core-design-principles">
+<h1>Core Design Principles<a class="headerlink" href="#core-design-principles" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="data-describe-is-accessible">
+<h2>data describe is <em>accessible</em><a class="headerlink" href="#data-describe-is-accessible" title="Permalink to this headline">¶</a></h2>
+<p>data describe should be easy and straightforward to use. A good user experience (UX) should be an integral part of designing the API/UI of data describe. Following the Pareto principle, 80% of common user tasks should be achievable with minimal user configuration by the core 20% functionality.</p>
+</div>
+<div class="section" id="data-describe-is-opportunistic">
+<h2>data describe is <em>opportunistic</em><a class="headerlink" href="#data-describe-is-opportunistic" title="Permalink to this headline">¶</a></h2>
+<p>There are a multitude of ways to analyze data; data describe does not claim to support all of them. data describe instead seeks to prioritize implementing features (analyses) that are widely used.</p>
+</div>
+<div class="section" id="data-describe-is-opinionated">
+<h2>data describe is <em>opinionated</em><a class="headerlink" href="#data-describe-is-opinionated" title="Permalink to this headline">¶</a></h2>
+<p>Not all visualizations are created equal, and data describe seeks to avoid those that may be misleading or sub-optimal. For example, while pie charts may be ubiquitous, data describe does not consider them to be suitable for exploratory analysis.</p>
+</div>
+<div class="section" id="data-describe-is-exploratory">
+<h2>data describe is <em>exploratory</em><a class="headerlink" href="#data-describe-is-exploratory" title="Permalink to this headline">¶</a></h2>
+<p>Exploratory data analysis is one of the first steps in unraveling and understanding complex relationships in data. It is often messy and iterative. data describe does not seek to be a business intelligence tool in which recurring reports are provided.</p>
+</div>
+<div class="section" id="data-describe-is-analytical">
+<h2>data describe is <em>analytical</em><a class="headerlink" href="#data-describe-is-analytical" title="Permalink to this headline">¶</a></h2>
+<p>While visualization is an important method of understanding data, the creation of the visualization itself is not the end goal. For example, the creation of “infographics”, in which the purpose is to present and educate, is not goal of data describe.</p>
+</div>
 </div>
 
 

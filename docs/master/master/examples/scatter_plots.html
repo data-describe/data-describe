@@ -91,15 +91,16 @@
             
             
               <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">Package overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview.html#core-design-principles">Core Design Principles</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../_notebooks/tutorial.html">Tutorial</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Examples</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="cluster_analysis.html">Cluster Analysis</a></li>
 <li class="toctree-l2"><a class="reference internal" href="correlation_matrix.html">Correlation Matrix</a></li>
 <li class="toctree-l2"><a class="reference internal" href="time_series.html">Time Series</a></li>
-<li class="toctree-l2"><a class="reference internal" href="data_loader.html">Data Loader</a></li>
 <li class="toctree-l2"><a class="reference internal" href="distributions.html">Distributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="distributions.html#Plot-one-feature">Plot one feature</a></li>
 <li class="toctree-l2"><a class="reference internal" href="data_summary.html">Data Summary</a></li>
 <li class="toctree-l2"><a class="reference internal" href="feature_importance.html">Feature Importance</a></li>
 <li class="toctree-l2"><a class="reference internal" href="data_heatmap.html">Data Heatmap</a></li>
@@ -107,7 +108,6 @@
 <li class="toctree-l3"><a class="reference internal" href="#Scatterplot-Matrix">Scatterplot Matrix</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#Show-all-plots">Show all plots</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#Show-plots-of-interest-using-scatterplot-diagnostics">Show plots of interest using scatterplot diagnostics</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#Filter-plots-by-a-diagnostic">Filter plots by a diagnostic</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="sensitive_data.html">Sensitive Data</a></li>
@@ -554,55 +554,63 @@ div.rendered_html tbody tr:hover {
 <div class="section" id="Scatterplot-Matrix">
 <h2>Scatterplot Matrix<a class="headerlink" href="#Scatterplot-Matrix" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">dd</span><span class="o">.</span><span class="n">scatter_plots</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">plot_mode</span><span class="o">=</span><span class="s1">&#39;matrix&#39;</span><span class="p">)</span>
+<span></span><span class="n">dd</span><span class="o">.</span><span class="n">scatter_plots</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;matrix&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/examples_scatter_plots_5_0.png" src="../_images/examples_scatter_plots_5_0.png" />
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;seaborn.axisgrid.PairGrid at 0x7fbfcc2dd240&gt;
+&lt;seaborn.axisgrid.PairGrid at 0x1b0894d65c8&gt;
 </pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/examples_scatter_plots_5_1.png" src="../_images/examples_scatter_plots_5_1.png" />
+</div>
 </div>
 </div>
 <div class="section" id="Show-all-plots">
 <h2>Show all plots<a class="headerlink" href="#Show-all-plots" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">dd</span><span class="o">.</span><span class="n">scatter_plots</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">plot_mode</span><span class="o">=</span><span class="s1">&#39;all&#39;</span><span class="p">)</span>
+<span></span><span class="n">dd</span><span class="o">.</span><span class="n">scatter_plots</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;all&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area docutils container">
-<img alt="../_images/examples_scatter_plots_7_0.png" src="../_images/examples_scatter_plots_7_0.png" />
-</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+C:\Users\David\.conda\envs\tester\lib\site-packages\seaborn\axisgrid.py:1668: RuntimeWarning:
+
+More than 20 figures have been opened. Figures created through the pyplot interface (`matplotlib.pyplot.figure`) are retained until explicitly closed and may consume too much memory. (To control this warning, see the rcParam `figure.max_open_warning`).
+
+</pre></div></div>
 </div>
 <div class="nboutput docutils container">
-<div class="prompt empty docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/examples_scatter_plots_7_1.png" src="../_images/examples_scatter_plots_7_1.png" />
-</div>
+<div class="highlight"><pre>
+[&lt;seaborn.axisgrid.JointGrid at 0x1b094bd5a88&gt;,
+ &lt;seaborn.axisgrid.JointGrid at 0x1b0a598e648&gt;,
+ &lt;seaborn.axisgrid.JointGrid at 0x1b0a5c8b988&gt;]
+</pre></div></div>
 </div>
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
@@ -975,90 +983,67 @@ div.rendered_html tbody tr:hover {
 <img alt="../_images/examples_scatter_plots_7_54.png" src="../_images/examples_scatter_plots_7_54.png" />
 </div>
 </div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
-</pre></div>
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-[&lt;seaborn.axisgrid.JointGrid at 0x7fbfb1ea0630&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x7fbfb33e4470&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x7fbfb3674400&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x7fbfb33c32b0&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x7fbfb47f0588&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x7fbfb54df668&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x7fbfb54cbb38&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x7fbfb5896b38&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x7fbfb552f7b8&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x7fbfb6ecf1d0&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x7fbfb72379e8&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x7fbfb68ca358&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x7fbfb7e4c9e8&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x7fbfb87396a0&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x7fbfb8d50198&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x7fbfb8473898&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x7fbfb96e9b00&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x7fbfba059cc0&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x7fbfb96f79e8&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x7fbfbac4f400&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x7fbfbb5d7ba8&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x7fbfbb97bda0&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x7fbfbaf04860&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x7fbfbc293f98&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x7fbfbce969b0&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x7fbfbd62d748&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x7fbfbdc83c50&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x7fbfbd99a438&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x7fbfbe893940&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x7fbfbd98bef0&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x7fbf9f2258d0&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x7fbf9f4f8e48&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x7fbfa03856a0&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x7fbf9ff84d30&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x7fbfa06bffd0&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x7fbfa1718c88&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x7fbfa1d52fd0&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x7fbfa1ceffd0&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x7fbfa1d172e8&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x7fbfa30c6860&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x7fbfa27e6320&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x7fbfa457c2e8&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x7fbfa458d588&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x7fbfa51ef588&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x7fbfa555d630&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x7fbfa676e780&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x7fbfa6d45860&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x7fbfa75e9e48&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x7fbfa7747c88&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x7fbfa87c8358&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x7fbfa9179be0&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x7fbfa97d1198&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x7fbfa9e214a8&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x7fbfaa3fcb38&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x7fbfaaa38a20&gt;]
-</pre></div></div>
-</div>
-</div>
-<div class="section" id="Show-plots-of-interest-using-scatterplot-diagnostics">
-<h2>Show plots of interest using scatterplot diagnostics<a class="headerlink" href="#Show-plots-of-interest-using-scatterplot-diagnostics" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="Filter-plots-by-a-diagnostic">
-<h2>Filter plots by a diagnostic<a class="headerlink" href="#Filter-plots-by-a-diagnostic" title="Permalink to this headline">¶</a></h2>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">dd</span><span class="o">.</span><span class="n">scatter_plots</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">plot_mode</span><span class="o">=</span><span class="s1">&#39;diagnostic&#39;</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;Outlier&#39;</span><span class="p">:</span> <span class="mf">0.9</span><span class="p">})</span>
-</pre></div>
-</div>
-</div>
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/examples_scatter_plots_10_0.png" src="../_images/examples_scatter_plots_10_0.png" />
+<img alt="../_images/examples_scatter_plots_7_55.png" src="../_images/examples_scatter_plots_7_55.png" />
 </div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/examples_scatter_plots_7_56.png" src="../_images/examples_scatter_plots_7_56.png" />
+</div>
+</div>
+</div>
+<div class="section" id="Show-plots-of-interest-using-scatterplot-diagnostics">
+<h2>Show plots of interest using scatterplot diagnostics<a class="headerlink" href="#Show-plots-of-interest-using-scatterplot-diagnostics" title="Permalink to this headline">¶</a></h2>
+<p>Filter plots by a diagnostic</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">dd</span><span class="o">.</span><span class="n">scatter_plots</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;diagnostic&#39;</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;Outlying&#39;</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[&lt;seaborn.axisgrid.JointGrid at 0x1b0afa65508&gt;]
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/examples_scatter_plots_9_1.png" src="../_images/examples_scatter_plots_9_1.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">dd</span><span class="o">.</span><span class="n">scatter_plots</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;diagnostic&#39;</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;Striated&#39;</span><span class="p">:</span> <span class="mf">0.9</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[&lt;seaborn.axisgrid.JointGrid at 0x1b0a7951048&gt;,
+ &lt;seaborn.axisgrid.JointGrid at 0x1b0af3bbd08&gt;]
+</pre></div></div>
 </div>
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
@@ -1067,48 +1052,12 @@ div.rendered_html tbody tr:hover {
 <img alt="../_images/examples_scatter_plots_10_1.png" src="../_images/examples_scatter_plots_10_1.png" />
 </div>
 </div>
-<div class="nboutput docutils container">
+<div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <img alt="../_images/examples_scatter_plots_10_2.png" src="../_images/examples_scatter_plots_10_2.png" />
 </div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
-</pre></div>
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-[&lt;seaborn.axisgrid.JointGrid at 0x7fbfab09b9e8&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x7fbfaadbd940&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x7fbfabdddba8&gt;]
-</pre></div></div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">dd</span><span class="o">.</span><span class="n">scatter_plots</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">plot_mode</span><span class="o">=</span><span class="s1">&#39;diagnostic&#39;</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;Striated&#39;</span><span class="p">:</span> <span class="mf">0.9</span><span class="p">})</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/examples_scatter_plots_11_0.png" src="../_images/examples_scatter_plots_11_0.png" />
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
-</pre></div>
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-[&lt;seaborn.axisgrid.JointGrid at 0x7fbfac40ae10&gt;]
-</pre></div></div>
 </div>
 </div>
 </div>

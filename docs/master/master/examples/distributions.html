@@ -42,7 +42,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Data Summary" href="data_summary.html" />
-    <link rel="prev" title="Data Loader" href="data_loader.html" /> 
+    <link rel="prev" title="Time Series" href="time_series.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -91,19 +91,20 @@
             
             
               <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">Package overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview.html#core-design-principles">Core Design Principles</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../_notebooks/tutorial.html">Tutorial</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Examples</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="cluster_analysis.html">Cluster Analysis</a></li>
 <li class="toctree-l2"><a class="reference internal" href="correlation_matrix.html">Correlation Matrix</a></li>
 <li class="toctree-l2"><a class="reference internal" href="time_series.html">Time Series</a></li>
-<li class="toctree-l2"><a class="reference internal" href="data_loader.html">Data Loader</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Distributions</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#Using-Defaults">Using Defaults</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#Disabling-combination-of-categorical-features-with-many-unique-values">Disabling combination of categorical features with many unique values</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#Plotting-all-variables-and-combinations">Plotting <em>all</em> variables and combinations</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#Passing-keyword-arguments-to-the-underlying-plotting-functions-(Seaborn-library)">Passing keyword arguments to the underlying plotting functions (Seaborn library)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Diagnostic-Summary">Diagnostic Summary</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Plot-one-feature">Plot one feature</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Display-diagnostic-values">Display diagnostic values</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="data_summary.html">Data Summary</a></li>
@@ -442,7 +443,7 @@ div.rendered_html tbody tr:hover {
 <div class="section" id="Distributions">
 <h1>Distributions<a class="headerlink" href="#Distributions" title="Permalink to this headline">¶</a></h1>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -452,16 +453,23 @@ div.rendered_html tbody tr:hover {
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;../data/weatherAUS.csv&quot;</span><span class="p">)</span>
+<span></span><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">load_boston</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">load_boston</span><span class="p">()</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">feature_names</span><span class="p">))</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;target&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">target</span>
+
+<span class="c1"># Create categorical (bin) features to demonstrate count plots</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;AGE&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;AGE&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="s2">&quot;young&quot;</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="mi">29</span> <span class="k">else</span> <span class="s2">&quot;old&quot;</span><span class="p">)</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;CRIM&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;CRIM&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="s2">&quot;low&quot;</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">df</span><span class="o">.</span><span class="n">CRIM</span><span class="o">.</span><span class="n">median</span><span class="p">()</span> <span class="k">else</span> <span class="s2">&quot;high&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -470,7 +478,7 @@ div.rendered_html tbody tr:hover {
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -492,394 +500,178 @@ div.rendered_html tbody tr:hover {
   <thead>
     <tr style="text-align: right;">
       <th></th>
-      <th>Date</th>
-      <th>Location</th>
-      <th>MinTemp</th>
-      <th>MaxTemp</th>
-      <th>Rainfall</th>
-      <th>Evaporation</th>
-      <th>Sunshine</th>
-      <th>WindGustDir</th>
-      <th>WindGustSpeed</th>
-      <th>WindDir9am</th>
-      <th>...</th>
-      <th>Humidity3pm</th>
-      <th>Pressure9am</th>
-      <th>Pressure3pm</th>
-      <th>Cloud9am</th>
-      <th>Cloud3pm</th>
-      <th>Temp9am</th>
-      <th>Temp3pm</th>
-      <th>RainToday</th>
-      <th>RISK_MM</th>
-      <th>RainTomorrow</th>
+      <th>CRIM</th>
+      <th>ZN</th>
+      <th>INDUS</th>
+      <th>CHAS</th>
+      <th>NOX</th>
+      <th>RM</th>
+      <th>AGE</th>
+      <th>DIS</th>
+      <th>RAD</th>
+      <th>TAX</th>
+      <th>PTRATIO</th>
+      <th>B</th>
+      <th>LSTAT</th>
+      <th>target</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <th>0</th>
-      <td>2008-12-01</td>
-      <td>Albury</td>
-      <td>13.4</td>
-      <td>22.9</td>
-      <td>0.6</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>W</td>
-      <td>44.0</td>
-      <td>W</td>
-      <td>...</td>
-      <td>22.0</td>
-      <td>1007.7</td>
-      <td>1007.1</td>
-      <td>8.0</td>
-      <td>NaN</td>
-      <td>16.9</td>
-      <td>21.8</td>
-      <td>No</td>
+      <td>low</td>
+      <td>18.0</td>
+      <td>2.31</td>
       <td>0.0</td>
-      <td>No</td>
+      <td>0.538</td>
+      <td>6.575</td>
+      <td>old</td>
+      <td>4.0900</td>
+      <td>1.0</td>
+      <td>296.0</td>
+      <td>15.3</td>
+      <td>396.9</td>
+      <td>4.98</td>
+      <td>24.0</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>2008-12-02</td>
-      <td>Albury</td>
-      <td>7.4</td>
-      <td>25.1</td>
+      <td>low</td>
       <td>0.0</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>WNW</td>
-      <td>44.0</td>
-      <td>NNW</td>
-      <td>...</td>
-      <td>25.0</td>
-      <td>1010.6</td>
-      <td>1007.8</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>17.2</td>
-      <td>24.3</td>
-      <td>No</td>
+      <td>7.07</td>
       <td>0.0</td>
-      <td>No</td>
+      <td>0.469</td>
+      <td>6.421</td>
+      <td>old</td>
+      <td>4.9671</td>
+      <td>2.0</td>
+      <td>242.0</td>
+      <td>17.8</td>
+      <td>396.9</td>
+      <td>9.14</td>
+      <td>21.6</td>
     </tr>
   </tbody>
 </table>
-<p>2 rows × 24 columns</p>
 </div></div>
 </div>
-<p><em>Pick relevant columns here</em></p>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s1">&#39;Location&#39;</span><span class="p">,</span><span class="s1">&#39;Rainfall&#39;</span><span class="p">,</span><span class="s1">&#39;Cloud9am&#39;</span><span class="p">,</span><span class="s1">&#39;WindGustDir&#39;</span><span class="p">,</span> <span class="s1">&#39;RainTomorrow&#39;</span><span class="p">]]</span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="Using-Defaults">
-<h2>Using Defaults<a class="headerlink" href="#Using-Defaults" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="Diagnostic-Summary">
+<h2>Diagnostic Summary<a class="headerlink" href="#Diagnostic-Summary" title="Permalink to this headline">¶</a></h2>
+<p>The default output summarizes diagnostics on the univariate data.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">dd</span><span class="o">.</span><span class="n">distribution</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span></span><span class="n">dist</span> <span class="o">=</span> <span class="n">dd</span><span class="o">.</span><span class="n">distribution</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="n">dist</span>
+
+<span class="c1"># Plotting one feature</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Distribution Summary:
+        Skew detected in 1 columns.
+        Spikey histograms detected in 0 columns.
+
+        Use the method plot_distribution(&#34;column_name&#34;) to view plots for each feature.
+
+        Example:
+            dist = DistributionWidget(data)
+            dist.plot_distribution(&#34;column1&#34;)
+
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+None
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;data_describe.core.distributions.DistributionWidget at 0x20a7f6ca908&gt;
+</pre></div></div>
+</div>
+</div>
+</div>
+<div class="section" id="Plot-one-feature">
+<h1>Plot one feature<a class="headerlink" href="#Plot-one-feature" title="Permalink to this headline">¶</a></h1>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">dist</span><span class="o">.</span><span class="n">plot_distribution</span><span class="p">(</span><span class="s2">&quot;CRIM&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+</pre></div>
 </div>
 <div class="output_area docutils container">
 <img alt="../_images/examples_distributions_7_0.png" src="../_images/examples_distributions_7_0.png" />
 </div>
 </div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/examples_distributions_7_1.png" src="../_images/examples_distributions_7_1.png" />
-</div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/examples_distributions_7_2.png" src="../_images/examples_distributions_7_2.png" />
-</div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/examples_distributions_7_3.png" src="../_images/examples_distributions_7_3.png" />
-</div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/examples_distributions_7_4.png" src="../_images/examples_distributions_7_4.png" />
-</div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/examples_distributions_7_5.png" src="../_images/examples_distributions_7_5.png" />
-</div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/examples_distributions_7_6.png" src="../_images/examples_distributions_7_6.png" />
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
-</pre></div>
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-[&lt;matplotlib.axes._subplots.AxesSubplot at 0x7fc836a3a9b0&gt;,
- &lt;matplotlib.axes._subplots.AxesSubplot at 0x7fc836a3a978&gt;,
- &lt;matplotlib.axes._subplots.AxesSubplot at 0x7fc819d12cf8&gt;,
- &lt;matplotlib.axes._subplots.AxesSubplot at 0x7fc819d1a208&gt;,
- &lt;matplotlib.axes._subplots.AxesSubplot at 0x7fc819c9d7b8&gt;,
- &lt;matplotlib.axes._subplots.AxesSubplot at 0x7fc81ac15320&gt;,
- &lt;matplotlib.axes._subplots.AxesSubplot at 0x7fc81ad13080&gt;]
-</pre></div></div>
-</div>
-</div>
-<div class="section" id="Disabling-combination-of-categorical-features-with-many-unique-values">
-<h2>Disabling combination of categorical features with many unique values<a class="headerlink" href="#Disabling-combination-of-categorical-features-with-many-unique-values" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">dd</span><span class="o">.</span><span class="n">distribution</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">max_categories</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span></span><span class="n">dist</span><span class="o">.</span><span class="n">plot_distribution</span><span class="p">(</span><span class="s2">&quot;ZN&quot;</span><span class="p">)</span>
 </pre></div>
-</div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/examples_distributions_9_0.png" src="../_images/examples_distributions_9_0.png" />
-</div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/examples_distributions_9_1.png" src="../_images/examples_distributions_9_1.png" />
-</div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/examples_distributions_9_2.png" src="../_images/examples_distributions_9_2.png" />
-</div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/examples_distributions_9_3.png" src="../_images/examples_distributions_9_3.png" />
-</div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/examples_distributions_9_4.png" src="../_images/examples_distributions_9_4.png" />
-</div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/examples_distributions_9_5.png" src="../_images/examples_distributions_9_5.png" />
-</div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/examples_distributions_9_6.png" src="../_images/examples_distributions_9_6.png" />
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
-<div class="highlight"><pre>
-[&lt;matplotlib.axes._subplots.AxesSubplot at 0x7fc81a4394e0&gt;,
- &lt;matplotlib.axes._subplots.AxesSubplot at 0x7fc81b1d3358&gt;,
- &lt;matplotlib.axes._subplots.AxesSubplot at 0x7fc81a207be0&gt;,
- &lt;matplotlib.axes._subplots.AxesSubplot at 0x7fc81ac42860&gt;,
- &lt;matplotlib.axes._subplots.AxesSubplot at 0x7fc81bc5a668&gt;,
- &lt;matplotlib.axes._subplots.AxesSubplot at 0x7fc81ef0bac8&gt;,
- &lt;matplotlib.axes._subplots.AxesSubplot at 0x7fc81e067da0&gt;]
-</pre></div></div>
+<img alt="../_images/examples_distributions_8_0.png" src="../_images/examples_distributions_8_0.png" />
 </div>
 </div>
-<div class="section" id="Plotting-all-variables-and-combinations">
-<h2>Plotting <em>all</em> variables and combinations<a class="headerlink" href="#Plotting-all-variables-and-combinations" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="Display-diagnostic-values">
+<h2>Display diagnostic values<a class="headerlink" href="#Display-diagnostic-values" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">dd</span><span class="o">.</span><span class="n">distribution</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">plot_all</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">max_categories</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span></span><span class="n">dist</span><span class="o">.</span><span class="n">skew_value</span>
 </pre></div>
 </div>
 </div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/examples_distributions_11_0.png" src="../_images/examples_distributions_11_0.png" />
-</div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/examples_distributions_11_1.png" src="../_images/examples_distributions_11_1.png" />
-</div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/examples_distributions_11_2.png" src="../_images/examples_distributions_11_2.png" />
-</div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/examples_distributions_11_3.png" src="../_images/examples_distributions_11_3.png" />
-</div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/examples_distributions_11_4.png" src="../_images/examples_distributions_11_4.png" />
-</div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/examples_distributions_11_5.png" src="../_images/examples_distributions_11_5.png" />
-</div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/examples_distributions_11_6.png" src="../_images/examples_distributions_11_6.png" />
-</div>
-</div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-[&lt;matplotlib.axes._subplots.AxesSubplot at 0x7fc81df422e8&gt;,
- &lt;matplotlib.axes._subplots.AxesSubplot at 0x7fc81bdec6a0&gt;,
- &lt;matplotlib.axes._subplots.AxesSubplot at 0x7fc81e2f9710&gt;,
- &lt;matplotlib.axes._subplots.AxesSubplot at 0x7fc81e873710&gt;,
- &lt;matplotlib.axes._subplots.AxesSubplot at 0x7fc81e873240&gt;,
- &lt;matplotlib.axes._subplots.AxesSubplot at 0x7fc81f985b00&gt;,
- &lt;matplotlib.axes._subplots.AxesSubplot at 0x7fc81f993b00&gt;]
-</pre></div></div>
-</div>
-</div>
-<div class="section" id="Passing-keyword-arguments-to-the-underlying-plotting-functions-(Seaborn-library)">
-<h2>Passing keyword arguments to the underlying plotting functions (Seaborn library)<a class="headerlink" href="#Passing-keyword-arguments-to-the-underlying-plotting-functions-(Seaborn-library)" title="Permalink to this headline">¶</a></h2>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">dd</span><span class="o">.</span><span class="n">distribution</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">max_categories</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">hist_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;vertical&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">},</span> <span class="n">violin_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;hue&#39;</span><span class="p">:</span> <span class="s1">&#39;RainTomorrow&#39;</span><span class="p">})</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/examples_distributions_13_0.png" src="../_images/examples_distributions_13_0.png" />
-</div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/examples_distributions_13_1.png" src="../_images/examples_distributions_13_1.png" />
-</div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/examples_distributions_13_2.png" src="../_images/examples_distributions_13_2.png" />
-</div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/examples_distributions_13_3.png" src="../_images/examples_distributions_13_3.png" />
-</div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/examples_distributions_13_4.png" src="../_images/examples_distributions_13_4.png" />
-</div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/examples_distributions_13_5.png" src="../_images/examples_distributions_13_5.png" />
-</div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/examples_distributions_13_6.png" src="../_images/examples_distributions_13_6.png" />
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
-</pre></div>
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-[&lt;matplotlib.axes._subplots.AxesSubplot at 0x7fc81eaae8d0&gt;,
- &lt;matplotlib.axes._subplots.AxesSubplot at 0x7fc81f9b7e48&gt;,
- &lt;matplotlib.axes._subplots.AxesSubplot at 0x7fc81fef4eb8&gt;,
- &lt;matplotlib.axes._subplots.AxesSubplot at 0x7fc820485cf8&gt;,
- &lt;matplotlib.axes._subplots.AxesSubplot at 0x7fc81f9b7b70&gt;,
- &lt;matplotlib.axes._subplots.AxesSubplot at 0x7fc81fe8c908&gt;,
- &lt;matplotlib.axes._subplots.AxesSubplot at 0x7fc81fd33908&gt;]
+ZN         2.219063
+INDUS      0.294146
+CHAS       3.395799
+NOX        0.727144
+RM         0.402415
+DIS        1.008779
+RAD        1.001833
+TAX        0.667968
+PTRATIO   -0.799945
+B         -2.881798
+LSTAT      0.903771
+target     1.104811
+dtype: float64
 </pre></div></div>
 </div>
 </div>
@@ -896,7 +688,7 @@ div.rendered_html tbody tr:hover {
         <a href="data_summary.html" class="btn btn-neutral float-right" title="Data Summary" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="data_loader.html" class="btn btn-neutral float-left" title="Data Loader" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="time_series.html" class="btn btn-neutral float-left" title="Time Series" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

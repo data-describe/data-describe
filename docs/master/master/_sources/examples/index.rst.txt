@@ -9,7 +9,6 @@ Examples
    ../examples/cluster_analysis
    ../examples/correlation_matrix
    ../examples/time_series
-   ../examples/data_loader
    ../examples/distributions
    ../examples/data_summary
    ../examples/feature_importance

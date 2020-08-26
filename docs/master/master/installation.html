@@ -42,7 +42,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Tutorial" href="_notebooks/tutorial.html" />
-    <link rel="prev" title="Overview" href="overview.html" /> 
+    <link rel="prev" title="Package overview" href="overview.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -91,7 +91,8 @@
             
             
               <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Package overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="overview.html#core-design-principles">Core Design Principles</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="_notebooks/tutorial.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples/index.html">Examples</a></li>
@@ -188,10 +189,29 @@
 </style>
 <div class="section" id="installation">
 <h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
-<p>Data Describe can be installed using pip:</p>
+<p><a href="#id1"><span class="problematic" id="id2">`data-describe`_</span></a> can be installed using pip:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install data_describe
 </pre></div>
 </div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>During internal beta-testing, <a href="#id3"><span class="problematic" id="id4">`data-describe`_</span></a> must be installed from the source (GitHub). A source ZIP file should have been distributed to you; to install, run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">data</span><span class="o">-</span><span class="n">describe</span><span class="o">-</span><span class="n">master</span><span class="o">.</span><span class="n">zip</span> <span class="c1"># The name of the zip file, placed in your current directory</span>
+</pre></div>
+</div>
+</div>
+<p><a href="#id5"><span class="problematic" id="id6">`data-describe`_</span></a> also allows for optional functionality for advanced analyses (for example, text processing). These additional dependencies are not installed by default. To install these optional features, use the square bracket notation for installing these <a class="reference external" href="https://packaging.python.org/tutorials/installing-packages/#installing-setuptools-extras">extras</a>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">data_describe</span><span class="p">[</span><span class="n">nlp</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Currently available “extras” options:</p>
+<ul class="simple">
+<li><p>all: Installs all extras</p></li>
+<li><p>nlp: Text / Natural Language Processing support</p></li>
+<li><p>gcp: Google Cloud support</p></li>
+<li><p>pii: Sensitive data support using presidio</p></li>
+<li><p>modin: Large dataset support using modin</p></li>
+</ul>
 </div>
 
 
@@ -205,7 +225,7 @@
         <a href="_notebooks/tutorial.html" class="btn btn-neutral float-right" title="Tutorial" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="overview.html" class="btn btn-neutral float-left" title="Overview" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="overview.html" class="btn btn-neutral float-left" title="Package overview" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
