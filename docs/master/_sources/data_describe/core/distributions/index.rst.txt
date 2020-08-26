@@ -1,0 +1,65 @@
+data_describe.core.distributions
+=======================================
+
+.. py:module:: data_describe.core.distributions
+
+
+
+
+
+.. autoapisummary::
+
+   data_describe.core.distributions.distribution
+
+
+.. function:: distribution(data, diagnostic=True, compute_backend=None, viz_backend=None, **kwargs)
+
+   Distribution Plots.
+
+   :param data: Data Frame
+   :param diagnostic: If True, will run diagnostics to select "interesting" plots.
+   :param plot_all: If True, plot all features without filtering for "interesting" features
+   :param max_categories: Maximum categories to show in violin plots. Additional categories will be combined into the "__OTHER__" contrast.
+   :param spike: The factor threshold for identifying spikey histograms
+   :param skew: The skew threshold for identifying skewed histograms
+   :param hist_kwargs: Keyword arguments to be passed to seaborn.distplot
+   :param violin_kwargs: Keyword arguments to be passed to seaborn.violinplot
+
+   :returns: Matplotlib graphics
+
+
+.. py:class:: DistributionWidget(input_data=None, spike_value=None, skew_value=None, spike_factor=None, skew_factor=None, viz_backend=None)
+
+   Bases: :class:`data_describe._widget.BaseWidget`
+
+   Distribution Widget.
+
+   .. method:: show(self, viz_backend=None, **kwargs)
+
+
+      Show the default visualization.
+
+      :param viz_backend: The visualization backend.
+      :type viz_backend: str, optional
+
+
+   .. method:: plot_distribution(self, x: str = None, contrast: str = None, viz_backend=None, **kwargs)
+
+
+      Generate distribution plot(s).
+
+      Numeric features will be visualized using a histogram/violin plot, and any other types will be
+      visualized using a categorical bar plot.
+
+      :param x: The feature name to plot. If None, will plot all features.
+      :type x: str, optional
+      :param contrast: The feature name to compare histograms by contrast.
+      :type contrast: str, optional
+      :param viz_backend: The visualization backend.
+      :type viz_backend: optional
+      :param \*\*kwargs: Additional keyword arguments for the visualization backend.
+
+      :returns: Histogram plot(s).
+
+
+

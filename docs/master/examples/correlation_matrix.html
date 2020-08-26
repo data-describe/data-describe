@@ -1,0 +1,1439 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Correlation Matrix &mdash; data-describe  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/style.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../_static/favicon.png"/>
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Time Series" href="time_series.html" />
+    <link rel="prev" title="Cluster Analysis" href="cluster_analysis.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html">
+          
+
+          
+            
+            <img src="../_static/logo.svg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">Package overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../_notebooks/tutorial.html">Tutorial</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Examples</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="cluster_analysis.html">Cluster Analysis</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Correlation Matrix</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Default">Default</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Enable-clustering">Enable clustering</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Show-categorical-features">Show categorical features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Return-values-only">Return values only</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="time_series.html">Time Series</a></li>
+<li class="toctree-l2"><a class="reference internal" href="distributions.html">Distributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="distributions.html#Plot-one-feature">Plot one feature</a></li>
+<li class="toctree-l2"><a class="reference internal" href="data_summary.html">Data Summary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="feature_importance.html">Feature Importance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="data_heatmap.html">Data Heatmap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scatter_plots.html">Scatter Plots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sensitive_data.html">Sensitive Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="topic_modeling.html">Topic Modeling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="text_preprocessing.html">Text Preprocessing</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../_notebooks/contributing_guide.html">Contributing Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../data_describe/index.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">data-describe</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="index.html">Examples</a> &raquo;</li>
+        
+      <li>Correlation Matrix</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/examples/correlation_matrix.ipynb.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput.container,
+div.nbinput.container div.prompt,
+div.nbinput.container div.input_area,
+div.nbinput.container div[class*=highlight],
+div.nbinput.container div[class*=highlight] pre,
+div.nboutput.container,
+div.nboutput.container div.prompt,
+div.nboutput.container div.output_area,
+div.nboutput.container div[class*=highlight],
+div.nboutput.container div[class*=highlight] pre {
+    background: none;
+    border: none;
+    padding: 0 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+/* avoid gaps between output lines */
+div.nboutput.container div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput.container,
+div.nboutput.container {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput.container,
+    div.nboutput.container {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput.container {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast.container {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput.container div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput.container div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput.container div.prompt,
+div.nboutput.container div.prompt {
+    width: 4.5ex;
+    padding-top: 5px;
+    position: relative;
+    user-select: none;
+}
+
+div.nbinput.container div.prompt > div,
+div.nboutput.container div.prompt > div {
+    position: absolute;
+    right: 0;
+    margin-right: 0.3ex;
+}
+
+@media (max-width: 540px) {
+    div.nbinput.container div.prompt,
+    div.nboutput.container div.prompt {
+        width: unset;
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput.container div.prompt.empty {
+        padding: 0;
+    }
+
+    div.nbinput.container div.prompt > div,
+    div.nboutput.container div.prompt > div {
+        position: unset;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput.container div.prompt pre,
+div.nboutput.container div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput.container div.input_area,
+div.nboutput.container div.output_area {
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput.container div.input_area,
+    div.nboutput.container div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput.container div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    background: #f5f5f5;
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput.container div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput.container div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput.container div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+
+div.nbinput.container div.input_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight].math,
+div.nboutput.container div.output_area.rendered_html,
+div.nboutput.container div.output_area > div.output_javascript,
+div.nboutput.container div.output_area:not(.rendered_html) > img{
+    padding: 5px;
+}
+
+/* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
+div.nbinput.container div.input_area > div[class^='highlight'],
+div.nboutput.container div.output_area > div[class^='highlight']{
+    overflow-y: hidden;
+}
+
+/* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
+.prompt a.copybtn {
+    display: none;
+}
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="Correlation-Matrix">
+<h1>Correlation Matrix<a class="headerlink" href="#Correlation-Matrix" title="Permalink to this headline">¶</a></h1>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">data_describe</span> <span class="k">as</span> <span class="nn">dd</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/Users/richardtruong-chau/miniconda3/envs/datadescribe/lib/python3.7/site-packages/google/protobuf/descriptor.py:47: DeprecationWarning: Using or importing the ABCs from &#39;collections&#39; instead of from &#39;collections.abc&#39; is deprecated since Python 3.3,and in 3.9 it will stop working
+  from google.protobuf.pyext import _message
+/Users/richardtruong-chau/miniconda3/envs/datadescribe/lib/python3.7/site-packages/gensim/corpora/dictionary.py:11: DeprecationWarning: Using or importing the ABCs from &#39;collections&#39; instead of from &#39;collections.abc&#39; is deprecated since Python 3.3,and in 3.9 it will stop working
+  from collections import Mapping, defaultdict
+/Users/richardtruong-chau/miniconda3/envs/datadescribe/lib/python3.7/site-packages/scipy/sparse/sparsetools.py:21: DeprecationWarning: `scipy.sparse.sparsetools` is deprecated!
+scipy.sparse.sparsetools is a private module for scipy.sparse, and should not be used.
+  _deprecated()
+/Users/richardtruong-chau/miniconda3/envs/datadescribe/lib/python3.7/site-packages/gensim/models/doc2vec.py:73: DeprecationWarning: Using or importing the ABCs from &#39;collections&#39; instead of from &#39;collections.abc&#39; is deprecated since Python 3.3,and in 3.9 it will stop working
+  from collections import namedtuple, defaultdict, Iterable
+UserWarning: The Dask Engine for Modin is experimental.
+UserWarning: Port 8787 is already in use.
+Perhaps you already have a cluster running?
+Hosting the HTTP server on port 61506 instead
+DeprecationWarning: Using or importing the ABCs from &#39;collections&#39; instead of from &#39;collections.abc&#39; is deprecated since Python 3.3,and in 3.9 it will stop working
+WARNING:root:The extension &#34;@jupyter-widgets/jupyterlab-manager&#34; was not found and is required for Plotly-based visualizations.
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">load_boston</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">load_boston</span><span class="p">()</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">feature_names</span><span class="p">))</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;target&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">target</span>
+
+<span class="c1">#Bin values</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;AGE&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;AGE&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="s2">&quot;young&quot;</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="mi">29</span> <span class="k">else</span> <span class="s2">&quot;old&quot;</span><span class="p">)</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;CRIM&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;CRIM&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="s2">&quot;low&quot;</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">df</span><span class="o">.</span><span class="n">CRIM</span><span class="o">.</span><span class="n">median</span><span class="p">()</span> <span class="k">else</span> <span class="s2">&quot;high&quot;</span><span class="p">)</span>
+<span class="c1">#Convert to integer</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;ZN&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;ZN&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>CRIM</th>
+      <th>ZN</th>
+      <th>INDUS</th>
+      <th>CHAS</th>
+      <th>NOX</th>
+      <th>RM</th>
+      <th>AGE</th>
+      <th>DIS</th>
+      <th>RAD</th>
+      <th>TAX</th>
+      <th>PTRATIO</th>
+      <th>B</th>
+      <th>LSTAT</th>
+      <th>target</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>low</td>
+      <td>18</td>
+      <td>2.31</td>
+      <td>0.0</td>
+      <td>0.538</td>
+      <td>6.575</td>
+      <td>old</td>
+      <td>4.0900</td>
+      <td>1.0</td>
+      <td>296.0</td>
+      <td>15.3</td>
+      <td>396.9</td>
+      <td>4.98</td>
+      <td>24.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>low</td>
+      <td>0</td>
+      <td>7.07</td>
+      <td>0.0</td>
+      <td>0.469</td>
+      <td>6.421</td>
+      <td>old</td>
+      <td>4.9671</td>
+      <td>2.0</td>
+      <td>242.0</td>
+      <td>17.8</td>
+      <td>396.9</td>
+      <td>9.14</td>
+      <td>21.6</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="section" id="Default">
+<h2>Default<a class="headerlink" href="#Default" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">dd</span><span class="o">.</span><span class="n">correlation_matrix</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+final root:{&#39;score_threshold&#39;: 0.2, &#39;enable_trace_pii&#39;: None, &#39;sample_size&#39;: None}
+final root:{&#39;score_threshold&#39;: 0.2, &#39;enable_trace_pii&#39;: True, &#39;sample_size&#39;: None}
+final root:{&#39;score_threshold&#39;: 0.2, &#39;enable_trace_pii&#39;: True, &#39;sample_size&#39;: 100}
+[2020-08-16 23:06:41,734][presidio][INFO]nlp_engine not provided. Creating new SpacyNlpEngine instance
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+INFO:presidio:nlp_engine not provided. Creating new SpacyNlpEngine instance
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[2020-08-16 23:06:41,740][presidio][INFO]Loading NLP model: spaCy en_core_web_lg
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+INFO:presidio:Loading NLP model: spaCy en_core_web_lg
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-bold">
+===================== Info about model &#39;en_core_web_lg&#39; =====================</span>
+
+lang             en
+name             core_web_lg
+license          MIT
+author           Explosion
+url              https://explosion.ai
+email            contact@explosion.ai
+description      English multi-task CNN trained on OntoNotes, with GloVe vectors trained on Common Crawl. Assigns word vectors, context-specific token vectors, POS tags, dependency parse and named entities.
+sources          [{&#39;name&#39;: &#39;OntoNotes 5&#39;, &#39;url&#39;: &#39;https://catalog.ldc.upenn.edu/LDC2013T19&#39;, &#39;license&#39;: &#39;commercial (licensed by Explosion)&#39;}, {&#39;name&#39;: &#39;Common Crawl&#39;}]
+pipeline         [&#39;tagger&#39;, &#39;parser&#39;, &#39;ner&#39;]
+version          2.2.5
+spacy_version    &gt;=2.2.2
+parent_package   spacy
+labels           {&#39;tagger&#39;: [&#39;$&#39;, &#34;&#39;&#39;&#34;, &#39;,&#39;, &#39;-LRB-&#39;, &#39;-RRB-&#39;, &#39;.&#39;, &#39;:&#39;, &#39;ADD&#39;, &#39;AFX&#39;, &#39;CC&#39;, &#39;CD&#39;, &#39;DT&#39;, &#39;EX&#39;, &#39;FW&#39;, &#39;HYPH&#39;, &#39;IN&#39;, &#39;JJ&#39;, &#39;JJR&#39;, &#39;JJS&#39;, &#39;LS&#39;, &#39;MD&#39;, &#39;NFP&#39;, &#39;NN&#39;, &#39;NNP&#39;, &#39;NNPS&#39;, &#39;NNS&#39;, &#39;PDT&#39;, &#39;POS&#39;, &#39;PRP&#39;, &#39;PRP$&#39;, &#39;RB&#39;, &#39;RBR&#39;, &#39;RBS&#39;, &#39;RP&#39;, &#39;SYM&#39;, &#39;TO&#39;, &#39;UH&#39;, &#39;VB&#39;, &#39;VBD&#39;, &#39;VBG&#39;, &#39;VBN&#39;, &#39;VBP&#39;, &#39;VBZ&#39;, &#39;WDT&#39;, &#39;WP&#39;, &#39;WP$&#39;, &#39;WRB&#39;, &#39;XX&#39;, &#39;_SP&#39;, &#39;``&#39;], &#39;parser&#39;: [&#39;ROOT&#39;, &#39;acl&#39;, &#39;acomp&#39;, &#39;advcl&#39;, &#39;advmod&#39;, &#39;agent&#39;, &#39;amod&#39;, &#39;appos&#39;, &#39;attr&#39;, &#39;aux&#39;, &#39;auxpass&#39;, &#39;case&#39;, &#39;cc&#39;, &#39;ccomp&#39;, &#39;compound&#39;, &#39;conj&#39;, &#39;csubj&#39;, &#39;csubjpass&#39;, &#39;dative&#39;, &#39;dep&#39;, &#39;det&#39;, &#39;dobj&#39;, &#39;expl&#39;, &#39;intj&#39;, &#39;mark&#39;, &#39;meta&#39;, &#39;neg&#39;, &#39;nmod&#39;, &#39;npadvmod&#39;, &#39;nsubj&#39;, &#39;nsubjpass&#39;, &#39;nummod&#39;, &#39;oprd&#39;, &#39;parataxis&#39;, &#39;pcomp&#39;, &#39;pobj&#39;, &#39;poss&#39;, &#39;preconj&#39;, &#39;predet&#39;, &#39;prep&#39;, &#39;prt&#39;, &#39;punct&#39;, &#39;quantmod&#39;, &#39;relcl&#39;, &#39;xcomp&#39;], &#39;ner&#39;: [&#39;CARDINAL&#39;, &#39;DATE&#39;, &#39;EVENT&#39;, &#39;FAC&#39;, &#39;GPE&#39;, &#39;LANGUAGE&#39;, &#39;LAW&#39;, &#39;LOC&#39;, &#39;MONEY&#39;, &#39;NORP&#39;, &#39;ORDINAL&#39;, &#39;ORG&#39;, &#39;PERCENT&#39;, &#39;PERSON&#39;, &#39;PRODUCT&#39;, &#39;QUANTITY&#39;, &#39;TIME&#39;, &#39;WORK_OF_ART&#39;]}
+vectors          {&#39;width&#39;: 300, &#39;vectors&#39;: 684831, &#39;keys&#39;: 684830, &#39;name&#39;: &#39;en_core_web_lg.vectors&#39;}
+source           /Users/richardtruong-chau/miniconda3/envs/datadescribe/lib/python3.7/site-packages/en_core_web_lg
+
+[2020-08-16 23:06:52,628][presidio][INFO]Printing spaCy model and package details:
+
+ {&#39;lang&#39;: &#39;en&#39;, &#39;name&#39;: &#39;core_web_lg&#39;, &#39;license&#39;: &#39;MIT&#39;, &#39;author&#39;: &#39;Explosion&#39;, &#39;url&#39;: &#39;https://explosion.ai&#39;, &#39;email&#39;: &#39;contact@explosion.ai&#39;, &#39;description&#39;: &#39;English multi-task CNN trained on OntoNotes, with GloVe vectors trained on Common Crawl. Assigns word vectors, context-specific token vectors, POS tags, dependency parse and named entities.&#39;, &#39;sources&#39;: [{&#39;name&#39;: &#39;OntoNotes 5&#39;, &#39;url&#39;: &#39;https://catalog.ldc.upenn.edu/LDC2013T19&#39;, &#39;license&#39;: &#39;commercial (licensed by Explosion)&#39;}, {&#39;name&#39;: &#39;Common Crawl&#39;}], &#39;pipeline&#39;: [&#39;tagger&#39;, &#39;parser&#39;, &#39;ner&#39;], &#39;version&#39;: &#39;2.2.5&#39;, &#39;spacy_version&#39;: &#39;&gt;=2.2.2&#39;, &#39;parent_package&#39;: &#39;spacy&#39;, &#39;accuracy&#39;: {&#39;las&#39;: 90.1734441725, &#39;uas&#39;: 92.0132337105, &#39;token_acc&#39;: 99.7579930934, &#39;tags_acc&#39;: 97.2200800054, &#39;ents_f&#39;: 86.5464321721, &#39;ents_p&#39;: 86.7358967163, &#39;ents_r&#39;: 86.3577935506}, &#39;speed&#39;: {&#39;cpu&#39;: 6257.754029418, &#39;gpu&#39;: None, &#39;nwords&#39;: 291314}, &#39;labels&#39;: {&#39;tagger&#39;: [&#39;$&#39;, &#34;&#39;&#39;&#34;, &#39;,&#39;, &#39;-LRB-&#39;, &#39;-RRB-&#39;, &#39;.&#39;, &#39;:&#39;, &#39;ADD&#39;, &#39;AFX&#39;, &#39;CC&#39;, &#39;CD&#39;, &#39;DT&#39;, &#39;EX&#39;, &#39;FW&#39;, &#39;HYPH&#39;, &#39;IN&#39;, &#39;JJ&#39;, &#39;JJR&#39;, &#39;JJS&#39;, &#39;LS&#39;, &#39;MD&#39;, &#39;NFP&#39;, &#39;NN&#39;, &#39;NNP&#39;, &#39;NNPS&#39;, &#39;NNS&#39;, &#39;PDT&#39;, &#39;POS&#39;, &#39;PRP&#39;, &#39;PRP$&#39;, &#39;RB&#39;, &#39;RBR&#39;, &#39;RBS&#39;, &#39;RP&#39;, &#39;SYM&#39;, &#39;TO&#39;, &#39;UH&#39;, &#39;VB&#39;, &#39;VBD&#39;, &#39;VBG&#39;, &#39;VBN&#39;, &#39;VBP&#39;, &#39;VBZ&#39;, &#39;WDT&#39;, &#39;WP&#39;, &#39;WP$&#39;, &#39;WRB&#39;, &#39;XX&#39;, &#39;_SP&#39;, &#39;``&#39;], &#39;parser&#39;: [&#39;ROOT&#39;, &#39;acl&#39;, &#39;acomp&#39;, &#39;advcl&#39;, &#39;advmod&#39;, &#39;agent&#39;, &#39;amod&#39;, &#39;appos&#39;, &#39;attr&#39;, &#39;aux&#39;, &#39;auxpass&#39;, &#39;case&#39;, &#39;cc&#39;, &#39;ccomp&#39;, &#39;compound&#39;, &#39;conj&#39;, &#39;csubj&#39;, &#39;csubjpass&#39;, &#39;dative&#39;, &#39;dep&#39;, &#39;det&#39;, &#39;dobj&#39;, &#39;expl&#39;, &#39;intj&#39;, &#39;mark&#39;, &#39;meta&#39;, &#39;neg&#39;, &#39;nmod&#39;, &#39;npadvmod&#39;, &#39;nsubj&#39;, &#39;nsubjpass&#39;, &#39;nummod&#39;, &#39;oprd&#39;, &#39;parataxis&#39;, &#39;pcomp&#39;, &#39;pobj&#39;, &#39;poss&#39;, &#39;preconj&#39;, &#39;predet&#39;, &#39;prep&#39;, &#39;prt&#39;, &#39;punct&#39;, &#39;quantmod&#39;, &#39;relcl&#39;, &#39;xcomp&#39;], &#39;ner&#39;: [&#39;CARDINAL&#39;, &#39;DATE&#39;, &#39;EVENT&#39;, &#39;FAC&#39;, &#39;GPE&#39;, &#39;LANGUAGE&#39;, &#39;LAW&#39;, &#39;LOC&#39;, &#39;MONEY&#39;, &#39;NORP&#39;, &#39;ORDINAL&#39;, &#39;ORG&#39;, &#39;PERCENT&#39;, &#39;PERSON&#39;, &#39;PRODUCT&#39;, &#39;QUANTITY&#39;, &#39;TIME&#39;, &#39;WORK_OF_ART&#39;]}, &#39;vectors&#39;: {&#39;width&#39;: 300, &#39;vectors&#39;: 684831, &#39;keys&#39;: 684830, &#39;name&#39;: &#39;en_core_web_lg.vectors&#39;}, &#39;source&#39;: &#39;/Users/richardtruong-chau/miniconda3/envs/datadescribe/lib/python3.7/site-packages/en_core_web_lg&#39;}
+
+
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+INFO:presidio:Printing spaCy model and package details:
+
+ {&#39;lang&#39;: &#39;en&#39;, &#39;name&#39;: &#39;core_web_lg&#39;, &#39;license&#39;: &#39;MIT&#39;, &#39;author&#39;: &#39;Explosion&#39;, &#39;url&#39;: &#39;https://explosion.ai&#39;, &#39;email&#39;: &#39;contact@explosion.ai&#39;, &#39;description&#39;: &#39;English multi-task CNN trained on OntoNotes, with GloVe vectors trained on Common Crawl. Assigns word vectors, context-specific token vectors, POS tags, dependency parse and named entities.&#39;, &#39;sources&#39;: [{&#39;name&#39;: &#39;OntoNotes 5&#39;, &#39;url&#39;: &#39;https://catalog.ldc.upenn.edu/LDC2013T19&#39;, &#39;license&#39;: &#39;commercial (licensed by Explosion)&#39;}, {&#39;name&#39;: &#39;Common Crawl&#39;}], &#39;pipeline&#39;: [&#39;tagger&#39;, &#39;parser&#39;, &#39;ner&#39;], &#39;version&#39;: &#39;2.2.5&#39;, &#39;spacy_version&#39;: &#39;&gt;=2.2.2&#39;, &#39;parent_package&#39;: &#39;spacy&#39;, &#39;accuracy&#39;: {&#39;las&#39;: 90.1734441725, &#39;uas&#39;: 92.0132337105, &#39;token_acc&#39;: 99.7579930934, &#39;tags_acc&#39;: 97.2200800054, &#39;ents_f&#39;: 86.5464321721, &#39;ents_p&#39;: 86.7358967163, &#39;ents_r&#39;: 86.3577935506}, &#39;speed&#39;: {&#39;cpu&#39;: 6257.754029418, &#39;gpu&#39;: None, &#39;nwords&#39;: 291314}, &#39;labels&#39;: {&#39;tagger&#39;: [&#39;$&#39;, &#34;&#39;&#39;&#34;, &#39;,&#39;, &#39;-LRB-&#39;, &#39;-RRB-&#39;, &#39;.&#39;, &#39;:&#39;, &#39;ADD&#39;, &#39;AFX&#39;, &#39;CC&#39;, &#39;CD&#39;, &#39;DT&#39;, &#39;EX&#39;, &#39;FW&#39;, &#39;HYPH&#39;, &#39;IN&#39;, &#39;JJ&#39;, &#39;JJR&#39;, &#39;JJS&#39;, &#39;LS&#39;, &#39;MD&#39;, &#39;NFP&#39;, &#39;NN&#39;, &#39;NNP&#39;, &#39;NNPS&#39;, &#39;NNS&#39;, &#39;PDT&#39;, &#39;POS&#39;, &#39;PRP&#39;, &#39;PRP$&#39;, &#39;RB&#39;, &#39;RBR&#39;, &#39;RBS&#39;, &#39;RP&#39;, &#39;SYM&#39;, &#39;TO&#39;, &#39;UH&#39;, &#39;VB&#39;, &#39;VBD&#39;, &#39;VBG&#39;, &#39;VBN&#39;, &#39;VBP&#39;, &#39;VBZ&#39;, &#39;WDT&#39;, &#39;WP&#39;, &#39;WP$&#39;, &#39;WRB&#39;, &#39;XX&#39;, &#39;_SP&#39;, &#39;``&#39;], &#39;parser&#39;: [&#39;ROOT&#39;, &#39;acl&#39;, &#39;acomp&#39;, &#39;advcl&#39;, &#39;advmod&#39;, &#39;agent&#39;, &#39;amod&#39;, &#39;appos&#39;, &#39;attr&#39;, &#39;aux&#39;, &#39;auxpass&#39;, &#39;case&#39;, &#39;cc&#39;, &#39;ccomp&#39;, &#39;compound&#39;, &#39;conj&#39;, &#39;csubj&#39;, &#39;csubjpass&#39;, &#39;dative&#39;, &#39;dep&#39;, &#39;det&#39;, &#39;dobj&#39;, &#39;expl&#39;, &#39;intj&#39;, &#39;mark&#39;, &#39;meta&#39;, &#39;neg&#39;, &#39;nmod&#39;, &#39;npadvmod&#39;, &#39;nsubj&#39;, &#39;nsubjpass&#39;, &#39;nummod&#39;, &#39;oprd&#39;, &#39;parataxis&#39;, &#39;pcomp&#39;, &#39;pobj&#39;, &#39;poss&#39;, &#39;preconj&#39;, &#39;predet&#39;, &#39;prep&#39;, &#39;prt&#39;, &#39;punct&#39;, &#39;quantmod&#39;, &#39;relcl&#39;, &#39;xcomp&#39;], &#39;ner&#39;: [&#39;CARDINAL&#39;, &#39;DATE&#39;, &#39;EVENT&#39;, &#39;FAC&#39;, &#39;GPE&#39;, &#39;LANGUAGE&#39;, &#39;LAW&#39;, &#39;LOC&#39;, &#39;MONEY&#39;, &#39;NORP&#39;, &#39;ORDINAL&#39;, &#39;ORG&#39;, &#39;PERCENT&#39;, &#39;PERSON&#39;, &#39;PRODUCT&#39;, &#39;QUANTITY&#39;, &#39;TIME&#39;, &#39;WORK_OF_ART&#39;]}, &#39;vectors&#39;: {&#39;width&#39;: 300, &#39;vectors&#39;: 684831, &#39;keys&#39;: 684830, &#39;name&#39;: &#39;en_core_web_lg.vectors&#39;}, &#39;source&#39;: &#39;/Users/richardtruong-chau/miniconda3/envs/datadescribe/lib/python3.7/site-packages/en_core_web_lg&#39;}
+
+
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[2020-08-16 23:06:52,630][presidio][INFO]Recognizer registry not provided. Creating default RecognizerRegistry instance
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+INFO:presidio:Recognizer registry not provided. Creating default RecognizerRegistry instance
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[2020-08-16 23:06:52,631][presidio][INFO]Loaded recognizer: CreditCardRecognizer
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+INFO:presidio:Loaded recognizer: CreditCardRecognizer
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[2020-08-16 23:06:52,633][presidio][INFO]Loaded recognizer: CryptoRecognizer
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+INFO:presidio:Loaded recognizer: CryptoRecognizer
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[2020-08-16 23:06:52,634][presidio][INFO]Loaded recognizer: DomainRecognizer
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+INFO:presidio:Loaded recognizer: DomainRecognizer
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[2020-08-16 23:06:52,635][presidio][INFO]Loaded recognizer: EmailRecognizer
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+INFO:presidio:Loaded recognizer: EmailRecognizer
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[2020-08-16 23:06:52,637][presidio][INFO]Loaded recognizer: IbanRecognizer
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+INFO:presidio:Loaded recognizer: IbanRecognizer
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[2020-08-16 23:06:52,638][presidio][INFO]Loaded recognizer: IpRecognizer
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+INFO:presidio:Loaded recognizer: IpRecognizer
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[2020-08-16 23:06:52,639][presidio][INFO]Loaded recognizer: NhsRecognizer
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+INFO:presidio:Loaded recognizer: NhsRecognizer
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[2020-08-16 23:06:52,640][presidio][INFO]Loaded recognizer: UsBankRecognizer
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+INFO:presidio:Loaded recognizer: UsBankRecognizer
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[2020-08-16 23:06:52,641][presidio][INFO]Loaded recognizer: UsLicenseRecognizer
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+INFO:presidio:Loaded recognizer: UsLicenseRecognizer
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[2020-08-16 23:06:52,643][presidio][INFO]Loaded recognizer: UsItinRecognizer
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+INFO:presidio:Loaded recognizer: UsItinRecognizer
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[2020-08-16 23:06:52,643][presidio][INFO]Loaded recognizer: UsPassportRecognizer
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+INFO:presidio:Loaded recognizer: UsPassportRecognizer
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[2020-08-16 23:06:52,644][presidio][INFO]Loaded recognizer: UsPhoneRecognizer
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+INFO:presidio:Loaded recognizer: UsPhoneRecognizer
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[2020-08-16 23:06:52,645][presidio][INFO]Loaded recognizer: UsSsnRecognizer
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+INFO:presidio:Loaded recognizer: UsSsnRecognizer
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[2020-08-16 23:06:52,646][presidio][INFO]Loaded recognizer: SpacyRecognizer
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+INFO:presidio:Loaded recognizer: SpacyRecognizer
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[2020-08-16 23:06:52,648][presidio][INFO]Loaded recognizer: SgFinRecognizer
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+INFO:presidio:Loaded recognizer: SgFinRecognizer
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;matplotlib.axes._subplots.AxesSubplot at 0x7fafb3676c90&gt;
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;data_describe.core.correlation_matrices.CorrelationMatrixWidget at 0x7fafadfbd850&gt;
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/examples_correlation_matrix_5_40.png" src="../_images/examples_correlation_matrix_5_40.png" />
+</div>
+</div>
+</div>
+<div class="section" id="Enable-clustering">
+<h2>Enable clustering<a class="headerlink" href="#Enable-clustering" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">dd</span><span class="o">.</span><span class="n">correlation_matrix</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">cluster</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">viz_backend</span><span class="o">=</span><span class="s2">&quot;plotly&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<script type="text/javascript">
+window.PlotlyConfig = {MathJaxConfig: 'local'};
+if (window.MathJax) {MathJax.Hub.Config({SVG: {font: "STIX-Web"}});}
+if (typeof require !== 'undefined') {
+require.undef("plotly");
+requirejs.config({
+    paths: {
+        'plotly': ['https://cdn.plot.ly/plotly-latest.min']
+    }
+});
+require(['plotly'], function(Plotly) {
+    window._Plotly = Plotly;
+});
+}
+</script></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+
+
+            <div id="51e587d2-4d9f-436e-ab84-7e3c48c90b13" class="plotly-graph-div" style="height:750px; width:750px;"></div>
+            <script type="text/javascript">
+                require(["plotly"], function(Plotly) {
+                    window.PLOTLYENV=window.PLOTLYENV || {};
+
+                if (document.getElementById("51e587d2-4d9f-436e-ab84-7e3c48c90b13")) {
+                    Plotly.newPlot(
+                        '51e587d2-4d9f-436e-ab84-7e3c48c90b13',
+                        [{"colorbar": {"title": {"text": "Strength"}}, "colorscale": [[0, "rgb(105.84626995902877, 151.2308466393525, 184.30774150806306)"], [0.5454545454545454, "rgb(242, 242, 242)"], [1.0, "rgb(219.24429528667045, 74.51801330989447, 85.44075157229265)"]], "connectgaps": false, "type": "heatmap", "x": ["PTRATIO", "LSTAT", "RAD", "TAX", "INDUS", "NOX", "CHAS", "B", "RM", "target", "ZN", "DIS"], "xgap": 2, "y": ["DIS", "ZN", "target", "RM", "B", "CHAS", "NOX", "INDUS", "TAX", "RAD", "LSTAT", "PTRATIO"], "ygap": 2, "z": [[-0.23247054240825624, -0.4969958308636852, -0.49458792967207543, -0.5344315844084561, -0.7080269887427683, -0.7692301132258261, -0.09917578017472706, 0.2915116731330401, 0.20524621293005516, 0.24992873408590394, 0.6638446841957253, null], [-0.39120316218140827, -0.41319525406862845, -0.31171244646699464, -0.3143380917377908, -0.5335828984741289, -0.5163097674725308, -0.04253337190728173, 0.17534122571961053, 0.31221813035696344, 0.36058036004339816, null, null], [-0.507786685537561, -0.7376627261740143, -0.3816262306397776, -0.46853593356776646, -0.483725160028373, -0.4273207723732817, 0.1752601771902975, 0.33346081965706653, 0.6953599470715389, null, null, null], [-0.3555014945590849, -0.6138082718663957, -0.20984666776610877, -0.29204783262321915, -0.39167585265684357, -0.3021881878495933, 0.09125122504345595, 0.1280686350925431, null, null, null, null], [-0.17738330230523142, -0.3660869016915971, -0.44441281557512574, -0.44180800672281384, -0.3569765351041929, -0.3800506377924003, 0.04878848495516622, null, null, null, null, null], [-0.121515173658062, -0.05392929837569404, -0.007368240886077726, -0.03558651758591118, 0.0629380274896654, 0.09120280684249406, null, null, null, null, null, null], [0.18893267711276665, 0.5908789208808449, 0.6114405634855754, 0.6680232004030201, 0.7636514469209145, null, null, null, null, null, null, null], [0.38324755642888675, 0.6037997164766213, 0.5951292746038486, 0.7207601799515441, null, null, null, null, null, null, null, null], [0.4608530350656657, 0.543993412001569, 0.9102281885331822, null, null, null, null, null, null, null, null, null], [0.46474117850305435, 0.4886763349750664, null, null, null, null, null, null, null, null, null, null], [0.3740443167146754, null, null, null, null, null, null, null, null, null, null, null], [null, null, null, null, null, null, null, null, null, null, null, null]]}],
+                        {"autosize": false, "height": 750, "paper_bgcolor": "rgb(0,0,0,0)", "plot_bgcolor": "rgb(0,0,0,0)", "template": {"data": {"bar": [{"error_x": {"color": "#2a3f5f"}, "error_y": {"color": "#2a3f5f"}, "marker": {"line": {"color": "#E5ECF6", "width": 0.5}}, "type": "bar"}], "barpolar": [{"marker": {"line": {"color": "#E5ECF6", "width": 0.5}}, "type": "barpolar"}], "carpet": [{"aaxis": {"endlinecolor": "#2a3f5f", "gridcolor": "white", "linecolor": "white", "minorgridcolor": "white", "startlinecolor": "#2a3f5f"}, "baxis": {"endlinecolor": "#2a3f5f", "gridcolor": "white", "linecolor": "white", "minorgridcolor": "white", "startlinecolor": "#2a3f5f"}, "type": "carpet"}], "choropleth": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "type": "choropleth"}], "contour": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "contour"}], "contourcarpet": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "type": "contourcarpet"}], "heatmap": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "heatmap"}], "heatmapgl": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "heatmapgl"}], "histogram": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "histogram"}], "histogram2d": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "histogram2d"}], "histogram2dcontour": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "histogram2dcontour"}], "mesh3d": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "type": "mesh3d"}], "parcoords": [{"line": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "parcoords"}], "pie": [{"automargin": true, "type": "pie"}], "scatter": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scatter"}], "scatter3d": [{"line": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scatter3d"}], "scattercarpet": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scattercarpet"}], "scattergeo": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scattergeo"}], "scattergl": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scattergl"}], "scattermapbox": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scattermapbox"}], "scatterpolar": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scatterpolar"}], "scatterpolargl": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scatterpolargl"}], "scatterternary": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scatterternary"}], "surface": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "surface"}], "table": [{"cells": {"fill": {"color": "#EBF0F8"}, "line": {"color": "white"}}, "header": {"fill": {"color": "#C8D4E3"}, "line": {"color": "white"}}, "type": "table"}]}, "layout": {"annotationdefaults": {"arrowcolor": "#2a3f5f", "arrowhead": 0, "arrowwidth": 1}, "coloraxis": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "colorscale": {"diverging": [[0, "#8e0152"], [0.1, "#c51b7d"], [0.2, "#de77ae"], [0.3, "#f1b6da"], [0.4, "#fde0ef"], [0.5, "#f7f7f7"], [0.6, "#e6f5d0"], [0.7, "#b8e186"], [0.8, "#7fbc41"], [0.9, "#4d9221"], [1, "#276419"]], "sequential": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "sequentialminus": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]]}, "colorway": ["#636efa", "#EF553B", "#00cc96", "#ab63fa", "#FFA15A", "#19d3f3", "#FF6692", "#B6E880", "#FF97FF", "#FECB52"], "font": {"color": "#2a3f5f"}, "geo": {"bgcolor": "white", "lakecolor": "white", "landcolor": "#E5ECF6", "showlakes": true, "showland": true, "subunitcolor": "white"}, "hoverlabel": {"align": "left"}, "hovermode": "closest", "mapbox": {"style": "light"}, "paper_bgcolor": "white", "plot_bgcolor": "#E5ECF6", "polar": {"angularaxis": {"gridcolor": "white", "linecolor": "white", "ticks": ""}, "bgcolor": "#E5ECF6", "radialaxis": {"gridcolor": "white", "linecolor": "white", "ticks": ""}}, "scene": {"xaxis": {"backgroundcolor": "#E5ECF6", "gridcolor": "white", "gridwidth": 2, "linecolor": "white", "showbackground": true, "ticks": "", "zerolinecolor": "white"}, "yaxis": {"backgroundcolor": "#E5ECF6", "gridcolor": "white", "gridwidth": 2, "linecolor": "white", "showbackground": true, "ticks": "", "zerolinecolor": "white"}, "zaxis": {"backgroundcolor": "#E5ECF6", "gridcolor": "white", "gridwidth": 2, "linecolor": "white", "showbackground": true, "ticks": "", "zerolinecolor": "white"}}, "shapedefaults": {"line": {"color": "#2a3f5f"}}, "ternary": {"aaxis": {"gridcolor": "white", "linecolor": "white", "ticks": ""}, "baxis": {"gridcolor": "white", "linecolor": "white", "ticks": ""}, "bgcolor": "#E5ECF6", "caxis": {"gridcolor": "white", "linecolor": "white", "ticks": ""}}, "title": {"x": 0.05}, "xaxis": {"automargin": true, "gridcolor": "white", "linecolor": "white", "ticks": "", "title": {"standoff": 15}, "zerolinecolor": "white", "zerolinewidth": 2}, "yaxis": {"automargin": true, "gridcolor": "white", "linecolor": "white", "ticks": "", "title": {"standoff": 15}, "zerolinecolor": "white", "zerolinewidth": 2}}}, "title": {"font": {"size": 25}, "text": "Correlation Matrix"}, "width": 750, "xaxis": {"automargin": true, "showgrid": false, "tickangle": -90, "ticks": ""}, "yaxis": {"automargin": true, "showgrid": false, "ticks": ""}},
+                        {"displayModeBar": false, "responsive": true}
+                    ).then(function(){
+
+var gd = document.getElementById('51e587d2-4d9f-436e-ab84-7e3c48c90b13');
+var x = new MutationObserver(function (mutations, observer) {{
+        var display = window.getComputedStyle(gd).display;
+        if (!display || display === 'none') {{
+            console.log([gd, 'removed!']);
+            Plotly.purge(gd);
+            observer.disconnect();
+        }}
+}});
+
+// Listen for the removal of the full notebook cells
+var notebookContainer = gd.closest('#notebook-container');
+if (notebookContainer) {{
+    x.observe(notebookContainer, {childList: true});
+}}
+
+// Listen for the clearing of the current output cell
+var outputEl = gd.closest('.output');
+if (outputEl) {{
+    x.observe(outputEl, {childList: true});
+}}
+
+                        })
+                };
+                });
+            </script>
+        </div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+None
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;data_describe.core.correlation_matrices.CorrelationMatrixWidget at 0x7fafae19d610&gt;
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="Show-categorical-features">
+<h2>Show categorical features<a class="headerlink" href="#Show-categorical-features" title="Permalink to this headline">¶</a></h2>
+<p><strong>WARNING</strong>: When using categorical features, the matrix represents strength of association (i.e. in the scale [0, 1]). This is because it is hard to define the meaning of a <em>negative association</em> involving a categorical feature.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">dd</span><span class="o">.</span><span class="n">correlation_matrix</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">categorical</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">viz_backend</span><span class="o">=</span><span class="s2">&quot;plotly&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<script type="text/javascript">
+window.PlotlyConfig = {MathJaxConfig: 'local'};
+if (window.MathJax) {MathJax.Hub.Config({SVG: {font: "STIX-Web"}});}
+if (typeof require !== 'undefined') {
+require.undef("plotly");
+requirejs.config({
+    paths: {
+        'plotly': ['https://cdn.plot.ly/plotly-latest.min']
+    }
+});
+require(['plotly'], function(Plotly) {
+    window._Plotly = Plotly;
+});
+}
+</script></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+
+
+            <div id="0874d652-396a-4f59-9408-3944b769f7f1" class="plotly-graph-div" style="height:750px; width:750px;"></div>
+            <script type="text/javascript">
+                require(["plotly"], function(Plotly) {
+                    window.PLOTLYENV=window.PLOTLYENV || {};
+
+                if (document.getElementById("0874d652-396a-4f59-9408-3944b769f7f1")) {
+                    Plotly.newPlot(
+                        '0874d652-396a-4f59-9408-3944b769f7f1',
+                        [{"colorbar": {"title": {"text": "Strength"}}, "colorscale": [[0, "rgb(242.0, 242.0, 242.0)"], [0.01098901098901099, "rgb(242, 242, 242)"], [1.0, "rgb(219.24429528667045, 74.51801330989447, 85.44075157229265)"]], "connectgaps": false, "type": "heatmap", "x": ["CRIM", "ZN", "INDUS", "CHAS", "NOX", "RM", "AGE", "DIS", "RAD", "TAX", "PTRATIO", "B", "LSTAT", "target"], "xgap": 2, "y": ["target", "LSTAT", "B", "PTRATIO", "TAX", "RAD", "DIS", "AGE", "RM", "NOX", "CHAS", "INDUS", "ZN", "CRIM"], "ygap": 2, "z": [[0.26301673420901933, 0.36058036004339816, 0.483725160028373, 0.1752601771902975, 0.4273207723732817, 0.6953599470715389, 0.19948619436160797, 0.24992873408590394, 0.3816262306397776, 0.46853593356776646, 0.507786685537561, 0.33346081965706653, 0.7376627261740143, null], [0.45326273244549253, 0.41319525406862845, 0.6037997164766213, 0.05392929837569404, 0.5908789208808449, 0.6138082718663957, 0.3135126328967585, 0.4969958308636852, 0.4886763349750664, 0.543993412001569, 0.3740443167146754, 0.3660869016915971, null, null], [0.3512109336446147, 0.17534122571961053, 0.3569765351041929, 0.04878848495516622, 0.3800506377924003, 0.1280686350925431, 0.12452657926463752, 0.2915116731330401, 0.44441281557512574, 0.44180800672281384, 0.17738330230523142, null, null, null], [0.2535683632034179, 0.39120316218140827, 0.38324755642888675, 0.121515173658062, 0.18893267711276665, 0.3555014945590849, 0.1371727585788714, 0.23247054240825624, 0.46474117850305435, 0.4608530350656657, null, null, null, null], [0.6087412828611813, 0.3143380917377908, 0.7207601799515441, 0.03558651758591118, 0.6680232004030201, 0.29204783262321915, 0.21472821377013707, 0.5344315844084561, 0.9102281885331822, null, null, null, null, null], [0.619786249019655, 0.31171244646699464, 0.5951292746038486, 0.007368240886077726, 0.6114405634855754, 0.20984666776610877, 0.22345165088404528, 0.49458792967207543, null, null, null, null, null, null], [0.6163416418258281, 0.6638446841957253, 0.7080269887427683, 0.09917578017472706, 0.7692301132258261, 0.20524621293005516, 0.43710883345830687, null, null, null, null, null, null, null], [0.0, 0.42607555802798625, 0.29402808382378476, 0.05180138423148976, 0.37940904705482625, 0.1279083797202358, null, null, null, null, null, null, null, null], [0.1563717751228942, 0.31221813035696344, 0.39167585265684357, 0.09125122504345595, 0.3021881878495933, null, null, null, null, null, null, null, null, null], [0.7232347950332824, 0.5163097674725308, 0.7636514469209145, 0.09120280684249406, null, null, null, null, null, null, null, null, null, null], [0.0700967743894098, 0.04253337190728173, 0.0629380274896654, null, null, null, null, null, null, null, null, null, null, null], [0.6032601715706418, 0.5335828984741289, null, null, null, null, null, null, null, null, null, null, null, null], [0.4356940231909734, null, null, null, null, null, null, null, null, null, null, null, null, null], [null, null, null, null, null, null, null, null, null, null, null, null, null, null]]}],
+                        {"autosize": false, "height": 750, "paper_bgcolor": "rgb(0,0,0,0)", "plot_bgcolor": "rgb(0,0,0,0)", "template": {"data": {"bar": [{"error_x": {"color": "#2a3f5f"}, "error_y": {"color": "#2a3f5f"}, "marker": {"line": {"color": "#E5ECF6", "width": 0.5}}, "type": "bar"}], "barpolar": [{"marker": {"line": {"color": "#E5ECF6", "width": 0.5}}, "type": "barpolar"}], "carpet": [{"aaxis": {"endlinecolor": "#2a3f5f", "gridcolor": "white", "linecolor": "white", "minorgridcolor": "white", "startlinecolor": "#2a3f5f"}, "baxis": {"endlinecolor": "#2a3f5f", "gridcolor": "white", "linecolor": "white", "minorgridcolor": "white", "startlinecolor": "#2a3f5f"}, "type": "carpet"}], "choropleth": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "type": "choropleth"}], "contour": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "contour"}], "contourcarpet": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "type": "contourcarpet"}], "heatmap": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "heatmap"}], "heatmapgl": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "heatmapgl"}], "histogram": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "histogram"}], "histogram2d": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "histogram2d"}], "histogram2dcontour": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "histogram2dcontour"}], "mesh3d": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "type": "mesh3d"}], "parcoords": [{"line": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "parcoords"}], "pie": [{"automargin": true, "type": "pie"}], "scatter": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scatter"}], "scatter3d": [{"line": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scatter3d"}], "scattercarpet": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scattercarpet"}], "scattergeo": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scattergeo"}], "scattergl": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scattergl"}], "scattermapbox": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scattermapbox"}], "scatterpolar": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scatterpolar"}], "scatterpolargl": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scatterpolargl"}], "scatterternary": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scatterternary"}], "surface": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "surface"}], "table": [{"cells": {"fill": {"color": "#EBF0F8"}, "line": {"color": "white"}}, "header": {"fill": {"color": "#C8D4E3"}, "line": {"color": "white"}}, "type": "table"}]}, "layout": {"annotationdefaults": {"arrowcolor": "#2a3f5f", "arrowhead": 0, "arrowwidth": 1}, "coloraxis": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "colorscale": {"diverging": [[0, "#8e0152"], [0.1, "#c51b7d"], [0.2, "#de77ae"], [0.3, "#f1b6da"], [0.4, "#fde0ef"], [0.5, "#f7f7f7"], [0.6, "#e6f5d0"], [0.7, "#b8e186"], [0.8, "#7fbc41"], [0.9, "#4d9221"], [1, "#276419"]], "sequential": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "sequentialminus": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]]}, "colorway": ["#636efa", "#EF553B", "#00cc96", "#ab63fa", "#FFA15A", "#19d3f3", "#FF6692", "#B6E880", "#FF97FF", "#FECB52"], "font": {"color": "#2a3f5f"}, "geo": {"bgcolor": "white", "lakecolor": "white", "landcolor": "#E5ECF6", "showlakes": true, "showland": true, "subunitcolor": "white"}, "hoverlabel": {"align": "left"}, "hovermode": "closest", "mapbox": {"style": "light"}, "paper_bgcolor": "white", "plot_bgcolor": "#E5ECF6", "polar": {"angularaxis": {"gridcolor": "white", "linecolor": "white", "ticks": ""}, "bgcolor": "#E5ECF6", "radialaxis": {"gridcolor": "white", "linecolor": "white", "ticks": ""}}, "scene": {"xaxis": {"backgroundcolor": "#E5ECF6", "gridcolor": "white", "gridwidth": 2, "linecolor": "white", "showbackground": true, "ticks": "", "zerolinecolor": "white"}, "yaxis": {"backgroundcolor": "#E5ECF6", "gridcolor": "white", "gridwidth": 2, "linecolor": "white", "showbackground": true, "ticks": "", "zerolinecolor": "white"}, "zaxis": {"backgroundcolor": "#E5ECF6", "gridcolor": "white", "gridwidth": 2, "linecolor": "white", "showbackground": true, "ticks": "", "zerolinecolor": "white"}}, "shapedefaults": {"line": {"color": "#2a3f5f"}}, "ternary": {"aaxis": {"gridcolor": "white", "linecolor": "white", "ticks": ""}, "baxis": {"gridcolor": "white", "linecolor": "white", "ticks": ""}, "bgcolor": "#E5ECF6", "caxis": {"gridcolor": "white", "linecolor": "white", "ticks": ""}}, "title": {"x": 0.05}, "xaxis": {"automargin": true, "gridcolor": "white", "linecolor": "white", "ticks": "", "title": {"standoff": 15}, "zerolinecolor": "white", "zerolinewidth": 2}, "yaxis": {"automargin": true, "gridcolor": "white", "linecolor": "white", "ticks": "", "title": {"standoff": 15}, "zerolinecolor": "white", "zerolinewidth": 2}}}, "title": {"font": {"size": 25}, "text": "Correlation Matrix"}, "width": 750, "xaxis": {"automargin": true, "showgrid": false, "tickangle": -90, "ticks": ""}, "yaxis": {"automargin": true, "showgrid": false, "ticks": ""}},
+                        {"displayModeBar": false, "responsive": true}
+                    ).then(function(){
+
+var gd = document.getElementById('0874d652-396a-4f59-9408-3944b769f7f1');
+var x = new MutationObserver(function (mutations, observer) {{
+        var display = window.getComputedStyle(gd).display;
+        if (!display || display === 'none') {{
+            console.log([gd, 'removed!']);
+            Plotly.purge(gd);
+            observer.disconnect();
+        }}
+}});
+
+// Listen for the removal of the full notebook cells
+var notebookContainer = gd.closest('#notebook-container');
+if (notebookContainer) {{
+    x.observe(notebookContainer, {childList: true});
+}}
+
+// Listen for the clearing of the current output cell
+var outputEl = gd.closest('.output');
+if (outputEl) {{
+    x.observe(outputEl, {childList: true});
+}}
+
+                        })
+                };
+                });
+            </script>
+        </div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+None
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;data_describe.core.correlation_matrices.CorrelationMatrixWidget at 0x7fafb3ba0390&gt;
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="Return-values-only">
+<h2>Return values only<a class="headerlink" href="#Return-values-only" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">correlation_widget</span> <span class="o">=</span> <span class="n">dd</span><span class="o">.</span><span class="n">correlation_matrix</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="n">correlation_widget</span><span class="o">.</span><span class="n">viz_data</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>ZN</th>
+      <th>INDUS</th>
+      <th>CHAS</th>
+      <th>NOX</th>
+      <th>RM</th>
+      <th>DIS</th>
+      <th>RAD</th>
+      <th>TAX</th>
+      <th>PTRATIO</th>
+      <th>B</th>
+      <th>LSTAT</th>
+      <th>target</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>ZN</th>
+      <td>1.000000</td>
+      <td>-0.533583</td>
+      <td>-0.042533</td>
+      <td>-0.516310</td>
+      <td>0.312218</td>
+      <td>0.663845</td>
+      <td>-0.311712</td>
+      <td>-0.314338</td>
+      <td>-0.391203</td>
+      <td>0.175341</td>
+      <td>-0.413195</td>
+      <td>0.360580</td>
+    </tr>
+    <tr>
+      <th>INDUS</th>
+      <td>-0.533583</td>
+      <td>1.000000</td>
+      <td>0.062938</td>
+      <td>0.763651</td>
+      <td>-0.391676</td>
+      <td>-0.708027</td>
+      <td>0.595129</td>
+      <td>0.720760</td>
+      <td>0.383248</td>
+      <td>-0.356977</td>
+      <td>0.603800</td>
+      <td>-0.483725</td>
+    </tr>
+    <tr>
+      <th>CHAS</th>
+      <td>-0.042533</td>
+      <td>0.062938</td>
+      <td>1.000000</td>
+      <td>0.091203</td>
+      <td>0.091251</td>
+      <td>-0.099176</td>
+      <td>-0.007368</td>
+      <td>-0.035587</td>
+      <td>-0.121515</td>
+      <td>0.048788</td>
+      <td>-0.053929</td>
+      <td>0.175260</td>
+    </tr>
+    <tr>
+      <th>NOX</th>
+      <td>-0.516310</td>
+      <td>0.763651</td>
+      <td>0.091203</td>
+      <td>1.000000</td>
+      <td>-0.302188</td>
+      <td>-0.769230</td>
+      <td>0.611441</td>
+      <td>0.668023</td>
+      <td>0.188933</td>
+      <td>-0.380051</td>
+      <td>0.590879</td>
+      <td>-0.427321</td>
+    </tr>
+    <tr>
+      <th>RM</th>
+      <td>0.312218</td>
+      <td>-0.391676</td>
+      <td>0.091251</td>
+      <td>-0.302188</td>
+      <td>1.000000</td>
+      <td>0.205246</td>
+      <td>-0.209847</td>
+      <td>-0.292048</td>
+      <td>-0.355501</td>
+      <td>0.128069</td>
+      <td>-0.613808</td>
+      <td>0.695360</td>
+    </tr>
+    <tr>
+      <th>DIS</th>
+      <td>0.663845</td>
+      <td>-0.708027</td>
+      <td>-0.099176</td>
+      <td>-0.769230</td>
+      <td>0.205246</td>
+      <td>1.000000</td>
+      <td>-0.494588</td>
+      <td>-0.534432</td>
+      <td>-0.232471</td>
+      <td>0.291512</td>
+      <td>-0.496996</td>
+      <td>0.249929</td>
+    </tr>
+    <tr>
+      <th>RAD</th>
+      <td>-0.311712</td>
+      <td>0.595129</td>
+      <td>-0.007368</td>
+      <td>0.611441</td>
+      <td>-0.209847</td>
+      <td>-0.494588</td>
+      <td>1.000000</td>
+      <td>0.910228</td>
+      <td>0.464741</td>
+      <td>-0.444413</td>
+      <td>0.488676</td>
+      <td>-0.381626</td>
+    </tr>
+    <tr>
+      <th>TAX</th>
+      <td>-0.314338</td>
+      <td>0.720760</td>
+      <td>-0.035587</td>
+      <td>0.668023</td>
+      <td>-0.292048</td>
+      <td>-0.534432</td>
+      <td>0.910228</td>
+      <td>1.000000</td>
+      <td>0.460853</td>
+      <td>-0.441808</td>
+      <td>0.543993</td>
+      <td>-0.468536</td>
+    </tr>
+    <tr>
+      <th>PTRATIO</th>
+      <td>-0.391203</td>
+      <td>0.383248</td>
+      <td>-0.121515</td>
+      <td>0.188933</td>
+      <td>-0.355501</td>
+      <td>-0.232471</td>
+      <td>0.464741</td>
+      <td>0.460853</td>
+      <td>1.000000</td>
+      <td>-0.177383</td>
+      <td>0.374044</td>
+      <td>-0.507787</td>
+    </tr>
+    <tr>
+      <th>B</th>
+      <td>0.175341</td>
+      <td>-0.356977</td>
+      <td>0.048788</td>
+      <td>-0.380051</td>
+      <td>0.128069</td>
+      <td>0.291512</td>
+      <td>-0.444413</td>
+      <td>-0.441808</td>
+      <td>-0.177383</td>
+      <td>1.000000</td>
+      <td>-0.366087</td>
+      <td>0.333461</td>
+    </tr>
+    <tr>
+      <th>LSTAT</th>
+      <td>-0.413195</td>
+      <td>0.603800</td>
+      <td>-0.053929</td>
+      <td>0.590879</td>
+      <td>-0.613808</td>
+      <td>-0.496996</td>
+      <td>0.488676</td>
+      <td>0.543993</td>
+      <td>0.374044</td>
+      <td>-0.366087</td>
+      <td>1.000000</td>
+      <td>-0.737663</td>
+    </tr>
+    <tr>
+      <th>target</th>
+      <td>0.360580</td>
+      <td>-0.483725</td>
+      <td>0.175260</td>
+      <td>-0.427321</td>
+      <td>0.695360</td>
+      <td>0.249929</td>
+      <td>-0.381626</td>
+      <td>-0.468536</td>
+      <td>-0.507787</td>
+      <td>0.333461</td>
+      <td>-0.737663</td>
+      <td>1.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="time_series.html" class="btn btn-neutral float-right" title="Time Series" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="cluster_analysis.html" class="btn btn-neutral float-left" title="Cluster Analysis" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Maven Wave Partners
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

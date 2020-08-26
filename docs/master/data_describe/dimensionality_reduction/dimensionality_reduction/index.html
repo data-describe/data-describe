@@ -1,0 +1,413 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>data_describe.dimensionality_reduction.dimensionality_reduction &mdash; data-describe  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/style.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../../_static/favicon.png"/>
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="data_describe.metrics" href="../../metrics/index.html" />
+    <link rel="prev" title="data_describe.dimensionality_reduction" href="../index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html">
+          
+
+          
+            
+            <img src="../../../_static/logo.svg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../overview.html">Package overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../_notebooks/tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../_notebooks/contributing_guide.html">Contributing Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../backends/index.html">data_describe.backends</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../compat/index.html">data_describe.compat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../config/index.html">data_describe.config</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../core/index.html">data_describe.core</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">data_describe.dimensionality_reduction</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">data_describe.dimensionality_reduction.dimensionality_reduction</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#data_describe.dimensionality_reduction.dimensionality_reduction.dim_reduc">dim_reduc</a></li>
+</ul>
+<ul>
+<li class="toctree-l4"><a class="reference internal" href="#data_describe.dimensionality_reduction.dimensionality_reduction.run_pca">run_pca</a></li>
+</ul>
+<ul>
+<li class="toctree-l4"><a class="reference internal" href="#data_describe.dimensionality_reduction.dimensionality_reduction.run_ipca">run_ipca</a></li>
+</ul>
+<ul>
+<li class="toctree-l4"><a class="reference internal" href="#data_describe.dimensionality_reduction.dimensionality_reduction.run_tsne">run_tsne</a></li>
+</ul>
+<ul>
+<li class="toctree-l4"><a class="reference internal" href="#data_describe.dimensionality_reduction.dimensionality_reduction.run_tsvd">run_tsvd</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../metrics/index.html">data_describe.metrics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../misc/index.html">data_describe.misc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../privacy/index.html">data_describe.privacy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../text/index.html">data_describe.text</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">data-describe</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">data_describe</a> &raquo;</li>
+        
+          <li><a href="../index.html">data_describe.dimensionality_reduction</a> &raquo;</li>
+        
+      <li>data_describe.dimensionality_reduction.dimensionality_reduction</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../../_sources/data_describe/dimensionality_reduction/dimensionality_reduction/index.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="module-data_describe.dimensionality_reduction.dimensionality_reduction">
+<span id="data-describe-dimensionality-reduction-dimensionality-reduction"></span><h1>data_describe.dimensionality_reduction.dimensionality_reduction<a class="headerlink" href="#module-data_describe.dimensionality_reduction.dimensionality_reduction" title="Permalink to this headline">¶</a></h1>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#data_describe.dimensionality_reduction.dimensionality_reduction.dim_reduc" title="data_describe.dimensionality_reduction.dimensionality_reduction.dim_reduc"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dim_reduc</span></code></a>(data, n_components: int, dim_method: str, apply_tsvd: bool = True, compute_backend=None)</p></td>
+<td><p>Reduces the number of dimensions of the input data.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#data_describe.dimensionality_reduction.dimensionality_reduction.run_pca" title="data_describe.dimensionality_reduction.dimensionality_reduction.run_pca"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run_pca</span></code></a>(data, n_components, compute_backend=None)</p></td>
+<td><p>Reduces the number of dimensions of the input data using PCA.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#data_describe.dimensionality_reduction.dimensionality_reduction.run_ipca" title="data_describe.dimensionality_reduction.dimensionality_reduction.run_ipca"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run_ipca</span></code></a>(data, n_components, compute_backend=None)</p></td>
+<td><p>Reduces the number of dimensions of the input data using Incremental PCA.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#data_describe.dimensionality_reduction.dimensionality_reduction.run_tsne" title="data_describe.dimensionality_reduction.dimensionality_reduction.run_tsne"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run_tsne</span></code></a>(data, n_components, apply_tsvd=True, compute_backend=None)</p></td>
+<td><p>Reduces the number of dimensions of the input data using t-SNE.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#data_describe.dimensionality_reduction.dimensionality_reduction.run_tsvd" title="data_describe.dimensionality_reduction.dimensionality_reduction.run_tsvd"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run_tsvd</span></code></a>(data, n_components, compute_backend=None)</p></td>
+<td><p>Reduces the number of dimensions of the input data using TSVD.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py function">
+<dt id="data_describe.dimensionality_reduction.dimensionality_reduction.dim_reduc">
+<code class="sig-prename descclassname">data_describe.dimensionality_reduction.dimensionality_reduction.</code><code class="sig-name descname">dim_reduc</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em>, <em class="sig-param"><span class="n">n_components</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">dim_method</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">apply_tsvd</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="n">compute_backend</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.dimensionality_reduction.dimensionality_reduction.dim_reduc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reduces the number of dimensions of the input data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> – The dataframe</p></li>
+<li><p><strong>n_components</strong> – Desired dimensionality for the data set prior to modeling</p></li>
+<li><p><strong>dim_method</strong> – {‘pca’, ‘ipca’, ‘tsne’, ‘tsvd’}</p></li>
+<li><p><strong>pca</strong> (<em>-</em>) – Principal Component Analysis</p></li>
+<li><p><strong>ipca</strong> (<em>-</em>) – Incremental Principal Component Analysis. Highly suggested for very large datasets</p></li>
+<li><p><strong>tsne</strong> (<em>-</em>) – T-distributed Stochastic Neighbor Embedding</p></li>
+<li><p><strong>tsvd</strong> (<em>-</em>) – Truncated Singular Value Decomposition</p></li>
+<li><p><strong>apply_tsvd</strong> – If True, TSVD will be run before t-SNE. This is highly recommended when running t-SNE</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The dimensionally-reduced dataframe and reduction object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="data_describe.dimensionality_reduction.dimensionality_reduction.run_pca">
+<code class="sig-prename descclassname">data_describe.dimensionality_reduction.dimensionality_reduction.</code><code class="sig-name descname">run_pca</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em>, <em class="sig-param"><span class="n">n_components</span></em>, <em class="sig-param"><span class="n">compute_backend</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.dimensionality_reduction.dimensionality_reduction.run_pca" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reduces the number of dimensions of the input data using PCA.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> – The dataframe</p></li>
+<li><p><strong>n_components</strong> – Desired dimensionality for the data set prior to modeling</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The dimensionally-reduced dataframe
+pca: The applied PCA object</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>reduc_df</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="data_describe.dimensionality_reduction.dimensionality_reduction.run_ipca">
+<code class="sig-prename descclassname">data_describe.dimensionality_reduction.dimensionality_reduction.</code><code class="sig-name descname">run_ipca</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em>, <em class="sig-param"><span class="n">n_components</span></em>, <em class="sig-param"><span class="n">compute_backend</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.dimensionality_reduction.dimensionality_reduction.run_ipca" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reduces the number of dimensions of the input data using Incremental PCA.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> – The dataframe</p></li>
+<li><p><strong>n_components</strong> – Desired dimensionality for the data set prior to modeling</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The dimensionally-reduced dataframe
+ipca: The applied IncrementalPCA object</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>reduc_df</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="data_describe.dimensionality_reduction.dimensionality_reduction.run_tsne">
+<code class="sig-prename descclassname">data_describe.dimensionality_reduction.dimensionality_reduction.</code><code class="sig-name descname">run_tsne</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em>, <em class="sig-param"><span class="n">n_components</span></em>, <em class="sig-param"><span class="n">apply_tsvd</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">compute_backend</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.dimensionality_reduction.dimensionality_reduction.run_tsne" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reduces the number of dimensions of the input data using t-SNE.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> – The dataframe</p></li>
+<li><p><strong>n_components</strong> – Desired dimensionality for the output dataset</p></li>
+<li><p><strong>apply_tsvd</strong> – If True, TSVD will be run before t-SNE. This is highly recommended when running t-SNE</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The dimensionally-reduced dataframe
+tsne: The applied t-SNE object</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>reduc_df</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="data_describe.dimensionality_reduction.dimensionality_reduction.run_tsvd">
+<code class="sig-prename descclassname">data_describe.dimensionality_reduction.dimensionality_reduction.</code><code class="sig-name descname">run_tsvd</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em>, <em class="sig-param"><span class="n">n_components</span></em>, <em class="sig-param"><span class="n">compute_backend</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.dimensionality_reduction.dimensionality_reduction.run_tsvd" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reduces the number of dimensions of the input data using TSVD.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> – The dataframe</p></li>
+<li><p><strong>n_components</strong> – Desired dimensionality for the output dataset</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The dimensionally-reduced dataframe
+tsne: The applied TSVD object</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>reduc_df</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../../metrics/index.html" class="btn btn-neutral float-right" title="data_describe.metrics" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../index.html" class="btn btn-neutral float-left" title="data_describe.dimensionality_reduction" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Maven Wave Partners
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

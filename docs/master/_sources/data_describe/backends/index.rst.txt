@@ -1,0 +1,21 @@
+data_describe.backends
+=============================
+
+.. py:module:: data_describe.backends
+
+.. autoapi-nested-parse::
+
+   data-describe backends.
+
+   This subpackage implements a pluggable architecture for the data-describe package. This allows third-party libraries to provide alternative implementation details for data-describe, such as implementing Bokeh visualizations for data-describe features. Default implementations in data-describe are also exposed as plugins to this backend system.
+
+
+
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+
+   compute/index.rst
+   viz/index.rst
+
+

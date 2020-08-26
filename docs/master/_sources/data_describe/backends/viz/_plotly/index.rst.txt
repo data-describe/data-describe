@@ -1,0 +1,18 @@
+:orphan:
+
+data_describe.backends.viz._plotly
+=========================================
+
+.. py:module:: data_describe.backends.viz._plotly
+
+
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+
+   cluster/index.rst
+   correlation_matrix/index.rst
+   data_heatmap/index.rst
+   time_series/index.rst
+
+

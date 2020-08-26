@@ -1,0 +1,25 @@
+data_describe.metrics.utils
+==================================
+
+.. py:module:: data_describe.metrics.utils
+
+
+
+
+
+.. autoapisummary::
+
+   data_describe.metrics.utils.hexbin
+
+
+.. function:: hexbin(x, y, **kwargs)
+
+   Make a hexagonal grid in two dimensions.
+
+   :param x: x data, as a 1-d array
+   :param y: y data, as a 1-d array
+   :param \*\*kwargs: Keyword arguments to be passed to matplotlib.pyplot.hexbin
+
+   :returns: A tuple of the counts in each bin, the bin centers, and the matplotlib.pyplot.hexbin object
+
+
