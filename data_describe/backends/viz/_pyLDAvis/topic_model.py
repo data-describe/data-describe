@@ -8,10 +8,11 @@ if TYPE_CHECKING:
 
 
 @requires("pyLDAvis")
+@requires("gensim")
 def viz_visualize_topic_summary(
-    model: _compat["gensim"].models.ldamodel.LdaModel,  # type: ignore
+    model: "gensim.models.ldamodel.LdaModel",  # type: ignore
     corpus: List[List[Tuple[int, int]]],
-    dictionary: _compat["gensim"].corpora.dictionary.Dictionary,  # type: ignore
+    dictionary: "gensim.corpora.dictionary.Dictionary",  # type: ignore
 ):
     """Displays interactive pyLDAvis visual to understand topic model and documents.
 
