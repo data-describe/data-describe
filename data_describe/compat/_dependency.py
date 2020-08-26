@@ -39,9 +39,12 @@ class DependencyManager:
             modules (List[str]): List of module names
         """
         for module in modules:
-            if find_spec(module) is not None:
-                self.installed_modules[module] = True
-            else:
+            try:
+                if find_spec(module) is not None:
+                    self.installed_modules[module] = True
+                else:
+                    self.installed_modules[module] = False
+            except ModuleNotFoundError:
                 self.installed_modules[module] = False
 
     def check_install(self, module: str) -> bool:
