@@ -19,6 +19,7 @@ REQUIRED = [
     "numpy>=1.16.0",
     "scipy>=1.1.0",
     "seaborn>=0.9.0",
+    "matplotlib<=3.3.0",  # https://github.com/mwaskom/seaborn/issues/2194
     "scikit-learn>=0.21",
     "networkx>=2.2",
     "hdbscan>=0.8.20",
@@ -62,7 +63,7 @@ setup(
         "data_describe_viz_backends": [
             "seaborn = data_describe.backends.viz:_seaborn",
             "plotly = data_describe.backends.viz:_plotly",
-            "pyLDAvis = data_describe.backends.viz:_pyLDAvis"
+            "pyLDAvis = data_describe.backends.viz:_pyLDAvis",
         ],
         "data_describe_compute_backends": [
             "pandas = data_describe.backends.compute:_pandas",
