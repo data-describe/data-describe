@@ -1,0 +1,45 @@
+data_describe.backends.viz._seaborn.cluster
+==================================================
+
+.. py:module:: data_describe.backends.viz._seaborn.cluster
+
+
+
+
+
+.. autoapisummary::
+
+   data_describe.backends.viz._seaborn.cluster.viz_cluster
+   data_describe.backends.viz._seaborn.cluster.viz_cluster_search_plot
+
+
+.. function:: viz_cluster(data, method: str, xlabel: str = None, ylabel: str = None, **kwargs)
+
+   Visualize clusters using Seaborn.
+
+   :param data: The data
+   :type data: DataFrame
+   :param method: The clustering method, to be used as the plot title
+   :type method: str
+   :param xlabel: The x-axis label. Defaults to "Reduced Dimension 1".
+   :type xlabel: str, optional
+   :param ylabel: The y-axis label. Defaults to "Reduced Dimension 2".
+   :type ylabel: str, optional
+
+   :returns: Seaborn plot
+
+
+.. function:: viz_cluster_search_plot(cluster_range: Tuple[int, int], scores: List[Union[int, float]], metric: str, **kwargs)
+
+   Visualize the cluster search plot for K-means clusters.
+
+   :param cluster_range: The range of n_clusters (k) searched as (min_cluster, max_cluster)
+   :type cluster_range: Tuple[int, int]
+   :param scores: The scores from the evaluation metric used to determine the "optimal" n_clusters
+   :type scores: List[Union[int, float]]
+   :param metric: The evaluation metric used
+   :type metric: str
+
+   :returns: Seaborn plot
+
+

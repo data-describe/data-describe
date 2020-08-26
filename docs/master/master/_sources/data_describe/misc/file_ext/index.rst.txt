@@ -1,0 +1,27 @@
+data_describe.misc.file_ext
+==================================
+
+.. py:module:: data_describe.misc.file_ext
+
+
+
+
+
+.. autoapisummary::
+
+   data_describe.misc.file_ext.is_filetype
+
+
+.. function:: is_filetype(filetype: str, extension: str) -> bool
+
+   Checks if the file extension matches a given file type.
+
+   :param filetype: The type of file. See the enum _FileExtensionTypes
+   :type filetype: str
+   :param extension: The file extension
+   :type extension: str
+
+   :returns: True if matching
+   :rtype: bool
+
+

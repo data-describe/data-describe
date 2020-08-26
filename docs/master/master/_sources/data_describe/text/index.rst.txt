@@ -1,0 +1,21 @@
+data_describe.text
+=========================
+
+.. py:module:: data_describe.text
+
+.. autoapi-nested-parse::
+
+   data-describe text.
+
+   This subpackage provides functionality to process and analyze unstructured, free-form text using text analytics & Natural Language Processing (NLP).
+
+
+
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+
+   text_preprocessing/index.rst
+   topic_model/index.rst
+
+

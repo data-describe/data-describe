@@ -1,0 +1,33 @@
+data_describe.misc.colorscale
+====================================
+
+.. py:module:: data_describe.misc.colorscale
+
+
+
+
+
+.. autoapisummary::
+
+   data_describe.misc.colorscale.color_fade
+   data_describe.misc.colorscale.rgb_to_str
+
+
+.. function:: color_fade(a, b, w)
+
+   Interpolates between two RGB colors.
+
+   :param a: The first color as an RGB tuple
+   :param b: The second color as an RGB tuple
+   :param w: The weight w in w * a + (1 - w) * b
+
+   :returns: RGB tuple
+
+
+.. function:: rgb_to_str(rgb)
+
+   Represents the RGB tuple as a string "rgb(r, g, b)" to be used in Plotly colorscale.
+
+   :param rgb: RGB tuple
+
+

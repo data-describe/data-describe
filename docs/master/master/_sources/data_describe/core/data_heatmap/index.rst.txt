@@ -1,0 +1,27 @@
+data_describe.core.data_heatmap
+======================================
+
+.. py:module:: data_describe.core.data_heatmap
+
+
+
+
+
+.. autoapisummary::
+
+   data_describe.core.data_heatmap.data_heatmap
+
+
+.. function:: data_heatmap(data, missing=False, compute_backend=None, viz_backend=None, **kwargs)
+
+   Generate a data heatmap showing standardized data or missing values.
+
+   The data heatmap shows an overview of numeric features that have been standardized.
+
+   :param data: A pandas data frame
+   :param missing: If True, show only missing values
+   :param interactive: If True, return an interactive visualization (using Plotly). Otherwise, uses Seaborn.
+
+   :returns: Visualization
+
+
