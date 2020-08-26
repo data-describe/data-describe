@@ -91,6 +91,7 @@ def kmeans_default(numeric_data):
 
 def test_kmeans_default(kmeans_default):
     cl = kmeans_default
+    assert isinstance(cl.show(), matplotlib.axes.Axes), "Default show() didn't return a mpl Axes object"
     assert isinstance(cl, KmeansClusterWidget)
     assert isinstance(cl.estimator, KMeans), "Saved cluster estimator was not KMeans"
     assert hasattr(cl, "input_data"), "Widget does not have input data"

@@ -1,5 +1,7 @@
 from typing import List
 
+import numpy as np
+
 from data_describe._widget import BaseWidget
 from data_describe.compat import _DATAFRAME_TYPE
 from data_describe.backends import _get_viz_backend, _get_compute_backend
@@ -51,12 +53,13 @@ def cluster(
     clusterwidget.viz_data = viz_data
     clusterwidget.reductor = reductor
 
-    # TODO (haishiro): Set x/y labels with explained variance if using PCA
-    # x
-    # + " "
-    # + "({}% variance explained)".format(
-    #     str(round(truncator.explained_variance_ratio_[0] * 100, 2))
-    # )
+    if dim_method == "pca":
+        var_explained = np.round(reductor.explained_variance_ratio_[:2], 2) * 100
+        clusterwidget.xlabel = f"Component 1 ({var_explained[0]}% variance explained)"
+        clusterwidget.ylabel = f"Component 2 ({var_explained[1]}% variance explained)"
+    else:
+        clusterwidget.xlabel = "Dimension 1"
+        clusterwidget.ylabel = "Dimension 2"
 
     clusterwidget.viz_backend = viz_backend
 
