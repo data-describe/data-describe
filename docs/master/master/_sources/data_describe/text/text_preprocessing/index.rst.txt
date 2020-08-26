@@ -181,7 +181,7 @@ data_describe.text.text_preprocessing
    :returns: A list of processed text documents or a list of tokens (list of strings) for each document
 
 
-.. function:: ngram_freq(text_docs_bow: Iterable[Iterable[str]], n: int = 3, only_n: bool = False) -> _compat['nltk'].FreqDist
+.. function:: ngram_freq(text_docs_bow: Iterable[Iterable[str]], n: int = 3, only_n: bool = False) -> 'nltk.FreqDist'
 
    Generates frequency distribution of "n-grams" from all of the text documents.
 

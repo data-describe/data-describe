@@ -16,6 +16,6 @@ data_describe.text
    :maxdepth: 1
 
    text_preprocessing/index.rst
-   topic_model/index.rst
+   topic_modeling/index.rst
 
 
