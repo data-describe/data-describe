@@ -26,9 +26,10 @@ autoapi_options = [
 ]
 autoapi_add_toctree_entry = False
 autoapi_template_dir = "_autoapi_templates"
-
+autoapi_keep_files = True
 
 # Multiversioning
+smv_remote_whitelist = r"^.*$"
 smv_branch_whitelist = "master"
 html_sidebars = {"**": ["versioning.html"]}
 
@@ -37,7 +38,7 @@ templates_path = ["_templates"]
 html_static_path = ["_static"]
 html_theme = "sphinx_rtd_theme"
 html_logo = "_static/logo.svg"
-html_favicon = '_static/favicon.png'
+html_favicon = "_static/favicon.png"
 html_theme_options = {
     "logo_only": True,
 }
