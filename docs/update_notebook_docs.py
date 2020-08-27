@@ -19,17 +19,19 @@ def load_notebooks():
     """Load notebooks from the /example directory."""
     notebooks = glob.glob("../examples/*.ipynb")
 
-    outputs = []
+    examples = []
     for notebook in notebooks:
         notebook_name = os.path.splitext(os.path.split(notebook)[1])[0]
-        output_name = notebook_name.lower().replace(" ", "_")
-        if output_name != "tutorial":
-            outputs.append(output_name)
+        notebook_clean_name = notebook_name.lower().replace(" ", "_")
+        if notebook_clean_name != "tutorial":
+            examples.append(notebook_clean_name)
             print("Updating {}...".format(notebook_name))
-
             pathlib.Path("source/examples").mkdir(exist_ok=True)
-
-            shutil.copyfile(notebook, "source/examples/" + output_name + ".ipynb")
+            shutil.copyfile(notebook, "source/examples/" + notebook_clean_name + ".ipynb")
+        else:
+            print("Updating {}...".format(notebook_name))
+            pathlib.Path("source/_notebooks").mkdir(exist_ok=True)
+            shutil.copyfile(notebook, "source/_notebooks/" + notebook_clean_name + ".ipynb")
 
     # Insert links to the examples ToC
     print("Finalizing examples Page")
@@ -37,7 +39,7 @@ def load_notebooks():
     text = re.sub(
         r"(:maxdepth: 1).*(\.\.\s_)",
         r"\1\n\n"
-        + "\n".join(["   ../examples/" + name for name in outputs])
+        + "\n".join(["   ../examples/" + name for name in examples])
         + r"\n\2",
         text,
         flags=re.S,
