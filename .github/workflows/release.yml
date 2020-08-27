@@ -1,6 +1,6 @@
 name: release
 
-on: 
+on:
   release:
     types:
       - created
@@ -75,7 +75,7 @@ jobs:
     name: Build linux wheel
     runs-on: ubuntu-latest
 
-    steps: 
+    steps:
     - uses: actions/checkout@v2
     - name: Build linux wheels (x86_64)
       uses: RalfG/python-wheels-manylinux-build@v0.2.2-manylinux2010_x86_64
@@ -94,7 +94,7 @@ jobs:
       with:
         name: linux-wheel
         path: wheelhouse/*
-  
+
   publish-test:
     name: Publish to Test PyPI
     runs-on: ubuntu-latest
