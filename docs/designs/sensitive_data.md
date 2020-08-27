@@ -2,7 +2,7 @@
 
 ## Motivation
 
-Create additional capability to identify, anonymize, and visualize sensitive data such as PII, PHI, and Financial data, which would distinguish Data Describe from other competitors.
+Create additional capability to identify, anonymize, and visualize sensitive data such as PII, PHI, and Financial data, which would distinguish data-describe from other competitors.
 
 ## Goals
 

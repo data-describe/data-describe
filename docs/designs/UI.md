@@ -2,14 +2,14 @@
 
 ## Motivation
 
-Motivation is having some GUI for interacting with Data Describe components. 
+Motivation is having some GUI for interacting with data-describe components. 
 
 ## Goals
 
 The goal is to allow users:
 
- * Visiblity to what is available in Data Describe
- * Easy Access to output form Data Describe
+ * Visiblity to what is available in data-describe
+ * Easy Access to output form data-describe
  * A manner to display dashboard like functionality
 
 ## Non-Goals

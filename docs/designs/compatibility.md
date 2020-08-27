@@ -1,7 +1,7 @@
 Compatibility
 =============
 
-This document describes the code patterns for managing optional dependencies used in Data Describe.
+This document describes the code patterns for managing optional dependencies used in data-describe.
 
 # setup.py
 Any optional dependencies should be specified in the `EXTRAS` dictionary section of `setup.py`
@@ -19,7 +19,7 @@ Optional dependencies should be grouped by the type of feature and the group nam
 
 # Implementation
 ## Module Imports
-Data Describe modules utilizing optional dependencies should defer package import to `data_describe/compat/_dependency.py`. New dependencies should be added to the initialization of `DependencyManager` with an optional Callable for additional side-effects that should occur on import:
+data-describe modules utilizing optional dependencies should defer package import to `data_describe/compat/_dependency.py`. New dependencies should be added to the initialization of `DependencyManager` with an optional Callable for additional side-effects that should occur on import:
 ```python
 _compat = DependencyManager(
     {

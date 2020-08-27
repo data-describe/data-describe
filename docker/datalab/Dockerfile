@@ -18,7 +18,7 @@ RUN source activate datadescribe && \
 # Set up notebook workspace
 COPY notebooks /content/datalab/docs/datadescribe/
 
-# Extend functionality to add Data Describe kernel
+# Extend functionality to add data-describe kernel
 RUN cp /datalab/run.sh /datalab/base-run.sh
 # Custom run script
 ADD docker/datalab/run.sh /datalab/run.sh
