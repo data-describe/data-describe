@@ -3,7 +3,7 @@ import os
 
 if __name__ == "__main__":
     os.chdir(os.path.dirname(__file__))
-    subprocess.run(
+    p = subprocess.Popen(
         [
             "sphinx-multiversion",
             "source",
@@ -14,3 +14,5 @@ if __name__ == "__main__":
             "autoapi_root=${sourcedir}"
         ]
     )
+    p.wait()
+    print("Documentation build complete")
