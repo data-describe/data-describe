@@ -8,13 +8,13 @@ Examples
 
    ../examples/cluster_analysis
    ../examples/correlation_matrix
-   ../examples/data_heatmap
-   ../examples/data_summary
+   ../examples/time_series
    ../examples/distributions
+   ../examples/data_summary
    ../examples/feature_importance
+   ../examples/data_heatmap
    ../examples/scatter_plots
    ../examples/sensitive_data
-   ../examples/text_preprocessing
-   ../examples/time_series
    ../examples/topic_modeling
+   ../examples/text_preprocessing
 .. _`Data Describe`: https://github.com/data-describe/data-describe..
