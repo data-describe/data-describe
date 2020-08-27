@@ -1,0 +1,26 @@
+data_describe.backends.viz._seaborn.importance
+=====================================================
+
+.. py:module:: data_describe.backends.viz._seaborn.importance
+
+
+
+
+
+.. autoapisummary::
+
+   data_describe.backends.viz._seaborn.importance.viz_importance
+
+
+.. function:: viz_importance(importance_values, idx, cols)
+
+   Plot feature importances.
+
+   :param importance_values: The importances
+   :param idx: The sorted indices
+   :param cols: The columns
+
+   :returns: The figure
+   :rtype: fig
+
+

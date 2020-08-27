@@ -1,0 +1,30 @@
+data_describe.backends.viz._seaborn.correlation_matrix
+=============================================================
+
+.. py:module:: data_describe.backends.viz._seaborn.correlation_matrix
+
+
+
+
+
+.. autoapisummary::
+
+   data_describe.backends.viz._seaborn.correlation_matrix.viz_correlation_matrix
+
+
+.. function:: viz_correlation_matrix(association_matrix, annot=False, xticks_rotation=90, yticks_rotation=0)
+
+   Plot the heatmap for the association matrix.
+
+   :param association_matrix: The association matrix
+   :type association_matrix: DataFrame
+   :param annot: If True, add correlation values to plot. Defaluts to False.
+   :type annot: bool
+   :param xticks_rotation: Degrees of rotation for the xticks. Defaults to 90.
+   :type xticks_rotation: int
+   :param yticks_rotation: Degrees of rotation for the yticks. Defaults to 0.
+   :type yticks_rotation: int
+
+   :returns: The Seaborn figure
+
+

@@ -1,0 +1,331 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>data_describe.core.importance &mdash; data-describe  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/style.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../../_static/favicon.png"/>
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="data_describe.core.scatter_plot" href="../scatter_plot/index.html" />
+    <link rel="prev" title="data_describe.core.distributions" href="../distributions/index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html">
+          
+
+          
+            
+            <img src="../../../_static/logo.svg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../overview.html">Package overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../_notebooks/tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../_notebooks/contributing_guide.html">Contributing Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../backends/index.html">data_describe.backends</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../compat/index.html">data_describe.compat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../config/index.html">data_describe.config</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">data_describe.core</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../clusters/index.html">data_describe.core.clusters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../correlations/index.html">data_describe.core.correlations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../data_heatmap/index.html">data_describe.core.data_heatmap</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../distributions/index.html">data_describe.core.distributions</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">data_describe.core.importance</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#data_describe.core.importance.importance">importance</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../scatter_plot/index.html">data_describe.core.scatter_plot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../summary/index.html">data_describe.core.summary</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../time_series/index.html">data_describe.core.time_series</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../dimensionality_reduction/index.html">data_describe.dimensionality_reduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../metrics/index.html">data_describe.metrics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../misc/index.html">data_describe.misc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../privacy/index.html">data_describe.privacy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../text/index.html">data_describe.text</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">data-describe</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">data_describe</a> &raquo;</li>
+        
+          <li><a href="../index.html">data_describe.core</a> &raquo;</li>
+        
+      <li>data_describe.core.importance</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../../_sources/data_describe/core/importance/index.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="module-data_describe.core.importance">
+<span id="data-describe-core-importance"></span><h1>data_describe.core.importance<a class="headerlink" href="#module-data_describe.core.importance" title="Permalink to this headline">¶</a></h1>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#data_describe.core.importance.importance" title="data_describe.core.importance.importance"><code class="xref py py-obj docutils literal notranslate"><span class="pre">importance</span></code></a>(data, target: str, preprocess_func=None, estimator=None, return_values=False, truncate=True, compute_backend=None, viz_backend=None, **kwargs)</p></td>
+<td><p>Variable importance chart.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py function">
+<dt id="data_describe.core.importance.importance">
+<code class="sig-prename descclassname">data_describe.core.importance.</code><code class="sig-name descname">importance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em>, <em class="sig-param"><span class="n">target</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">preprocess_func</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">estimator</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">return_values</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">truncate</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">compute_backend</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">viz_backend</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.core.importance.importance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Variable importance chart.</p>
+<p>Uses Random Forest Classifier by default</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> – A Pandas data frame</p></li>
+<li><p><strong>target</strong> – Name of the response column, as a string</p></li>
+<li><p><strong>preprocess_func</strong> – A custom preprocessing function that takes a Pandas dataframe and the target/response column</p></li>
+<li><p><strong>a string. Returns X and y as tuple</strong> (<em>as</em>) – </p></li>
+<li><p><strong>estimator</strong> – A custom sklearn estimator. Default is Random Forest Classifier</p></li>
+<li><p><strong>return_values</strong> – If True, only the importance values as a numpy array</p></li>
+<li><p><strong>truncate</strong> – If True, negative importance values will be truncated (set to zero)</p></li>
+<li><p><strong>compute_backend</strong> – The compute backend</p></li>
+<li><p><strong>viz_backend</strong> – The visualization backend</p></li>
+<li><p><strong>**kwargs</strong> – Other arguments to be passed to the preprocess function</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Matplotlib figure</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../scatter_plot/index.html" class="btn btn-neutral float-right" title="data_describe.core.scatter_plot" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../distributions/index.html" class="btn btn-neutral float-left" title="data_describe.core.distributions" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Maven Wave Partners
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+<div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Other Versions</span>
+    v: v0.1.0a1
+    <span class="fa fa-caret-down"></span>
+  </span>
+  <div class="rst-other-versions">
+    <dl>
+      <dt>Tags</dt>
+      <dd><a href="index.html">v0.1.0a1</a></dd>
+    </dl>
+    <dl>
+      <dt>Branches</dt>
+      <dd><a href="../../../../master/index.html">master</a></dd>
+    </dl>
+  </div>
+</div>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

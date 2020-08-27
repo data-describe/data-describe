@@ -1,0 +1,24 @@
+data_describe.backends.viz._plotly.data_heatmap
+======================================================
+
+.. py:module:: data_describe.backends.viz._plotly.data_heatmap
+
+
+
+
+
+.. autoapisummary::
+
+   data_describe.backends.viz._plotly.data_heatmap.viz_data_heatmap
+
+
+.. function:: viz_data_heatmap(data, colnames: List[str], missing: bool = False, **kwargs)
+
+   Plots the data heatmap.
+
+   :param data: The dataframe
+   :param colnames: The column names, used for tick labels
+   :param missing: If True, plots missing values instead
+   :param kwargs: Keyword arguments passed to seaborn.heatmap
+
+

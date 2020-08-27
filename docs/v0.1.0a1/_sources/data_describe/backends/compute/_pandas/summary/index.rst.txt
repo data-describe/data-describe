@@ -1,0 +1,23 @@
+data_describe.backends.compute._pandas.summary
+=====================================================
+
+.. py:module:: data_describe.backends.compute._pandas.summary
+
+
+
+
+
+.. autoapisummary::
+
+   data_describe.backends.compute._pandas.summary.compute_data_summary
+
+
+.. function:: compute_data_summary(data)
+
+   Perform computation for summary statistics and data description.
+
+   :param data: The dataframe
+
+   :returns: The Pandas dataframe with metrics in rows
+
+
