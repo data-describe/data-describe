@@ -5,7 +5,7 @@ from setuptools import find_packages, setup
 
 # Package meta-data.
 NAME = "data_describe"
-DESCRIPTION = "Data Describe"
+DESCRIPTION = "data-describe"
 URL = "https://github.com/data-describe/data-describe"
 EMAIL = ""
 AUTHOR = "https://github.com/data-describe/data-describe/graphs/contributors"

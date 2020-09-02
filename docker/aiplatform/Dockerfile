@@ -20,7 +20,7 @@ COPY setup.py .
 
 RUN /bin/bash -c ". activate datadescribe && \
     pip install . && \
-    python -m ipykernel install --name=datadescribe --display-name='Data Describe'"
+    python -m ipykernel install --name=datadescribe --display-name='data-describe'"
 
 # Set up notebook workspace
 WORKDIR home

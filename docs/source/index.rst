@@ -1,6 +1,6 @@
 ..
 
-Data Describe
+data-describe
 ============================================
 `data-describe`_ is an open-source toolkit that accelerates exploratory data analysis (EDA).
 

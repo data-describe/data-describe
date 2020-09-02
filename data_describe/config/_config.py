@@ -144,7 +144,7 @@ options = Options(_global_config)
 
 @contextlib.contextmanager
 def update_context(*args):
-    """Data Describe configuration context.
+    """data-describe configuration context.
 
     This can be used to use certain configuration values for a limited block of code,
     without needing to explicitly change these values to what they were previously.

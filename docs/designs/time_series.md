@@ -4,7 +4,7 @@
 
 Data scientists doing exploratory data analysis should be able look at a univariate, time series, plot of a response or dependent variable with respect to a date column from the same dataset. They should be able to see a decomposition of the variable into trend, seasonality, cyclicity and any residual effect after their removal. They should also be able to do smoothing and other transforms of the variable.
 
-Another common use case for time series is determining training and evaluation periods. Cross validation should only be done on training examples from the past, or as near in the past as possible, to maintain similarity to testing examples. Data Describe should help the user pick appropriate training, validation and testing periods when there is a time dimension to the model.
+Another common use case for time series is determining training and evaluation periods. Cross validation should only be done on training examples from the past, or as near in the past as possible, to maintain similarity to testing examples. data-describe should help the user pick appropriate training, validation and testing periods when there is a time dimension to the model.
 
 ## Short-Term Goals
 
@@ -57,7 +57,7 @@ Bayesian forecasting using LSTM and RNN.
 
 We should incorporate date columns into the existing code that auto detects column types. We would need to add plots that at the very least plot the response variable against the date variable and output the raw univariate graph as well as decompositions into trend, seasonality, cyclicity and residual. This can be a simple function call as described below to output to a notebook.
 
-By default, pandas objects are time zone unaware. When autodetecting datetime columns, Data Describe should warn the user if a time zone is not set for the column and either set it to the local time zone explicitly or use UTC time. Outputs of datetime columns should always have the time zone set.
+By default, pandas objects are time zone unaware. When autodetecting datetime columns, data-describe should warn the user if a time zone is not set for the column and either set it to the local time zone explicitly or use UTC time. Outputs of datetime columns should always have the time zone set.
 
 ## Design
 
