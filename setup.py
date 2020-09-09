@@ -18,14 +18,12 @@ REQUIRED = [
     "pandas>=0.24.0",
     "numpy>=1.16.0",
     "scipy>=1.1.0",
+    "scikit-learn>=0.21",
     "seaborn>=0.9.0",
     "matplotlib<=3.3.0",  # https://github.com/mwaskom/seaborn/issues/2194
-    "scikit-learn>=0.21",
-    "networkx>=2.2",
-    "hdbscan>=0.8.20",
-    "gcsfs>=0.2.1",
     "plotly>=3.8.1",
     "pyscagnostics>=0.1.0a4",
+    "hdbscan>=0.8.20",
     "statsmodels>=0.11.1",
 ]
 
