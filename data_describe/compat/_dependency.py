@@ -5,6 +5,8 @@ from functools import wraps
 from types import ModuleType
 from typing import Dict, Callable, List
 
+from data_describe.misc.logging import OutputLogger
+
 
 class DependencyManager:
     """Manage optional dependencies for data-describe.
@@ -66,11 +68,12 @@ class DependencyManager:
                     return self.modules[key]
                 else:
                     try:
-                        module = import_module(key)
-                        if self.imports[key] is not None:
-                            self.imports[key](module)
-                        self.modules[key] = module
-                        return module
+                        with OutputLogger(key, "INFO"):
+                            module = import_module(key)
+                            if self.imports[key] is not None:
+                                self.imports[key](module)
+                            self.modules[key] = module
+                            return module
                     except ImportError:
                         raise ImportError(
                             f"Unable to import {key} which is required by this feature."
