@@ -12,7 +12,6 @@ dependencies:
   - gensim=3.4.0
   - pyldavis=2.1.2
   - shapely=1.6.4
-  - networkx=2.2
   - nltk=3.4
   - ipython=7.5.0
   - pytest=4.4.1
