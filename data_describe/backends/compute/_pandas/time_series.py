@@ -92,9 +92,10 @@ def kpss_test(timeseries, regression: str = "c", nlags: Optional[int] = None, **
     return pd.DataFrame(kpss_output, columns=["stats"])
 
 
-# NOTE: decomposition object in modin does not preserve datetime index.
 def compute_decompose_timeseries(df, col, model: str = "additive", **kwargs):
     """Seasonal decomposition using moving averages.
+
+    NOTE: decomposition object in modin does not preserve datetime index.
 
     Args:
         df: The dataframe
