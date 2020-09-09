@@ -17,19 +17,6 @@ data_describe.privacy.engine
 
    
 
-.. py:class:: OutputLogger(name='root', level='INFO')
-
-   Redirect logs.
-
-   https://johnpaton.net/posts/redirect-logging/
-
-   .. method:: write(self, msg)
-
-
-      Log messages.
-
-
-
 .. function:: presidio_engine()
 
    Initialize presidio engine.
