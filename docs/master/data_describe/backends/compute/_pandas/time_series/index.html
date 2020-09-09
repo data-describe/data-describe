@@ -278,6 +278,7 @@
 <dt id="data_describe.backends.compute._pandas.time_series.compute_decompose_timeseries">
 <code class="sig-prename descclassname">data_describe.backends.compute._pandas.time_series.</code><code class="sig-name descname">compute_decompose_timeseries</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">df</span></em>, <em class="sig-param"><span class="n">col</span></em>, <em class="sig-param"><span class="n">model</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'additive'</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.backends.compute._pandas.time_series.compute_decompose_timeseries" title="Permalink to this definition">¶</a></dt>
 <dd><p>Seasonal decomposition using moving averages.</p>
+<p>NOTE: decomposition object in modin does not preserve datetime index.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">

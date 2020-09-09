@@ -65,6 +65,8 @@ data_describe.backends.compute._pandas.time_series
 
    Seasonal decomposition using moving averages.
 
+   NOTE: decomposition object in modin does not preserve datetime index.
+
    :param df: The dataframe
    :param col: The col of interest. Must be numeric datatype
    :param model: Type of seasonal component. Defaults to "additive".
