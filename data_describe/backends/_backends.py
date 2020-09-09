@@ -75,7 +75,7 @@ def _load_viz_backend(backend: str) -> Dict[str, ModuleType]:
             _add_backend(backend, _viz_backends, module)
 
             return _viz_backends[backend]
-        except ModuleNotFoundError:
+        except ImportError:
             raise ValueError(f"Could not find visualization backend '{backend}'")
 
 
@@ -141,7 +141,7 @@ def _load_compute_backend(backend) -> Dict[str, ModuleType]:
             _add_backend(backend, _compute_backends, module)
 
             return _compute_backends[backend]
-        except ModuleNotFoundError:
+        except ImportError:
             raise ValueError(f"Could not find compute backend '{backend}'")
 
 

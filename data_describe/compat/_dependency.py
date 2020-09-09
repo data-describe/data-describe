@@ -44,7 +44,7 @@ class DependencyManager:
                     self.installed_modules[module] = True
                 else:
                     self.installed_modules[module] = False
-            except ModuleNotFoundError:
+            except ImportError:
                 self.installed_modules[module] = False
 
     def check_install(self, module: str) -> bool:
