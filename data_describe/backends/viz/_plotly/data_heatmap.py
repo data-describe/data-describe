@@ -22,10 +22,10 @@ def viz_data_heatmap(data, colnames: List[str], missing: bool = False, **kwargs)
         x=list(range(data.shape[0])),
         y=list(colnames[::-1]),
         ygap=1,
-        zmin=-3,
-        zmax=3,
-        colorscale="Viridis" if not missing else "gray",
-        colorbar={"title": "z-score (bounded)"},
+        zmin=-3 if not missing else 0,
+        zmax=3 if not missing else 1,
+        colorscale="viridis" if not missing else "greys",
+        colorbar={"title": "z-score (bounded)" if not missing else "Missing"},
     )
 
     figure = go.Figure(
