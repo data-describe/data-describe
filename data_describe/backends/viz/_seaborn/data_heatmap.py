@@ -19,7 +19,7 @@ def viz_data_heatmap(data, colnames: List[str], missing: bool = False, **kwargs)
         The seaborn figure
     """
     plot_options = {
-        "cmap": "PuRd" if missing else "viridis",
+        "cmap": "Greys" if missing else "viridis",
         "robust": True,
         "center": 0,
         "xticklabels": False,

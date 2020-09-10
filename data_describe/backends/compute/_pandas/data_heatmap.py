@@ -33,4 +33,4 @@ def compute_data_heatmap(
         scaler = StandardScaler()
         data = scaler.fit_transform(data)
 
-    return data, colnames
+    return data.transpose(), colnames

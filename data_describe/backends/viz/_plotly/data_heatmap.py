@@ -1,5 +1,6 @@
 from typing import List
 
+import numpy as np
 from plotly.offline import init_notebook_mode, iplot
 from IPython import get_ipython
 import plotly.graph_objs as go
@@ -17,13 +18,13 @@ def viz_data_heatmap(data, colnames: List[str], missing: bool = False, **kwargs)
         kwargs: Keyword arguments passed to seaborn.heatmap
     """
     data_fig = go.Heatmap(
-        z=data,
+        z=np.flip(data.values, axis=0),
         x=list(range(data.shape[0])),
         y=list(colnames[::-1]),
         ygap=1,
         zmin=-3,
         zmax=3,
-        colorscale="Viridis",
+        colorscale="Viridis" if not missing else "gray",
         colorbar={"title": "z-score (bounded)"},
     )
 
