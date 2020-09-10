@@ -14,7 +14,7 @@ def get_p_RdBl_cmap() -> LinearSegmentedColormap:
     }
     # Normalize
     n_cdict = {
-        color: [(x[0], x[1] / 256.0, x[2] / 256.0) for x in scale]
+        color: [(x[0], x[1] / 255.0, x[2] / 255.0) for x in scale]
         for color, scale in cdict.items()
     }
     return LinearSegmentedColormap("p_RdBl", n_cdict)
