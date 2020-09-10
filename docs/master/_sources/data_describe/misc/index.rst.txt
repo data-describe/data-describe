@@ -8,7 +8,7 @@ data_describe.misc
    :titlesonly:
    :maxdepth: 1
 
-   colorscale/index.rst
+   colors/index.rst
    file_ext/index.rst
    load_data/index.rst
    logging/index.rst

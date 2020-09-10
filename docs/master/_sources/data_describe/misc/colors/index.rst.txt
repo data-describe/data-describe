@@ -1,0 +1,29 @@
+data_describe.misc.colors
+================================
+
+.. py:module:: data_describe.misc.colors
+
+
+
+
+
+.. autoapisummary::
+
+   data_describe.misc.colors.get_p_RdBl_cmap
+   data_describe.misc.colors.mpl_to_plotly_cmap
+
+
+.. function:: get_p_RdBl_cmap() -> LinearSegmentedColormap
+
+   p_RdBl red-blue colormap.
+
+
+.. function:: mpl_to_plotly_cmap(cmap) -> List
+
+   Convert a matplotlib cmap for use with Plotly.
+
+   https://plotly.com/python/v3/matplotlib-colorscales/
+
+   :param cmap: The matplotlib colormap
+
+

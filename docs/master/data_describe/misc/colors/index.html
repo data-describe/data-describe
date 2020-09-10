@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>data_describe.misc.colorscale &mdash; data-describe  documentation</title>
+  <title>data_describe.misc.colors &mdash; data-describe  documentation</title>
   
 
   
@@ -104,11 +104,11 @@
 <li class="toctree-l2"><a class="reference internal" href="../../dimensionality_reduction/index.html">data_describe.dimensionality_reduction</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../metrics/index.html">data_describe.metrics</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../index.html">data_describe.misc</a><ul class="current">
-<li class="toctree-l3 current"><a class="current reference internal" href="#">data_describe.misc.colorscale</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#data_describe.misc.colorscale.color_fade">color_fade</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">data_describe.misc.colors</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#data_describe.misc.colors.get_p_RdBl_cmap">get_p_RdBl_cmap</a></li>
 </ul>
 <ul>
-<li class="toctree-l4"><a class="reference internal" href="#data_describe.misc.colorscale.rgb_to_str">rgb_to_str</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#data_describe.misc.colors.mpl_to_plotly_cmap">mpl_to_plotly_cmap</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../file_ext/index.html">data_describe.misc.file_ext</a></li>
@@ -171,13 +171,13 @@
         
           <li><a href="../index.html">data_describe.misc</a> &raquo;</li>
         
-      <li>data_describe.misc.colorscale</li>
+      <li>data_describe.misc.colors</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../../../_sources/data_describe/misc/colorscale/index.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../../../_sources/data_describe/misc/colors/index.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -214,47 +214,36 @@
     text-align: unset;
 }
 </style>
-<div class="section" id="module-data_describe.misc.colorscale">
-<span id="data-describe-misc-colorscale"></span><h1>data_describe.misc.colorscale<a class="headerlink" href="#module-data_describe.misc.colorscale" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-data_describe.misc.colors">
+<span id="data-describe-misc-colors"></span><h1>data_describe.misc.colors<a class="headerlink" href="#module-data_describe.misc.colors" title="Permalink to this headline">¶</a></h1>
 <table class="longtable docutils align-default">
 <colgroup>
 <col style="width: 10%" />
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#data_describe.misc.colorscale.color_fade" title="data_describe.misc.colorscale.color_fade"><code class="xref py py-obj docutils literal notranslate"><span class="pre">color_fade</span></code></a>(a, b, w)</p></td>
-<td><p>Interpolates between two RGB colors.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#data_describe.misc.colors.get_p_RdBl_cmap" title="data_describe.misc.colors.get_p_RdBl_cmap"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_p_RdBl_cmap</span></code></a>()</p></td>
+<td><p>p_RdBl red-blue colormap.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#data_describe.misc.colorscale.rgb_to_str" title="data_describe.misc.colorscale.rgb_to_str"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rgb_to_str</span></code></a>(rgb)</p></td>
-<td><p>Represents the RGB tuple as a string “rgb(r, g, b)” to be used in Plotly colorscale.</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#data_describe.misc.colors.mpl_to_plotly_cmap" title="data_describe.misc.colors.mpl_to_plotly_cmap"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mpl_to_plotly_cmap</span></code></a>(cmap)</p></td>
+<td><p>Convert a matplotlib cmap for use with Plotly.</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="py function">
-<dt id="data_describe.misc.colorscale.color_fade">
-<code class="sig-prename descclassname">data_describe.misc.colorscale.</code><code class="sig-name descname">color_fade</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">a</span></em>, <em class="sig-param"><span class="n">b</span></em>, <em class="sig-param"><span class="n">w</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.misc.colorscale.color_fade" title="Permalink to this definition">¶</a></dt>
-<dd><p>Interpolates between two RGB colors.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>a</strong> – The first color as an RGB tuple</p></li>
-<li><p><strong>b</strong> – The second color as an RGB tuple</p></li>
-<li><p><strong>w</strong> – The weight w in w * a + (1 - w) * b</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>RGB tuple</p>
-</dd>
-</dl>
+<dt id="data_describe.misc.colors.get_p_RdBl_cmap">
+<code class="sig-prename descclassname">data_describe.misc.colors.</code><code class="sig-name descname">get_p_RdBl_cmap</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; LinearSegmentedColormap<a class="headerlink" href="#data_describe.misc.colors.get_p_RdBl_cmap" title="Permalink to this definition">¶</a></dt>
+<dd><p>p_RdBl red-blue colormap.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt id="data_describe.misc.colorscale.rgb_to_str">
-<code class="sig-prename descclassname">data_describe.misc.colorscale.</code><code class="sig-name descname">rgb_to_str</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">rgb</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.misc.colorscale.rgb_to_str" title="Permalink to this definition">¶</a></dt>
-<dd><p>Represents the RGB tuple as a string “rgb(r, g, b)” to be used in Plotly colorscale.</p>
+<dt id="data_describe.misc.colors.mpl_to_plotly_cmap">
+<code class="sig-prename descclassname">data_describe.misc.colors.</code><code class="sig-name descname">mpl_to_plotly_cmap</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">cmap</span></em><span class="sig-paren">)</span> &#x2192; List<a class="headerlink" href="#data_describe.misc.colors.mpl_to_plotly_cmap" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a matplotlib cmap for use with Plotly.</p>
+<p><a class="reference external" href="https://plotly.com/python/v3/matplotlib-colorscales/">https://plotly.com/python/v3/matplotlib-colorscales/</a></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>rgb</strong> – RGB tuple</p>
+<dd class="field-odd"><p><strong>cmap</strong> – The matplotlib colormap</p>
 </dd>
 </dl>
 </dd></dl>
