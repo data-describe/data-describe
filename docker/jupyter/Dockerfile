@@ -3,7 +3,7 @@ FROM continuumio/miniconda3
 # Set up conda environment
 WORKDIR app
 
-COPY docker/app/environment.yml .
+COPY docker/jupyter/environment.yml .
 
 RUN conda env create --file=environment.yml
 
@@ -13,11 +13,11 @@ COPY data_describe ./data_describe
 COPY setup.py .
 
 RUN . /opt/conda/etc/profile.d/conda.sh && \
-    conda activate mw-data_describe && \
+    conda activate data-describe && \
     pip install .
 
 # Set up notebook workspace
-COPY notebooks ./notebooks
+COPY examples ./examples
 
 EXPOSE 8888
 
