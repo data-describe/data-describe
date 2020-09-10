@@ -26,7 +26,7 @@ Open a new *Feature Request* issue on Github.
 
 ## Getting Started
 
-Please review the [Contributing Guide](notebooks/contributing_guide.ipynb) for more details on how to start contributing code.
+Please review the [Contributing Guide](docs/source/_notebooks/contributing_guide.ipynb) for more details on how to start contributing code.
 
 ## Code of Conduct
 
