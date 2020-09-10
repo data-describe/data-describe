@@ -1,11 +1,22 @@
-from data_describe.misc.colorscale import color_fade, rgb_to_str
+from matplotlib.colors import LinearSegmentedColormap
+
+from data_describe.misc.colors import get_p_RdBl_cmap, mpl_to_plotly_cmap
 
 
-def test_colorfade():
-    a = (0, 255, 255)
-    b = (100, 201, 201)
-    assert color_fade(a, b, 0.5) == (50, 228, 228)
+def test_get_p_RdBl_cmap():
+    cmap = get_p_RdBl_cmap()
+    assert isinstance(
+        cmap, LinearSegmentedColormap
+    ), "Colormap is not an instance of LinearSegmentedColormap"
 
 
-def test_rgb_to_str():
-    assert rgb_to_str((0, 0, 0)) == "rgb(0, 0, 0)"
+def test_mpl_to_plotly_cmap():
+    cmap = get_p_RdBl_cmap()
+    pl_cmap = mpl_to_plotly_cmap(cmap)
+    assert len(pl_cmap) == 255, "Length of colorscale is not 255"
+    assert all(
+        isinstance(x[0], float) for x in pl_cmap
+    ), "First index of elements in plotly colorscale is not a float"
+    assert all(
+        "rgb(" in x[1] for x in pl_cmap
+    ), "Second index of elements in plotly colorscale doesn't contain 'rgb('"
