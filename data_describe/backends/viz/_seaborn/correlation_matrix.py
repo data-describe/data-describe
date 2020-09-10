@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 from data_describe.config._config import get_option
+from data_describe.misc.colors import get_p_RdBl_cmap
 
 
 def viz_correlation_matrix(
@@ -35,11 +36,12 @@ def viz_correlation_matrix(
         association_matrix,
         vmin=vmin,
         vmax=vmax,
-        cmap="coolwarm",
+        cmap=get_p_RdBl_cmap(),
         annot=annot,
         mask=mask,
         center=0,
         linewidths=2,
+        square=True
     )
 
     plt.title("Correlation Matrix")

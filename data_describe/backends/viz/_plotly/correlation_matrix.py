@@ -1,11 +1,10 @@
 import numpy as np
-from scipy.stats import percentileofscore
 import plotly.graph_objs as go
 import plotly.offline as po
 
 from data_describe.compat import _IN_NOTEBOOK
 from data_describe.config._config import get_option
-from data_describe.misc.colorscale import color_fade, rgb_to_str
+from data_describe.misc.colors import get_p_RdBl_cmap, mpl_to_plotly_cmap
 
 
 def viz_correlation_matrix(association_matrix):
@@ -24,31 +23,7 @@ def viz_correlation_matrix(association_matrix):
         corr[x, y] = None
 
     # Set up the color scale
-    blue_anchor = (65, 124, 167)
-    white_anchor = (242, 242, 242)
-    red_anchor = (217, 58, 70)
-
-    vmin = min(corr.flatten()[~np.isnan(corr.flatten())])
-    vmax = max(corr.flatten()[~np.isnan(corr.flatten())])
-
-    if vmin > 0:
-        cmin = color_fade(white_anchor, red_anchor, 1 - vmin)
-        cmax = color_fade(white_anchor, red_anchor, 1 - vmax)
-        cscale = [[0, rgb_to_str(cmin)], [1.0, rgb_to_str(cmax)]]
-    elif vmax < 0:
-        cmin = color_fade(blue_anchor, white_anchor, -vmin)
-        cmax = color_fade(blue_anchor, white_anchor, -vmax)
-        cscale = [[0, rgb_to_str(cmin)], [1.0, rgb_to_str(cmax)]]
-    else:
-        cmin = color_fade(blue_anchor, white_anchor, -vmin)
-        cmax = color_fade(white_anchor, red_anchor, 1 - vmax)
-        corr_values = corr[~np.isnan(corr)].flatten()
-        z_val = percentileofscore(corr_values, 0.0) / 100.0
-        cscale = [
-            [0, rgb_to_str(cmin)],
-            [z_val, rgb_to_str(white_anchor)],
-            [1.0, rgb_to_str(cmax)],
-        ]
+    cscale = mpl_to_plotly_cmap(get_p_RdBl_cmap())
 
     # Generate a custom diverging colormap
     fig = go.Figure(
