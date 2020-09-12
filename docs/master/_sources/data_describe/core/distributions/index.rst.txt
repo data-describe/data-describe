@@ -22,7 +22,7 @@ data_describe.core.distributions
    :param max_categories: Maximum categories to show in violin plots. Additional categories will be combined into the "__OTHER__" contrast.
    :param spike: The factor threshold for identifying spikey histograms
    :param skew: The skew threshold for identifying skewed histograms
-   :param hist_kwargs: Keyword arguments to be passed to seaborn.distplot
+   :param hist_kwargs: Keyword arguments to be passed to seaborn.histplot
    :param violin_kwargs: Keyword arguments to be passed to seaborn.violinplot
 
    :returns: Matplotlib graphics

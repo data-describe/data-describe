@@ -41,7 +41,7 @@ data_describe.backends.viz._seaborn.distribution
    :type contrast: str, optional
    :param mode: {'combo', 'violin', 'hist'} The type of plot to display. Defaults to a combined histogram/violin plot.
    :type mode: str
-   :param hist_kwargs: Keyword args for seaborn.distplot.
+   :param hist_kwargs: Keyword args for seaborn.histplot.
    :type hist_kwargs: dict, optional
    :param violin_kwargs: Keyword args for seaborn.violinplot.
    :type violin_kwargs: dict, optional
