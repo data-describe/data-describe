@@ -1,3 +1,5 @@
+from typing import Dict, Any
+
 from matplotlib.figure import Figure
 from matplotlib.gridspec import GridSpec
 import seaborn as sns
@@ -39,7 +41,7 @@ def viz_numeric(
         x (str): The name of the column to plot
         contrast (str, optional): The name of the categorical column to use for multiple contrasts.
         mode (str): {'combo', 'violin', 'hist'} The type of plot to display. Defaults to a combined histogram/violin plot.
-        hist_kwargs (dict, optional): Keyword args for seaborn.distplot.
+        hist_kwargs (dict, optional): Keyword args for seaborn.histplot.
         violin_kwargs (dict, optional): Keyword args for seaborn.violinplot.
         **kwargs: Keyword args to be passed to all underlying plotting functions.
     """
@@ -58,18 +60,18 @@ def viz_numeric(
 
         ax1.spines["right"].set_visible(False)
         ax1.spines["top"].set_visible(False)
-        _viz_histogram(data, x, contrast=None, ax=ax1, **hist_kwargs)
+        _viz_histogram(data, x, contrast, ax=ax1, **hist_kwargs)
         _viz_violin(data, x, contrast, ax=ax2, **violin_kwargs)
         ax1.set_title(x)
         return fig
     elif mode == "hist":
         ax = fig.add_subplot()
-        _viz_histogram(data, x, contrast=None, ax=ax, **hist_kwargs, **kwargs)
+        _viz_histogram(data, x, contrast=contrast, ax=ax, **hist_kwargs, **kwargs)
         ax.set_title(x)
         return fig
     elif mode == "violin":
         ax = fig.add_subplot()
-        _viz_violin(data, x, contrast=None, ax=ax, **violin_kwargs, **kwargs)
+        _viz_violin(data, x, contrast=contrast, ax=ax, **violin_kwargs, **kwargs)
         ax.set_title(x)
         return fig
     else:
@@ -115,15 +117,13 @@ def _viz_histogram(data, x: str, contrast: str = None, **kwargs):
     if x not in data.select_dtypes("number").columns:
         raise ValueError("x must be numeric column")
 
-    default_hist_kwargs = {"kde": False, "rug": True}
+    default_hist_kwargs: Dict[str, Any] = {}
     hist_kwargs = {**default_hist_kwargs, **(kwargs or {})}
     if contrast:
-        # TODO (haishiro): Use histplot from seaborn PR #2125
-        raise NotImplementedError(
-            "Multiple histograms with contrasts is not yet implemented."
-        )
+        data[contrast] = data[contrast].astype("category")
+        ax = sns.histplot(x=x, hue=contrast, data=data, **hist_kwargs)
     else:
-        ax = sns.distplot(data[x], **hist_kwargs)
+        ax = sns.histplot(data[x], **hist_kwargs)
         ax.set_title(f"Histogram of {x}")
     return ax
 

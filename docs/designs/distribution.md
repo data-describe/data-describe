@@ -26,7 +26,7 @@ In the future, users should be able to:
 There are many different ways to visualize distributions, depending on the goal of analysis. This design document attempts to identify the appropriate plot(s) that should be used in each case.
 
 ### Plots
-- [Histogram](https://seaborn.pydata.org/generated/seaborn.distplot.html): Histograms are probably the most common way to look at a univariate distribution. The selection of bin size may be non-obvious.
+- [Histogram](https://seaborn.pydata.org/generated/seaborn.histplot.html): Histograms are probably the most common way to look at a univariate distribution. The selection of bin size may be non-obvious.
 - Bar and Line Charts: Bar and line charts are also commonly used to show counts of one feature compared against other features.
 - [Kernel Density](https://seaborn.pydata.org/generated/seaborn.kdeplot.html): Kernel density estimate plots can show more fidelity than histograms, but outliers are smoothed out and the kernel size must also be selected.
 - [Boxplot](https://seaborn.pydata.org/generated/seaborn.boxplot.html):  Box plots provide specific visual markers about quantiles and outliers.
