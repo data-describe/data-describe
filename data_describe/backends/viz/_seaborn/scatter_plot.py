@@ -81,7 +81,7 @@ def _scatter_plot(data, xname, yname, **kwargs):
 
     g = sns.JointGrid(data[xname], data[yname], **default_joint_kwargs)
     g = g.plot_joint(sns.scatterplot, **default_scatter_kwargs)
-    g = g.plot_marginals(sns.distplot, **default_dist_kwargs)
+    g = g.plot_marginals(sns.displot, **default_dist_kwargs)
     return g
 
 
