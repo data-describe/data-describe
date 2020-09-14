@@ -7,8 +7,6 @@ import papermill as pm
 def run_all_notebooks():
     """Run all notebooks in the example directory."""
     for notebook in glob.glob("../examples/*.ipynb"):
-        # if "Distributions" in notebook or "Data_Loader" in notebook:
-        #     continue
         nb = pm.execute_notebook(notebook, notebook, request_save_on_cell_execute=True)
 
         if nb["metadata"]["kernelspec"]["display_name"] != "Python 3":
@@ -17,4 +15,5 @@ def run_all_notebooks():
                 json.dump(nb, fp)
 
 
-run_all_notebooks()
+if __name__ == "__main__":
+    run_all_notebooks()
