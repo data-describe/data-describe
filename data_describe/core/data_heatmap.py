@@ -20,5 +20,5 @@ def data_heatmap(data, missing=False, compute_backend=None, viz_backend=None, **
     )
 
     return _get_viz_backend(viz_backend).viz_data_heatmap(
-        data.transpose(), colnames=colnames, missing=missing, **kwargs
+        data, colnames=colnames, missing=missing, **kwargs
     )

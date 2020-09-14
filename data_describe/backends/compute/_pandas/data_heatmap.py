@@ -1,5 +1,6 @@
 from typing import Tuple, List, Any
 
+import pandas as pd
 from sklearn.preprocessing import StandardScaler
 
 from data_describe.compat import _DATAFRAME_TYPE
@@ -31,6 +32,6 @@ def compute_data_heatmap(
         data = data.isna().astype(int)
     else:
         scaler = StandardScaler()
-        data = scaler.fit_transform(data)
+        data = pd.DataFrame(scaler.fit_transform(data), columns=data.columns)
 
-    return data, colnames
+    return data.transpose(), colnames
