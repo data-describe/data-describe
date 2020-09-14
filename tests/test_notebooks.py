@@ -71,8 +71,3 @@ def test_tutorial_notebook():
 def test_topic_modeling_notebook():
     notebook = os.path.join(EXEC_CWD, "examples", "Topic_Modeling.ipynb")
     fixture.check(notebook, raise_errors=True)
-
-
-# REQUIRES EXTERNAL DATA
-# Data_Loader.ipynb
-# Distributions.ipynb
