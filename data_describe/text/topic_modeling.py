@@ -75,8 +75,9 @@ def topic_model(
     return topicwidget
 
 
-@_requires("gensim")
-@_requires("pyLDAvis")
+@requires("tqdm")
+@requires("gensim")
+@requires("pyLDAvis")
 class TopicModelWidget(BaseWidget):
     """Create topic model widget."""
 
