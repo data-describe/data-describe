@@ -60,6 +60,7 @@ def topic_model(
     return topicwidget
 
 
+@requires("tqdm")
 @requires("gensim")
 @requires("pyLDAvis")
 class TopicModelWidget(BaseWidget):
@@ -227,8 +228,13 @@ class TopicModelWidget(BaseWidget):
             warnings.filterwarnings("ignore", category=DeprecationWarning)
             if self._num_topics is None:
                 self._coherence_values = []
-                for num in range(self._min_topics, self._max_topics + 1):
+                pbar = _compat["tqdm"].tqdm(
+                    range(self._min_topics, self._max_topics + 1),
+                    desc="Fitting topic model",
+                )
+                for num in pbar:
                     self._model_kwargs.update({"num_topics": num})
+                    pbar.set_postfix({"topic_num": num})
                     lsa_model = _compat["gensim"].models.lsimodel.LsiModel(**self._model_kwargs)  # type: ignore
                     coherence_model = _compat["gensim"].models.coherencemodel.CoherenceModel(  # type: ignore
                         model=lsa_model,
@@ -294,8 +300,13 @@ class TopicModelWidget(BaseWidget):
             warnings.filterwarnings("ignore", category=DeprecationWarning)
             if self._num_topics is None:
                 self._coherence_values = []
-                for num in range(self._min_topics, self._max_topics + 1):
+                pbar = _compat["tqdm"].tqdm(
+                    range(self._min_topics, self._max_topics + 1),
+                    desc="Fitting topic model",
+                )
+                for num in pbar:
                     self._model_kwargs.update({"num_topics": num})
+                    pbar.set_postfix({"topic_num": num})
                     lda_model = _compat["gensim"].models.ldamodel.LdaModel(**self._model_kwargs)  # type: ignore
                     coherence_model = _compat["gensim"].models.coherencemodel.CoherenceModel(  # type: ignore
                         model=lda_model,

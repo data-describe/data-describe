@@ -124,6 +124,7 @@ _compat = DependencyManager(
         "modin.pandas": no_side_import,
         "hdbscan": no_side_import,
         "presidio_analyzer": no_side_import,
+        "tqdm": no_side_import,
     }
 )
 

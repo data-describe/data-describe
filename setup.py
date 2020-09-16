@@ -28,7 +28,7 @@ REQUIRED = [
 ]
 
 EXTRAS = {
-    "nlp": ["nltk>=3.4", "pyldavis>=2.1.2", "gensim>=3.4.0"],
+    "nlp": ["nltk>=3.4", "pyldavis>=2.1.2", "gensim>=3.4.0", "tqdm>=4.49.0"],
     "gcp": ["gcsfs>=0.2.1", "google-cloud-storage>=1.18.0"],
     "pii": ["presidio-analyzer==0.3.8917rc0"],
     "modin": ["modin>=0.7.3", "ray>=0.8.4"],
@@ -41,6 +41,7 @@ EXTRAS = {
         "presidio-analyzer==0.3.8917rc0",
         "modin>=0.7.3",
         "ray>=0.8.4",
+        "tqdm>=4.49.0",
     ],
 }
 
