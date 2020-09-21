@@ -1,0 +1,54 @@
+data_describe.backends.viz._seaborn.time_series
+======================================================
+
+.. py:module:: data_describe.backends.viz._seaborn.time_series
+
+
+
+
+
+.. autoapisummary::
+
+   data_describe.backends.viz._seaborn.time_series.viz_plot_time_series
+   data_describe.backends.viz._seaborn.time_series.viz_decomposition
+   data_describe.backends.viz._seaborn.time_series.viz_plot_autocorrelation
+
+
+.. function:: viz_plot_time_series(df, col, result=None, decompose=False)
+
+   Create timeseries visualization.
+
+   :param df: The dataframe
+   :param col: Column of interest. Column datatype must be numerical.
+   :type col: str or [str]
+   :param result: The statsmodels.tsa.seasonal.DecomposeResult object. Defaults to None.
+   :param decompose: Set as True to decompose the timeseries with moving average. result must not be None. Defaults to False.
+
+   :returns: The visualization
+   :rtype: fig
+
+
+.. function:: viz_decomposition(df, result)
+
+   Create timeseries decomposition visualization.
+
+   :param df: The dataframe
+   :param result: The statsmodels.tsa.seasonal.DecomposeResult object.
+
+   :returns: The visualization
+   :rtype: fig
+
+
+.. function:: viz_plot_autocorrelation(timeseries, plot_type='acf', n_lags=40, fft=False, **kwargs)
+
+   Create timeseries autocorrelation visualization.
+
+   :param timeseries: Series object containing datetime index
+   :param plot_type: Choose between 'acf' or 'pacf. Defaults to "pacf".
+   :param n_lags: Number of lags to return autocorrelation for. Defaults to 40.
+   :param \*\*kwargs: Keyword arguments for plot_acf and plot_pacf
+
+   :returns: The visualization
+   :rtype: fig
+
+

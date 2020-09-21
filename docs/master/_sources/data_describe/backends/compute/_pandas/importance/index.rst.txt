@@ -1,0 +1,34 @@
+data_describe.backends.compute._pandas.importance
+========================================================
+
+.. py:module:: data_describe.backends.compute._pandas.importance
+
+
+
+
+
+.. autoapisummary::
+
+   data_describe.backends.compute._pandas.importance.compute_importance
+
+
+.. function:: compute_importance(data, target: str, preprocess_func=None, estimator=None, truncate: bool = True, **kwargs)
+
+   Computes importance using permutation importance.
+
+   Uses Random Forest Classifier by default
+
+   :param data: A Pandas data frame
+   :param target: Name of the response column, as a string
+   :param preprocess_func: A custom preprocessing function that takes a Pandas dataframe and the target/response column
+   :param as a string. Returns X and y as tuple:
+   :param estimator: A custom sklearn estimator. Default is Random Forest Classifier
+   :param truncate: If True, negative importance values will be truncated (set to zero)
+   :param \*\*kwargs: Other arguments to be passed to the preprocess function
+
+   :returns: The importances
+             idx: The sorted index of importance_values
+             X.columns: The columns
+   :rtype: importance_values
+
+
