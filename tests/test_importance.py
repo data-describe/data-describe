@@ -10,9 +10,10 @@ matplotlib.use("Agg")
 
 
 def test_importance(data, compute_backend):
-
     importance_vals = dd.importance(data, "d", return_values=True)
-    assert len(importance_vals) == data.shape[1] - 1
+    assert (
+        len(importance_vals) == data.shape[1] - 1 - 1
+    ), "Wrong size of importance values"  # f is null column
 
 
 def test_importance_num_only(data, compute_backend):
@@ -20,13 +21,15 @@ def test_importance_num_only(data, compute_backend):
     rfr = RandomForestRegressor(random_state=1)
     assert isinstance(
         dd.importance(data, "a", estimator=rfr, return_values=True), np.ndarray
-    )
+    ), "Importance values not a numpy array"
 
 
 def test_importance_cat_only(data, compute_backend):
     num_columns = data.select_dtypes(["number"]).columns.values
     data = data[[c for c in data.columns if c not in num_columns]]
-    assert len(dd.importance(data, "d", return_values=True)) == data.shape[1] - 1
+    assert (
+        len(dd.importance(data, "d", return_values=True)) == data.shape[1] - 2
+    ), "Wrong size of importance values"  # f is null column
 
 
 def test_importance_preprocess(data, compute_backend):
@@ -42,4 +45,6 @@ def test_importance_preprocess(data, compute_backend):
         return X, y
 
     fig = dd.importance(data, "d", preprocess_func=pre)
-    assert isinstance(fig, matplotlib.artist.Artist)
+    assert isinstance(
+        fig, matplotlib.artist.Artist
+    ), "Importance plot not a matplotlib plot"
