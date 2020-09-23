@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-from data_describe.compat import _compat, requires
+from data_describe.compat import requires, _compat
 from data_describe.config._config import get_option
 
 
@@ -87,11 +87,11 @@ def viz_plot_autocorrelation(
         )
     )
     if plot_type == "acf":
-        fig = _compat["statsmodels"].api.graphics.tsa.plot_acf(
+        fig = _compat["statsmodels.graphics.tsaplots"].plot_acf(
             timeseries, ax=ax, lags=n_lags, fft=fft, **kwargs
         )
     elif plot_type == "pacf":
-        fig = _compat["statsmodels"].api.graphics.tsa.plot_pacf(
+        fig = _compat["statsmodels.graphics.tsaplots"].plot_pacf(
             timeseries, ax=ax, lags=n_lags, **kwargs
         )
     else:

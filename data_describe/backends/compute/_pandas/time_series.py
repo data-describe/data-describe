@@ -4,10 +4,9 @@ from typing import Optional
 import pandas as pd
 import numpy as np
 
-from data_describe.compat import requires, _compat
+from data_describe.compat import _compat, requires
 
 
-@requires("statsmodels")
 def compute_stationarity_test(
     timeseries, test: str = "dickey-fuller", regression: str = "c", **kwargs
 ):
@@ -25,13 +24,9 @@ def compute_stationarity_test(
         st: Pandas dataframe containing the statistics
     """
     if test.lower() == "dickey-fuller":
-        st = _compat["statsmodels"].tsa.stattools.adf_test(
-            timeseries, regression=regression, **kwargs
-        )
+        st = adf_test(timeseries, regression=regression, **kwargs)
     elif test.lower() == "kpss":
-        st = _compat["statsmodels"].tsa.stattools.kpss_test(
-            timeseries, regression=regression, **kwargs
-        )
+        st = kpss_test(timeseries, regression=regression, **kwargs)
     else:
         raise ValueError(f"{test} not implemented")
     return st
@@ -52,7 +47,7 @@ def adf_test(timeseries, autolag: str = "AIC", regression: str = "c", **kwargs):
     Returns:
         Pandas dataframe containing the statistics
     """
-    test = _compat["statsmodels"].tsa.stattools.adfuller(
+    test = _compat["statsmodels.tsa.stattools"].adfuller(
         timeseries, autolag=autolag, regression=regression, **kwargs
     )
     adf_output = pd.Series(
@@ -94,7 +89,7 @@ def kpss_test(timeseries, regression: str = "c", nlags: Optional[int] = None, **
             category=FutureWarning,
             message="The behavior of using lags=None will change in the next release.",
         )
-        test = _compat["statsmodels"].tsa.stattools.kpss(
+        test = _compat["statsmodels.tsa.stattools"].kpss(
             timeseries, regression="c", **kwargs
         )
     kpss_output = pd.Series(test[0:3], index=["Test Statistic", "p-value", "Lags Used"])
@@ -118,7 +113,7 @@ def compute_decompose_timeseries(df, col, model: str = "additive", **kwargs):
     Returns:
         result: statsmodels.tsa.seasonal.DecomposeResult object
     """
-    return _compat["statsmodels"].tsa.seasonal.seasonal_decompose(
+    return _compat["statsmodels.tsa.seasonal"].seasonal_decompose(
         df[col], model=model, **kwargs
     )
 
@@ -144,9 +139,9 @@ def compute_autocorrelation(
         data: numpy.ndarray containing the correlations
     """
     if plot_type == "pacf":
-        data = _compat["statsmodels"].tsa.stattools.pacf(timeseries, n_lags, **kwargs)
+        data = _compat["statsmodels.tsa.stattools"].pacf(timeseries, n_lags, **kwargs)
     elif plot_type == "acf":
-        data = _compat["statsmodels"].tsa.stattools.acf(
+        data = _compat["statsmodels.tsa.stattools"].acf(
             timeseries, n_lags, fft=fft, **kwargs
         )
     else:
