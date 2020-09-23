@@ -4,7 +4,6 @@ from unittest.mock import patch, mock_open
 import tempfile
 
 import pandas as pd
-# import geopandas
 import pytest
 
 import data_describe as dd
@@ -101,7 +100,6 @@ def test_gcs_file(monkeypatch):
 
     monkeypatch.setattr("google.cloud.storage.Client", MockClient)
     monkeypatch.setattr(tempfile, "gettempdir", Mockgettempdir)
-    # monkeypatch.setattr(geopandas, "read_file", Mockread_file)
 
     file_dir = download_gcs_file(filepath="gs://data/geo/tl_2018_us_county.shp")
     assert isinstance(file_dir, str)
