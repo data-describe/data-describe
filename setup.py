@@ -15,12 +15,12 @@ with open(os.path.join("data_describe", "_version.py")) as fp:
     exec(fp.read(), version)
 
 REQUIRED = [
-    "pandas==1.0",
-    "numpy==1.16",
-    "scipy==1.1",
-    "scikit-learn==0.23",
-    "seaborn==0.11",
-    "plotly==4.0",
+    "pandas>=1.0",
+    "numpy>=1.16",
+    "scipy>=1.1",
+    "scikit-learn>=0.23",
+    "seaborn>=0.11",
+    "plotly>=4.0",
 ]
 
 EXTRAS = {
