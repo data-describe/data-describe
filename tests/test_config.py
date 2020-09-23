@@ -1,6 +1,9 @@
+import pytest
+
 import data_describe as dd
 
 
+@pytest.mark.base
 def test_option_context_nargs():
     assert dd.options.backends.viz == "seaborn", "Unexpected default for viz backend"
     with dd.config.update_context("backends.viz", "mylib"):
@@ -10,6 +13,7 @@ def test_option_context_nargs():
     ), "Config context exit did not restore options"
 
 
+@pytest.mark.base
 def test_option_context_dict():
     new_config = {"backends": {"viz": "mylib"}}
     assert dd.options.backends.viz == "seaborn", "Unexpected default for viz backend"
@@ -20,6 +24,7 @@ def test_option_context_dict():
     ), "Config context exit did not restore options"
 
 
+@pytest.mark.base
 def test_module_style_option():
     assert (
         dd.options.backends.compute == "pandas"

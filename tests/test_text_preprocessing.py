@@ -1,6 +1,5 @@
 import pytest
 import pandas as pd
-import nltk
 
 from data_describe.text.text_preprocessing import (
     tokenize,
@@ -157,9 +156,9 @@ def test_custom_pipeline(text_data):
     ), "Output did not correctly incorporate custom function into preprocessing pipeline"
 
 
-def test_ngrams(text_data):
+def test_ngrams(_nltk, text_data):
     n = 4
     n_grams = ngram_freq(text_data["test_list_main"], n)
     assert isinstance(
-        n_grams, nltk.FreqDist
+        n_grams, _nltk.FreqDist
     ), "Output is not of the expected return type of NLTK Frequency Distribution object"

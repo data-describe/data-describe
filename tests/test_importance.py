@@ -1,3 +1,4 @@
+import pytest
 import matplotlib
 import pandas as pd
 import numpy as np
@@ -9,6 +10,7 @@ import data_describe as dd
 matplotlib.use("Agg")
 
 
+@pytest.mark.base
 def test_importance(data, compute_backend):
     importance_vals = dd.importance(data, "d", return_values=True)
     assert (
@@ -16,6 +18,7 @@ def test_importance(data, compute_backend):
     ), "Wrong size of importance values"  # f is null column
 
 
+@pytest.mark.base
 def test_importance_num_only(data, compute_backend):
     data = data.select_dtypes(["number"])
     rfr = RandomForestRegressor(random_state=1)
@@ -24,6 +27,7 @@ def test_importance_num_only(data, compute_backend):
     ), "Importance values not a numpy array"
 
 
+@pytest.mark.base
 def test_importance_cat_only(data, compute_backend):
     num_columns = data.select_dtypes(["number"]).columns.values
     data = data[[c for c in data.columns if c not in num_columns]]
@@ -32,6 +36,7 @@ def test_importance_cat_only(data, compute_backend):
     ), "Wrong size of importance values"  # f is null column
 
 
+@pytest.mark.base
 def test_importance_preprocess(data, compute_backend):
     def pre(df, target):
         y = df[target]

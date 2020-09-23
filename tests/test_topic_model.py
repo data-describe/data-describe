@@ -1,6 +1,5 @@
 import pandas as pd
 import numpy as np
-import gensim
 import matplotlib
 import sklearn
 import pytest
@@ -9,7 +8,7 @@ from data_describe.text.topic_modeling import topic_model
 
 
 @pytest.fixture(autouse=True)
-def skip_models(monkeypatch):
+def skip_models(_gensim, monkeypatch):
     class MockCoherenceModel:
         def __init__(
             self,
@@ -115,10 +114,10 @@ def test_unknown_type():
         topic_model("wrong input")
 
 
-def test_lda_attributes(lda_model):
+def test_lda_attributes(_gensim, lda_model):
     assert lda_model.model_type == "LDA", "Model type attribute is incorrect"
     assert isinstance(
-        lda_model.model, gensim.models.ldamodel.LdaModel
+        lda_model.model, _gensim.models.ldamodel.LdaModel
     ), "Model type is incorrect"
     assert lda_model.num_topics == len(
         lda_model._model.get_topics()
@@ -131,10 +130,10 @@ def test_lda_attributes(lda_model):
     assert lda_model.max_topics == 6, "Maximum topics attribute is incorrect"
 
 
-def test_lsi_attributes(lsi_model):
+def test_lsi_attributes(_gensim, lsi_model):
     assert lsi_model.model_type == "LSI", "Model type attribute is incorrect"
     assert isinstance(
-        lsi_model.model, gensim.models.lsimodel.LsiModel
+        lsi_model.model, _gensim.models.lsimodel.LsiModel
     ), "Model type is incorrect"
     assert lsi_model.num_topics == len(
         lsi_model._model.get_topics()
@@ -175,9 +174,9 @@ def test_nmf_attributes(nmf_model):
         assert nmf_model.max_topics, "Maximum topics attribute incorrectly exist"
 
 
-def test_lda_intermediates(lda_model):
+def test_lda_intermediates(_gensim, lda_model):
     assert isinstance(
-        lda_model.dictionary, gensim.corpora.dictionary.Dictionary
+        lda_model.dictionary, _gensim.corpora.dictionary.Dictionary
     ), "Output is not of the expected return type of Gensim Dictionary object"
     assert isinstance(
         lda_model.corpus[0], list

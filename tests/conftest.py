@@ -1,13 +1,41 @@
 import pytest
 import pandas as pd
-import modin.pandas as modin
 import numpy as np
 
 import data_describe as dd
 
-_COMPUTE_BACKENDS = ["pandas", "modin"]
-_COMPUTE_MODULES = [pd, modin]
+_COMPUTE_BACKENDS = ["pandas", "modin.pandas"]
 _VIZ_BACKENDS = ["seaborn", "plotly"]
+
+
+@pytest.fixture
+def _hdbscan():
+    return pytest.importorskip("hdbscan")
+
+
+@pytest.fixture
+def _pyscagnostics():
+    return pytest.importorskip("pyscagnostics")
+
+
+@pytest.fixture
+def _gensim():
+    return pytest.importorskip("gensim")
+
+
+@pytest.fixture
+def _nltk():
+    return pytest.importorskip("nltk")
+
+
+@pytest.fixture
+def _presidio_analyzer():
+    return pytest.importorskip("presidio_analyzer")
+
+
+@pytest.fixture
+def _statsmodels():
+    return pytest.importorskip("statsmodels")
 
 
 @pytest.fixture(params=_COMPUTE_BACKENDS)
@@ -36,10 +64,15 @@ def numeric_data(data):
     return data.select_dtypes("number")
 
 
-@pytest.fixture(params=_COMPUTE_MODULES)
+@pytest.fixture(params=_COMPUTE_BACKENDS)
 def compute_backend_df(request):
+    try:
+        mod = pytest.importorskip(request.param)
+    except ImportError:
+        raise ValueError(f"Could not import {request.param}")
+
     np.random.seed(22)
-    return request.param.DataFrame(
+    return mod.DataFrame(
         {
             "a": np.random.normal(2, 1.2, size=250),
             "b": np.random.normal(3, 1.5, size=250),
@@ -211,7 +244,7 @@ def document_data():
     return topical_docs
 
 
-@pytest.fixture(params=_COMPUTE_MODULES)
+@pytest.fixture(params=_COMPUTE_BACKENDS)
 def compute_time_data(request):
     dates = pd.to_datetime(
         [
@@ -236,18 +269,18 @@ def compute_time_data(request):
     return request.param.DataFrame({"var": list(range(15))}, index=dates)
 
 
-@pytest.fixture(params=_COMPUTE_MODULES)
+@pytest.fixture(params=_COMPUTE_BACKENDS)
 def compute_backend_pii_df(request):
-    return request.param.DataFrame(
-        {"domain": "gmail.com", "name": "John Doe"}, index=[1]
-    )
+    mod = pytest.importorskip(request.param)
+    return mod.DataFrame({"domain": "gmail.com", "name": "John Doe"}, index=[1])
 
 
-@pytest.fixture(params=_COMPUTE_MODULES)
+@pytest.fixture(params=_COMPUTE_BACKENDS)
 def compute_backend_pii_text(request):
     return "this is not a dataframe"
 
 
-@pytest.fixture(params=_COMPUTE_MODULES)
+@pytest.fixture(params=_COMPUTE_BACKENDS)
 def compute_backend_column_infotype(request):
-    return request.param.Series(["This string contains a domain, gmail.com"])
+    mod = pytest.importorskip(request.param)
+    return mod.Series(["This string contains a domain, gmail.com"])

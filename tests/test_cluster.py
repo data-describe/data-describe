@@ -4,7 +4,6 @@ import matplotlib
 from matplotlib.axes import Axes as mpl_plot
 from sklearn.cluster import KMeans
 from sklearn.preprocessing import StandardScaler
-import hdbscan
 import plotly
 
 import data_describe as dd
@@ -25,16 +24,19 @@ from data_describe.backends.compute._pandas.cluster import (
 matplotlib.use("Agg")
 
 
+@pytest.mark.base
 def test_not_df():
     with pytest.raises(ValueError):
         dd.cluster("this_is_a_string")
 
 
+@pytest.mark.base
 def test_method_not_implemented(numeric_data):
     with pytest.raises(ValueError):
         dd.cluster(numeric_data, method="unimplemented")
 
 
+@pytest.mark.base
 def test_cluster_widget():
     cl = ClusterWidget()
     assert hasattr(cl, "clusters"), "Cluster Widget missing cluster labels"
@@ -44,6 +46,7 @@ def test_cluster_widget():
     assert hasattr(cl, "show"), "Cluster Widget missing show method"
 
 
+@pytest.mark.base
 def test_kmeans_cluster_widget():
     kcl = KmeansClusterWidget()
     assert isinstance(
@@ -70,7 +73,7 @@ def test_kmeans_cluster_widget():
     assert hasattr(kcl, "scores"), "Kmeans Cluster Widget missing `scores` attribute"
 
 
-def test_hdbscan_cluster_widget():
+def test_hdbscan_cluster_widget(_hdbscan):
     hcl = HDBSCANClusterWidget()
     assert isinstance(
         hcl, ClusterWidget
@@ -89,9 +92,12 @@ def kmeans_default(numeric_data):
     return dd.cluster(numeric_data, method="kmeans")
 
 
+@pytest.mark.base
 def test_kmeans_default(kmeans_default):
     cl = kmeans_default
-    assert isinstance(cl.show(), matplotlib.axes.Axes), "Default show() didn't return a mpl Axes object"
+    assert isinstance(
+        cl.show(), matplotlib.axes.Axes
+    ), "Default show() didn't return a mpl Axes object"
     assert isinstance(cl, KmeansClusterWidget)
     assert isinstance(cl.estimator, KMeans), "Saved cluster estimator was not KMeans"
     assert hasattr(cl, "input_data"), "Widget does not have input data"
@@ -123,6 +129,7 @@ def test_kmeans_default(kmeans_default):
     assert hasattr(cl, "reductor")
 
 
+@pytest.mark.base
 def test_kmeans_plotly(kmeans_default):
     figure = kmeans_default.show(viz_backend="plotly")
     assert isinstance(figure, plotly.graph_objs._figure.Figure)
@@ -144,8 +151,8 @@ def monkeypatch_KMeans(monkeypatch):
 
 
 @pytest.fixture
-def monkeypatch_HDBSCAN(monkeypatch):
-    class mock_hdbscan(hdbscan.HDBSCAN):
+def monkeypatch_HDBSCAN(_hdbscan, monkeypatch):
+    class mock_hdbscan(_hdbscan.HDBSCAN):
         def __init__(self, **kwargs):
             pass
 
@@ -155,6 +162,7 @@ def monkeypatch_HDBSCAN(monkeypatch):
     monkeypatch.setattr("hdbscan.HDBSCAN", mock_hdbscan)
 
 
+@pytest.mark.base
 def test_pandas_compute_cluster(numeric_data, monkeypatch_KMeans):
     widget = compute_cluster(numeric_data, method="kmeans")
     assert isinstance(
@@ -171,7 +179,7 @@ def test_pandas_compute_cluster(numeric_data, monkeypatch_KMeans):
     assert hasattr(widget, "scaled_data"), "Missing scaled data"
 
 
-def test_pandas_compute_cluster_hdbscan(numeric_data, monkeypatch_HDBSCAN):
+def test_pandas_compute_cluster_hdbscan(_hdbscan, numeric_data, monkeypatch_HDBSCAN):
     widget = compute_cluster(numeric_data, method="hdbscan")
     assert isinstance(
         widget.clusters, np.ndarray
@@ -187,11 +195,13 @@ def test_pandas_compute_cluster_hdbscan(numeric_data, monkeypatch_HDBSCAN):
     assert hasattr(widget, "scaled_data"), "Missing scaled data"
 
 
+@pytest.mark.base
 def test_pandas_compute_cluster_invalid_method(numeric_data):
     with pytest.raises(ValueError):
         compute_cluster(numeric_data, method="unimplemented")
 
 
+@pytest.mark.base
 def test_pandas_run_kmeans_default(numeric_data, monkeypatch_KMeans):
     widget = _run_kmeans(numeric_data)
     assert isinstance(
@@ -206,6 +216,7 @@ def test_pandas_run_kmeans_default(numeric_data, monkeypatch_KMeans):
     ), "Cluster search did not occur when n_clusters is None (default)"
 
 
+@pytest.mark.base
 def test_pandas_run_kmeans_specified_cluster(numeric_data, monkeypatch_KMeans):
     widget = _run_kmeans(numeric_data, n_clusters=2)
     assert isinstance(
@@ -220,6 +231,7 @@ def test_pandas_run_kmeans_specified_cluster(numeric_data, monkeypatch_KMeans):
     assert not widget.search, "`search` equals True although n_cluster is specified"
 
 
+@pytest.mark.base
 def test_pandas_find_clusters_default(numeric_data, monkeypatch_KMeans):
     widget = _find_clusters(numeric_data)
     assert isinstance(widget.clusters, np.ndarray)
@@ -232,6 +244,7 @@ def test_pandas_find_clusters_default(numeric_data, monkeypatch_KMeans):
     assert isinstance(widget.scores, list), "metric `scores` on widget is not a list"
 
 
+@pytest.mark.base
 def test_pandas_find_clusters_param(numeric_data, monkeypatch_KMeans):
     widget = _find_clusters(numeric_data, cluster_range=(2, 4))
     assert widget.cluster_range == (2, 4)
@@ -245,6 +258,7 @@ def test_pandas_find_clusters_param(numeric_data, monkeypatch_KMeans):
     ), "Supervised clustering did not record `target` on widget"
 
 
+@pytest.mark.base
 def test_pandas_fit_kmeans(numeric_data, monkeypatch_KMeans):
     widget = _fit_kmeans(numeric_data, 2)
     assert isinstance(
@@ -259,7 +273,7 @@ def test_pandas_fit_kmeans(numeric_data, monkeypatch_KMeans):
     assert isinstance(widget.estimator, KMeans), "Estimator is not KMeans"
 
 
-def test_pandas_run_hdbscan_default(numeric_data, monkeypatch_HDBSCAN):
+def test_pandas_run_hdbscan_default(_hdbscan, numeric_data, monkeypatch_HDBSCAN):
     widget = _run_hdbscan(numeric_data, min_cluster_size=10)
     assert isinstance(
         widget.clusters, np.ndarray
@@ -271,4 +285,4 @@ def test_pandas_run_hdbscan_default(numeric_data, monkeypatch_HDBSCAN):
         widget.n_clusters == 1
     ), "n_clusters on the widget does not match expected value"
     print(repr(widget))
-    assert isinstance(widget.estimator, hdbscan.HDBSCAN), "Estimator is not HDBSCAN"
+    assert isinstance(widget.estimator, _hdbscan.HDBSCAN), "Estimator is not HDBSCAN"

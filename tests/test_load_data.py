@@ -4,7 +4,7 @@ from unittest.mock import patch, mock_open
 import tempfile
 
 import pandas as pd
-import geopandas
+# import geopandas
 import pytest
 
 import data_describe as dd
@@ -39,6 +39,7 @@ def skip_io(monkeypatch):
     monkeypatch.setattr("os.listdir", mock_listdir)
 
 
+@pytest.mark.base
 def test_local_dir():
     with patch("builtins.open", mock_open(read_data="data")) as mock_file:
         dd.load_data("data/Addresses", encoding="latin1")
@@ -47,11 +48,13 @@ def test_local_dir():
         )
 
 
+@pytest.mark.base
 def test_local_csv():
     data = dd.load_data("data/er_data.csv")
     assert isinstance(data, pd.DataFrame)
 
 
+@pytest.mark.base
 def test_local_json():
     data = dd.load_data("data/Sarcasm_Headlines_Dataset.json")
     assert isinstance(data, pd.DataFrame)
@@ -62,6 +65,7 @@ def test_gcp(monkeypatch):
     assert isinstance(df, pd.DataFrame)
 
 
+@pytest.mark.base
 def test_local_excel():
     data = dd.load_data("data/Financial Sample.xlsx")
     assert isinstance(data, pd.DataFrame)
@@ -97,7 +101,7 @@ def test_gcs_file(monkeypatch):
 
     monkeypatch.setattr("google.cloud.storage.Client", MockClient)
     monkeypatch.setattr(tempfile, "gettempdir", Mockgettempdir)
-    monkeypatch.setattr(geopandas, "read_file", Mockread_file)
+    # monkeypatch.setattr(geopandas, "read_file", Mockread_file)
 
     file_dir = download_gcs_file(filepath="gs://data/geo/tl_2018_us_county.shp")
     assert isinstance(file_dir, str)
