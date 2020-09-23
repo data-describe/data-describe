@@ -48,6 +48,7 @@ def most_frequent(series):
     Returns:
         Percent of most frequent value per column
     """
-    top = series.mode().iloc[0]
-    m_freq = round(series.isin([top]).sum() / series.shape[0] * 100, 2)
-    return m_freq
+    counts = series.value_counts()
+    if counts.shape[0] == 0:
+        return None
+    return round(counts.iloc[0] / series.shape[0] * 100, 2)
