@@ -51,6 +51,7 @@ class DependencyManager:
 
     def check_install(self, module: str) -> bool:
         """Checks to see if a module is installed."""
+        module = module.split(".")[0]
         return self.installed_modules[module]
 
     def __getitem__(self, key: str) -> ModuleType:
@@ -62,25 +63,24 @@ class DependencyManager:
         Returns:
             The module.
         """
+        # Module already imported
         if key in self.installed_modules.keys():
             if self.installed_modules[key]:
                 if key in self.modules.keys():
                     return self.modules[key]
-                else:
-                    try:
-                        with OutputLogger(key, "INFO"):
-                            module = import_module(key)
-                            if self.imports[key] is not None:
-                                self.imports[key](module)
-                            self.modules[key] = module
-                            return module
-                    except ImportError:
-                        raise ImportError(
-                            f"Unable to import {key} which is required by this feature."
-                        )
-        raise AttributeError(
-            f"Requested module dependency {key} was not initialized by data-describe"
-        )
+
+        try:
+            with OutputLogger(key, "INFO"):
+                module = import_module(key)
+                if self.imports.get(key) is not None:
+                    # Call any side imports
+                    self.imports[key](module)
+                self.modules[key] = module
+                return module
+        except ImportError as e:
+            raise ImportError(
+                f"Unable to import module {key} which is required by this feature."
+            ) from e
 
 
 def nltk_download(module):
@@ -121,7 +121,7 @@ _compat = DependencyManager(
         "gcsfs": no_side_import,
         "google.cloud.storage": no_side_import,
         "spacy": spacy_download,
-        "modin.pandas": no_side_import,
+        "modin": no_side_import,
         "hdbscan": no_side_import,
         "presidio_analyzer": no_side_import,
         "pyscagnostics": no_side_import,
@@ -138,7 +138,7 @@ def requires(package_name):
         def g(*args, **kwargs):
             if not _compat.check_install(package_name):
                 raise ImportError(f"{package_name} required to use this feature.")
-            _compat[package_name]
+            _compat[package_name]  # Run any side imports, if applicable
             return func(*args, **kwargs)
 
         return g
