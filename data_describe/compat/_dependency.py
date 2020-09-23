@@ -51,7 +51,6 @@ class DependencyManager:
 
     def check_install(self, module: str) -> bool:
         """Checks to see if a module is installed."""
-        module = module.split(".")[0]
         return self.installed_modules[module]
 
     def __getitem__(self, key: str) -> ModuleType:
