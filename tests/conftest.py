@@ -238,7 +238,8 @@ def document_data():
 
 @pytest.fixture(params=_COMPUTE_BACKENDS)
 def compute_time_data(request):
-    dates = pd.to_datetime(
+    mod = pytest.importorskip(request.param)
+    dates = mod.to_datetime(
         [
             "2015-01-01",
             "2015-01-02",
@@ -258,7 +259,7 @@ def compute_time_data(request):
         ],
         format="%Y-%m-%d",
     )
-    return request.param.DataFrame({"var": list(range(15))}, index=dates)
+    return mod.DataFrame({"var": list(range(15))}, index=dates)
 
 
 @pytest.fixture(params=_COMPUTE_BACKENDS)
