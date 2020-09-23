@@ -2,8 +2,6 @@ import pytest
 import pandas as pd
 import numpy as np
 
-import data_describe as dd
-
 _COMPUTE_BACKENDS = ["pandas", "modin.pandas"]
 _VIZ_BACKENDS = ["seaborn", "plotly"]
 
@@ -36,12 +34,6 @@ def _presidio_analyzer():
 @pytest.fixture
 def _statsmodels():
     return pytest.importorskip("statsmodels")
-
-
-@pytest.fixture(params=_COMPUTE_BACKENDS)
-def compute_backend(request):
-    with dd.config.update_context("backends.compute", request.param):
-        yield
 
 
 @pytest.fixture
