@@ -31,20 +31,8 @@ EXTRAS = {
     "cluster": ["hdbscan>=0.8.17"],
     "time": ["statsmodels>=0.10"],
     "scatter": ["pyscagnostics>=0.1.0a4"],
-    "all": [
-        "nltk>=3.4",
-        "pyldavis>=2.1.2",
-        "gensim>=3.4.0",
-        "gcsfs>=0.2.1",
-        "google-cloud-storage>=1.18.0",
-        "presidio-analyzer==0.3.8917rc0",
-        "modin>=0.7.3",
-        "ray>=0.8.4",
-        "statsmodels>=0.10",
-        "hdbscan>=0.8.17",
-        "pyscagnostics>=0.1.0a4",
-    ],
 }
+EXTRAS["all"] = list(set([x for req in EXTRAS.values() for x in req]))
 
 
 # Where the magic happens:
