@@ -3,11 +3,7 @@ import data_describe.core.distributions as dddist
 
 
 def compute_distribution(
-    data,
-    diagnostic=True,
-    spike_factor=10,
-    skew_factor=3,
-    **kwargs
+    data, diagnostic=True, spike_factor=10, skew_factor=3, **kwargs
 ):
     """Compute distribution metrics.
 

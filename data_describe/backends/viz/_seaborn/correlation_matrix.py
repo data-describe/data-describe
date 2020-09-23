@@ -41,7 +41,7 @@ def viz_correlation_matrix(
         mask=mask,
         center=0,
         linewidths=2,
-        square=True
+        square=True,
     )
 
     plt.title("Correlation Matrix")

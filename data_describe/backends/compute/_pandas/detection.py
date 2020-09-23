@@ -40,7 +40,7 @@ def compute_sensitive_data(
     Returns:
         SensitiveDataWidget
     """
-    import data_describe.privacy.detection as ddsensitive # noqa: Lazy load
+    import data_describe.privacy.detection as ddsensitive  # noqa: Lazy load
 
     if columns:
         df = df[columns]
