@@ -74,14 +74,14 @@ def _scatter_plot(data, xname, yname, **kwargs):
         )
     }
     default_scatter_kwargs = {}
-    default_dist_kwargs = {"kde": False, "rug": False}
+    default_dist_kwargs = {}
     default_joint_kwargs.update(kwargs.get("joint_kwargs", {}))
     default_scatter_kwargs.update(kwargs.get("scatter_kwargs", {}))
     default_dist_kwargs.update(kwargs.get("dist_kwargs", {}))
 
-    g = sns.JointGrid(data[xname], data[yname], **default_joint_kwargs)
+    g = sns.JointGrid(data=data, x=xname, y=yname, **default_joint_kwargs)
     g = g.plot_joint(sns.scatterplot, **default_scatter_kwargs)
-    g = g.plot_marginals(sns.displot, **default_dist_kwargs)
+    g = g.plot_marginals(sns.histplot, **default_dist_kwargs)
     return g
 
 
