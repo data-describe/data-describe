@@ -12,9 +12,9 @@ class DependencyManager:
     """Manage optional dependencies for data-describe.
 
     Examples:
-        Optional modules can be accessed as an attribute::
+        Optional modules can be accessed using dictionary-style attributes::
 
-            _compat = DependencyManager({"presidio": None})
+            _compat = DependencyManager()
             engine = _compat["presidio_analyzer"].AnalyzerEngine()
     """
 
@@ -22,16 +22,16 @@ class DependencyManager:
         """Initializes the expected optional dependencies for data-describe.
 
         Args:
-            imports (Dict[str, Callable]): A dictionary of module names with optional callables.
+            imports (Dict[str, Callable]): A dictionary of module names mapped to callables.
                 The Callable will be executed when the module is imported, and can be used to
                 run additional download or other set up processes that should happen on import.
         """
         self.imports = imports
         self.installed_modules: Dict[str, bool] = {}
         self.modules: Dict[str, ModuleType] = {}
-        self.search_install(list(imports.keys()))
+        self.check_all_install(list(imports.keys()))
 
-    def search_install(self, modules: List[str]):
+    def check_all_install(self, modules: List[str]):
         """Searches for installed modules and determines if they exist.
 
         The attribute `installed_modules` maps module names to booleans
@@ -41,17 +41,38 @@ class DependencyManager:
             modules (List[str]): List of module names
         """
         for module in modules:
+            self.check_install(module)
+
+    def check_install(self, module: str) -> bool:
+        """Checks to see if a module is installed."""
+        try:
+            return self.installed_modules[module]
+        except KeyError:
             try:
                 if find_spec(module) is not None:
                     self.installed_modules[module] = True
                 else:
                     self.installed_modules[module] = False
-            except ImportError:
+            except ImportError as err:
+                warnings.warn(f"Failed to import {module}: {str(err)}")
                 self.installed_modules[module] = False
+            return self.installed_modules[module]
 
-    def check_install(self, module: str) -> bool:
-        """Checks to see if a module is installed."""
-        return self.installed_modules[module]
+    def import_module(self, module_name: str):
+        """Attempts to import the module and execute any side imports."""
+        try:
+            with OutputLogger(module_name, "INFO"):
+                module = import_module(module_name)
+                if self.imports.get(module_name) is not None:
+                    # Call any side imports
+                    if self.imports[module_name]:
+                        self.imports[module_name](module)
+                self.modules[module_name] = module
+                return module
+        except ImportError as e:
+            raise ImportError(
+                f"Unable to import module {module_name} which is required by this feature."
+            ) from e
 
     def __getitem__(self, key: str) -> ModuleType:
         """Allows attribute-style access to optional modules.
@@ -63,23 +84,10 @@ class DependencyManager:
             The module.
         """
         # Module already imported
-        if key in self.installed_modules.keys():
-            if self.installed_modules[key]:
-                if key in self.modules.keys():
-                    return self.modules[key]
+        if key in self.modules.keys():
+            return self.modules[key]
 
-        try:
-            with OutputLogger(key, "INFO"):
-                module = import_module(key)
-                if self.imports.get(key) is not None:
-                    # Call any side imports
-                    self.imports[key](module)
-                self.modules[key] = module
-                return module
-        except ImportError as e:
-            raise ImportError(
-                f"Unable to import module {key} which is required by this feature."
-            ) from e
+        return self.import_module(key)
 
 
 def nltk_download(module):
@@ -107,24 +115,10 @@ def spacy_download(module):
         module.cli.download("en_core_web_lg")
 
 
-def no_side_import(module):
-    """Placeholder for imports that should not do anything additional on import."""
-    pass
-
-
 _compat = DependencyManager(
     {
         "nltk": nltk_download,
-        "gensim": no_side_import,
-        "pyLDAvis": no_side_import,
-        "gcsfs": no_side_import,
-        "google.cloud.storage": no_side_import,
         "spacy": spacy_download,
-        "modin": no_side_import,
-        "hdbscan": no_side_import,
-        "presidio_analyzer": no_side_import,
-        "pyscagnostics": no_side_import,
-        "statsmodels": no_side_import,
     }
 )
 
