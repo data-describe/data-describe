@@ -3,7 +3,7 @@ name: release
 on:
   release:
     types:
-      - created
+      - published
 
 jobs:
   build-windows:
