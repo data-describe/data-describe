@@ -3,7 +3,7 @@ name: publish-release-docs
 on:
   release:
     types:
-      - created
+      - published
 
 jobs:
   publish-docs:
