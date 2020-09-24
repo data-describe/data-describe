@@ -33,7 +33,7 @@ def viz_correlation_matrix(
     )
 
     ax = sns.heatmap(
-        association_matrix,
+        data=association_matrix,
         vmin=vmin,
         vmax=vmax,
         cmap=get_p_RdBl_cmap(),

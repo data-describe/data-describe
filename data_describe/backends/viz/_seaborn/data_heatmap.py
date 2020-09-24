@@ -37,7 +37,7 @@ def viz_data_heatmap(data, colnames: List[str], missing: bool = False, **kwargs)
             get_option("display.matplotlib.fig_height"),
         )
     )
-    heatmap = sns.heatmap(data, **plot_options)
+    heatmap = sns.heatmap(data=data, **plot_options)
     plt.title("Data Heatmap")
     plt.ylabel("Variable")
     plt.xlabel("Record #")
