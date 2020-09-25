@@ -2,14 +2,15 @@ import matplotlib
 import pytest
 import plotly.graph_objects as go
 
-from data_describe.backends.compute._pandas.time_series import (
+from data_describe.core.time_series import (
     compute_stationarity_test,
     adf_test,
     kpss_test,
     compute_decompose_timeseries,
     compute_autocorrelation,
+    plot_autocorrelation,
+    stationarity_test,
 )
-from data_describe.core.time_series import plot_autocorrelation, stationarity_test
 import data_describe as dd
 from data_describe.compat import _DATAFRAME_TYPE
 
