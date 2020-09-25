@@ -12,8 +12,6 @@ from data_describe.core.clusters import (
     ClusterWidget,
     KmeansClusterWidget,
     HDBSCANClusterWidget,
-)
-from data_describe.backends.compute._pandas.cluster import (
     compute_cluster,
     _run_kmeans,
     _find_clusters,
