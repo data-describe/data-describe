@@ -1,4 +1,4 @@
-version: '1'
+version: '3'
 services:
   jupyter:
     container_name: data_describe_jupyter
