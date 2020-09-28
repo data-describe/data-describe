@@ -1,0 +1,64 @@
+data_describe.backends.viz._seaborn.distribution
+=======================================================
+
+.. py:module:: data_describe.backends.viz._seaborn.distribution
+
+
+
+
+
+.. autoapisummary::
+
+   data_describe.backends.viz._seaborn.distribution.viz_distribution
+   data_describe.backends.viz._seaborn.distribution.viz_numeric
+   data_describe.backends.viz._seaborn.distribution.viz_categorical
+
+
+.. function:: viz_distribution(data, x: str, contrast: str = None, **kwargs)
+
+   Plots the distribution.
+
+   :param data: The data
+   :type data: DataFrame
+   :param x: The column to visualize.
+   :type x: str
+   :param contrast: The column to use as a contrast.
+   :type contrast: str, optional
+   :param \*\*kwargs: Keyword arguments passed to underlying plot functions.
+
+   :returns: matplotlib.figure.Figure
+
+
+.. function:: viz_numeric(data, x: str, contrast: str = None, mode: str = 'combo', hist_kwargs: dict = None, violin_kwargs: dict = None, **kwargs)
+
+   Plots a histogram/violin plot.
+
+   :param data: The data
+   :type data: DataFrame
+   :param x: The name of the column to plot
+   :type x: str
+   :param contrast: The name of the categorical column to use for multiple contrasts.
+   :type contrast: str, optional
+   :param mode: {'combo', 'violin', 'hist'} The type of plot to display. Defaults to a combined histogram/violin plot.
+   :type mode: str
+   :param hist_kwargs: Keyword args for seaborn.histplot.
+   :type hist_kwargs: dict, optional
+   :param violin_kwargs: Keyword args for seaborn.violinplot.
+   :type violin_kwargs: dict, optional
+   :param \*\*kwargs: Keyword args to be passed to all underlying plotting functions.
+
+
+.. function:: viz_categorical(data, x: str, contrast: str = None, bar_kwargs: dict = None)
+
+   Plots a bar count plot for a categorical feature.
+
+   :param data: The data
+   :type data: DataFrame
+   :param x: The name of the column to plot
+   :type x: str
+   :param contrast: The name of the categorical column to use for multiple contrasts.
+   :type contrast: str, optional
+   :param bar_kwargs: Keyword args for seaborn.countplot.
+   :type bar_kwargs: dict, optional
+
+

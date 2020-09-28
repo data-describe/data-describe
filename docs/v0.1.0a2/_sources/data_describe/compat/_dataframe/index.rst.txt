@@ -1,0 +1,14 @@
+:orphan:
+
+data_describe.compat._dataframe
+======================================
+
+.. py:module:: data_describe.compat._dataframe
+
+
+
+.. data:: compute
+   
+
+   
+

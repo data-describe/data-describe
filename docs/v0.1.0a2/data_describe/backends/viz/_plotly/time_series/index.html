@@ -1,0 +1,363 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>data_describe.backends.viz._plotly.time_series &mdash; data-describe  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../_static/css/style.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../../../../_static/favicon.png"/>
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../../" src="../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../_static/jquery.js"></script>
+        <script src="../../../../../_static/underscore.js"></script>
+        <script src="../../../../../_static/doctools.js"></script>
+        <script src="../../../../../_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    
+    <script type="text/javascript" src="../../../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../../index.html">
+          
+
+          
+            
+            <img src="../../../../../_static/logo.svg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../overview.html">Package overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../_notebooks/tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../examples/index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../_notebooks/contributing_guide.html">Contributing Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../index.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../index.html">data-describe</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>data_describe.backends.viz._plotly.time_series</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../../../../_sources/data_describe/backends/viz/_plotly/time_series/index.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="module-data_describe.backends.viz._plotly.time_series">
+<span id="data-describe-backends-viz-plotly-time-series"></span><h1>data_describe.backends.viz._plotly.time_series<a class="headerlink" href="#module-data_describe.backends.viz._plotly.time_series" title="Permalink to this headline">¶</a></h1>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#data_describe.backends.viz._plotly.time_series.viz_plot_time_series" title="data_describe.backends.viz._plotly.time_series.viz_plot_time_series"><code class="xref py py-obj docutils literal notranslate"><span class="pre">viz_plot_time_series</span></code></a>(df, col, result=None, decompose=False, title=’Time Series’)</p></td>
+<td><p>Create timeseries visualization.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#data_describe.backends.viz._plotly.time_series.viz_decomposition" title="data_describe.backends.viz._plotly.time_series.viz_decomposition"><code class="xref py py-obj docutils literal notranslate"><span class="pre">viz_decomposition</span></code></a>(result, dates, title=’Time Series Decomposition’)</p></td>
+<td><p>Create timeseries decomposition visualization.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#data_describe.backends.viz._plotly.time_series.viz_plot_autocorrelation" title="data_describe.backends.viz._plotly.time_series.viz_plot_autocorrelation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">viz_plot_autocorrelation</span></code></a>(data, white_noise, n_lags, plot_type=’acf’, title=’Autocorrelation Plot’)</p></td>
+<td><p>Create timeseries autocorrelation visualization.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#data_describe.backends.viz._plotly.time_series.figure_layout" title="data_describe.backends.viz._plotly.time_series.figure_layout"><code class="xref py py-obj docutils literal notranslate"><span class="pre">figure_layout</span></code></a>(title=’Time Series’, xlabel=’Date’, ylabel=’Variable’)</p></td>
+<td><p>Generates the figure layout.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py function">
+<dt id="data_describe.backends.viz._plotly.time_series.viz_plot_time_series">
+<code class="sig-prename descclassname">data_describe.backends.viz._plotly.time_series.</code><code class="sig-name descname">viz_plot_time_series</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">df</span></em>, <em class="sig-param"><span class="n">col</span></em>, <em class="sig-param"><span class="n">result</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">decompose</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">title</span><span class="o">=</span><span class="default_value">'Time Series'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.backends.viz._plotly.time_series.viz_plot_time_series" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create timeseries visualization.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> – The dataframe</p></li>
+<li><p><strong>col</strong> (<em>str</em><em> or </em><em>[</em><em>str</em><em>]</em>) – Column of interest. Column datatype must be numerical.</p></li>
+<li><p><strong>result</strong> – The statsmodels.tsa.seasonal.DecomposeResult object. Defaults to None.</p></li>
+<li><p><strong>decompose</strong> – Set as True to decompose the timeseries with moving average. result must not be None. Defaults to False.</p></li>
+<li><p><strong>title</strong> – Title of the plot. Defaults to “Time Series”.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The visualization</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>fig</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="data_describe.backends.viz._plotly.time_series.viz_decomposition">
+<code class="sig-prename descclassname">data_describe.backends.viz._plotly.time_series.</code><code class="sig-name descname">viz_decomposition</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">result</span></em>, <em class="sig-param"><span class="n">dates</span></em>, <em class="sig-param"><span class="n">title</span><span class="o">=</span><span class="default_value">'Time Series Decomposition'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.backends.viz._plotly.time_series.viz_decomposition" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create timeseries decomposition visualization.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>result</strong> – The statsmodels.tsa.seasonal.DecomposeResult object. Defaults to None.</p></li>
+<li><p><strong>dates</strong> – The datetime index</p></li>
+<li><p><strong>title</strong> – Title of the plot. Defaults to “Time Series Decomposition”.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The visualization</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>fig</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="data_describe.backends.viz._plotly.time_series.viz_plot_autocorrelation">
+<code class="sig-prename descclassname">data_describe.backends.viz._plotly.time_series.</code><code class="sig-name descname">viz_plot_autocorrelation</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em>, <em class="sig-param"><span class="n">white_noise</span></em>, <em class="sig-param"><span class="n">n_lags</span></em>, <em class="sig-param"><span class="n">plot_type</span><span class="o">=</span><span class="default_value">'acf'</span></em>, <em class="sig-param"><span class="n">title</span><span class="o">=</span><span class="default_value">'Autocorrelation Plot'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.backends.viz._plotly.time_series.viz_plot_autocorrelation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create timeseries autocorrelation visualization.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> – numpy.ndarray containing the correlations</p></li>
+<li><p><strong>white_noise</strong> – Significance threshold</p></li>
+<li><p><strong>plot_type</strong> – Choose between ‘acf’ or ‘pacf. Defaults to “pacf”.</p></li>
+<li><p><strong>title</strong> – Title of the plot. Defaults to “Autocorrelation Plot”.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The visualization</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>fig</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="data_describe.backends.viz._plotly.time_series.figure_layout">
+<code class="sig-prename descclassname">data_describe.backends.viz._plotly.time_series.</code><code class="sig-name descname">figure_layout</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">title</span><span class="o">=</span><span class="default_value">'Time Series'</span></em>, <em class="sig-param"><span class="n">xlabel</span><span class="o">=</span><span class="default_value">'Date'</span></em>, <em class="sig-param"><span class="n">ylabel</span><span class="o">=</span><span class="default_value">'Variable'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.backends.viz._plotly.time_series.figure_layout" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generates the figure layout.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>title</strong> – Title of the plot. Defaults to “Time Series”.</p></li>
+<li><p><strong>xlabel</strong> – x-axis label. Defaults to “Date”.</p></li>
+<li><p><strong>y-axis label. Defaults to &quot;Variable&quot;.</strong> (<em>ylabel;</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The plotly layout</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>layour</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Maven Wave Partners
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+<div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Other Versions</span>
+    v: v0.1.0a2
+    <span class="fa fa-caret-down"></span>
+  </span>
+  <div class="rst-other-versions">
+    <dl>
+      <dt>Tags</dt>
+      <dd><a href="../../../../../../v0.1.0a1/index.html">v0.1.0a1</a></dd>
+      <dd><a href="index.html">v0.1.0a2</a></dd>
+    </dl>
+    <dl>
+      <dt>Branches</dt>
+      <dd><a href="../../../../../../master/index.html">master</a></dd>
+    </dl>
+  </div>
+</div>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

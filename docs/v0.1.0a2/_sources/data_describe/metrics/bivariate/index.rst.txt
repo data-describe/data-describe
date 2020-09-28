@@ -1,0 +1,35 @@
+data_describe.metrics.bivariate
+======================================
+
+.. py:module:: data_describe.metrics.bivariate
+
+
+
+
+
+.. autoapisummary::
+
+   data_describe.metrics.bivariate.varying
+   data_describe.metrics.bivariate.heteroscedastic
+
+
+.. function:: varying(group, alpha=0.01)
+
+   Identifies varying box plots (i.e. with different means) using the one-way ANOVA test.
+
+   :param group: The groups from `split_by_category`
+   :param alpha: The significance level
+
+   :returns: True if statistically significant
+
+
+.. function:: heteroscedastic(group, alpha=0.01)
+
+   Identifies heteroscedasticity in box plots using the Brown-Forscythe test.
+
+   :param group: The groups from `split_by_category`
+   :param alpha: The significance level
+
+   :returns: True if statistically significant
+
+
