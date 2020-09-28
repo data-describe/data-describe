@@ -1,0 +1,24 @@
+:orphan:
+
+data_describe.backends.compute._pandas
+=============================================
+
+.. py:module:: data_describe.backends.compute._pandas
+
+
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+
+   cluster/index.rst
+   correlation_matrix/index.rst
+   data_heatmap/index.rst
+   detection/index.rst
+   dimensionality_reduction/index.rst
+   distribution/index.rst
+   importance/index.rst
+   scatter_plot/index.rst
+   summary/index.rst
+   time_series/index.rst
+
+

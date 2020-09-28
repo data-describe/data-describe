@@ -1,0 +1,34 @@
+data_describe.core.importance
+====================================
+
+.. py:module:: data_describe.core.importance
+
+
+
+
+
+.. autoapisummary::
+
+   data_describe.core.importance.importance
+
+
+.. function:: importance(data, target: str, preprocess_func=None, estimator=None, return_values=False, truncate=True, compute_backend=None, viz_backend=None, **kwargs)
+
+   Variable importance chart.
+
+   Uses Random Forest Classifier by default
+
+   :param data: A Pandas data frame
+   :param target: Name of the response column, as a string
+   :param preprocess_func: A custom preprocessing function that takes a Pandas dataframe and the target/response column
+   :param as a string. Returns X and y as tuple:
+   :param estimator: A custom sklearn estimator. Default is Random Forest Classifier
+   :param return_values: If True, only the importance values as a numpy array
+   :param truncate: If True, negative importance values will be truncated (set to zero)
+   :param compute_backend: The compute backend
+   :param viz_backend: The visualization backend
+   :param \*\*kwargs: Other arguments to be passed to the preprocess function
+
+   :returns: Matplotlib figure
+
+

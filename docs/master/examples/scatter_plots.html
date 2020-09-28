@@ -439,7 +439,7 @@ div.rendered_html tbody tr:hover {
 </style>
 <div class="section" id="Scatter-Plots">
 <h1>Scatter Plots<a class="headerlink" href="#Scatter-Plots" title="Permalink to this headline">¶</a></h1>
-<div class="nbinput nblast docutils container">
+<div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
@@ -448,6 +448,15 @@ div.rendered_html tbody tr:hover {
 <span class="kn">import</span> <span class="nn">data_describe</span> <span class="k">as</span> <span class="nn">dd</span>
 </pre></div>
 </div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+UserWarning: The Dask Engine for Modin is experimental.
+UserWarning: The extension &#34;jupyterlab-plotly&#34; was not found and is required for Plotly-based visualizations.
+</pre></div></div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
@@ -566,419 +575,60 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;seaborn.axisgrid.PairGrid at 0x234b79728c8&gt;
+&lt;seaborn.axisgrid.PairGrid at 0x23b2f3bd6c8&gt;
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/examples_scatter_plots_5_1.svg" src="../_images/examples_scatter_plots_5_1.svg" /></div>
+<img alt="../_images/examples_scatter_plots_5_1.png" src="../_images/examples_scatter_plots_5_1.png" />
+</div>
 </div>
 </div>
 <div class="section" id="Show-all-plots">
 <h2>Show all plots<a class="headerlink" href="#Show-all-plots" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">dd</span><span class="o">.</span><span class="n">scatter_plots</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;all&#39;</span><span class="p">)</span>
+<span></span><span class="n">df_subset</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]</span> <span class="c1"># Avoid creating all the plots in this notebook</span>
+<span class="n">dd</span><span class="o">.</span><span class="n">scatter_plots</span><span class="p">(</span><span class="n">df_subset</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;all&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-[&lt;seaborn.axisgrid.JointGrid at 0x234bce253c8&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x234beb2c648&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x234bf1584c8&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x234c1459c88&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x234c19b1b88&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x234c1dcb448&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x234c2067c48&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x234c241d908&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x234c2790648&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x234c27954c8&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x234c2dddf48&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x234c3118c48&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x234c2ab6908&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x234c2dfa8c8&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x234c3a64608&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x234c3d9f988&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x234c3db7048&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x234c3a7cf88&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x234c43eec48&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x234c4a2ba48&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x234c4d32fc8&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x234c4d67888&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x234c53aadc8&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x234c56b8b08&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x234c5702ac8&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x234c5d77b48&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x234c62d0908&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x234c64069c8&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x234c66d6048&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x234c6c71088&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x234c64065c8&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x234c70cff48&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x234c70df148&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x234bec4d748&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x234c8a34f48&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x234c8a340c8&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x234c905d948&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x234c93e63c8&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x234c996b608&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x234c9a64e88&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x234c9da6848&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x234ca0eff88&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x234ca415908&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x234c974c948&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x234caa06c48&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x234cadfcd88&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x234cb05f9c8&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x234cb470508&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x234cb775e08&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x234cbac0908&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x234cbe47308&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x234cc167d08&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x234cbd16d88&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x234b7cd0388&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x234ccad7dc8&gt;]
+[&lt;seaborn.axisgrid.JointGrid at 0x23b419380c8&gt;,
+ &lt;seaborn.axisgrid.JointGrid at 0x23b441f40c8&gt;,
+ &lt;seaborn.axisgrid.JointGrid at 0x23b4453a048&gt;]
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/examples_scatter_plots_7_1.svg" src="../_images/examples_scatter_plots_7_1.svg" /></div>
+<img alt="../_images/examples_scatter_plots_7_1.png" src="../_images/examples_scatter_plots_7_1.png" />
+</div>
 </div>
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/examples_scatter_plots_7_2.svg" src="../_images/examples_scatter_plots_7_2.svg" /></div>
+<img alt="../_images/examples_scatter_plots_7_2.png" src="../_images/examples_scatter_plots_7_2.png" />
 </div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/examples_scatter_plots_7_3.svg" src="../_images/examples_scatter_plots_7_3.svg" /></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/examples_scatter_plots_7_4.svg" src="../_images/examples_scatter_plots_7_4.svg" /></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/examples_scatter_plots_7_5.svg" src="../_images/examples_scatter_plots_7_5.svg" /></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/examples_scatter_plots_7_6.svg" src="../_images/examples_scatter_plots_7_6.svg" /></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/examples_scatter_plots_7_7.svg" src="../_images/examples_scatter_plots_7_7.svg" /></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/examples_scatter_plots_7_8.svg" src="../_images/examples_scatter_plots_7_8.svg" /></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/examples_scatter_plots_7_9.svg" src="../_images/examples_scatter_plots_7_9.svg" /></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/examples_scatter_plots_7_10.svg" src="../_images/examples_scatter_plots_7_10.svg" /></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/examples_scatter_plots_7_11.svg" src="../_images/examples_scatter_plots_7_11.svg" /></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/examples_scatter_plots_7_12.svg" src="../_images/examples_scatter_plots_7_12.svg" /></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/examples_scatter_plots_7_13.svg" src="../_images/examples_scatter_plots_7_13.svg" /></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/examples_scatter_plots_7_14.svg" src="../_images/examples_scatter_plots_7_14.svg" /></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/examples_scatter_plots_7_15.svg" src="../_images/examples_scatter_plots_7_15.svg" /></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/examples_scatter_plots_7_16.svg" src="../_images/examples_scatter_plots_7_16.svg" /></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/examples_scatter_plots_7_17.svg" src="../_images/examples_scatter_plots_7_17.svg" /></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/examples_scatter_plots_7_18.svg" src="../_images/examples_scatter_plots_7_18.svg" /></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/examples_scatter_plots_7_19.svg" src="../_images/examples_scatter_plots_7_19.svg" /></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/examples_scatter_plots_7_20.svg" src="../_images/examples_scatter_plots_7_20.svg" /></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/examples_scatter_plots_7_21.svg" src="../_images/examples_scatter_plots_7_21.svg" /></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/examples_scatter_plots_7_22.svg" src="../_images/examples_scatter_plots_7_22.svg" /></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/examples_scatter_plots_7_23.svg" src="../_images/examples_scatter_plots_7_23.svg" /></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/examples_scatter_plots_7_24.svg" src="../_images/examples_scatter_plots_7_24.svg" /></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/examples_scatter_plots_7_25.svg" src="../_images/examples_scatter_plots_7_25.svg" /></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/examples_scatter_plots_7_26.svg" src="../_images/examples_scatter_plots_7_26.svg" /></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/examples_scatter_plots_7_27.svg" src="../_images/examples_scatter_plots_7_27.svg" /></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/examples_scatter_plots_7_28.svg" src="../_images/examples_scatter_plots_7_28.svg" /></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/examples_scatter_plots_7_29.svg" src="../_images/examples_scatter_plots_7_29.svg" /></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/examples_scatter_plots_7_30.svg" src="../_images/examples_scatter_plots_7_30.svg" /></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/examples_scatter_plots_7_31.svg" src="../_images/examples_scatter_plots_7_31.svg" /></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/examples_scatter_plots_7_32.svg" src="../_images/examples_scatter_plots_7_32.svg" /></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/examples_scatter_plots_7_33.svg" src="../_images/examples_scatter_plots_7_33.svg" /></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/examples_scatter_plots_7_34.svg" src="../_images/examples_scatter_plots_7_34.svg" /></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/examples_scatter_plots_7_35.svg" src="../_images/examples_scatter_plots_7_35.svg" /></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/examples_scatter_plots_7_36.svg" src="../_images/examples_scatter_plots_7_36.svg" /></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/examples_scatter_plots_7_37.svg" src="../_images/examples_scatter_plots_7_37.svg" /></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/examples_scatter_plots_7_38.svg" src="../_images/examples_scatter_plots_7_38.svg" /></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/examples_scatter_plots_7_39.svg" src="../_images/examples_scatter_plots_7_39.svg" /></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/examples_scatter_plots_7_40.svg" src="../_images/examples_scatter_plots_7_40.svg" /></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/examples_scatter_plots_7_41.svg" src="../_images/examples_scatter_plots_7_41.svg" /></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/examples_scatter_plots_7_42.svg" src="../_images/examples_scatter_plots_7_42.svg" /></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/examples_scatter_plots_7_43.svg" src="../_images/examples_scatter_plots_7_43.svg" /></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/examples_scatter_plots_7_44.svg" src="../_images/examples_scatter_plots_7_44.svg" /></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/examples_scatter_plots_7_45.svg" src="../_images/examples_scatter_plots_7_45.svg" /></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/examples_scatter_plots_7_46.svg" src="../_images/examples_scatter_plots_7_46.svg" /></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/examples_scatter_plots_7_47.svg" src="../_images/examples_scatter_plots_7_47.svg" /></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/examples_scatter_plots_7_48.svg" src="../_images/examples_scatter_plots_7_48.svg" /></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/examples_scatter_plots_7_49.svg" src="../_images/examples_scatter_plots_7_49.svg" /></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/examples_scatter_plots_7_50.svg" src="../_images/examples_scatter_plots_7_50.svg" /></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/examples_scatter_plots_7_51.svg" src="../_images/examples_scatter_plots_7_51.svg" /></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/examples_scatter_plots_7_52.svg" src="../_images/examples_scatter_plots_7_52.svg" /></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/examples_scatter_plots_7_53.svg" src="../_images/examples_scatter_plots_7_53.svg" /></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/examples_scatter_plots_7_54.svg" src="../_images/examples_scatter_plots_7_54.svg" /></div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/examples_scatter_plots_7_55.svg" src="../_images/examples_scatter_plots_7_55.svg" /></div>
+<img alt="../_images/examples_scatter_plots_7_3.png" src="../_images/examples_scatter_plots_7_3.png" />
+</div>
 </div>
 </div>
 <div class="section" id="Show-plots-of-interest-using-scatterplot-diagnostics">
@@ -999,14 +649,15 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-[&lt;seaborn.axisgrid.JointGrid at 0x234c43e8748&gt;]
+[&lt;seaborn.axisgrid.JointGrid at 0x23b3c76a548&gt;]
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/examples_scatter_plots_9_1.svg" src="../_images/examples_scatter_plots_9_1.svg" /></div>
+<img alt="../_images/examples_scatter_plots_9_1.png" src="../_images/examples_scatter_plots_9_1.png" />
+</div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
@@ -1023,21 +674,23 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-[&lt;seaborn.axisgrid.JointGrid at 0x234d8d2e248&gt;,
- &lt;seaborn.axisgrid.JointGrid at 0x234daf374c8&gt;]
+[&lt;seaborn.axisgrid.JointGrid at 0x23b3ee14848&gt;,
+ &lt;seaborn.axisgrid.JointGrid at 0x23b41338ec8&gt;]
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/examples_scatter_plots_10_1.svg" src="../_images/examples_scatter_plots_10_1.svg" /></div>
+<img alt="../_images/examples_scatter_plots_10_1.png" src="../_images/examples_scatter_plots_10_1.png" />
+</div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/examples_scatter_plots_10_2.svg" src="../_images/examples_scatter_plots_10_2.svg" /></div>
+<img alt="../_images/examples_scatter_plots_10_2.png" src="../_images/examples_scatter_plots_10_2.png" />
+</div>
 </div>
 </div>
 </div>
@@ -1095,6 +748,7 @@ div.rendered_html tbody tr:hover {
     <dl>
       <dt>Tags</dt>
       <dd><a href="../../v0.1.0a1/index.html">v0.1.0a1</a></dd>
+      <dd><a href="../../v0.1.0a2/index.html">v0.1.0a2</a></dd>
     </dl>
     <dl>
       <dt>Branches</dt>

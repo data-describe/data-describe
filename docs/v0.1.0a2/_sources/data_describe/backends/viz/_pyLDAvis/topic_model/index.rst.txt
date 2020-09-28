@@ -1,0 +1,30 @@
+data_describe.backends.viz._pyLDAvis.topic_model
+=======================================================
+
+.. py:module:: data_describe.backends.viz._pyLDAvis.topic_model
+
+
+
+
+
+.. autoapisummary::
+
+   data_describe.backends.viz._pyLDAvis.topic_model.viz_visualize_topic_summary
+
+
+.. data:: gensim
+   
+
+   
+
+.. function:: viz_visualize_topic_summary(model: gensim.models.ldamodel.LdaModel, corpus: List[List[Tuple[int, int]]], dictionary: gensim.corpora.dictionary.Dictionary)
+
+   Displays interactive pyLDAvis visual to understand topic model and documents.
+
+   :param model: LDA topic model
+   :param corpus: Bag of Words (BoW) representation of documents (token_id, token_count)
+   :param dictionary: Gensim Dictionary encapsulates the mapping between normalized words and their integer ids
+
+   :returns: A visual to understand topic model and/or documents relating to model
+
+

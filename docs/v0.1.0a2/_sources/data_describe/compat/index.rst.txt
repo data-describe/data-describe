@@ -1,0 +1,6 @@
+data_describe.compat
+===========================
+
+.. py:module:: data_describe.compat
+
+

@@ -1,0 +1,31 @@
+data_describe.backends.compute._pandas.cluster
+=====================================================
+
+.. py:module:: data_describe.backends.compute._pandas.cluster
+
+
+
+
+
+.. autoapisummary::
+
+   data_describe.backends.compute._pandas.cluster.compute_cluster
+
+
+.. function:: compute_cluster(data, method: str, **kwargs)
+
+   Backend implementation of cluster.
+
+   :param data: The data
+   :type data: DataFrame
+   :param method: {"kmeans", "hdbscan} The clustering algorithm
+   :type method: str
+
+   :raises NotImplementedError: If method is not implemented
+
+   :returns: (clusters, ClusterFit)
+
+             clusters: The predicted cluster labels
+             ClusterFit: A class containing additional information about the fit
+
+
