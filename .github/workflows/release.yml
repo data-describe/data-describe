@@ -104,9 +104,9 @@ jobs:
         path: dist
     - name: Move to dist/
       run: |
-        cp -v dist/**/*.whl dist/ &&
-        cp -v dist/**/*.whl dist/ &&
-        cp -v dist/**/*.whl dist/ &&
+        cp -v -n dist/**/*.whl dist/ &&
+        cp -v -n dist/**/*.whl dist/ &&
+        cp -v -n dist/**/*.whl dist/ &&
         rm -rf dist/*/
     - name: Publish to Test PyPI
       uses: pypa/gh-action-pypi-publish@master
