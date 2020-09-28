@@ -78,12 +78,12 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build linux wheels (x86_64)
-      uses: RalfG/python-wheels-manylinux-build@v0.2.2-manylinux2010_x86_64
+      uses: RalfG/python-wheels-manylinux-build@v0.3.1-manylinux2010_x86_64
       with:
         python-versions: 'cp37-cp37m cp38-cp38'
         build-requirements: 'cython numpy'
     - name: Build linux wheels (i686)
-      uses: RalfG/python-wheels-manylinux-build@v0.2.2-manylinux2010_i686
+      uses: RalfG/python-wheels-manylinux-build@v0.3.1-manylinux2010_i686
       with:
         python-versions: 'cp37-cp37m cp38-cp38'
         build-requirements: 'cython numpy'
