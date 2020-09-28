@@ -87,13 +87,10 @@ jobs:
       with:
         python-versions: 'cp37-cp37m cp38-cp38'
         build-requirements: 'cython numpy'
-    - name: Delete linux wheel
-      run: sudo rm -rf wheelhouse/*.linux* &&
-           sudo rm -rf wheelhouse/*-linux*
     - uses: actions/upload-artifact@v2
       with:
         name: linux-wheel
-        path: wheelhouse/*
+        path: dist/*
 
   publish-test:
     name: Publish to Test PyPI
