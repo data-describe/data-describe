@@ -1,8 +1,0 @@
-:orphan:
-
-data_describe._version
-=============================
-
-.. py:module:: data_describe._version
-
-
