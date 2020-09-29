@@ -1,8 +1,10 @@
+import pytest
 from matplotlib.colors import LinearSegmentedColormap
 
 from data_describe.misc.colors import get_p_RdBl_cmap, mpl_to_plotly_cmap
 
 
+@pytest.mark.base
 def test_get_p_RdBl_cmap():
     cmap = get_p_RdBl_cmap()
     assert isinstance(
@@ -10,6 +12,7 @@ def test_get_p_RdBl_cmap():
     ), "Colormap is not an instance of LinearSegmentedColormap"
 
 
+@pytest.mark.base
 def test_mpl_to_plotly_cmap():
     cmap = get_p_RdBl_cmap()
     pl_cmap = mpl_to_plotly_cmap(cmap)

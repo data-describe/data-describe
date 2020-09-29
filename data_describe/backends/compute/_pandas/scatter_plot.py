@@ -1,4 +1,4 @@
-from pyscagnostics import scagnostics
+from data_describe.compat import _compat, requires
 
 
 def compute_scatter_plot(data, mode, sample, threshold, **kwargs):
@@ -28,7 +28,12 @@ def compute_scatter_plot(data, mode, sample, threshold, **kwargs):
     """
     data = data.select_dtypes(["number"])
     if mode == "diagnostic":
-        diagnostics = scagnostics(data)
-        return data, diagnostics
+        return _compute_scagnostics(data)
     else:
         return data, None
+
+
+@requires("pyscagnostics")
+def _compute_scagnostics(data):
+    diagnostics = _compat["pyscagnostics"].scagnostics(data)
+    return data, diagnostics

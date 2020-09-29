@@ -2,7 +2,7 @@ import plotly
 import pytest
 import matplotlib
 from matplotlib.axes import Axes as mpl_plot
-from pandas._testing import assert_frame_equal
+from pandas.testing import assert_frame_equal
 
 import data_describe as dd
 from data_describe.compat import _DATAFRAME_TYPE
@@ -11,11 +11,13 @@ from data_describe.core.correlations import CorrelationMatrixWidget
 matplotlib.use("Agg")
 
 
+@pytest.mark.base
 def test_not_df():
     with pytest.raises(ValueError):
         dd.correlation_matrix("this_is_a_string")
 
 
+@pytest.mark.base
 def test_cluster_widget():
     cr = CorrelationMatrixWidget()
     assert hasattr(cr, "association_matrix"), "Cluster Widget missing cluster labels"
@@ -28,6 +30,7 @@ def test_cluster_widget():
     assert hasattr(cr, "show"), "Cluster Widget missing show method"
 
 
+@pytest.mark.base
 def test_figure_default(data):
     cr = dd.correlation_matrix(data)
     assert isinstance(cr.show(viz_backend="plotly"), plotly.graph_objs._figure.Figure)
@@ -43,6 +46,7 @@ def test_figure_default(data):
     assert isinstance(cr.cluster_matrix, type(None))
 
 
+@pytest.mark.base
 def test_figure_categorical_cluster(data):
     cr = dd.correlation_matrix(data, cluster=True, categorical=True)
     assert isinstance(cr.show(viz_backend="plotly"), plotly.graph_objs._figure.Figure)
@@ -54,6 +58,7 @@ def test_figure_categorical_cluster(data):
     assert_frame_equal(cr.viz_data, cr.cluster_matrix)
 
 
+@pytest.mark.base
 def test_cluster_no_categorical_figure(data):
     cr = dd.correlation_matrix(data, cluster=True)
     assert isinstance(cr.show(viz_backend="plotly"), plotly.graph_objs._figure.Figure)
@@ -68,6 +73,7 @@ def test_cluster_no_categorical_figure(data):
     assert data.select_dtypes(["number"]).shape[1] == cr.viz_data.shape[0]
 
 
+@pytest.mark.base
 def test_categorical_and_numerical_data(data):
     cr = dd.correlation_matrix(data, categorical=True)
     assert isinstance(cr.show(viz_backend="plotly"), plotly.graph_objs._figure.Figure)
@@ -83,6 +89,7 @@ def test_categorical_and_numerical_data(data):
     assert isinstance(cr.cluster_matrix, type(None))
 
 
+@pytest.mark.base
 def test_categorical_data_only(data):
     cat_data = data[
         [c for c in data.columns if c not in data.select_dtypes(["number"]).columns]
@@ -101,6 +108,7 @@ def test_categorical_data_only(data):
     assert isinstance(cr.cluster_matrix, type(None))
 
 
+@pytest.mark.base
 def test_categorical_data_only_but_specified_numeric(data):
     num_data = data.select_dtypes(["number"])
     cat_data = data[[c for c in data.columns if c not in num_data.columns]]
@@ -108,6 +116,7 @@ def test_categorical_data_only_but_specified_numeric(data):
         dd.correlation_matrix(cat_data)
 
 
+@pytest.mark.base
 def test_numeric_data_only_but_specified_categorical(data):
     num_data = data.select_dtypes(["number"])
     with pytest.warns(UserWarning):

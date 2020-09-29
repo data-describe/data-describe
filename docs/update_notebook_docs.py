@@ -27,11 +27,15 @@ def load_notebooks():
             examples.append(notebook_clean_name)
             print("Updating {}...".format(notebook_name))
             pathlib.Path("source/examples").mkdir(exist_ok=True)
-            shutil.copyfile(notebook, "source/examples/" + notebook_clean_name + ".ipynb")
+            shutil.copyfile(
+                notebook, "source/examples/" + notebook_clean_name + ".ipynb"
+            )
         else:
             print("Updating {}...".format(notebook_name))
             pathlib.Path("source/_notebooks").mkdir(exist_ok=True)
-            shutil.copyfile(notebook, "source/_notebooks/" + notebook_clean_name + ".ipynb")
+            shutil.copyfile(
+                notebook, "source/_notebooks/" + notebook_clean_name + ".ipynb"
+            )
 
     # Insert links to the examples ToC
     print("Finalizing examples Page")

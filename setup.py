@@ -9,22 +9,18 @@ DESCRIPTION = "data-describe"
 URL = "https://github.com/data-describe/data-describe"
 EMAIL = ""
 AUTHOR = "https://github.com/data-describe/data-describe/graphs/contributors"
-REQUIRES_PYTHON = ">=3.7.0"
+REQUIRES_PYTHON = ">=3.7"
 version: Dict[str, str] = {}
 with open(os.path.join("data_describe", "_version.py")) as fp:
     exec(fp.read(), version)
 
 REQUIRED = [
-    "pandas>=0.24.0",
-    "numpy>=1.16.0",
-    "scipy>=1.1.0",
+    "pandas>=1.0",
+    "numpy>=1.16",
+    "scipy>=1.1",
     "scikit-learn>=0.23",
-    "seaborn>=0.11.0",
-    "matplotlib>=3.3.1",
-    "plotly>=3.8.1",
-    "pyscagnostics>=0.1.0a4",
-    "hdbscan>=0.8.20",
-    "statsmodels>=0.11.1",
+    "seaborn>=0.11",
+    "plotly>=4.0",
 ]
 
 EXTRAS = {
@@ -32,17 +28,11 @@ EXTRAS = {
     "gcp": ["gcsfs>=0.2.1", "google-cloud-storage>=1.18.0"],
     "pii": ["presidio-analyzer==0.3.8917rc0"],
     "modin": ["modin>=0.7.3", "ray>=0.8.4"],
-    "all": [
-        "nltk>=3.4",
-        "pyldavis>=2.1.2",
-        "gensim>=3.4.0",
-        "gcsfs>=0.2.1",
-        "google-cloud-storage>=1.18.0",
-        "presidio-analyzer==0.3.8917rc0",
-        "modin>=0.7.3",
-        "ray>=0.8.4",
-    ],
+    "cluster": ["hdbscan>=0.8.17"],
+    "time": ["statsmodels>=0.10"],
+    "scatter": ["pyscagnostics>=0.1.0a4"],
 }
+EXTRAS["all"] = list(set([x for req in EXTRAS.values() for x in req]))
 
 
 # Where the magic happens:

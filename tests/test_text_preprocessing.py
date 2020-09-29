@@ -1,6 +1,5 @@
 import pytest
 import pandas as pd
-import nltk
 
 from data_describe.text.text_preprocessing import (
     tokenize,
@@ -23,20 +22,20 @@ def tokenized_test_list_main(text_data):
     return to_list(tokenize(text_data["test_list_main"]))
 
 
-def test_tokenizer(text_data):
+def test_tokenizer(_nltk, text_data):
     assert (
         to_list(tokenize(text_data["test_list_main"]))
         == text_data["answer_key_tokenized"]
     ), "Output did not correctly tokenize documents"
 
 
-def test_to_lower(text_data, tokenized_test_list_main):
+def test_to_lower(_nltk, text_data, tokenized_test_list_main):
     assert (
         to_list(to_lower(tokenized_test_list_main)) == text_data["answer_key_lower"]
     ), "Output did not correctly convert documents to lowercase"
 
 
-def test_remove_punct(text_data, tokenized_test_list_main):
+def test_remove_punct(_nltk, text_data, tokenized_test_list_main):
     assert (
         to_list(remove_punct(tokenized_test_list_main))
         == text_data["answer_key_remove_punct"]
@@ -69,7 +68,7 @@ def test_remove_single_char_and_spaces(text_data):
     ), "Output did not correctly remove all instance of single character words and spaces from documents"
 
 
-def test_remove_stopwords(text_data, tokenized_test_list_main):
+def test_remove_stopwords(_nltk, text_data, tokenized_test_list_main):
     assert (
         to_list(remove_stopwords(to_list(to_lower(tokenized_test_list_main))))
         == text_data["answer_key_remove_stop_words"]
@@ -85,7 +84,7 @@ def test_remove_stopwords(text_data, tokenized_test_list_main):
     ), "Output did not correctly remove NLTK stopwords and custom added stopwords from documents"
 
 
-def test_lem_and_stem(text_data):
+def test_lem_and_stem(_nltk, text_data):
     assert (
         preprocess_texts(text_data["test_list_lem_and_stem"], lem=True)
         == text_data["answer_key_lem"]
@@ -96,7 +95,7 @@ def test_lem_and_stem(text_data):
     ), "Output did not correctly stem words in documents"
 
 
-def test_bag_of_words(text_data):
+def test_bag_of_words(_nltk, text_data):
     bag = to_list(bag_of_words_to_docs(preprocess_texts(text_data["test_list_main"])))
 
     assert len(text_data["test_list_main"]) == len(
@@ -126,7 +125,7 @@ def test_matrices_length(text_data):
     ), "Number of documents in output does not match number of documents in input"
 
 
-def test_length_and_type(text_data):
+def test_length_and_type(_nltk, text_data):
     run_preprocessing = preprocess_texts(text_data["test_list_main"])
 
     assert len(text_data["test_list_main"]) == len(
@@ -143,7 +142,7 @@ def test_length_and_type(text_data):
     ), "Output does not contain expected type of string inside of return value inside of the return value"
 
 
-def test_custom_pipeline(text_data):
+def test_custom_pipeline(_nltk, text_data):
     def shout(text_docs_bow):
         return [[word.upper() for word in doc] for doc in text_docs_bow]
 
@@ -157,9 +156,9 @@ def test_custom_pipeline(text_data):
     ), "Output did not correctly incorporate custom function into preprocessing pipeline"
 
 
-def test_ngrams(text_data):
+def test_ngrams(_nltk, text_data):
     n = 4
     n_grams = ngram_freq(text_data["test_list_main"], n)
     assert isinstance(
-        n_grams, nltk.FreqDist
+        n_grams, _nltk.FreqDist
     ), "Output is not of the expected return type of NLTK Frequency Distribution object"

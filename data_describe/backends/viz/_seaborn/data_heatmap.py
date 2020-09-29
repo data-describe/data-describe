@@ -26,7 +26,7 @@ def viz_data_heatmap(data, colnames: List[str], missing: bool = False, **kwargs)
         "yticklabels": colnames,
         "cbar_kws": {"shrink": 0.5},
         "vmin": -3 if not missing else 0,
-        "vmax": 3 if not missing else 1
+        "vmax": 3 if not missing else 1,
     }
 
     plot_options.update(kwargs)

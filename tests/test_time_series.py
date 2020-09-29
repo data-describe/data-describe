@@ -1,8 +1,6 @@
 import matplotlib
 import pytest
-from plotly.graph_objects import Figure
-import statsmodels
-
+import plotly.graph_objects as go
 
 from data_describe.backends.compute._pandas.time_series import (
     compute_stationarity_test,
@@ -77,11 +75,11 @@ def test_kpss_test(compute_time_data):
     assert df.columns[0] == "stats"
 
 
-def test_decompose_timeseries(compute_time_data):
+def test_decompose_timeseries(_statsmodels, compute_time_data):
     result = compute_decompose_timeseries(
         compute_time_data, col="var", model="additive"
     )
-    assert isinstance(result, statsmodels.tsa.seasonal.DecomposeResult)
+    assert isinstance(result, _statsmodels.tsa.seasonal.DecomposeResult)
     assert len(result.trend) == 15
     assert len(result.observed) == 15
     assert len(result.seasonal) == 15
@@ -107,11 +105,11 @@ def test_plotly(compute_time_data):
     fig = dd.plot_time_series(
         compute_time_data, col="var", viz_backend="plotly", model="additive"
     )
-    assert isinstance(fig, Figure)
+    assert isinstance(fig, go.Figure)
     fig = dd.plot_time_series(
         compute_time_data, col=["var"], viz_backend="plotly", model="additive"
     )
-    assert isinstance(fig, Figure)
+    assert isinstance(fig, go.Figure)
     fig = dd.plot_time_series(
         compute_time_data,
         col="var",
@@ -119,7 +117,7 @@ def test_plotly(compute_time_data):
         model="additive",
         viz_backend="plotly",
     )
-    assert isinstance(fig, Figure)
+    assert isinstance(fig, go.Figure)
 
     fig = plot_autocorrelation(
         compute_time_data,
@@ -129,11 +127,11 @@ def test_plotly(compute_time_data):
         fft=False,
         viz_backend="plotly",
     )
-    assert isinstance(fig, Figure)
+    assert isinstance(fig, go.Figure)
     fig = plot_autocorrelation(
         compute_time_data, col="var", n_lags=1, plot_type="pacf", viz_backend="plotly"
     )
-    assert isinstance(fig, Figure)
+    assert isinstance(fig, go.Figure)
 
 
 def test_seaborn(compute_time_data):

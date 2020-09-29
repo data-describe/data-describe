@@ -1,10 +1,10 @@
 import warnings
 from typing import Optional
 
-from statsmodels.tsa.seasonal import seasonal_decompose
-from statsmodels.tsa.stattools import acf, pacf, adfuller, kpss
 import pandas as pd
 import numpy as np
+
+from data_describe.compat import _compat, requires
 
 
 def compute_stationarity_test(
@@ -32,6 +32,7 @@ def compute_stationarity_test(
     return st
 
 
+@requires("statsmodels")
 def adf_test(timeseries, autolag: str = "AIC", regression: str = "c", **kwargs):
     """Compute the Augmented Dickey-Fuller (ADF) test for stationarity.
 
@@ -46,7 +47,9 @@ def adf_test(timeseries, autolag: str = "AIC", regression: str = "c", **kwargs):
     Returns:
         Pandas dataframe containing the statistics
     """
-    test = adfuller(timeseries, autolag=autolag, regression=regression, **kwargs)
+    test = _compat["statsmodels.tsa.stattools"].adfuller(  # type: ignore
+        timeseries, autolag=autolag, regression=regression, **kwargs
+    )
     adf_output = pd.Series(
         test[0:4],
         index=[
@@ -61,6 +64,7 @@ def adf_test(timeseries, autolag: str = "AIC", regression: str = "c", **kwargs):
     return pd.DataFrame(adf_output, columns=["stats"])
 
 
+@requires("statsmodels")
 def kpss_test(timeseries, regression: str = "c", nlags: Optional[int] = None, **kwargs):
     """Compute the Kwiatkowski–Phillips–Schmidt–Shin (KPSS) test for stationarity.
 
@@ -85,13 +89,16 @@ def kpss_test(timeseries, regression: str = "c", nlags: Optional[int] = None, **
             category=FutureWarning,
             message="The behavior of using lags=None will change in the next release.",
         )
-        test = kpss(timeseries, regression="c", **kwargs)
+        test = _compat["statsmodels.tsa.stattools"].kpss(  # type: ignore
+            timeseries, regression="c", **kwargs
+        )
     kpss_output = pd.Series(test[0:3], index=["Test Statistic", "p-value", "Lags Used"])
     for key, value in test[3].items():
         kpss_output["Critical Value (%s)" % key] = value
     return pd.DataFrame(kpss_output, columns=["stats"])
 
 
+@requires("statsmodels")
 def compute_decompose_timeseries(df, col, model: str = "additive", **kwargs):
     """Seasonal decomposition using moving averages.
 
@@ -106,9 +113,12 @@ def compute_decompose_timeseries(df, col, model: str = "additive", **kwargs):
     Returns:
         result: statsmodels.tsa.seasonal.DecomposeResult object
     """
-    return seasonal_decompose(df[col], model=model, **kwargs)
+    return _compat["statsmodels.tsa.seasonal"].seasonal_decompose(  # type: ignore
+        df[col], model=model, **kwargs
+    )
 
 
+@requires("statsmodels")
 def compute_autocorrelation(
     timeseries,
     n_lags: Optional[int] = 40,
@@ -129,9 +139,11 @@ def compute_autocorrelation(
         data: numpy.ndarray containing the correlations
     """
     if plot_type == "pacf":
-        data = pacf(timeseries, n_lags, **kwargs)
+        data = _compat["statsmodels.tsa.stattools"].pacf(timeseries, n_lags, **kwargs)  # type: ignore
     elif plot_type == "acf":
-        data = acf(timeseries, n_lags, fft=fft, **kwargs)
+        data = _compat["statsmodels.tsa.stattools"].acf(  # type: ignore
+            timeseries, n_lags, fft=fft, **kwargs
+        )
     else:
         raise ValueError("Unsupported input data type")
     white_noise = 1.96 / np.sqrt(len(data))

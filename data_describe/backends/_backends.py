@@ -62,17 +62,17 @@ def _load_viz_backend(backend: str) -> Dict[str, ModuleType]:
     Returns:
         The imported backend module
     """
-    import pkg_resources  # noqa: delay import for performance
+    from importlib_metadata import entry_points  # noqa: delay import for performance
 
-    for entry_point in pkg_resources.iter_entry_points("data_describe_viz_backends"):
-        _add_backend(entry_point.name, _viz_backends, entry_point.load())
+    for entry_point in entry_points()["data_describe_viz_backends"]:
+        _add_viz_backend(entry_point.name, entry_point.load())
 
     try:
         return _viz_backends[backend]
     except KeyError:
         try:
             module = importlib.import_module(backend)
-            _add_backend(backend, _viz_backends, module)
+            _add_viz_backend(backend, module)
 
             return _viz_backends[backend]
         except ImportError:
@@ -126,19 +126,17 @@ def _load_compute_backend(backend) -> Dict[str, ModuleType]:
     Returns:
         The dictionary of loaded backend module(s)
     """
-    import pkg_resources  # noqa: delay import for performance
+    from importlib_metadata import entry_points  # noqa: delay import for performance
 
-    for entry_point in pkg_resources.iter_entry_points(
-        "data_describe_compute_backends"
-    ):
-        _add_backend(entry_point.name, _compute_backends, entry_point.load())
+    for entry_point in entry_points()["data_describe_compute_backends"]:
+        _add_compute_backend(entry_point.name, entry_point.load())
 
     try:
         return _compute_backends[backend]
     except KeyError:
         try:
             module = importlib.import_module(backend)
-            _add_backend(backend, _compute_backends, module)
+            _add_compute_backend(backend, module)
 
             return _compute_backends[backend]
         except ImportError:
@@ -167,15 +165,28 @@ def _check_backend(
     return False
 
 
-def _add_backend(backend_type: str, loaded_backends: dict, module: ModuleType):
+def _add_compute_backend(backend_type: str, module: ModuleType):
     """Adds the backend module to the global backends dictionary.
 
     Args:
         backend_type: The name of the backend
-        loaded_backends: The global backends dictionary
         module: The module that implements the backend
     """
-    if backend_type not in loaded_backends:
-        loaded_backends[backend_type] = {}
+    print(f"adding {module}")
+    if backend_type not in _compute_backends:
+        _compute_backends[backend_type] = {}
 
-    loaded_backends[backend_type][str(module.__path__)] = module  # type: ignore
+    _compute_backends[backend_type][str(module.__path__)] = module  # type: ignore
+
+
+def _add_viz_backend(backend_type: str, module: ModuleType):
+    """Adds the backend module to the global backends dictionary.
+
+    Args:
+        backend_type: The name of the backend
+        module: The module that implements the backend
+    """
+    if backend_type not in _viz_backends:
+        _viz_backends[backend_type] = {}
+
+    _viz_backends[backend_type][str(module.__path__)] = module  # type: ignore

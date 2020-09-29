@@ -86,7 +86,9 @@ def run_tsne(data, n_components, apply_tsvd=True, compute_backend=None):
         reduc_df: The dimensionally-reduced dataframe
         tsne: The applied t-SNE object
     """
-    return _get_compute_backend(compute_backend, data).compute_run_tsne(data, n_components, apply_tsvd)
+    return _get_compute_backend(compute_backend, data).compute_run_tsne(
+        data, n_components, apply_tsvd
+    )
 
 
 def run_tsvd(data, n_components, compute_backend=None):
@@ -101,4 +103,6 @@ def run_tsvd(data, n_components, compute_backend=None):
         tsne: The applied TSVD object
     """
     fname = ["component_{}".format(i) for i in range(1, n_components + 1)]
-    return _get_compute_backend(compute_backend, data).compute_run_tsvd(data, n_components, column_names=fname)
+    return _get_compute_backend(compute_backend, data).compute_run_tsvd(
+        data, n_components, column_names=fname
+    )

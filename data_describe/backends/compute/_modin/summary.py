@@ -3,7 +3,7 @@ from data_describe.compat import _SERIES_TYPE, _DATAFRAME_TYPE, requires
 from data_describe.core.summary import agg_null, agg_zero, most_frequent
 
 
-@requires("modin.pandas")
+@requires("modin")
 def compute_data_summary(data):
     """Perform computation for summary statistics and data description.
 

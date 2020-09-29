@@ -1,28 +1,32 @@
 import matplotlib
 import pytest
-from plotly.graph_objects import Figure
+import plotly.graph_objects as go
 
 import data_describe as dd
 
 matplotlib.use("Agg")
 
 
-def test_heatmap_matplotlib(data, compute_backend):
-    fig = dd.data_heatmap(data)
+@pytest.mark.base
+def test_heatmap_matplotlib(compute_backend_df):
+    fig = dd.data_heatmap(compute_backend_df)
     assert isinstance(fig, matplotlib.artist.Artist)
 
 
-def test_heatmap_missing(data, compute_backend):
-    fig = dd.data_heatmap(data, missing=True)
+@pytest.mark.base
+def test_heatmap_missing(compute_backend_df):
+    fig = dd.data_heatmap(compute_backend_df, missing=True)
     assert isinstance(fig, matplotlib.artist.Artist)
 
 
-def test_heatmap_plotly(data, compute_backend):
-    fig = dd.data_heatmap(data, viz_backend="plotly")
-    assert isinstance(fig, Figure)
+@pytest.mark.base
+def test_heatmap_plotly(compute_backend_df):
+    fig = dd.data_heatmap(compute_backend_df, viz_backend="plotly")
+    assert isinstance(fig, go.Figure)
 
 
-def test_heatmap_invalid(compute_backend):
+@pytest.mark.base
+def test_heatmap_invalid(compute_backend_df):
     data = [1, 2, 3, 4]
     with pytest.raises((ValueError, ModuleNotFoundError)):
         dd.data_heatmap(data)

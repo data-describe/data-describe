@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import seaborn as sns
-import statsmodels.api as sm
 
+from data_describe.compat import requires, _compat
 from data_describe.config._config import get_option
 
 
@@ -65,6 +65,7 @@ def viz_decomposition(df, result):
     return fig
 
 
+@requires("statsmodels")
 def viz_plot_autocorrelation(
     timeseries, plot_type="acf", n_lags=40, fft=False, **kwargs
 ):
@@ -86,11 +87,13 @@ def viz_plot_autocorrelation(
         )
     )
     if plot_type == "acf":
-        fig = sm.graphics.tsa.plot_acf(
+        fig = _compat["statsmodels.graphics.tsaplots"].plot_acf(
             timeseries, ax=ax, lags=n_lags, fft=fft, **kwargs
         )
     elif plot_type == "pacf":
-        fig = sm.graphics.tsa.plot_pacf(timeseries, ax=ax, lags=n_lags, **kwargs)
+        fig = _compat["statsmodels.graphics.tsaplots"].plot_pacf(
+            timeseries, ax=ax, lags=n_lags, **kwargs
+        )
     else:
         raise ValueError("Unsupported input data type")
     plt.xlabel("Lags")

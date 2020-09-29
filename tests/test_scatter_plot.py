@@ -8,6 +8,7 @@ import data_describe as dd
 matplotlib.use("Agg")
 
 
+@pytest.mark.base
 def test_scatter_plot_matrix(data):
     data = data.dropna(axis=1, how="all")
     fig = dd.scatter_plots(data, mode="matrix")
@@ -15,6 +16,7 @@ def test_scatter_plot_matrix(data):
     assert isinstance(fig, seaborn.axisgrid.PairGrid)
 
 
+@pytest.mark.base
 def test_scatter_plot_all(data):
     data = data.dropna(axis=1, how="all")
     fig = dd.scatter_plots(data, mode="all")
@@ -23,14 +25,14 @@ def test_scatter_plot_all(data):
     assert isinstance(fig[0], seaborn.axisgrid.JointGrid)
 
 
-def test_scatter_plot(data):
+def test_scatter_plot_diagnostic(_pyscagnostics, data):
     fig = dd.scatter_plots(data, mode="diagnostic", threshold=0.15)
 
     assert isinstance(fig, list)
     assert isinstance(fig[0], seaborn.axisgrid.JointGrid)
 
 
-def test_scatter_plot_dict(data):
+def test_scatter_plot_diagnostic_dict(_pyscagnostics, data):
     fig = dd.scatter_plots(
         data, mode="diagnostic", threshold={"Outlying": 0.1}, dist_kws={"rug": True}
     )
@@ -38,7 +40,7 @@ def test_scatter_plot_dict(data):
     assert isinstance(fig[0], seaborn.axisgrid.JointGrid)
 
 
-def test_scatter_plot_outside_threshold(data):
+def test_scatter_plot_diagnostic_outside_threshold(_pyscagnostics, data):
     with pytest.raises(UserWarning, match="No plots identified by diagnostics"):
 
         dd.scatter_plots(
@@ -49,6 +51,7 @@ def test_scatter_plot_outside_threshold(data):
         )
 
 
+@pytest.mark.base
 def test_scatter_plot_wrong_data_type(data):
     with pytest.raises(ValueError):
         dd.scatter_plots([1, 2, 3])

@@ -4,16 +4,21 @@ channels:
   - conda-forge
 dependencies:
   - python>=3.7
-  - pandas>=0.24.0
-  - numpy>=1.16.0
-  - scipy>=1.1.0
-  - seaborn>=0.11.0
+  - pandas>=1.0
+  - numpy>=1.16
+  - scipy>=1.1
   - scikit-learn>=0.23
+  - seaborn>=0.11
+  - plotly>=4.0
+  # Test
+  - pytest>=6.0.0
+  - pytest-cov>=2.6.0
+  - pytest-notebook>=0.6
+  - mock>=4.0
+  # Optional
   - gensim>=3.4.0
   - pyldavis>=2.1.2
-  - shapely>=1.6.4
   - nltk>=3.4
-  - ipython>=7.5.0
   - gcsfs>=0.2.1
   - hdbscan>=0.8.20
   - geopandas>=0.6.1
@@ -21,18 +26,13 @@ dependencies:
   - ipython>=7.5.0
   - xlrd>=1.2.0
   - paramiko>=2.4.2
-  - plotly>=3.8.1
   - descartes>=1.1.0
   - dask>=2.17.2
   - papermill>=2.1.2
   - statsmodels>=0.11.1
-  - modin[dask]>=0.8.0
-  - pytest>=4.4.1
-  - pytest-cov>=2.6.1
-  - pytest-notebook>=0.6.0
-  - mock>=2.0.0
-  - pip>=20.0.2
+  - modin>=0.8.0
+  - pip>=20.0.0
   - pip:
       - google-cloud-storage>=1.18.0
-      - presidio-analyzer==0.3.8917rc0
+      - presidio-analyzer>=0.3.8917rc0
       - pyscagnostics>=0.1.0a4
