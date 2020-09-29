@@ -8,9 +8,8 @@ COPY docker/aiplatform/environment.yml .
 RUN conda env create --file=environment.yml
 
 # Install Plotly extensions
-RUN jupyter labextension install jupyterlab-plotly@4.9.0 --no-build && \
-    jupyter labextension install @jupyter-widgets/jupyterlab-manager plotlywidget@4.9.0 --no-build && \
-    jupyter lab build
+RUN jupyter labextension install jupyterlab-plotly@4.10.0 --no-build && \
+    jupyter lab build --minimize=False
 
 # Install data_describe
 COPY data_describe ./data_describe
