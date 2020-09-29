@@ -1,5 +1,5 @@
 import warnings
-from typing import List, Optional, Dict
+from typing import List, Optional, Dict, Any
 
 import pandas as pd
 import numpy as np
@@ -27,7 +27,7 @@ def topic_model(
     no_below: int = 10,
     no_above: float = 0.2,
     tfidf: bool = True,
-    model_kwargs: Optional[Dict] = None,
+    model_kwargs: Optional[Dict[str, Any]] = None,
 ):
     """Creates topic model object, trains topic model, and assigns relevant attributes to topic model object.
 
@@ -69,7 +69,7 @@ class TopicModelWidget(BaseWidget):
         self,
         model_type: str = "LDA",
         num_topics: Optional[int] = None,
-        model_kwargs: Optional[Dict] = None,
+        model_kwargs: Optional[Dict[str, Any]] = None,
     ):
         """Topic Modeling made for easier training and understanding of topics.
 
@@ -92,7 +92,10 @@ class TopicModelWidget(BaseWidget):
                 "Model type must be one of either: 'LDA', 'LSA', 'LSI', 'SVD' or 'NMF'"
             )
         self._num_topics = num_topics
-        self._model_kwargs = model_kwargs
+        self._model_kwargs: Optional[Dict[str, Any]] = {
+            **{"random_state": 1},
+            **(model_kwargs or {}),
+        }
 
     def __str__(self):
         return "data-describe Topic Model Widget"
