@@ -13,7 +13,6 @@ data_describe.compat._dependency
 
    data_describe.compat._dependency.nltk_download
    data_describe.compat._dependency.spacy_download
-   data_describe.compat._dependency.no_side_import
    data_describe.compat._dependency.requires
 
 
@@ -23,12 +22,12 @@ data_describe.compat._dependency
 
    .. rubric:: Examples
 
-   Optional modules can be accessed as an attribute::
+   Optional modules can be accessed using dictionary-style attributes::
 
-       _compat = DependencyManager({"presidio": None})
+       _compat = DependencyManager()
        engine = _compat["presidio_analyzer"].AnalyzerEngine()
 
-   .. method:: search_install(self, modules: List[str])
+   .. method:: check_all_install(self, modules: List[str])
 
 
       Searches for installed modules and determines if they exist.
@@ -46,6 +45,12 @@ data_describe.compat._dependency
       Checks to see if a module is installed.
 
 
+   .. method:: import_module(self, module_name: str)
+
+
+      Attempts to import the module and execute any side imports.
+
+
 
 .. function:: nltk_download(module)
 
@@ -55,11 +60,6 @@ data_describe.compat._dependency
 .. function:: spacy_download(module)
 
    Downloads SpaCy language model.
-
-
-.. function:: no_side_import(module)
-
-   Placeholder for imports that should not do anything additional on import.
 
 
 .. function:: requires(package_name)

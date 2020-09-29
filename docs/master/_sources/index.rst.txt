@@ -14,6 +14,7 @@ data-describe
    _notebooks/tutorial
    examples/index
    _notebooks/contributing_guide
+   _notebooks/developer_guide
    API Reference <data_describe/index>
 
 .. _`data-describe`: https://github.com/data-describe/data-describe/
