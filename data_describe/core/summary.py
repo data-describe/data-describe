@@ -57,7 +57,7 @@ def most_frequent(series):
     return round(counts.iloc[0] / series.shape[0] * 100, 2)
 
 
-def compute_data_summary(data):
+def _pandas_compute_data_summary(data):
     """Perform computation for summary statistics and data description.
 
     Args:

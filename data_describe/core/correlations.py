@@ -85,7 +85,7 @@ class CorrelationMatrixWidget(BaseWidget):
         return _get_viz_backend(backend).viz_correlation_matrix(self.viz_data, **kwargs)
 
 
-def compute_correlation_matrix(data, cluster=False, categorical=False):
+def _pandas_compute_correlation_matrix(data, cluster=False, categorical=False):
     """Correlation matrix of numeric variables.
 
     Args:

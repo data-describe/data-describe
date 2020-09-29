@@ -201,7 +201,7 @@ class HDBSCANClusterWidget(ClusterWidget):
         self.method = "hdbscan"
 
 
-def compute_cluster(data, method: str, **kwargs):
+def _pandas_compute_cluster(data, method: str, **kwargs):
     """Backend implementation of cluster.
 
     Args:

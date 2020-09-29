@@ -52,7 +52,7 @@ def scatter_plots(
     )
 
 
-def compute_scatter_plot(data, mode, sample, threshold, **kwargs):
+def _pandas_compute_scatter_plot(data, mode, sample, threshold, **kwargs):
     """Compute scatter plot.
 
     Args:

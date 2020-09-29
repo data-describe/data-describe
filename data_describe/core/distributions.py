@@ -98,7 +98,7 @@ class DistributionWidget(BaseWidget):
         )
 
 
-def compute_distribution(
+def _pandas_compute_distribution(
     data,
     diagnostic=True,
     spike_factor=10,

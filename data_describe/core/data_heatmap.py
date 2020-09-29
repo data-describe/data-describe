@@ -30,7 +30,7 @@ def data_heatmap(data, missing=False, compute_backend=None, viz_backend=None, **
     )
 
 
-def compute_data_heatmap(
+def _pandas_compute_data_heatmap(
     data, missing: bool = False, **kwargs
 ) -> Tuple[Any, List[str]]:
     """Pre-processes data for the data heatmap.

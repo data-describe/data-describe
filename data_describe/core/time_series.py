@@ -126,7 +126,7 @@ def plot_autocorrelation(
     return fig
 
 
-def compute_stationarity_test(
+def _pandas_compute_stationarity_test(
     timeseries, test: str = "dickey-fuller", regression: str = "c", **kwargs
 ):
     """Perform stationarity tests to see if mean and variance are changing over time.
@@ -211,7 +211,7 @@ def kpss_test(timeseries, regression: str = "c", nlags: Optional[int] = None, **
     return pd.DataFrame(kpss_output, columns=["stats"])
 
 
-def compute_decompose_timeseries(df, col, model: str = "additive", **kwargs):
+def _pandas_compute_decompose_timeseries(df, col, model: str = "additive", **kwargs):
     """Seasonal decomposition using moving averages.
 
     NOTE: decomposition object in modin does not preserve datetime index.
@@ -228,7 +228,7 @@ def compute_decompose_timeseries(df, col, model: str = "additive", **kwargs):
     return seasonal_decompose(df[col], model=model, **kwargs)
 
 
-def compute_autocorrelation(
+def _pandas_compute_autocorrelation(
     timeseries,
     n_lags: Optional[int] = 40,
     plot_type: str = "acf",

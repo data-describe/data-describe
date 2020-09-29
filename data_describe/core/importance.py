@@ -49,7 +49,7 @@ def importance(
         )
 
 
-def compute_importance(
+def _pandas_compute_importance(
     data,
     target: str,
     preprocess_func=None,
