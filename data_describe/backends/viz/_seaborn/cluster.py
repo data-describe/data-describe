@@ -64,7 +64,7 @@ def viz_cluster_search_plot(
             get_option("display.matplotlib.fig_height"),
         )
     )
-    ax = sns.lineplot(n_clusters, scores)
+    ax = sns.lineplot(x=n_clusters, y=scores)
     ax.set_title("Optimal Number of Clusters")
     ax.xaxis.set_major_locator(MaxNLocator(integer=True))
     plt.xlabel("Number of Clusters")

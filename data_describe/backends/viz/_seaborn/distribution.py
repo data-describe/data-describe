@@ -121,9 +121,9 @@ def _viz_histogram(data, x: str, contrast: str = None, **kwargs):
     hist_kwargs = {**default_hist_kwargs, **(kwargs or {})}
     if contrast:
         data[contrast] = data[contrast].astype("category")
-        ax = sns.histplot(x=x, hue=contrast, data=data, **hist_kwargs)
+        ax = sns.histplot(data=data, x=x, hue=contrast, **hist_kwargs)
     else:
-        ax = sns.histplot(data[x], **hist_kwargs)
+        ax = sns.histplot(data=data, x=x, **hist_kwargs)
         ax.set_title(f"Histogram of {x}")
     return ax
 
@@ -147,9 +147,9 @@ def _viz_violin(data, x: str, contrast: str = None, **kwargs):
     violin_kwargs = {**default_violin_kwargs, **(kwargs or {})}
     if contrast:
         data[contrast] = data[contrast].astype("category")
-        ax = sns.violinplot(x=x, y=contrast, data=data, **violin_kwargs)
+        ax = sns.violinplot(data=data, x=x, y=contrast, **violin_kwargs)
     else:
-        ax = sns.violinplot(x=x, data=data, **violin_kwargs)
+        ax = sns.violinplot(data=data, x=x, **violin_kwargs)
     return ax
 
 
@@ -168,7 +168,7 @@ def _viz_bar(data, x: str, contrast: str = None, **kwargs):
     default_bar_kwargs = {"orient": "h"}
     bar_kwargs = {**default_bar_kwargs, **(kwargs or {})}
     if contrast:
-        ax = sns.countplot(x=x, hue=contrast, data=data, **bar_kwargs)
+        ax = sns.countplot(data=data, x=x, hue=contrast, **bar_kwargs)
     else:
-        ax = sns.countplot(x=x, data=data, **bar_kwargs)
+        ax = sns.countplot(data=data, x=x, **bar_kwargs)
     return ax
