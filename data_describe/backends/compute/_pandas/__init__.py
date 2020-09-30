@@ -17,10 +17,10 @@ from data_describe.core.summary import (  # noqa: F401
     _pandas_compute_data_summary as compute_data_summary,
 )
 from data_describe.dimensionality_reduction.dimensionality_reduction import (  # noqa: F401
-    compute_run_pca,
-    compute_run_ipca,
-    compute_run_tsne,
-    compute_run_tsvd,
+    _pandas_compute_run_pca as compute_run_pca,
+    _pandas_compute_run_ipca as compute_run_ipca,
+    _pandas_compute_run_tsne as compute_run_tsne,
+    _pandas_compute_run_tsvd as compute_run_tsvd,
 )
 from data_describe.core.clusters import (  # noqa: F401
     _pandas_compute_cluster as compute_cluster,
