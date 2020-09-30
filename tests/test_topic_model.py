@@ -46,7 +46,7 @@ def skip_models(_gensim, monkeypatch):
             iterations=50,
             gamma_threshold=0.001,
             minimum_probability=0.01,
-            random_state=None,
+            random_state=1,
             ns_conf=None,
             minimum_phi_value=0.01,
             per_word_topics=False,

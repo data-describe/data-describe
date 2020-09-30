@@ -282,13 +282,15 @@ class TopicModelWidget(BaseWidget):
 
         if not self._model_kwargs:
             self._model_kwargs = {}
-        self._model_kwargs.update(
-            {
+        self._model_kwargs = {
+            **{
+                "random_state": 1,
                 "corpus": self._corpus,
                 "num_topics": self._num_topics,
                 "id2word": self._dictionary,
-            }
-        )
+            },
+            **self._model_kwargs,
+        }
 
         with warnings.catch_warnings():
             warnings.filterwarnings("ignore", category=DeprecationWarning)
