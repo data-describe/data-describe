@@ -3,6 +3,11 @@ name: publish-master-docs
 on:
   push:
     branches: [master]
+    paths:
+      - "data_describe/**"
+      - "docs/**"
+      - "examples/**"
+      - "setup.py"
 
 jobs:
   move-notebooks:
