@@ -92,10 +92,7 @@ class TopicModelWidget(BaseWidget):
                 "Model type must be one of either: 'LDA', 'LSA', 'LSI', 'SVD' or 'NMF'"
             )
         self._num_topics = num_topics
-        self._model_kwargs: Optional[Dict[str, Any]] = {
-            **{"random_state": 1},
-            **(model_kwargs or {}),
-        }
+        self._model_kwargs = model_kwargs
 
     def __str__(self):
         return "data-describe Topic Model Widget"
@@ -285,13 +282,15 @@ class TopicModelWidget(BaseWidget):
 
         if not self._model_kwargs:
             self._model_kwargs = {}
-        self._model_kwargs.update(
-            {
+        self._model_kwargs = {
+            **{
+                "random_state": 1,
                 "corpus": self._corpus,
                 "num_topics": self._num_topics,
                 "id2word": self._dictionary,
-            }
-        )
+            },
+            **self._model_kwargs,
+        }
 
         with warnings.catch_warnings():
             warnings.filterwarnings("ignore", category=DeprecationWarning)
