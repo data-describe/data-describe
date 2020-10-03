@@ -414,7 +414,7 @@ def _plotly_viz_correlation_matrix(association_matrix):
         return fig
 
 
-def viz_correlation_matrix(
+def _seaborn_viz_correlation_matrix(
     association_matrix, annot=False, xticks_rotation=90, yticks_rotation=0
 ):
     """Plot the heatmap for the association matrix.
