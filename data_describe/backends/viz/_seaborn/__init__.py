@@ -22,6 +22,6 @@ from data_describe.core.distributions import (  # noqa: F401
 from data_describe.core.correlations import (  # noqa: F401
     _seaborn_viz_correlation_matrix as viz_correlation_matrix,
 )
-from data_describe.text.topic_model import (  # noqa: F401
+from data_describe.text.topic_modeling import (  # noqa: F401
     _seaborn_viz_elbow_plot as viz_elbow_plot,
 )
