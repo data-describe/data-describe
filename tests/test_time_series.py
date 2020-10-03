@@ -34,7 +34,7 @@ def test_stationarity_unsupported(compute_time_data):
         stationarity_test("Not a dataframe", col=["var"])
 
 
-def test__pandas_compute_stationarity_test(compute_time_data):
+def test_pandas_compute_stationarity_test(compute_time_data):
     test_df = _pandas_compute_stationarity_test(compute_time_data["var"], test="dickey-fuller")
     assert isinstance(test_df, _DATAFRAME_TYPE)
     assert test_df.shape == (7, 1)
@@ -87,7 +87,7 @@ def test_decompose_timeseries(_statsmodels, compute_time_data):
     assert len(result.resid) == 15
 
 
-def test__pandas_compute_autocorrelation(compute_time_data):
+def test_pandas_compute_autocorrelation(compute_time_data):
     data, white_noise = _pandas_compute_autocorrelation(
         compute_time_data["var"], n_lags=1, plot_type="pacf"
     )
