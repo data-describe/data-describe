@@ -1,5 +1,5 @@
 [flake8]
-ignore = E203, E266, E501, W503, D100, D105, D107, RST201, RST210, RST213, RST214, RST215
+ignore = E203, E266, E501, W503, D100, D105, D107, RST201, RST210, RST213, RST214, RST215, RST301, RST203
 max-line-length = 88
 application-import-names = data_describe
 import-order-style = pep8

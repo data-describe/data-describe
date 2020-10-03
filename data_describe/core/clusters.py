@@ -36,6 +36,7 @@ def cluster(
         dim_method (str, optional): The method to use for dimensionality reduction. Defaults to "pca".
         compute_backend (str, optional): The compute backend.
         viz_backend (str, optional): The visualization backend.
+        **kwargs: Keyword arguments.
 
     Raises:
         ValueError: Data frame required
@@ -106,6 +107,7 @@ class ClusterWidget(BaseWidget):
             reductor: The dimensionality reduction estimator
             xlabel (str): The x-axis label for the cluster plot
             ylabel (str): The y-axis label for the cluster plot
+            **kwargs: Keyword arguments
         """
         super(ClusterWidget, self).__init__(**kwargs)
         self.clusters = clusters
@@ -123,7 +125,18 @@ class ClusterWidget(BaseWidget):
         return "data-describe Cluster Widget"
 
     def show(self, viz_backend=None, **kwargs):
-        """Show the cluster plot."""
+        """Show the cluster plot.
+
+        Args:
+            viz_backend: The visualization backend.
+            **kwargs: Keyword arguments.
+
+        Raises:
+            ValueError: Data to visualize is missing / not calculated.
+
+        Returns:
+            The cluster plot.
+        """
         backend = viz_backend or self.viz_backend
 
         if self.viz_data is None:
@@ -153,13 +166,12 @@ class KmeansClusterWidget(ClusterWidget):
         """Mandatory parameters.
 
         Args:
-            clusters (List[int], optional): The predicted cluster labels.
-            estimator (optional): The cluster estimator object.
             n_clusters (int, optional): The number of clusters (k) used in the final clustering fit.
             search (bool, optional): If True, a search was performed for optimal n_clusters.
             cluster_range (Tuple[int, int], optional): The range of clusters searched as (min_cluster, max_cluster).
             metric (str, optional): The metric used to evaluate the cluster search.
             scores: The metric scores in cluster search.
+            **kwargs: Keyword arguments.
         """
         super(KmeansClusterWidget, self).__init__(**kwargs)
         self.method = "kmeans"
@@ -178,6 +190,9 @@ class KmeansClusterWidget(ClusterWidget):
         Args:
             viz_backend: The visualization backend.
             **kwargs: Additional keyword arguments to pass to the visualization backend.
+
+        Raises:
+            ValueError: Cluster `search` is False.
 
         Returns:
             The plot
@@ -199,8 +214,7 @@ class HDBSCANClusterWidget(ClusterWidget):
         """Mandatory parameters.
 
         Args:
-            clusters (List[int], optional): The predicted cluster labels.
-            estimator (optional): The HDBSCAN estimator object.
+            **kwargs: Keyword arguments.
         """
         super(HDBSCANClusterWidget, self).__init__(**kwargs)
         self.method = "hdbscan"
@@ -212,9 +226,10 @@ def _pandas_compute_cluster(data, method: str, **kwargs):
     Args:
         data (DataFrame): The data
         method (str): {"kmeans", "hdbscan} The clustering algorithm
+        **kwargs: Keyword arguments.
 
     Raises:
-        NotImplementedError: If method is not implemented
+        ValueError: If method is not implemented
 
     Returns:
         (clusters, ClusterFit)
@@ -253,8 +268,8 @@ def _run_kmeans(
         data (DataFrame): The data.
         n_clusters (Optional[int], optional): The number of clusters.
         cluster_range (Tuple[int, int], optional): A tuple of the minimum and
-        maximum cluster search range. Defaults to (2, 20).
-        metric (str, optional): The metric to optimize (from sklearn.metrics).
+            maximum cluster search range. Defaults to (2, 20).
+        metric (str): The metric to optimize (from sklearn.metrics).
         target: (For supervised clustering) The labels, as a 1-D array.
         **kwargs: Keyword arguments to be passed into the K-Means estimator.
 
@@ -286,11 +301,14 @@ def _find_clusters(
 
     Args:
         data: The data.
-        cluster_range: A tuple of the minimum and
-        maximum cluster search range. Defaults to (2, 20).
+        cluster_range: A tuple of the minimum and maximum cluster
+            search range. Defaults to (2, 20).
         metric: The metric to optimize (from sklearn.metrics).
         target: (For supervised clustering) The labels, as a 1-D array.
         **kwargs: Keyword arguments to be passed into the K-Means estimator.
+
+    Raises:
+        ValueError: Max of cluster range greater than the min.
 
     Returns:
         clusters, KmeansFit
@@ -379,7 +397,11 @@ def _run_hdbscan(data, min_cluster_size=15, **kwargs):
 
 
 def _plotly_viz_cluster(
-    data, method: str, xlabel: str = None, ylabel: str = None, **kwargs
+    data,
+    method: str,
+    xlabel: Optional[str] = None,
+    ylabel: Optional[str] = None,
+    **kwargs,
 ):
     """Visualize clusters using Plotly.
 
@@ -388,6 +410,7 @@ def _plotly_viz_cluster(
         method (str): The clustering method, to be used as the plot title
         xlabel (str, optional): The x-axis label. Defaults to "Reduced Dimension 1".
         ylabel (str, optional): The y-axis label. Defaults to "Reduced Dimension 2".
+        **kwargs: Keyword arguments.
 
     Returns:
         Plotly plot
@@ -441,7 +464,11 @@ def _plotly_viz_cluster(
 
 
 def _seaborn_viz_cluster(
-    data, method: str, xlabel: str = None, ylabel: str = None, **kwargs
+    data,
+    method: str,
+    xlabel: Optional[str] = None,
+    ylabel: Optional[str] = None,
+    **kwargs,
 ):
     """Visualize clusters using Seaborn.
 
@@ -450,6 +477,7 @@ def _seaborn_viz_cluster(
         method (str): The clustering method, to be used as the plot title
         xlabel (str, optional): The x-axis label. Defaults to "Reduced Dimension 1".
         ylabel (str, optional): The y-axis label. Defaults to "Reduced Dimension 2".
+        **kwargs: Keyword arguments.
 
     Returns:
         Seaborn plot
@@ -484,9 +512,12 @@ def _seaborn_viz_cluster_search_plot(
     """Visualize the cluster search plot for K-means clusters.
 
     Args:
-        cluster_range (Tuple[int, int]): The range of n_clusters (k) searched as (min_cluster, max_cluster)
-        scores (List[Union[int, float]]): The scores from the evaluation metric used to determine the "optimal" n_clusters
-        metric (str): The evaluation metric used
+        cluster_range (Tuple[int, int]): The range of n_clusters (k)
+            searched as (min_cluster, max_cluster)
+        scores (List[Union[int, float]]): The scores from the evaluation
+            metric used to determine the "optimal" n_clusters.
+        metric (str): The evaluation metric used.
+        **kwargs: Keyword arguments.
 
     Returns:
         Seaborn plot
