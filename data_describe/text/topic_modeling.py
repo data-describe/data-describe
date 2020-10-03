@@ -14,7 +14,7 @@ from data_describe.text.text_preprocessing import (
     filter_dictionary,
 )
 from data_describe.backends import _get_viz_backend
-from data_describe import _compat, requires, _IN_NOTEBOOK
+from data_describe.compat import _compat, requires, _IN_NOTEBOOK
 from data_describe._widget import BaseWidget
 
 warnings.filterwarnings("ignore", category=UserWarning, module="gensim")
