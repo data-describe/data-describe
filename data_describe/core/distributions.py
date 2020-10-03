@@ -99,7 +99,7 @@ class DistributionWidget(BaseWidget):
         """
         backend = viz_backend or self.viz_backend
 
-        return _get_viz_backend(backend)._seaborn_viz_distribution(
+        return _get_viz_backend(backend).viz_distribution(
             data=self.input_data, x=x, contrast=contrast, **kwargs
         )
 
