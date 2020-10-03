@@ -1,7 +1,10 @@
 import numpy as np
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.inspection import permutation_importance
+import seaborn as sns
+import matplotlib.pyplot as plt
 
+from data_describe.config._config import get_option
 from data_describe.misc.preprocessing import preprocess
 from data_describe.backends import _get_viz_backend, _get_compute_backend
 
@@ -44,7 +47,7 @@ def importance(
     if return_values:
         return importance_values
     else:
-        return _get_viz_backend(viz_backend).viz_importance(
+        return _get_viz_backend(viz_backend)._seaborn_viz_importance(
             importance_values, idx, cols
         )
 
@@ -91,3 +94,29 @@ def _pandas_compute_importance(
     )
     idx = importance_values.argsort()[::-1]
     return importance_values, idx, X.columns
+
+
+def _seaborn_viz_importance(importance_values, idx, cols):
+    """Plot feature importances.
+
+    Args:
+        importance_values: The importances
+        idx: The sorted indices
+        cols: The columns
+
+    Returns:
+        fig: The figure
+    """
+    plt.figure(
+        figsize=(
+            get_option("display.matplotlib.fig_width"),
+            get_option("display.matplotlib.fig_height"),
+        )
+    )
+    plt.xlabel("Permutation Importance Value")
+    plt.ylabel("Features")
+
+    fig = sns.barplot(
+        y=cols[idx], x=importance_values[idx], palette="Blues_d"
+    ).set_title("Feature Importance")
+    return fig

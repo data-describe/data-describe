@@ -5,9 +5,15 @@ import numpy as np
 from scipy.cluster import hierarchy
 from sklearn.metrics import matthews_corrcoef
 from scipy.stats import chi2_contingency
+import seaborn as sns
+import matplotlib.pyplot as plt
+import plotly.graph_objs as go
+import plotly.offline as po
 
+from data_describe.config._config import get_option
+from data_describe.misc.colors import get_p_RdBl_cmap, mpl_to_plotly_cmap
 from data_describe._widget import BaseWidget
-from data_describe.compat import _DATAFRAME_TYPE
+from data_describe.compat import _DATAFRAME_TYPE, _IN_NOTEBOOK
 from data_describe.backends import _get_viz_backend, _get_compute_backend
 
 
@@ -350,3 +356,103 @@ def reorder_by_original(association_matrix, original_df):
     )
 
     return reorder_matrix
+
+
+def _plotly_viz_correlation_matrix(association_matrix):
+    """Plot the heatmap for the association matrix.
+
+    Args:
+        association_matrix (DataFrame): The association matrix
+
+    Returns:
+        The plotly figure
+    """
+    # Plot lower left triangle
+    x_ind, y_ind = np.triu_indices(association_matrix.shape[0])
+    corr = association_matrix.to_numpy()
+    for x, y in zip(x_ind, y_ind):
+        corr[x, y] = None
+
+    # Set up the color scale
+    cscale = mpl_to_plotly_cmap(get_p_RdBl_cmap())
+
+    # Generate a custom diverging colormap
+    fig = go.Figure(
+        data=[
+            go.Heatmap(
+                z=np.flip(corr, axis=0),
+                x=association_matrix.columns.values,
+                y=association_matrix.columns.values[::-1],
+                connectgaps=False,
+                xgap=2,
+                ygap=2,
+                colorscale=cscale,
+                colorbar={"title": "Strength"},
+            )
+        ],
+        layout=go.Layout(
+            autosize=False,
+            width=get_option("display.plotly.fig_width"),
+            height=get_option("display.plotly.fig_height"),
+            title={
+                "text": "Correlation Matrix",
+                "font": {"size": get_option("display.plotly.title_size")},
+            },
+            xaxis=go.layout.XAxis(
+                automargin=True, tickangle=270, ticks="", showgrid=False
+            ),
+            yaxis=go.layout.YAxis(automargin=True, ticks="", showgrid=False),
+            plot_bgcolor="rgb(0,0,0,0)",
+            paper_bgcolor="rgb(0,0,0,0)",
+        ),
+    )
+
+    if _IN_NOTEBOOK:
+        po.init_notebook_mode(connected=True)
+        return po.iplot(fig, config={"displayModeBar": False})
+    else:
+        return fig
+
+
+def viz_correlation_matrix(
+    association_matrix, annot=False, xticks_rotation=90, yticks_rotation=0
+):
+    """Plot the heatmap for the association matrix.
+
+    Args:
+        association_matrix (DataFrame): The association matrix
+        annot (bool): If True, add correlation values to plot. Defaluts to False.
+        xticks_rotation (int): Degrees of rotation for the xticks. Defaults to 90.
+        yticks_rotation (int): Degrees of rotation for the yticks. Defaults to 0.
+
+    Returns:
+        The Seaborn figure
+    """
+    mask = np.triu(np.ones_like(association_matrix, dtype=np.bool))
+    corr = association_matrix.to_numpy()
+    vmin = min(corr.flatten()[~np.isnan(corr.flatten())])
+    vmax = max(corr.flatten()[~np.isnan(corr.flatten())])
+
+    plt.figure(
+        figsize=(
+            get_option("display.matplotlib.fig_width"),
+            get_option("display.matplotlib.fig_height"),
+        )
+    )
+
+    ax = sns.heatmap(
+        association_matrix,
+        vmin=vmin,
+        vmax=vmax,
+        cmap=get_p_RdBl_cmap(),
+        annot=annot,
+        mask=mask,
+        center=0,
+        linewidths=2,
+        square=True,
+    )
+
+    plt.title("Correlation Matrix")
+    plt.xticks(rotation=xticks_rotation)
+    plt.yticks(rotation=yticks_rotation)
+    return ax

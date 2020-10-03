@@ -1,3 +1,3 @@
-from data_describe.backends.viz._pyLDAvis.topic_model import (  # noqa: F401
-    viz_visualize_topic_summary,
+from data_describe.text.topic_modeling import (  # noqa: F401
+    _pyldavis_viz_visualize_topic_summary as viz_visualize_topic_summary,
 )

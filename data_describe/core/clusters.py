@@ -1,14 +1,19 @@
-from typing import List
-from typing import Optional, Tuple
+from typing import Optional, Tuple, List, Union
 
 import pandas as pd
 import numpy as np
+import seaborn as sns
 import sklearn
 from sklearn.cluster import KMeans
+import matplotlib.pyplot as plt
+from matplotlib.ticker import MaxNLocator
 from sklearn.preprocessing import StandardScaler
+import plotly.graph_objs as go
+import plotly.offline as po
 
+from data_describe.config._config import get_option
 from data_describe._widget import BaseWidget
-from data_describe.compat import _DATAFRAME_TYPE, _compat, requires
+from data_describe.compat import _DATAFRAME_TYPE, _compat, requires, _IN_NOTEBOOK
 from data_describe.backends import _get_viz_backend, _get_compute_backend
 from data_describe.dimensionality_reduction.dimensionality_reduction import dim_reduc
 
@@ -371,3 +376,131 @@ def _run_hdbscan(data, min_cluster_size=15, **kwargs):
     )
     clusterwidget.n_clusters = len(np.unique(clusters))
     return clusterwidget
+
+
+def _plotly_viz_cluster(
+    data, method: str, xlabel: str = None, ylabel: str = None, **kwargs
+):
+    """Visualize clusters using Plotly.
+
+    Args:
+        data (DataFrame): The data
+        method (str): The clustering method, to be used as the plot title
+        xlabel (str, optional): The x-axis label. Defaults to "Reduced Dimension 1".
+        ylabel (str, optional): The y-axis label. Defaults to "Reduced Dimension 2".
+
+    Returns:
+        Plotly plot
+    """
+    xlabel = xlabel or "Reduced Dimension 1"
+    ylabel = ylabel or "Reduced Dimension 2"
+    labels = data["clusters"].unique()
+
+    trace_list = []
+    for i in labels:
+        if int(i) < 0:
+            trace = go.Scatter(
+                x=data.loc[data["clusters"] == i, "x"],
+                y=data.loc[data["clusters"] == i, "y"],
+                name="Noise",
+                mode="markers",
+                marker=dict(size=10, color="grey", line=None, opacity=0.7),
+            )
+            trace_list.append(trace)
+        else:
+            trace = go.Scatter(
+                x=data.loc[data["clusters"] == i, "x"],
+                y=data.loc[data["clusters"] == i, "y"],
+                name=f"Cluster #{i}",
+                mode="markers",
+                marker=dict(size=10, colorscale="earth", line=None, opacity=0.7),
+            )
+            trace_list.append(trace)
+
+    layout = dict(
+        yaxis=dict(zeroline=False, title=data.columns[0]),
+        xaxis=dict(zeroline=False, title=data.columns[1]),
+        yaxis_title=ylabel,
+        xaxis_title=xlabel,
+        autosize=False,
+        width=int(get_option("display.plotly.fig_width")),
+        height=int(get_option("display.plotly.fig_height")),
+        title={
+            "text": "{} Cluster".format(method),
+            "font": {"size": get_option("display.plotly.title_size")},
+        },
+    )
+
+    fig = go.Figure(dict(data=trace_list, layout=layout))
+
+    if _IN_NOTEBOOK:
+        po.init_notebook_mode(connected=True)
+        return po.iplot(fig)
+    else:
+        return fig
+
+
+def _seaborn_viz_cluster(
+    data, method: str, xlabel: str = None, ylabel: str = None, **kwargs
+):
+    """Visualize clusters using Seaborn.
+
+    Args:
+        data (DataFrame): The data
+        method (str): The clustering method, to be used as the plot title
+        xlabel (str, optional): The x-axis label. Defaults to "Reduced Dimension 1".
+        ylabel (str, optional): The y-axis label. Defaults to "Reduced Dimension 2".
+
+    Returns:
+        Seaborn plot
+    """
+    xlabel = xlabel or "Reduced Dimension 1"
+    ylabel = ylabel or "Reduced Dimension 2"
+    plt.figure(
+        figsize=(
+            get_option("display.matplotlib.fig_width"),
+            get_option("display.matplotlib.fig_height"),
+        )
+    )
+    unique_labels = len(np.unique(data["clusters"]))
+    pal = sns.color_palette(n_colors=unique_labels)
+    ax = sns.scatterplot(
+        data=data, x="x", y="y", hue="clusters", palette=pal, legend="full", alpha=0.7
+    )
+    sns.set_context("talk")
+    ax.set_xlabel(xlabel)
+    ax.set_ylabel(ylabel)
+    plt.legend(bbox_to_anchor=(1.25, 1), loc="upper right", ncol=1)
+    plt.title(method + " Cluster")
+    return ax
+
+
+def _seaborn_viz_cluster_search_plot(
+    cluster_range: Tuple[int, int],
+    scores: List[Union[int, float]],
+    metric: str,
+    **kwargs,
+):
+    """Visualize the cluster search plot for K-means clusters.
+
+    Args:
+        cluster_range (Tuple[int, int]): The range of n_clusters (k) searched as (min_cluster, max_cluster)
+        scores (List[Union[int, float]]): The scores from the evaluation metric used to determine the "optimal" n_clusters
+        metric (str): The evaluation metric used
+
+    Returns:
+        Seaborn plot
+    """
+    n_clusters = list(range(*cluster_range))
+    plt.figure(
+        figsize=(
+            get_option("display.matplotlib.fig_width"),
+            get_option("display.matplotlib.fig_height"),
+        )
+    )
+    ax = sns.lineplot(n_clusters, scores)
+    ax.set_title("Optimal Number of Clusters")
+    ax.xaxis.set_major_locator(MaxNLocator(integer=True))
+    plt.xlabel("Number of Clusters")
+    plt.ylabel(f"{' '.join(metric.split('_'))}")
+    return ax
