@@ -210,7 +210,10 @@ def _seaborn_viz_numeric(
 
 
 def _seaborn_viz_categorical(
-    data, x: str, contrast: str = None, bar_kwargs: dict = None,
+    data,
+    x: str,
+    contrast: str = None,
+    bar_kwargs: dict = None,
 ):
     """Plots a bar count plot for a categorical feature.
 

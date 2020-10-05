@@ -655,7 +655,8 @@ def _seaborn_viz_elbow_plot(
         Elbow plot showing coherence values vs number of topics
     """
     ax = sns.lineplot(
-        x=[num for num in range(min_topics, max_topics + 1)], y=coherence_values,
+        x=[num for num in range(min_topics, max_topics + 1)],
+        y=coherence_values,
     )
     ax.set_title("Coherence Values Across Topic Numbers")
     plt.xlabel("Number of Topics")
