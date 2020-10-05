@@ -2,14 +2,15 @@ import matplotlib
 import pytest
 import plotly.graph_objects as go
 
-from data_describe.backends.compute._pandas.time_series import (
-    compute_stationarity_test,
+from data_describe.core.time_series import (
+    _pandas_compute_stationarity_test,
     adf_test,
     kpss_test,
-    compute_decompose_timeseries,
-    compute_autocorrelation,
+    _pandas_compute_decompose_timeseries,
+    _pandas_compute_autocorrelation,
+    plot_autocorrelation,
+    stationarity_test,
 )
-from data_describe.core.time_series import plot_autocorrelation, stationarity_test
 import data_describe as dd
 from data_describe.compat import _DATAFRAME_TYPE
 
@@ -26,18 +27,18 @@ def test_plot_unsupported(compute_time_data):
 
 def test_stationarity_unsupported(compute_time_data):
     with pytest.raises(ValueError):
-        compute_stationarity_test(compute_time_data["var"], test="not a valid test")
+        _pandas_compute_stationarity_test(compute_time_data["var"], test="not a valid test")
     with pytest.raises(ValueError):
         stationarity_test(compute_time_data, col=["var"])
     with pytest.raises(ValueError):
         stationarity_test("Not a dataframe", col=["var"])
 
 
-def test_compute_stationarity_test(compute_time_data):
-    test_df = compute_stationarity_test(compute_time_data["var"], test="dickey-fuller")
+def test_pandas_compute_stationarity_test(compute_time_data):
+    test_df = _pandas_compute_stationarity_test(compute_time_data["var"], test="dickey-fuller")
     assert isinstance(test_df, _DATAFRAME_TYPE)
     assert test_df.shape == (7, 1)
-    test_df = compute_stationarity_test(compute_time_data["var"], test="kpss")
+    test_df = _pandas_compute_stationarity_test(compute_time_data["var"], test="kpss")
     assert isinstance(test_df, _DATAFRAME_TYPE)
     assert test_df.shape == (7, 1)
 
@@ -76,7 +77,7 @@ def test_kpss_test(compute_time_data):
 
 
 def test_decompose_timeseries(_statsmodels, compute_time_data):
-    result = compute_decompose_timeseries(
+    result = _pandas_compute_decompose_timeseries(
         compute_time_data, col="var", model="additive"
     )
     assert isinstance(result, _statsmodels.tsa.seasonal.DecomposeResult)
@@ -86,14 +87,14 @@ def test_decompose_timeseries(_statsmodels, compute_time_data):
     assert len(result.resid) == 15
 
 
-def test_compute_autocorrelation(compute_time_data):
-    data, white_noise = compute_autocorrelation(
+def test_pandas_compute_autocorrelation(compute_time_data):
+    data, white_noise = _pandas_compute_autocorrelation(
         compute_time_data["var"], n_lags=1, plot_type="pacf"
     )
     assert len(data) == 2
     assert isinstance(white_noise, float)
 
-    data, white_noise = compute_autocorrelation(
+    data, white_noise = _pandas_compute_autocorrelation(
         compute_time_data["var"], n_lags=1, plot_type="acf", fft=False
     )
     assert len(data) == 15

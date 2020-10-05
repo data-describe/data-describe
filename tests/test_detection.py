@@ -3,7 +3,7 @@ import pytest
 from data_describe.compat import _compat, _DATAFRAME_TYPE
 from data_describe.privacy.detection import sensitive_data, SensitiveDataWidget
 from data_describe.privacy.engine import engine
-from data_describe.backends.compute._pandas.detection import (
+from data_describe.privacy.detection import (
     identify_pii,
     redact_info,
     encrypt_text,

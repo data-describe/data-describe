@@ -12,9 +12,7 @@ from data_describe.core.clusters import (
     ClusterWidget,
     KmeansClusterWidget,
     HDBSCANClusterWidget,
-)
-from data_describe.backends.compute._pandas.cluster import (
-    compute_cluster,
+    _pandas_compute_cluster,
     _run_kmeans,
     _find_clusters,
     _fit_kmeans,
@@ -164,7 +162,7 @@ def monkeypatch_HDBSCAN(_hdbscan, monkeypatch):
 
 @pytest.mark.base
 def test_pandas_compute_cluster(numeric_data, monkeypatch_KMeans):
-    widget = compute_cluster(numeric_data, method="kmeans")
+    widget = _pandas_compute_cluster(numeric_data, method="kmeans")
     assert isinstance(
         widget.clusters, np.ndarray
     ), "Cluster labels was not a numpy array"
@@ -180,7 +178,7 @@ def test_pandas_compute_cluster(numeric_data, monkeypatch_KMeans):
 
 
 def test_pandas_compute_cluster_hdbscan(_hdbscan, numeric_data, monkeypatch_HDBSCAN):
-    widget = compute_cluster(numeric_data, method="hdbscan")
+    widget = _pandas_compute_cluster(numeric_data, method="hdbscan")
     assert isinstance(
         widget.clusters, np.ndarray
     ), "Cluster labels was not a numpy array"
@@ -198,7 +196,7 @@ def test_pandas_compute_cluster_hdbscan(_hdbscan, numeric_data, monkeypatch_HDBS
 @pytest.mark.base
 def test_pandas_compute_cluster_invalid_method(numeric_data):
     with pytest.raises(ValueError):
-        compute_cluster(numeric_data, method="unimplemented")
+        _pandas_compute_cluster(numeric_data, method="unimplemented")
 
 
 @pytest.mark.base

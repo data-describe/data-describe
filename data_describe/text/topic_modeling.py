@@ -1,21 +1,26 @@
 import warnings
-from typing import List, Optional, Dict
+from typing import List, Optional, Dict, Tuple, TYPE_CHECKING
 
 import pandas as pd
 import numpy as np
 from sklearn.decomposition import TruncatedSVD, NMF
+import matplotlib.pyplot as plt
+import seaborn as sns
 
+from data_describe.config._config import get_option
 from data_describe.text.text_preprocessing import (
     create_doc_term_matrix,
     create_tfidf_matrix,
     filter_dictionary,
 )
 from data_describe.backends import _get_viz_backend
-from data_describe import _compat
-from data_describe.compat import requires
+from data_describe.compat import _compat, requires, _IN_NOTEBOOK
 from data_describe._widget import BaseWidget
 
 warnings.filterwarnings("ignore", category=UserWarning, module="gensim")
+
+if TYPE_CHECKING:
+    gensim = _compat["gensim"]
 
 
 def topic_model(
@@ -586,3 +591,63 @@ class TopicModelWidget(BaseWidget):
             return _get_viz_backend(viz_backend).viz_visualize_topic_summary(
                 self._model, self._corpus, self._dictionary
             )
+
+
+@requires("pyLDAvis")
+@requires("gensim")
+def _pyldavis_viz_visualize_topic_summary(
+    model: "gensim.models.ldamodel.LdaModel",  # type: ignore
+    corpus: List[List[Tuple[int, int]]],
+    dictionary: "gensim.corpora.dictionary.Dictionary",  # type: ignore
+):
+    """Displays interactive pyLDAvis visual to understand topic model and documents.
+
+    Args:
+        model: LDA topic model
+        corpus: Bag of Words (BoW) representation of documents (token_id, token_count)
+        dictionary: Gensim Dictionary encapsulates the mapping between normalized words and their integer ids
+
+    Returns:
+        A visual to understand topic model and/or documents relating to model
+    """
+    if not _IN_NOTEBOOK:
+        raise EnvironmentError("Not in Jupyter Notebook")
+
+    _compat["pyLDAvis"].enable_notebook()  # type: ignore
+    with warnings.catch_warnings():
+        warnings.filterwarnings(
+            "ignore",
+            category=FutureWarning,
+            module="pyLDAvis",
+            message="Sorting because non-concatenation axis is not aligned.",
+        )
+        vis = _compat["pyLDAvis"].gensim.prepare(model, corpus, dictionary)  # type: ignore
+        return vis
+
+
+def _seaborn_viz_elbow_plot(
+    min_topics: int, max_topics: int, coherence_values: List[float]
+):
+    """Creates an elbow plot displaying coherence values vs number of topics.
+
+    Args:
+        min_topics: Starting number of topics that were optimized for
+        max_topics: Maximum number of topics that were optimized for
+        coherence_values: A list of coherence values mapped from min_topics to max_topics
+
+    Returns:
+        Elbow plot showing coherence values vs number of topics
+    """
+    ax = sns.lineplot(
+        x=[num for num in range(min_topics, max_topics + 1)], y=coherence_values,
+    )
+    ax.set_title("Coherence Values Across Topic Numbers")
+    plt.xlabel("Number of Topics")
+    plt.ylabel("Coherence Values")
+    plt.figure(
+        figsize=(
+            get_option("display.matplotlib.fig_width"),
+            get_option("display.matplotlib.fig_height"),
+        )
+    )
+    return ax
