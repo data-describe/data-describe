@@ -1,4 +1,3 @@
-import pytest
 import matplotlib
 
 import data_describe as dd
@@ -6,7 +5,6 @@ from data_describe.compat import _SERIES_TYPE
 from data_describe.core.distributions import DistributionWidget
 
 
-@pytest.mark.base
 def test_distribution(data):
     w = dd.distribution(data)
     assert isinstance(w, DistributionWidget), "Output was not a DistributionWidget"
@@ -25,8 +23,8 @@ def test_distribution(data):
     assert w.spike_factor == 10, "Wrong default spike factor"
     assert w.skew_factor == 3, "Wrong default skew factor"
     assert isinstance(
-        w.spike_value, _SERIES_TYPE
+        w.spike_value, _SERIES_TYPE.pandas
     ), "Spike values not a Pandas series"
     assert isinstance(
-        w.skew_value, _SERIES_TYPE
+        w.skew_value, _SERIES_TYPE.pandas
     ), "Skew values not a Pandas series"

@@ -16,3 +16,8 @@ repos:
     rev: 'v0.780'
     hooks:
     -   id: mypy
+  - repo: https://github.com/psf/black
+    rev: 20.8b1
+    hooks:
+    -   id: black
+        language_version: python3.7

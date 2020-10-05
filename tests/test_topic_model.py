@@ -258,10 +258,10 @@ def test_topic_top_documents(lsi_model, svd_model, document_data):
         text_docs=document_data, num_docs=2
     )
     svd_top_docs_df_summarized = svd_model.top_documents_per_topic(
-        text_docs=document_data, summarize_docs=True, num_docs=2,
+        text_docs=document_data, summarize_docs=True, num_docs=2
     )
     svd_top_docs_df_summarized_words = svd_model.top_documents_per_topic(
-        text_docs=document_data, summarize_docs=True, summary_words=15, num_docs=2,
+        text_docs=document_data, summarize_docs=True, summary_words=15, num_docs=2
     )
     assert not svd_top_docs_df.equals(
         svd_top_docs_df_summarized

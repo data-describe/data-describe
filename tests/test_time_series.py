@@ -27,7 +27,9 @@ def test_plot_unsupported(compute_time_data):
 
 def test_stationarity_unsupported(compute_time_data):
     with pytest.raises(ValueError):
-        _pandas_compute_stationarity_test(compute_time_data["var"], test="not a valid test")
+        _pandas_compute_stationarity_test(
+            compute_time_data["var"], test="not a valid test"
+        )
     with pytest.raises(ValueError):
         stationarity_test(compute_time_data, col=["var"])
     with pytest.raises(ValueError):
@@ -35,7 +37,9 @@ def test_stationarity_unsupported(compute_time_data):
 
 
 def test_pandas_compute_stationarity_test(compute_time_data):
-    test_df = _pandas_compute_stationarity_test(compute_time_data["var"], test="dickey-fuller")
+    test_df = _pandas_compute_stationarity_test(
+        compute_time_data["var"], test="dickey-fuller"
+    )
     assert isinstance(test_df, _DATAFRAME_TYPE)
     assert test_df.shape == (7, 1)
     test_df = _pandas_compute_stationarity_test(compute_time_data["var"], test="kpss")
@@ -139,7 +143,7 @@ def test_seaborn(compute_time_data):
     fig = dd.plot_time_series(compute_time_data, col="var")
     assert isinstance(fig, matplotlib.artist.Artist)
     fig = dd.plot_time_series(
-        compute_time_data, col="var", decompose=True, model="additive",
+        compute_time_data, col="var", decompose=True, model="additive"
     )
     assert isinstance(fig, matplotlib.artist.Artist)
     fig = plot_autocorrelation(compute_time_data, col="var", n_lags=1, plot_type="pacf")

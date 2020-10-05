@@ -101,7 +101,9 @@ def remove_punct(
         )
 
 
-def remove_digits(text_docs_bow: Iterable[Iterable[str]],) -> Iterable[Iterable[str]]:
+def remove_digits(
+    text_docs_bow: Iterable[Iterable[str]],
+) -> Iterable[Iterable[str]]:
     """Removes all numbers and words containing numerical digits from documents.
 
     Args:
@@ -152,7 +154,9 @@ def remove_stopwords(
     Returns:
         A generator expression for all of the processed documents
     """
-    stop_words_original = set(_compat["nltk"].corpus.stopwords.words("english"))  # type: ignore
+    stop_words_original = set(
+        _compat["nltk"].corpus.stopwords.words("english")  # type: ignore
+    )
 
     if custom_stopwords:
         stop_words = stop_words_original.union(custom_stopwords)
@@ -163,7 +167,9 @@ def remove_stopwords(
 
 
 @requires("nltk")
-def lemmatize(text_docs_bow: Iterable[Iterable[str]],) -> Iterable[Iterable[str]]:
+def lemmatize(
+    text_docs_bow: Iterable[Iterable[str]],
+) -> Iterable[Iterable[str]]:
     """Lemmatizes all words in documents. Lemmatization is grouping words together by their reducing them to their inflected forms so they can be analyzed as a single item.
 
     Args:
@@ -177,7 +183,9 @@ def lemmatize(text_docs_bow: Iterable[Iterable[str]],) -> Iterable[Iterable[str]
 
 
 @requires("nltk")
-def stem(text_docs_bow: Iterable[Iterable[str]],) -> Iterable[Iterable[str]]:
+def stem(
+    text_docs_bow: Iterable[Iterable[str]],
+) -> Iterable[Iterable[str]]:
     """Stems all words in documents. Stemming is grouping words together by taking the stems of their inflected forms so they can be analyzed as a single item.
 
     Args:

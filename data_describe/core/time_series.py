@@ -311,11 +311,19 @@ def _plotly_viz_decomposition(result, dates, title="Time Series Decomposition"):
     """
     fig = make_subplots(rows=4, cols=1, x_title="Time", shared_xaxes=True)
     fig.add_trace(
-        go.Scatter(x=dates, y=result.observed, name="observed",), row=1, col=1,
+        go.Scatter(
+            x=dates,
+            y=result.observed,
+            name="observed",
+        ),
+        row=1,
+        col=1,
     )
     fig.add_trace(go.Scatter(x=dates, y=result.trend, name="trend"), row=2, col=1)
     fig.add_trace(
-        go.Scatter(x=dates, y=result.seasonal, name="seasonal"), row=3, col=1,
+        go.Scatter(x=dates, y=result.seasonal, name="seasonal"),
+        row=3,
+        col=1,
     )
     fig.add_trace(go.Scatter(x=dates, y=result.resid, name="residual"), row=4, col=1)
     fig.update_layout(
