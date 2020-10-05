@@ -9,7 +9,7 @@ _viz_backends: Dict[str, Dict[str, ModuleType]] = {}
 _compute_backends: Dict[str, Dict[str, ModuleType]] = {}
 
 
-class Backend:
+class _Backend:
     """Interface for compute and visualization backends."""
 
     def __init__(self, b: List[ModuleType]):
@@ -35,7 +35,7 @@ def _get_viz_backend(backend: str = None):
         backend: The name of the backend, usually the package name
 
     Returns:
-        Backend
+        _Backend
     """
     if backend:
         backend_types = [backend]
@@ -50,7 +50,7 @@ def _get_viz_backend(backend: str = None):
             modules = _load_viz_backend(backend)
         backend_collection.append(modules)
     backend_list = [module for d in backend_collection for _, module in d.items()]
-    return Backend(backend_list)
+    return _Backend(backend_list)
 
 
 def _load_viz_backend(backend: str) -> Dict[str, ModuleType]:
@@ -87,7 +87,7 @@ def _get_compute_backend(backend: str = None, df=None):
         df: The input dataframe which may be used to infer the backend
 
     Returns:
-        Backend
+        _Backend
     """
     if backend:
         backend_types = [backend]
@@ -114,7 +114,7 @@ def _get_compute_backend(backend: str = None, df=None):
             modules = _load_compute_backend(backend)
         backend_collection.append(modules)
     backend_list = [module for d in backend_collection for _, module in d.items()]
-    return Backend(backend_list)
+    return _Backend(backend_list)
 
 
 def _load_compute_backend(backend) -> Dict[str, ModuleType]:
