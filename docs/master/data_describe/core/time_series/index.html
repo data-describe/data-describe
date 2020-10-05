@@ -118,6 +118,15 @@
 <ul>
 <li class="toctree-l4"><a class="reference internal" href="#data_describe.core.time_series.plot_autocorrelation">plot_autocorrelation</a></li>
 </ul>
+<ul>
+<li class="toctree-l4"><a class="reference internal" href="#data_describe.core.time_series.adf_test">adf_test</a></li>
+</ul>
+<ul>
+<li class="toctree-l4"><a class="reference internal" href="#data_describe.core.time_series.kpss_test">kpss_test</a></li>
+</ul>
+<ul>
+<li class="toctree-l4"><a class="reference internal" href="#data_describe.core.time_series.figure_layout">figure_layout</a></li>
+</ul>
 </li>
 </ul>
 </li>
@@ -238,6 +247,15 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="#data_describe.core.time_series.plot_autocorrelation" title="data_describe.core.time_series.plot_autocorrelation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_autocorrelation</span></code></a>(df, col, plot_type=’acf’, n_lags=40, fft=False, compute_backend=None, viz_backend=None, **kwargs)</p></td>
 <td><p>Correlation estimate using partial autocorrelation or autocorrelation.</p></td>
 </tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#data_describe.core.time_series.adf_test" title="data_describe.core.time_series.adf_test"><code class="xref py py-obj docutils literal notranslate"><span class="pre">adf_test</span></code></a>(timeseries, autolag: str = ‘AIC’, regression: str = ‘c’, **kwargs)</p></td>
+<td><p>Compute the Augmented Dickey-Fuller (ADF) test for stationarity.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#data_describe.core.time_series.kpss_test" title="data_describe.core.time_series.kpss_test"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kpss_test</span></code></a>(timeseries, regression: str = ‘c’, nlags: Optional[int] = None, **kwargs)</p></td>
+<td><p>Compute the Kwiatkowski–Phillips–Schmidt–Shin (KPSS) test for stationarity.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#data_describe.core.time_series.figure_layout" title="data_describe.core.time_series.figure_layout"><code class="xref py py-obj docutils literal notranslate"><span class="pre">figure_layout</span></code></a>(title=’Time Series’, xlabel=’Date’, ylabel=’Variable’)</p></td>
+<td><p>Generates the figure layout.</p></td>
+</tr>
 </tbody>
 </table>
 <dl class="py function">
@@ -313,6 +331,69 @@
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>fig</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="data_describe.core.time_series.adf_test">
+<code class="sig-prename descclassname">data_describe.core.time_series.</code><code class="sig-name descname">adf_test</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">timeseries</span></em>, <em class="sig-param"><span class="n">autolag</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'AIC'</span></em>, <em class="sig-param"><span class="n">regression</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'c'</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.core.time_series.adf_test" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the Augmented Dickey-Fuller (ADF) test for stationarity.</p>
+<p>Backend uses statsmodels.tsa.stattools.adfuller</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>timeseries</strong> – The timeseries</p></li>
+<li><p><strong>autolag</strong> – Method to use when determining the number of lags. Defaults to ‘AIC’. Choose between ‘AIC’, ‘BIC’, ‘t-stat’, and None</p></li>
+<li><p><strong>regression</strong> – Constant and trend order to include in regression. Choose between ‘c’,’ct’,’ctt’, and ‘nc’</p></li>
+<li><p><strong>**kwargs</strong> – Keyword arguments for adfuller</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Pandas dataframe containing the statistics</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="data_describe.core.time_series.kpss_test">
+<code class="sig-prename descclassname">data_describe.core.time_series.</code><code class="sig-name descname">kpss_test</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">timeseries</span></em>, <em class="sig-param"><span class="n">regression</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'c'</span></em>, <em class="sig-param"><span class="n">nlags</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>int<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.core.time_series.kpss_test" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the Kwiatkowski–Phillips–Schmidt–Shin (KPSS) test for stationarity.</p>
+<p>Backend uses statsmodels.tsa.stattools.kpss</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>timeseries</strong> – The timeseries</p></li>
+<li><p><strong>regression</strong> – The null hypothesis for the KPSS test.
+‘c’ : The data is stationary around a constant (default).
+‘ct’ : The data is stationary around a trend.</p></li>
+<li><p><strong>nlags</strong> – Indicates the number of lags to be used. Defaults to None.</p></li>
+<li><p><strong>**kwargs</strong> – Keyword arguments for kpss</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Pandas dataframe containing the statistics</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="data_describe.core.time_series.figure_layout">
+<code class="sig-prename descclassname">data_describe.core.time_series.</code><code class="sig-name descname">figure_layout</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">title</span><span class="o">=</span><span class="default_value">'Time Series'</span></em>, <em class="sig-param"><span class="n">xlabel</span><span class="o">=</span><span class="default_value">'Date'</span></em>, <em class="sig-param"><span class="n">ylabel</span><span class="o">=</span><span class="default_value">'Variable'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.core.time_series.figure_layout" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generates the figure layout.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>title</strong> – Title of the plot. Defaults to “Time Series”.</p></li>
+<li><p><strong>xlabel</strong> – x-axis label. Defaults to “Date”.</p></li>
+<li><p><strong>y-axis label. Defaults to &quot;Variable&quot;.</strong> (<em>ylabel;</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The plotly layout</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>layour</p>
 </dd>
 </dl>
 </dd></dl>

@@ -12,6 +12,9 @@ data_describe.core.time_series
    data_describe.core.time_series.plot_time_series
    data_describe.core.time_series.stationarity_test
    data_describe.core.time_series.plot_autocorrelation
+   data_describe.core.time_series.adf_test
+   data_describe.core.time_series.kpss_test
+   data_describe.core.time_series.figure_layout
 
 
 .. function:: plot_time_series(df, col, decompose=False, model='additive', compute_backend=None, viz_backend=None, **kwargs)
@@ -65,5 +68,47 @@ data_describe.core.time_series
 
    :returns: The visualization
    :rtype: fig
+
+
+.. function:: adf_test(timeseries, autolag: str = 'AIC', regression: str = 'c', **kwargs)
+
+   Compute the Augmented Dickey-Fuller (ADF) test for stationarity.
+
+   Backend uses statsmodels.tsa.stattools.adfuller
+
+   :param timeseries: The timeseries
+   :param autolag: Method to use when determining the number of lags. Defaults to 'AIC'. Choose between 'AIC', 'BIC', 't-stat', and None
+   :param regression: Constant and trend order to include in regression. Choose between 'c','ct','ctt', and 'nc'
+   :param \*\*kwargs: Keyword arguments for adfuller
+
+   :returns: Pandas dataframe containing the statistics
+
+
+.. function:: kpss_test(timeseries, regression: str = 'c', nlags: Optional[int] = None, **kwargs)
+
+   Compute the Kwiatkowski–Phillips–Schmidt–Shin (KPSS) test for stationarity.
+
+   Backend uses statsmodels.tsa.stattools.kpss
+
+   :param timeseries: The timeseries
+   :param regression: The null hypothesis for the KPSS test.
+                      'c' : The data is stationary around a constant (default).
+                      'ct' : The data is stationary around a trend.
+   :param nlags: Indicates the number of lags to be used. Defaults to None.
+   :param \*\*kwargs: Keyword arguments for kpss
+
+   :returns: Pandas dataframe containing the statistics
+
+
+.. function:: figure_layout(title='Time Series', xlabel='Date', ylabel='Variable')
+
+   Generates the figure layout.
+
+   :param title: Title of the plot. Defaults to "Time Series".
+   :param xlabel: x-axis label. Defaults to "Date".
+   :param ylabel; y-axis label. Defaults to "Variable".:
+
+   :returns: The plotly layout
+   :rtype: layour
 
 

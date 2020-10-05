@@ -112,6 +112,30 @@
 <ul>
 <li class="toctree-l4"><a class="reference internal" href="#data_describe.privacy.detection.SensitiveDataWidget">SensitiveDataWidget</a></li>
 </ul>
+<ul>
+<li class="toctree-l4"><a class="reference internal" href="#data_describe.privacy.detection.compute_sensitive_data">compute_sensitive_data</a></li>
+</ul>
+<ul>
+<li class="toctree-l4"><a class="reference internal" href="#data_describe.privacy.detection.identify_pii">identify_pii</a></li>
+</ul>
+<ul>
+<li class="toctree-l4"><a class="reference internal" href="#data_describe.privacy.detection.create_mapping">create_mapping</a></li>
+</ul>
+<ul>
+<li class="toctree-l4"><a class="reference internal" href="#data_describe.privacy.detection.redact_info">redact_info</a></li>
+</ul>
+<ul>
+<li class="toctree-l4"><a class="reference internal" href="#data_describe.privacy.detection.identify_column_infotypes">identify_column_infotypes</a></li>
+</ul>
+<ul>
+<li class="toctree-l4"><a class="reference internal" href="#data_describe.privacy.detection.identify_infotypes">identify_infotypes</a></li>
+</ul>
+<ul>
+<li class="toctree-l4"><a class="reference internal" href="#data_describe.privacy.detection.encrypt_text">encrypt_text</a></li>
+</ul>
+<ul>
+<li class="toctree-l4"><a class="reference internal" href="#data_describe.privacy.detection.hash_string">hash_string</a></li>
+</ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../engine/index.html">data_describe.privacy.engine</a></li>
 </ul>
@@ -223,6 +247,30 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="#data_describe.privacy.detection.sensitive_data" title="data_describe.privacy.detection.sensitive_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sensitive_data</span></code></a>(df, mode: str = ‘redact’, detect_infotypes: bool = True, columns: Optional[list] = None, score_threshold: float = _DEFAULT_SCORE_THRESHOLD, sample_size: int = _SAMPLE_SIZE, engine_backend=engine, compute_backend: Optional[str] = None)</p></td>
 <td><p>Identifies, redacts, and encrypts PII data.</p></td>
 </tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#data_describe.privacy.detection.compute_sensitive_data" title="data_describe.privacy.detection.compute_sensitive_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">compute_sensitive_data</span></code></a>(df, mode: str = ‘redact’, detect_infotypes: bool = True, columns: Optional[list] = None, score_threshold: float = _DEFAULT_SCORE_THRESHOLD, sample_size: int = _SAMPLE_SIZE, engine_backend=None)</p></td>
+<td><p>Identifies, redacts, and encrypts PII data.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#data_describe.privacy.detection.identify_pii" title="data_describe.privacy.detection.identify_pii"><code class="xref py py-obj docutils literal notranslate"><span class="pre">identify_pii</span></code></a>(text, engine_backend, score_threshold=_DEFAULT_SCORE_THRESHOLD)</p></td>
+<td><p>Identifies infotypes contained in a string.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#data_describe.privacy.detection.create_mapping" title="data_describe.privacy.detection.create_mapping"><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_mapping</span></code></a>(text, response)</p></td>
+<td><p>Identifies sensitive data and creates a mapping with the hashed data.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#data_describe.privacy.detection.redact_info" title="data_describe.privacy.detection.redact_info"><code class="xref py py-obj docutils literal notranslate"><span class="pre">redact_info</span></code></a>(text, engine_backend, score_threshold=_DEFAULT_SCORE_THRESHOLD)</p></td>
+<td><p>Redact sensitive data with mapping between hashed values and infotype.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#data_describe.privacy.detection.identify_column_infotypes" title="data_describe.privacy.detection.identify_column_infotypes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">identify_column_infotypes</span></code></a>(data_series, engine_backend, sample_size=_SAMPLE_SIZE, score_threshold=_DEFAULT_SCORE_THRESHOLD)</p></td>
+<td><p>Identifies the infotype of a pandas series object using a sample of rows.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#data_describe.privacy.detection.identify_infotypes" title="data_describe.privacy.detection.identify_infotypes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">identify_infotypes</span></code></a>(df, engine_backend, sample_size=_SAMPLE_SIZE, score_threshold=_DEFAULT_SCORE_THRESHOLD)</p></td>
+<td><p>Identify infotypes for each column in the dataframe.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#data_describe.privacy.detection.encrypt_text" title="data_describe.privacy.detection.encrypt_text"><code class="xref py py-obj docutils literal notranslate"><span class="pre">encrypt_text</span></code></a>(text, engine_backend, score_threshold=_DEFAULT_SCORE_THRESHOLD)</p></td>
+<td><p>Encrypt text using python’s hash function.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#data_describe.privacy.detection.hash_string" title="data_describe.privacy.detection.hash_string"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hash_string</span></code></a>(text)</p></td>
+<td><p>Applies SHA256 text hashing.</p></td>
+</tr>
 </tbody>
 </table>
 <dl class="py function">
@@ -263,6 +311,162 @@ encrypt: Anonymize the sensitive data</p></li>
 <dd><p>Show the transformed data or infotypes.</p>
 </dd></dl>
 
+</dd></dl>
+
+<dl class="py function">
+<dt id="data_describe.privacy.detection.compute_sensitive_data">
+<code class="sig-prename descclassname">data_describe.privacy.detection.</code><code class="sig-name descname">compute_sensitive_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">df</span></em>, <em class="sig-param"><span class="n">mode</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'redact'</span></em>, <em class="sig-param"><span class="n">detect_infotypes</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="n">columns</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>list<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">score_threshold</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">_DEFAULT_SCORE_THRESHOLD</span></em>, <em class="sig-param"><span class="n">sample_size</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">_SAMPLE_SIZE</span></em>, <em class="sig-param"><span class="n">engine_backend</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.privacy.detection.compute_sensitive_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Identifies, redacts, and encrypts PII data.</p>
+<p>Note: sensitive_data uses Microsoft’s Presidio in the backend. Presidio can be help identify sensitive data.
+However, because Presidio uses trained ML models, there is no guarantee that Presidio will find all sensitive information.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>DataFrame</em>) – The dataframe</p></li>
+<li><p><strong>mode</strong> (<em>str</em>) – Select ‘redact’ or ‘encrypt’.
+redact: Redact the sensitive data
+encrypt: Anonymize the sensitive data</p></li>
+<li><p><strong>detect_infotypes</strong> (<em>bool</em>) – If True, identifies infotypes for each column</p></li>
+<li><p><strong>columns</strong> (<em>[</em><em>str</em><em>]</em>) – Defaults to None</p></li>
+<li><p><strong>score_threshold</strong> (<em>float</em>) – Minimum confidence value for detected entities to be returned. Default is 0.2.</p></li>
+<li><p><strong>sample_size</strong> (<em>int</em>) – Number of sampled rows used for identifying column infotypes. Default is 100.</p></li>
+<li><p><strong>engine_backend</strong> – The backend analyzer engine. Default is presidio_analyzer.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>SensitiveDataWidget</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="data_describe.privacy.detection.identify_pii">
+<code class="sig-prename descclassname">data_describe.privacy.detection.</code><code class="sig-name descname">identify_pii</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">text</span></em>, <em class="sig-param"><span class="n">engine_backend</span></em>, <em class="sig-param"><span class="n">score_threshold</span><span class="o">=</span><span class="default_value">_DEFAULT_SCORE_THRESHOLD</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.privacy.detection.identify_pii" title="Permalink to this definition">¶</a></dt>
+<dd><p>Identifies infotypes contained in a string.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>text</strong> (<em>str</em>) – A string value</p></li>
+<li><p><strong>engine_backend</strong> – The backend analyzer engine. Default is presidio_analyzer.</p></li>
+<li><p><strong>score_threshold</strong> (<em>float</em>) – Minimum confidence value for detected entities to be returned</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>List of presidio_analyzer.recognizer_result.RecognizerResult</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="data_describe.privacy.detection.create_mapping">
+<code class="sig-prename descclassname">data_describe.privacy.detection.</code><code class="sig-name descname">create_mapping</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">text</span></em>, <em class="sig-param"><span class="n">response</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.privacy.detection.create_mapping" title="Permalink to this definition">¶</a></dt>
+<dd><p>Identifies sensitive data and creates a mapping with the hashed data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>text</strong> (<em>str</em>) – String value</p></li>
+<li><p><strong>response</strong> – List of presidio_analyzer.recognizer_result.RecognizerResult</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Mapping of the hashed data with the redacted string
+ref_text (str): String with hashed values</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>word_mapping (dict)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="data_describe.privacy.detection.redact_info">
+<code class="sig-prename descclassname">data_describe.privacy.detection.</code><code class="sig-name descname">redact_info</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">text</span></em>, <em class="sig-param"><span class="n">engine_backend</span></em>, <em class="sig-param"><span class="n">score_threshold</span><span class="o">=</span><span class="default_value">_DEFAULT_SCORE_THRESHOLD</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.privacy.detection.redact_info" title="Permalink to this definition">¶</a></dt>
+<dd><p>Redact sensitive data with mapping between hashed values and infotype.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>text</strong> (<em>str</em>) – String value</p></li>
+<li><p><strong>engine_backend</strong> – The backend analyzer engine. Default is presidio_analyzer.</p></li>
+<li><p><strong>score_threshold</strong> (<em>float</em>) – Minimum confidence value for detected entities to be returned</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>String with redacted information</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="data_describe.privacy.detection.identify_column_infotypes">
+<code class="sig-prename descclassname">data_describe.privacy.detection.</code><code class="sig-name descname">identify_column_infotypes</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data_series</span></em>, <em class="sig-param"><span class="n">engine_backend</span></em>, <em class="sig-param"><span class="n">sample_size</span><span class="o">=</span><span class="default_value">_SAMPLE_SIZE</span></em>, <em class="sig-param"><span class="n">score_threshold</span><span class="o">=</span><span class="default_value">_DEFAULT_SCORE_THRESHOLD</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.privacy.detection.identify_column_infotypes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Identifies the infotype of a pandas series object using a sample of rows.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data_series</strong> (<em>Series</em>) – A Series</p></li>
+<li><p><strong>engine_backend</strong> – The backend analyzer engine. Default is presidio_analyzer.</p></li>
+<li><p><strong>sample_size</strong> (<em>int</em>) – Number of rows to sample from</p></li>
+<li><p><strong>score_threshold</strong> (<em>float</em>) – Minimum confidence value for detected entities to be returned</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>List of infotypes</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="data_describe.privacy.detection.identify_infotypes">
+<code class="sig-prename descclassname">data_describe.privacy.detection.</code><code class="sig-name descname">identify_infotypes</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">df</span></em>, <em class="sig-param"><span class="n">engine_backend</span></em>, <em class="sig-param"><span class="n">sample_size</span><span class="o">=</span><span class="default_value">_SAMPLE_SIZE</span></em>, <em class="sig-param"><span class="n">score_threshold</span><span class="o">=</span><span class="default_value">_DEFAULT_SCORE_THRESHOLD</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.privacy.detection.identify_infotypes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Identify infotypes for each column in the dataframe.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>DataFrame</em>) – The dataframe</p></li>
+<li><p><strong>engine_backend</strong> – The backend analyzer engine. Default is presidio_analyzer.</p></li>
+<li><p><strong>sample_size</strong> (<em>int</em>) – Number of rows to sample from</p></li>
+<li><p><strong>score_threshold</strong> (<em>float</em>) – Minimum confidence value for detected entities to be returned</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Dictionary with columns as keys and values as infotypes detected</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="data_describe.privacy.detection.encrypt_text">
+<code class="sig-prename descclassname">data_describe.privacy.detection.</code><code class="sig-name descname">encrypt_text</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">text</span></em>, <em class="sig-param"><span class="n">engine_backend</span></em>, <em class="sig-param"><span class="n">score_threshold</span><span class="o">=</span><span class="default_value">_DEFAULT_SCORE_THRESHOLD</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.privacy.detection.encrypt_text" title="Permalink to this definition">¶</a></dt>
+<dd><p>Encrypt text using python’s hash function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>text</strong> (<em>str</em>) – A string value</p></li>
+<li><p><strong>engine_backend</strong> – The backend analyzer engine. Default is presidio_analyzer.</p></li>
+<li><p><strong>score_threshold</strong> (<em>float</em>) – Minimum confidence value for detected entities to be returned</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Text with hashed sensitive data</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="data_describe.privacy.detection.hash_string">
+<code class="sig-prename descclassname">data_describe.privacy.detection.</code><code class="sig-name descname">hash_string</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">text</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.privacy.detection.hash_string" title="Permalink to this definition">¶</a></dt>
+<dd><p>Applies SHA256 text hashing.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>text</strong> (<em>str</em>) – The string value</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Hashed text</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>sha_signature</p>
+</dd>
+</dl>
 </dd></dl>
 
 </div>

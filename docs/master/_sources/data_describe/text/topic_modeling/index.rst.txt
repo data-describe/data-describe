@@ -12,6 +12,11 @@ data_describe.text.topic_modeling
    data_describe.text.topic_modeling.topic_model
 
 
+.. data:: gensim
+   
+
+   
+
 .. function:: topic_model(text_docs: List[str], model_type: str = 'LDA', num_topics: Optional[int] = None, min_topics: int = 2, max_topics: int = 10, no_below: int = 10, no_above: float = 0.2, tfidf: bool = True, model_kwargs: Optional[Dict] = None)
 
    Creates topic model object, trains topic model, and assigns relevant attributes to topic model object.

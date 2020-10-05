@@ -6,11 +6,3 @@ data_describe.backends.compute._modin
 .. py:module:: data_describe.backends.compute._modin
 
 
-.. toctree::
-   :titlesonly:
-   :maxdepth: 1
-
-   dimensionality_reduction/index.rst
-   summary/index.rst
-
-

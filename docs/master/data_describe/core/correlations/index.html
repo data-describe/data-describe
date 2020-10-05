@@ -109,6 +109,24 @@
 <ul>
 <li class="toctree-l4"><a class="reference internal" href="#data_describe.core.correlations.CorrelationMatrixWidget">CorrelationMatrixWidget</a></li>
 </ul>
+<ul>
+<li class="toctree-l4"><a class="reference internal" href="#data_describe.core.correlations.cramers_v_matrix">cramers_v_matrix</a></li>
+</ul>
+<ul>
+<li class="toctree-l4"><a class="reference internal" href="#data_describe.core.correlations.cramers_v">cramers_v</a></li>
+</ul>
+<ul>
+<li class="toctree-l4"><a class="reference internal" href="#data_describe.core.correlations.correlation_ratio_matrix">correlation_ratio_matrix</a></li>
+</ul>
+<ul>
+<li class="toctree-l4"><a class="reference internal" href="#data_describe.core.correlations.correlation_ratio">correlation_ratio</a></li>
+</ul>
+<ul>
+<li class="toctree-l4"><a class="reference internal" href="#data_describe.core.correlations.reorder_by_cluster">reorder_by_cluster</a></li>
+</ul>
+<ul>
+<li class="toctree-l4"><a class="reference internal" href="#data_describe.core.correlations.reorder_by_original">reorder_by_original</a></li>
+</ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../data_heatmap/index.html">data_describe.core.data_heatmap</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../distributions/index.html">data_describe.core.distributions</a></li>
@@ -229,6 +247,24 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="#data_describe.core.correlations.correlation_matrix" title="data_describe.core.correlations.correlation_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">correlation_matrix</span></code></a>(data, cluster=False, categorical=False, compute_backend=None, viz_backend=None, **kwargs)</p></td>
 <td><p>Correlation matrix of numeric variables.</p></td>
 </tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#data_describe.core.correlations.cramers_v_matrix" title="data_describe.core.correlations.cramers_v_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cramers_v_matrix</span></code></a>(df)</p></td>
+<td><p>Computes Cramer’s V for all column pairs.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#data_describe.core.correlations.cramers_v" title="data_describe.core.correlations.cramers_v"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cramers_v</span></code></a>(x, y)</p></td>
+<td><p>Calculates Cramer’s V statistic for categorical-categorical association.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#data_describe.core.correlations.correlation_ratio_matrix" title="data_describe.core.correlations.correlation_ratio_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">correlation_ratio_matrix</span></code></a>(num_df, cat_df)</p></td>
+<td><p>Computes correlation ratio for all numeric-categoric pairs of columns.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#data_describe.core.correlations.correlation_ratio" title="data_describe.core.correlations.correlation_ratio"><code class="xref py py-obj docutils literal notranslate"><span class="pre">correlation_ratio</span></code></a>(categorical, numeric)</p></td>
+<td><p>Computes correlation ratio between a categorical column and numeric column.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#data_describe.core.correlations.reorder_by_cluster" title="data_describe.core.correlations.reorder_by_cluster"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reorder_by_cluster</span></code></a>(association_matrix)</p></td>
+<td><p>Reorder an association matrix by cluster distances.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#data_describe.core.correlations.reorder_by_original" title="data_describe.core.correlations.reorder_by_original"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reorder_by_original</span></code></a>(association_matrix, original_df)</p></td>
+<td><p>Reorder the matrix to the original order.</p></td>
+</tr>
 </tbody>
 </table>
 <dl class="py function">
@@ -264,6 +300,107 @@ correlation) are in the range [0, 1].</p></li>
 <dd><p>Show the Correlation Matrix plot.</p>
 </dd></dl>
 
+</dd></dl>
+
+<dl class="py function">
+<dt id="data_describe.core.correlations.cramers_v_matrix">
+<code class="sig-prename descclassname">data_describe.core.correlations.</code><code class="sig-name descname">cramers_v_matrix</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">df</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.core.correlations.cramers_v_matrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes Cramer’s V for all column pairs.</p>
+<p>Adapted from <a class="reference external" href="https://github.com/shakedzy/dython/blob/master/dython/nominal.py">https://github.com/shakedzy/dython/blob/master/dython/nominal.py</a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>df</strong> (<em>DataFrame</em>) – A data frame containing only categorical features</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A pandas data frame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="data_describe.core.correlations.cramers_v">
+<code class="sig-prename descclassname">data_describe.core.correlations.</code><code class="sig-name descname">cramers_v</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">y</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.core.correlations.cramers_v" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates Cramer’s V statistic for categorical-categorical association.</p>
+<p>Adapted from <a class="reference external" href="https://github.com/shakedzy/dython/blob/master/dython/nominal.py">https://github.com/shakedzy/dython/blob/master/dython/nominal.py</a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> – A list, numpy array, or pandas series of categorical measurements</p></li>
+<li><p><strong>y</strong> – A list, numpy array, or pandas series of categorical measurements</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Cramer’s V value (float)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="data_describe.core.correlations.correlation_ratio_matrix">
+<code class="sig-prename descclassname">data_describe.core.correlations.</code><code class="sig-name descname">correlation_ratio_matrix</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">num_df</span></em>, <em class="sig-param"><span class="n">cat_df</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.core.correlations.correlation_ratio_matrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes correlation ratio for all numeric-categoric pairs of columns.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>num_df</strong> (<em>DataFrame</em>) – A dataframe containing only numeric features</p></li>
+<li><p><strong>cat_df</strong> (<em>DataFrame</em><em>)</em>) – A dataframe containing only categorical features</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A pandas data frame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="data_describe.core.correlations.correlation_ratio">
+<code class="sig-prename descclassname">data_describe.core.correlations.</code><code class="sig-name descname">correlation_ratio</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">categorical</span></em>, <em class="sig-param"><span class="n">numeric</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.core.correlations.correlation_ratio" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes correlation ratio between a categorical column and numeric column.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>categorical</strong> (<em>Series</em>) – A Series of categorical values</p></li>
+<li><p><strong>numeric</strong> (<em>Series</em>) – A Series of numeric values</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Correlation Ratio value (float)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="data_describe.core.correlations.reorder_by_cluster">
+<code class="sig-prename descclassname">data_describe.core.correlations.</code><code class="sig-name descname">reorder_by_cluster</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">association_matrix</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.core.correlations.reorder_by_cluster" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reorder an association matrix by cluster distances.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>association_matrix</strong> (<em>DataFrame</em>) – A matrix of associations (similarity)</p></li>
+<li><p><strong>data</strong> (<em>DataFrame</em>) – The original data frame</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A Pandas data frame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="data_describe.core.correlations.reorder_by_original">
+<code class="sig-prename descclassname">data_describe.core.correlations.</code><code class="sig-name descname">reorder_by_original</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">association_matrix</span></em>, <em class="sig-param"><span class="n">original_df</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.core.correlations.reorder_by_original" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reorder the matrix to the original order.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>association_matrix</strong> (<em>(</em><em>DataFrame</em>) – The square matrix of correlations/associations</p></li>
+<li><p><strong>original_df</strong> (<em>DataFrame</em>) – The original data frame</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A Pandas Data frame</p>
+</dd>
+</dl>
 </dd></dl>
 
 </div>
