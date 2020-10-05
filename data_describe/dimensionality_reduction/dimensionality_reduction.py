@@ -186,7 +186,7 @@ def _pandas_compute_run_tsvd(data, n_components, column_names):
     return pd.DataFrame(reduc, columns=column_names), t_svd
 
 
-@requires("modin.pandas")
+@requires("modin")
 def _modin_compute_run_pca(data, n_components, column_names):
     """Performs PCA on the provided dataset.
 
@@ -204,7 +204,7 @@ def _modin_compute_run_pca(data, n_components, column_names):
     return _compat["modin.pandas"].DataFrame(reduc, columns=column_names), pca
 
 
-@requires("modin.pandas")
+@requires("modin")
 def _modin_compute_run_ipca(data, n_components, column_names):
     """Performs Incremental PCA on the provided dataset.
 
@@ -222,7 +222,7 @@ def _modin_compute_run_ipca(data, n_components, column_names):
     return _compat["modin.pandas"].DataFrame(reduc, columns=column_names), ipca
 
 
-@requires("modin.pandas")
+@requires("modin")
 def _modin_compute_run_tsne(data, n_components, apply_tsvd):
     """Performs dimensionality reduction using t-SNE on the provided dataset.
 
@@ -243,7 +243,7 @@ def _modin_compute_run_tsne(data, n_components, apply_tsvd):
     return _compat["modin.pandas"].DataFrame(reduc, columns=["ts1", "ts2"]), tsne
 
 
-@requires("modin.pandas")
+@requires("modin")
 def _modin_compute_run_tsvd(data, n_components, column_names):
     """Performs dimensionality reduction using TSVD on the provided dataset.
 

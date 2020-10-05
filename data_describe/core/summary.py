@@ -109,7 +109,7 @@ def _pandas_compute_data_summary(data):
         return summary
 
 
-@requires("modin.pandas")
+@requires("modin")
 def _modin_compute_data_summary(data):
     """Perform computation for summary statistics and data description.
 
