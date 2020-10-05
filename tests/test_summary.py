@@ -11,10 +11,7 @@ def load_summary(compute_backend_df):
 
 @pytest.fixture
 def load_series_summary(compute_backend_df):
-    return (
-        data_summary(compute_backend_df.iloc[:, 0]),
-        compute_backend_df.iloc[:, 0],
-    )
+    return (data_summary(compute_backend_df.iloc[:, 0]), compute_backend_df.iloc[:, 0])
 
 
 @pytest.mark.base
