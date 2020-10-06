@@ -19,7 +19,7 @@ def data_summary(data, compute_backend=None):
     )
 
 
-def agg_zero(series):
+def _count_zeros(series):
     """Count of zero values in a Pandas or Modin series.
 
     Args:
@@ -31,7 +31,7 @@ def agg_zero(series):
     return (series == 0).sum()
 
 
-def agg_null(series):
+def _count_nulls(series):
     """Count of null values in a Pandas or Modin series.
 
     Args:
@@ -43,7 +43,7 @@ def agg_null(series):
     return series.isnull().sum()
 
 
-def most_frequent(series):
+def _most_frequent(series):
     """Percent of most frequent value, per column, in a Pandas or Modin data frame.
 
     Args:
@@ -81,9 +81,9 @@ def _pandas_compute_data_summary(data):
     dtypes = data.agg([lambda x: x.dtype])
     moments = data.agg(["mean", "std", "median"])
     minmax = data.select_dtypes("number").agg(["min", "max"]).reindex(columns=columns)
-    zeros = data.select_dtypes("number").agg([agg_zero]).reindex(columns=columns)
-    null_summary = data.agg([agg_null])
-    freq_summary = data.agg([most_frequent])
+    zeros = data.select_dtypes("number").agg([_count_zeros]).reindex(columns=columns)
+    null_summary = data.agg([_count_nulls])
+    freq_summary = data.agg([_most_frequent])
 
     summary = (
         dtypes.append(moments, ignore_index=True)
@@ -137,9 +137,9 @@ def _modin_compute_data_summary(data):
     dtypes = data.agg([lambda x: x.dtype])
     moments = data.agg(["mean", "std", "median"])
     minmax = data.select_dtypes("number").agg(["min", "max"]).reindex(columns=columns)
-    zeros = data.select_dtypes("number").agg([agg_zero]).reindex(columns=columns)
-    null_summary = data.agg([agg_null])
-    freq_summary = data.agg([most_frequent])
+    zeros = data.select_dtypes("number").agg([_count_zeros]).reindex(columns=columns)
+    null_summary = data.agg([_count_nulls])
+    freq_summary = data.agg([_most_frequent])
 
     summary = (
         dtypes.append(moments, ignore_index=True)
