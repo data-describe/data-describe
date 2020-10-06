@@ -30,13 +30,15 @@ def correlation_matrix(
     Args:
         data (DataFrame): A data frame
         cluster (bool): If True, use clustering to reorder similar columns together
-
         categorical (bool): If True, calculate categorical associations using Cramer's V, Correlation Ratio, and
             Point-biserial coefficient (aka Matthews correlation coefficient). All associations (including Pearson
             correlation) are in the range [0, 1].
+        compute_backend: The compute backend.
+        viz_backend: The visualization backend.
+        **kwargs: Keyword arguments.
 
-        compute_backend: Select computing backend. Defaults to None (pandas).
-        viz_backend: The visualization backend. Only 'plotly' is supported. Defaults to plotly.
+    Raises:
+        ValueError: Invalid data input type.
 
     Returns:
         CorrelationMatrixWidget
@@ -71,6 +73,7 @@ class CorrelationMatrixWidget(BaseWidget):
             cluster_matrix (DataFrame, optional): The clustered association matrix. Defaults to None.
             categorical (bool, optional): True if association matrix contains categorical values. Defaults to None.
             viz_data (DataFrame): The data to be visualized. Defaults to None.
+            **kwargs: Keyword arguments.
         """
         super(CorrelationMatrixWidget, self).__init__(**kwargs)
         self.association_matrix = association_matrix
@@ -82,7 +85,18 @@ class CorrelationMatrixWidget(BaseWidget):
         return "data-describe Correlation Matrix Widget"
 
     def show(self, viz_backend=None, **kwargs):
-        """Show the Correlation Matrix plot."""
+        """Show the Correlation Matrix plot.
+
+        Args:
+            viz_backend: The visualization backend.
+            **kwargs: Keyword arguments.
+
+        Raises:
+            ValueError: Computed data is missing.
+
+        Returns:
+            The correlation matrix plot.
+        """
         backend = viz_backend or self.viz_backend
 
         if self.viz_data is None:
@@ -97,10 +111,13 @@ def _pandas_compute_correlation_matrix(data, cluster=False, categorical=False):
     Args:
         data (DataFrame): The data frame
         cluster (bool): If True, use clustering to reorder similar columns together
+        categorical (bool): If True, calculate categorical associations using Cramer's V,
+            Correlation Ratio, and Point-biserial coefficient (aka Matthews correlation
+            coefficient). All associations (including Pearson correlation) are in the
+            range [0, 1].
 
-        categorical (bool): If True, calculate categorical associations using Cramer's V, Correlation Ratio, and
-            Point-biserial coefficient (aka Matthews correlation coefficient). All associations (including Pearson
-            correlation) are in the range [0, 1]
+    Raises:
+        ValueError: Missing numeric data to compute correlations.
 
     Returns:
         CorrelationMatrixWidget
@@ -227,7 +244,7 @@ def correlation_ratio_matrix(num_df, cat_df):
 
     Args:
         num_df (DataFrame): A dataframe containing only numeric features
-        cat_df (DataFrame)): A dataframe containing only categorical features
+        cat_df (DataFrame): A dataframe containing only categorical features
 
     Returns:
         A pandas data frame
@@ -283,8 +300,7 @@ def reorder_by_cluster(association_matrix):
     """Reorder an association matrix by cluster distances.
 
     Args:
-        association_matrix (DataFrame): A matrix of associations (similarity)
-        data (DataFrame): The original data frame
+        association_matrix: A matrix of associations (similarity)
 
     Returns:
         A Pandas data frame
@@ -332,7 +348,7 @@ def reorder_by_original(association_matrix, original_df):
     """Reorder the matrix to the original order.
 
     Args:
-        association_matrix ((DataFrame): The square matrix of correlations/associations
+        association_matrix (DataFrame): The square matrix of correlations/associations
         original_df (DataFrame): The original data frame
 
     Returns:
