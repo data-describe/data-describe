@@ -22,11 +22,11 @@ class _Backend:
 
     def __init__(self, backends: List[ModuleType]):
         """Initialize with list of modules to search for implementation."""
-        self.backends = backends
+        self.backend_modules = backends
 
     def __getattr__(self, f: str):
         """Try to find the method implementation in the module list."""
-        for module in self.b:
+        for module in self.backend_modules:
             try:
                 return module.__getattribute__(f)
             except AttributeError:
