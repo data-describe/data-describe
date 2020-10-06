@@ -40,10 +40,10 @@ def plot_time_series(
 
     Raises:
         ValueError: Invalid input data type.
-        ValueError: `col` not a list or string.
+        ValueError: ```col``` not a list or string.
 
     Returns:
-        fig: The visualization
+        The visualization
     """
     if not isinstance(df, _DATAFRAME_TYPE):
         raise ValueError("Unsupported input data type")
@@ -81,7 +81,7 @@ def stationarity_test(
         ValueError: `col` not found in dataframe.
 
     Returns:
-        data: Pandas dataframe containing the statistics
+        Pandas dataframe containing the statistics
     """
     if not isinstance(df, _DATAFRAME_TYPE):
         raise ValueError("Unsupported input data type")
@@ -123,7 +123,7 @@ def plot_autocorrelation(
         ValueError: `col` not found in dataframe.
 
     Returns:
-        fig: The visualization
+        The visualization
     """
     if not isinstance(df, _DATAFRAME_TYPE):
         raise ValueError("Unsupported input data type")
@@ -163,7 +163,7 @@ def _pandas_compute_stationarity_test(
         ValueError: Invalid `test` type.
 
     Returns:
-        st: Pandas dataframe containing the statistics
+        Pandas dataframe containing the statistics
     """
     if test.lower() == "dickey-fuller":
         st = adf_test(timeseries, regression=regression, **kwargs)
@@ -245,7 +245,7 @@ def _pandas_compute_decompose_timeseries(df, col, model: str = "additive", **kwa
         **kwargs: Keyword arguments
 
     Returns:
-        result: statsmodels.tsa.seasonal.DecomposeResult object
+        statsmodels.tsa.seasonal.DecomposeResult object
     """
     return seasonal_decompose(df[col], model=model, **kwargs)
 
@@ -270,7 +270,7 @@ def _pandas_compute_autocorrelation(
         ValueError: Invalid `plot_type`.
 
     Returns:
-        data: numpy.ndarray containing the correlations
+        numpy.ndarray containing the correlations
     """
     if plot_type == "pacf":
         data = pacf(timeseries, n_lags, **kwargs)
@@ -295,7 +295,7 @@ def _plotly_viz_plot_time_series(
         title: Title of the plot. Defaults to "Time Series".
 
     Returns:
-        fig: The visualization
+        The visualization
     """
     if isinstance(col, list):
         data = [go.Scatter(x=df.index, y=df[c], name=c) for c in col]
@@ -324,7 +324,7 @@ def _plotly_viz_decomposition(result, dates, title="Time Series Decomposition"):
         title: Title of the plot. Defaults to "Time Series Decomposition".
 
     Returns:
-        fig: The visualization
+        The visualization
     """
     fig = make_subplots(rows=4, cols=1, x_title="Time", shared_xaxes=True)
     fig.add_trace(
@@ -368,7 +368,7 @@ def _plotly_viz_plot_autocorrelation(
         ValueError: Invalid `plot_type`.
 
     Returns:
-        fig: The visualization
+        The visualization
     """
     if plot_type == "acf":
         data = [go.Bar(y=data, showlegend=False, name=plot_type)]
@@ -409,7 +409,7 @@ def figure_layout(title="Time Series", xlabel="Date", ylabel="Variable"):
         ylabel: y-axis label. Defaults to "Variable".
 
     Returns:
-        layour: The plotly layout
+        The plotly layout
     """
     layout = go.Layout(
         title={
@@ -434,7 +434,7 @@ def _seaborn_viz_plot_time_series(df, col, result=None, decompose=False):
         decompose: Set as True to decompose the timeseries with moving average. result must not be None. Defaults to False.
 
     Returns:
-        fig: The visualization
+        The visualization
     """
     fig, ax = plt.subplots(
         figsize=(
@@ -463,7 +463,7 @@ def _seaborn_viz_decomposition(df, result):
         result: The statsmodels.tsa.seasonal.DecomposeResult object.
 
     Returns:
-        fig: The visualization
+        The visualization
     """
     fig, ax = plt.subplots(
         nrows=4,
@@ -500,7 +500,7 @@ def _seaborn_viz_plot_autocorrelation(
         ValueError: Invalid `plot_type`.
 
     Returns:
-        fig: The visualization
+        The visualization
     """
     fig, ax = plt.subplots(
         figsize=(
