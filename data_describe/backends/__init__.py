@@ -1,6 +1,5 @@
-"""data-describe backends.
+"""`backends` implements a pluggable architecture for the data-describe package.
 
-`backends` implements a pluggable architecture for the data-describe package.
 This allows third-party libraries to provide alternative implementation details
 for data-describe: for example, implementing Bokeh plot (visualizations, abbreviated
 as `viz`) or implementing calculations on compute clusters (`compute`).

@@ -67,6 +67,9 @@ def _load_viz_backend(backend: str) -> Dict[str, ModuleType]:
     Args:
         backend: The name of the backend, usually the package name
 
+    Raises:
+        ValueError: Unable to find a module with the given backend name.
+
     Returns:
         The imported backend module
     """
@@ -133,6 +136,9 @@ def _load_compute_backend(backend) -> Dict[str, ModuleType]:
 
     Args:
         backend: The name of the backend, usually the package name
+
+    Raises:
+        ValueError: Unable to find a module with the given backend name.
 
     Returns:
         The dictionary of loaded backend module(s)
