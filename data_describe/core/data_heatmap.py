@@ -21,12 +21,13 @@ def data_heatmap(data, missing=False, compute_backend=None, viz_backend=None, **
 
     Args:
         data: A pandas data frame
-        missing: If True, show only missing values
-        interactive: If True, return an interactive visualization (using Plotly). Otherwise, uses Seaborn.
-
+        missing (bool): If True, show only missing values
+        compute_backend: The compute backend.
+        viz_backend: The visualization backend.
+        **kwargs: Keyword arguments
 
     Returns:
-        Visualization
+        The data heatmap.
     """
     data, colnames = _get_compute_backend(compute_backend, data).compute_data_heatmap(
         data, missing=missing, **kwargs
@@ -47,8 +48,11 @@ def _pandas_compute_data_heatmap(
 
     Args:
         data: The dataframe
-        missing: If True, uses missing values instead
-        kwargs: Not implemented
+        missing (bool): If True, uses missing values instead
+        **kwargs: Keyword arguments.
+
+    Raises:
+        ValueError: Invalid input data type.
 
     Returns:
         (dataframe, column_names)
@@ -75,9 +79,12 @@ def _plotly_viz_data_heatmap(
 
     Args:
         data: The dataframe
-        colnames: The column names, used for tick labels
-        missing: If True, plots missing values instead
-        kwargs: Keyword arguments passed to seaborn.heatmap
+        colnames (List[str]): The column names, used for tick labels
+        missing (bool): If True, plots missing values instead
+        **kwargs: Keyword arguments.
+
+    Returns:
+        The data heatmap as a Plotly figure.
     """
     data_fig = go.Heatmap(
         z=np.flip(data.values, axis=0),

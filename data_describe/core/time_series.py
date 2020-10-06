@@ -38,6 +38,10 @@ def plot_time_series(
         viz_backend: Select visualization backend. Defaults to None (seaborn).
         **kwargs: Keyword arguments
 
+    Raises:
+        ValueError: Invalid input data type.
+        ValueError: `col` not a list or string.
+
     Returns:
         fig: The visualization
     """
@@ -71,6 +75,10 @@ def stationarity_test(
         regression: Constant and trend order to include in regression. Choose between 'c','ct','ctt', and 'nc'. Defaults to 'c'
         compute_backend: Select computing backend. Defaults to None (pandas).
         **kwargs: Keyword arguments
+
+    Raises:
+        ValueError: Invalid input data type.
+        ValueError: `col` not found in dataframe.
 
     Returns:
         data: Pandas dataframe containing the statistics
@@ -110,6 +118,10 @@ def plot_autocorrelation(
         viz_backend: Select visualization backend. Defaults to None (seaborn).
         **kwargs: Keyword arguments
 
+    Raises:
+        ValueError: Invalid input data type.
+        ValueError: `col` not found in dataframe.
+
     Returns:
         fig: The visualization
     """
@@ -146,6 +158,9 @@ def _pandas_compute_stationarity_test(
         test: Choice of stationarity test. "kpss" or "dickey-fuller". Defaults to "dickey-fuller".
         regression: Constant and trend order to include in regression. Choose between 'c','ct','ctt', and 'nc'
         **kwargs: Keyword arguments for adf and kpss
+
+    Raises:
+        ValueError: Invalid `test` type.
 
     Returns:
         st: Pandas dataframe containing the statistics
@@ -195,11 +210,9 @@ def kpss_test(timeseries, regression: str = "c", nlags: Optional[int] = None, **
 
     Args:
         timeseries: The timeseries
-
         regression: The null hypothesis for the KPSS test.
             'c' : The data is stationary around a constant (default).
             'ct' : The data is stationary around a trend.
-
         nlags:  Indicates the number of lags to be used. Defaults to None.
         **kwargs: Keyword arguments for kpss
 
@@ -222,7 +235,8 @@ def kpss_test(timeseries, regression: str = "c", nlags: Optional[int] = None, **
 def _pandas_compute_decompose_timeseries(df, col, model: str = "additive", **kwargs):
     """Seasonal decomposition using moving averages.
 
-    NOTE: decomposition object in modin does not preserve datetime index.
+    Note:
+        The decomposition object in Modin does not preserve datetime index.
 
     Args:
         df: The dataframe
@@ -251,6 +265,9 @@ def _pandas_compute_autocorrelation(
         plot_type: Choose between 'acf' or 'pacf. Defaults to "acf".
         fft: If True, computes ACF via fourier fast transform (FFT). Defaults to False.
         **kwargs: Keyword arguments
+
+    Raises:
+        ValueError: Invalid `plot_type`.
 
     Returns:
         data: numpy.ndarray containing the correlations
@@ -343,8 +360,12 @@ def _plotly_viz_plot_autocorrelation(
     Args:
         data: numpy.ndarray containing the correlations
         white_noise: Significance threshold
+        n_lags: The number of lags to plot.
         plot_type: Choose between 'acf' or 'pacf. Defaults to "pacf".
         title: Title of the plot. Defaults to "Autocorrelation Plot".
+
+    Raises:
+        ValueError: Invalid `plot_type`.
 
     Returns:
         fig: The visualization
@@ -385,7 +406,7 @@ def figure_layout(title="Time Series", xlabel="Date", ylabel="Variable"):
     Args:
         title: Title of the plot. Defaults to "Time Series".
         xlabel: x-axis label. Defaults to "Date".
-        ylabel; y-axis label. Defaults to "Variable".
+        ylabel: y-axis label. Defaults to "Variable".
 
     Returns:
         layour: The plotly layout
@@ -472,7 +493,11 @@ def _seaborn_viz_plot_autocorrelation(
         timeseries: Series object containing datetime index
         plot_type: Choose between 'acf' or 'pacf. Defaults to "pacf".
         n_lags: Number of lags to return autocorrelation for. Defaults to 40.
-        **kwargs: Keyword arguments for plot_acf and plot_pacf
+        fft (bool): If True, computes ACF via FFT.
+        **kwargs: Keyword arguments for plot_acf or plot_pacf.
+
+    Raises:
+        ValueError: Invalid `plot_type`.
 
     Returns:
         fig: The visualization

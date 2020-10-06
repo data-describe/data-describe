@@ -27,14 +27,13 @@ def importance(
     Args:
         data: A Pandas data frame
         target: Name of the response column, as a string
-        preprocess_func: A custom preprocessing function that takes a Pandas dataframe and the target/response column
-        as a string. Returns X and y as tuple
+        preprocess_func: A custom preprocessing function that takes a Pandas dataframe
+            and the target/response column as a string. Returns X and y as tuple.
         estimator: A custom sklearn estimator. Default is Random Forest Classifier
         return_values: If True, only the importance values as a numpy array
         truncate: If True, negative importance values will be truncated (set to zero)
         compute_backend: The compute backend
         viz_backend: The visualization backend
-
         **kwargs: Other arguments to be passed to the preprocess function
 
     Returns:
@@ -67,8 +66,8 @@ def _pandas_compute_importance(
     Args:
         data: A Pandas data frame
         target: Name of the response column, as a string
-        preprocess_func: A custom preprocessing function that takes a Pandas dataframe and the target/response column
-        as a string. Returns X and y as tuple
+        preprocess_func: A custom preprocessing function that takes a Pandas dataframe
+            and the target/response column as a string. Returns X and y as tuple.
         estimator: A custom sklearn estimator. Default is Random Forest Classifier
         truncate: If True, negative importance values will be truncated (set to zero)
         **kwargs: Other arguments to be passed to the preprocess function

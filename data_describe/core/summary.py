@@ -9,6 +9,7 @@ def data_summary(data, compute_backend=None):
 
     Args:
         data: The dataframe
+        compute_backend: The compute backend.
 
     Returns:
         The dataframe with metrics in rows
@@ -46,7 +47,7 @@ def most_frequent(series):
     """Percent of most frequent value, per column, in a Pandas or Modin data frame.
 
     Args:
-        data: The Pandas or Modin dataframe
+        series: The Pandas or Modin series
 
     Returns:
         Percent of most frequent value per column
@@ -62,6 +63,9 @@ def _pandas_compute_data_summary(data):
 
     Args:
         data: The dataframe
+
+    Raises:
+        ValueError: Invalid input data type.
 
     Returns:
         The Pandas dataframe with metrics in rows
@@ -115,6 +119,9 @@ def _modin_compute_data_summary(data):
 
     Args:
         data: The dataframe
+
+    Raises:
+        ValueError: Invalid input data type.
 
     Returns:
         The Modin dataframe with metrics in rows

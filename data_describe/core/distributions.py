@@ -1,4 +1,4 @@
-from typing import Dict, Any
+from typing import Dict, Any, Optional
 
 from matplotlib.figure import Figure
 from matplotlib.gridspec import GridSpec
@@ -20,15 +20,15 @@ def distribution(
     Args:
         data: Data Frame
         diagnostic: If True, will run diagnostics to select "interesting" plots.
-        plot_all: If True, plot all features without filtering for "interesting" features
-        max_categories: Maximum categories to show in violin plots. Additional categories will be combined into the "__OTHER__" contrast.
-        spike: The factor threshold for identifying spikey histograms
-        skew: The skew threshold for identifying skewed histograms
-        hist_kwargs: Keyword arguments to be passed to seaborn.histplot
-        violin_kwargs: Keyword arguments to be passed to seaborn.violinplot
+        compute_backend: The compute backend.
+        viz_backend: The visualization backend.
+        **kwargs: Keyword arguments.
+
+    Raises:
+        ValueError: Invalid input data type.
 
     Returns:
-        Matplotlib graphics
+        DistributionWidget
     """
     if not isinstance(data, _DATAFRAME_TYPE):
         raise ValueError("DataFrame required.")
@@ -64,6 +64,7 @@ class DistributionWidget(BaseWidget):
 
         Args:
             viz_backend (str, optional): The visualization backend.
+            **kwargs: Keyword arguments.
         """
         summary_string = """Distribution Summary:
         Skew detected in {} columns.
@@ -81,7 +82,11 @@ class DistributionWidget(BaseWidget):
         print(summary_string)
 
     def plot_distribution(
-        self, x: str = None, contrast: str = None, viz_backend=None, **kwargs
+        self,
+        x: Optional[str] = None,
+        contrast: Optional[str] = None,
+        viz_backend: Optional[str] = None,
+        **kwargs,
     ):
         """Generate distribution plot(s).
 
@@ -105,17 +110,16 @@ class DistributionWidget(BaseWidget):
 
 
 def _pandas_compute_distribution(
-    data, diagnostic=True, spike_factor=10, skew_factor=3, **kwargs
+    data, diagnostic: bool = True, spike_factor=10, skew_factor=3, **kwargs
 ):
     """Compute distribution metrics.
 
     Args:
         data (DataFrame): The data
-        diagnostic (bool, optional): If True, will compute diagnostics used to select "interesting" plots.
-        max_categories (int, optional): Maximum categories to display. Defaults to 20.
-        label_name (str, optional): The label to use for categories combined after max_categories. Defaults to "(OTHER)".
-        spike_factor (int, optional): The spikey-ness factor used to flag spikey histograms. Defaults to 10.
-        skew_factor (int, optional): The skew-ness factor used to flag skewed histograms. Defaults to 3.
+        diagnostic (bool): If True, will compute diagnostics used to select "interesting" plots.
+        spike_factor (int): The spikey-ness factor used to flag spikey histograms. Defaults to 10.
+        skew_factor (int): The skew-ness factor used to flag skewed histograms. Defaults to 3.
+        **kwargs: Keyword arguments.
 
     Returns:
         DistributionWidget
@@ -134,11 +138,11 @@ def _pandas_compute_distribution(
     )
 
 
-def _seaborn_viz_distribution(data, x: str, contrast: str = None, **kwargs):
+def _seaborn_viz_distribution(data, x: str, contrast: Optional[str] = None, **kwargs):
     """Plots the distribution.
 
     Args:
-        data (DataFrame): The data
+        data: The data
         x (str): The column to visualize.
         contrast (str, optional): The column to use as a contrast.
         **kwargs: Keyword arguments passed to underlying plot functions.
@@ -155,10 +159,10 @@ def _seaborn_viz_distribution(data, x: str, contrast: str = None, **kwargs):
 def _seaborn_viz_numeric(
     data,
     x: str,
-    contrast: str = None,
+    contrast: Optional[str] = None,
     mode: str = "combo",
-    hist_kwargs: dict = None,
-    violin_kwargs: dict = None,
+    hist_kwargs: Optional[dict] = None,
+    violin_kwargs: Optional[dict] = None,
     **kwargs,
 ):
     """Plots a histogram/violin plot.
@@ -167,10 +171,17 @@ def _seaborn_viz_numeric(
         data (DataFrame): The data
         x (str): The name of the column to plot
         contrast (str, optional): The name of the categorical column to use for multiple contrasts.
-        mode (str): {'combo', 'violin', 'hist'} The type of plot to display. Defaults to a combined histogram/violin plot.
+        mode (str): {'combo', 'violin', 'hist'} The type of plot to display.
+            Defaults to a combined histogram/violin plot.
         hist_kwargs (dict, optional): Keyword args for seaborn.histplot.
         violin_kwargs (dict, optional): Keyword args for seaborn.violinplot.
         **kwargs: Keyword args to be passed to all underlying plotting functions.
+
+    Raises:
+        ValueError: Unknown plot mode.
+
+    Returns:
+        Matplotlib figure
     """
     hist_kwargs = hist_kwargs or {}
     violin_kwargs = violin_kwargs or {}
@@ -209,21 +220,19 @@ def _seaborn_viz_numeric(
         raise ValueError("Unknown value for 'mode' plot type")
 
 
-def _seaborn_viz_categorical(
-    data,
-    x: str,
-    contrast: str = None,
-    bar_kwargs: dict = None,
-):
+def _seaborn_viz_categorical(data, x: str, contrast: Optional[str] = None, **kwargs):
     """Plots a bar count plot for a categorical feature.
 
     Args:
         data (DataFrame): The data
         x (str): The name of the column to plot
         contrast (str, optional): The name of the categorical column to use for multiple contrasts.
-        bar_kwargs (dict, optional): Keyword args for seaborn.countplot.
+        **kwargs: Keyword args for seaborn.countplot.
+
+    Returns:
+        Matplotlib figure
     """
-    bar_kwargs = bar_kwargs or {}
+    bar_kwargs = kwargs or {}
     fig = Figure(
         figsize=(
             get_option("display.matplotlib.fig_width"),
@@ -236,7 +245,7 @@ def _seaborn_viz_categorical(
     return fig
 
 
-def _seaborn_viz_histogram(data, x: str, contrast: str = None, **kwargs):
+def _seaborn_viz_histogram(data, x: str, contrast: Optional[str] = None, **kwargs):
     """Plot a single histogram.
 
     Args:
@@ -244,6 +253,9 @@ def _seaborn_viz_histogram(data, x: str, contrast: str = None, **kwargs):
         x (str): The name of the column to plot.
         contrast (str, optional): The name of the categorical column to use for multiple contrasts.
         **kwargs: Keyword arguments passed to seaborn.distplot
+
+    Raises:
+        ValueError: Not a numeric column.
 
     Returns:
         Seaborn Axis Object
@@ -262,7 +274,7 @@ def _seaborn_viz_histogram(data, x: str, contrast: str = None, **kwargs):
     return ax
 
 
-def _seaborn_viz_violin(data, x: str, contrast: str = None, **kwargs):
+def _seaborn_viz_violin(data, x: str, contrast: Optional[str] = None, **kwargs):
     """Plot a single violin plot.
 
     Args:
@@ -270,6 +282,9 @@ def _seaborn_viz_violin(data, x: str, contrast: str = None, **kwargs):
         x (str): The name of the column to plot.
         contrast (str, optional): The name of the categorical column to use for multiple contrasts.
         **kwargs: Keyword arguments passed to seaborn.violinplot
+
+    Raises:
+        ValueError: Not a numeric column.
 
     Returns:
         Seaborn Axis Object
@@ -287,7 +302,7 @@ def _seaborn_viz_violin(data, x: str, contrast: str = None, **kwargs):
     return ax
 
 
-def _seaborn_viz_bar(data, x: str, contrast: str = None, **kwargs):
+def _seaborn_viz_bar(data, x: str, contrast: Optional[str] = None, **kwargs):
     """Plot a bar chart (count plot) for categorical features.
 
     Args:
