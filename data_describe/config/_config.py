@@ -15,11 +15,14 @@ _global_config: Dict = {
 }
 
 
-def get_root(path: str) -> Any:
+def _get_root(path: str) -> Any:
     """Get the parent dict (node) of a given path from the global config nested dict.
 
     Args:
-        path: The "dot-style" path to the configuration item, e.g. 'backends.viz'
+        path (str): The "dot-style" path to the configuration item, e.g. 'backends.viz'
+
+    Raises:
+        ValueError: Configuration item doesn't exist.
 
     Returns:
         The parent dict, to be used to access the configuration item or section
@@ -44,7 +47,7 @@ def get_option(path: str) -> Any:
     Returns:
         The current value of the option
     """
-    root, key = get_root(path)
+    root, key = _get_root(path)
     return root[key]
 
 
@@ -55,12 +58,12 @@ def set_option(path: str, value: Any) -> None:
         path: The "dot-style" path to the configuration item, e.g. 'backends.viz'
         value: The value to update
     """
-    root, key = get_root(path)
+    root, key = _get_root(path)
     if not isinstance(root[key], dict):
         root[key] = value
 
 
-def get_config() -> Dict:
+def _get_config() -> Dict:
     """Get a deep copy of the current configuration.
 
     Returns:
@@ -69,7 +72,7 @@ def get_config() -> Dict:
     return copy.deepcopy(_global_config)
 
 
-def set_config(config: Dict) -> None:
+def _set_config(config: Dict) -> None:
     """Updates the current configuration dictionary.
 
     Args:
@@ -79,7 +82,7 @@ def set_config(config: Dict) -> None:
         set_option(k, v)
 
 
-def flatten_config(config: Dict) -> Dict:
+def _flatten_config(config: Dict) -> Dict:
     """Flattens the nested configuration dictionary into "dot-style" paths for each item.
 
     Args:
@@ -161,9 +164,15 @@ def update_context(*args):
             1. A single dictionary, either nested or using the configuration "path"s for keys
             2. Pairs of arguments, where the first argument is the configuration "path" and the
                 second is the value
+
+    Raises:
+        ValueError: Unsupported input format for assigning configuration values.
+
+    Yields:
+        Configuration context.
     """
     if len(args) == 1:
-        new_config = flatten_config(args[0])
+        new_config = _flatten_config(args[0])
     elif len(args) % 2 == 0:
         new_config = {
             k: v for k, v in [(args[i], args[i + 1]) for i in range(0, len(args), 2)]
@@ -173,11 +182,11 @@ def update_context(*args):
             "Arguments must be either a dictionary or pairs of path, value"
         )
 
-    old_config = flatten_config(get_config())
-    set_config(new_config)
+    old_config = _flatten_config(_get_config())
+    _set_config(new_config)
 
     try:
-        yield get_config()
+        yield _get_config()
 
     finally:
-        set_config(old_config)
+        _set_config(old_config)
