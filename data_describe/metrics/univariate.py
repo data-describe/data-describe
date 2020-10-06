@@ -11,6 +11,9 @@ def spikey(data):
 
     Args:
         data: The 1-d data array
+
+    Returns:
+        Ratio of the tallest bin height and the average bin height.
     """
     if isinstance(data, _SERIES_TYPE):
         data = data.dropna()
@@ -27,5 +30,8 @@ def skewed(data):
 
     Args:
         data: The 1-d data array
+
+    Returns:
+        The data skew.
     """
     return skew(data)
