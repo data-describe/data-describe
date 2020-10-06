@@ -3,7 +3,7 @@ import tempfile
 
 import pandas as pd
 
-from data_describe.compat import _compat, requires
+from data_describe.compat import _compat, _requires
 from data_describe.misc.file_ext import _FileExtensionTypes, is_filetype
 
 
@@ -81,7 +81,7 @@ def _read_file_type(filepath, **kwargs):
         return pd.read_csv(filepath, sep=sep, **kwargs)
 
 
-@requires("google.cloud.storage")
+@_requires("google.cloud.storage")
 def download_gcs_file(filepath, bucket=None, prefix=None, **kwargs):
     """Downloads files from Google Cloud Storage.
 

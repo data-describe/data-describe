@@ -24,7 +24,7 @@ import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
 
 from data_describe.text import text_preprocessing
-from data_describe.compat import requires, _compat
+from data_describe.compat import _requires, _compat
 
 if TYPE_CHECKING:
     nltk = _compat["nltk"]
@@ -32,7 +32,7 @@ if TYPE_CHECKING:
 warnings.filterwarnings("ignore", category=UserWarning, module="gensim")
 
 
-@requires("nltk")
+@_requires("nltk")
 def tokenize(text_docs: Iterable[str]) -> Iterable[Iterable[str]]:
     """Turns list of documents into "bag of words" format.
 
@@ -141,7 +141,7 @@ def remove_single_char_and_spaces(
     return (doc for doc in new_docs)
 
 
-@requires("nltk")
+@_requires("nltk")
 def remove_stopwords(
     text_docs_bow: Iterable[Iterable[str]], custom_stopwords: Optional[List[str]] = None
 ) -> Iterable[Iterable[str]]:
@@ -166,7 +166,7 @@ def remove_stopwords(
     return ((word for word in doc if word not in stop_words) for doc in text_docs_bow)
 
 
-@requires("nltk")
+@_requires("nltk")
 def lemmatize(
     text_docs_bow: Iterable[Iterable[str]],
 ) -> Iterable[Iterable[str]]:
@@ -182,7 +182,7 @@ def lemmatize(
     return ((lemmatizer.lemmatize(word) for word in doc) for doc in text_docs_bow)
 
 
-@requires("nltk")
+@_requires("nltk")
 def stem(
     text_docs_bow: Iterable[Iterable[str]],
 ) -> Iterable[Iterable[str]]:
@@ -303,7 +303,7 @@ def to_list(text_docs_gen) -> List[Any]:
         return [to_list(i) for i in text_docs_gen]
 
 
-@requires("nltk")
+@_requires("nltk")
 def ngram_freq(
     text_docs_bow: Iterable[Iterable[str]], n: int = 3, only_n: bool = False
 ) -> "nltk.FreqDist":  # type: ignore
@@ -333,7 +333,7 @@ def ngram_freq(
     return freq
 
 
-@requires("gensim")
+@_requires("gensim")
 def filter_dictionary(text_docs: List[str], no_below: int = 10, no_above: float = 0.2):
     """Filters words that appear less than a certain amount of times in the document and returns a Gensim.
 

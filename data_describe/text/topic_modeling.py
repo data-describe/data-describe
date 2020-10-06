@@ -14,7 +14,7 @@ from data_describe.text.text_preprocessing import (
     filter_dictionary,
 )
 from data_describe.backends import _get_viz_backend
-from data_describe.compat import _compat, requires, _IN_NOTEBOOK
+from data_describe.compat import _compat, _requires, _IN_NOTEBOOK
 from data_describe._widget import BaseWidget
 
 warnings.filterwarnings("ignore", category=UserWarning, module="gensim")
@@ -65,8 +65,8 @@ def topic_model(
     return topicwidget
 
 
-@requires("gensim")
-@requires("pyLDAvis")
+@_requires("gensim")
+@_requires("pyLDAvis")
 class TopicModelWidget(BaseWidget):
     """Create topic model widget."""
 
@@ -609,8 +609,8 @@ class TopicModelWidget(BaseWidget):
             )
 
 
-@requires("pyLDAvis")
-@requires("gensim")
+@_requires("pyLDAvis")
+@_requires("gensim")
 def _pyldavis_viz_visualize_topic_summary(
     model: "gensim.models.ldamodel.LdaModel",  # type: ignore
     corpus: List[List[Tuple[int, int]]],

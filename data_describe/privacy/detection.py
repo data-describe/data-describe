@@ -4,7 +4,7 @@ from typing import Optional
 import warnings
 
 from data_describe.backends import _get_compute_backend
-from data_describe.compat import _DATAFRAME_TYPE, _compat, requires
+from data_describe.compat import _DATAFRAME_TYPE, _compat, _requires
 from data_describe.config._config import get_option
 from data_describe._widget import BaseWidget
 from data_describe.privacy.engine import engine
@@ -116,7 +116,7 @@ class SensitiveDataWidget(BaseWidget):
         return viz_data
 
 
-@requires("presidio_analyzer")
+@_requires("presidio_analyzer")
 def compute_sensitive_data(
     df,
     mode: str = "redact",

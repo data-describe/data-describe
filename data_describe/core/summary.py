@@ -1,6 +1,6 @@
 import pandas as pd
 
-from data_describe.compat import _SERIES_TYPE, _DATAFRAME_TYPE, requires, _compat
+from data_describe.compat import _SERIES_TYPE, _DATAFRAME_TYPE, _requires, _compat
 from data_describe.backends._backends import _get_compute_backend
 
 
@@ -109,7 +109,7 @@ def _pandas_compute_data_summary(data):
         return summary
 
 
-@requires("modin")
+@_requires("modin")
 def _modin_compute_data_summary(data):
     """Perform computation for summary statistics and data description.
 
