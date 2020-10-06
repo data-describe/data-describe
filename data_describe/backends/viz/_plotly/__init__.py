@@ -1,4 +1,4 @@
-from data_describe.core.data_heatmap import (  # noqa: F401
+from data_describe.core.heatmap import (  # noqa: F401
     _plotly_viz_data_heatmap as viz_data_heatmap,
 )
 from data_describe.core.time_series import (  # noqa: F401
