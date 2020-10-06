@@ -62,13 +62,13 @@ def remove_punct(
     replace_char: str = "",
     remove_all: bool = False,
 ) -> Iterable[Iterable[str]]:
-    """Removes all instances of punctuation from documents (e.g. periods, question marks, etc.).
+    """Removes all punctuation from documents (e.g. periods, question marks, etc.).
 
     Args:
         text_docs_bow: A list of lists of words from a document
         replace_char: Character to replace punctuation instances with. Default is space
-        remove_all: If True, removes all instances of punctuation from document. Default is False, which only removes
-        leading and/or trailing instances
+        remove_all: If True, removes all instances of punctuation from document. Default
+            is False, which only removes leading and/or trailing instances.
 
     Returns:
         A generator expression for all of the processed documents
@@ -145,11 +145,15 @@ def remove_single_char_and_spaces(
 def remove_stopwords(
     text_docs_bow: Iterable[Iterable[str]], custom_stopwords: Optional[List[str]] = None
 ) -> Iterable[Iterable[str]]:
-    """Removes all "stop words" from documents. "Stop words" can be defined as commonly used words which are typically useless for NLP.
+    """Removes all "stop words" from documents.
+
+    "Stop words" can be defined as commonly used words which are typically useless
+    for NLP.
 
     Args:
         text_docs_bow: A list of lists of words from a document
-        custom_stopwords: An optional list of words to remove along with the stop words. Default is None
+        custom_stopwords: An optional list of words to remove along with the stop words.
+            Defaults to nltk english stopwords.
 
     Returns:
         A generator expression for all of the processed documents
@@ -170,7 +174,10 @@ def remove_stopwords(
 def lemmatize(
     text_docs_bow: Iterable[Iterable[str]],
 ) -> Iterable[Iterable[str]]:
-    """Lemmatizes all words in documents. Lemmatization is grouping words together by their reducing them to their inflected forms so they can be analyzed as a single item.
+    """Lemmatizes all words in documents.
+
+    Lemmatization is grouping words together by their reducing them to their inflected
+    forms so they can be analyzed as a single item.
 
     Args:
         text_docs_bow: A lists of list of words from a document
@@ -186,7 +193,10 @@ def lemmatize(
 def stem(
     text_docs_bow: Iterable[Iterable[str]],
 ) -> Iterable[Iterable[str]]:
-    """Stems all words in documents. Stemming is grouping words together by taking the stems of their inflected forms so they can be analyzed as a single item.
+    """Stems all words in documents.
+
+    Stemming is grouping words together by taking the stems of their inflected forms
+    so they can be analyzed as a single item.
 
     Args:
         text_docs_bow: A list of lists of words from a document
@@ -199,7 +209,9 @@ def stem(
 
 
 def bag_of_words_to_docs(text_docs_bow: Iterable[Iterable[str]]) -> Iterable[str]:
-    """Converts list of documents in "bag of words" format back into form of document being stored in one string.
+    """Converts list of documents in "bag of words" format.
+
+    This converts back into form of document being stored in one string.
 
     Args:
         text_docs_bow: A list of lists of words from a document
@@ -217,7 +229,8 @@ def create_tfidf_matrix(text_docs: Iterable[str]) -> pd.DataFrame:
         text_docs: A list of strings of text documents
 
     Returns:
-        matrix_df: Pandas DataFrame of TF-IDF matrix with documents as rows and words as columns
+        matrix_df: Pandas DataFrame of TF-IDF matrix with documents as rows and words
+            as columns
     """
     tfidf = TfidfVectorizer()
     matrix = tfidf.fit_transform(text_docs).toarray()
@@ -232,7 +245,8 @@ def create_doc_term_matrix(text_docs: Iterable[str]) -> pd.DataFrame:
         text_docs: A list of strings of text documents
 
     Returns:
-        matrix_df: Pandas DataFrame of document-term matrix with documents as rows and words as columns
+        matrix_df: Pandas DataFrame of document-term matrix with documents as rows
+            and words as columns
     """
     countvec = CountVectorizer()
     matrix = countvec.fit_transform(text_docs).toarray()
@@ -246,20 +260,28 @@ def preprocess_texts(
     stem: bool = False,
     custom_pipeline: List = None,
 ) -> Iterable[Any]:
-    """Cleans list of documents by running through a customizable text-preprocessing pipeline.
+    """Pre-process a text corpus.
+
+    Cleans list of documents by running through a customizable text-preprocessing
+    pipeline.
 
     Args:
-        text_docs: A list of strings of text documents (also accepts arrays and Pandas series)
-        lem: If True, lemmatization becomes part of the pre-processing. Recommended to set as False and run
-        user-created lemmatization function if pipeline is customized. Default is False
-        stem: If True, stemming becomes part of the pre-processing. Recommended to set as False and run
-        user-created stemming function if pipeline is customized. Default is False
-        custom_pipeline: A custom list of strings and/or function objects which are the function names that
-        text_docs_bow will run through. Default is None, which uses the pipeline:
-        ['tokenize', 'to_lower', 'remove_punct', 'remove_digits', 'remove_single_char_and_spaces', 'remove_stopwords']
+        text_docs: A list of strings of text documents (also accepts arrays and
+            Pandas series)
+        lem: If True, lemmatization becomes part of the pre-processing. Recommended to
+            set as False and run user-created lemmatization function if pipeline is
+            customized. Default is False.
+        stem: If True, stemming becomes part of the pre-processing. Recommended to
+            set as False and run user-created stemming function if pipeline is
+            customized. Default is False.
+        custom_pipeline: A custom list of strings and/or function objects which are
+            the function names that text_docs_bow will run through. Default is None,
+            which uses the pipeline: ['tokenize', 'to_lower', 'remove_punct',
+            'remove_digits', 'remove_single_char_and_spaces', 'remove_stopwords']
 
     Returns:
-        text_docs: List of lists of words for each document which have undergone a pre-processing pipeline
+        text_docs: List of lists of words for each document which have undergone a
+            pre-processing pipeline
     """
     if not custom_pipeline:
         pipeline = [
@@ -295,7 +317,8 @@ def to_list(text_docs_gen) -> List[Any]:
         text_docs_gen: A generator expression for the processed text documents
 
     Returns:
-        A list of processed text documents or a list of tokens (list of strings) for each document
+        A list of processed text documents or a list of tokens (list of strings)
+            for each document
     """
     if not isinstance(text_docs_gen, GeneratorType):
         return text_docs_gen
@@ -311,12 +334,17 @@ def ngram_freq(
 
     Args:
         text_docs_bow: A list of lists of words from a document
-        n: Highest 'n' for n-gram sequence to include. Default is 3
-        only_n: If True, will only include n-grams for specified value of 'n'. Default is False, which also includes
-        n-grams for all numbers leading up to 'n'
+        n: Highest `n` for n-gram sequence to include. Default is 3
+        only_n: If True, will only include n-grams for specified value of `n`.
+            Default is False, which also includes n-grams for all numbers leading
+            up to `n`
+
+    Raises:
+        ValueError: `n` must be >= 2.
 
     Returns:
-        freq: Dictionary which contains all identified n-grams as keys and their respective counts as their values
+        freq: Dictionary which contains all identified n-grams as keys and their
+            respective counts as their values
     """
     if n < 2:
         raise ValueError("'n' must be a number 2 or greater")
@@ -335,17 +363,19 @@ def ngram_freq(
 
 @_requires("gensim")
 def filter_dictionary(text_docs: List[str], no_below: int = 10, no_above: float = 0.2):
-    """Filters words that appear less than a certain amount of times in the document and returns a Gensim.
+    """Filters words outside specified frequency thresholds.
 
     Args:
-        text_docs: A list of list of words from a document, can include n-grams up to 3
-        no_below: Keep tokens which are contained in at least no_below documents. Default is 10
-        no_above: Keep tokens which are contained in no more than no_above portion of documents (fraction of total
-        corpus size). Default is 0.2
+        text_docs: A list of list of words from a document, can include n-grams up to 3.
+        no_below: Keep tokens which are contained in at least no_below documents.
+            Default is 10.
+        no_above: Keep tokens which are contained in no more than no_above portion of
+            documents (fraction of total corpus size). Default is 0.2.
 
     Returns:
-        dictionary: Gensim Dictionary encapsulates the mapping between normalized words and their integer ids
-        corpus: Bag of Words (BoW) representation of documents (token_id, token_count)
+        dictionary: Gensim Dictionary encapsulates the mapping between normalized words
+            and their integer ids.
+        corpus: Bag of Words (BoW) representation of documents (token_id, token_count).
     """
     dictionary = _compat["gensim"].corpora.Dictionary(text_docs)  # type: ignore
     dictionary.filter_extremes(no_below=no_below, no_above=no_above)
