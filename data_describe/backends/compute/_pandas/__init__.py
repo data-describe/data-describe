@@ -7,7 +7,7 @@ from data_describe.core.scatter import (  # noqa: F401
 from data_describe.core.importance import (  # noqa: F401
     _pandas_compute_importance as compute_importance,
 )
-from data_describe.core.time_series import (  # noqa: F401
+from data_describe.core.time import (  # noqa: F401
     _pandas_compute_stationarity_test as compute_stationarity_test,
     _pandas_compute_decompose_timeseries as compute_decompose_timeseries,
     _pandas_compute_autocorrelation as compute_autocorrelation,

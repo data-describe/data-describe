@@ -9,4 +9,4 @@ from data_describe.core.summary import data_summary  # noqa: F401
 from data_describe.core.distributions import distribution  # noqa: F401
 from data_describe.core.scatter import scatter_plots  # noqa: F401
 from data_describe.core.importance import importance  # noqa: F401
-from data_describe.core.time_series import plot_time_series  # noqa: F401
+from data_describe.core.time import plot_time_series  # noqa: F401
