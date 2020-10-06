@@ -1,7 +1,7 @@
 from data_describe.core.heatmap import (  # noqa: F401
     _seaborn_viz_data_heatmap as viz_data_heatmap,
 )
-from data_describe.core.scatter_plot import (  # noqa: F401
+from data_describe.core.scatter import (  # noqa: F401
     _seaborn_viz_scatter_plot as viz_scatter_plot,
 )
 from data_describe.core.importance import (  # noqa: F401

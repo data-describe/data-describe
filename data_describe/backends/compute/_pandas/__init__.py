@@ -1,7 +1,7 @@
 from data_describe.core.heatmap import (  # noqa: F401
     _pandas_compute_data_heatmap as compute_data_heatmap,
 )
-from data_describe.core.scatter_plot import (  # noqa: F401
+from data_describe.core.scatter import (  # noqa: F401
     _pandas_compute_scatter_plot as compute_scatter_plot,
 )
 from data_describe.core.importance import (  # noqa: F401
