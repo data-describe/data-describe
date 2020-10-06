@@ -2,7 +2,7 @@ import matplotlib
 import pytest
 import plotly.graph_objects as go
 
-from data_describe.core.time_series import (
+from data_describe.core.time import (
     _pandas_compute_stationarity_test,
     adf_test,
     kpss_test,
