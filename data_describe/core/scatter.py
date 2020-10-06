@@ -21,16 +21,17 @@ def scatter_plots(
 
     Args:
         data: A Pandas data frame
-        mode: The visualization mode
-            diagnostic: Plots selected by scagnostics (scatter plot diagnostics)
-            matrix: Generate the full scatter plot matrix
-            all: Generate all individual scatter plots
+        mode: {'diagnostic', 'matrix', 'all'} The visualization mode.
+            **diagnostic**: Plots selected by scagnostics (scatter plot diagnostics)
+            **matrix**: Generate the full scatter plot matrix
+            **all**: Generate all individual scatter plots
         sample: The sampling method to use
-        threshold: The scatter plot diagnostic threshold value [0,1] for returning a plot. Only used with "diagnostic" mode.
-            If a number: Returns all plots where at least one metric is above this threshold
-            If a dictionary: Returns plots where the metric is above its threshold.
-            For example, {"Outlying": 0.9} returns plots with outlier metrics above 0.9.
-            See pyscagnostics.measure_names for a list of metrics.
+        threshold: The scatter plot diagnostic threshold value [0,1] for returning a
+            plot. Only used with "diagnostic" mode. For example, ``{"Outlying": 0.9}``
+            returns plots with outlier metrics above 0.9. See
+            ``pyscagnostics.measure_names`` for a list of metrics.
+            **If a number**: Returns all plots where at least one metric is above this threshold
+            **If a dictionary**: Returns plots where the metric is above its threshold.
         compute_backend: The compute backend
         viz_backend: The vizualization backend
         **kwargs: Passed to the visualization framework
@@ -58,16 +59,17 @@ def _pandas_compute_scatter_plot(data, mode, sample, threshold, **kwargs):
 
     Args:
         data: A Pandas data frame
-        mode: The visualization mode
-            diagnostic: Plots selected by scagnostics (scatter plot diagnostics)
-            matrix: Generate the full scatter plot matrix
-            all: Generate all individual scatter plots
+        mode: {'diagnostic', 'matrix', 'all'} The visualization mode.
+            **diagnostic**: Plots selected by scagnostics (scatter plot diagnostics)
+            **matrix**: Generate the full scatter plot matrix
+            **all**: Generate all individual scatter plots
         sample: The sampling method to use
-        threshold: The scatter plot diagnostic threshold value [0,1] for returning a plot. Only used with "diagnostic" mode.
-            If a number: Returns all plots where at least one metric is above this threshold
-            If a dictionary: Returns plots where the metric is above its threshold.
-            For example, {"Outlying": 0.9} returns plots with outlier metrics above 0.9.
-            See pyscagnostics.measure_names for a list of metrics.
+        threshold: The scatter plot diagnostic threshold value [0,1] for returning a
+            plot. Only used with "diagnostic" mode. For example, ``{"Outlying": 0.9}``
+            returns plots with outlier metrics above 0.9. See
+            ``pyscagnostics.measure_names`` for a list of metrics.
+            **If a number**: Returns all plots where at least one metric is above this threshold
+            **If a dictionary**: Returns plots where the metric is above its threshold.
         **kwargs: Passed to the visualization framework
 
     Returns:
@@ -87,25 +89,26 @@ def _seaborn_viz_scatter_plot(data, mode, sample, threshold, **kwargs):
 
     Args:
         data: A Pandas data frame
-        mode: {'diagnostic', 'matrix', 'all} The visualization mode
-            - diagnostic: Plots selected by scagnostics (scatter plot diagnostics)
-            - matrix: Generate the full scatter plot matrix
-            - all: Generate all individual scatter plots
+        mode: {'diagnostic', 'matrix', 'all'} The visualization mode.
+            **diagnostic**: Plots selected by scagnostics (scatter plot diagnostics)
+            **matrix**: Generate the full scatter plot matrix
+            **all**: Generate all individual scatter plots
         sample: The sampling method to use
         threshold: The scatter plot diagnostic threshold value [0,1] for returning a
-            plot. Only used with "diagnostic" mode. For example, {"Outlying": 0.9}
+            plot. Only used with "diagnostic" mode. For example, ``{"Outlying": 0.9} ``
             returns plots with outlier metrics above 0.9. See
-            `pyscagnostics.measure_names` for a list of metrics.
-            - If a number: Returns all plots where at least one metric is above this threshold
-            - If a dictionary: Returns plots where the metric is above its threshold.
+            ``pyscagnostics.measure_names`` for a list of metrics.
+            **If a number**: Returns all plots where at least one metric is above this threshold
+            **If a dictionary**: Returns plots where the metric is above its threshold.
+        compute_backend: The compute backend
+        viz_backend: The vizualization backend
         **kwargs: Passed to the visualization framework
 
     Raises:
-        ValueError: Unknown plot `mode`.
-        UserWarning: No plots identified by diagnostics.
+        ValueError: Invalid input data type.
 
     Returns:
-        The seaborn visualization
+        Seaborn plot.
     """
     data, diagnostics, *_ = data
     if mode == "matrix":
