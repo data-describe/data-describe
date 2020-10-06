@@ -27,6 +27,9 @@ def mpl_to_plotly_cmap(cmap) -> List:
 
     Args:
         cmap: The matplotlib colormap
+
+    Returns:
+        Plotly colorscale
     """
     pl_rgb = []
     norm = Normalize(vmin=0, vmax=255)
