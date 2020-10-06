@@ -129,12 +129,12 @@ def test_hash_string():
 
 
 def test_type_df_type(compute_backend_pii_text):
-    with pytest.raises(TypeError):
+    with pytest.raises(ValueError):
         sensitive_data(compute_backend_pii_text)
 
 
 def test_column_type(compute_backend_pii_df):
-    with pytest.raises(TypeError):
+    with pytest.raises(ValueError):
         sensitive_data(compute_backend_pii_df, columns="this is not a list")
 
 
