@@ -6,7 +6,7 @@ from pandas.testing import assert_frame_equal
 
 import data_describe as dd
 from data_describe.compat import _DATAFRAME_TYPE
-from data_describe.core.correlations import CorrelationMatrixWidget
+from data_describe.core.correlation import CorrelationMatrixWidget
 
 matplotlib.use("Agg")
 

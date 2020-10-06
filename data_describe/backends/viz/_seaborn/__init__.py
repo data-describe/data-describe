@@ -12,14 +12,14 @@ from data_describe.core.time_series import (  # noqa: F401
     _seaborn_viz_plot_autocorrelation as viz_plot_autocorrelation,
     _seaborn_viz_decomposition as viz_decomposition,
 )
-from data_describe.core.clusters import (  # noqa: F401
+from data_describe.core.clustering import (  # noqa: F401
     _seaborn_viz_cluster as viz_cluster,
     _seaborn_viz_cluster_search_plot as viz_cluster_search_plot,
 )
 from data_describe.core.distributions import (  # noqa: F401
     _seaborn_viz_distribution as viz_distribution,
 )
-from data_describe.core.correlations import (  # noqa: F401
+from data_describe.core.correlation import (  # noqa: F401
     _seaborn_viz_correlation_matrix as viz_correlation_matrix,
 )
 from data_describe.text.topic_modeling import (  # noqa: F401

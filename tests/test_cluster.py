@@ -8,7 +8,7 @@ import plotly
 
 import data_describe as dd
 from data_describe.compat import _DATAFRAME_TYPE
-from data_describe.core.clusters import (
+from data_describe.core.clustering import (
     ClusterWidget,
     KmeansClusterWidget,
     HDBSCANClusterWidget,

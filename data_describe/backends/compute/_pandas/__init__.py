@@ -22,12 +22,12 @@ from data_describe.dimensionality_reduction.dimensionality_reduction import (  #
     _pandas_compute_run_tsne as compute_run_tsne,
     _pandas_compute_run_tsvd as compute_run_tsvd,
 )
-from data_describe.core.clusters import (  # noqa: F401
+from data_describe.core.clustering import (  # noqa: F401
     _pandas_compute_cluster as compute_cluster,
 )
 from data_describe.core.distributions import (  # noqa: F401
     _pandas_compute_distribution as compute_distribution,
 )
-from data_describe.core.correlations import (  # noqa: F401
+from data_describe.core.correlation import (  # noqa: F401
     _pandas_compute_correlation_matrix as compute_correlation_matrix,
 )
