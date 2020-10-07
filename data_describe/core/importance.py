@@ -46,7 +46,7 @@ def importance(
     if return_values:
         return importance_values
     else:
-        return _get_viz_backend(viz_backend)._seaborn_viz_importance(
+        return _get_viz_backend(viz_backend).viz_importance(
             importance_values, idx, cols
         )
 
