@@ -121,7 +121,7 @@ def _pandas_compute_data_heatmap(
         ValueError: Invalid input data type.
 
     Returns:
-        (dataframe, column_names)
+        HeatmapWidget
     """
     if not isinstance(data, _DATAFRAME_TYPE):
         raise ValueError("Unsupported input data type")
