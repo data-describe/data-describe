@@ -33,7 +33,7 @@ def test_cluster_widget():
 @pytest.mark.base
 def test_figure_default(data):
     cr = dd.correlation_matrix(data)
-    assert isinstance(cr.show(viz_backend="plotly"), plotly.graph_objs._figure.Figure)
+    assert isinstance(cr.show(viz_backend="plotly"), plotly.graph_objs.Figure)
     assert isinstance(cr.show(), mpl_plot)
     assert isinstance(cr.association_matrix, _DATAFRAME_TYPE)
     assert isinstance(cr.viz_data, _DATAFRAME_TYPE)
@@ -49,7 +49,7 @@ def test_figure_default(data):
 @pytest.mark.base
 def test_figure_categorical_cluster(data):
     cr = dd.correlation_matrix(data, cluster=True, categorical=True)
-    assert isinstance(cr.show(viz_backend="plotly"), plotly.graph_objs._figure.Figure)
+    assert isinstance(cr.show(viz_backend="plotly"), plotly.graph_objs.Figure)
     assert isinstance(cr.show(), mpl_plot)
     assert isinstance(cr.association_matrix, _DATAFRAME_TYPE)
     assert isinstance(cr.association_matrix, _DATAFRAME_TYPE)
@@ -61,7 +61,7 @@ def test_figure_categorical_cluster(data):
 @pytest.mark.base
 def test_cluster_no_categorical_figure(data):
     cr = dd.correlation_matrix(data, cluster=True)
-    assert isinstance(cr.show(viz_backend="plotly"), plotly.graph_objs._figure.Figure)
+    assert isinstance(cr.show(viz_backend="plotly"), plotly.graph_objs.Figure)
     assert isinstance(cr.show(), mpl_plot)
     assert isinstance(cr.association_matrix, _DATAFRAME_TYPE)
     assert isinstance(cr.viz_data, _DATAFRAME_TYPE)
@@ -76,7 +76,7 @@ def test_cluster_no_categorical_figure(data):
 @pytest.mark.base
 def test_categorical_and_numerical_data(data):
     cr = dd.correlation_matrix(data, categorical=True)
-    assert isinstance(cr.show(viz_backend="plotly"), plotly.graph_objs._figure.Figure)
+    assert isinstance(cr.show(viz_backend="plotly"), plotly.graph_objs.Figure)
     assert isinstance(cr.show(), mpl_plot)
     assert isinstance(cr.association_matrix, _DATAFRAME_TYPE)
     assert isinstance(cr.viz_data, _DATAFRAME_TYPE)
@@ -95,7 +95,7 @@ def test_categorical_data_only(data):
         [c for c in data.columns if c not in data.select_dtypes(["number"]).columns]
     ]
     cr = dd.correlation_matrix(cat_data, categorical=True)
-    assert isinstance(cr.show(viz_backend="plotly"), plotly.graph_objs._figure.Figure)
+    assert isinstance(cr.show(viz_backend="plotly"), plotly.graph_objs.Figure)
     assert isinstance(cr.show(), mpl_plot)
     assert isinstance(cr.association_matrix, _DATAFRAME_TYPE)
     assert isinstance(cr.viz_data, _DATAFRAME_TYPE)

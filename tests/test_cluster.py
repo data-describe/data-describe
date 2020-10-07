@@ -106,7 +106,7 @@ def test_kmeans_default(kmeans_default):
 @pytest.mark.base
 def test_kmeans_plotly(kmeans_default):
     figure = kmeans_default.show(viz_backend="plotly")
-    assert isinstance(figure, plotly.graph_objs._figure.Figure)
+    assert isinstance(figure, plotly.graph_objs.Figure)
 
 
 @pytest.fixture
