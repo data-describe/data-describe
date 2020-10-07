@@ -9,6 +9,7 @@ import seaborn as sns
 import plotly.graph_objs as go
 from sklearn.preprocessing import StandardScaler
 
+from data_describe._widget import BaseWidget
 from data_describe.config._config import get_option
 from data_describe.compat import _DATAFRAME_TYPE
 from data_describe.backends import _get_viz_backend, _get_compute_backend
@@ -29,13 +30,78 @@ def data_heatmap(data, missing=False, compute_backend=None, viz_backend=None, **
     Returns:
         The data heatmap.
     """
-    data, colnames = _get_compute_backend(compute_backend, data).compute_data_heatmap(
+    return _get_compute_backend(compute_backend, data).compute_data_heatmap(
         data, missing=missing, **kwargs
     )
 
-    return _get_viz_backend(viz_backend).viz_data_heatmap(
-        data, colnames=colnames, missing=missing, **kwargs
-    )
+
+class HeatmapWidget(BaseWidget):
+    """Heatmap Widget.
+
+    Attributes:
+        input_data: The input data.
+        colnames: Names of numeric columns.
+        std_data: The transposed, standardized data after scaling.
+        missing: If True, the heatmap shows missing values as indicators
+            instead of standardized values.
+        missing_data: The missing value indicator data.
+    """
+
+    def __init__(
+        self,
+        input_data=None,
+        colnames=None,
+        std_data=None,
+        missing=False,
+        missing_data=None,
+        **kwargs,
+    ):
+        """Data heatmap.
+
+        Args:
+            input_data: The input data.
+            colnames: Names of numeric columns.
+            std_data: The transposed, standardized data after scaling.
+            missing (bool): If True, the heatmap shows missing values as indicators
+                instead of standardized values.
+            missing_data: The missing value indicator data.
+        """
+        super(HeatmapWidget, self).__init__(**kwargs)
+        self.input_data = input_data
+        self.colnames = colnames
+        self.std_data = std_data
+        self.missing = missing
+        self.missing_data = missing_data
+        self.viz_data = missing_data if missing else std_data
+
+    def __str__(self):
+        return "data-describe Heatmap Widget"
+
+    def __repr__(self):
+        mode = "missing" if self.missing else "standardized"
+        return f"Heatmap Widget showing {mode} values."
+
+    def show(self, viz_backend=None, **kwargs):
+        """Show the data heatmap plot.
+
+        Args:
+            viz_backend: The visualization backend.
+            **kwargs: Keyword arguments.
+
+        Raises:
+            ValueError: Computed data is missing.
+
+        Returns:
+            The correlation matrix plot.
+        """
+        backend = viz_backend or self.viz_backend
+
+        if self.viz_data is None:
+            raise ValueError("Could not find data to visualize.")
+
+        return _get_viz_backend(backend).viz_data_heatmap(
+            self.viz_data, colnames=self.colnames, missing=self.missing, **kwargs
+        )
 
 
 def _pandas_compute_data_heatmap(
@@ -57,19 +123,26 @@ def _pandas_compute_data_heatmap(
     Returns:
         (dataframe, column_names)
     """
-    if isinstance(data, _DATAFRAME_TYPE):
-        data = data.select_dtypes(["number"])
-        colnames = data.columns.values
-    else:
+    if not isinstance(data, _DATAFRAME_TYPE):
         raise ValueError("Unsupported input data type")
 
     if missing:
-        data = data.isna().astype(int)
+        missing_data = data.isna().astype(int)
+        colnames = data.columns.values
+        return HeatmapWidget(
+            input_data=data,
+            colnames=colnames,
+            missing=True,
+            missing_data=missing_data.transpose(),
+        )
     else:
+        data = data.select_dtypes(["number"])
+        colnames = data.columns.values
         scaler = StandardScaler()
-        data = pd.DataFrame(scaler.fit_transform(data), columns=data.columns)
-
-    return data.transpose(), colnames
+        std_data = pd.DataFrame(scaler.fit_transform(data), columns=data.columns)
+        return HeatmapWidget(
+            input_data=data, colnames=colnames, std_data=std_data.transpose()
+        )
 
 
 def _plotly_viz_data_heatmap(
