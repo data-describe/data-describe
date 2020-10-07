@@ -78,28 +78,45 @@ def cluster(
 
 
 class ClusterWidget(BaseWidget):
-    """Interface for collecting additional information about the clustering."""
+    """Clustering Widget.
+
+    Attributes:
+        method (str): {'kmeans', 'hdbscan'} The type of clustering algorithm
+        clusters (List[int]): The predicted cluster labels
+        estimator: The clustering estimator/model
+        input_data: The input data
+        scaled_data: The data after applying standardization
+        viz_data: The data used for the default visualization i.e. reduced to 2 dimensions
+        dim_method (str): The algorithm used for dimensionality reduction
+        reductor: The dimensionality reduction estimator
+        xlabel (str): The x-axis label for the cluster plot
+        ylabel (str): The y-axis label for the cluster plot
+        n_clusters (int, optional): (KMeans) The number of clusters (``k``) used in the
+            final clustering fit.
+        search (bool, optional): (KMeans) If True, a search was performed for optimal
+            ``n_clusters``.
+        cluster_range (Tuple[int, int], optional): (KMeans) The range of clusters
+            searched as (min_cluster, max_cluster).
+        metric (str, optional): (KMeans) The metric used to evaluate the cluster search.
+        scores (List): (KMeans) The metric scores in cluster search.
+    """
 
     def __init__(
         self,
+        method: str,
         clusters: List[int] = None,
-        method: str = None,
         estimator=None,
-        input_data=None,
-        scaled_data=None,
-        viz_data=None,
-        dim_method: str = None,
-        reductor=None,
-        xlabel: str = None,
-        ylabel: str = None,
+        n_clusters=None,
+        search=False,
+        cluster_range=None,
         **kwargs,
     ):
         """Cluster Analysis.
 
         Args:
+            method (str): {'kmeans', 'hdbscan'} The type of clustering algorithm
             clusters (List[int], optional): The predicted cluster labels
-            method (str): The clustering algorithm
-            estimator: The clustering estimator
+            estimator: The clustering estimator/model
             input_data: The input data
             scaled_data: The data after applying standardization
             viz_data: The data used for the default visualization i.e. reduced to 2 dimensions
@@ -107,25 +124,41 @@ class ClusterWidget(BaseWidget):
             reductor: The dimensionality reduction estimator
             xlabel (str): The x-axis label for the cluster plot
             ylabel (str): The y-axis label for the cluster plot
-            **kwargs: Keyword arguments
+            n_clusters (int, optional): The number of clusters (k) used in the final clustering fit.
+            search (bool, optional): If True, a search was performed for optimal n_clusters.
+            cluster_range (Tuple[int, int], optional): The range of clusters searched as (min_cluster, max_cluster).
+            metric (str, optional): The metric used to evaluate the cluster search.
+            scores: The metric scores in cluster search.
+            **kwargs: Keyword arguments.
         """
         super(ClusterWidget, self).__init__(**kwargs)
         self.clusters = clusters
         self.method = method
         self.estimator = estimator
-        self.input_data = input_data
-        self.scaled_data = scaled_data
-        self.viz_data = viz_data
-        self.dim_method = dim_method
-        self.reductor = reductor
-        self.xlabel = xlabel
-        self.ylabel = ylabel
+        self.input_data = None
+        self.scaled_data = None
+        self.viz_data = None
+        self.dim_method = None
+        self.reductor = None
+        self.xlabel = None
+        self.ylabel = None
+        self.n_clusters = n_clusters
+        self.search = search
+        self.cluster_range = cluster_range
+        self.metric = None
+        self.scores = None
 
     def __str__(self):
         return "data-describe Cluster Widget"
 
+    def __repr__(self):
+        return f"Cluster Widget using {self.method}"
+
     def show(self, viz_backend=None, **kwargs):
-        """Show the cluster plot.
+        """Visualize clusters in a 2D plot.
+
+        Displays the projected data as a scatter plot, with points colored by the
+        cluster labels.
 
         Args:
             viz_backend: The visualization backend.
@@ -150,37 +183,6 @@ class ClusterWidget(BaseWidget):
             **kwargs,
         )
 
-
-class KmeansClusterWidget(ClusterWidget):
-    """Interface for collecting additional information about the k-Means clustering."""
-
-    def __init__(
-        self,
-        n_clusters=None,
-        search=False,
-        cluster_range=None,
-        metric=None,
-        scores=None,
-        **kwargs,
-    ):
-        """Mandatory parameters.
-
-        Args:
-            n_clusters (int, optional): The number of clusters (k) used in the final clustering fit.
-            search (bool, optional): If True, a search was performed for optimal n_clusters.
-            cluster_range (Tuple[int, int], optional): The range of clusters searched as (min_cluster, max_cluster).
-            metric (str, optional): The metric used to evaluate the cluster search.
-            scores: The metric scores in cluster search.
-            **kwargs: Keyword arguments.
-        """
-        super(KmeansClusterWidget, self).__init__(**kwargs)
-        self.method = "kmeans"
-        self.n_clusters = n_clusters
-        self.search = search
-        self.cluster_range = cluster_range
-        self.metric = metric
-        self.scores = scores
-
     def cluster_search_plot(self, viz_backend=None, **kwargs):
         """Shows the results of cluster search.
 
@@ -198,26 +200,11 @@ class KmeansClusterWidget(ClusterWidget):
             The plot
         """
         if not self.search:
-            raise ValueError(
-                "Cluster search plot is not applicable when n_cluster is explicitly selected"
-            )
+            raise ValueError("Cluster search plot is not applicable.")
 
         return _get_viz_backend(viz_backend).viz_cluster_search_plot(
             self.cluster_range, self.scores, self.metric, **kwargs
         )
-
-
-class HDBSCANClusterWidget(ClusterWidget):
-    """Interface for collecting additional information about the HDBSCAN clustering."""
-
-    def __init__(self, **kwargs):
-        """Mandatory parameters.
-
-        Args:
-            **kwargs: Keyword arguments.
-        """
-        super(HDBSCANClusterWidget, self).__init__(**kwargs)
-        self.method = "hdbscan"
 
 
 def _pandas_compute_cluster(data, method: str, **kwargs):
@@ -367,8 +354,8 @@ def _fit_kmeans(data, n_clusters, **kwargs):
     kmeans.fit(data)
     cluster_labels = kmeans.predict(data)
 
-    clusterwidget = KmeansClusterWidget(
-        clusters=cluster_labels, estimator=kmeans, n_clusters=n_clusters
+    clusterwidget = ClusterWidget(
+        "kmeans", clusters=cluster_labels, estimator=kmeans, n_clusters=n_clusters
     )
     return clusterwidget
 
@@ -389,9 +376,7 @@ def _run_hdbscan(data, min_cluster_size=15, **kwargs):
     hdbscan_kwargs = {**default_hdbscan_kwargs, **(kwargs or {})}
     hdb = _compat["hdbscan"].HDBSCAN(**hdbscan_kwargs)
     clusters = hdb.fit_predict(data)
-    clusterwidget = HDBSCANClusterWidget(
-        clusters=clusters, method="hdbscan", estimator=hdb
-    )
+    clusterwidget = ClusterWidget("hdbscan", clusters=clusters, estimator=hdb)
     clusterwidget.n_clusters = len(np.unique(clusters))
     return clusterwidget
 
