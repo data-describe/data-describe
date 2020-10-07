@@ -41,7 +41,7 @@ def correlation_matrix(
         ValueError: Invalid data input type.
 
     Returns:
-        CorrelationMatrixWidget
+        CorrelationWidget
     """
     if not isinstance(data, _DATAFRAME_TYPE):
         raise ValueError("Data frame required")
@@ -55,8 +55,15 @@ def correlation_matrix(
     return corrwidget
 
 
-class CorrelationMatrixWidget(BaseWidget):
-    """Interface for collecting additional information about the correlation matrix."""
+class CorrelationWidget(BaseWidget):
+    """Correlation Widget.
+
+    Attributes:
+        association_matrix: The association matrix
+        cluster_matrix: The clustered association matrix.
+        categorical (bool): True if association matrix contains categorical values.
+        viz_data: The data to be visualized.
+    """
 
     def __init__(
         self,
@@ -75,7 +82,7 @@ class CorrelationMatrixWidget(BaseWidget):
             viz_data (DataFrame): The data to be visualized. Defaults to None.
             **kwargs: Keyword arguments.
         """
-        super(CorrelationMatrixWidget, self).__init__(**kwargs)
+        super(CorrelationWidget, self).__init__(**kwargs)
         self.association_matrix = association_matrix
         self.cluster_matrix = cluster_matrix
         self.viz_data = viz_data
@@ -120,7 +127,7 @@ def _pandas_compute_correlation_matrix(data, cluster=False, categorical=False):
         ValueError: Missing numeric data to compute correlations.
 
     Returns:
-        CorrelationMatrixWidget
+        CorrelationWidget
     """
     numeric = data.select_dtypes(["number"])
     categoric = data[[col for col in data.columns if col not in numeric.columns]]
@@ -156,9 +163,9 @@ def _pandas_compute_correlation_matrix(data, cluster=False, categorical=False):
         association_matrix.fillna(0, inplace=True)
 
         if cluster:
-            cluster_matrix = reorder_by_cluster(association_matrix)
+            cluster_matrix = _reorder_by_cluster(association_matrix)
         else:
-            association_matrix = reorder_by_original(association_matrix, data)
+            association_matrix = _reorder_by_original(association_matrix, data)
 
     else:
         if has_numeric:
@@ -171,11 +178,11 @@ def _pandas_compute_correlation_matrix(data, cluster=False, categorical=False):
         association_matrix.fillna(0, inplace=True)
 
         if cluster:
-            cluster_matrix = reorder_by_cluster(association_matrix)
+            cluster_matrix = _reorder_by_cluster(association_matrix)
         else:
             pass  # Pearson Correlation does not need reordering
 
-    return CorrelationMatrixWidget(
+    return CorrelationWidget(
         association_matrix=association_matrix,
         cluster_matrix=cluster_matrix if cluster else None,
         viz_data=cluster_matrix if cluster else association_matrix,
@@ -296,7 +303,7 @@ def correlation_ratio(categorical, numeric):
     return eta
 
 
-def reorder_by_cluster(association_matrix):
+def _reorder_by_cluster(association_matrix):
     """Reorder an association matrix by cluster distances.
 
     Args:
@@ -344,7 +351,7 @@ def reorder_by_cluster(association_matrix):
     return reorder_corr
 
 
-def reorder_by_original(association_matrix, original_df):
+def _reorder_by_original(association_matrix, original_df):
     """Reorder the matrix to the original order.
 
     Args:
