@@ -30,6 +30,7 @@ autoapi_keep_files = True
 
 # Multiversioning
 smv_remote_whitelist = r"^.*$"
+smv_tag_whitelist = r"^v\d+\.\d+\.\d+b?\d*$"
 smv_branch_whitelist = "master"
 html_sidebars = {"**": ["versioning.html"]}
 
