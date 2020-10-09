@@ -1,4 +1,4 @@
-from typing import Tuple, List, Any
+from typing import List
 
 import pandas as pd
 import numpy as np
@@ -122,7 +122,7 @@ def data_heatmap(
 
 def _pandas_compute_data_heatmap(
     data, missing: bool = False, **kwargs
-) -> Tuple[Any, List[str]]:
+) -> HeatmapWidget:
     """Pre-processes data for the data heatmap.
 
     Values are standardized (removing the mean and scaling to unit variance).
