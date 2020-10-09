@@ -66,7 +66,7 @@ def stationarity_test(
 ):
     """Perform stationarity tests to see if mean and variance are changing over time.
 
-    Backend uses statsmodel's  statsmodels.tsa.stattools.adfuller or statsmodels.tsa.stattools.kpss
+    Backend uses statsmodel's statsmodels.tsa.stattools.adfuller or statsmodels.tsa.stattools.kpss
 
     Args:
         df: The dataframe. Must contain a datetime index
