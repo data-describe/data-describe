@@ -1,7 +1,62 @@
 import pandas as pd
 
+from data_describe._widget import BaseWidget
 from data_describe.compat import _SERIES_TYPE, _DATAFRAME_TYPE, _requires, _compat
 from data_describe.backends._backends import _get_compute_backend
+
+
+class SummaryWidget(BaseWidget):
+    """Container for data summary.
+
+    This class (object) is returned from the ``data_summary`` function. The
+    attributes documented below can be accessed or extracted.
+
+    Attributes:
+        input_data: The input data.
+        summary (DataFrame): The summary statistics.
+    """
+
+    def __init__(
+        self,
+        input_data=None,
+        summary=None,
+        **kwargs,
+    ):
+        """Data heatmap.
+
+        Args:
+            input_data: The input data.
+            summary: The summary statistics.
+        """
+        super(SummaryWidget, self).__init__(**kwargs)
+        self.input_data = input_data
+        self.summary = summary
+
+    def __str__(self):
+        return "data-describe Summary Widget"
+
+    def __repr__(self):
+        return "data-describe Summary Widget"
+
+    def show(self, viz_backend=None, **kwargs):
+        """The default display for this output.
+
+        Returns the summary data as a Pandas dataframe.
+
+        Args:
+            viz_backend: The visualization backend.
+            **kwargs: Keyword arguments.
+
+        Raises:
+            ValueError: Summary data is missing.
+
+        Returns:
+            The correlation matrix plot.
+        """
+        if self.summary is None:
+            raise ValueError("Could not find data to visualize.")
+
+        return self.summary
 
 
 def data_summary(data, compute_backend=None):
@@ -107,10 +162,8 @@ def _pandas_compute_data_summary(data):
 
     # Removing NaNs
     summary.fillna("", inplace=True)
-    try:
-        return summary._to_pandas()
-    except AttributeError:
-        return summary
+
+    return SummaryWidget(data, summary)
 
 
 @_requires("modin")
@@ -163,4 +216,5 @@ def _modin_compute_data_summary(data):
 
     # Removing NaNs
     summary.fillna("", inplace=True)
-    return summary
+
+    return SummaryWidget(data, summary)
