@@ -22,7 +22,9 @@ def importance(
 ):
     """Variable importance chart.
 
-    Uses Random Forest Classifier by default
+    This feature utilizes fits a simple model to the dataset to generate an estimate
+    of feature importance (predictive power). Note that these results are dependent on
+    the accuracy of the fitted model and should refined during modeling.
 
     Args:
         data: A Pandas data frame
