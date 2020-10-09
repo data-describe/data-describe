@@ -11,21 +11,26 @@ Main Features
 The main features of data-describe are organized as the "core". These features are 
 expected to be commonly used with most EDA applications on tabular data:
 
-    - cluster: Clustering analysis and visualization on a 2D plot
-    - correlation_matrix: Association measures for both numeric and categorical features
-    - data_heatmap: Data variation and missingness heatmap
-    - data_summary: Selected summary (descriptive) statistics
-    - distribution: Histograms, violin plots, bar charts
-    - scatter_plots: Scatterplots
-    - importance: Feature ranking
-    - plot_time_series: Visualizing time series and other analysis
+    - :doc:`clustering <data_describe/core/clustering/index>`: Clustering analysis and visualization on a 2D plot
+    - :doc:`correlation <data_describe/core/correlation/index>`: Association measures for both numeric and categorical features
+    - :doc:`data heatmap <data_describe/core/heatmap/index>`: Data variation and missingness heatmap
+    - :doc:`data summary <data_describe/core/summary/index>`: Selected summary (descriptive) statistics
+    - :doc:`distribution <data_describe/core/distributions/index>`: Histograms, violin plots, bar charts
+    - :doc:`scatter plots <data_describe/core/scatter/index>`: Scatterplots
+    - :doc:`feature importance <data_describe/core/importance/index>`: Feature ranking
+    - :doc:`time series <data_describe/core/time/index>`: Visualizing time series and other analysis
 
 Example Usage
 ~~~~~~~~
-    The core features are exported and can be used directly::
+    The core features (functions) are exported and can be used directly::
 
         import data_describe as dd
         dd.data_summary(df)
+
+    Non-core features need to be imported explicitly. For example, for text preprocessing::
+
+        from data_describe.text.text_preprocessing import preprocess_texts
+        preprocess_texts(df.TEXT_COLUMN)
 
 Extended Features
 -----------------
