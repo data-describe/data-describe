@@ -17,6 +17,70 @@ from data_describe.compat import _DATAFRAME_TYPE, _IN_NOTEBOOK
 from data_describe.backends import _get_viz_backend, _get_compute_backend
 
 
+class CorrelationWidget(BaseWidget):
+    """Container for correlation calculation and visualization.
+
+    This class (object) is returned from the ``correlation_matrix`` function. The
+    attributes documented below can be accessed or extracted.
+
+    Attributes:
+        association_matrix: The combined association matrix i.e. correlation and other
+            categorical-numeric or categorical-categorical associations.
+        cluster_matrix: The clustered association matrix.
+        categorical (bool): True if association matrix contains categorical values.
+        viz_data: The final data to be visualized.
+    """
+
+    def __init__(
+        self,
+        association_matrix=None,
+        cluster_matrix=None,
+        categorical=None,
+        viz_data=None,
+        **kwargs,
+    ):
+        """Correlation matrix.
+
+        Args:
+            association_matrix: The combined association matrix i.e. correlation and other
+                categorical-numeric or categorical-categorical associations.
+            cluster_matrix: The clustered association matrix.
+            categorical (bool): True if association matrix contains categorical values.
+            viz_data: The final data to be visualized.
+            **kwargs: Keyword arguments.
+        """
+        super(CorrelationWidget, self).__init__(**kwargs)
+        self.association_matrix = association_matrix
+        self.cluster_matrix = cluster_matrix
+        self.viz_data = viz_data
+        self.categorical = categorical
+
+    def __str__(self):
+        return "data-describe Correlation Matrix Widget"
+
+    def show(self, viz_backend=None, **kwargs):
+        """The default display for this output.
+
+        Displays the correlation matrix heatmap.
+
+        Args:
+            viz_backend: The visualization backend.
+            **kwargs: Keyword arguments.
+
+        Raises:
+            ValueError: Computed data is missing.
+
+        Returns:
+            The correlation matrix plot.
+        """
+        backend = viz_backend or self.viz_backend
+
+        if self.viz_data is None:
+            raise ValueError("Could not find data to visualize.")
+
+        return _get_viz_backend(backend).viz_correlation_matrix(self.viz_data, **kwargs)
+
+
 def correlation_matrix(
     data,
     cluster=False,
@@ -24,15 +88,23 @@ def correlation_matrix(
     compute_backend=None,
     viz_backend=None,
     **kwargs,
-):
-    """Correlation matrix of numeric variables.
+) -> CorrelationWidget:
+    """Computes correlations (associations) and visualizes as a heatmap.
+
+    This feature combines measures of association for pairs of variables:
+        * Numeric-numeric pairs: Pearson correlation
+        * Categorical-numeric pairs: Correlation ratio
+        * Categorical-categorical pairs
+            * More than 2 levels: Cramer's V
+            * Only 2 levels for both variables: Point-biserial coefficient
 
     Args:
         data (DataFrame): A data frame
         cluster (bool): If True, use clustering to reorder similar columns together
-        categorical (bool): If True, calculate categorical associations using Cramer's V, Correlation Ratio, and
-            Point-biserial coefficient (aka Matthews correlation coefficient). All associations (including Pearson
-            correlation) are in the range [0, 1].
+        categorical (bool): If True, include categorical associations using Cramer's
+            V, Correlation Ratio, and Point-biserial coefficient (a.k.a. Matthews
+            correlation coefficient). All associations (including Pearson correlation)
+            are scaled to be in the range [0, 1].
         compute_backend: The compute backend.
         viz_backend: The visualization backend.
         **kwargs: Keyword arguments.
@@ -53,63 +125,6 @@ def correlation_matrix(
     corrwidget.viz_backend = viz_backend
 
     return corrwidget
-
-
-class CorrelationWidget(BaseWidget):
-    """Correlation Widget.
-
-    Attributes:
-        association_matrix: The association matrix
-        cluster_matrix: The clustered association matrix.
-        categorical (bool): True if association matrix contains categorical values.
-        viz_data: The data to be visualized.
-    """
-
-    def __init__(
-        self,
-        association_matrix=None,
-        cluster_matrix=None,
-        categorical=None,
-        viz_data=None,
-        **kwargs,
-    ):
-        """Correlation matrix.
-
-        Args:
-            association_matrix (DataFrame): The association matrix. Defaults to None.
-            cluster_matrix (DataFrame, optional): The clustered association matrix. Defaults to None.
-            categorical (bool, optional): True if association matrix contains categorical values. Defaults to None.
-            viz_data (DataFrame): The data to be visualized. Defaults to None.
-            **kwargs: Keyword arguments.
-        """
-        super(CorrelationWidget, self).__init__(**kwargs)
-        self.association_matrix = association_matrix
-        self.cluster_matrix = cluster_matrix
-        self.viz_data = viz_data
-        self.categorical = categorical
-
-    def __str__(self):
-        return "data-describe Correlation Matrix Widget"
-
-    def show(self, viz_backend=None, **kwargs):
-        """Show the Correlation Matrix plot.
-
-        Args:
-            viz_backend: The visualization backend.
-            **kwargs: Keyword arguments.
-
-        Raises:
-            ValueError: Computed data is missing.
-
-        Returns:
-            The correlation matrix plot.
-        """
-        backend = viz_backend or self.viz_backend
-
-        if self.viz_data is None:
-            raise ValueError("Could not find data to visualize.")
-
-        return _get_viz_backend(backend).viz_correlation_matrix(self.viz_data, **kwargs)
 
 
 def _pandas_compute_correlation_matrix(data, cluster=False, categorical=False):
@@ -147,8 +162,8 @@ def _pandas_compute_correlation_matrix(data, cluster=False, categorical=False):
     if categorical:
         if has_numeric:
             association_numeric = np.abs(numeric.corr())
-            association_cramers = cramers_v_matrix(categoric)
-            association_cr = correlation_ratio_matrix(numeric, categoric)
+            association_cramers = _cramers_v_matrix(categoric)
+            association_cr = _correlation_ratio_matrix(numeric, categoric)
 
             association_matrix = pd.concat(
                 [
@@ -158,7 +173,7 @@ def _pandas_compute_correlation_matrix(data, cluster=False, categorical=False):
                 axis=0,
             )
         else:
-            association_matrix = cramers_v_matrix(categoric)
+            association_matrix = _cramers_v_matrix(categoric)
 
         association_matrix.fillna(0, inplace=True)
 
@@ -189,7 +204,7 @@ def _pandas_compute_correlation_matrix(data, cluster=False, categorical=False):
     )
 
 
-def cramers_v_matrix(df):
+def _cramers_v_matrix(df):
     """Computes Cramer's V for all column pairs.
 
     Adapted from https://github.com/shakedzy/dython/blob/master/dython/nominal.py
@@ -202,7 +217,7 @@ def cramers_v_matrix(df):
     """
     index = df.columns.values
     cramers_matrix = pd.DataFrame(
-        [[cramers_v(df[x], df[y]) for x in index] for y in index]
+        [[_cramers_v(df[x], df[y]) for x in index] for y in index]
     )
 
     # Cramer's V can be NaN when there are not enough instances in a category
@@ -215,7 +230,7 @@ def cramers_v_matrix(df):
     return cramers_matrix
 
 
-def cramers_v(x, y):
+def _cramers_v(x, y):
     """Calculates Cramer's V statistic for categorical-categorical association.
 
     Adapted from https://github.com/shakedzy/dython/blob/master/dython/nominal.py
@@ -246,7 +261,7 @@ def cramers_v(x, y):
             return np.sqrt(phi2corr / min((kcorr - 1), (rcorr - 1)))
 
 
-def correlation_ratio_matrix(num_df, cat_df):
+def _correlation_ratio_matrix(num_df, cat_df):
     """Computes correlation ratio for all numeric-categoric pairs of columns.
 
     Args:
@@ -260,7 +275,7 @@ def correlation_ratio_matrix(num_df, cat_df):
     cat_index = cat_df.columns.values
     corr_ratio_mat = pd.DataFrame(
         [
-            [correlation_ratio(cat_df[x], num_df[y]) for x in cat_index]
+            [_correlation_ratio(cat_df[x], num_df[y]) for x in cat_index]
             for y in num_index
         ]
     )
@@ -271,7 +286,7 @@ def correlation_ratio_matrix(num_df, cat_df):
     return corr_ratio_mat
 
 
-def correlation_ratio(categorical, numeric):
+def _correlation_ratio(categorical, numeric):
     """Computes correlation ratio between a categorical column and numeric column.
 
     Args:

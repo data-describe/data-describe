@@ -18,67 +18,11 @@ from data_describe.backends import _get_viz_backend, _get_compute_backend
 from data_describe.dimensionality_reduction.dimensionality_reduction import dim_reduc
 
 
-def cluster(
-    data,
-    method="kmeans",
-    dim_method="pca",
-    compute_backend=None,
-    viz_backend=None,
-    **kwargs,
-):
-    """Cluster analysis.
-
-    Performs clustering on the data and visualizes the results on a 2-d plot.
-
-    Args:
-        data (DataFrame): The data.
-        method (str, optional): {'kmeans', 'hdbscan'} The clustering method. Defaults to "kmeans".
-        dim_method (str, optional): The method to use for dimensionality reduction. Defaults to "pca".
-        compute_backend (str, optional): The compute backend.
-        viz_backend (str, optional): The visualization backend.
-        **kwargs: Keyword arguments.
-
-    Raises:
-        ValueError: Data frame required
-        ValueError: Clustering method not implemented
-
-    Returns:
-        ClusterWidget
-    """
-    if not isinstance(data, _DATAFRAME_TYPE):
-        raise ValueError("Data frame required")
-
-    if method not in ["kmeans", "hdbscan"]:
-        raise ValueError(f"{method} not implemented")
-
-    data = data.select_dtypes("number")
-
-    clusterwidget = _get_compute_backend(compute_backend, data).compute_cluster(
-        data=data, method=method, **kwargs
-    )
-
-    viz_data, reductor = dim_reduc(clusterwidget.scaled_data, 2, dim_method=dim_method)
-    viz_data.columns = ["x", "y"]
-    viz_data["clusters"] = clusterwidget.clusters
-
-    clusterwidget.viz_data = viz_data
-    clusterwidget.reductor = reductor
-
-    if dim_method == "pca":
-        var_explained = np.round(reductor.explained_variance_ratio_[:2], 2) * 100
-        clusterwidget.xlabel = f"Component 1 ({var_explained[0]}% variance explained)"
-        clusterwidget.ylabel = f"Component 2 ({var_explained[1]}% variance explained)"
-    else:
-        clusterwidget.xlabel = "Dimension 1"
-        clusterwidget.ylabel = "Dimension 2"
-
-    clusterwidget.viz_backend = viz_backend
-
-    return clusterwidget
-
-
 class ClusterWidget(BaseWidget):
-    """Clustering Widget.
+    """Container for clustering calculations and visualization.
+
+    This class (object) is returned from the ``cluster`` function. The
+    attributes documented below can be accessed or extracted.
 
     Attributes:
         method (str): {'kmeans', 'hdbscan'} The type of clustering algorithm
@@ -119,14 +63,18 @@ class ClusterWidget(BaseWidget):
             estimator: The clustering estimator/model
             input_data: The input data
             scaled_data: The data after applying standardization
-            viz_data: The data used for the default visualization i.e. reduced to 2 dimensions
+            viz_data: The data used for the default visualization i.e. reduced to 2
+                dimensions
             dim_method (str): The algorithm used for dimensionality reduction
             reductor: The dimensionality reduction estimator
             xlabel (str): The x-axis label for the cluster plot
             ylabel (str): The y-axis label for the cluster plot
-            n_clusters (int, optional): The number of clusters (k) used in the final clustering fit.
-            search (bool, optional): If True, a search was performed for optimal n_clusters.
-            cluster_range (Tuple[int, int], optional): The range of clusters searched as (min_cluster, max_cluster).
+            n_clusters (int, optional): The number of clusters (k) used in the final
+                clustering fit.
+            search (bool, optional): If True, a search was performed for optimal
+                n_clusters.
+            cluster_range (Tuple[int, int], optional): The range of clusters searched as
+                (min_cluster, max_cluster).
             metric (str, optional): The metric used to evaluate the cluster search.
             scores: The metric scores in cluster search.
             **kwargs: Keyword arguments.
@@ -155,10 +103,10 @@ class ClusterWidget(BaseWidget):
         return f"Cluster Widget using {self.method}"
 
     def show(self, viz_backend=None, **kwargs):
-        """Visualize clusters in a 2D plot.
+        """The default display for this output.
 
-        Displays the projected data as a scatter plot, with points colored by the
-        cluster labels.
+        Displays the clustered, projected data as a scatter plot, with points colored by
+            the cluster labels.
 
         Args:
             viz_backend: The visualization backend.
@@ -205,6 +153,71 @@ class ClusterWidget(BaseWidget):
         return _get_viz_backend(viz_backend).viz_cluster_search_plot(
             self.cluster_range, self.scores, self.metric, **kwargs
         )
+
+
+def cluster(
+    data,
+    method="kmeans",
+    dim_method="pca",
+    compute_backend=None,
+    viz_backend=None,
+    **kwargs,
+) -> ClusterWidget:
+    """Unsupervised determination of clusters.
+
+    This feature computes clusters using various algorithms (KMeans, HDBSCAN) and then
+    projects the data onto a two-dimensional plot for visualization.
+
+    Args:
+        data (DataFrame): The data.
+        method (str, optional): {'kmeans', 'hdbscan'} The clustering method.
+        dim_method (str, optional): The method to use for dimensionality reduction.
+        compute_backend (str, optional): The compute backend.
+        viz_backend (str, optional): The visualization backend.
+        n_clusters (Optional[int], optional): (KMeans) The number of clusters.
+        cluster_range (Tuple[int, int], optional): (KMeans) A tuple of the minimum and
+            maximum cluster search range. Defaults to (2, 20).
+        metric (str): (KMeans) The metric to optimize (from sklearn.metrics).
+        target: (KMeans) The labels for supervised clustering, as a 1-D array.
+        **kwargs: Keyword arguments.
+
+    Raises:
+        ValueError: Data frame required
+        ValueError: Clustering method not implemented
+
+    Returns:
+        ClusterWidget
+    """
+    if not isinstance(data, _DATAFRAME_TYPE):
+        raise ValueError("Data frame required")
+
+    if method not in ["kmeans", "hdbscan"]:
+        raise ValueError(f"{method} not implemented")
+
+    data = data.select_dtypes("number")
+
+    clusterwidget = _get_compute_backend(compute_backend, data).compute_cluster(
+        data=data, method=method, **kwargs
+    )
+
+    viz_data, reductor = dim_reduc(clusterwidget.scaled_data, 2, dim_method=dim_method)
+    viz_data.columns = ["x", "y"]
+    viz_data["clusters"] = clusterwidget.clusters
+
+    clusterwidget.viz_data = viz_data
+    clusterwidget.reductor = reductor
+
+    if dim_method == "pca":
+        var_explained = np.round(reductor.explained_variance_ratio_[:2], 2) * 100
+        clusterwidget.xlabel = f"Component 1 ({var_explained[0]}% variance explained)"
+        clusterwidget.ylabel = f"Component 2 ({var_explained[1]}% variance explained)"
+    else:
+        clusterwidget.xlabel = "Dimension 1"
+        clusterwidget.ylabel = "Dimension 2"
+
+    clusterwidget.viz_backend = viz_backend
+
+    return clusterwidget
 
 
 def _pandas_compute_cluster(data, method: str, **kwargs):
@@ -298,7 +311,7 @@ def _find_clusters(
         ValueError: Max of cluster range greater than the min.
 
     Returns:
-        clusters, KmeansFit
+        clusters, KMeansFit
     """
     cluster_range = cluster_range or (2, 20)
     if not cluster_range[0] < cluster_range[1]:
@@ -346,7 +359,7 @@ def _fit_kmeans(data, n_clusters, **kwargs):
         **kwargs: Keyword arguments to be passed into the K-Means estimator
 
     Returns:
-        clusters, KmeansFit
+        clusters, KMeansFit
     """
     default_kmeans_kwargs = {"random_state": 0, "n_clusters": n_clusters}
     kmeans_kwargs = {**default_kmeans_kwargs, **(kwargs or {})}
