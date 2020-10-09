@@ -43,12 +43,12 @@ def test_scatter_plot_diagnostic_dict(_pyscagnostics, data):
 
 
 def test_scatter_plot_diagnostic_outside_threshold(_pyscagnostics, data):
-    with pytest.raises(UserWarning, match="No plots identified by diagnostics"):
+    with pytest.warns(UserWarning, match="No plots identified by diagnostics"):
         dd.scatter_plots(
             data,
             mode="diagnostic",
             threshold={"Outlying": 0.999},
-        )
+        ).show()
 
 
 @pytest.mark.base
