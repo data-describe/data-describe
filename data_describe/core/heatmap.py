@@ -15,28 +15,12 @@ from data_describe.compat import _DATAFRAME_TYPE
 from data_describe.backends import _get_viz_backend, _get_compute_backend
 
 
-def data_heatmap(data, missing=False, compute_backend=None, viz_backend=None, **kwargs):
-    """Generate a data heatmap showing standardized data or missing values.
-
-    The data heatmap shows an overview of numeric features that have been standardized.
-
-    Args:
-        data: A pandas data frame
-        missing (bool): If True, show only missing values
-        compute_backend: The compute backend.
-        viz_backend: The visualization backend.
-        **kwargs: Keyword arguments
-
-    Returns:
-        The data heatmap.
-    """
-    return _get_compute_backend(compute_backend, data).compute_data_heatmap(
-        data, missing=missing, **kwargs
-    )
-
-
 class HeatmapWidget(BaseWidget):
-    """Heatmap Widget.
+    """Container for data heatmap calculation and visualization.
+
+    This class (object) is returned from the ``data_heatmap`` function. The
+    attributes documented below can be accessed or extracted.
+
 
     Attributes:
         input_data: The input data.
@@ -82,7 +66,9 @@ class HeatmapWidget(BaseWidget):
         return f"Heatmap Widget showing {mode} values."
 
     def show(self, viz_backend=None, **kwargs):
-        """Show the data heatmap plot.
+        """The default display for this output.
+
+        Shows the data heatmap plot.
 
         Args:
             viz_backend: The visualization backend.
@@ -102,6 +88,36 @@ class HeatmapWidget(BaseWidget):
         return _get_viz_backend(backend).viz_data_heatmap(
             self.viz_data, colnames=self.colnames, missing=self.missing, **kwargs
         )
+
+
+def data_heatmap(
+    data, missing=False, compute_backend=None, viz_backend=None, **kwargs
+) -> HeatmapWidget:
+    """Visualizes data patterns in the entire dataset by visualizing as a heatmap.
+
+    This feature operates in two modes.
+
+    (Default): A data heatmap showing standardized values (bounded to [-3, 3]). This
+    visualization is useful for showing unusual, ordered patterns in the data that
+    would otherwise be unnoticeable in summary statistics or distribution plots.
+
+    Missing: Visualize only missing values.
+
+    Args:
+        data: A pandas data frame
+        missing (bool): If True, show only missing values
+        compute_backend: The compute backend.
+        viz_backend: The visualization backend.
+        **kwargs: Keyword arguments
+
+    Returns:
+        The data heatmap.
+    """
+    hwidget = _get_compute_backend(compute_backend, data).compute_data_heatmap(
+        data, missing=missing, **kwargs
+    )
+    hwidget.viz_backend = viz_backend
+    return hwidget
 
 
 def _pandas_compute_data_heatmap(
