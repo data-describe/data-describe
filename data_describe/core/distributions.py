@@ -12,35 +12,20 @@ from data_describe.compat import _DATAFRAME_TYPE
 from data_describe.backends import _get_viz_backend, _get_compute_backend
 
 
-def distribution(
-    data, diagnostic=True, compute_backend=None, viz_backend=None, **kwargs
-):
-    """Distribution Plots.
-
-    Args:
-        data: Data Frame
-        diagnostic: If True, will run diagnostics to select "interesting" plots.
-        compute_backend: The compute backend.
-        viz_backend: The visualization backend.
-        **kwargs: Keyword arguments.
-
-    Raises:
-        ValueError: Invalid input data type.
-
-    Returns:
-        DistributionWidget
-    """
-    if not isinstance(data, _DATAFRAME_TYPE):
-        raise ValueError("DataFrame required.")
-
-    widget = _get_compute_backend(compute_backend, data).compute_distribution(
-        data, diagnostic=diagnostic, **kwargs
-    )
-    return widget
-
-
 class DistributionWidget(BaseWidget):
-    """Distribution Widget."""
+    """Container for distributions.
+
+    This class (object) is returned from the ``distribution`` function. The
+    attributes documented below can be accessed or extracted.
+
+    Attributes:
+        input_data: The input data
+        spike_value: Measure of the "spikey"ness metric, which diagnoses spikey
+            histograms where the tallest bin is ``n`` times taller than the average bin.
+        skew_value: Measure of the skewness metric.
+        spike_factor: The threshold factor used to diagnose "spikey"ness.
+        skew_factor: The threshold factor used to diagnose skew.
+    """
 
     def __init__(
         self,
@@ -51,7 +36,17 @@ class DistributionWidget(BaseWidget):
         skew_factor=None,
         viz_backend=None,
     ):
-        """Distribution Plots."""
+        """Distribution Plots.
+
+        Args:
+            input_data: The input data
+            spike_value: Measure of the "spikey"ness metric, which diagnoses spikey
+                histograms where the tallest bin is ``n`` times taller than the average bin.
+            skew_value: Measure of the skewness metric.
+            spike_factor: The threshold factor used to diagnose "spikey"ness.
+            skew_factor: The threshold factor used to diagnose skew.
+            viz_backend: The visualization backend.
+        """
         self.input_data = input_data
         self.spike_value = spike_value
         self.skew_value = skew_value
@@ -60,7 +55,9 @@ class DistributionWidget(BaseWidget):
         self.viz_backend = viz_backend
 
     def show(self, viz_backend=None, **kwargs):
-        """Show the default visualization.
+        """The default display for this output.
+
+        Displays a summary of diagnostics.
 
         Args:
             viz_backend (str, optional): The visualization backend.
@@ -90,12 +87,16 @@ class DistributionWidget(BaseWidget):
     ):
         """Generate distribution plot(s).
 
-        Numeric features will be visualized using a histogram/violin plot, and any other types will be
-        visualized using a categorical bar plot.
+        Numeric features will be visualized using a histogram/violin plot, and any other
+        types will be visualized using a categorical bar plot.
 
         Args:
             x (str, optional): The feature name to plot. If None, will plot all features.
             contrast (str, optional): The feature name to compare histograms by contrast.
+            mode (str): {'combo', 'violin', 'hist'} The type of plot to display.
+                Defaults to a combined histogram/violin plot.
+            hist_kwargs (dict, optional): Keyword args for seaborn.histplot.
+            violin_kwargs (dict, optional): Keyword args for seaborn.violinplot.
             viz_backend (optional): The visualization backend.
             **kwargs: Additional keyword arguments for the visualization backend.
 
@@ -107,6 +108,37 @@ class DistributionWidget(BaseWidget):
         return _get_viz_backend(backend).viz_distribution(
             data=self.input_data, x=x, contrast=contrast, **kwargs
         )
+
+
+def distribution(
+    data, diagnostic=True, compute_backend=None, viz_backend=None, **kwargs
+) -> DistributionWidget:
+    """Distribution Plots.
+
+    Visualizes univariate distributions. This feature can be used for generating
+    various types of plots for univariate distributions, including: histograms, violin
+    plots, bar (count) plots.
+
+    Args:
+        data: Data Frame
+        diagnostic: If True, will run diagnostics to select "interesting" plots.
+        compute_backend: The compute backend.
+        viz_backend: The visualization backend.
+        **kwargs: Keyword arguments.
+
+    Raises:
+        ValueError: Invalid input data type.
+
+    Returns:
+        DistributionWidget
+    """
+    if not isinstance(data, _DATAFRAME_TYPE):
+        raise ValueError("DataFrame required.")
+
+    widget = _get_compute_backend(compute_backend, data).compute_distribution(
+        data, diagnostic=diagnostic, **kwargs
+    )
+    return widget
 
 
 def _pandas_compute_distribution(
