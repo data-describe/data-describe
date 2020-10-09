@@ -10,6 +10,5 @@ data_describe.metrics
 
    bivariate/index.rst
    univariate/index.rst
-   utils/index.rst
 
 

@@ -91,12 +91,13 @@
             
             
               <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../../../overview.html">Package overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../_notebooks/tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../_notebooks/quick_start.html">Quick Start Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../_notebooks/user_guide.html">User Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../examples/index.html">Examples</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../_notebooks/contributing_guide.html">Contributing Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../_notebooks/developer_guide.html">Developer Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../design.html">Design Reference</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../index.html">API Reference</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../../backends/index.html">data_describe.backends</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../compat/index.html">data_describe.compat</a></li>
@@ -283,7 +284,7 @@ Each of the functions in these groups return generator objects, and when using t
 <td><p>Converts all letters in documents (“bag of words” format) to lowercase.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#data_describe.text.text_preprocessing.remove_punct" title="data_describe.text.text_preprocessing.remove_punct"><code class="xref py py-obj docutils literal notranslate"><span class="pre">remove_punct</span></code></a>(text_docs_bow: Iterable[Iterable[str]], replace_char: str = ‘’, remove_all: bool = False)</p></td>
-<td><p>Removes all instances of punctuation from documents (e.g. periods, question marks, etc.).</p></td>
+<td><p>Removes all punctuation from documents (e.g. periods, question marks, etc.).</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#data_describe.text.text_preprocessing.remove_digits" title="data_describe.text.text_preprocessing.remove_digits"><code class="xref py py-obj docutils literal notranslate"><span class="pre">remove_digits</span></code></a>(text_docs_bow: Iterable[Iterable[str]])</p></td>
 <td><p>Removes all numbers and words containing numerical digits from documents.</p></td>
@@ -292,16 +293,16 @@ Each of the functions in these groups return generator objects, and when using t
 <td><p>Removes all words that contain only one character and blank spaces from documents.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#data_describe.text.text_preprocessing.remove_stopwords" title="data_describe.text.text_preprocessing.remove_stopwords"><code class="xref py py-obj docutils literal notranslate"><span class="pre">remove_stopwords</span></code></a>(text_docs_bow: Iterable[Iterable[str]], custom_stopwords: Optional[List[str]] = None)</p></td>
-<td><p>Removes all “stop words” from documents. “Stop words” can be defined as commonly used words which are typically useless for NLP.</p></td>
+<td><p>Removes all “stop words” from documents.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#data_describe.text.text_preprocessing.lemmatize" title="data_describe.text.text_preprocessing.lemmatize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">lemmatize</span></code></a>(text_docs_bow: Iterable[Iterable[str]])</p></td>
-<td><p>Lemmatizes all words in documents. Lemmatization is grouping words together by their reducing them to their inflected forms so they can be analyzed as a single item.</p></td>
+<td><p>Lemmatizes all words in documents.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#data_describe.text.text_preprocessing.stem" title="data_describe.text.text_preprocessing.stem"><code class="xref py py-obj docutils literal notranslate"><span class="pre">stem</span></code></a>(text_docs_bow: Iterable[Iterable[str]])</p></td>
-<td><p>Stems all words in documents. Stemming is grouping words together by taking the stems of their inflected forms so they can be analyzed as a single item.</p></td>
+<td><p>Stems all words in documents.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#data_describe.text.text_preprocessing.bag_of_words_to_docs" title="data_describe.text.text_preprocessing.bag_of_words_to_docs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bag_of_words_to_docs</span></code></a>(text_docs_bow: Iterable[Iterable[str]])</p></td>
-<td><p>Converts list of documents in “bag of words” format back into form of document being stored in one string.</p></td>
+<td><p>Converts list of documents in “bag of words” format.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#data_describe.text.text_preprocessing.create_tfidf_matrix" title="data_describe.text.text_preprocessing.create_tfidf_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_tfidf_matrix</span></code></a>(text_docs: Iterable[str])</p></td>
 <td><p>Creates a Term Frequency-Inverse Document Frequency matrix.</p></td>
@@ -310,7 +311,7 @@ Each of the functions in these groups return generator objects, and when using t
 <td><p>Creates a document-term matrix which gives wordcount per document.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#data_describe.text.text_preprocessing.preprocess_texts" title="data_describe.text.text_preprocessing.preprocess_texts"><code class="xref py py-obj docutils literal notranslate"><span class="pre">preprocess_texts</span></code></a>(text_docs: Iterable[str], lem: bool = False, stem: bool = False, custom_pipeline: List = None)</p></td>
-<td><p>Cleans list of documents by running through a customizable text-preprocessing pipeline.</p></td>
+<td><p>Pre-process a text corpus.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#data_describe.text.text_preprocessing.to_list" title="data_describe.text.text_preprocessing.to_list"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_list</span></code></a>(text_docs_gen)</p></td>
 <td><p>Converts a generator expression from an individual preprocessing function into a list.</p></td>
@@ -319,7 +320,7 @@ Each of the functions in these groups return generator objects, and when using t
 <td><p>Generates frequency distribution of “n-grams” from all of the text documents.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#data_describe.text.text_preprocessing.filter_dictionary" title="data_describe.text.text_preprocessing.filter_dictionary"><code class="xref py py-obj docutils literal notranslate"><span class="pre">filter_dictionary</span></code></a>(text_docs: List[str], no_below: int = 10, no_above: float = 0.2)</p></td>
-<td><p>Filters words that appear less than a certain amount of times in the document and returns a Gensim.</p></td>
+<td><p>Filters words outside specified frequency thresholds.</p></td>
 </tr>
 </tbody>
 </table>
@@ -359,14 +360,14 @@ Each of the functions in these groups return generator objects, and when using t
 <dl class="py function">
 <dt id="data_describe.text.text_preprocessing.remove_punct">
 <code class="sig-prename descclassname">data_describe.text.text_preprocessing.</code><code class="sig-name descname">remove_punct</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">text_docs_bow</span><span class="p">:</span> <span class="n">Iterable<span class="p">[</span>Iterable<span class="p">[</span>str<span class="p">]</span><span class="p">]</span></span></em>, <em class="sig-param"><span class="n">replace_char</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">''</span></em>, <em class="sig-param"><span class="n">remove_all</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span> &#x2192; Iterable<span class="p">[</span>Iterable<span class="p">[</span>str<span class="p">]</span><span class="p">]</span><a class="headerlink" href="#data_describe.text.text_preprocessing.remove_punct" title="Permalink to this definition">¶</a></dt>
-<dd><p>Removes all instances of punctuation from documents (e.g. periods, question marks, etc.).</p>
+<dd><p>Removes all punctuation from documents (e.g. periods, question marks, etc.).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>text_docs_bow</strong> – A list of lists of words from a document</p></li>
 <li><p><strong>replace_char</strong> – Character to replace punctuation instances with. Default is space</p></li>
-<li><p><strong>remove_all</strong> – If True, removes all instances of punctuation from document. Default is False, which only removes</p></li>
-<li><p><strong>and/or trailing instances</strong> (<em>leading</em>) – </p></li>
+<li><p><strong>remove_all</strong> – If True, removes all instances of punctuation from document. Default
+is False, which only removes leading and/or trailing instances.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -406,12 +407,15 @@ Each of the functions in these groups return generator objects, and when using t
 <dl class="py function">
 <dt id="data_describe.text.text_preprocessing.remove_stopwords">
 <code class="sig-prename descclassname">data_describe.text.text_preprocessing.</code><code class="sig-name descname">remove_stopwords</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">text_docs_bow</span><span class="p">:</span> <span class="n">Iterable<span class="p">[</span>Iterable<span class="p">[</span>str<span class="p">]</span><span class="p">]</span></span></em>, <em class="sig-param"><span class="n">custom_stopwords</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>List<span class="p">[</span>str<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; Iterable<span class="p">[</span>Iterable<span class="p">[</span>str<span class="p">]</span><span class="p">]</span><a class="headerlink" href="#data_describe.text.text_preprocessing.remove_stopwords" title="Permalink to this definition">¶</a></dt>
-<dd><p>Removes all “stop words” from documents. “Stop words” can be defined as commonly used words which are typically useless for NLP.</p>
+<dd><p>Removes all “stop words” from documents.</p>
+<p>“Stop words” can be defined as commonly used words which are typically useless
+for NLP.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>text_docs_bow</strong> – A list of lists of words from a document</p></li>
-<li><p><strong>custom_stopwords</strong> – An optional list of words to remove along with the stop words. Default is None</p></li>
+<li><p><strong>custom_stopwords</strong> – An optional list of words to remove along with the stop words.
+Defaults to nltk english stopwords.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -423,7 +427,9 @@ Each of the functions in these groups return generator objects, and when using t
 <dl class="py function">
 <dt id="data_describe.text.text_preprocessing.lemmatize">
 <code class="sig-prename descclassname">data_describe.text.text_preprocessing.</code><code class="sig-name descname">lemmatize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">text_docs_bow</span><span class="p">:</span> <span class="n">Iterable<span class="p">[</span>Iterable<span class="p">[</span>str<span class="p">]</span><span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; Iterable<span class="p">[</span>Iterable<span class="p">[</span>str<span class="p">]</span><span class="p">]</span><a class="headerlink" href="#data_describe.text.text_preprocessing.lemmatize" title="Permalink to this definition">¶</a></dt>
-<dd><p>Lemmatizes all words in documents. Lemmatization is grouping words together by their reducing them to their inflected forms so they can be analyzed as a single item.</p>
+<dd><p>Lemmatizes all words in documents.</p>
+<p>Lemmatization is grouping words together by their reducing them to their inflected
+forms so they can be analyzed as a single item.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>text_docs_bow</strong> – A lists of list of words from a document</p>
@@ -437,7 +443,9 @@ Each of the functions in these groups return generator objects, and when using t
 <dl class="py function">
 <dt id="data_describe.text.text_preprocessing.stem">
 <code class="sig-prename descclassname">data_describe.text.text_preprocessing.</code><code class="sig-name descname">stem</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">text_docs_bow</span><span class="p">:</span> <span class="n">Iterable<span class="p">[</span>Iterable<span class="p">[</span>str<span class="p">]</span><span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; Iterable<span class="p">[</span>Iterable<span class="p">[</span>str<span class="p">]</span><span class="p">]</span><a class="headerlink" href="#data_describe.text.text_preprocessing.stem" title="Permalink to this definition">¶</a></dt>
-<dd><p>Stems all words in documents. Stemming is grouping words together by taking the stems of their inflected forms so they can be analyzed as a single item.</p>
+<dd><p>Stems all words in documents.</p>
+<p>Stemming is grouping words together by taking the stems of their inflected forms
+so they can be analyzed as a single item.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>text_docs_bow</strong> – A list of lists of words from a document</p>
@@ -451,7 +459,8 @@ Each of the functions in these groups return generator objects, and when using t
 <dl class="py function">
 <dt id="data_describe.text.text_preprocessing.bag_of_words_to_docs">
 <code class="sig-prename descclassname">data_describe.text.text_preprocessing.</code><code class="sig-name descname">bag_of_words_to_docs</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">text_docs_bow</span><span class="p">:</span> <span class="n">Iterable<span class="p">[</span>Iterable<span class="p">[</span>str<span class="p">]</span><span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; Iterable<span class="p">[</span>str<span class="p">]</span><a class="headerlink" href="#data_describe.text.text_preprocessing.bag_of_words_to_docs" title="Permalink to this definition">¶</a></dt>
-<dd><p>Converts list of documents in “bag of words” format back into form of document being stored in one string.</p>
+<dd><p>Converts list of documents in “bag of words” format.</p>
+<p>This converts back into form of document being stored in one string.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>text_docs_bow</strong> – A list of lists of words from a document</p>
@@ -471,7 +480,11 @@ Each of the functions in these groups return generator objects, and when using t
 <dd class="field-odd"><p><strong>text_docs</strong> – A list of strings of text documents</p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Pandas DataFrame of TF-IDF matrix with documents as rows and words as columns</p>
+<dd class="field-even"><p><dl class="simple">
+<dt>Pandas DataFrame of TF-IDF matrix with documents as rows and words</dt><dd><p>as columns</p>
+</dd>
+</dl>
+</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>matrix_df</p>
@@ -488,7 +501,11 @@ Each of the functions in these groups return generator objects, and when using t
 <dd class="field-odd"><p><strong>text_docs</strong> – A list of strings of text documents</p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Pandas DataFrame of document-term matrix with documents as rows and words as columns</p>
+<dd class="field-even"><p><dl class="simple">
+<dt>Pandas DataFrame of document-term matrix with documents as rows</dt><dd><p>and words as columns</p>
+</dd>
+</dl>
+</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>matrix_df</p>
@@ -499,22 +516,32 @@ Each of the functions in these groups return generator objects, and when using t
 <dl class="py function">
 <dt id="data_describe.text.text_preprocessing.preprocess_texts">
 <code class="sig-prename descclassname">data_describe.text.text_preprocessing.</code><code class="sig-name descname">preprocess_texts</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">text_docs</span><span class="p">:</span> <span class="n">Iterable<span class="p">[</span>str<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">lem</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">stem</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">custom_pipeline</span><span class="p">:</span> <span class="n">List</span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; Iterable<span class="p">[</span>Any<span class="p">]</span><a class="headerlink" href="#data_describe.text.text_preprocessing.preprocess_texts" title="Permalink to this definition">¶</a></dt>
-<dd><p>Cleans list of documents by running through a customizable text-preprocessing pipeline.</p>
+<dd><p>Pre-process a text corpus.</p>
+<p>Cleans list of documents by running through a customizable text-preprocessing
+pipeline.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>text_docs</strong> – A list of strings of text documents (also accepts arrays and Pandas series)</p></li>
-<li><p><strong>lem</strong> – If True, lemmatization becomes part of the pre-processing. Recommended to set as False and run</p></li>
-<li><p><strong>lemmatization function if pipeline is customized. Default is False</strong> (<em>user-created</em>) – </p></li>
-<li><p><strong>stem</strong> – If True, stemming becomes part of the pre-processing. Recommended to set as False and run</p></li>
-<li><p><strong>stemming function if pipeline is customized. Default is False</strong> (<em>user-created</em>) – </p></li>
-<li><p><strong>custom_pipeline</strong> – A custom list of strings and/or function objects which are the function names that</p></li>
-<li><p><strong>will run through. Default is None</strong><strong>, </strong><strong>which uses the pipeline</strong> (<em>text_docs_bow</em>) – </p></li>
-<li><p><strong>'to_lower'</strong><strong>, </strong><strong>'remove_punct'</strong><strong>, </strong><strong>'remove_digits'</strong><strong>, </strong><strong>'remove_single_char_and_spaces'</strong><strong>, </strong><strong>'remove_stopwords'</strong><strong>]</strong> (<em>[</em><em>'tokenize'</em><em>,</em>) – </p></li>
+<li><p><strong>text_docs</strong> – A list of strings of text documents (also accepts arrays and
+Pandas series)</p></li>
+<li><p><strong>lem</strong> – If True, lemmatization becomes part of the pre-processing. Recommended to
+set as False and run user-created lemmatization function if pipeline is
+customized. Default is False.</p></li>
+<li><p><strong>stem</strong> – If True, stemming becomes part of the pre-processing. Recommended to
+set as False and run user-created stemming function if pipeline is
+customized. Default is False.</p></li>
+<li><p><strong>custom_pipeline</strong> – A custom list of strings and/or function objects which are
+the function names that text_docs_bow will run through. Default is None,
+which uses the pipeline: [‘tokenize’, ‘to_lower’, ‘remove_punct’,
+‘remove_digits’, ‘remove_single_char_and_spaces’, ‘remove_stopwords’]</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>List of lists of words for each document which have undergone a pre-processing pipeline</p>
+<dd class="field-even"><p><dl class="simple">
+<dt>List of lists of words for each document which have undergone a</dt><dd><p>pre-processing pipeline</p>
+</dd>
+</dl>
+</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>text_docs</p>
@@ -531,7 +558,11 @@ Each of the functions in these groups return generator objects, and when using t
 <dd class="field-odd"><p><strong>text_docs_gen</strong> – A generator expression for the processed text documents</p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>A list of processed text documents or a list of tokens (list of strings) for each document</p>
+<dd class="field-even"><p><dl class="simple">
+<dt>A list of processed text documents or a list of tokens (list of strings)</dt><dd><p>for each document</p>
+</dd>
+</dl>
+</p>
 </dd>
 </dl>
 </dd></dl>
@@ -544,16 +575,24 @@ Each of the functions in these groups return generator objects, and when using t
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>text_docs_bow</strong> – A list of lists of words from a document</p></li>
-<li><p><strong>n</strong> – Highest ‘n’ for n-gram sequence to include. Default is 3</p></li>
-<li><p><strong>only_n</strong> – If True, will only include n-grams for specified value of ‘n’. Default is False, which also includes</p></li>
-<li><p><strong>for all numbers leading up to 'n'</strong> (<em>n-grams</em>) – </p></li>
+<li><p><strong>n</strong> – Highest <cite>n</cite> for n-gram sequence to include. Default is 3</p></li>
+<li><p><strong>only_n</strong> – If True, will only include n-grams for specified value of <cite>n</cite>.
+Default is False, which also includes n-grams for all numbers leading
+up to <cite>n</cite></p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Dictionary which contains all identified n-grams as keys and their respective counts as their values</p>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>ValueError</strong> – <cite>n</cite> must be &gt;= 2.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>freq</p>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><dl class="simple">
+<dt>Dictionary which contains all identified n-grams as keys and their</dt><dd><p>respective counts as their values</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>freq</p>
 </dd>
 </dl>
 </dd></dl>
@@ -561,19 +600,24 @@ Each of the functions in these groups return generator objects, and when using t
 <dl class="py function">
 <dt id="data_describe.text.text_preprocessing.filter_dictionary">
 <code class="sig-prename descclassname">data_describe.text.text_preprocessing.</code><code class="sig-name descname">filter_dictionary</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">text_docs</span><span class="p">:</span> <span class="n">List<span class="p">[</span>str<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">no_below</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">10</span></em>, <em class="sig-param"><span class="n">no_above</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.2</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.text.text_preprocessing.filter_dictionary" title="Permalink to this definition">¶</a></dt>
-<dd><p>Filters words that appear less than a certain amount of times in the document and returns a Gensim.</p>
+<dd><p>Filters words outside specified frequency thresholds.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>text_docs</strong> – A list of list of words from a document, can include n-grams up to 3</p></li>
-<li><p><strong>no_below</strong> – Keep tokens which are contained in at least no_below documents. Default is 10</p></li>
-<li><p><strong>no_above</strong> – Keep tokens which are contained in no more than no_above portion of documents (fraction of total</p></li>
-<li><p><strong>size</strong><strong>)</strong><strong> Default is 0.2</strong> (<em>corpus</em>) – </p></li>
+<li><p><strong>text_docs</strong> – A list of list of words from a document, can include n-grams up to 3.</p></li>
+<li><p><strong>no_below</strong> – Keep tokens which are contained in at least no_below documents.
+Default is 10.</p></li>
+<li><p><strong>no_above</strong> – Keep tokens which are contained in no more than no_above portion of
+documents (fraction of total corpus size). Default is 0.2.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Gensim Dictionary encapsulates the mapping between normalized words and their integer ids
-corpus: Bag of Words (BoW) representation of documents (token_id, token_count)</p>
+<dd class="field-even"><p><dl class="simple">
+<dt>Gensim Dictionary encapsulates the mapping between normalized words</dt><dd><p>and their integer ids.</p>
+</dd>
+</dl>
+<p>corpus: Bag of Words (BoW) representation of documents (token_id, token_count).</p>
+</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>dictionary</p>

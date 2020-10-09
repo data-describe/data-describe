@@ -25,6 +25,14 @@
     color: #000;
 }
 
+.wy-menu-vertical a:visited {
+    color: #000;
+}
+
+.wy-menu-vertical a:hover {
+    color: #FFF;
+}
+
 .wy-menu-vertical a:active {
     background-color: #6c698d;
 }
@@ -34,7 +42,7 @@
 }
 
 a {
-    color: #6c698d;
+    color: #8c86cf;
 }
 
 a.icon {
@@ -42,5 +50,5 @@ a.icon {
 }
 
 a:visited {
-    color: #333;
+    color: #6c698d;
 }

@@ -26,4 +26,6 @@ data_describe.misc.colors
 
    :param cmap: The matplotlib colormap
 
+   :returns: Plotly colorscale
+
 

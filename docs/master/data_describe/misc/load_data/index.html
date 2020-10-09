@@ -91,12 +91,13 @@
             
             
               <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../../../overview.html">Package overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../_notebooks/tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../_notebooks/quick_start.html">Quick Start Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../_notebooks/user_guide.html">User Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../examples/index.html">Examples</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../_notebooks/contributing_guide.html">Contributing Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../_notebooks/developer_guide.html">Developer Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../design.html">Design Reference</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../index.html">API Reference</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../../backends/index.html">data_describe.backends</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../compat/index.html">data_describe.compat</a></li>
@@ -109,9 +110,6 @@
 <li class="toctree-l3"><a class="reference internal" href="../file_ext/index.html">data_describe.misc.file_ext</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">data_describe.misc.load_data</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#data_describe.misc.load_data.load_data">load_data</a></li>
-</ul>
-<ul>
-<li class="toctree-l4"><a class="reference internal" href="#data_describe.misc.load_data.read_file_type">read_file_type</a></li>
 </ul>
 <ul>
 <li class="toctree-l4"><a class="reference internal" href="#data_describe.misc.load_data.download_gcs_file">download_gcs_file</a></li>
@@ -229,10 +227,7 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="#data_describe.misc.load_data.load_data" title="data_describe.misc.load_data.load_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_data</span></code></a>(filepath, all_folders=False, **kwargs)</p></td>
 <td><p>Create pandas data frame from filepath.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#data_describe.misc.load_data.read_file_type" title="data_describe.misc.load_data.read_file_type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_file_type</span></code></a>(filepath, **kwargs)</p></td>
-<td><p>Read the file based on file extension.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#data_describe.misc.load_data.download_gcs_file" title="data_describe.misc.load_data.download_gcs_file"><code class="xref py py-obj docutils literal notranslate"><span class="pre">download_gcs_file</span></code></a>(filepath, bucket=None, prefix=None, **kwargs)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#data_describe.misc.load_data.download_gcs_file" title="data_describe.misc.load_data.download_gcs_file"><code class="xref py py-obj docutils literal notranslate"><span class="pre">download_gcs_file</span></code></a>(filepath, bucket=None, prefix=None, **kwargs)</p></td>
 <td><p>Downloads files from Google Cloud Storage.</p></td>
 </tr>
 </tbody>
@@ -246,35 +241,17 @@
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>filepath</strong> – The file path. Can be either a local filepath or Google Cloud Storage URI filepath</p></li>
 <li><p><strong>all_folders</strong> – If True, searches for text files in nested folders. If False, looks for text files in the current folder</p></li>
-<li><p><strong>kwargs</strong> – <p>Keyword arguments to pass to the reader</p>
-<p>.csv, .json, and other: Uses pandas.read_csv or pandas.read_json</p>
-</p></li>
+<li><p><strong>**kwargs</strong> – Keyword arguments to pass to the reader</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>A pandas data frame</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt id="data_describe.misc.load_data.read_file_type">
-<code class="sig-prename descclassname">data_describe.misc.load_data.</code><code class="sig-name descname">read_file_type</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filepath</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.misc.load_data.read_file_type" title="Permalink to this definition">¶</a></dt>
-<dd><p>Read the file based on file extension.</p>
-<dl class="simple">
-<dt>Currently supports the following filetypes:</dt><dd><p>csv, json, txt, shp</p>
-</dd>
-</dl>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>filepath</strong> – The filepath to open</p></li>
-<li><p><strong>kwargs</strong> – Keyword arguments to pass to the reader
-.csv, .json, and other: Uses pandas.read_csv or pandas.read_json</p></li>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>ImportError</strong> – gcsfs not installed.</p></li>
+<li><p><strong>FileNotFoundError</strong> – File doesn’t exist.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>A Pandas data frame</p>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A pandas data frame</p>
 </dd>
 </dl>
 </dd></dl>

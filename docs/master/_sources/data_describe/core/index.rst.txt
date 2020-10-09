@@ -15,13 +15,13 @@ data_describe.core
    :titlesonly:
    :maxdepth: 1
 
-   clusters/index.rst
-   correlations/index.rst
-   data_heatmap/index.rst
+   clustering/index.rst
+   correlation/index.rst
    distributions/index.rst
+   heatmap/index.rst
    importance/index.rst
-   scatter_plot/index.rst
+   scatter/index.rst
    summary/index.rst
-   time_series/index.rst
+   time/index.rst
 
 

@@ -91,12 +91,13 @@
             
             
               <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../../overview.html">Package overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../_notebooks/tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../_notebooks/quick_start.html">Quick Start Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../_notebooks/user_guide.html">User Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../examples/index.html">Examples</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../_notebooks/contributing_guide.html">Contributing Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../_notebooks/developer_guide.html">Developer Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../design.html">Design Reference</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../index.html">API Reference</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">data_describe.backends</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="compute/index.html">data_describe.backends.compute</a></li>
@@ -206,8 +207,15 @@
 </style>
 <div class="section" id="module-data_describe.backends">
 <span id="data-describe-backends"></span><h1>data_describe.backends<a class="headerlink" href="#module-data_describe.backends" title="Permalink to this headline">¶</a></h1>
-<p><p>data-describe backends.</p>
-<p>This subpackage implements a pluggable architecture for the data-describe package. This allows third-party libraries to provide alternative implementation details for data-describe, such as implementing Bokeh visualizations for data-describe features. Default implementations in data-describe are also exposed as plugins to this backend system.</p>
+<p><p><cite>backends</cite> implements a pluggable architecture for the data-describe package.</p>
+<p>This allows third-party libraries to provide alternative implementation details
+for data-describe: for example, implementing Bokeh plot (visualizations, abbreviated
+as <cite>viz</cite>) or implementing calculations on compute clusters (<cite>compute</cite>).</p>
+<p>Default implementations in data-describe are also exposed as plugins to this backend system.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This subpackage is typically not used by end users of data-describe.</p>
+</div>
 </p>
 <div class="toctree-wrapper compound">
 <ul>

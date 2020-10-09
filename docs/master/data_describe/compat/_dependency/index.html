@@ -89,12 +89,13 @@
             
             
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../overview.html">Package overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../_notebooks/tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../_notebooks/quick_start.html">Quick Start Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../_notebooks/user_guide.html">User Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../examples/index.html">Examples</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../_notebooks/contributing_guide.html">Contributing Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../_notebooks/developer_guide.html">Developer Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../design.html">Design Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../index.html">API Reference</a></li>
 </ul>
 
@@ -199,48 +200,8 @@
 <tr class="row-even"><td><p><a class="reference internal" href="#data_describe.compat._dependency.spacy_download" title="data_describe.compat._dependency.spacy_download"><code class="xref py py-obj docutils literal notranslate"><span class="pre">spacy_download</span></code></a>(module)</p></td>
 <td><p>Downloads SpaCy language model.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#data_describe.compat._dependency.requires" title="data_describe.compat._dependency.requires"><code class="xref py py-obj docutils literal notranslate"><span class="pre">requires</span></code></a>(package_name)</p></td>
-<td><p>Marks a method or class that requires an optional dependency.</p></td>
-</tr>
 </tbody>
 </table>
-<dl class="py class">
-<dt id="data_describe.compat._dependency.DependencyManager">
-<em class="property">class </em><code class="sig-prename descclassname">data_describe.compat._dependency.</code><code class="sig-name descname">DependencyManager</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">imports</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>str<span class="p">, </span>Callable<span class="p">]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.compat._dependency.DependencyManager" title="Permalink to this definition">¶</a></dt>
-<dd><p>Manage optional dependencies for data-describe.</p>
-<p class="rubric">Examples</p>
-<p>Optional modules can be accessed using dictionary-style attributes:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">_compat</span> <span class="o">=</span> <span class="n">DependencyManager</span><span class="p">()</span>
-<span class="n">engine</span> <span class="o">=</span> <span class="n">_compat</span><span class="p">[</span><span class="s2">&quot;presidio_analyzer&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">AnalyzerEngine</span><span class="p">()</span>
-</pre></div>
-</div>
-<dl class="py method">
-<dt id="data_describe.compat._dependency.DependencyManager.check_all_install">
-<code class="sig-name descname">check_all_install</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">modules</span><span class="p">:</span> <span class="n">List<span class="p">[</span>str<span class="p">]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.compat._dependency.DependencyManager.check_all_install" title="Permalink to this definition">¶</a></dt>
-<dd><p>Searches for installed modules and determines if they exist.</p>
-<p>The attribute <cite>installed_modules</cite> maps module names to booleans
-for modules which are found.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>modules</strong> (<em>List</em><em>[</em><em>str</em><em>]</em>) – List of module names</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="data_describe.compat._dependency.DependencyManager.check_install">
-<code class="sig-name descname">check_install</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">module</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.compat._dependency.DependencyManager.check_install" title="Permalink to this definition">¶</a></dt>
-<dd><p>Checks to see if a module is installed.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt id="data_describe.compat._dependency.DependencyManager.import_module">
-<code class="sig-name descname">import_module</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">module_name</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.compat._dependency.DependencyManager.import_module" title="Permalink to this definition">¶</a></dt>
-<dd><p>Attempts to import the module and execute any side imports.</p>
-</dd></dl>
-
-</dd></dl>
-
 <dl class="py function">
 <dt id="data_describe.compat._dependency.nltk_download">
 <code class="sig-prename descclassname">data_describe.compat._dependency.</code><code class="sig-name descname">nltk_download</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">module</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.compat._dependency.nltk_download" title="Permalink to this definition">¶</a></dt>
@@ -251,12 +212,6 @@ for modules which are found.</p>
 <dt id="data_describe.compat._dependency.spacy_download">
 <code class="sig-prename descclassname">data_describe.compat._dependency.</code><code class="sig-name descname">spacy_download</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">module</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.compat._dependency.spacy_download" title="Permalink to this definition">¶</a></dt>
 <dd><p>Downloads SpaCy language model.</p>
-</dd></dl>
-
-<dl class="py function">
-<dt id="data_describe.compat._dependency.requires">
-<code class="sig-prename descclassname">data_describe.compat._dependency.</code><code class="sig-name descname">requires</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">package_name</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.compat._dependency.requires" title="Permalink to this definition">¶</a></dt>
-<dd><p>Marks a method or class that requires an optional dependency.</p>
 </dd></dl>
 
 </div>

@@ -21,6 +21,9 @@ data_describe.misc.preprocessing
    :param impute: Method to use for imputing numeric variables. Only 'simple' is implemented.
    :param encode: Method to use for encoding categorical variables. Only 'label' is implemented.
 
+   :raises NotImplementedError: Imputation or encoding method not implemented.
+   :raises ValueError: No columns left to preprocess.
+
    :returns: (X, y) tuple of numpy arrays
 
 

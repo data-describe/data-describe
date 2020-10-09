@@ -90,12 +90,13 @@
             
             
               <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../../../overview.html">Package overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../_notebooks/tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../_notebooks/quick_start.html">Quick Start Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../_notebooks/user_guide.html">User Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../examples/index.html">Examples</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../_notebooks/contributing_guide.html">Contributing Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../_notebooks/developer_guide.html">Developer Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../design.html">Design Reference</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../index.html">API Reference</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../../backends/index.html">data_describe.backends</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../compat/index.html">data_describe.compat</a></li>
@@ -223,7 +224,7 @@
 </colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#data_describe.text.topic_modeling.topic_model" title="data_describe.text.topic_modeling.topic_model"><code class="xref py py-obj docutils literal notranslate"><span class="pre">topic_model</span></code></a>(text_docs: List[str], model_type: str = ‘LDA’, num_topics: Optional[int] = None, min_topics: int = 2, max_topics: int = 10, no_below: int = 10, no_above: float = 0.2, tfidf: bool = True, model_kwargs: Optional[Dict] = None)</p></td>
-<td><p>Creates topic model object, trains topic model, and assigns relevant attributes to topic model object.</p></td>
+<td><p>Topic modeling.</p></td>
 </tr>
 </tbody>
 </table>
@@ -235,20 +236,29 @@
 <dl class="py function">
 <dt id="data_describe.text.topic_modeling.topic_model">
 <code class="sig-prename descclassname">data_describe.text.topic_modeling.</code><code class="sig-name descname">topic_model</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">text_docs</span><span class="p">:</span> <span class="n">List<span class="p">[</span>str<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">model_type</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'LDA'</span></em>, <em class="sig-param"><span class="n">num_topics</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>int<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">min_topics</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">2</span></em>, <em class="sig-param"><span class="n">max_topics</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">10</span></em>, <em class="sig-param"><span class="n">no_below</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">10</span></em>, <em class="sig-param"><span class="n">no_above</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.2</span></em>, <em class="sig-param"><span class="n">tfidf</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="n">model_kwargs</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Dict<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.text.topic_modeling.topic_model" title="Permalink to this definition">¶</a></dt>
-<dd><p>Creates topic model object, trains topic model, and assigns relevant attributes to topic model object.</p>
+<dd><p>Topic modeling.</p>
+<p>Unsupervised methods of identifying topics in documents.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>text_docs</strong> – A list of text documents in string format. These documents should generally be pre-processed</p></li>
-<li><p><strong>model_type</strong> – Defines the type of model which will be used, either ‘LDA’, ‘LSA’, ‘LSI’, ‘SVD’, or ‘NMF’</p></li>
-<li><p><strong>num_topics</strong> – Sets the number of topics for the model. If None, will be optimized using coherence values</p></li>
-<li><p><strong>min_topics</strong> – Starting number of topics to optimize for if number of topics not provided. Default is 2</p></li>
-<li><p><strong>max_topics</strong> – Maximum number of topics to optimize for if number of topics not provided. Default is 10</p></li>
-<li><p><strong>no_below</strong> – Minimum number of documents a word must appear in to be used in training. Default is 10</p></li>
-<li><p><strong>no_above</strong> – Maximum proportion of documents a word may appear in to be used in training. Default is 0.2</p></li>
-<li><p><strong>tfidf</strong> – If True, model created using TF-IDF matrix. Otherwise, document-term matrix with wordcounts is used.</p></li>
-<li><p><strong>is True</strong> (<em>Default</em>) – </p></li>
-<li><p><strong>model_kwargs</strong> – Keyword arguments for the model, should be in agreement with ‘model_type’</p></li>
+<li><p><strong>text_docs</strong> – A list of text documents in string format. These documents should
+generally be pre-processed</p></li>
+<li><p><strong>model_type</strong> – {‘LDA’, ‘LSA’, ‘LSI’, ‘SVD’, ‘NMF’}
+Defines the type of model/algorithm which will be used.</p></li>
+<li><p><strong>num_topics</strong> – Sets the number of topics for the model. If None, will be optimized
+using coherence values</p></li>
+<li><p><strong>min_topics</strong> – Starting number of topics to optimize for if number of topics not
+provided. Default is 2</p></li>
+<li><p><strong>max_topics</strong> – Maximum number of topics to optimize for if number of topics not
+provided. Default is 10</p></li>
+<li><p><strong>no_below</strong> – Minimum number of documents a word must appear in to be used in
+training. Default is 10</p></li>
+<li><p><strong>no_above</strong> – Maximum proportion of documents a word may appear in to be used in
+training. Default is 0.2</p></li>
+<li><p><strong>tfidf</strong> – If True, model created using TF-IDF matrix. Otherwise, document-term
+matrix with wordcounts is used. Default is True</p></li>
+<li><p><strong>model_kwargs</strong> – Keyword arguments for the model, should be in agreement with
+<cite>model_type</cite></p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -328,9 +338,13 @@
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Pandas DataFrame displaying topics as columns and their relevant terms as rows.
-LDA/LSI models will display an extra column to the right of each topic column, showing each term’s
-corresponding coefficient value</p>
+<dd class="field-even"><p><dl class="simple">
+<dt>Pandas DataFrame displaying topics as columns and their</dt><dd><p>relevant terms as rows. LDA/LSI models will display an extra column to
+the right of each topic column, showing each term’s corresponding
+coefficient value</p>
+</dd>
+</dl>
+</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>display_topics_df</p>
@@ -345,16 +359,26 @@ corresponding coefficient value</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>text_docs</strong> – A list of text documents in string format. These documents should generally be pre-processed</p></li>
-<li><p><strong>model_type</strong> – Defines the type of model which will be used, either ‘LDA’, ‘LSA’, ‘LSI’, ‘SVD’, or ‘NMF’</p></li>
-<li><p><strong>min_topics</strong> – Starting number of topics to optimize for if number of topics not provided. Default is 2</p></li>
-<li><p><strong>max_topics</strong> – Maximum number of topics to optimize for if number of topics not provided. Default is 10</p></li>
-<li><p><strong>no_below</strong> – Minimum number of documents a word must appear in to be used in training. Default is 10</p></li>
-<li><p><strong>no_above</strong> – Maximum proportion of documents a word may appear in to be used in training. Default is 0.2</p></li>
-<li><p><strong>tfidf</strong> – If True, model created using TF-IDF matrix. Otherwise, document-term matrix with wordcounts is used.</p></li>
-<li><p><strong>is True</strong> (<em>Default</em>) – </p></li>
-<li><p><strong>model_kwargs</strong> – Keyword arguments for the model, should be in agreement with ‘model_type’</p></li>
+<li><p><strong>text_docs</strong> – A list of text documents in string format. These documents should
+generally be pre-processed</p></li>
+<li><p><strong>model_type</strong> – {‘LDA’, ‘LSA’, ‘LSI’, ‘SVD’, ‘NMF’}
+Defines the type of model/algorithm which will be used.</p></li>
+<li><p><strong>min_topics</strong> – Starting number of topics to optimize for if number of topics
+not provided. Default is 2</p></li>
+<li><p><strong>max_topics</strong> – Maximum number of topics to optimize for if number of topics not
+provided. Default is 10</p></li>
+<li><p><strong>no_below</strong> – Minimum number of documents a word must appear in to be used in
+training. Default is 10</p></li>
+<li><p><strong>no_above</strong> – Maximum proportion of documents a word may appear in to be used in
+training. Default is 0.2</p></li>
+<li><p><strong>tfidf</strong> – If True, model created using TF-IDF matrix. Otherwise, document-term
+matrix with wordcounts is used. Default is True.</p></li>
+<li><p><strong>model_kwargs</strong> – Keyword arguments for the model, should be in agreement with
+<cite>model_type</cite>.</p></li>
 </ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>ValueError</strong> – Invalid <cite>model_type</cite>.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -364,6 +388,12 @@ corresponding coefficient value</p>
 <code class="sig-name descname">elbow_plot</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">viz_backend</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.text.topic_modeling.TopicModelWidget.elbow_plot" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates an elbow plot displaying coherence values vs number of topics.</p>
 <dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>viz_backend</strong> – The visualization backend.</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>ValueError</strong> – No coherence values to plot.</p>
+</dd>
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>Elbow plot showing coherence values vs number of topics</p>
 </dd>
@@ -394,14 +424,20 @@ corresponding coefficient value</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>num_topic_words</strong> – The number of words to be displayed for each topic. Default is 10</p></li>
-<li><p><strong>topic_names</strong> – A list of pre-defined names set for each of the topics. Default is None</p></li>
+<li><p><strong>num_topic_words</strong> – The number of words to be displayed for each topic.
+Default is 10</p></li>
+<li><p><strong>topic_names</strong> – A list of pre-defined names set for each of the topics.
+Default is None</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Pandas DataFrame displaying topics as columns and their relevant terms as rows.
-LDA/LSI models will display an extra column to the right of each topic column, showing each term’s
-corresponding coefficient value</p>
+<dd class="field-even"><p><dl class="simple">
+<dt>Pandas DataFrame displaying topics as columns and their</dt><dd><p>relevant terms as rows. LDA/LSI models will display an extra column to
+the right of each topic column, showing each term’s corresponding
+coefficient value</p>
+</dd>
+</dl>
+</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>display_topics_df</p>
@@ -416,18 +452,27 @@ corresponding coefficient value</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>text_docs</strong> – A list of text documents in string format. Important to note that this list of documents</p></li>
-<li><p><strong>be ordered in accordance with the matrix</strong><strong> or </strong><strong>corpus on which the document was trained</strong> (<em>should</em>) – </p></li>
-<li><p><strong>topic_names</strong> – A list of pre-defined names set for each of the topics. Default is None</p></li>
+<li><p><strong>text_docs</strong> – <dl class="simple">
+<dt>A list of text documents in string format. Important to note that</dt><dd><p>this list of documents should be ordered in accordance with the matrix</p>
+</dd>
+</dl>
+<p>or corpus on which the document was trained</p>
+</p></li>
+<li><p><strong>topic_names</strong> – A list of pre-defined names set for each of the topics.
+Default is None</p></li>
 <li><p><strong>num_docs</strong> – The number of documents to display for each topic. Default is 10</p></li>
-<li><p><strong>summarize_docs</strong> – If True, the documents will be summarized (if this is the case, ‘text_docs’ should be</p></li>
-<li><p><strong>into sentences</strong><strong>)</strong><strong> Default is False</strong> (<em>formatted</em>) – </p></li>
-<li><p><strong>summary_words</strong> – The number of words the summary should be limited to. Should only be specified if</p></li>
-<li><p><strong>set to True</strong> (<em>summarize_docs</em>) – </p></li>
+<li><p><strong>summarize_docs</strong> – If True, the documents will be summarized (if this is the
+case, ‘text_docs’ should be formatted into sentences). Default is False</p></li>
+<li><p><strong>summary_words</strong> – The number of words the summary should be limited to. Should
+only be specified if summarize_docs set to True</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Pandas DataFrame displaying topics as columns and their most relevant documents as rows</p>
+<dd class="field-even"><p><dl class="simple">
+<dt>Pandas DataFrame displaying topics as columns and their</dt><dd><p>most relevant documents as rows</p>
+</dd>
+</dl>
+</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>all_top_docs_df</p>
@@ -440,6 +485,12 @@ corresponding coefficient value</p>
 <code class="sig-name descname">visualize_topic_summary</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">viz_backend</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'pyLDAvis'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.text.topic_modeling.TopicModelWidget.visualize_topic_summary" title="Permalink to this definition">¶</a></dt>
 <dd><p>Displays interactive pyLDAvis visual to understand topic model and documents.</p>
 <dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>viz_backend</strong> (<em>str</em>) – The visualization backend.</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>TypeError</strong> – Only valid for LDA models.</p>
+</dd>
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>A visual to understand topic model and/or documents relating to model</p>
 </dd>

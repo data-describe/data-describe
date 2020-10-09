@@ -89,12 +89,13 @@
             
             
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../overview.html">Package overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../_notebooks/tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../_notebooks/quick_start.html">Quick Start Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../_notebooks/user_guide.html">User Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../examples/index.html">Examples</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../_notebooks/contributing_guide.html">Contributing Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../_notebooks/developer_guide.html">Developer Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../design.html">Design Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../index.html">API Reference</a></li>
 </ul>
 
@@ -198,13 +199,14 @@
 <dt id="data_describe._widget.BaseWidget.show">
 <em class="property">abstract </em><code class="sig-name descname">show</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">viz_backend</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe._widget.BaseWidget.show" title="Permalink to this definition">¶</a></dt>
 <dd><p>Show the default output.</p>
-<p>Assembles the object to be displayed by _repr_html_. This should respect the viz_backend, if applicable.</p>
+<p>Assembles the object to be displayed by _repr_html_. This should respect the
+viz_backend, if applicable.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>viz_backend</strong> – The visualization backend</p>
 </dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>The default visualization or output to be displayed.</p>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>NotImplementedError</strong> – No default visualization defined.</p>
 </dd>
 </dl>
 </dd></dl>

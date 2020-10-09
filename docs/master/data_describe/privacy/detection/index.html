@@ -91,12 +91,13 @@
             
             
               <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../../../overview.html">Package overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../_notebooks/tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../_notebooks/quick_start.html">Quick Start Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../_notebooks/user_guide.html">User Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../examples/index.html">Examples</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../_notebooks/contributing_guide.html">Contributing Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../_notebooks/developer_guide.html">Developer Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../design.html">Design Reference</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../index.html">API Reference</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../../backends/index.html">data_describe.backends</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../compat/index.html">data_describe.compat</a></li>
@@ -245,7 +246,7 @@
 </colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#data_describe.privacy.detection.sensitive_data" title="data_describe.privacy.detection.sensitive_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sensitive_data</span></code></a>(df, mode: str = ‘redact’, detect_infotypes: bool = True, columns: Optional[list] = None, score_threshold: float = _DEFAULT_SCORE_THRESHOLD, sample_size: int = _SAMPLE_SIZE, engine_backend=engine, compute_backend: Optional[str] = None)</p></td>
-<td><p>Identifies, redacts, and encrypts PII data.</p></td>
+<td><p>Identifies, redacts, and/or encrypts PII data.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#data_describe.privacy.detection.compute_sensitive_data" title="data_describe.privacy.detection.compute_sensitive_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">compute_sensitive_data</span></code></a>(df, mode: str = ‘redact’, detect_infotypes: bool = True, columns: Optional[list] = None, score_threshold: float = _DEFAULT_SCORE_THRESHOLD, sample_size: int = _SAMPLE_SIZE, engine_backend=None)</p></td>
 <td><p>Identifies, redacts, and encrypts PII data.</p></td>
@@ -276,14 +277,18 @@
 <dl class="py function">
 <dt id="data_describe.privacy.detection.sensitive_data">
 <code class="sig-prename descclassname">data_describe.privacy.detection.</code><code class="sig-name descname">sensitive_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">df</span></em>, <em class="sig-param"><span class="n">mode</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'redact'</span></em>, <em class="sig-param"><span class="n">detect_infotypes</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="n">columns</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>list<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">score_threshold</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">_DEFAULT_SCORE_THRESHOLD</span></em>, <em class="sig-param"><span class="n">sample_size</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">_SAMPLE_SIZE</span></em>, <em class="sig-param"><span class="n">engine_backend</span><span class="o">=</span><span class="default_value">engine</span></em>, <em class="sig-param"><span class="n">compute_backend</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.privacy.detection.sensitive_data" title="Permalink to this definition">¶</a></dt>
-<dd><p>Identifies, redacts, and encrypts PII data.</p>
-<p>Note: sensitive_data uses Microsoft’s Presidio in the backend. Presidio can be help identify sensitive data.
-However, because Presidio uses trained ML models, there is no guarantee that Presidio will find all sensitive information.</p>
+<dd><p>Identifies, redacts, and/or encrypts PII data.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><cite>sensitive_data</cite> uses Microsoft’s Presidio in the backend. Presidio can be used
+to help identify sensitive data. However, because Presidio uses trained ML models,
+there is no guarantee that Presidio will find all sensitive information.</p>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>df</strong> (<em>DataFrame</em>) – The dataframe</p></li>
-<li><p><strong>mode</strong> (<em>str</em>) – Select ‘redact’ or ‘encrypt’.
+<li><p><strong>mode</strong> (<em>str</em>) – {‘redact’, ‘encrypt’}
 redact: Redact the sensitive data
 encrypt: Anonymize the sensitive data</p></li>
 <li><p><strong>detect_infotypes</strong> (<em>bool</em>) – If True, identifies infotypes for each column</p></li>
@@ -294,8 +299,14 @@ encrypt: Anonymize the sensitive data</p></li>
 <li><p><strong>compute_backend</strong> (<em>str</em>) – Select compute backend</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>SensitiveDataWidget</p>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>ValueError</strong> – Invalid input data type.</p></li>
+<li><p><strong>TypeError</strong> – <cite>columns</cite> not a list of strings.</p></li>
+</ul>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>SensitiveDataWidget</p>
 </dd>
 </dl>
 </dd></dl>
@@ -323,7 +334,7 @@ However, because Presidio uses trained ML models, there is no guarantee that Pre
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>df</strong> (<em>DataFrame</em>) – The dataframe</p></li>
-<li><p><strong>mode</strong> (<em>str</em>) – Select ‘redact’ or ‘encrypt’.
+<li><p><strong>mode</strong> (<em>str</em>) – {‘redact’, ‘encrypt’}
 redact: Redact the sensitive data
 encrypt: Anonymize the sensitive data</p></li>
 <li><p><strong>detect_infotypes</strong> (<em>bool</em>) – If True, identifies infotypes for each column</p></li>
@@ -333,8 +344,11 @@ encrypt: Anonymize the sensitive data</p></li>
 <li><p><strong>engine_backend</strong> – The backend analyzer engine. Default is presidio_analyzer.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>SensitiveDataWidget</p>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>ValueError</strong> – <cite>sample_size</cite> greater than data size.</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>SensitiveDataWidget</p>
 </dd>
 </dl>
 </dd></dl>

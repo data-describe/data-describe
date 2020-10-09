@@ -8,11 +8,6 @@ data-describe can be installed using pip:
 
    pip install data_describe
 
-.. note::
-   During internal beta-testing, data-describe must be installed from the source (GitHub). A source ZIP file should have been distributed to you; to install, run::
-
-      pip install data-describe-master.zip # The name of the zip file, placed in your current directory
-
 data-describe also allows for optional functionality for advanced analyses (for example, text processing). These additional dependencies are not installed by default. To install these optional features, use the square bracket notation for installing these extras_: ::
 
    pip install data_describe[nlp]

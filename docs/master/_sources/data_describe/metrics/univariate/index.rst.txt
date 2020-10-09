@@ -21,6 +21,8 @@ data_describe.metrics.univariate
 
    :param data: The 1-d data array
 
+   :returns: Ratio of the tallest bin height and the average bin height.
+
 
 .. function:: skewed(data)
 
@@ -29,5 +31,7 @@ data_describe.metrics.univariate
    Utilizes scipy.stats.
 
    :param data: The 1-d data array
+
+   :returns: The data skew.
 
 

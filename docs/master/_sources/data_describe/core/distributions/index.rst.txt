@@ -12,54 +12,91 @@ data_describe.core.distributions
    data_describe.core.distributions.distribution
 
 
-.. function:: distribution(data, diagnostic=True, compute_backend=None, viz_backend=None, **kwargs)
-
-   Distribution Plots.
-
-   :param data: Data Frame
-   :param diagnostic: If True, will run diagnostics to select "interesting" plots.
-   :param plot_all: If True, plot all features without filtering for "interesting" features
-   :param max_categories: Maximum categories to show in violin plots. Additional categories will be combined into the "__OTHER__" contrast.
-   :param spike: The factor threshold for identifying spikey histograms
-   :param skew: The skew threshold for identifying skewed histograms
-   :param hist_kwargs: Keyword arguments to be passed to seaborn.histplot
-   :param violin_kwargs: Keyword arguments to be passed to seaborn.violinplot
-
-   :returns: Matplotlib graphics
-
-
 .. py:class:: DistributionWidget(input_data=None, spike_value=None, skew_value=None, spike_factor=None, skew_factor=None, viz_backend=None)
 
    Bases: :class:`data_describe._widget.BaseWidget`
 
-   Distribution Widget.
+   Container for distributions.
+
+   This class (object) is returned from the ``distribution`` function. The
+   attributes documented below can be accessed or extracted.
+
+   .. attribute:: input_data
+
+      The input data
+
+   .. attribute:: spike_value
+
+      Measure of the "spikey"ness metric, which diagnoses spikey
+      histograms where the tallest bin is ``n`` times taller than the average bin.
+
+   .. attribute:: skew_value
+
+      Measure of the skewness metric.
+
+   .. attribute:: spike_factor
+
+      The threshold factor used to diagnose "spikey"ness.
+
+   .. attribute:: skew_factor
+
+      The threshold factor used to diagnose skew.
 
    .. method:: show(self, viz_backend=None, **kwargs)
 
 
-      Show the default visualization.
+      The default display for this output.
+
+      Displays a summary of diagnostics.
 
       :param viz_backend: The visualization backend.
       :type viz_backend: str, optional
+      :param \*\*kwargs: Keyword arguments.
 
 
-   .. method:: plot_distribution(self, x: str = None, contrast: str = None, viz_backend=None, **kwargs)
+   .. method:: plot_distribution(self, x: Optional[str] = None, contrast: Optional[str] = None, viz_backend: Optional[str] = None, **kwargs)
 
 
       Generate distribution plot(s).
 
-      Numeric features will be visualized using a histogram/violin plot, and any other types will be
-      visualized using a categorical bar plot.
+      Numeric features will be visualized using a histogram/violin plot, and any other
+      types will be visualized using a categorical bar plot.
 
       :param x: The feature name to plot. If None, will plot all features.
       :type x: str, optional
       :param contrast: The feature name to compare histograms by contrast.
       :type contrast: str, optional
+      :param mode: {'combo', 'violin', 'hist'} The type of plot to display.
+                   Defaults to a combined histogram/violin plot.
+      :type mode: str
+      :param hist_kwargs: Keyword args for seaborn.histplot.
+      :type hist_kwargs: dict, optional
+      :param violin_kwargs: Keyword args for seaborn.violinplot.
+      :type violin_kwargs: dict, optional
       :param viz_backend: The visualization backend.
       :type viz_backend: optional
       :param \*\*kwargs: Additional keyword arguments for the visualization backend.
 
       :returns: Histogram plot(s).
 
+
+
+.. function:: distribution(data, diagnostic=True, compute_backend=None, viz_backend=None, **kwargs) -> DistributionWidget
+
+   Distribution Plots.
+
+   Visualizes univariate distributions. This feature can be used for generating
+   various types of plots for univariate distributions, including: histograms, violin
+   plots, bar (count) plots.
+
+   :param data: Data Frame
+   :param diagnostic: If True, will run diagnostics to select "interesting" plots.
+   :param compute_backend: The compute backend.
+   :param viz_backend: The visualization backend.
+   :param \*\*kwargs: Keyword arguments.
+
+   :raises ValueError: Invalid input data type.
+
+   :returns: DistributionWidget
 
 

@@ -1,0 +1,99 @@
+data_describe.core.scatter
+=================================
+
+.. py:module:: data_describe.core.scatter
+
+
+
+
+
+.. autoapisummary::
+
+   data_describe.core.scatter.scatter_plots
+
+
+.. py:class:: ScatterWidget(input_data=None, num_data=None, mode=None, sample=None, diagnostics=None, threshold=None, compute_backend=None, viz_backend=None, **kwargs)
+
+   Bases: :class:`data_describe._widget.BaseWidget`
+
+   Container for scatter plots.
+
+   This class (object) is returned from the ``scatter_plots`` function. The
+   attributes documented below can be accessed or extracted.
+
+   .. attribute:: input_data
+
+      The input data.
+
+   .. attribute:: num_data
+
+      Numeric data only
+
+   .. attribute:: mode
+
+      {'diagnostic', 'matrix', 'all'} The visualization mode.
+      **diagnostic**: Plots selected by scagnostics (scatter plot diagnostics)
+      **matrix**: Generate the full scatter plot matrix
+      **all**: Generate all individual scatter plots
+
+   .. attribute:: sample
+
+      The sampling method to use. Currently not used.
+
+   .. attribute:: diagnostics
+
+      The diagnostics from ``pyscagnostics.scagnostics``
+
+   .. attribute:: threshold
+
+      The scatter plot diagnostic threshold value [0,1] for returning a
+      plot. Only used with "diagnostic" mode. For example, ``{"Outlying": 0.9}``
+      returns plots with outlier metrics above 0.9. See
+      ``pyscagnostics.measure_names`` for a list of metrics.
+      **If a number**: Returns all plots where at least one metric is above this threshold
+      **If a dictionary**: Returns plots where the metric is above its threshold.
+
+   .. method:: show(self, viz_backend=None, **kwargs)
+
+
+      The default display for this output.
+
+      Displays a scatter plot matrix.
+
+      :param viz_backend: The visualization backend.
+      :param \*\*kwargs: Keyword arguments.
+
+      :raises ValueError: No numeric data to plot.
+
+      :returns: The correlation matrix plot.
+
+
+
+.. function:: scatter_plots(data, mode='matrix', sample=None, threshold=None, compute_backend=None, viz_backend=None, **kwargs)
+
+   Scatter plots of numeric data.
+
+   :param data: A Pandas data frame
+   :param mode: {``diagnostic``, ``matrix``, ``all``} The visualization mode.
+
+                * ``diagnostic``: Plots selected by scagnostics (scatter plot diagnostics)
+                * ``matrix``: Generate the full scatter plot matrix
+                * ``all``: Generate all individual scatter plots
+   :type mode: str
+   :param sample: The sampling method to use. Currently not used.
+   :param threshold: The scatter plot diagnostic threshold value [0,1] for returning a
+                     plot. Only used with "diagnostic" mode. For example, ``{"Outlying": 0.9}``
+                     returns plots with outlier metrics above 0.9. See
+                     ``pyscagnostics.measure_names`` for a list of metrics.
+
+                     * If a number: Returns all plots where at least one metric is above this threshold
+                     * If a dictionary: Returns plots where the metric is above its threshold.
+   :param compute_backend: The compute backend
+   :param viz_backend: The vizualization backend
+   :param \*\*kwargs: Passed to the visualization framework
+
+   :raises ValueError: Invalid input data type.
+
+   :returns: Scatter plot.
+
+

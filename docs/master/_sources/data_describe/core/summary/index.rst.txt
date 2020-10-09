@@ -10,9 +10,41 @@ data_describe.core.summary
 .. autoapisummary::
 
    data_describe.core.summary.data_summary
-   data_describe.core.summary.agg_zero
-   data_describe.core.summary.agg_null
-   data_describe.core.summary.most_frequent
+
+
+.. py:class:: SummaryWidget(input_data=None, summary=None, **kwargs)
+
+   Bases: :class:`data_describe._widget.BaseWidget`
+
+   Container for data summary.
+
+   This class (object) is returned from the ``data_summary`` function. The
+   attributes documented below can be accessed or extracted.
+
+   .. attribute:: input_data
+
+      The input data.
+
+   .. attribute:: summary
+
+      The summary statistics.
+
+      :type: DataFrame
+
+   .. method:: show(self, viz_backend=None, **kwargs)
+
+
+      The default display for this output.
+
+      Returns the summary data as a Pandas dataframe.
+
+      :param viz_backend: The visualization backend.
+      :param \*\*kwargs: Keyword arguments.
+
+      :raises ValueError: Summary data is missing.
+
+      :returns: The correlation matrix plot.
+
 
 
 .. function:: data_summary(data, compute_backend=None)
@@ -20,34 +52,8 @@ data_describe.core.summary
    Summary statistics and data description.
 
    :param data: The dataframe
+   :param compute_backend: The compute backend.
 
    :returns: The dataframe with metrics in rows
-
-
-.. function:: agg_zero(series)
-
-   Count of zero values in a Pandas or Modin series.
-
-   :param series: The Pandas or Modin series
-
-   :returns: Number of zeros
-
-
-.. function:: agg_null(series)
-
-   Count of null values in a Pandas or Modin series.
-
-   :param series: The Pandas or Modin series
-
-   :returns: Number of null values
-
-
-.. function:: most_frequent(series)
-
-   Percent of most frequent value, per column, in a Pandas or Modin data frame.
-
-   :param data: The Pandas or Modin dataframe
-
-   :returns: Percent of most frequent value per column
 
 

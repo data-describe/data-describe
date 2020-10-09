@@ -3,4 +3,15 @@ data_describe.compat
 
 .. py:module:: data_describe.compat
 
+.. autoapi-nested-parse::
+
+   data-describe compatibility and checks.
+
+   data-describe makes use of a wide range of Python dependencies that
+   are not applicable (and thus not required) for all users. The logic for
+   handling these optional dependencies (e.g. lazy-loading) is implemented here.
+
+   .. note:: This subpackage is typically not used by end users of data-describe.
+
+
 

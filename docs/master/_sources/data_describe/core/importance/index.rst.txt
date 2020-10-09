@@ -16,12 +16,14 @@ data_describe.core.importance
 
    Variable importance chart.
 
-   Uses Random Forest Classifier by default
+   This feature utilizes fits a simple model to the dataset to generate an estimate
+   of feature importance (predictive power). Note that these results are dependent on
+   the accuracy of the fitted model and should refined during modeling.
 
    :param data: A Pandas data frame
    :param target: Name of the response column, as a string
-   :param preprocess_func: A custom preprocessing function that takes a Pandas dataframe and the target/response column
-   :param as a string. Returns X and y as tuple:
+   :param preprocess_func: A custom preprocessing function that takes a Pandas dataframe
+                           and the target/response column as a string. Returns X and y as tuple.
    :param estimator: A custom sklearn estimator. Default is Random Forest Classifier
    :param return_values: If True, only the importance values as a numpy array
    :param truncate: If True, negative importance values will be truncated (set to zero)

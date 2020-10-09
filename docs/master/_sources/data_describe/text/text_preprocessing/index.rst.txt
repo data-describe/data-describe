@@ -70,12 +70,12 @@ data_describe.text.text_preprocessing
 
 .. function:: remove_punct(text_docs_bow: Iterable[Iterable[str]], replace_char: str = '', remove_all: bool = False) -> Iterable[Iterable[str]]
 
-   Removes all instances of punctuation from documents (e.g. periods, question marks, etc.).
+   Removes all punctuation from documents (e.g. periods, question marks, etc.).
 
    :param text_docs_bow: A list of lists of words from a document
    :param replace_char: Character to replace punctuation instances with. Default is space
-   :param remove_all: If True, removes all instances of punctuation from document. Default is False, which only removes
-   :param leading and/or trailing instances:
+   :param remove_all: If True, removes all instances of punctuation from document. Default
+                      is False, which only removes leading and/or trailing instances.
 
    :returns: A generator expression for all of the processed documents
 
@@ -100,17 +100,24 @@ data_describe.text.text_preprocessing
 
 .. function:: remove_stopwords(text_docs_bow: Iterable[Iterable[str]], custom_stopwords: Optional[List[str]] = None) -> Iterable[Iterable[str]]
 
-   Removes all "stop words" from documents. "Stop words" can be defined as commonly used words which are typically useless for NLP.
+   Removes all "stop words" from documents.
+
+   "Stop words" can be defined as commonly used words which are typically useless
+   for NLP.
 
    :param text_docs_bow: A list of lists of words from a document
-   :param custom_stopwords: An optional list of words to remove along with the stop words. Default is None
+   :param custom_stopwords: An optional list of words to remove along with the stop words.
+                            Defaults to nltk english stopwords.
 
    :returns: A generator expression for all of the processed documents
 
 
 .. function:: lemmatize(text_docs_bow: Iterable[Iterable[str]]) -> Iterable[Iterable[str]]
 
-   Lemmatizes all words in documents. Lemmatization is grouping words together by their reducing them to their inflected forms so they can be analyzed as a single item.
+   Lemmatizes all words in documents.
+
+   Lemmatization is grouping words together by their reducing them to their inflected
+   forms so they can be analyzed as a single item.
 
    :param text_docs_bow: A lists of list of words from a document
 
@@ -119,7 +126,10 @@ data_describe.text.text_preprocessing
 
 .. function:: stem(text_docs_bow: Iterable[Iterable[str]]) -> Iterable[Iterable[str]]
 
-   Stems all words in documents. Stemming is grouping words together by taking the stems of their inflected forms so they can be analyzed as a single item.
+   Stems all words in documents.
+
+   Stemming is grouping words together by taking the stems of their inflected forms
+   so they can be analyzed as a single item.
 
    :param text_docs_bow: A list of lists of words from a document
 
@@ -128,7 +138,9 @@ data_describe.text.text_preprocessing
 
 .. function:: bag_of_words_to_docs(text_docs_bow: Iterable[Iterable[str]]) -> Iterable[str]
 
-   Converts list of documents in "bag of words" format back into form of document being stored in one string.
+   Converts list of documents in "bag of words" format.
+
+   This converts back into form of document being stored in one string.
 
    :param text_docs_bow: A list of lists of words from a document
 
@@ -141,7 +153,10 @@ data_describe.text.text_preprocessing
 
    :param text_docs: A list of strings of text documents
 
-   :returns: Pandas DataFrame of TF-IDF matrix with documents as rows and words as columns
+   :returns:
+
+             Pandas DataFrame of TF-IDF matrix with documents as rows and words
+                 as columns
    :rtype: matrix_df
 
 
@@ -151,24 +166,37 @@ data_describe.text.text_preprocessing
 
    :param text_docs: A list of strings of text documents
 
-   :returns: Pandas DataFrame of document-term matrix with documents as rows and words as columns
+   :returns:
+
+             Pandas DataFrame of document-term matrix with documents as rows
+                 and words as columns
    :rtype: matrix_df
 
 
 .. function:: preprocess_texts(text_docs: Iterable[str], lem: bool = False, stem: bool = False, custom_pipeline: List = None) -> Iterable[Any]
 
-   Cleans list of documents by running through a customizable text-preprocessing pipeline.
+   Pre-process a text corpus.
 
-   :param text_docs: A list of strings of text documents (also accepts arrays and Pandas series)
-   :param lem: If True, lemmatization becomes part of the pre-processing. Recommended to set as False and run
-   :param user-created lemmatization function if pipeline is customized. Default is False:
-   :param stem: If True, stemming becomes part of the pre-processing. Recommended to set as False and run
-   :param user-created stemming function if pipeline is customized. Default is False:
-   :param custom_pipeline: A custom list of strings and/or function objects which are the function names that
-   :param text_docs_bow will run through. Default is None, which uses the pipeline:
-   :param ['tokenize', 'to_lower', 'remove_punct', 'remove_digits', 'remove_single_char_and_spaces', 'remove_stopwords']:
+   Cleans list of documents by running through a customizable text-preprocessing
+   pipeline.
 
-   :returns: List of lists of words for each document which have undergone a pre-processing pipeline
+   :param text_docs: A list of strings of text documents (also accepts arrays and
+                     Pandas series)
+   :param lem: If True, lemmatization becomes part of the pre-processing. Recommended to
+               set as False and run user-created lemmatization function if pipeline is
+               customized. Default is False.
+   :param stem: If True, stemming becomes part of the pre-processing. Recommended to
+                set as False and run user-created stemming function if pipeline is
+                customized. Default is False.
+   :param custom_pipeline: A custom list of strings and/or function objects which are
+                           the function names that text_docs_bow will run through. Default is None,
+                           which uses the pipeline: ['tokenize', 'to_lower', 'remove_punct',
+                           'remove_digits', 'remove_single_char_and_spaces', 'remove_stopwords']
+
+   :returns:
+
+             List of lists of words for each document which have undergone a
+                 pre-processing pipeline
    :rtype: text_docs
 
 
@@ -178,7 +206,10 @@ data_describe.text.text_preprocessing
 
    :param text_docs_gen: A generator expression for the processed text documents
 
-   :returns: A list of processed text documents or a list of tokens (list of strings) for each document
+   :returns:
+
+             A list of processed text documents or a list of tokens (list of strings)
+                 for each document
 
 
 .. function:: ngram_freq(text_docs_bow: Iterable[Iterable[str]], n: int = 3, only_n: bool = False) -> 'nltk.FreqDist'
@@ -186,25 +217,35 @@ data_describe.text.text_preprocessing
    Generates frequency distribution of "n-grams" from all of the text documents.
 
    :param text_docs_bow: A list of lists of words from a document
-   :param n: Highest 'n' for n-gram sequence to include. Default is 3
-   :param only_n: If True, will only include n-grams for specified value of 'n'. Default is False, which also includes
-   :param n-grams for all numbers leading up to 'n':
+   :param n: Highest `n` for n-gram sequence to include. Default is 3
+   :param only_n: If True, will only include n-grams for specified value of `n`.
+                  Default is False, which also includes n-grams for all numbers leading
+                  up to `n`
 
-   :returns: Dictionary which contains all identified n-grams as keys and their respective counts as their values
+   :raises ValueError: `n` must be >= 2.
+
+   :returns:
+
+             Dictionary which contains all identified n-grams as keys and their
+                 respective counts as their values
    :rtype: freq
 
 
 .. function:: filter_dictionary(text_docs: List[str], no_below: int = 10, no_above: float = 0.2)
 
-   Filters words that appear less than a certain amount of times in the document and returns a Gensim.
+   Filters words outside specified frequency thresholds.
 
-   :param text_docs: A list of list of words from a document, can include n-grams up to 3
-   :param no_below: Keep tokens which are contained in at least no_below documents. Default is 10
-   :param no_above: Keep tokens which are contained in no more than no_above portion of documents (fraction of total
-   :param corpus size). Default is 0.2:
+   :param text_docs: A list of list of words from a document, can include n-grams up to 3.
+   :param no_below: Keep tokens which are contained in at least no_below documents.
+                    Default is 10.
+   :param no_above: Keep tokens which are contained in no more than no_above portion of
+                    documents (fraction of total corpus size). Default is 0.2.
 
-   :returns: Gensim Dictionary encapsulates the mapping between normalized words and their integer ids
-             corpus: Bag of Words (BoW) representation of documents (token_id, token_count)
+   :returns:
+
+             Gensim Dictionary encapsulates the mapping between normalized words
+                 and their integer ids.
+             corpus: Bag of Words (BoW) representation of documents (token_id, token_count).
    :rtype: dictionary
 
 

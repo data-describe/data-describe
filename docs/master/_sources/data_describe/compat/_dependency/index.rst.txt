@@ -13,43 +13,6 @@ data_describe.compat._dependency
 
    data_describe.compat._dependency.nltk_download
    data_describe.compat._dependency.spacy_download
-   data_describe.compat._dependency.requires
-
-
-.. py:class:: DependencyManager(imports: Dict[str, Callable])
-
-   Manage optional dependencies for data-describe.
-
-   .. rubric:: Examples
-
-   Optional modules can be accessed using dictionary-style attributes::
-
-       _compat = DependencyManager()
-       engine = _compat["presidio_analyzer"].AnalyzerEngine()
-
-   .. method:: check_all_install(self, modules: List[str])
-
-
-      Searches for installed modules and determines if they exist.
-
-      The attribute `installed_modules` maps module names to booleans
-      for modules which are found.
-
-      :param modules: List of module names
-      :type modules: List[str]
-
-
-   .. method:: check_install(self, module: str)
-
-
-      Checks to see if a module is installed.
-
-
-   .. method:: import_module(self, module_name: str)
-
-
-      Attempts to import the module and execute any side imports.
-
 
 
 .. function:: nltk_download(module)
@@ -60,10 +23,5 @@ data_describe.compat._dependency
 .. function:: spacy_download(module)
 
    Downloads SpaCy language model.
-
-
-.. function:: requires(package_name)
-
-   Marks a method or class that requires an optional dependency.
 
 

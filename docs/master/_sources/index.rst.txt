@@ -9,12 +9,13 @@ data-describe
 .. toctree::
    :maxdepth: 2
 
-   overview
+   introduction
    installation
-   _notebooks/tutorial
+   _notebooks/quick_start
+   _notebooks/user_guide
    examples/index
-   _notebooks/contributing_guide
    _notebooks/developer_guide
+   design
    API Reference <data_describe/index>
 
 .. _`data-describe`: https://github.com/data-describe/data-describe/

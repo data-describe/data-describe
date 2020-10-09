@@ -6,10 +6,3 @@ data_describe.backends._backends
 .. py:module:: data_describe.backends._backends
 
 
-
-
-.. py:class:: Backend(b: List[ModuleType])
-
-   Interface for compute and visualization backends.
-
-

@@ -23,11 +23,12 @@ data_describe._widget
 
       Show the default output.
 
-      Assembles the object to be displayed by _repr_html_. This should respect the viz_backend, if applicable.
+      Assembles the object to be displayed by _repr_html_. This should respect the
+      viz_backend, if applicable.
 
       :param viz_backend: The visualization backend
 
-      :returns: The default visualization or output to be displayed.
+      :raises NotImplementedError: No default visualization defined.
 
 
 

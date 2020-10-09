@@ -41,7 +41,7 @@
     
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Package overview" href="overview.html" /> 
+    <link rel="next" title="Introduction" href="introduction.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -90,12 +90,13 @@
             
             
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="overview.html">Package overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="_notebooks/tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="_notebooks/quick_start.html">Quick Start Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="_notebooks/user_guide.html">User Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples/index.html">Examples</a></li>
-<li class="toctree-l1"><a class="reference internal" href="_notebooks/contributing_guide.html">Contributing Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="_notebooks/developer_guide.html">Developer Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="design.html">Design Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="data_describe/index.html">API Reference</a></li>
 </ul>
 
@@ -192,38 +193,51 @@
 <p><a class="reference external" href="https://github.com/data-describe/data-describe/">data-describe</a> is licensed under <a class="reference external" href="https://github.com/data-describe/data-describe/blob/master/LICENSE">Apache 2</a>.</p>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="overview.html">Package overview</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="overview.html#core-design-principles">Core Design Principles</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="introduction.html#main-features">Main Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="introduction.html#extended-features">Extended Features</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="_notebooks/tutorial.html">Tutorial</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="_notebooks/tutorial.html#Data">Data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="_notebooks/tutorial.html#Data-Overview">Data Overview</a></li>
-<li class="toctree-l2"><a class="reference internal" href="_notebooks/tutorial.html#Data-Inspection">Data Inspection</a></li>
-<li class="toctree-l2"><a class="reference internal" href="_notebooks/tutorial.html#Advanced-Analysis">Advanced Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="_notebooks/quick_start.html">Quick Start Tutorial</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="_notebooks/quick_start.html#Data">Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_notebooks/quick_start.html#Data-Overview">Data Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_notebooks/quick_start.html#Data-Inspection">Data Inspection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_notebooks/quick_start.html#Advanced-Analysis">Advanced Analysis</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="_notebooks/user_guide.html">User Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="_notebooks/user_guide.html#Using-“Core-Features”">Using “Core Features”</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_notebooks/user_guide.html#The-“Widget”-class">The “Widget” class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_notebooks/user_guide.html#Backends">Backends</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_notebooks/user_guide.html#Using-other-features">Using other features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_notebooks/user_guide.html#Optional-Dependencies">Optional Dependencies</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="examples/index.html">Examples</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="examples/topic_modeling.html">Topic Modeling</a></li>
-<li class="toctree-l2"><a class="reference internal" href="examples/data_heatmap.html">Data Heatmap</a></li>
-<li class="toctree-l2"><a class="reference internal" href="examples/distributions.html">Distributions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="examples/scatter_plots.html">Scatter Plots</a></li>
-<li class="toctree-l2"><a class="reference internal" href="examples/correlation_matrix.html">Correlation Matrix</a></li>
-<li class="toctree-l2"><a class="reference internal" href="examples/sensitive_data.html">Sensitive Data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="examples/feature_importance.html">Feature Importance</a></li>
-<li class="toctree-l2"><a class="reference internal" href="examples/text_preprocessing.html">Text Preprocessing</a></li>
-<li class="toctree-l2"><a class="reference internal" href="examples/data_summary.html">Data Summary</a></li>
 <li class="toctree-l2"><a class="reference internal" href="examples/cluster_analysis.html">Cluster Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/correlation_matrix.html">Correlation Matrix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/data_heatmap.html">Data Heatmap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/data_summary.html">Data Summary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/distributions.html">Distributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/feature_importance.html">Feature Importance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/scatter_plots.html">Scatter Plots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/sensitive_data.html">Sensitive Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/text_preprocessing.html">Text Preprocessing</a></li>
 <li class="toctree-l2"><a class="reference internal" href="examples/time_series.html">Time Series</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="_notebooks/contributing_guide.html">Contributing Guide</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="_notebooks/contributing_guide.html#Python-Developer-Setup">Python Developer Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/topic_modeling.html">Topic Modeling</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="_notebooks/developer_guide.html">Developer Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="_notebooks/developer_guide.html#Contributing-Guide">Contributing Guide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_notebooks/developer_guide.html#Recommended-Python-Setup">Recommended Python Setup</a></li>
 <li class="toctree-l2"><a class="reference internal" href="_notebooks/developer_guide.html#Optional-Dependencies">Optional Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_notebooks/developer_guide.html#Docstring-Checking">Docstring Checking</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_notebooks/developer_guide.html#Automatic-Documentation">Automatic Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="design.html">Design Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="design.html#core-design-principles">Core Design Principles</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="data_describe/index.html">API Reference</a><ul>
@@ -250,7 +264,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="overview.html" class="btn btn-neutral float-right" title="Package overview" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="introduction.html" class="btn btn-neutral float-right" title="Introduction" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
     </div>

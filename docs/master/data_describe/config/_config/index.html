@@ -89,12 +89,13 @@
             
             
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../overview.html">Package overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../_notebooks/tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../_notebooks/quick_start.html">Quick Start Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../_notebooks/user_guide.html">User Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../examples/index.html">Examples</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../_notebooks/contributing_guide.html">Contributing Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../_notebooks/developer_guide.html">Developer Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../design.html">Design Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../index.html">API Reference</a></li>
 </ul>
 
@@ -193,43 +194,17 @@
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#data_describe.config._config.get_root" title="data_describe.config._config.get_root"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_root</span></code></a>(path: str)</p></td>
-<td><p>Get the parent dict (node) of a given path from the global config nested dict.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#data_describe.config._config.get_option" title="data_describe.config._config.get_option"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_option</span></code></a>(path: str)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#data_describe.config._config.get_option" title="data_describe.config._config.get_option"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_option</span></code></a>(path: str)</p></td>
 <td><p>Get the current value of the option.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#data_describe.config._config.set_option" title="data_describe.config._config.set_option"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_option</span></code></a>(path: str, value: Any)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#data_describe.config._config.set_option" title="data_describe.config._config.set_option"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_option</span></code></a>(path: str, value: Any)</p></td>
 <td><p>Set the current value of the option.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#data_describe.config._config.get_config" title="data_describe.config._config.get_config"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_config</span></code></a>()</p></td>
-<td><p>Get a deep copy of the current configuration.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#data_describe.config._config.set_config" title="data_describe.config._config.set_config"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_config</span></code></a>(config: Dict)</p></td>
-<td><p>Updates the current configuration dictionary.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#data_describe.config._config.flatten_config" title="data_describe.config._config.flatten_config"><code class="xref py py-obj docutils literal notranslate"><span class="pre">flatten_config</span></code></a>(config: Dict)</p></td>
-<td><p>Flattens the nested configuration dictionary into “dot-style” paths for each item.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#data_describe.config._config.update_context" title="data_describe.config._config.update_context"><code class="xref py py-obj docutils literal notranslate"><span class="pre">update_context</span></code></a>(*args)</p></td>
 <td><p>data-describe configuration context.</p></td>
 </tr>
 </tbody>
 </table>
-<dl class="py function">
-<dt id="data_describe.config._config.get_root">
-<code class="sig-prename descclassname">data_describe.config._config.</code><code class="sig-name descname">get_root</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; Any<a class="headerlink" href="#data_describe.config._config.get_root" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get the parent dict (node) of a given path from the global config nested dict.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>path</strong> – The “dot-style” path to the configuration item, e.g. ‘backends.viz’</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>The parent dict, to be used to access the configuration item or section</p>
-</dd>
-</dl>
-</dd></dl>
-
 <dl class="py function">
 <dt id="data_describe.config._config.get_option">
 <code class="sig-prename descclassname">data_describe.config._config.</code><code class="sig-name descname">get_option</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; Any<a class="headerlink" href="#data_describe.config._config.get_option" title="Permalink to this definition">¶</a></dt>
@@ -254,47 +229,6 @@
 <li><p><strong>path</strong> – The “dot-style” path to the configuration item, e.g. ‘backends.viz’</p></li>
 <li><p><strong>value</strong> – The value to update</p></li>
 </ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt id="data_describe.config._config.get_config">
-<code class="sig-prename descclassname">data_describe.config._config.</code><code class="sig-name descname">get_config</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Dict<a class="headerlink" href="#data_describe.config._config.get_config" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get a deep copy of the current configuration.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>The current configuration dictionary</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt id="data_describe.config._config.set_config">
-<code class="sig-prename descclassname">data_describe.config._config.</code><code class="sig-name descname">set_config</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">config</span><span class="p">:</span> <span class="n">Dict</span></em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#data_describe.config._config.set_config" title="Permalink to this definition">¶</a></dt>
-<dd><p>Updates the current configuration dictionary.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>config</strong> – A flattened configuration dictionary specifying values to update</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt id="data_describe.config._config.flatten_config">
-<code class="sig-prename descclassname">data_describe.config._config.</code><code class="sig-name descname">flatten_config</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">config</span><span class="p">:</span> <span class="n">Dict</span></em><span class="sig-paren">)</span> &#x2192; Dict<a class="headerlink" href="#data_describe.config._config.flatten_config" title="Permalink to this definition">¶</a></dt>
-<dd><p>Flattens the nested configuration dictionary into “dot-style” paths for each item.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>config</strong> – A flattened configuration dictionary</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><p>A flattened dictionary</p>
-<p>For example:</p>
-<p>{“backends”: {“viz”: “seaborn”}}
-becomes:
-{“backends.viz”: “seaborn”}</p>
-</p>
 </dd>
 </dl>
 </dd></dl>
@@ -333,6 +267,12 @@ with dd.config.update_context(“display.fig_height”, 20):</p>
 <div><p>second is the value</p>
 </div></blockquote>
 </p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>ValueError</strong> – Unsupported input format for assigning configuration values.</p>
+</dd>
+<dt class="field-odd">Yields</dt>
+<dd class="field-odd"><p>Configuration context.</p>
 </dd>
 </dl>
 </dd></dl>

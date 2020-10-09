@@ -41,8 +41,8 @@
     
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="data_describe.core.time_series" href="../time_series/index.html" />
-    <link rel="prev" title="data_describe.core.scatter_plot" href="../scatter_plot/index.html" /> 
+    <link rel="next" title="data_describe.core.time" href="../time/index.html" />
+    <link rel="prev" title="data_describe.core.scatter" href="../scatter/index.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -91,37 +91,32 @@
             
             
               <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../../../overview.html">Package overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../_notebooks/tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../_notebooks/quick_start.html">Quick Start Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../_notebooks/user_guide.html">User Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../examples/index.html">Examples</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../_notebooks/contributing_guide.html">Contributing Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../_notebooks/developer_guide.html">Developer Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../design.html">Design Reference</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../index.html">API Reference</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../../backends/index.html">data_describe.backends</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../compat/index.html">data_describe.compat</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../config/index.html">data_describe.config</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../index.html">data_describe.core</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="../clusters/index.html">data_describe.core.clusters</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../correlations/index.html">data_describe.core.correlations</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../data_heatmap/index.html">data_describe.core.data_heatmap</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../clustering/index.html">data_describe.core.clustering</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../correlation/index.html">data_describe.core.correlation</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../distributions/index.html">data_describe.core.distributions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../heatmap/index.html">data_describe.core.heatmap</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../importance/index.html">data_describe.core.importance</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../scatter_plot/index.html">data_describe.core.scatter_plot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../scatter/index.html">data_describe.core.scatter</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">data_describe.core.summary</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#data_describe.core.summary.SummaryWidget">SummaryWidget</a></li>
+</ul>
+<ul>
 <li class="toctree-l4"><a class="reference internal" href="#data_describe.core.summary.data_summary">data_summary</a></li>
 </ul>
-<ul>
-<li class="toctree-l4"><a class="reference internal" href="#data_describe.core.summary.agg_zero">agg_zero</a></li>
-</ul>
-<ul>
-<li class="toctree-l4"><a class="reference internal" href="#data_describe.core.summary.agg_null">agg_null</a></li>
-</ul>
-<ul>
-<li class="toctree-l4"><a class="reference internal" href="#data_describe.core.summary.most_frequent">most_frequent</a></li>
-</ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../time_series/index.html">data_describe.core.time_series</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../time/index.html">data_describe.core.time</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../dimensionality_reduction/index.html">data_describe.dimensionality_reduction</a></li>
@@ -235,69 +230,68 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="#data_describe.core.summary.data_summary" title="data_describe.core.summary.data_summary"><code class="xref py py-obj docutils literal notranslate"><span class="pre">data_summary</span></code></a>(data, compute_backend=None)</p></td>
 <td><p>Summary statistics and data description.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#data_describe.core.summary.agg_zero" title="data_describe.core.summary.agg_zero"><code class="xref py py-obj docutils literal notranslate"><span class="pre">agg_zero</span></code></a>(series)</p></td>
-<td><p>Count of zero values in a Pandas or Modin series.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#data_describe.core.summary.agg_null" title="data_describe.core.summary.agg_null"><code class="xref py py-obj docutils literal notranslate"><span class="pre">agg_null</span></code></a>(series)</p></td>
-<td><p>Count of null values in a Pandas or Modin series.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#data_describe.core.summary.most_frequent" title="data_describe.core.summary.most_frequent"><code class="xref py py-obj docutils literal notranslate"><span class="pre">most_frequent</span></code></a>(series)</p></td>
-<td><p>Percent of most frequent value, per column, in a Pandas or Modin data frame.</p></td>
-</tr>
 </tbody>
 </table>
+<dl class="py class">
+<dt id="data_describe.core.summary.SummaryWidget">
+<em class="property">class </em><code class="sig-prename descclassname">data_describe.core.summary.</code><code class="sig-name descname">SummaryWidget</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">input_data</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">summary</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.core.summary.SummaryWidget" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../../_widget/index.html#data_describe._widget.BaseWidget" title="data_describe._widget.BaseWidget"><code class="xref py py-class docutils literal notranslate"><span class="pre">data_describe._widget.BaseWidget</span></code></a></p>
+<p>Container for data summary.</p>
+<p>This class (object) is returned from the <code class="docutils literal notranslate"><span class="pre">data_summary</span></code> function. The
+attributes documented below can be accessed or extracted.</p>
+<dl class="py attribute">
+<dt id="data_describe.core.summary.SummaryWidget.input_data">
+<code class="sig-name descname">input_data</code><a class="headerlink" href="#data_describe.core.summary.SummaryWidget.input_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>The input data.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="data_describe.core.summary.SummaryWidget.summary">
+<code class="sig-name descname">summary</code><a class="headerlink" href="#data_describe.core.summary.SummaryWidget.summary" title="Permalink to this definition">¶</a></dt>
+<dd><p>The summary statistics.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="data_describe.core.summary.SummaryWidget.show">
+<code class="sig-name descname">show</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">viz_backend</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.core.summary.SummaryWidget.show" title="Permalink to this definition">¶</a></dt>
+<dd><p>The default display for this output.</p>
+<p>Returns the summary data as a Pandas dataframe.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>viz_backend</strong> – The visualization backend.</p></li>
+<li><p><strong>**kwargs</strong> – Keyword arguments.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>ValueError</strong> – Summary data is missing.</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The correlation matrix plot.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 <dl class="py function">
 <dt id="data_describe.core.summary.data_summary">
 <code class="sig-prename descclassname">data_describe.core.summary.</code><code class="sig-name descname">data_summary</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em>, <em class="sig-param"><span class="n">compute_backend</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.core.summary.data_summary" title="Permalink to this definition">¶</a></dt>
 <dd><p>Summary statistics and data description.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>data</strong> – The dataframe</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> – The dataframe</p></li>
+<li><p><strong>compute_backend</strong> – The compute backend.</p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>The dataframe with metrics in rows</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt id="data_describe.core.summary.agg_zero">
-<code class="sig-prename descclassname">data_describe.core.summary.</code><code class="sig-name descname">agg_zero</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">series</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.core.summary.agg_zero" title="Permalink to this definition">¶</a></dt>
-<dd><p>Count of zero values in a Pandas or Modin series.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>series</strong> – The Pandas or Modin series</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Number of zeros</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt id="data_describe.core.summary.agg_null">
-<code class="sig-prename descclassname">data_describe.core.summary.</code><code class="sig-name descname">agg_null</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">series</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.core.summary.agg_null" title="Permalink to this definition">¶</a></dt>
-<dd><p>Count of null values in a Pandas or Modin series.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>series</strong> – The Pandas or Modin series</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Number of null values</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt id="data_describe.core.summary.most_frequent">
-<code class="sig-prename descclassname">data_describe.core.summary.</code><code class="sig-name descname">most_frequent</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">series</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.core.summary.most_frequent" title="Permalink to this definition">¶</a></dt>
-<dd><p>Percent of most frequent value, per column, in a Pandas or Modin data frame.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>data</strong> – The Pandas or Modin dataframe</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Percent of most frequent value per column</p>
 </dd>
 </dl>
 </dd></dl>
@@ -312,10 +306,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../time_series/index.html" class="btn btn-neutral float-right" title="data_describe.core.time_series" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="../time/index.html" class="btn btn-neutral float-right" title="data_describe.core.time" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="../scatter_plot/index.html" class="btn btn-neutral float-left" title="data_describe.core.scatter_plot" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="../scatter/index.html" class="btn btn-neutral float-left" title="data_describe.core.scatter" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
