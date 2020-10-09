@@ -9,16 +9,24 @@ _viz_backends: Dict[str, Dict[str, ModuleType]] = {}
 _compute_backends: Dict[str, Dict[str, ModuleType]] = {}
 
 
-class Backend:
-    """Interface for compute and visualization backends."""
+class _Backend:
+    """Interface for compute and visualization backends.
 
-    def __init__(self, b: List[ModuleType]):
+    Attributes:
+        backends: A list of Python modules that may implement one
+            or more compute or visualization backends. To be used by
+            data-describe, the module must expose functions with the
+            naming pattern `compute_FEATURE` or `viz_FEATURE` and register
+            as a data-describe entrypoint. (See setup.py)dag
+    """
+
+    def __init__(self, backends: List[ModuleType]):
         """Initialize with list of modules to search for implementation."""
-        self.b = b
+        self.backend_modules = backends
 
     def __getattr__(self, f: str):
         """Try to find the method implementation in the module list."""
-        for module in self.b:
+        for module in self.backend_modules:
             try:
                 return module.__getattribute__(f)
             except AttributeError:
@@ -28,14 +36,14 @@ class Backend:
         )
 
 
-def _get_viz_backend(backend: str = None):
+def _get_viz_backend(backend: str = None) -> _Backend:
     """Get the visualization backend by name.
 
     Args:
         backend: The name of the backend, usually the package name
 
     Returns:
-        Backend
+        _Backend
     """
     if backend:
         backend_types = [backend]
@@ -50,7 +58,7 @@ def _get_viz_backend(backend: str = None):
             modules = _load_viz_backend(backend)
         backend_collection.append(modules)
     backend_list = [module for d in backend_collection for _, module in d.items()]
-    return Backend(backend_list)
+    return _Backend(backend_list)
 
 
 def _load_viz_backend(backend: str) -> Dict[str, ModuleType]:
@@ -58,6 +66,9 @@ def _load_viz_backend(backend: str) -> Dict[str, ModuleType]:
 
     Args:
         backend: The name of the backend, usually the package name
+
+    Raises:
+        ValueError: Unable to find a module with the given backend name.
 
     Returns:
         The imported backend module
@@ -79,15 +90,18 @@ def _load_viz_backend(backend: str) -> Dict[str, ModuleType]:
             raise ValueError(f"Could not find visualization backend '{backend}'")
 
 
-def _get_compute_backend(backend: str = None, df=None):
+def _get_compute_backend(backend: str = None, df=None) -> _Backend:
     """Get the compute backend by name.
+
+    In addition to searching through entrypoints, the input data (DataFrame)
+    type will be used to infer an appropriate compute backend.
 
     Args:
         backend: The name of the backend, usually the package name
         df: The input dataframe which may be used to infer the backend
 
     Returns:
-        Backend
+        _Backend
     """
     if backend:
         backend_types = [backend]
@@ -114,7 +128,7 @@ def _get_compute_backend(backend: str = None, df=None):
             modules = _load_compute_backend(backend)
         backend_collection.append(modules)
     backend_list = [module for d in backend_collection for _, module in d.items()]
-    return Backend(backend_list)
+    return _Backend(backend_list)
 
 
 def _load_compute_backend(backend) -> Dict[str, ModuleType]:
@@ -122,6 +136,9 @@ def _load_compute_backend(backend) -> Dict[str, ModuleType]:
 
     Args:
         backend: The name of the backend, usually the package name
+
+    Raises:
+        ValueError: Unable to find a module with the given backend name.
 
     Returns:
         The dictionary of loaded backend module(s)
@@ -172,7 +189,6 @@ def _add_compute_backend(backend_type: str, module: ModuleType):
         backend_type: The name of the backend
         module: The module that implements the backend
     """
-    print(f"adding {module}")
     if backend_type not in _compute_backends:
         _compute_backends[backend_type] = {}
 

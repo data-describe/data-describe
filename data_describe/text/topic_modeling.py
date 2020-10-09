@@ -14,7 +14,7 @@ from data_describe.text.text_preprocessing import (
     filter_dictionary,
 )
 from data_describe.backends import _get_viz_backend
-from data_describe.compat import _compat, requires, _IN_NOTEBOOK
+from data_describe.compat import _compat, _requires, _IN_NOTEBOOK
 from data_describe._widget import BaseWidget
 
 warnings.filterwarnings("ignore", category=UserWarning, module="gensim")
@@ -34,19 +34,29 @@ def topic_model(
     tfidf: bool = True,
     model_kwargs: Optional[Dict] = None,
 ):
-    """Creates topic model object, trains topic model, and assigns relevant attributes to topic model object.
+    """Topic modeling.
+
+    Unsupervised methods of identifying topics in documents.
 
     Args:
-        text_docs: A list of text documents in string format. These documents should generally be pre-processed
-        model_type: Defines the type of model which will be used, either 'LDA', 'LSA', 'LSI', 'SVD', or 'NMF'
-        num_topics: Sets the number of topics for the model. If None, will be optimized using coherence values
-        min_topics: Starting number of topics to optimize for if number of topics not provided. Default is 2
-        max_topics: Maximum number of topics to optimize for if number of topics not provided. Default is 10
-        no_below: Minimum number of documents a word must appear in to be used in training. Default is 10
-        no_above: Maximum proportion of documents a word may appear in to be used in training. Default is 0.2
-        tfidf: If True, model created using TF-IDF matrix. Otherwise, document-term matrix with wordcounts is used.
-        Default is True
-        model_kwargs: Keyword arguments for the model, should be in agreement with 'model_type'
+        text_docs: A list of text documents in string format. These documents should
+            generally be pre-processed
+        model_type: {'LDA', 'LSA', 'LSI', 'SVD', 'NMF'}
+            Defines the type of model/algorithm which will be used.
+        num_topics: Sets the number of topics for the model. If None, will be optimized
+            using coherence values
+        min_topics: Starting number of topics to optimize for if number of topics not
+            provided. Default is 2
+        max_topics: Maximum number of topics to optimize for if number of topics not
+            provided. Default is 10
+        no_below: Minimum number of documents a word must appear in to be used in
+            training. Default is 10
+        no_above: Maximum proportion of documents a word may appear in to be used in
+            training. Default is 0.2
+        tfidf: If True, model created using TF-IDF matrix. Otherwise, document-term
+            matrix with wordcounts is used. Default is True
+        model_kwargs: Keyword arguments for the model, should be in agreement with
+            `model_type`
 
     Returns:
         Topic model widget.
@@ -65,8 +75,8 @@ def topic_model(
     return topicwidget
 
 
-@requires("gensim")
-@requires("pyLDAvis")
+@_requires("gensim")
+@_requires("pyLDAvis")
 class TopicModelWidget(BaseWidget):
     """Create topic model widget."""
 
@@ -78,18 +88,24 @@ class TopicModelWidget(BaseWidget):
     ):
         """Topic Modeling made for easier training and understanding of topics.
 
-        The exact model type, number of topics, and keyword arguments can be input to initialize the object. The object
-        can then be used to train the model using the 'fit' function, and visualizations of the model can be displayed,
-        such as an interactive visual (for LDA models only), an elbow plot displaying coherence values (for LDA
-        or LSA/LSI models only), a DataFrame displaying the top keywords per topic, and a DataFrame displaying
-        the top documents per topic.
+        The exact model type, number of topics, and keyword arguments can be input
+        to initialize the object. The object can then be used to train the model
+        using the 'fit' function, and visualizations of the model can be displayed,
+        such as an interactive visual (for LDA models only), an elbow plot displaying
+        coherence values (for LDA or LSA/LSI models only), a DataFrame displaying the
+        top keywords per topic, and a DataFrame displaying the top documents per topic.
 
-        Attributes:
-            model_type: Defines the type of model which will be used, either 'LDA', 'LSA', 'LSI', 'SVD', or 'NMF'.
-            Default is 'LDA'
-            num_topics: Sets the number of topics for the model. If None, will be optimized using coherence values
-            (LDA or LSA/LSI) or becomes 3 (SVD/NMF). Default is None
-            model_kwargs: Keyword arguments for the model, should be in agreement with 'model_type'
+        Args:
+            model_type: {'LDA', 'LSA', 'LSI', 'SVD', 'NMF'}
+                Defines the type of model/algorithm which will be used.
+            num_topics: Sets the number of topics for the model. If None, will be
+                optimized using coherence values (LDA or LSA/LSI) or becomes
+                3 (SVD/NMF). Default is None.
+            model_kwargs: Keyword arguments for the model, should be in agreement
+                with `model_type`.
+
+        Raises:
+            ValueError: Invalid `model_type`.
         """
         self._model_type = model_type.upper()
         if self._model_type not in ["LDA", "LSA", "LSI", "SVD", "NMF"]:
@@ -155,9 +171,10 @@ class TopicModelWidget(BaseWidget):
             topic_names: A list of pre-defined names set for each of the topics. Default is None
 
         Returns:
-            display_topics_df: Pandas DataFrame displaying topics as columns and their relevant terms as rows.
-            LDA/LSI models will display an extra column to the right of each topic column, showing each term's
-            corresponding coefficient value
+            display_topics_df: Pandas DataFrame displaying topics as columns and their
+                relevant terms as rows. LDA/LSI models will display an extra column to
+                the right of each topic column, showing each term's corresponding
+                coefficient value
         """
         return self.display_topic_keywords(
             num_topic_words=num_topic_words, topic_names=topic_names
@@ -167,9 +184,10 @@ class TopicModelWidget(BaseWidget):
         """Trains LSA TruncatedSVD scikit-learn model.
 
         Args:
-            text_docs: A list of text documents in string format. These documents should generally be pre-processed
-            tfidf: If True, model created using TF-IDF matrix. Otherwise, document-term matrix with wordcounts is used.
-            Default is True
+            text_docs: A list of text documents in string format. These documents should
+                generally be pre-processed.
+            tfidf: If True, model created using TF-IDF matrix. Otherwise, document-term
+                matrix with wordcounts is used. Default is True.
 
         Returns:
             lsa_model: Trained LSA topic model
@@ -201,11 +219,16 @@ class TopicModelWidget(BaseWidget):
         """Trains LSA Gensim model.
 
         Args:
-            text_docs: A list of text documents in string format. These documents should generally be pre-processed
-            min_topics: Starting number of topics to optimize for if number of topics not provided. Default is 2
-            max_topics: Maximum number of topics to optimize for if number of topics not provided. Default is 10
-            no_below: Minimum number of documents a word must appear in to be used in training. Default is 10
-            no_above: Maximum proportion of documents a word may appear in to be used in training. Default is 0.2
+            text_docs: A list of text documents in string format. These documents should
+                generally be pre-processed
+            min_topics: Starting number of topics to optimize for if number of topics
+                not provided. Default is 2
+            max_topics: Maximum number of topics to optimize for if number of topics not
+                provided. Default is 10
+            no_below: Minimum number of documents a word must appear in to be used in
+                training. Default is 10
+            no_above: Maximum proportion of documents a word may appear in to be used in
+                training. Default is 0.2
 
         Returns:
             lsa_model: Trained LSA topic model
@@ -272,11 +295,16 @@ class TopicModelWidget(BaseWidget):
         """Trains LDA Gensim model.
 
         Args:
-            text_docs: A list of text documents in string format. These documents should generally be pre-processed
-            min_topics: Starting number of topics to optimize for if number of topics not provided. Default is 2
-            max_topics: Maximum number of topics to optimize for if number of topics not provided. Default is 10
-            no_below: Minimum number of documents a word must appear in to be used in training. Default is 10
-            no_above: Maximum proportion of documents a word may appear in to be used in training. Default is 0.2
+            text_docs: A list of text documents in string format. These documents
+                should generally be pre-processed
+            min_topics: Starting number of topics to optimize for if number of topics
+                not provided. Default is 2
+            max_topics: Maximum number of topics to optimize for if number of topics
+                not provided. Default is 10
+            no_below: Minimum number of documents a word must appear in to be used in
+            training. Default is 10
+            no_above: Maximum proportion of documents a word may appear in to be used in
+                training. Default is 0.2
 
         Returns:
             lda_model (Gensim LdaModel): Trained LDA topic model
@@ -336,10 +364,10 @@ class TopicModelWidget(BaseWidget):
         """Trains NMF scikit-learn model.
 
         Args:
-            text_docs: A list of text documents in string format. These documents should generally be pre-processed
-
-            tfidf: If True, model created using TF-IDF matrix. Otherwise, document-term matrix with wordcounts is used.
-            Default is True
+            text_docs: A list of text documents in string format. These documents should
+                generally be pre-processed
+            tfidf: If True, model created using TF-IDF matrix. Otherwise, document-term
+                matrix with wordcounts is used. Default is True.
 
         Returns:
             lsa_model (scikit-learn NMF model): Trained NMF topic model
@@ -374,16 +402,25 @@ class TopicModelWidget(BaseWidget):
         """Trains topic model and assigns model to object as attribute.
 
         Args:
-            text_docs: A list of text documents in string format. These documents should generally be pre-processed
-            model_type: Defines the type of model which will be used, either 'LDA', 'LSA', 'LSI', 'SVD', or 'NMF'
-            min_topics: Starting number of topics to optimize for if number of topics not provided. Default is 2
-            max_topics: Maximum number of topics to optimize for if number of topics not provided. Default is 10
-            no_below: Minimum number of documents a word must appear in to be used in training. Default is 10
-            no_above: Maximum proportion of documents a word may appear in to be used in training. Default is 0.2
-            tfidf: If True, model created using TF-IDF matrix. Otherwise, document-term matrix with wordcounts is used.
-            Default is True
+            text_docs: A list of text documents in string format. These documents should
+                generally be pre-processed
+            model_type: {'LDA', 'LSA', 'LSI', 'SVD', 'NMF'}
+                Defines the type of model/algorithm which will be used.
+            min_topics: Starting number of topics to optimize for if number of topics
+                not provided. Default is 2
+            max_topics: Maximum number of topics to optimize for if number of topics not
+                provided. Default is 10
+            no_below: Minimum number of documents a word must appear in to be used in
+                training. Default is 10
+            no_above: Maximum proportion of documents a word may appear in to be used in
+                training. Default is 0.2
+            tfidf: If True, model created using TF-IDF matrix. Otherwise, document-term
+                matrix with wordcounts is used. Default is True.
+            model_kwargs: Keyword arguments for the model, should be in agreement with
+                `model_type`.
 
-            model_kwargs: Keyword arguments for the model, should be in agreement with 'model_type'
+        Raises:
+            ValueError: Invalid `model_type`.
         """
         if model_kwargs is not None:
             self._model_kwargs = model_kwargs
@@ -410,14 +447,21 @@ class TopicModelWidget(BaseWidget):
     def elbow_plot(self, viz_backend: str = None):
         """Creates an elbow plot displaying coherence values vs number of topics.
 
+        Args:
+            viz_backend: The visualization backend.
+
+        Raises:
+            ValueError: No coherence values to plot.
+
         Returns:
             fig: Elbow plot showing coherence values vs number of topics
         """
         try:
             self._coherence_values
         except AttributeError:
-            raise TypeError(
-                "Coherence values not defined. At least 2 LDA or LSI models need to be trained with different numbers of topics."
+            raise ValueError(
+                "Coherence values not defined. At least 2 LDA or LSI models need to be"
+                " trained with different numbers of topics."
             )
         else:
             return _get_viz_backend(viz_backend).viz_elbow_plot(
@@ -456,13 +500,16 @@ class TopicModelWidget(BaseWidget):
         """Creates Pandas DataFrame to display most relevant terms for each topic.
 
         Args:
-            num_topic_words: The number of words to be displayed for each topic. Default is 10
-            topic_names: A list of pre-defined names set for each of the topics. Default is None
+            num_topic_words: The number of words to be displayed for each topic.
+                Default is 10
+            topic_names: A list of pre-defined names set for each of the topics.
+                Default is None
 
         Returns:
-            display_topics_df: Pandas DataFrame displaying topics as columns and their relevant terms as rows.
-            LDA/LSI models will display an extra column to the right of each topic column, showing each term's
-            corresponding coefficient value
+            display_topics_df: Pandas DataFrame displaying topics as columns and their
+                relevant terms as rows. LDA/LSI models will display an extra column to
+                the right of each topic column, showing each term's corresponding
+                coefficient value
         """
         display_topics_dict = {}
         if self._model_type == "NMF" or self._model_type == "SVD":
@@ -517,17 +564,20 @@ class TopicModelWidget(BaseWidget):
         """Creates Pandas DataFrame to display most relevant documents for each topic.
 
         Args:
-            text_docs: A list of text documents in string format. Important to note that this list of documents
-            should be ordered in accordance with the matrix or corpus on which the document was trained
-            topic_names: A list of pre-defined names set for each of the topics. Default is None
+            text_docs: A list of text documents in string format. Important to note that
+                 this list of documents should be ordered in accordance with the matrix
+                or corpus on which the document was trained
+            topic_names: A list of pre-defined names set for each of the topics.
+                Default is None
             num_docs: The number of documents to display for each topic. Default is 10
-            summarize_docs: If True, the documents will be summarized (if this is the case, 'text_docs' should be
-            formatted into sentences). Default is False
-            summary_words: The number of words the summary should be limited to. Should only be specified if
-            summarize_docs set to True
+            summarize_docs: If True, the documents will be summarized (if this is the
+                case, 'text_docs' should be formatted into sentences). Default is False
+            summary_words: The number of words the summary should be limited to. Should
+                only be specified if summarize_docs set to True
 
         Returns:
-            all_top_docs_df: Pandas DataFrame displaying topics as columns and their most relevant documents as rows
+            all_top_docs_df: Pandas DataFrame displaying topics as columns and their
+                most relevant documents as rows
         """
         topics = self.get_topic_nums()
 
@@ -598,6 +648,12 @@ class TopicModelWidget(BaseWidget):
     def visualize_topic_summary(self, viz_backend: str = "pyLDAvis"):
         """Displays interactive pyLDAvis visual to understand topic model and documents.
 
+        Args:
+            viz_backend (str): The visualization backend.
+
+        Raises:
+            TypeError: Only valid for LDA models.
+
         Returns:
             A visual to understand topic model and/or documents relating to model
         """
@@ -609,8 +665,8 @@ class TopicModelWidget(BaseWidget):
             )
 
 
-@requires("pyLDAvis")
-@requires("gensim")
+@_requires("pyLDAvis")
+@_requires("gensim")
 def _pyldavis_viz_visualize_topic_summary(
     model: "gensim.models.ldamodel.LdaModel",  # type: ignore
     corpus: List[List[Tuple[int, int]]],
@@ -621,7 +677,11 @@ def _pyldavis_viz_visualize_topic_summary(
     Args:
         model: LDA topic model
         corpus: Bag of Words (BoW) representation of documents (token_id, token_count)
-        dictionary: Gensim Dictionary encapsulates the mapping between normalized words and their integer ids
+        dictionary: Gensim Dictionary encapsulates the mapping between normalized words
+            and their integer ids.
+
+    Raises:
+        EnvironmentError: Must be in a Notebook.
 
     Returns:
         A visual to understand topic model and/or documents relating to model
@@ -649,7 +709,8 @@ def _seaborn_viz_elbow_plot(
     Args:
         min_topics: Starting number of topics that were optimized for
         max_topics: Maximum number of topics that were optimized for
-        coherence_values: A list of coherence values mapped from min_topics to max_topics
+        coherence_values: A list of coherence values mapped from min_topics to
+            max_topics
 
     Returns:
         Elbow plot showing coherence values vs number of topics

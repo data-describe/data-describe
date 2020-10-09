@@ -24,7 +24,9 @@ class BaseWidget(ABC):
 
         Args:
             compute_backend: The compute backend
-            viz_backend: The visualization backend. Must be assigned if the user specified a value
+            viz_backend: The visualization backend. Must be assigned if the user
+                specified a value
+            **kwargs: Keyword arguments.
         """
         self.compute_backend = compute_backend
         self.viz_backend = viz_backend
@@ -43,13 +45,14 @@ class BaseWidget(ABC):
     def show(self, viz_backend=None):
         """Show the default output.
 
-        Assembles the object to be displayed by _repr_html_. This should respect the viz_backend, if applicable.
+        Assembles the object to be displayed by _repr_html_. This should respect the
+        viz_backend, if applicable.
 
         Args:
             viz_backend: The visualization backend
 
-        Returns:
-            The default visualization or output to be displayed.
+        Raises:
+            NotImplementedError: No default visualization defined.
         """
         backend = viz_backend or self.viz_backend  # noqa: F841
 

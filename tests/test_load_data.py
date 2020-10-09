@@ -7,7 +7,7 @@ import pandas as pd
 import pytest
 
 import data_describe as dd
-from data_describe.misc.load_data import download_gcs_file, read_file_type
+from data_describe.misc.load_data import download_gcs_file, _read_file_type
 
 
 @pytest.fixture(autouse=True)
@@ -104,5 +104,5 @@ def test_gcs_file(monkeypatch):
     file_dir = download_gcs_file(filepath="gs://data/geo/tl_2018_us_county.shp")
     assert isinstance(file_dir, str)
 
-    df = read_file_type(filepath="gs://file.csv")
+    df = _read_file_type(filepath="gs://file.csv")
     assert isinstance(df, pd.DataFrame)

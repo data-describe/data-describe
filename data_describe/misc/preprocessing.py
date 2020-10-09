@@ -13,6 +13,10 @@ def preprocess(data, target, impute="simple", encode="label"):
         impute: Method to use for imputing numeric variables. Only 'simple' is implemented.
         encode: Method to use for encoding categorical variables. Only 'label' is implemented.
 
+    Raises:
+        NotImplementedError: Imputation or encoding method not implemented.
+        ValueError: No columns left to preprocess.
+
     Returns:
         (X, y) tuple of numpy arrays
     """

@@ -219,7 +219,7 @@ def test_elbow_plot(lsi_model, nmf_model):
     assert isinstance(
         lsi_model.elbow_plot(), matplotlib.axes._subplots.Axes
     ), "Elbow plot is not of the expected return type of a Matplotlib Plot"
-    with pytest.raises(TypeError):
+    with pytest.raises(ValueError):
         nmf_model.elbow_plot(), "Elbow plot function incorrectly runs for topic model that is not an LDA or LSA/LSI model"
 
 

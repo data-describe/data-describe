@@ -8,18 +8,29 @@ from typing import Dict, Callable, List
 from data_describe.misc.logging import OutputLogger
 
 
-class DependencyManager:
-    """Manage optional dependencies for data-describe.
+class _DependencyManager:
+    """Manages optional dependencies for data-describe.
 
     Examples:
         Optional modules can be accessed using dictionary-style attributes::
 
-            _compat = DependencyManager()
+            _compat = _DependencyManager()
             engine = _compat["presidio_analyzer"].AnalyzerEngine()
+
+    Attributes:
+        imports (Dict[str, Callable]): A mapping of package names and associated
+            import functions to download additional resources.
+        installed_modules (Dict[str, bool]): A mapping of packages detected as being
+            installed.
+        modules (Dict[str, ModuleType]): A mapping of the imported modules. Typically
+            accessed using dictionary-style access.
     """
 
     def __init__(self, imports: Dict[str, Callable]):
-        """Initializes the expected optional dependencies for data-describe.
+        """Manages optional dependencies for data-describe.
+
+        Validates the expected optional dependencies for data-describe and executes
+        any additional import logic.
 
         Args:
             imports (Dict[str, Callable]): A dictionary of module names mapped to callables.
@@ -75,7 +86,7 @@ class DependencyManager:
             ) from e
 
     def __getitem__(self, key: str) -> ModuleType:
-        """Allows attribute-style access to optional modules.
+        """Allows dictionary-style access to optional modules.
 
         Args:
             key (str): The module.
@@ -115,7 +126,7 @@ def spacy_download(module):
         module.cli.download("en_core_web_lg")
 
 
-_compat = DependencyManager(
+_compat = _DependencyManager(
     {
         "nltk": nltk_download,
         "spacy": spacy_download,
@@ -123,8 +134,8 @@ _compat = DependencyManager(
 )
 
 
-def requires(package_name):
-    """Marks a method or class that requires an optional dependency."""
+def _requires(package_name):
+    """Marks a method or class that _requires an optional dependency."""
 
     def f(func):
         @wraps(func)

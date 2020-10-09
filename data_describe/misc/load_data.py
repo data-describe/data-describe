@@ -3,7 +3,7 @@ import tempfile
 
 import pandas as pd
 
-from data_describe.compat import _compat, requires
+from data_describe.compat import _compat, _requires
 from data_describe.misc.file_ext import _FileExtensionTypes, is_filetype
 
 
@@ -13,18 +13,20 @@ def load_data(filepath, all_folders=False, **kwargs):
     Args:
         filepath: The file path. Can be either a local filepath or Google Cloud Storage URI filepath
         all_folders: If True, searches for text files in nested folders. If False, looks for text files in the current folder
-        kwargs: Keyword arguments to pass to the reader
+        **kwargs: Keyword arguments to pass to the reader
 
-            .csv, .json, and other: Uses pandas.read_csv or pandas.read_json
+    Raises:
+        ImportError: gcsfs not installed.
+        FileNotFoundError: File doesn't exist.
 
     Returns:
         A pandas data frame
     """
     if os.path.isfile(filepath):
-        df = read_file_type(filepath, **kwargs)
+        df = _read_file_type(filepath, **kwargs)
     elif "gs://" in filepath:
         if _compat.check_install("gcsfs"):
-            df = read_file_type(filepath, **kwargs)
+            df = _read_file_type(filepath, **kwargs)
         else:
             raise ImportError("Package gcsfs required to load from GCS")
     elif os.path.isdir(filepath):
@@ -53,16 +55,15 @@ def load_data(filepath, all_folders=False, **kwargs):
     return df
 
 
-def read_file_type(filepath, **kwargs):
+def _read_file_type(filepath, **kwargs):
     """Read the file based on file extension.
 
     Currently supports the following filetypes:
         csv, json, txt, shp
+
     Args:
         filepath: The filepath to open
-
-        kwargs: Keyword arguments to pass to the reader
-            .csv, .json, and other: Uses pandas.read_csv or pandas.read_json
+        **kwargs: Keyword arguments to pass to the reader
 
     Returns:
         A Pandas data frame
@@ -80,7 +81,7 @@ def read_file_type(filepath, **kwargs):
         return pd.read_csv(filepath, sep=sep, **kwargs)
 
 
-@requires("google.cloud.storage")
+@_requires("google.cloud.storage")
 def download_gcs_file(filepath, bucket=None, prefix=None, **kwargs):
     """Downloads files from Google Cloud Storage.
 
@@ -89,6 +90,7 @@ def download_gcs_file(filepath, bucket=None, prefix=None, **kwargs):
         bucket: bucket to which the file belongs to in Google Cloud Storage
         prefix: parameter in list_blobs to limit the results to objects that have the specified prefix
         kwargs: Keyword arguments for list_blobs
+
     Returns:
         shapefile_dir: The shape file
     """

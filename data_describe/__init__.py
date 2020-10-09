@@ -28,13 +28,13 @@ Examples
 """
 from data_describe.misc.load_data import load_data  # noqa: F401
 from data_describe.core.summary import data_summary  # noqa: F401
-from data_describe.core.data_heatmap import data_heatmap  # noqa: F401
+from data_describe.core.heatmap import data_heatmap  # noqa: F401
 from data_describe.core.distributions import distribution  # noqa: F401
-from data_describe.core.scatter_plot import scatter_plots  # noqa: F401
-from data_describe.core.correlations import correlation_matrix  # noqa: F401
+from data_describe.core.scatter import scatter_plots  # noqa: F401
+from data_describe.core.correlation import correlation_matrix  # noqa: F401
 from data_describe.core.importance import importance  # noqa: F401
-from data_describe.core.clusters import cluster  # noqa: F401
-from data_describe.core.time_series import plot_time_series  # noqa: F401
+from data_describe.core.clustering import cluster  # noqa: F401
+from data_describe.core.time import plot_time_series  # noqa: F401
 from data_describe.config._config import options  # noqa: F401
 from data_describe.compat import _compat  # noqa: F401
 from data_describe._version import __version__  # noqa: F401

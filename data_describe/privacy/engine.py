@@ -1,19 +1,19 @@
 import logging
 
 from data_describe.misc.logging import OutputLogger
-from data_describe.compat import _compat, requires
-from data_describe.config._config import get_option, set_config
+from data_describe.compat import _compat, _requires
+from data_describe.config._config import get_option, _set_config
 
 
-set_config({"sensitive_data.sample_size": 100, "sensitive_data.score_threshold": 0.2})
+_set_config({"sensitive_data.sample_size": 100, "sensitive_data.score_threshold": 0.2})
 _DEFAULT_SCORE_THRESHOLD = get_option("sensitive_data.score_threshold")
 
 logger = logging.getLogger("presidio")
 logger.setLevel(logging.WARNING)
 
 
-@requires("presidio_analyzer")
-@requires("spacy")
+@_requires("presidio_analyzer")
+@_requires("spacy")
 def presidio_engine():
     """Initialize presidio engine.
 

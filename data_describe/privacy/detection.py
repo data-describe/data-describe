@@ -4,7 +4,7 @@ from typing import Optional
 import warnings
 
 from data_describe.backends import _get_compute_backend
-from data_describe.compat import _DATAFRAME_TYPE, _compat, requires
+from data_describe.compat import _DATAFRAME_TYPE, _compat, _requires
 from data_describe.config._config import get_option
 from data_describe._widget import BaseWidget
 from data_describe.privacy.engine import engine
@@ -23,18 +23,18 @@ def sensitive_data(
     engine_backend=engine,
     compute_backend: Optional[str] = None,
 ):
-    """Identifies, redacts, and encrypts PII data.
+    """Identifies, redacts, and/or encrypts PII data.
 
-    Note: sensitive_data uses Microsoft's Presidio in the backend. Presidio can be help identify sensitive data.
-    However, because Presidio uses trained ML models, there is no guarantee that Presidio will find all sensitive information.
+    Note:
+        `sensitive_data` uses Microsoft's Presidio in the backend. Presidio can be used
+        to help identify sensitive data. However, because Presidio uses trained ML models,
+        there is no guarantee that Presidio will find all sensitive information.
 
     Args:
         df (DataFrame): The dataframe
-
-        mode (str): Select 'redact' or 'encrypt'.
+        mode (str): {'redact', 'encrypt'}
             redact: Redact the sensitive data
             encrypt: Anonymize the sensitive data
-
         detect_infotypes (bool): If True, identifies infotypes for each column
         columns ([str]): Defaults to None
         score_threshold (float): Minimum confidence value for detected entities to be returned. Default is 0.2.
@@ -42,11 +42,15 @@ def sensitive_data(
         engine_backend: The backend analyzer engine. Default is presidio_analyzer.
         compute_backend (str): Select compute backend
 
+    Raises:
+        ValueError: Invalid input data type.
+        TypeError: `columns` not a list of strings.
+
     Returns:
         SensitiveDataWidget
     """
     if not isinstance(df, _DATAFRAME_TYPE):
-        raise TypeError("Pandas data frame or modin data frame required")
+        raise ValueError("Pandas data frame or modin data frame required")
 
     if _compat.check_install("modin.pandas"):
         if isinstance(df, _DATAFRAME_TYPE.modin):
@@ -116,7 +120,7 @@ class SensitiveDataWidget(BaseWidget):
         return viz_data
 
 
-@requires("presidio_analyzer")
+@_requires("presidio_analyzer")
 def compute_sensitive_data(
     df,
     mode: str = "redact",
@@ -133,16 +137,17 @@ def compute_sensitive_data(
 
     Args:
         df (DataFrame): The dataframe
-
-        mode (str): Select 'redact' or 'encrypt'.
+        mode (str): {'redact', 'encrypt'}
             redact: Redact the sensitive data
             encrypt: Anonymize the sensitive data
-
         detect_infotypes (bool): If True, identifies infotypes for each column
         columns ([str]): Defaults to None
         score_threshold (float): Minimum confidence value for detected entities to be returned. Default is 0.2.
         sample_size (int): Number of sampled rows used for identifying column infotypes. Default is 100.
         engine_backend: The backend analyzer engine. Default is presidio_analyzer.
+
+    Raises:
+        ValueError: `sample_size` greater than data size.
 
     Returns:
         SensitiveDataWidget

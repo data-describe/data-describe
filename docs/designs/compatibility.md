@@ -43,10 +43,10 @@ The feature implementation should use import `_compat`:
 The module can be accessed as an attribute of `_compat`.
 
 ## Function Requirements
-A specific function may be marked as requiring a specific (optional) dependency by using the `@requires()` decorator from _compat.
+A specific function may be marked as requiring a specific (optional) dependency by using the `@_requires()` decorator from _compat.
 ```python
-from data_describe.compat import requires, _compat
-@requires("optional_package")
+from data_describe.compat import _requires, _compat
+@_requires("optional_package")
 def function_that_requires_optional_package():
     return _compat.optional_package.function_from_optional_package()
 ```
