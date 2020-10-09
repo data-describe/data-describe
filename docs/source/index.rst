@@ -11,7 +11,7 @@ data-describe
 
    introduction
    installation
-   _notebooks/tutorial
+   _notebooks/quick_start
    _notebooks/user_guide
    examples/index
    _notebooks/developer_guide

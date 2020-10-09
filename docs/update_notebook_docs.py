@@ -23,7 +23,7 @@ def load_notebooks():
     for notebook in notebooks:
         notebook_name = os.path.splitext(os.path.split(notebook)[1])[0]
         notebook_clean_name = notebook_name.lower().replace(" ", "_")
-        if notebook_clean_name != "tutorial":
+        if notebook_clean_name != "quick_start":
             examples.append(notebook_clean_name)
             print("Updating {}...".format(notebook_name))
             pathlib.Path("source/examples").mkdir(exist_ok=True)
