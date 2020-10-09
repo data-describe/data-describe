@@ -114,23 +114,23 @@ jobs:
         password: ${{ secrets.test_pypi_password }}
         repository_url: https://test.pypi.org/legacy/
 
-  # publish:
-  #   name: Publish to PyPI
-  #   runs-on: ubuntu-latest
-  #   needs: ['publish-test']
+  publish:
+    name: Publish to PyPI
+    runs-on: ubuntu-latest
+    needs: ['publish-test']
 
-  #   steps:
-  #   - uses: actions/checkout@v2
-  #   - uses: actions/download-artifact@v2
-  #     with:
-  #       path: dist
-  #   - name: Move to dist/
-  #     run: |
-  #       cp -v dist/**/*-manylinux*.whl dist/ &&
-  #       cp -v dist/**/*win* dist/ &&
-  #       cp -v dist/**/*macos* dist/ &&
-  #       rm -rf dist/*/
-  #   - name: Publish to PyPI
-  #     uses: pypa/gh-action-pypi-publish@master
-  #     with:
-  #       password: ${{ secrets.pypi_password }}
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/download-artifact@v2
+      with:
+        path: dist
+    - name: Move to dist/
+      run: |
+        cp -v -n dist/**/*.whl dist/ &&
+        cp -v -n dist/**/*.whl dist/ &&
+        cp -v -n dist/**/*.whl dist/ &&
+        rm -rf dist/*/
+    - name: Publish to PyPI
+      uses: pypa/gh-action-pypi-publish@master
+      with:
+        password: ${{ secrets.pypi_password }}
