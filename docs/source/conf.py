@@ -19,7 +19,6 @@ autoapi_dirs = ["../../data_describe"]
 autoapi_root = "."
 autoapi_options = [
     "members",
-    "private-members",
     "inherited-members",
     "undoc-members",
     "show-inheritance",
