@@ -1,11 +1,13 @@
 import numpy as np
 import pytest
 import matplotlib
+from matplotlib.axes import Axes as mpl_plot
 from sklearn.cluster import KMeans
 from sklearn.preprocessing import StandardScaler
 import plotly
 
 import data_describe as dd
+from data_describe.compat import _DATAFRAME_TYPE
 from data_describe.core.clustering import (
     ClusterWidget,
     _pandas_compute_cluster,
@@ -72,35 +74,35 @@ def test_kmeans_default(kmeans_default):
     assert isinstance(
         cl.show(), matplotlib.axes.Axes
     ), "Default show() didn't return a mpl Axes object"
-    # assert isinstance(cl, ClusterWidget)
-    # assert isinstance(cl.estimator, KMeans), "Saved cluster estimator was not KMeans"
-    # assert hasattr(cl, "input_data"), "Widget does not have input data"
-    # assert isinstance(cl.input_data, _DATAFRAME_TYPE), "Input data is not a data frame"
-    # assert hasattr(cl, "scaled_data"), "Widget does not have standardized data"
-    # assert isinstance(
-    #     cl.scaled_data, _DATAFRAME_TYPE
-    # ), "Scaled data is not a data frame"
-    # assert hasattr(cl, "viz_data"), "Widget does not have visualization (reduced) data"
-    # assert isinstance(cl.viz_data, _DATAFRAME_TYPE), "Viz data is not a data frame"
-    # assert cl.clusters is not None, "Widget is missing cluster labels"
-    # assert cl.n_clusters == 19, "Expected number of clusters found to be 19"
-    # assert isinstance(cl.cluster_range, tuple), "Widget is missing cluster range tuple"
-    # assert len(cl.cluster_range) == 2, "Cluster range tuple had the wrong shape"
-    # assert isinstance(cl.cluster_range[0], int) and isinstance(
-    #     cl.cluster_range[1], int
-    # ), "Cluster range tuple does not contain integers"
-    # assert (
-    #     cl.cluster_range[0] < cl.cluster_range[1]
-    # ), "Cluster range had an invalid default; the maximum is <= the minimum"
-    # assert (
-    #     cl.metric == "silhouette_score"
-    # ), "Default search metric was not silhouette_score"
-    # assert cl.scores is not None, "Widget is missing cluster search scores"
-    # assert cl.search, "Widget is missing boolean attribute 'search' for cluster search"
-    # assert isinstance(cl.show(), mpl_plot)
-    # assert hasattr(cl, "cluster_search_plot")
-    # assert isinstance(cl.cluster_search_plot(), mpl_plot)
-    # assert hasattr(cl, "reductor")
+    assert isinstance(cl, ClusterWidget)
+    assert isinstance(cl.estimator, KMeans), "Saved cluster estimator was not KMeans"
+    assert hasattr(cl, "input_data"), "Widget does not have input data"
+    assert isinstance(cl.input_data, _DATAFRAME_TYPE), "Input data is not a data frame"
+    assert hasattr(cl, "scaled_data"), "Widget does not have standardized data"
+    assert isinstance(
+        cl.scaled_data, _DATAFRAME_TYPE
+    ), "Scaled data is not a data frame"
+    assert hasattr(cl, "viz_data"), "Widget does not have visualization (reduced) data"
+    assert isinstance(cl.viz_data, _DATAFRAME_TYPE), "Viz data is not a data frame"
+    assert cl.clusters is not None, "Widget is missing cluster labels"
+    assert cl.n_clusters == 19, "Expected number of clusters found to be 19"
+    assert isinstance(cl.cluster_range, tuple), "Widget is missing cluster range tuple"
+    assert len(cl.cluster_range) == 2, "Cluster range tuple had the wrong shape"
+    assert isinstance(cl.cluster_range[0], int) and isinstance(
+        cl.cluster_range[1], int
+    ), "Cluster range tuple does not contain integers"
+    assert (
+        cl.cluster_range[0] < cl.cluster_range[1]
+    ), "Cluster range had an invalid default; the maximum is <= the minimum"
+    assert (
+        cl.metric == "silhouette_score"
+    ), "Default search metric was not silhouette_score"
+    assert cl.scores is not None, "Widget is missing cluster search scores"
+    assert cl.search, "Widget is missing boolean attribute 'search' for cluster search"
+    assert isinstance(cl.show(), mpl_plot)
+    assert hasattr(cl, "cluster_search_plot")
+    assert isinstance(cl.cluster_search_plot(), mpl_plot)
+    assert hasattr(cl, "reductor")
 
 
 @pytest.mark.base
