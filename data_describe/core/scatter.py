@@ -1,4 +1,5 @@
 from itertools import combinations
+import warnings
 
 import seaborn as sns
 from pyscagnostics import scagnostics
@@ -243,7 +244,7 @@ def _seaborn_viz_scatter_plot(data, mode, sample, diagnostics, threshold, **kwar
             diagnostics = _filter_threshold(diagnostics, threshold)
 
         if len(diagnostics) == 0:
-            raise UserWarning("No plots identified by diagnostics")
+            warnings.warn("No plots identified by diagnostics")
 
         fig = []
         for d in diagnostics:
