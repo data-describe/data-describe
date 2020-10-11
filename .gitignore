@@ -59,6 +59,7 @@ junit.xml
 
 # Sphinx documentation
 docs/source/_api/
+docs/source/data_describe
 
 
 # PyBuilder
