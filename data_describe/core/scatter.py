@@ -2,11 +2,10 @@ from itertools import combinations
 import warnings
 
 import seaborn as sns
-from pyscagnostics import scagnostics
 
 from data_describe._widget import BaseWidget
 from data_describe.config._config import get_option
-from data_describe.compat import _is_dataframe
+from data_describe.compat import _is_dataframe, _requires, _compat
 from data_describe.backends import _get_compute_backend, _get_viz_backend
 
 
@@ -185,7 +184,7 @@ def _pandas_compute_scatter_plot(
     """
     num_data = data.select_dtypes(["number"])
     if mode == "diagnostic":
-        diagnostics = scagnostics(num_data)
+        diagnostics = _get_scagnostics(num_data)
         return ScatterWidget(
             input_data=data,
             num_data=num_data,
@@ -203,6 +202,12 @@ def _pandas_compute_scatter_plot(
             sample=sample,
             **kwargs,
         )
+
+
+@_requires("pyscagnostics")
+def _get_scagnostics(data):
+    """Scatterplot diagnostics."""
+    return _compat["pyscagnostics"].scagnostics(data)
 
 
 def _seaborn_viz_scatter_plot(data, mode, sample, diagnostics, threshold, **kwargs):
