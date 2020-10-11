@@ -7,7 +7,7 @@ from data_describe.backends import _get_compute_backend
 from data_describe.compat import _DATAFRAME_TYPE, _compat, _requires
 from data_describe.config._config import get_option
 from data_describe._widget import BaseWidget
-from data_describe.privacy.engine import engine
+
 
 _DEFAULT_SCORE_THRESHOLD = get_option("sensitive_data.score_threshold")
 _SAMPLE_SIZE = get_option("sensitive_data.sample_size")
@@ -20,7 +20,7 @@ def sensitive_data(
     columns: Optional[list] = None,
     score_threshold: float = _DEFAULT_SCORE_THRESHOLD,
     sample_size: int = _SAMPLE_SIZE,
-    engine_backend=engine,
+    engine_backend=None,
     compute_backend: Optional[str] = None,
 ):
     """Identifies, redacts, and/or encrypts PII data.
@@ -49,6 +49,11 @@ def sensitive_data(
     Returns:
         SensitiveDataWidget
     """
+    if not engine_backend:
+        from data_describe.privacy.engine import engine  # noqa: lazy import
+
+        engine_backend = engine
+
     if not isinstance(df, _DATAFRAME_TYPE):
         raise ValueError("Pandas data frame or modin data frame required")
 
