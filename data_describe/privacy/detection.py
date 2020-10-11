@@ -1,18 +1,24 @@
 import hashlib
+import logging
 from functools import reduce
-from typing import Optional
+from typing import Optional, Union
 import warnings
 
+from data_describe.misc.logging import OutputLogger
 from data_describe.backends import _get_compute_backend
 from data_describe.compat import _DATAFRAME_TYPE, _compat, _requires
 from data_describe.config._config import get_option
 from data_describe._widget import BaseWidget
-from data_describe.privacy.engine import engine
+
 
 _DEFAULT_SCORE_THRESHOLD = get_option("sensitive_data.score_threshold")
 _SAMPLE_SIZE = get_option("sensitive_data.sample_size")
 
+logger = logging.getLogger("presidio")
+logger.setLevel(logging.WARNING)
 
+
+@_requires("presidio_analyzer")
 def sensitive_data(
     df,
     mode: str = "redact",
@@ -20,7 +26,7 @@ def sensitive_data(
     columns: Optional[list] = None,
     score_threshold: float = _DEFAULT_SCORE_THRESHOLD,
     sample_size: int = _SAMPLE_SIZE,
-    engine_backend=engine,
+    engine_backend=None,
     compute_backend: Optional[str] = None,
 ):
     """Identifies, redacts, and/or encrypts PII data.
@@ -49,6 +55,9 @@ def sensitive_data(
     Returns:
         SensitiveDataWidget
     """
+    if not engine_backend:
+        engine_backend = presidio_engine()
+
     if not isinstance(df, _DATAFRAME_TYPE):
         raise ValueError("Pandas data frame or modin data frame required")
 
@@ -127,7 +136,7 @@ def compute_sensitive_data(
     detect_infotypes: bool = True,
     columns: Optional[list] = None,
     score_threshold: float = _DEFAULT_SCORE_THRESHOLD,
-    sample_size: int = _SAMPLE_SIZE,
+    sample_size: Union[int, float] = _SAMPLE_SIZE,
     engine_backend=None,
 ):
     """Identifies, redacts, and encrypts PII data.
@@ -178,6 +187,7 @@ def compute_sensitive_data(
     return sensitivewidget
 
 
+@_requires("presidio_analyzer")
 def identify_pii(text, engine_backend, score_threshold=_DEFAULT_SCORE_THRESHOLD):
     """Identifies infotypes contained in a string.
 
@@ -220,6 +230,7 @@ def create_mapping(text, response):
     return word_mapping, ref_text
 
 
+@_requires("presidio_analyzer")
 def redact_info(text, engine_backend, score_threshold=_DEFAULT_SCORE_THRESHOLD):
     """Redact sensitive data with mapping between hashed values and infotype.
 
@@ -236,10 +247,11 @@ def redact_info(text, engine_backend, score_threshold=_DEFAULT_SCORE_THRESHOLD):
     return reduce(lambda a, kv: a.replace(*kv), word_mapping.items(), text)
 
 
+@_requires("presidio_analyzer")
 def identify_column_infotypes(
     data_series,
     engine_backend,
-    sample_size=_SAMPLE_SIZE,
+    sample_size: Union[int, float] = _SAMPLE_SIZE,
     score_threshold=_DEFAULT_SCORE_THRESHOLD,
 ):
     """Identifies the infotype of a pandas series object using a sample of rows.
@@ -253,7 +265,10 @@ def identify_column_infotypes(
     Returns:
         List of infotypes
     """
-    sampled_data = data_series.sample(sample_size, random_state=1)
+    if isinstance(sample_size, int):
+        sampled_data = data_series.sample(n=sample_size, random_state=1)
+    elif isinstance(sample_size, float):
+        sampled_data = data_series.sample(frac=sample_size, random_state=1)
     results = list(
         sampled_data.map(
             lambda x: identify_pii(
@@ -265,6 +280,7 @@ def identify_column_infotypes(
         return sorted(list(set([i.entity_type for obj in results for i in obj])))
 
 
+@_requires("presidio_analyzer")
 def identify_infotypes(
     df,
     engine_backend,
@@ -293,6 +309,7 @@ def identify_infotypes(
     }
 
 
+@_requires("presidio_analyzer")
 def encrypt_text(text, engine_backend, score_threshold=_DEFAULT_SCORE_THRESHOLD):
     """Encrypt text using python's hash function.
 
@@ -319,3 +336,17 @@ def hash_string(text):
     """
     sha_signature = hashlib.sha256(text.encode()).hexdigest()
     return sha_signature
+
+
+@_requires("presidio_analyzer")
+def presidio_engine():
+    """Initialize presidio engine.
+
+    Returns:
+        Presidio engine
+    """
+    with OutputLogger("presidio", "INFO") as redirector:  # noqa: F841
+        engine = _compat["presidio_analyzer"].AnalyzerEngine(
+            default_score_threshold=_DEFAULT_SCORE_THRESHOLD, enable_trace_pii=True
+        )
+    return engine
