@@ -34,5 +34,5 @@ dependencies:
   - pip>=20.0.0
   - pip:
       - google-cloud-storage>=1.18.0
-      - presidio-analyzer>=0.3.8917rc0
+      - presidio-analyzer==0.3.8917rc0
       - pyscagnostics>=0.1.0a4
