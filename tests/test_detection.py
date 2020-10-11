@@ -1,8 +1,11 @@
 import pytest
 
 from data_describe.compat import _compat, _DATAFRAME_TYPE
-from data_describe.privacy.detection import sensitive_data, SensitiveDataWidget
-from data_describe.privacy.engine import engine
+from data_describe.privacy.detection import (
+    sensitive_data,
+    SensitiveDataWidget,
+    presidio_engine,
+)
 from data_describe.privacy.detection import (
     identify_pii,
     redact_info,
@@ -27,7 +30,7 @@ def test_senstive_data_widget():
 
 def test_identify_pii():
     example_text = "This string contains a domain, gmail.com"
-    response = identify_pii(example_text, engine)
+    response = identify_pii(example_text, presidio_engine())
     assert isinstance(response, list)
     assert isinstance(
         response[0], _compat["presidio_analyzer"].recognizer_result.RecognizerResult
@@ -42,7 +45,7 @@ def test_identify_pii():
 
 def test_redact_info():
     example_text = "This string contains a domain gmail.com"
-    result_text = redact_info(example_text, engine)
+    result_text = redact_info(example_text, presidio_engine())
     assert isinstance(result_text, str)
     assert example_text != result_text
     assert result_text == "This string contains a domain <DOMAIN_NAME>"
@@ -117,7 +120,7 @@ def test_encrypt_data_and_infotypes(compute_backend_pii_df):
 
 def test_encrypt_text():
     text = "gmail.com"
-    encrypted = encrypt_text(text, engine)
+    encrypted = encrypt_text(text, presidio_engine())
     assert text != encrypted
     assert isinstance(encrypted, str)
 
