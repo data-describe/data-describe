@@ -1,7 +1,7 @@
 import pytest
 import sklearn
 
-from data_describe.compat import is_dataframe
+from data_describe.compat import _is_dataframe
 from data_describe.dimensionality_reduction.dimensionality_reduction import dim_reduc
 
 
@@ -15,7 +15,7 @@ def test_error(compute_backend_df):
 def test_pca(compute_numeric_backend_df):
     x = dim_reduc(data=compute_numeric_backend_df, n_components=2, dim_method="pca")
     assert isinstance(x, tuple)
-    assert is_dataframe(x[0])
+    assert _is_dataframe(x[0])
     assert isinstance(x[1], sklearn.decomposition.PCA)
 
 
@@ -23,7 +23,7 @@ def test_pca(compute_numeric_backend_df):
 def test_ipca(compute_numeric_backend_df):
     x = dim_reduc(data=compute_numeric_backend_df, n_components=2, dim_method="ipca")
     assert isinstance(x, tuple)
-    assert is_dataframe(x[0])
+    assert _is_dataframe(x[0])
     assert isinstance(x[1], sklearn.decomposition.IncrementalPCA)
 
 
@@ -37,7 +37,7 @@ def test_tsne(compute_numeric_backend_df):
         dim_method="tsne",
     )
     assert isinstance(x, tuple)
-    assert is_dataframe(x[0])
+    assert _is_dataframe(x[0])
     assert isinstance(x[1], sklearn.manifold.TSNE)
     assert not x[0].equals(y[0])
 
@@ -46,5 +46,5 @@ def test_tsne(compute_numeric_backend_df):
 def test_tsvd(compute_numeric_backend_df):
     x = dim_reduc(data=compute_numeric_backend_df, n_components=2, dim_method="tsvd")
     assert isinstance(x, tuple)
-    assert is_dataframe(x[0])
+    assert _is_dataframe(x[0])
     assert isinstance(x[1], sklearn.decomposition.TruncatedSVD)

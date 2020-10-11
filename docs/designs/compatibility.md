@@ -61,7 +61,7 @@ df = df.agg(min)
 df = pd.DataFrame()
 ```
 
-Currently, this only applies to Pandas and Modin, however this may expand to other frameworks in the future. The `compat` module contains `is_dataframe` and `is_series` methods that may be used to check for a *(Pandas) Dataframe-like* object, e.g.:
+Currently, this only applies to Pandas and Modin, however this may expand to other frameworks in the future. The `compat` module contains `_is_dataframe` and `_is_series` methods that may be used to check for a *(Pandas) Dataframe-like* object, e.g.:
 ```python
 if is_dataframe(df):
     ...

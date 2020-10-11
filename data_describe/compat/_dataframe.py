@@ -13,13 +13,15 @@ _DATAFRAME_BACKENDS = {
 }
 
 
-def is_dataframe(obj, module=None) -> bool:
+def _is_dataframe(obj, module=None) -> bool:
     """Test if an object is a dataframe type.
+
+    Checks for a DataFrame type from multiple providers (Pandas, Modin etc.).
 
     Args:
         obj: The object to test.
         module (str, optional): Specify a dataframe type of a particular module. Default
-            value of None allows any.
+            value of None allows any module to match.
 
     Returns:
         bool: True if the type matches.
@@ -50,13 +52,15 @@ def is_dataframe(obj, module=None) -> bool:
             return False
 
 
-def is_series(obj, module=None) -> bool:
+def _is_series(obj, module=None) -> bool:
     """Test if an object is a series type.
+
+    Checks for a Series type from multiple providers (Pandas, Modin etc.).
 
     Args:
         obj: The object to test.
         module (str, optional): Specify a series type of a particular module. Default
-            value of None allows any.
+            value of None allows any module to match.
 
     Returns:
         bool: True if the type matches.

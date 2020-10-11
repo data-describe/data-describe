@@ -1,7 +1,7 @@
 import matplotlib
 
 import data_describe as dd
-from data_describe.compat import is_series
+from data_describe.compat import _is_series
 from data_describe.core.distributions import DistributionWidget
 
 
@@ -22,5 +22,5 @@ def test_distribution(data):
     ), "plot_distribution[categorical] with contrast was not a mpl figure"
     assert w.spike_factor == 10, "Wrong default spike factor"
     assert w.skew_factor == 3, "Wrong default skew factor"
-    assert is_series(w.spike_value), "Spike values not a Pandas series"
-    assert is_series(w.skew_value), "Skew values not a Pandas series"
+    assert _is_series(w.spike_value), "Spike values not a Pandas series"
+    assert _is_series(w.skew_value), "Skew values not a Pandas series"
