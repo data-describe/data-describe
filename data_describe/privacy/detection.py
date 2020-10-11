@@ -1,8 +1,10 @@
 import hashlib
+import logging
 from functools import reduce
 from typing import Optional, Union
 import warnings
 
+from data_describe.misc.logging import OutputLogger
 from data_describe.backends import _get_compute_backend
 from data_describe.compat import _DATAFRAME_TYPE, _compat, _requires
 from data_describe.config._config import get_option
@@ -12,7 +14,11 @@ from data_describe._widget import BaseWidget
 _DEFAULT_SCORE_THRESHOLD = get_option("sensitive_data.score_threshold")
 _SAMPLE_SIZE = get_option("sensitive_data.sample_size")
 
+logger = logging.getLogger("presidio")
+logger.setLevel(logging.WARNING)
 
+
+@_requires("presidio_analyzer")
 def sensitive_data(
     df,
     mode: str = "redact",
@@ -50,9 +56,7 @@ def sensitive_data(
         SensitiveDataWidget
     """
     if not engine_backend:
-        from data_describe.privacy.engine import engine  # noqa: lazy import
-
-        engine_backend = engine
+        engine_backend = presidio_engine()
 
     if not isinstance(df, _DATAFRAME_TYPE):
         raise ValueError("Pandas data frame or modin data frame required")
@@ -327,3 +331,18 @@ def hash_string(text):
     """
     sha_signature = hashlib.sha256(text.encode()).hexdigest()
     return sha_signature
+
+
+@_requires("presidio_analyzer")
+@_requires("spacy")
+def presidio_engine():
+    """Initialize presidio engine.
+
+    Returns:
+        Presidio engine
+    """
+    with OutputLogger("presidio", "INFO") as redirector:  # noqa: F841
+        engine = _compat["presidio_analyzer"].AnalyzerEngine(
+            default_score_threshold=_DEFAULT_SCORE_THRESHOLD, enable_trace_pii=True
+        )
+    return engine
