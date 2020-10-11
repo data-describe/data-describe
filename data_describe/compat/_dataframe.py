@@ -30,7 +30,7 @@ def _is_dataframe(obj, module=None) -> bool:
 
     if "modin" in sys.modules.keys():
         is_module_dataframe["modin"] = isinstance(
-            obj, _compat["modin.pandas"].DataFrame
+            obj, _compat["modin.pandas"].DataFrame  # type: ignore
         )
     else:
         # Modin not yet imported; use name checking to avoid expensive import
@@ -68,7 +68,7 @@ def _is_series(obj, module=None) -> bool:
     is_module_series = {"pandas": isinstance(obj, pandas.Series)}
 
     if "modin" in sys.modules.keys():
-        is_module_series["modin"] = isinstance(obj, _compat["modin.pandas"].Series)
+        is_module_series["modin"] = isinstance(obj, _compat["modin.pandas"].Series)  # type: ignore
     else:
         # Modin not yet imported; use name checking to avoid expensive import
         # https://stackoverflow.com/questions/49577290/determine-if-object-is-of-type-foo-without-importing-type-foo
