@@ -1,22 +1,12 @@
 version: '3'
 services:
-  test:
-    container_name: mw-test
+  jupyter:
+    container_name: data_describe_jupyter
     build:
       context: .
-      dockerfile: ./docker/test/Dockerfile
-  app:
-    container_name: mw-data_describe
-    build:
-      context: .
-      dockerfile: ./docker/app/Dockerfile
-  datalab:
-    container_name: mw-datalab
-    build:
-      context: .
-      dockerfile: ./docker/datalab/Dockerfile
+      dockerfile: ./docker/jupyter/Dockerfile
   aiplatform:
-    container_name: mw-aiplatform
+    container_name: data_describe_aiplatform
     build:
       context: .
       dockerfile: ./docker/aiplatform/Dockerfile

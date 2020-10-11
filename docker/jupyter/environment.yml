@@ -24,6 +24,7 @@ dependencies:
   - papermill>=2.1.2
   - statsmodels>=0.10
   - modin>=0.7.3
+  - jupyterlab>=0.35.4
   - pip:
       - google-cloud-storage>=1.18.0
       - presidio-analyzer==0.3.8917rc0
