@@ -187,6 +187,7 @@ def compute_sensitive_data(
     return sensitivewidget
 
 
+@_requires("presidio_analyzer")
 def identify_pii(text, engine_backend, score_threshold=_DEFAULT_SCORE_THRESHOLD):
     """Identifies infotypes contained in a string.
 
@@ -229,6 +230,7 @@ def create_mapping(text, response):
     return word_mapping, ref_text
 
 
+@_requires("presidio_analyzer")
 def redact_info(text, engine_backend, score_threshold=_DEFAULT_SCORE_THRESHOLD):
     """Redact sensitive data with mapping between hashed values and infotype.
 
@@ -245,6 +247,7 @@ def redact_info(text, engine_backend, score_threshold=_DEFAULT_SCORE_THRESHOLD):
     return reduce(lambda a, kv: a.replace(*kv), word_mapping.items(), text)
 
 
+@_requires("presidio_analyzer")
 def identify_column_infotypes(
     data_series,
     engine_backend,
@@ -277,6 +280,7 @@ def identify_column_infotypes(
         return sorted(list(set([i.entity_type for obj in results for i in obj])))
 
 
+@_requires("presidio_analyzer")
 def identify_infotypes(
     df,
     engine_backend,
@@ -305,6 +309,7 @@ def identify_infotypes(
     }
 
 
+@_requires("presidio_analyzer")
 def encrypt_text(text, engine_backend, score_threshold=_DEFAULT_SCORE_THRESHOLD):
     """Encrypt text using python's hash function.
 
@@ -334,7 +339,6 @@ def hash_string(text):
 
 
 @_requires("presidio_analyzer")
-@_requires("spacy")
 def presidio_engine():
     """Initialize presidio engine.
 

@@ -117,7 +117,7 @@ def nltk_download(module):
         module.download("stopwords")
 
 
-def spacy_download(module):
+def presidio_download(module):
     """Downloads SpaCy language model."""
     if not module.util.is_package("en_core_web_lg"):
         warnings.warn(
@@ -129,7 +129,7 @@ def spacy_download(module):
 _compat = _DependencyManager(
     {
         "nltk": nltk_download,
-        "spacy": spacy_download,
+        "presidio_analyzer": presidio_download,
     }
 )
 
