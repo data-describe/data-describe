@@ -11,7 +11,7 @@ _global_config: Dict = {
         "matplotlib": {"fig_height": 10, "fig_width": 10},
         "plotly": {"fig_height": 750, "fig_width": 750, "title_size": 25},
     },
-    "sensitive_data": {"score_threshold": None, "sample_size": None},
+    "sensitive_data": {"score_threshold": 100, "sample_size": 0.2},
 }
 
 

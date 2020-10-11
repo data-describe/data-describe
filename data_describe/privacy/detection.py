@@ -1,6 +1,6 @@
 import hashlib
 from functools import reduce
-from typing import Optional
+from typing import Optional, Union
 import warnings
 
 from data_describe.backends import _get_compute_backend
@@ -132,7 +132,7 @@ def compute_sensitive_data(
     detect_infotypes: bool = True,
     columns: Optional[list] = None,
     score_threshold: float = _DEFAULT_SCORE_THRESHOLD,
-    sample_size: int = _SAMPLE_SIZE,
+    sample_size: Union[int, float] = _SAMPLE_SIZE,
     engine_backend=None,
 ):
     """Identifies, redacts, and encrypts PII data.
@@ -244,7 +244,7 @@ def redact_info(text, engine_backend, score_threshold=_DEFAULT_SCORE_THRESHOLD):
 def identify_column_infotypes(
     data_series,
     engine_backend,
-    sample_size=_SAMPLE_SIZE,
+    sample_size: Union[int, float] = _SAMPLE_SIZE,
     score_threshold=_DEFAULT_SCORE_THRESHOLD,
 ):
     """Identifies the infotype of a pandas series object using a sample of rows.
@@ -258,7 +258,10 @@ def identify_column_infotypes(
     Returns:
         List of infotypes
     """
-    sampled_data = data_series.sample(sample_size, random_state=1)
+    if isinstance(sample_size, int):
+        sampled_data = data_series.sample(n=sample_size, random_state=1)
+    elif isinstance(sample_size, float):
+        sampled_data = data_series.sample(frac=sample_size, random_state=1)
     results = list(
         sampled_data.map(
             lambda x: identify_pii(
