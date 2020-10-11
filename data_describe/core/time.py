@@ -3,9 +3,6 @@ from typing import Optional
 
 import matplotlib.pyplot as plt
 import seaborn as sns
-import statsmodels.api as sm
-from statsmodels.tsa.seasonal import seasonal_decompose
-from statsmodels.tsa.stattools import acf, pacf, adfuller, kpss
 import pandas as pd
 import numpy as np
 import plotly.graph_objs as go
@@ -15,7 +12,7 @@ from IPython import get_ipython
 
 from data_describe.config._config import get_option
 from data_describe.backends import _get_viz_backend, _get_compute_backend
-from data_describe.compat import _is_dataframe
+from data_describe.compat import _is_dataframe, _compat, _requires
 
 
 def plot_time_series(
@@ -188,7 +185,9 @@ def adf_test(timeseries, autolag: str = "AIC", regression: str = "c", **kwargs):
     Returns:
         Pandas dataframe containing the statistics
     """
-    test = adfuller(timeseries, autolag=autolag, regression=regression, **kwargs)
+    test = _compat["statsmodels.tsa.stattools"].adfuller(  # type: ignore
+        timeseries, autolag=autolag, regression=regression, **kwargs
+    )
     adf_output = pd.Series(
         test[0:4],
         index=[
@@ -225,13 +224,16 @@ def kpss_test(timeseries, regression: str = "c", nlags: Optional[int] = None, **
             category=FutureWarning,
             message="The behavior of using lags=None will change in the next release.",
         )
-        test = kpss(timeseries, regression="c", **kwargs)
+        test = _compat["statsmodels.tsa.stattools"].kpss(  # type: ignore
+            timeseries, regression="c", **kwargs
+        )
     kpss_output = pd.Series(test[0:3], index=["Test Statistic", "p-value", "Lags Used"])
     for key, value in test[3].items():
         kpss_output["Critical Value (%s)" % key] = value
     return pd.DataFrame(kpss_output, columns=["stats"])
 
 
+@_requires("statsmodels")
 def _pandas_compute_decompose_timeseries(df, col, model: str = "additive", **kwargs):
     """Seasonal decomposition using moving averages.
 
@@ -247,9 +249,12 @@ def _pandas_compute_decompose_timeseries(df, col, model: str = "additive", **kwa
     Returns:
         statsmodels.tsa.seasonal.DecomposeResult object
     """
-    return seasonal_decompose(df[col], model=model, **kwargs)
+    return _compat["statsmodels.tsa.seasonal"].seasonal_decompose(  # type: ignore
+        df[col], model=model, **kwargs
+    )
 
 
+@_requires("statsmodels")
 def _pandas_compute_autocorrelation(
     timeseries,
     n_lags: Optional[int] = 40,
@@ -273,9 +278,11 @@ def _pandas_compute_autocorrelation(
         numpy.ndarray containing the correlations
     """
     if plot_type == "pacf":
-        data = pacf(timeseries, n_lags, **kwargs)
+        data = _compat["statsmodels.tsa.stattools"].pacf(timeseries, n_lags, **kwargs)  # type: ignore
     elif plot_type == "acf":
-        data = acf(timeseries, n_lags, fft=fft, **kwargs)
+        data = _compat["statsmodels.tsa.stattools"].acf(  # type: ignore
+            timeseries, n_lags, fft=fft, **kwargs
+        )
     else:
         raise ValueError("Unsupported input data type")
     white_noise = 1.96 / np.sqrt(len(data))
@@ -484,6 +491,7 @@ def _seaborn_viz_decomposition(df, result):
     return fig
 
 
+@_requires("statsmodels")
 def _seaborn_viz_plot_autocorrelation(
     timeseries, plot_type="acf", n_lags=40, fft=False, **kwargs
 ):
@@ -509,11 +517,13 @@ def _seaborn_viz_plot_autocorrelation(
         )
     )
     if plot_type == "acf":
-        fig = sm.graphics.tsa.plot_acf(
+        fig = _compat["statsmodels.api"].graphics.tsa.plot_acf(  # type: ignore
             timeseries, ax=ax, lags=n_lags, fft=fft, **kwargs
         )
     elif plot_type == "pacf":
-        fig = sm.graphics.tsa.plot_pacf(timeseries, ax=ax, lags=n_lags, **kwargs)
+        fig = _compat["statsmodels.api"].graphics.tsa.plot_pacf(  # type: ignore
+            timeseries, ax=ax, lags=n_lags, **kwargs
+        )
     else:
         raise ValueError("Unsupported input data type")
     plt.xlabel("Lags")
