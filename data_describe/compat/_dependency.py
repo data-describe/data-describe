@@ -119,11 +119,18 @@ def nltk_download(module):
 
 def presidio_download(module):
     """Downloads SpaCy language model."""
-    if not module.util.is_package("en_core_web_lg"):
-        warnings.warn(
-            "Downloading en_core_web_lg model for Spacy. This may take several minutes."
-        )
-        module.cli.download("en_core_web_lg")
+    try:
+        import spacy  # noqa
+
+        if not spacy.util.is_package("en_core_web_lg"):
+            warnings.warn(
+                "Downloading en_core_web_lg model for Spacy. This may take several minutes."
+            )
+            spacy.cli.download("en_core_web_lg")
+    except ImportError as err:
+        raise ImportError(
+            "Couldn't find SpaCy which is required of presidio_analyzer."
+        ) from err
 
 
 _compat = _DependencyManager(
