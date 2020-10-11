@@ -13,7 +13,7 @@ import plotly.offline as po
 
 from data_describe.config._config import get_option
 from data_describe._widget import BaseWidget
-from data_describe.compat import _DATAFRAME_TYPE, _compat, _requires, _IN_NOTEBOOK
+from data_describe.compat import is_dataframe, _compat, _requires, _IN_NOTEBOOK
 from data_describe.backends import _get_viz_backend, _get_compute_backend
 from data_describe.dimensionality_reduction.dimensionality_reduction import dim_reduc
 
@@ -188,7 +188,7 @@ def cluster(
     Returns:
         ClusterWidget
     """
-    if not isinstance(data, _DATAFRAME_TYPE):
+    if not is_dataframe(data):
         raise ValueError("Data frame required")
 
     if method not in ["kmeans", "hdbscan"]:

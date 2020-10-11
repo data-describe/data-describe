@@ -4,7 +4,7 @@ from sklearn.decomposition import PCA, IncrementalPCA
 from sklearn.manifold import TSNE
 from sklearn.decomposition import TruncatedSVD
 
-from data_describe.compat import _DATAFRAME_TYPE, _compat, _requires
+from data_describe.compat import is_dataframe, _compat, _requires
 from data_describe.backends._backends import _get_compute_backend
 
 
@@ -30,7 +30,7 @@ def dim_reduc(
     Returns:
         The dimensionally-reduced dataframe and reduction object
     """
-    if not isinstance(data, _DATAFRAME_TYPE):
+    if not is_dataframe(data):
         raise ValueError("Data must be a Pandas (or Modin) DataFrame")
 
     if dim_method == "pca":

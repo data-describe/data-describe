@@ -1,6 +1,6 @@
 import pytest
 
-from data_describe.compat import _compat, _DATAFRAME_TYPE
+from data_describe.compat import _compat, is_dataframe
 from data_describe.privacy.detection import (
     sensitive_data,
     SensitiveDataWidget,
@@ -56,7 +56,7 @@ def test_sensitive_data_cols(compute_backend_pii_df):
         compute_backend_pii_df, mode="redact", columns=["name"], detect_infotypes=False
     )
     assert isinstance(sensitivewidget, SensitiveDataWidget)
-    assert isinstance(sensitivewidget.redact, _DATAFRAME_TYPE)
+    assert is_dataframe(sensitivewidget.redact)
     assert sensitivewidget.redact.shape == (1, 1)
     assert isinstance(sensitivewidget.infotypes, type(None))
     assert isinstance(sensitivewidget.encrypt, type(None))
@@ -68,7 +68,7 @@ def test_only_redact_data(compute_backend_pii_df):
     )
     assert isinstance(sensitivewidget, SensitiveDataWidget)
     assert sensitivewidget.redact.shape == (1, 2)
-    assert isinstance(sensitivewidget.redact, _DATAFRAME_TYPE)
+    assert is_dataframe(sensitivewidget.redact)
     assert sensitivewidget.redact["name"][1] == "<PERSON>"
     assert sensitivewidget.redact["domain"][1] == "<DOMAIN_NAME>"
     assert isinstance(sensitivewidget.redact["name"][1], str)
@@ -82,7 +82,7 @@ def test_only_encrypt_data(compute_backend_pii_df):
         compute_backend_pii_df, mode="encrypt", detect_infotypes=False
     )
     assert isinstance(sensitivewidget, SensitiveDataWidget)
-    assert isinstance(sensitivewidget.encrypt, _DATAFRAME_TYPE)
+    assert is_dataframe(sensitivewidget.encrypt)
     assert isinstance(sensitivewidget.encrypt["name"][1], str)
     assert isinstance(sensitivewidget.encrypt["domain"][1], str)
     assert isinstance(sensitivewidget.redact, type(None))
@@ -115,7 +115,7 @@ def test_encrypt_data_and_infotypes(compute_backend_pii_df):
     assert sensitivewidget.infotypes["name"][0] == "PERSON"
     assert len(sensitivewidget.infotypes) == 2
     assert isinstance(sensitivewidget.redact, type(None))
-    assert isinstance(sensitivewidget.show(), _DATAFRAME_TYPE)
+    assert is_dataframe(sensitivewidget.show())
 
 
 def test_encrypt_text():

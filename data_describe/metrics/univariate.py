@@ -1,7 +1,7 @@
 import numpy as np
 from scipy.stats import skew
 
-from data_describe.compat import _SERIES_TYPE
+from data_describe.compat import is_series
 
 
 def spikey(data):
@@ -15,7 +15,7 @@ def spikey(data):
     Returns:
         Ratio of the tallest bin height and the average bin height.
     """
-    if isinstance(data, _SERIES_TYPE):
+    if is_series(data):
         data = data.dropna()
     else:
         data = data[~np.isnan(data)]
