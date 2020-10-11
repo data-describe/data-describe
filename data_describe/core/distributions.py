@@ -8,7 +8,7 @@ import numpy as np
 from data_describe.config._config import get_option
 from data_describe.metrics.univariate import spikey, skewed
 from data_describe._widget import BaseWidget
-from data_describe.compat import _DATAFRAME_TYPE
+from data_describe.compat import _is_dataframe
 from data_describe.backends import _get_viz_backend, _get_compute_backend
 
 
@@ -132,7 +132,7 @@ def distribution(
     Returns:
         DistributionWidget
     """
-    if not isinstance(data, _DATAFRAME_TYPE):
+    if not _is_dataframe(data):
         raise ValueError("DataFrame required.")
 
     widget = _get_compute_backend(compute_backend, data).compute_distribution(

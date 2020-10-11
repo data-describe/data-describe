@@ -15,7 +15,7 @@ from IPython import get_ipython
 
 from data_describe.config._config import get_option
 from data_describe.backends import _get_viz_backend, _get_compute_backend
-from data_describe.compat import _DATAFRAME_TYPE
+from data_describe.compat import _is_dataframe
 
 
 def plot_time_series(
@@ -45,7 +45,7 @@ def plot_time_series(
     Returns:
         The visualization
     """
-    if not isinstance(df, _DATAFRAME_TYPE):
+    if not _is_dataframe(df):
         raise ValueError("Unsupported input data type")
     if not isinstance(col, (list, str)):
         raise ValueError(f"{col} must be list type or string type")
@@ -83,7 +83,7 @@ def stationarity_test(
     Returns:
         Pandas dataframe containing the statistics
     """
-    if not isinstance(df, _DATAFRAME_TYPE):
+    if not _is_dataframe(df):
         raise ValueError("Unsupported input data type")
     if not isinstance(col, str):
         raise ValueError(f"{col} not found in dataframe")
@@ -125,7 +125,7 @@ def plot_autocorrelation(
     Returns:
         The visualization
     """
-    if not isinstance(df, _DATAFRAME_TYPE):
+    if not _is_dataframe(df):
         raise ValueError("Unsupported input data type")
     if isinstance(col, str):
         if col not in df.columns:

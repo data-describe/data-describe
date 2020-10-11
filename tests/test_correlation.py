@@ -5,7 +5,7 @@ from matplotlib.axes import Axes as mpl_plot
 from pandas.testing import assert_frame_equal
 
 import data_describe as dd
-from data_describe.compat import _DATAFRAME_TYPE
+from data_describe.compat import _is_dataframe
 from data_describe.core.correlation import CorrelationWidget
 
 matplotlib.use("Agg")
@@ -35,8 +35,8 @@ def test_figure_default(data):
     cr = dd.correlation_matrix(data)
     assert isinstance(cr.show(viz_backend="plotly"), plotly.graph_objs.Figure)
     assert isinstance(cr.show(), mpl_plot)
-    assert isinstance(cr.association_matrix, _DATAFRAME_TYPE)
-    assert isinstance(cr.viz_data, _DATAFRAME_TYPE)
+    assert _is_dataframe(cr.association_matrix)
+    assert _is_dataframe(cr.viz_data)
     assert isinstance(cr, CorrelationWidget)
     assert_frame_equal(cr.viz_data, cr.association_matrix)
     assert data.select_dtypes(["number"]).shape[1] == cr.association_matrix.shape[1]
@@ -51,9 +51,9 @@ def test_figure_categorical_cluster(data):
     cr = dd.correlation_matrix(data, cluster=True, categorical=True)
     assert isinstance(cr.show(viz_backend="plotly"), plotly.graph_objs.Figure)
     assert isinstance(cr.show(), mpl_plot)
-    assert isinstance(cr.association_matrix, _DATAFRAME_TYPE)
-    assert isinstance(cr.association_matrix, _DATAFRAME_TYPE)
-    assert isinstance(cr.viz_data, _DATAFRAME_TYPE)
+    assert _is_dataframe(cr.association_matrix)
+    assert _is_dataframe(cr.association_matrix)
+    assert _is_dataframe(cr.viz_data)
     assert isinstance(cr, CorrelationWidget)
     assert_frame_equal(cr.viz_data, cr.cluster_matrix)
 
@@ -63,8 +63,8 @@ def test_cluster_no_categorical_figure(data):
     cr = dd.correlation_matrix(data, cluster=True)
     assert isinstance(cr.show(viz_backend="plotly"), plotly.graph_objs.Figure)
     assert isinstance(cr.show(), mpl_plot)
-    assert isinstance(cr.association_matrix, _DATAFRAME_TYPE)
-    assert isinstance(cr.viz_data, _DATAFRAME_TYPE)
+    assert _is_dataframe(cr.association_matrix)
+    assert _is_dataframe(cr.viz_data)
     assert isinstance(cr, CorrelationWidget)
     assert_frame_equal(cr.viz_data, cr.cluster_matrix)
     assert data.select_dtypes(["number"]).shape[1] == cr.association_matrix.shape[1]
@@ -78,8 +78,8 @@ def test_categorical_and_numerical_data(data):
     cr = dd.correlation_matrix(data, categorical=True)
     assert isinstance(cr.show(viz_backend="plotly"), plotly.graph_objs.Figure)
     assert isinstance(cr.show(), mpl_plot)
-    assert isinstance(cr.association_matrix, _DATAFRAME_TYPE)
-    assert isinstance(cr.viz_data, _DATAFRAME_TYPE)
+    assert _is_dataframe(cr.association_matrix)
+    assert _is_dataframe(cr.viz_data)
     assert isinstance(cr, CorrelationWidget)
     assert_frame_equal(cr.viz_data, cr.association_matrix)
     assert data.shape[1] == cr.association_matrix.shape[1]
@@ -97,8 +97,8 @@ def test_categorical_data_only(data):
     cr = dd.correlation_matrix(cat_data, categorical=True)
     assert isinstance(cr.show(viz_backend="plotly"), plotly.graph_objs.Figure)
     assert isinstance(cr.show(), mpl_plot)
-    assert isinstance(cr.association_matrix, _DATAFRAME_TYPE)
-    assert isinstance(cr.viz_data, _DATAFRAME_TYPE)
+    assert _is_dataframe(cr.association_matrix)
+    assert _is_dataframe(cr.viz_data)
     assert isinstance(cr, CorrelationWidget)
     assert_frame_equal(cr.viz_data, cr.association_matrix)
     assert cat_data.shape[1] == cr.association_matrix.shape[1]

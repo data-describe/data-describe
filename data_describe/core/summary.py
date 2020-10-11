@@ -1,7 +1,7 @@
 import pandas as pd
 
 from data_describe._widget import BaseWidget
-from data_describe.compat import _SERIES_TYPE, _DATAFRAME_TYPE, _requires, _compat
+from data_describe.compat import _requires, _compat, _is_series, _is_dataframe
 from data_describe.backends._backends import _get_compute_backend
 
 
@@ -125,10 +125,10 @@ def _pandas_compute_data_summary(data):
     Returns:
         The Pandas dataframe with metrics in rows
     """
-    if isinstance(data, _SERIES_TYPE):
+    if _is_series(data):
         data = pd.DataFrame(data, columns=[data.name])
 
-    if not isinstance(data, _DATAFRAME_TYPE):
+    if not _is_dataframe(data):
         raise ValueError("Data must be a Pandas DataFrame")
 
     # Save column order
@@ -179,10 +179,10 @@ def _modin_compute_data_summary(data):
     Returns:
         The Modin dataframe with metrics in rows
     """
-    if isinstance(data, _SERIES_TYPE):
+    if _is_series(data):
         data = _compat["modin.pandas"].DataFrame(data)
 
-    if not isinstance(data, _DATAFRAME_TYPE):
+    if not _is_dataframe(data):
         raise ValueError("Data must be a Modin DataFrame")
 
     # Save column order

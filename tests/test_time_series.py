@@ -12,7 +12,7 @@ from data_describe.core.time import (
     stationarity_test,
 )
 import data_describe as dd
-from data_describe.compat import _DATAFRAME_TYPE
+from data_describe.compat import _is_dataframe
 
 matplotlib.use("Agg")
 
@@ -40,10 +40,10 @@ def test_pandas_compute_stationarity_test(compute_time_data):
     test_df = _pandas_compute_stationarity_test(
         compute_time_data["var"], test="dickey-fuller"
     )
-    assert isinstance(test_df, _DATAFRAME_TYPE)
+    assert _is_dataframe(test_df)
     assert test_df.shape == (7, 1)
     test_df = _pandas_compute_stationarity_test(compute_time_data["var"], test="kpss")
-    assert isinstance(test_df, _DATAFRAME_TYPE)
+    assert _is_dataframe(test_df)
     assert test_df.shape == (7, 1)
 
 

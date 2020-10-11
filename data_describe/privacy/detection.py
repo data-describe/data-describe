@@ -6,7 +6,7 @@ import warnings
 
 from data_describe.misc.logging import OutputLogger
 from data_describe.backends import _get_compute_backend
-from data_describe.compat import _DATAFRAME_TYPE, _compat, _requires
+from data_describe.compat import _is_dataframe, _compat, _requires
 from data_describe.config._config import get_option
 from data_describe._widget import BaseWidget
 
@@ -58,11 +58,11 @@ def sensitive_data(
     if not engine_backend:
         engine_backend = presidio_engine()
 
-    if not isinstance(df, _DATAFRAME_TYPE):
+    if not _is_dataframe(df):
         raise ValueError("Pandas data frame or modin data frame required")
 
     if _compat.check_install("modin.pandas"):
-        if isinstance(df, _DATAFRAME_TYPE.modin):
+        if _is_dataframe(df, "modin"):
             warnings.warn(
                 "Sensitive data does not currently support Modin DataFrames. Converting to Pandas."
             )
@@ -117,10 +117,10 @@ class SensitiveDataWidget(BaseWidget):
 
     def show(self, **kwargs):
         """Show the transformed data or infotypes."""
-        if isinstance(self.encrypt, _DATAFRAME_TYPE):
+        if _is_dataframe(self.encrypt):
             viz_data = self.encrypt
 
-        elif isinstance(self.redact, _DATAFRAME_TYPE):
+        elif _is_dataframe(self.redact):
             viz_data = self.redact
 
         elif self.infotypes:

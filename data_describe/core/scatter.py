@@ -6,7 +6,7 @@ from pyscagnostics import scagnostics
 
 from data_describe._widget import BaseWidget
 from data_describe.config._config import get_option
-from data_describe.compat import _DATAFRAME_TYPE
+from data_describe.compat import _is_dataframe
 from data_describe.backends import _get_compute_backend, _get_viz_backend
 
 
@@ -148,7 +148,7 @@ def scatter_plots(
     Returns:
         Scatter plot.
     """
-    if not isinstance(data, _DATAFRAME_TYPE):
+    if not _is_dataframe(data):
         raise ValueError("Unsupported input data type")
 
     swidget = _get_compute_backend(compute_backend, data).compute_scatter_plot(
