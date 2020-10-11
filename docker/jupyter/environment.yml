@@ -28,4 +28,5 @@ dependencies:
   - pip:
       - google-cloud-storage>=1.18.0
       - presidio-analyzer==0.3.8917rc0
+      - https://github.com/explosion/spacy-models/releases/download/en_core_web_lg-2.2.0/en_core_web_lg-2.2.0.tar.gz # For presidio
       - pyscagnostics>=0.1.0a4
