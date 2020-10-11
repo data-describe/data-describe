@@ -18,9 +18,15 @@ data_describe.privacy.detection
    data_describe.privacy.detection.identify_infotypes
    data_describe.privacy.detection.encrypt_text
    data_describe.privacy.detection.hash_string
+   data_describe.privacy.detection.presidio_engine
 
 
-.. function:: sensitive_data(df, mode: str = 'redact', detect_infotypes: bool = True, columns: Optional[list] = None, score_threshold: float = _DEFAULT_SCORE_THRESHOLD, sample_size: int = _SAMPLE_SIZE, engine_backend=engine, compute_backend: Optional[str] = None)
+.. data:: logger
+   
+
+   
+
+.. function:: sensitive_data(df, mode: str = 'redact', detect_infotypes: bool = True, columns: Optional[list] = None, score_threshold: float = _DEFAULT_SCORE_THRESHOLD, sample_size: int = _SAMPLE_SIZE, engine_backend=None, compute_backend: Optional[str] = None)
 
    Identifies, redacts, and/or encrypts PII data.
 
@@ -67,7 +73,7 @@ data_describe.privacy.detection
 
 
 
-.. function:: compute_sensitive_data(df, mode: str = 'redact', detect_infotypes: bool = True, columns: Optional[list] = None, score_threshold: float = _DEFAULT_SCORE_THRESHOLD, sample_size: int = _SAMPLE_SIZE, engine_backend=None)
+.. function:: compute_sensitive_data(df, mode: str = 'redact', detect_infotypes: bool = True, columns: Optional[list] = None, score_threshold: float = _DEFAULT_SCORE_THRESHOLD, sample_size: Union[int, float] = _SAMPLE_SIZE, engine_backend=None)
 
    Identifies, redacts, and encrypts PII data.
 
@@ -134,7 +140,7 @@ data_describe.privacy.detection
    :returns: String with redacted information
 
 
-.. function:: identify_column_infotypes(data_series, engine_backend, sample_size=_SAMPLE_SIZE, score_threshold=_DEFAULT_SCORE_THRESHOLD)
+.. function:: identify_column_infotypes(data_series, engine_backend, sample_size: Union[int, float] = _SAMPLE_SIZE, score_threshold=_DEFAULT_SCORE_THRESHOLD)
 
    Identifies the infotype of a pandas series object using a sample of rows.
 
@@ -186,5 +192,12 @@ data_describe.privacy.detection
 
    :returns: Hashed text
    :rtype: sha_signature
+
+
+.. function:: presidio_engine()
+
+   Initialize presidio engine.
+
+   :returns: Presidio engine
 
 

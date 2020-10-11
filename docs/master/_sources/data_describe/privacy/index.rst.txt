@@ -16,6 +16,5 @@ data_describe.privacy
    :maxdepth: 1
 
    detection/index.rst
-   engine/index.rst
 
 

@@ -41,7 +41,7 @@
     
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="data_describe.privacy.engine" href="../engine/index.html" />
+    <link rel="next" title="data_describe.text" href="../../text/index.html" />
     <link rel="prev" title="data_describe.privacy" href="../index.html" /> 
 </head>
 
@@ -108,6 +108,9 @@
 <li class="toctree-l2"><a class="reference internal" href="../../misc/index.html">data_describe.misc</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../index.html">data_describe.privacy</a><ul class="current">
 <li class="toctree-l3 current"><a class="current reference internal" href="#">data_describe.privacy.detection</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#data_describe.privacy.detection.logger">logger</a></li>
+</ul>
+<ul>
 <li class="toctree-l4"><a class="reference internal" href="#data_describe.privacy.detection.sensitive_data">sensitive_data</a></li>
 </ul>
 <ul>
@@ -137,8 +140,10 @@
 <ul>
 <li class="toctree-l4"><a class="reference internal" href="#data_describe.privacy.detection.hash_string">hash_string</a></li>
 </ul>
+<ul>
+<li class="toctree-l4"><a class="reference internal" href="#data_describe.privacy.detection.presidio_engine">presidio_engine</a></li>
+</ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../engine/index.html">data_describe.privacy.engine</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../text/index.html">data_describe.text</a></li>
@@ -245,10 +250,10 @@
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#data_describe.privacy.detection.sensitive_data" title="data_describe.privacy.detection.sensitive_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sensitive_data</span></code></a>(df, mode: str = ‘redact’, detect_infotypes: bool = True, columns: Optional[list] = None, score_threshold: float = _DEFAULT_SCORE_THRESHOLD, sample_size: int = _SAMPLE_SIZE, engine_backend=engine, compute_backend: Optional[str] = None)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#data_describe.privacy.detection.sensitive_data" title="data_describe.privacy.detection.sensitive_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sensitive_data</span></code></a>(df, mode: str = ‘redact’, detect_infotypes: bool = True, columns: Optional[list] = None, score_threshold: float = _DEFAULT_SCORE_THRESHOLD, sample_size: int = _SAMPLE_SIZE, engine_backend=None, compute_backend: Optional[str] = None)</p></td>
 <td><p>Identifies, redacts, and/or encrypts PII data.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#data_describe.privacy.detection.compute_sensitive_data" title="data_describe.privacy.detection.compute_sensitive_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">compute_sensitive_data</span></code></a>(df, mode: str = ‘redact’, detect_infotypes: bool = True, columns: Optional[list] = None, score_threshold: float = _DEFAULT_SCORE_THRESHOLD, sample_size: int = _SAMPLE_SIZE, engine_backend=None)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#data_describe.privacy.detection.compute_sensitive_data" title="data_describe.privacy.detection.compute_sensitive_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">compute_sensitive_data</span></code></a>(df, mode: str = ‘redact’, detect_infotypes: bool = True, columns: Optional[list] = None, score_threshold: float = _DEFAULT_SCORE_THRESHOLD, sample_size: Union[int, float] = _SAMPLE_SIZE, engine_backend=None)</p></td>
 <td><p>Identifies, redacts, and encrypts PII data.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#data_describe.privacy.detection.identify_pii" title="data_describe.privacy.detection.identify_pii"><code class="xref py py-obj docutils literal notranslate"><span class="pre">identify_pii</span></code></a>(text, engine_backend, score_threshold=_DEFAULT_SCORE_THRESHOLD)</p></td>
@@ -260,7 +265,7 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="#data_describe.privacy.detection.redact_info" title="data_describe.privacy.detection.redact_info"><code class="xref py py-obj docutils literal notranslate"><span class="pre">redact_info</span></code></a>(text, engine_backend, score_threshold=_DEFAULT_SCORE_THRESHOLD)</p></td>
 <td><p>Redact sensitive data with mapping between hashed values and infotype.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#data_describe.privacy.detection.identify_column_infotypes" title="data_describe.privacy.detection.identify_column_infotypes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">identify_column_infotypes</span></code></a>(data_series, engine_backend, sample_size=_SAMPLE_SIZE, score_threshold=_DEFAULT_SCORE_THRESHOLD)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#data_describe.privacy.detection.identify_column_infotypes" title="data_describe.privacy.detection.identify_column_infotypes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">identify_column_infotypes</span></code></a>(data_series, engine_backend, sample_size: Union[int, float] = _SAMPLE_SIZE, score_threshold=_DEFAULT_SCORE_THRESHOLD)</p></td>
 <td><p>Identifies the infotype of a pandas series object using a sample of rows.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#data_describe.privacy.detection.identify_infotypes" title="data_describe.privacy.detection.identify_infotypes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">identify_infotypes</span></code></a>(df, engine_backend, sample_size=_SAMPLE_SIZE, score_threshold=_DEFAULT_SCORE_THRESHOLD)</p></td>
@@ -272,11 +277,19 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="#data_describe.privacy.detection.hash_string" title="data_describe.privacy.detection.hash_string"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hash_string</span></code></a>(text)</p></td>
 <td><p>Applies SHA256 text hashing.</p></td>
 </tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#data_describe.privacy.detection.presidio_engine" title="data_describe.privacy.detection.presidio_engine"><code class="xref py py-obj docutils literal notranslate"><span class="pre">presidio_engine</span></code></a>()</p></td>
+<td><p>Initialize presidio engine.</p></td>
+</tr>
 </tbody>
 </table>
+<dl class="py data">
+<dt id="data_describe.privacy.detection.logger">
+<code class="sig-prename descclassname">data_describe.privacy.detection.</code><code class="sig-name descname">logger</code><a class="headerlink" href="#data_describe.privacy.detection.logger" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="py function">
 <dt id="data_describe.privacy.detection.sensitive_data">
-<code class="sig-prename descclassname">data_describe.privacy.detection.</code><code class="sig-name descname">sensitive_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">df</span></em>, <em class="sig-param"><span class="n">mode</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'redact'</span></em>, <em class="sig-param"><span class="n">detect_infotypes</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="n">columns</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>list<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">score_threshold</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">_DEFAULT_SCORE_THRESHOLD</span></em>, <em class="sig-param"><span class="n">sample_size</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">_SAMPLE_SIZE</span></em>, <em class="sig-param"><span class="n">engine_backend</span><span class="o">=</span><span class="default_value">engine</span></em>, <em class="sig-param"><span class="n">compute_backend</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.privacy.detection.sensitive_data" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">data_describe.privacy.detection.</code><code class="sig-name descname">sensitive_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">df</span></em>, <em class="sig-param"><span class="n">mode</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'redact'</span></em>, <em class="sig-param"><span class="n">detect_infotypes</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="n">columns</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>list<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">score_threshold</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">_DEFAULT_SCORE_THRESHOLD</span></em>, <em class="sig-param"><span class="n">sample_size</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">_SAMPLE_SIZE</span></em>, <em class="sig-param"><span class="n">engine_backend</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">compute_backend</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.privacy.detection.sensitive_data" title="Permalink to this definition">¶</a></dt>
 <dd><p>Identifies, redacts, and/or encrypts PII data.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -326,7 +339,7 @@ encrypt: Anonymize the sensitive data</p></li>
 
 <dl class="py function">
 <dt id="data_describe.privacy.detection.compute_sensitive_data">
-<code class="sig-prename descclassname">data_describe.privacy.detection.</code><code class="sig-name descname">compute_sensitive_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">df</span></em>, <em class="sig-param"><span class="n">mode</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'redact'</span></em>, <em class="sig-param"><span class="n">detect_infotypes</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="n">columns</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>list<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">score_threshold</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">_DEFAULT_SCORE_THRESHOLD</span></em>, <em class="sig-param"><span class="n">sample_size</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">_SAMPLE_SIZE</span></em>, <em class="sig-param"><span class="n">engine_backend</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.privacy.detection.compute_sensitive_data" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">data_describe.privacy.detection.</code><code class="sig-name descname">compute_sensitive_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">df</span></em>, <em class="sig-param"><span class="n">mode</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'redact'</span></em>, <em class="sig-param"><span class="n">detect_infotypes</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="n">columns</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>list<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">score_threshold</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">_DEFAULT_SCORE_THRESHOLD</span></em>, <em class="sig-param"><span class="n">sample_size</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>int<span class="p">, </span>float<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">_SAMPLE_SIZE</span></em>, <em class="sig-param"><span class="n">engine_backend</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.privacy.detection.compute_sensitive_data" title="Permalink to this definition">¶</a></dt>
 <dd><p>Identifies, redacts, and encrypts PII data.</p>
 <p>Note: sensitive_data uses Microsoft’s Presidio in the backend. Presidio can be help identify sensitive data.
 However, because Presidio uses trained ML models, there is no guarantee that Presidio will find all sensitive information.</p>
@@ -412,7 +425,7 @@ ref_text (str): String with hashed values</p>
 
 <dl class="py function">
 <dt id="data_describe.privacy.detection.identify_column_infotypes">
-<code class="sig-prename descclassname">data_describe.privacy.detection.</code><code class="sig-name descname">identify_column_infotypes</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data_series</span></em>, <em class="sig-param"><span class="n">engine_backend</span></em>, <em class="sig-param"><span class="n">sample_size</span><span class="o">=</span><span class="default_value">_SAMPLE_SIZE</span></em>, <em class="sig-param"><span class="n">score_threshold</span><span class="o">=</span><span class="default_value">_DEFAULT_SCORE_THRESHOLD</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.privacy.detection.identify_column_infotypes" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">data_describe.privacy.detection.</code><code class="sig-name descname">identify_column_infotypes</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data_series</span></em>, <em class="sig-param"><span class="n">engine_backend</span></em>, <em class="sig-param"><span class="n">sample_size</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>int<span class="p">, </span>float<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">_SAMPLE_SIZE</span></em>, <em class="sig-param"><span class="n">score_threshold</span><span class="o">=</span><span class="default_value">_DEFAULT_SCORE_THRESHOLD</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.privacy.detection.identify_column_infotypes" title="Permalink to this definition">¶</a></dt>
 <dd><p>Identifies the infotype of a pandas series object using a sample of rows.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -483,6 +496,17 @@ ref_text (str): String with hashed values</p>
 </dl>
 </dd></dl>
 
+<dl class="py function">
+<dt id="data_describe.privacy.detection.presidio_engine">
+<code class="sig-prename descclassname">data_describe.privacy.detection.</code><code class="sig-name descname">presidio_engine</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.privacy.detection.presidio_engine" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize presidio engine.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Presidio engine</p>
+</dd>
+</dl>
+</dd></dl>
+
 </div>
 
 
@@ -493,7 +517,7 @@ ref_text (str): String with hashed values</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../engine/index.html" class="btn btn-neutral float-right" title="data_describe.privacy.engine" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="../../text/index.html" class="btn btn-neutral float-right" title="data_describe.text" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="../index.html" class="btn btn-neutral float-left" title="data_describe.privacy" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

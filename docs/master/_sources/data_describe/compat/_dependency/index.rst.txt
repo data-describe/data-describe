@@ -12,7 +12,7 @@ data_describe.compat._dependency
 .. autoapisummary::
 
    data_describe.compat._dependency.nltk_download
-   data_describe.compat._dependency.spacy_download
+   data_describe.compat._dependency.presidio_download
 
 
 .. function:: nltk_download(module)
@@ -20,7 +20,7 @@ data_describe.compat._dependency
    Downloads NLTK corpora.
 
 
-.. function:: spacy_download(module)
+.. function:: presidio_download(module)
 
    Downloads SpaCy language model.
 
