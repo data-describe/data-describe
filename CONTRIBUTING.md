@@ -8,9 +8,9 @@ Try searching in the issue tracker to see if your bug has already been reported.
 
 **I have a question**
 
-> **Note**: Don't file an issue to ask a question. You'll get a faster response through other channels.
+> **Note**: You may get a faster response through Slack rather than filing a Github issue.
 
-Join our Slack channel here.  #TODO
+Join our Slack channel [here](https://join.slack.com/t/data-describe/shared_invite/zt-hvl7z4k3-ISYHB1yzKgLIelWqpVIlAA)
 
 **I want to add a new feature or change an existing one**
 
@@ -26,7 +26,7 @@ Open a new *Feature Request* issue on Github.
 
 ## Getting Started
 
-Please review the [Contributing Guide](docs/source/_notebooks/contributing_guide.ipynb) for more details on how to start contributing code.
+Please review the [Contributing Guide](https://data-describe.github.io/data-describe/docs/master/_notebooks/developer_guide.html#Contributing-Guide) for more details on how to start contributing code.
 
 ## Code of Conduct
 
