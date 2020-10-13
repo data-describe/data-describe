@@ -120,7 +120,7 @@ def _get_compute_backend(backend: str = None, df=None) -> _Backend:
     else:
         data_type = str(type(df))
         backend_types = [
-            *_DATAFRAME_BACKENDS.get(data_type, ["None"]),
+            *_DATAFRAME_BACKENDS.get(data_type, []),
             get_option("backends.compute"),
         ]
 
@@ -129,7 +129,7 @@ def _get_compute_backend(backend: str = None, df=None) -> _Backend:
         for idx, backend_name in enumerate(backend_types):
             if backend_name in seen:
                 backend_types.pop(idx)
-            elif backend_name != "None":
+            else:
                 seen.add(backend_name)
 
     backend_collection = []
