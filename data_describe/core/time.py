@@ -8,11 +8,10 @@ import numpy as np
 import plotly.graph_objs as go
 from plotly.subplots import make_subplots
 from plotly.offline import init_notebook_mode, iplot
-from IPython import get_ipython
 
 from data_describe.config._config import get_option
 from data_describe.backends import _get_viz_backend, _get_compute_backend
-from data_describe.compat import _is_dataframe, _compat, _requires
+from data_describe.compat import _is_dataframe, _compat, _requires, _in_notebook
 
 
 def plot_time_series(
@@ -316,7 +315,7 @@ def _plotly_viz_plot_time_series(
         )
     elif decompose:
         fig = _plotly_viz_decomposition(result, dates=df.index)
-    if get_ipython() is not None:
+    if _in_notebook():
         init_notebook_mode(connected=True)
         return iplot(fig, config={"displayModeBar": False})
     else:

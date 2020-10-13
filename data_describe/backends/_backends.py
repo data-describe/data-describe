@@ -73,7 +73,19 @@ def _load_viz_backend(backend: str) -> Dict[str, ModuleType]:
     Returns:
         The imported backend module
     """
-    from importlib_metadata import entry_points  # noqa: delay import for performance
+    try:
+        from importlib.metadata import (  # type: ignore
+            entry_points,
+        )  # noqa: delay import for performance
+    except ImportError:
+        try:
+            from importlib_metadata import (  # type: ignore
+                entry_points,
+            )  # noqa: delay import for performance
+        except ImportError:
+            raise ImportError(
+                "Could not find importlib metadata package required for finding plugins."
+            )
 
     for entry_point in entry_points()["data_describe_viz_backends"]:
         _add_viz_backend(entry_point.name, entry_point.load())
@@ -143,7 +155,19 @@ def _load_compute_backend(backend) -> Dict[str, ModuleType]:
     Returns:
         The dictionary of loaded backend module(s)
     """
-    from importlib_metadata import entry_points  # noqa: delay import for performance
+    try:
+        from importlib.metadata import (  # type: ignore
+            entry_points,
+        )  # noqa: delay import for performance
+    except ImportError:
+        try:
+            from importlib_metadata import (  # type: ignore
+                entry_points,
+            )  # noqa: delay import for performance
+        except ImportError:
+            raise ImportError(
+                "Could not find importlib metadata package required for finding plugins."
+            )
 
     for entry_point in entry_points()["data_describe_compute_backends"]:
         _add_compute_backend(entry_point.name, entry_point.load())
