@@ -6,6 +6,7 @@ from types import ModuleType
 from typing import Dict, Callable, List
 
 from data_describe.misc.logging import OutputLogger
+from data_describe.compat._notebook import _check_plotly_extension
 
 
 class _DependencyManager:
@@ -101,6 +102,11 @@ class _DependencyManager:
         return self.import_module(key)
 
 
+def plotly_check(module):
+    """Check for the plotly notebook extension."""
+    _check_plotly_extension()
+
+
 def nltk_download(module):
     """Downloads NLTK corpora."""
     try:
@@ -137,6 +143,7 @@ _compat = _DependencyManager(
     {
         "nltk": nltk_download,
         "presidio_analyzer": presidio_download,
+        "plotly": plotly_check,
     }
 )
 

@@ -11,7 +11,7 @@ from sklearn.preprocessing import StandardScaler
 
 from data_describe._widget import BaseWidget
 from data_describe.config._config import get_option
-from data_describe.compat import _is_dataframe
+from data_describe.compat import _is_dataframe, _requires
 from data_describe.backends import _get_viz_backend, _get_compute_backend
 
 
@@ -161,6 +161,7 @@ def _pandas_compute_data_heatmap(
         )
 
 
+@_requires("plotly")
 def _plotly_viz_data_heatmap(
     data, colnames: List[str], missing: bool = False, **kwargs
 ):

@@ -14,7 +14,7 @@ from data_describe.text.text_preprocessing import (
     filter_dictionary,
 )
 from data_describe.backends import _get_viz_backend
-from data_describe.compat import _compat, _requires, _IN_NOTEBOOK
+from data_describe.compat import _compat, _requires, _in_notebook
 from data_describe._widget import BaseWidget
 
 warnings.filterwarnings("ignore", category=UserWarning, module="gensim")
@@ -686,7 +686,7 @@ def _pyldavis_viz_visualize_topic_summary(
     Returns:
         A visual to understand topic model and/or documents relating to model
     """
-    if not _IN_NOTEBOOK:
+    if not _in_notebook():
         raise EnvironmentError("Not in Jupyter Notebook")
 
     _compat["pyLDAvis"].enable_notebook()  # type: ignore

@@ -289,6 +289,7 @@ def _pandas_compute_autocorrelation(
     return data, white_noise
 
 
+@_requires("plotly")
 def _plotly_viz_plot_time_series(
     df, col, result=None, decompose=False, title="Time Series"
 ):
@@ -322,6 +323,7 @@ def _plotly_viz_plot_time_series(
         return fig
 
 
+@_requires("plotly")
 def _plotly_viz_decomposition(result, dates, title="Time Series Decomposition"):
     """Create timeseries decomposition visualization.
 
@@ -359,6 +361,7 @@ def _plotly_viz_decomposition(result, dates, title="Time Series Decomposition"):
     return fig
 
 
+@_requires("plotly")
 def _plotly_viz_plot_autocorrelation(
     data, white_noise, n_lags, plot_type="acf", title="Autocorrelation Plot"
 ):
