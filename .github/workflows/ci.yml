@@ -54,4 +54,8 @@ jobs:
         shell: bash -l {0}
         run: |
           pip install -e . &&
-          pytest --cov=data_describe --cov-report term-missing --junitxml=junit.xml --cov-report xml tests
+          pytest --cov=data_describe --cov-report term-missing --cov-report xml tests
+      - name: Report coverage
+        shell: bash -l {0}
+        run: |
+          bash <(curl -s https://codecov.io/bash)
