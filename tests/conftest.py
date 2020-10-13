@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 
 _COMPUTE_BACKENDS = ["pandas", "modin.pandas"]
-_VIZ_BACKENDS = ["seaborn", "plotly"]
+_VIZ_BACKENDS = ["seaborn", "plotly"]  #
 
 
 @pytest.fixture
