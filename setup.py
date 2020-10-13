@@ -21,6 +21,7 @@ REQUIRED = [
     "scikit-learn>=0.23",
     "seaborn>=0.11",
     "plotly>=4.0",
+    "importlib-metadata;python_version<='3.7'",
 ]
 
 EXTRAS = {
