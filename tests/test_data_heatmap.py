@@ -12,7 +12,7 @@ matplotlib.use("Agg")
 def test_heatmap_matplotlib(compute_backend_df):
     w = dd.data_heatmap(compute_backend_df)
     assert isinstance(w, HeatmapWidget), "Not a Heatmap Widget"
-    assert isinstance(w.show(), matplotlib.axes.Axes)
+    assert isinstance(w.show(), matplotlib.figure.Figure)
 
 
 @pytest.mark.base

@@ -4,7 +4,7 @@ import pandas as pd
 import numpy as np
 from plotly.offline import init_notebook_mode, iplot
 from IPython import get_ipython
-import matplotlib.pyplot as plt
+from matplotlib.figure import Figure
 import seaborn as sns
 import plotly.graph_objs as go
 from sklearn.preprocessing import StandardScaler
@@ -232,22 +232,24 @@ def _seaborn_viz_data_heatmap(
         "center": 0 if not missing else 0.5,
         "xticklabels": False,
         "yticklabels": colnames,
-        "cbar_kws": {"shrink": 0.5},
+        "cbar_kws": {"shrink": 0.5, "label": "z-score (bounded)"},
         "vmin": -3 if not missing else 0,
         "vmax": 3 if not missing else 1,
     }
 
     plot_options.update(kwargs)
 
-    plt.figure(
+    fig = Figure(
         figsize=(
             get_option("display.matplotlib.fig_width"),
             get_option("display.matplotlib.fig_height"),
         )
     )
-    heatmap = sns.heatmap(data, **plot_options)
-    plt.title("Data Heatmap")
-    plt.ylabel("Variable")
-    plt.xlabel("Record #")
+    ax = fig.add_subplot(111)
+    ax = sns.heatmap(data, ax=ax, **plot_options)
+    ax.set_title("Data Heatmap")
+    ax.set_xlabel("Record #")
+    ax.set_ylabel("Variable")
+    ax.set_yticklabels(colnames, rotation=0)
 
-    return heatmap
+    return fig
