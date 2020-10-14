@@ -1,30 +1,32 @@
 # data ⎰ describe
 
-data-describe is a Python toolkit for Exploratory Data Analysis (EDA). It aims to accelerate data exploration and analysis by providing automated and polished analysis widgets.
+[data-describe](https://data-describe.github.io/data-describe/) is a Python toolkit for Exploratory Data Analysis (EDA). It aims to accelerate data exploration and analysis by providing automated and polished analysis widgets.
 
 <img src="/docs/imgs/demo.gif" height="382" width="610" />
 
-For more examples of data-describe in action, see the [Quick Start Tutorial](examples/Tutorial.ipynb).
+For more examples of data-describe in action, see the [Quick Start Tutorial](https://data-describe.github.io/data-describe/docs/master/_notebooks/quick_start.html).
 
 ## Main Features
 
 data-describe implements the following basic features:
 
-* Data Summary
-* Cluster Analysis
-* Correlation Matrix
-* Data Heatmap
-* Distribution Plots
-* Scatterplots
-* Feature Ranking
+| Feature      | Description |
+| ----------- | ----------- |
+| Data Summary      | Curated data summary       |
+| Data Heatmap   | Data variation and missingness heatmap        |
+| Correlation Matrix   | Correlation heatmaps with categorical support        |
+| Distribution Plots   | Generate histograms, violin plots, bar charts        |
+| Scatterplots   | Generate scatterplots and evaluate with scatterplot diagnostics        |
+| Cluster Analysis   | Automated clustering and plotting        |
+| Feature Ranking   | Evaluate feature importance using tree models        |
 
-## Additional Features
+## Extended Features
 
-data-describe also implements the following additional features:
+data-describe is always looking to elevate the standard for Exploratory Data Analysis. Here are just a few that are implemented:
 
 * Dimensionality Reduction Methods
-* Sensitive Data Redaction
-* Text / NLP Analysis
+* Sensitive Data (PII) Redaction
+* Text Pre-processing / Topic Modeling
 * Big Data Support
 
 
@@ -43,7 +45,11 @@ import data_describe as dd
 help(dd)
 ```
 
-See the [User Guide](https://brianray.github.io/data-describe/) for more information.
+See the [User Guide](https://data-describe.github.io/data-describe/docs/master/_notebooks/user_guide.html) for more information.
+
+## Project Status
+
+data-describe is currently in **beta** status.
 
 ## Contributing
 
