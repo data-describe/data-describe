@@ -14,3 +14,4 @@
 - Bipin Kapri (UAT)
 - Sachin Saxena (UAT)
 - Sandeep Singh (UAT)
+- Daniel Dowler (UAT)
