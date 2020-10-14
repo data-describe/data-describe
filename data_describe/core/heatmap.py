@@ -3,7 +3,6 @@ from typing import List
 import pandas as pd
 import numpy as np
 from plotly.offline import init_notebook_mode, iplot
-from IPython import get_ipython
 from matplotlib.figure import Figure
 import seaborn as sns
 import plotly.graph_objs as go
@@ -11,7 +10,7 @@ from sklearn.preprocessing import StandardScaler
 
 from data_describe._widget import BaseWidget
 from data_describe.config._config import get_option
-from data_describe.compat import _is_dataframe
+from data_describe.compat import _is_dataframe, _requires, _in_notebook
 from data_describe.backends import _get_viz_backend, _get_compute_backend
 
 
@@ -161,6 +160,7 @@ def _pandas_compute_data_heatmap(
         )
 
 
+@_requires("plotly")
 def _plotly_viz_data_heatmap(
     data, colnames: List[str], missing: bool = False, **kwargs
 ):
@@ -205,7 +205,7 @@ def _plotly_viz_data_heatmap(
         ),
     )
 
-    if get_ipython() is not None:
+    if _in_notebook():
         init_notebook_mode(connected=True)
         return iplot(figure, config={"displayModeBar": False})
     else:

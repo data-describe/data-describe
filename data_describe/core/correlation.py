@@ -13,7 +13,7 @@ import plotly.offline as po
 from data_describe.config._config import get_option
 from data_describe.misc.colors import get_p_RdBl_cmap, mpl_to_plotly_cmap
 from data_describe._widget import BaseWidget
-from data_describe.compat import _is_dataframe, _IN_NOTEBOOK
+from data_describe.compat import _is_dataframe, _in_notebook, _requires
 from data_describe.backends import _get_viz_backend, _get_compute_backend
 
 
@@ -396,6 +396,7 @@ def _reorder_by_original(association_matrix, original_df):
     return reorder_matrix
 
 
+@_requires("plotly")
 def _plotly_viz_correlation_matrix(association_matrix):
     """Plot the heatmap for the association matrix.
 
@@ -445,7 +446,7 @@ def _plotly_viz_correlation_matrix(association_matrix):
         ),
     )
 
-    if _IN_NOTEBOOK:
+    if _in_notebook():
         po.init_notebook_mode(connected=True)
         return po.iplot(fig, config={"displayModeBar": False})
     else:

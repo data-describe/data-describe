@@ -13,4 +13,6 @@ from data_describe.compat._dataframe import (  # noqa: F401
     _is_series,
     _DATAFRAME_BACKENDS,
 )
-from data_describe.compat._notebook import _IN_NOTEBOOK  # noqa: F401
+from data_describe.compat._notebook import (  # noqa: F401
+    _in_notebook,
+)

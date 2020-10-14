@@ -1,7 +1,5 @@
 from abc import ABC, abstractmethod
 
-from IPython.display import display
-
 
 class BaseWidget(ABC):
     """Interface for collecting information and visualizations for a feature.
@@ -39,7 +37,12 @@ class BaseWidget(ABC):
     # TODO (haishiro): Use @final from typing; requires Python 3.8+
     def _repr_html_(self):
         """Displays the object (widget) when it is on the last line in a Jupyter Notebook cell."""
-        return display(self.show())
+        try:
+            from IPython.display import display
+
+            return display(self.show())
+        except ImportError:
+            return self.show()
 
     @abstractmethod
     def show(self, viz_backend=None):
