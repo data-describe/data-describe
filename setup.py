@@ -3,13 +3,18 @@ from typing import Dict
 
 from setuptools import find_packages, setup
 
-# Package meta-data.
 NAME = "data_describe"
-DESCRIPTION = "data-describe"
-URL = "https://github.com/data-describe/data-describe"
+DESCRIPTION = "A Pythonic EDA Accelerator for Data Science "
+URL = "https://data-describe.github.io/data-describe/"
 EMAIL = ""
 AUTHOR = "https://github.com/data-describe/data-describe/graphs/contributors"
 REQUIRES_PYTHON = ">=3.7"
+PROJECT_URLS = {
+    "Bug Tracker": "https://github.com/data-describe/data-describe/issues",
+    "Documentation": "https://data-describe.github.io/data-describe/docs/master/",
+    "Source Code": "https://github.com/data-describe/data-describe",
+}
+LONG_DESCRIPTION = """data-describe is a Python toolkit for Exploratory Data Analysis (EDA). It aims to accelerate data exploration and analysis by providing automated and polished analysis widgets."""
 version: Dict[str, str] = {}
 with open(os.path.join("data_describe", "_version.py")) as fp:
     exec(fp.read(), version)
@@ -36,26 +41,28 @@ EXTRAS = {
 EXTRAS["all"] = list(set([x for req in EXTRAS.values() for x in req]))
 
 
-# Where the magic happens:
 setup(
     name=NAME,
     version=version["__version__"],
     description=DESCRIPTION,
+    long_description=LONG_DESCRIPTION,
     long_description_content_type="text/markdown",
     author=AUTHOR,
     author_email=EMAIL,
     python_requires=REQUIRES_PYTHON,
     url=URL,
+    project_urls=PROJECT_URLS,
     packages=find_packages(exclude=["tests", "*.tests", "*.tests.*", "tests.*"]),
     install_requires=REQUIRED,
     extras_require=EXTRAS,
     include_package_data=True,
-    license="MIT",
+    license="Apache-2.0",
     classifiers=[
         "Programming Language :: Python",
-        "Programming Language :: Python :: 3",
+        "Development Status :: 4 - Beta",
         "Programming Language :: Python :: 3.7",
-        "Programming Language :: Python :: Implementation :: CPython",
+        "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: Implementation :: PyPy",
     ],
     entry_points={
