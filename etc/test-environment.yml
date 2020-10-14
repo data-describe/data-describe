@@ -3,7 +3,7 @@ channels:
   - defaults
   - conda-forge
 dependencies:
-  - python==3.7
+  - python>=3.7
   - pandas>=1.0
   - numpy>=1.16
   - scipy>=1.1
@@ -21,13 +21,9 @@ dependencies:
   - nltk>=3.4
   - gcsfs>=0.2.1
   - hdbscan>=0.8.20
-  - geopandas>=0.6.1
-  - geoplot>=0.2.4
   - ipython>=7.5.0
   - xlrd>=1.2.0
   - paramiko>=2.4.2
-  - descartes>=1.1.0
-  - dask>=2.17.2
   - papermill>=2.1.2
   - statsmodels>=0.11.1
   - modin>=0.8.0
