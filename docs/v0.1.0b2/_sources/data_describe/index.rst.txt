@@ -1,0 +1,51 @@
+data_describe
+====================
+
+.. py:module:: data_describe
+
+.. autoapi-nested-parse::
+
+   data-describe.
+
+   data-describe
+   =============
+
+   data-describe is a Python toolkit for Exploratory Data Analysis (EDA).
+   It aims to accelerate data exploration and analysis by providing automated
+   and polished analysis widgets.
+
+   Main Features
+   -------------
+       - clusters: Clustering analysis and visualization on a 2D plot
+       - correlations: Association measures for both numeric and categorical features
+       - data_heatmap: Data variation and missingness heatmap
+       - data_summary: Selected summary (descriptive) statistics
+       - distributions: Histograms, violin plots, bar charts
+       - scatter_plots: Scatterplots
+       - importance: Feature ranking
+       - time_series: Time series analysis and visualizations
+
+   .. rubric:: Examples
+
+   Basic Usage::
+
+       import data_describe as dd
+       dd.data_summary(df)
+
+
+
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+
+   backends/index.rst
+   compat/index.rst
+   config/index.rst
+   core/index.rst
+   dimensionality_reduction/index.rst
+   metrics/index.rst
+   misc/index.rst
+   privacy/index.rst
+   text/index.rst
+
+

@@ -1,0 +1,576 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>data_describe.text.topic_modeling &mdash; data-describe  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/style.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../../_static/favicon.png"/>
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="prev" title="data_describe.text.text_preprocessing" href="../text_preprocessing/index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html">
+          
+
+          
+            
+            <img src="../../../_static/logo.svg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../_notebooks/quick_start.html">Quick Start Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../_notebooks/user_guide.html">User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../_notebooks/developer_guide.html">Developer Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../design.html">Design Reference</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../backends/index.html">data_describe.backends</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../compat/index.html">data_describe.compat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../config/index.html">data_describe.config</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../core/index.html">data_describe.core</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../dimensionality_reduction/index.html">data_describe.dimensionality_reduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../metrics/index.html">data_describe.metrics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../misc/index.html">data_describe.misc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../privacy/index.html">data_describe.privacy</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">data_describe.text</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../text_preprocessing/index.html">data_describe.text.text_preprocessing</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">data_describe.text.topic_modeling</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#data_describe.text.topic_modeling.gensim">gensim</a></li>
+</ul>
+<ul>
+<li class="toctree-l4"><a class="reference internal" href="#data_describe.text.topic_modeling.topic_model">topic_model</a></li>
+</ul>
+<ul>
+<li class="toctree-l4"><a class="reference internal" href="#data_describe.text.topic_modeling.TopicModelWidget">TopicModelWidget</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">data-describe</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">data_describe</a> &raquo;</li>
+        
+          <li><a href="../index.html">data_describe.text</a> &raquo;</li>
+        
+      <li>data_describe.text.topic_modeling</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../../_sources/data_describe/text/topic_modeling/index.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="module-data_describe.text.topic_modeling">
+<span id="data-describe-text-topic-modeling"></span><h1>data_describe.text.topic_modeling<a class="headerlink" href="#module-data_describe.text.topic_modeling" title="Permalink to this headline">¶</a></h1>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#data_describe.text.topic_modeling.topic_model" title="data_describe.text.topic_modeling.topic_model"><code class="xref py py-obj docutils literal notranslate"><span class="pre">topic_model</span></code></a>(text_docs: List[str], model_type: str = ‘LDA’, num_topics: Optional[int] = None, min_topics: int = 2, max_topics: int = 10, no_below: int = 10, no_above: float = 0.2, tfidf: bool = True, model_kwargs: Optional[Dict] = None)</p></td>
+<td><p>Topic modeling.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py data">
+<dt id="data_describe.text.topic_modeling.gensim">
+<code class="sig-prename descclassname">data_describe.text.topic_modeling.</code><code class="sig-name descname">gensim</code><a class="headerlink" href="#data_describe.text.topic_modeling.gensim" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="data_describe.text.topic_modeling.topic_model">
+<code class="sig-prename descclassname">data_describe.text.topic_modeling.</code><code class="sig-name descname">topic_model</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">text_docs</span><span class="p">:</span> <span class="n">List<span class="p">[</span>str<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">model_type</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'LDA'</span></em>, <em class="sig-param"><span class="n">num_topics</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>int<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">min_topics</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">2</span></em>, <em class="sig-param"><span class="n">max_topics</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">10</span></em>, <em class="sig-param"><span class="n">no_below</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">10</span></em>, <em class="sig-param"><span class="n">no_above</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.2</span></em>, <em class="sig-param"><span class="n">tfidf</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="n">model_kwargs</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Dict<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.text.topic_modeling.topic_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Topic modeling.</p>
+<p>Unsupervised methods of identifying topics in documents.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>text_docs</strong> – A list of text documents in string format. These documents should
+generally be pre-processed</p></li>
+<li><p><strong>model_type</strong> – {‘LDA’, ‘LSA’, ‘LSI’, ‘SVD’, ‘NMF’}
+Defines the type of model/algorithm which will be used.</p></li>
+<li><p><strong>num_topics</strong> – Sets the number of topics for the model. If None, will be optimized
+using coherence values</p></li>
+<li><p><strong>min_topics</strong> – Starting number of topics to optimize for if number of topics not
+provided. Default is 2</p></li>
+<li><p><strong>max_topics</strong> – Maximum number of topics to optimize for if number of topics not
+provided. Default is 10</p></li>
+<li><p><strong>no_below</strong> – Minimum number of documents a word must appear in to be used in
+training. Default is 10</p></li>
+<li><p><strong>no_above</strong> – Maximum proportion of documents a word may appear in to be used in
+training. Default is 0.2</p></li>
+<li><p><strong>tfidf</strong> – If True, model created using TF-IDF matrix. Otherwise, document-term
+matrix with wordcounts is used. Default is True</p></li>
+<li><p><strong>model_kwargs</strong> – Keyword arguments for the model, should be in agreement with
+<cite>model_type</cite></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Topic model widget.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt id="data_describe.text.topic_modeling.TopicModelWidget">
+<em class="property">class </em><code class="sig-prename descclassname">data_describe.text.topic_modeling.</code><code class="sig-name descname">TopicModelWidget</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">model_type</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'LDA'</span></em>, <em class="sig-param"><span class="n">num_topics</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>int<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">model_kwargs</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Dict<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.text.topic_modeling.TopicModelWidget" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../../_widget/index.html#data_describe._widget.BaseWidget" title="data_describe._widget.BaseWidget"><code class="xref py py-class docutils literal notranslate"><span class="pre">data_describe._widget.BaseWidget</span></code></a></p>
+<p>Create topic model widget.</p>
+<dl class="py method">
+<dt id="data_describe.text.topic_modeling.TopicModelWidget.model">
+<em class="property">property </em><code class="sig-name descname">model</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.text.topic_modeling.TopicModelWidget.model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Trained topic model.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="data_describe.text.topic_modeling.TopicModelWidget.model_type">
+<em class="property">property </em><code class="sig-name descname">model_type</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.text.topic_modeling.TopicModelWidget.model_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>Type of model which either already has been or will be trained.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="data_describe.text.topic_modeling.TopicModelWidget.num_topics">
+<em class="property">property </em><code class="sig-name descname">num_topics</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.text.topic_modeling.TopicModelWidget.num_topics" title="Permalink to this definition">¶</a></dt>
+<dd><p>The number of topics in the model.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="data_describe.text.topic_modeling.TopicModelWidget.coherence_values">
+<em class="property">property </em><code class="sig-name descname">coherence_values</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.text.topic_modeling.TopicModelWidget.coherence_values" title="Permalink to this definition">¶</a></dt>
+<dd><p>A list of coherence values mapped from min_topics to max_topics.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="data_describe.text.topic_modeling.TopicModelWidget.dictionary">
+<em class="property">property </em><code class="sig-name descname">dictionary</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.text.topic_modeling.TopicModelWidget.dictionary" title="Permalink to this definition">¶</a></dt>
+<dd><p>A Gensim dictionary mapping the words from the documents to their token_ids.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="data_describe.text.topic_modeling.TopicModelWidget.corpus">
+<em class="property">property </em><code class="sig-name descname">corpus</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.text.topic_modeling.TopicModelWidget.corpus" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bag of Words (BoW) representation of documents (token_id, token_count).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="data_describe.text.topic_modeling.TopicModelWidget.matrix">
+<em class="property">property </em><code class="sig-name descname">matrix</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.text.topic_modeling.TopicModelWidget.matrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Either TF-IDF or document-term matrix with documents as rows and words as columns.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="data_describe.text.topic_modeling.TopicModelWidget.min_topics">
+<em class="property">property </em><code class="sig-name descname">min_topics</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.text.topic_modeling.TopicModelWidget.min_topics" title="Permalink to this definition">¶</a></dt>
+<dd><p>If num_topics is None, this number is the first number of topics a model will be trained on.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="data_describe.text.topic_modeling.TopicModelWidget.max_topics">
+<em class="property">property </em><code class="sig-name descname">max_topics</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.text.topic_modeling.TopicModelWidget.max_topics" title="Permalink to this definition">¶</a></dt>
+<dd><p>If num_topics is None, this number is the last number of topics a model will be trained on.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="data_describe.text.topic_modeling.TopicModelWidget.show">
+<code class="sig-name descname">show</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">num_topic_words</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">10</span></em>, <em class="sig-param"><span class="n">topic_names</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>List<span class="p">[</span>str<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.text.topic_modeling.TopicModelWidget.show" title="Permalink to this definition">¶</a></dt>
+<dd><p>Displays most relevant terms for each topic.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>num_topic_words</strong> – The number of words to be displayed for each topic. Default is 10</p></li>
+<li><p><strong>topic_names</strong> – A list of pre-defined names set for each of the topics. Default is None</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>Pandas DataFrame displaying topics as columns and their</dt><dd><p>relevant terms as rows. LDA/LSI models will display an extra column to
+the right of each topic column, showing each term’s corresponding
+coefficient value</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>display_topics_df</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="data_describe.text.topic_modeling.TopicModelWidget.fit">
+<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">text_docs</span><span class="p">:</span> <span class="n">List<span class="p">[</span>str<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">model_type</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">min_topics</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">2</span></em>, <em class="sig-param"><span class="n">max_topics</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">10</span></em>, <em class="sig-param"><span class="n">no_below</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">10</span></em>, <em class="sig-param"><span class="n">no_above</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.2</span></em>, <em class="sig-param"><span class="n">tfidf</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="n">model_kwargs</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Dict<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.text.topic_modeling.TopicModelWidget.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Trains topic model and assigns model to object as attribute.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>text_docs</strong> – A list of text documents in string format. These documents should
+generally be pre-processed</p></li>
+<li><p><strong>model_type</strong> – {‘LDA’, ‘LSA’, ‘LSI’, ‘SVD’, ‘NMF’}
+Defines the type of model/algorithm which will be used.</p></li>
+<li><p><strong>min_topics</strong> – Starting number of topics to optimize for if number of topics
+not provided. Default is 2</p></li>
+<li><p><strong>max_topics</strong> – Maximum number of topics to optimize for if number of topics not
+provided. Default is 10</p></li>
+<li><p><strong>no_below</strong> – Minimum number of documents a word must appear in to be used in
+training. Default is 10</p></li>
+<li><p><strong>no_above</strong> – Maximum proportion of documents a word may appear in to be used in
+training. Default is 0.2</p></li>
+<li><p><strong>tfidf</strong> – If True, model created using TF-IDF matrix. Otherwise, document-term
+matrix with wordcounts is used. Default is True.</p></li>
+<li><p><strong>model_kwargs</strong> – Keyword arguments for the model, should be in agreement with
+<cite>model_type</cite>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>ValueError</strong> – Invalid <cite>model_type</cite>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="data_describe.text.topic_modeling.TopicModelWidget.elbow_plot">
+<code class="sig-name descname">elbow_plot</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">viz_backend</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.text.topic_modeling.TopicModelWidget.elbow_plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates an elbow plot displaying coherence values vs number of topics.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>viz_backend</strong> – The visualization backend.</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>ValueError</strong> – No coherence values to plot.</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Elbow plot showing coherence values vs number of topics</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>fig</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="data_describe.text.topic_modeling.TopicModelWidget.get_topic_nums">
+<code class="sig-name descname">get_topic_nums</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.text.topic_modeling.TopicModelWidget.get_topic_nums" title="Permalink to this definition">¶</a></dt>
+<dd><p>Obtains topic distributions (LDA model) or scores (LSA/NMF model).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Array of topic distributions (LDA model) or scores (LSA/NMF model)</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>doc_topics</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="data_describe.text.topic_modeling.TopicModelWidget.display_topic_keywords">
+<code class="sig-name descname">display_topic_keywords</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">num_topic_words</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">10</span></em>, <em class="sig-param"><span class="n">topic_names</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>List<span class="p">[</span>str<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.text.topic_modeling.TopicModelWidget.display_topic_keywords" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates Pandas DataFrame to display most relevant terms for each topic.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>num_topic_words</strong> – The number of words to be displayed for each topic.
+Default is 10</p></li>
+<li><p><strong>topic_names</strong> – A list of pre-defined names set for each of the topics.
+Default is None</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>Pandas DataFrame displaying topics as columns and their</dt><dd><p>relevant terms as rows. LDA/LSI models will display an extra column to
+the right of each topic column, showing each term’s corresponding
+coefficient value</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>display_topics_df</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="data_describe.text.topic_modeling.TopicModelWidget.top_documents_per_topic">
+<code class="sig-name descname">top_documents_per_topic</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">text_docs</span><span class="p">:</span> <span class="n">List<span class="p">[</span>str<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">topic_names</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>List<span class="p">[</span>str<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">num_docs</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">10</span></em>, <em class="sig-param"><span class="n">summarize_docs</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">summary_words</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>int<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.text.topic_modeling.TopicModelWidget.top_documents_per_topic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates Pandas DataFrame to display most relevant documents for each topic.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>text_docs</strong> – <dl class="simple">
+<dt>A list of text documents in string format. Important to note that</dt><dd><p>this list of documents should be ordered in accordance with the matrix</p>
+</dd>
+</dl>
+<p>or corpus on which the document was trained</p>
+</p></li>
+<li><p><strong>topic_names</strong> – A list of pre-defined names set for each of the topics.
+Default is None</p></li>
+<li><p><strong>num_docs</strong> – The number of documents to display for each topic. Default is 10</p></li>
+<li><p><strong>summarize_docs</strong> – If True, the documents will be summarized (if this is the
+case, ‘text_docs’ should be formatted into sentences). Default is False</p></li>
+<li><p><strong>summary_words</strong> – The number of words the summary should be limited to. Should
+only be specified if summarize_docs set to True</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>Pandas DataFrame displaying topics as columns and their</dt><dd><p>most relevant documents as rows</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>all_top_docs_df</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="data_describe.text.topic_modeling.TopicModelWidget.visualize_topic_summary">
+<code class="sig-name descname">visualize_topic_summary</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">viz_backend</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'pyLDAvis'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.text.topic_modeling.TopicModelWidget.visualize_topic_summary" title="Permalink to this definition">¶</a></dt>
+<dd><p>Displays interactive pyLDAvis visual to understand topic model and documents.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>viz_backend</strong> (<em>str</em>) – The visualization backend.</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>TypeError</strong> – Only valid for LDA models.</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A visual to understand topic model and/or documents relating to model</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="../text_preprocessing/index.html" class="btn btn-neutral float-left" title="data_describe.text.text_preprocessing" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Maven Wave Partners
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+<div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Other Versions</span>
+    v: v0.1.0b2
+    <span class="fa fa-caret-down"></span>
+  </span>
+  <div class="rst-other-versions">
+    <dl>
+      <dt>Tags</dt>
+      <dd><a href="../../../../v0.1.0b1/index.html">v0.1.0b1</a></dd>
+      <dd><a href="index.html">v0.1.0b2</a></dd>
+    </dl>
+    <dl>
+      <dt>Branches</dt>
+      <dd><a href="../../../../master/index.html">master</a></dd>
+    </dl>
+  </div>
+</div>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

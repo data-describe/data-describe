@@ -1,0 +1,1504 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Quick Start Tutorial &mdash; data-describe  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/style.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../_static/favicon.png"/>
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="User Guide" href="user_guide.html" />
+    <link rel="prev" title="Installation" href="../installation.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html">
+          
+
+          
+            
+            <img src="../_static/logo.svg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Quick Start Tutorial</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#Data">Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Data-Overview">Data Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Data-Inspection">Data Inspection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Advanced-Analysis">Advanced Analysis</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Cluster-Analysis">Cluster Analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Feature-Importance">Feature Importance</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Topic-Modeling">Topic Modeling</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="user_guide.html">User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developer_guide.html">Developer Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../design.html">Design Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../data_describe/index.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">data-describe</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Quick Start Tutorial</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/_notebooks/quick_start.ipynb.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput.container,
+div.nbinput.container div.prompt,
+div.nbinput.container div.input_area,
+div.nbinput.container div[class*=highlight],
+div.nbinput.container div[class*=highlight] pre,
+div.nboutput.container,
+div.nboutput.container div.prompt,
+div.nboutput.container div.output_area,
+div.nboutput.container div[class*=highlight],
+div.nboutput.container div[class*=highlight] pre {
+    background: none;
+    border: none;
+    padding: 0 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+/* avoid gaps between output lines */
+div.nboutput.container div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput.container,
+div.nboutput.container {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput.container,
+    div.nboutput.container {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput.container {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast.container {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput.container div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput.container div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput.container div.prompt,
+div.nboutput.container div.prompt {
+    width: 4.5ex;
+    padding-top: 5px;
+    position: relative;
+    user-select: none;
+}
+
+div.nbinput.container div.prompt > div,
+div.nboutput.container div.prompt > div {
+    position: absolute;
+    right: 0;
+    margin-right: 0.3ex;
+}
+
+@media (max-width: 540px) {
+    div.nbinput.container div.prompt,
+    div.nboutput.container div.prompt {
+        width: unset;
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput.container div.prompt.empty {
+        padding: 0;
+    }
+
+    div.nbinput.container div.prompt > div,
+    div.nboutput.container div.prompt > div {
+        position: unset;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput.container div.prompt pre,
+div.nboutput.container div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput.container div.input_area,
+div.nboutput.container div.output_area {
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput.container div.input_area,
+    div.nboutput.container div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput.container div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    background: #f5f5f5;
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput.container div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput.container div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput.container div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+
+div.nbinput.container div.input_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight].math,
+div.nboutput.container div.output_area.rendered_html,
+div.nboutput.container div.output_area > div.output_javascript,
+div.nboutput.container div.output_area:not(.rendered_html) > img{
+    padding: 5px;
+}
+
+/* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
+div.nbinput.container div.input_area > div[class^='highlight'],
+div.nboutput.container div.output_area > div[class^='highlight']{
+    overflow-y: hidden;
+}
+
+/* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
+.prompt a.copybtn {
+    display: none;
+}
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="Quick-Start-Tutorial">
+<h1>Quick Start Tutorial<a class="headerlink" href="#Quick-Start-Tutorial" title="Permalink to this headline">¶</a></h1>
+<p>This notebook shows an example Exploratory Data Analysis utilizing data-describe.</p>
+<p>Note: Part of this notebook uses optional dependencies for text analysis. To install these dependencies, run <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">data-describe[nlp]</span></code></p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">data_describe</span> <span class="k">as</span> <span class="nn">dd</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="Data">
+<h2>Data<a class="headerlink" href="#Data" title="Permalink to this headline">¶</a></h2>
+<p>This tutorial uses toy datasets from sklearn.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">load_boston</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">dat</span> <span class="o">=</span> <span class="n">load_boston</span><span class="p">()</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">dat</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">],</span> <span class="n">columns</span><span class="o">=</span><span class="n">dat</span><span class="p">[</span><span class="s1">&#39;feature_names&#39;</span><span class="p">])</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;price&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dat</span><span class="p">[</span><span class="s1">&#39;target&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>CRIM</th>
+      <th>ZN</th>
+      <th>INDUS</th>
+      <th>CHAS</th>
+      <th>NOX</th>
+      <th>RM</th>
+      <th>AGE</th>
+      <th>DIS</th>
+      <th>RAD</th>
+      <th>TAX</th>
+      <th>PTRATIO</th>
+      <th>B</th>
+      <th>LSTAT</th>
+      <th>price</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.00632</td>
+      <td>18.0</td>
+      <td>2.31</td>
+      <td>0.0</td>
+      <td>0.538</td>
+      <td>6.575</td>
+      <td>65.2</td>
+      <td>4.0900</td>
+      <td>1.0</td>
+      <td>296.0</td>
+      <td>15.3</td>
+      <td>396.90</td>
+      <td>4.98</td>
+      <td>24.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.02731</td>
+      <td>0.0</td>
+      <td>7.07</td>
+      <td>0.0</td>
+      <td>0.469</td>
+      <td>6.421</td>
+      <td>78.9</td>
+      <td>4.9671</td>
+      <td>2.0</td>
+      <td>242.0</td>
+      <td>17.8</td>
+      <td>396.90</td>
+      <td>9.14</td>
+      <td>21.6</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0.02729</td>
+      <td>0.0</td>
+      <td>7.07</td>
+      <td>0.0</td>
+      <td>0.469</td>
+      <td>7.185</td>
+      <td>61.1</td>
+      <td>4.9671</td>
+      <td>2.0</td>
+      <td>242.0</td>
+      <td>17.8</td>
+      <td>392.83</td>
+      <td>4.03</td>
+      <td>34.7</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0.03237</td>
+      <td>0.0</td>
+      <td>2.18</td>
+      <td>0.0</td>
+      <td>0.458</td>
+      <td>6.998</td>
+      <td>45.8</td>
+      <td>6.0622</td>
+      <td>3.0</td>
+      <td>222.0</td>
+      <td>18.7</td>
+      <td>394.63</td>
+      <td>2.94</td>
+      <td>33.4</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0.06905</td>
+      <td>0.0</td>
+      <td>2.18</td>
+      <td>0.0</td>
+      <td>0.458</td>
+      <td>7.147</td>
+      <td>54.2</td>
+      <td>6.0622</td>
+      <td>3.0</td>
+      <td>222.0</td>
+      <td>18.7</td>
+      <td>396.90</td>
+      <td>5.33</td>
+      <td>36.2</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+</div>
+<div class="section" id="Data-Overview">
+<h2>Data Overview<a class="headerlink" href="#Data-Overview" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="https://scikit-learn.org/stable/datasets/index.html#boston-dataset">Column Descriptions</a>:</p>
+<ul class="simple">
+<li><p>CRIM per capita crime rate by town</p></li>
+<li><p>ZN proportion of residential land zoned for lots over 25,000 sq.ft.</p></li>
+<li><p>INDUS proportion of non-retail business acres per town</p></li>
+<li><p>CHAS Charles River dummy variable (= 1 if tract bounds river; 0 otherwise)</p></li>
+<li><p>NOX nitric oxides concentration (parts per 10 million)</p></li>
+<li><p>RM average number of rooms per dwelling</p></li>
+<li><p>AGE proportion of owner-occupied units built prior to 1940</p></li>
+<li><p>DIS weighted distances to five Boston employment centres</p></li>
+<li><p>RAD index of accessibility to radial highways</p></li>
+<li><p>TAX full-value property-tax rate per $10,000</p></li>
+<li><p>PTRATIO pupil-teacher ratio by town</p></li>
+<li><p>B 1000(Bk - 0.63)^2 where Bk is the proportion of blacks by town</p></li>
+<li><p>LSTAT % lower status of the population</p></li>
+<li><p>MEDV Median value of owner-occupied homes in $1000’s</p></li>
+</ul>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">df</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(506, 14)
+</pre></div></div>
+</div>
+<p>First we inspect some of the overall statistics about the data. Some examples of interesting things to note: - 93% of <code class="docutils literal notranslate"><span class="pre">CHAS</span></code> are the same value, zero - <code class="docutils literal notranslate"><span class="pre">ZN</span></code> also has a high amount of zeros - The mean of <code class="docutils literal notranslate"><span class="pre">TAX</span></code> is significantly higher than the median, suggesting this is right-skewed</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">dd</span><span class="o">.</span><span class="n">data_summary</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>CRIM</th>
+      <th>ZN</th>
+      <th>INDUS</th>
+      <th>CHAS</th>
+      <th>NOX</th>
+      <th>RM</th>
+      <th>AGE</th>
+      <th>DIS</th>
+      <th>RAD</th>
+      <th>TAX</th>
+      <th>PTRATIO</th>
+      <th>B</th>
+      <th>LSTAT</th>
+      <th>price</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Data Type</th>
+      <td>float64</td>
+      <td>float64</td>
+      <td>float64</td>
+      <td>float64</td>
+      <td>float64</td>
+      <td>float64</td>
+      <td>float64</td>
+      <td>float64</td>
+      <td>float64</td>
+      <td>float64</td>
+      <td>float64</td>
+      <td>float64</td>
+      <td>float64</td>
+      <td>float64</td>
+    </tr>
+    <tr>
+      <th>Mean</th>
+      <td>3.61352</td>
+      <td>11.3636</td>
+      <td>11.1368</td>
+      <td>0.06917</td>
+      <td>0.554695</td>
+      <td>6.28463</td>
+      <td>68.5749</td>
+      <td>3.79504</td>
+      <td>9.54941</td>
+      <td>408.237</td>
+      <td>18.4555</td>
+      <td>356.674</td>
+      <td>12.6531</td>
+      <td>22.5328</td>
+    </tr>
+    <tr>
+      <th>Standard Deviation</th>
+      <td>8.60155</td>
+      <td>23.3225</td>
+      <td>6.86035</td>
+      <td>0.253994</td>
+      <td>0.115878</td>
+      <td>0.702617</td>
+      <td>28.1489</td>
+      <td>2.10571</td>
+      <td>8.70726</td>
+      <td>168.537</td>
+      <td>2.16495</td>
+      <td>91.2949</td>
+      <td>7.14106</td>
+      <td>9.1971</td>
+    </tr>
+    <tr>
+      <th>Median</th>
+      <td>0.25651</td>
+      <td>0</td>
+      <td>9.69</td>
+      <td>0</td>
+      <td>0.538</td>
+      <td>6.2085</td>
+      <td>77.5</td>
+      <td>3.20745</td>
+      <td>5</td>
+      <td>330</td>
+      <td>19.05</td>
+      <td>391.44</td>
+      <td>11.36</td>
+      <td>21.2</td>
+    </tr>
+    <tr>
+      <th>Min</th>
+      <td>0.00632</td>
+      <td>0</td>
+      <td>0.46</td>
+      <td>0</td>
+      <td>0.385</td>
+      <td>3.561</td>
+      <td>2.9</td>
+      <td>1.1296</td>
+      <td>1</td>
+      <td>187</td>
+      <td>12.6</td>
+      <td>0.32</td>
+      <td>1.73</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>Max</th>
+      <td>88.9762</td>
+      <td>100</td>
+      <td>27.74</td>
+      <td>1</td>
+      <td>0.871</td>
+      <td>8.78</td>
+      <td>100</td>
+      <td>12.1265</td>
+      <td>24</td>
+      <td>711</td>
+      <td>22</td>
+      <td>396.9</td>
+      <td>37.97</td>
+      <td>50</td>
+    </tr>
+    <tr>
+      <th># Zeros</th>
+      <td>0</td>
+      <td>372</td>
+      <td>0</td>
+      <td>471</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th># Nulls</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>% Most Frequent Value</th>
+      <td>0.4</td>
+      <td>73.52</td>
+      <td>26.09</td>
+      <td>93.08</td>
+      <td>4.55</td>
+      <td>0.59</td>
+      <td>8.5</td>
+      <td>0.99</td>
+      <td>26.09</td>
+      <td>26.09</td>
+      <td>27.67</td>
+      <td>23.91</td>
+      <td>0.59</td>
+      <td>3.16</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<p>We can also look at a visual representation of the data as a heatmap:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">dd</span><span class="o">.</span><span class="n">data_heatmap</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&amp;lt;AxesSubplot:title={&amp;#39;center&amp;#39;:&amp;#39;Data Heatmap&amp;#39;}, xlabel=&amp;#39;Record #&amp;#39;, ylabel=&amp;#39;Variable&amp;#39;&amp;gt;
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/_notebooks_quick_start_12_1.svg" src="../_images/_notebooks_quick_start_12_1.svg" /></div>
+</div>
+<p>There are some sections of the data which have exactly the same values for some columns. For example, <code class="docutils literal notranslate"><span class="pre">RAD</span></code> = 1.661245 between record number 356 ~ 487. Similar patterns appear for <code class="docutils literal notranslate"><span class="pre">INDUS</span></code> and <code class="docutils literal notranslate"><span class="pre">TAX</span></code>. Is this a sorting issue or is there something else going on? Some additional investigation into data collection may answer these questions.</p>
+<p>We can also look at the correlations:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">dd</span><span class="o">.</span><span class="n">correlation_matrix</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&amp;lt;AxesSubplot:title={&amp;#39;center&amp;#39;:&amp;#39;Correlation Matrix&amp;#39;}&amp;gt;
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&amp;lt;data_describe.core.correlation.CorrelationMatrixWidget at 0x23d777a9d88&amp;gt;
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/_notebooks_quick_start_15_2.svg" src="../_images/_notebooks_quick_start_15_2.svg" /></div>
+</div>
+<p>Features like <code class="docutils literal notranslate"><span class="pre">AGE</span></code> and <code class="docutils literal notranslate"><span class="pre">DIS</span></code> appear to be inversely correlated. <code class="docutils literal notranslate"><span class="pre">CHAS</span></code> doesn’t appear to have strong correlation with any other feature.</p>
+<p>It might also help to re-order the features for comparisons using the <code class="docutils literal notranslate"><span class="pre">cluster</span></code> argument.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">dd</span><span class="o">.</span><span class="n">correlation_matrix</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">cluster</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&amp;lt;AxesSubplot:title={&amp;#39;center&amp;#39;:&amp;#39;Correlation Matrix&amp;#39;}&amp;gt;
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&amp;lt;data_describe.core.correlation.CorrelationMatrixWidget at 0x23d35e2fe48&amp;gt;
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/_notebooks_quick_start_17_2.svg" src="../_images/_notebooks_quick_start_17_2.svg" /></div>
+</div>
+<p>From this plot we can observe there are are two groups of inversely related features: <code class="docutils literal notranslate"><span class="pre">PTRATIO</span></code> to <code class="docutils literal notranslate"><span class="pre">NOX</span></code> and <code class="docutils literal notranslate"><span class="pre">B</span></code> to <code class="docutils literal notranslate"><span class="pre">DIS</span></code>.</p>
+</div>
+<div class="section" id="Data-Inspection">
+<h2>Data Inspection<a class="headerlink" href="#Data-Inspection" title="Permalink to this headline">¶</a></h2>
+<p>We can also do some more detailed inspection of individual features.</p>
+<p>We can show histograms and violin plots of each numeric feature using the <code class="docutils literal notranslate"><span class="pre">dd.distribution</span></code> function.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">display</span>
+<span class="c1"># display is used to show plots from inside a loop</span>
+<span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+    <span class="n">display</span><span class="p">(</span><span class="n">dd</span><span class="o">.</span><span class="n">distribution</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">plot_all</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">plot_distribution</span><span class="p">(</span><span class="n">col</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/_notebooks_quick_start_21_0.svg" src="../_images/_notebooks_quick_start_21_0.svg" /></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/_notebooks_quick_start_21_1.svg" src="../_images/_notebooks_quick_start_21_1.svg" /></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/_notebooks_quick_start_21_2.svg" src="../_images/_notebooks_quick_start_21_2.svg" /></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/_notebooks_quick_start_21_3.svg" src="../_images/_notebooks_quick_start_21_3.svg" /></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/_notebooks_quick_start_21_4.svg" src="../_images/_notebooks_quick_start_21_4.svg" /></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/_notebooks_quick_start_21_5.svg" src="../_images/_notebooks_quick_start_21_5.svg" /></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/_notebooks_quick_start_21_6.svg" src="../_images/_notebooks_quick_start_21_6.svg" /></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/_notebooks_quick_start_21_7.svg" src="../_images/_notebooks_quick_start_21_7.svg" /></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/_notebooks_quick_start_21_8.svg" src="../_images/_notebooks_quick_start_21_8.svg" /></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/_notebooks_quick_start_21_9.svg" src="../_images/_notebooks_quick_start_21_9.svg" /></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/_notebooks_quick_start_21_10.svg" src="../_images/_notebooks_quick_start_21_10.svg" /></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/_notebooks_quick_start_21_11.svg" src="../_images/_notebooks_quick_start_21_11.svg" /></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/_notebooks_quick_start_21_12.svg" src="../_images/_notebooks_quick_start_21_12.svg" /></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/_notebooks_quick_start_21_13.svg" src="../_images/_notebooks_quick_start_21_13.svg" /></div>
+</div>
+<p>We can also look at bivariate distributions using scatter plots. In addition to plotting all pairs in a scatterplot matrix, we can also specify a filter for certain scatterplot diagnostic features.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">dd</span><span class="o">.</span><span class="n">scatter_plots</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">plot_mode</span><span class="o">=</span><span class="s1">&#39;matrix&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&amp;lt;seaborn.axisgrid.PairGrid at 0x23d37980648&amp;gt;
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/_notebooks_quick_start_23_1.svg" src="../_images/_notebooks_quick_start_23_1.svg" /></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">dd</span><span class="o">.</span><span class="n">scatter_plots</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;Outlier&#39;</span><span class="p">:</span> <span class="mf">0.9</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&amp;lt;seaborn.axisgrid.PairGrid at 0x23d7fd716c8&amp;gt;
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/_notebooks_quick_start_24_1.svg" src="../_images/_notebooks_quick_start_24_1.svg" /></div>
+</div>
+</div>
+<div class="section" id="Advanced-Analysis">
+<h2>Advanced Analysis<a class="headerlink" href="#Advanced-Analysis" title="Permalink to this headline">¶</a></h2>
+<p>In addition to general plots, we can also use some advanced analyses as shown below.</p>
+<div class="section" id="Cluster-Analysis">
+<h3>Cluster Analysis<a class="headerlink" href="#Cluster-Analysis" title="Permalink to this headline">¶</a></h3>
+<p>What segments or groups are present in the data?</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">dd</span><span class="o">.</span><span class="n">cluster</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&amp;lt;AxesSubplot:title={&amp;#39;center&amp;#39;:&amp;#39;kmeans Cluster&amp;#39;}, xlabel=&amp;#39;Component 1 (47.0% variance explained)&amp;#39;, ylabel=&amp;#39;Component 2 (12.0% variance explained)&amp;#39;&amp;gt;
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&amp;lt;data_describe.core.clustering.KmeansClusterWidget at 0x23d8530c4c8&amp;gt;
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/_notebooks_quick_start_27_2.svg" src="../_images/_notebooks_quick_start_27_2.svg" /></div>
+</div>
+<p>From this plot, we see that there does not appear to be strongly distinct clusters in the data.</p>
+</div>
+<div class="section" id="Feature-Importance">
+<h3>Feature Importance<a class="headerlink" href="#Feature-Importance" title="Permalink to this headline">¶</a></h3>
+<p>Which features are most predictive of price? We use Random Forest as a baseline model to test for importance.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">RandomForestRegressor</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">dd</span><span class="o">.</span><span class="n">importance</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="s1">&#39;price&#39;</span><span class="p">,</span> <span class="n">estimator</span><span class="o">=</span><span class="n">RandomForestRegressor</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Text(0.5, 1.0, &amp;#39;Feature Importance&amp;#39;)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/_notebooks_quick_start_32_1.svg" src="../_images/_notebooks_quick_start_32_1.svg" /></div>
+</div>
+<p>It appears that <code class="docutils literal notranslate"><span class="pre">LSTAT</span></code> and <code class="docutils literal notranslate"><span class="pre">RM</span></code> are most important for predicting price.</p>
+</div>
+<div class="section" id="Topic-Modeling">
+<h3>Topic Modeling<a class="headerlink" href="#Topic-Modeling" title="Permalink to this headline">¶</a></h3>
+<p>Since the Boston housing data set does not contain textual features, the 20 newsgroups text dataset is used to demonstrate the <strong>Topic Modeling</strong> widget.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">fetch_20newsgroups</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">dat</span> <span class="o">=</span> <span class="n">fetch_20newsgroups</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="s1">&#39;test&#39;</span><span class="p">)</span>
+<span class="n">df2</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;text&#39;</span><span class="p">:</span> <span class="n">dat</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">]})</span>
+<span class="n">df2</span> <span class="o">=</span> <span class="n">df2</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">150</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">df2</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>text</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>3655</th>
+      <td>From: glk9533@tm0006.lerc.nasa.gov (Greg L. Ki...</td>
+    </tr>
+    <tr>
+      <th>4048</th>
+      <td>From: mlee@post.RoyalRoads.ca (Malcolm Lee)\nS...</td>
+    </tr>
+    <tr>
+      <th>2079</th>
+      <td>From: whoughto@diana.cair.du.edu (Wes Houghton...</td>
+    </tr>
+    <tr>
+      <th>1629</th>
+      <td>From: keng@den.mmc.com (Ken Garrido)\nSubject:...</td>
+    </tr>
+    <tr>
+      <th>6135</th>
+      <td>From: as010b@uhura.cc.rochester.edu (Tree of S...</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<p>Text preprocessing can be applied before topic modeling to improve accuracy.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">data_describe.text.text_preprocessing</span> <span class="kn">import</span> <span class="n">preprocess_texts</span><span class="p">,</span> <span class="n">bag_of_words_to_docs</span>
+<span class="n">processed</span> <span class="o">=</span> <span class="n">preprocess_texts</span><span class="p">(</span><span class="n">df2</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">])</span>
+<span class="n">text</span> <span class="o">=</span> <span class="n">bag_of_words_to_docs</span><span class="p">(</span><span class="n">processed</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">data_describe.text.topic_modeling</span> <span class="kn">import</span> <span class="n">topic_model</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">lda_model</span> <span class="o">=</span> <span class="n">topic_model</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">num_topics</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">lda_model</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Topic 1</th>
+      <th>Topic 1 Coefficient Value</th>
+      <th>Topic 2</th>
+      <th>Topic 2 Coefficient Value</th>
+      <th>Topic 3</th>
+      <th>Topic 3 Coefficient Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Term 1</th>
+      <td>people</td>
+      <td>0.033</td>
+      <td>bit</td>
+      <td>0.023</td>
+      <td>paul</td>
+      <td>0.028</td>
+    </tr>
+    <tr>
+      <th>Term 2</th>
+      <td>may</td>
+      <td>0.022</td>
+      <td>paul</td>
+      <td>0.021</td>
+      <td>use</td>
+      <td>0.026</td>
+    </tr>
+    <tr>
+      <th>Term 3</th>
+      <td>right</td>
+      <td>0.022</td>
+      <td>two</td>
+      <td>0.017</td>
+      <td>much</td>
+      <td>0.024</td>
+    </tr>
+    <tr>
+      <th>Term 4</th>
+      <td>even</td>
+      <td>0.021</td>
+      <td>really</td>
+      <td>0.016</td>
+      <td>may</td>
+      <td>0.020</td>
+    </tr>
+    <tr>
+      <th>Term 5</th>
+      <td>many</td>
+      <td>0.017</td>
+      <td>well</td>
+      <td>0.015</td>
+      <td>good</td>
+      <td>0.015</td>
+    </tr>
+    <tr>
+      <th>Term 6</th>
+      <td>said</td>
+      <td>0.016</td>
+      <td>use</td>
+      <td>0.014</td>
+      <td>even</td>
+      <td>0.015</td>
+    </tr>
+    <tr>
+      <th>Term 7</th>
+      <td>say</td>
+      <td>0.016</td>
+      <td>need</td>
+      <td>0.014</td>
+      <td>world</td>
+      <td>0.014</td>
+    </tr>
+    <tr>
+      <th>Term 8</th>
+      <td>good</td>
+      <td>0.014</td>
+      <td>problem</td>
+      <td>0.014</td>
+      <td>thanks</td>
+      <td>0.014</td>
+    </tr>
+    <tr>
+      <th>Term 9</th>
+      <td>world</td>
+      <td>0.014</td>
+      <td>please</td>
+      <td>0.014</td>
+      <td>since</td>
+      <td>0.014</td>
+    </tr>
+    <tr>
+      <th>Term 10</th>
+      <td>use</td>
+      <td>0.014</td>
+      <td>case</td>
+      <td>0.013</td>
+      <td>using</td>
+      <td>0.014</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&amp;lt;data_describe.text.topic_modeling.TopicModelWidget at 0x23d8a068708&amp;gt;
+</pre></div></div>
+</div>
+<script type="application/vnd.jupyter.widget-state+json">
+{"state": {}, "version_major": 2, "version_minor": 0}
+</script></div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="user_guide.html" class="btn btn-neutral float-right" title="User Guide" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../installation.html" class="btn btn-neutral float-left" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Maven Wave Partners
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+<div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Other Versions</span>
+    v: v0.1.0b2
+    <span class="fa fa-caret-down"></span>
+  </span>
+  <div class="rst-other-versions">
+    <dl>
+      <dt>Tags</dt>
+      <dd><a href="../../v0.1.0b1/index.html">v0.1.0b1</a></dd>
+      <dd><a href="quick_start.html">v0.1.0b2</a></dd>
+    </dl>
+    <dl>
+      <dt>Branches</dt>
+      <dd><a href="../../master/index.html">master</a></dd>
+    </dl>
+  </div>
+</div>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
