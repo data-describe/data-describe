@@ -4,7 +4,7 @@
 
 <img src="/docs/imgs/demo.gif" height="382" width="610" />
 
-For more examples of data-describe in action, see the [Quick Start Tutorial](examples/Tutorial.ipynb).
+For more examples of data-describe in action, see the [Quick Start Tutorial](https://data-describe.github.io/data-describe/docs/master/_notebooks/quick_start.html).
 
 ## Main Features
 
