@@ -1,3 +1,10 @@
+[![PyPI status](https://img.shields.io/pypi/status/data-describe.svg)](https://pypi.python.org/pypi/data-describe/)
+[![PyPI license](https://img.shields.io/pypi/l/data-describe.svg)](https://pypi.python.org/pypi/data-describe/)
+[![Downloads](https://pepy.tech/badge/data-describe/month)](https://pepy.tech/project/data-describe/month)
+
+[![PyPI version shields.io](https://img.shields.io/pypi/v/data-describe.svg)](https://pypi.python.org/pypi/data-describe/)
+[![PyPI pyversions](https://img.shields.io/pypi/pyversions/data-describe.svg)](https://pypi.python.org/pypi/data-describe/)
+[![codecov](https://codecov.io/gh/data-describe/data-describe/branch/master/graph/badge.svg?token=CY0M5NAMXH)](undefined)
 # data ⎰ describe
 
 [data-describe](https://data-describe.ai/) is a Python toolkit for Exploratory Data Analysis (EDA). It aims to accelerate data exploration and analysis by providing automated and polished analysis widgets.
