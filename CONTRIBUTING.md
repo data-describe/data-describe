@@ -26,7 +26,7 @@ Open a new *Feature Request* issue on Github.
 
 ## Getting Started
 
-Please review the [Contributing Guide](https://data-describe.github.io/data-describe/docs/master/_notebooks/developer_guide.html#Contributing-Guide) for more details on how to start contributing code.
+Please review the [Contributing Guide](https://data-describe.ai/docs/master/_notebooks/developer_guide.html#Contributing-Guide) for more details on how to start contributing code.
 
 ## Code of Conduct
 
