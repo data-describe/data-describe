@@ -1,10 +1,10 @@
 # data ⎰ describe
 
-[data-describe](https://data-describe.github.io/data-describe/) is a Python toolkit for Exploratory Data Analysis (EDA). It aims to accelerate data exploration and analysis by providing automated and polished analysis widgets.
+[data-describe](https://data-describe.ai/) is a Python toolkit for Exploratory Data Analysis (EDA). It aims to accelerate data exploration and analysis by providing automated and polished analysis widgets.
 
 <img src="/docs/imgs/demo.gif" height="382" width="610" />
 
-For more examples of data-describe in action, see the [Quick Start Tutorial](https://data-describe.github.io/data-describe/docs/master/_notebooks/quick_start.html).
+For more examples of data-describe in action, see the [Quick Start Tutorial](https://data-describe.ai/docs/master/_notebooks/quick_start.html).
 
 ## Main Features
 
@@ -45,7 +45,7 @@ import data_describe as dd
 help(dd)
 ```
 
-See the [User Guide](https://data-describe.github.io/data-describe/docs/master/_notebooks/user_guide.html) for more information.
+See the [User Guide](https://data-describe.ai/docs/master/_notebooks/user_guide.html) for more information.
 
 ## Project Status
 

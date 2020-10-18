@@ -5,13 +5,13 @@ from setuptools import find_packages, setup
 
 NAME = "data_describe"
 DESCRIPTION = "A Pythonic EDA Accelerator for Data Science "
-URL = "https://data-describe.github.io/data-describe/"
+URL = "https://data-describe.ai/"
 EMAIL = ""
 AUTHOR = "https://github.com/data-describe/data-describe/graphs/contributors"
 REQUIRES_PYTHON = ">=3.7"
 PROJECT_URLS = {
     "Bug Tracker": "https://github.com/data-describe/data-describe/issues",
-    "Documentation": "https://data-describe.github.io/data-describe/docs/master/",
+    "Documentation": "https://data-describe.ai/docs/master/",
     "Source Code": "https://github.com/data-describe/data-describe",
 }
 LONG_DESCRIPTION = """data-describe is a Python toolkit for Exploratory Data Analysis (EDA). It aims to accelerate data exploration and analysis by providing automated and polished analysis widgets."""
