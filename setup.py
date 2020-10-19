@@ -8,7 +8,7 @@ DESCRIPTION = "A Pythonic EDA Accelerator for Data Science "
 URL = "https://data-describe.ai/"
 EMAIL = ""
 AUTHOR = "https://github.com/data-describe/data-describe/graphs/contributors"
-REQUIRES_PYTHON = ">=3.7"
+REQUIRES_PYTHON = ">=3.6"
 PROJECT_URLS = {
     "Bug Tracker": "https://github.com/data-describe/data-describe/issues",
     "Documentation": "https://data-describe.ai/docs/master/",
@@ -60,6 +60,7 @@ setup(
     classifiers=[
         "Programming Language :: Python",
         "Development Status :: 4 - Beta",
+        "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
