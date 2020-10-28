@@ -13,7 +13,6 @@ dependencies:
   # Test
   - pytest>=6.0.0
   - pytest-cov>=2.6.0
-  - pytest-notebook>=0.6
   - nbconvert<6.0.0 # For pytest-notebook https://github.com/chrisjsewell/pytest-notebook/issues/10
   - mock>=4.0
   # Optional
@@ -34,3 +33,4 @@ dependencies:
       - presidio-analyzer==0.3.8917rc0
       - https://github.com/explosion/spacy-models/releases/download/en_core_web_lg-2.2.0/en_core_web_lg-2.2.0.tar.gz # For presidio
       - pyscagnostics>=0.1.0a4
+      - pytest-notebook>=0.6.1
