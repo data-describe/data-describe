@@ -14,6 +14,7 @@ dependencies:
   - pytest>=6.0.0
   - pytest-cov>=2.6.0
   - pytest-notebook>=0.6
+  - nbconvert<6.0.0 # For pytest-notebook https://github.com/chrisjsewell/pytest-notebook/issues/10
   - mock>=4.0
   # Optional
   - gensim>=3.4.0
