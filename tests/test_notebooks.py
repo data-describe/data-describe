@@ -1,8 +1,9 @@
 import os
+import pathlib
 
 from pytest_notebook.nb_regression import NBRegressionFixture
 
-EXEC_CWD = os.path.abspath(".")
+EXEC_CWD = str(pathlib.Path(__file__).resolve().parent.parent)
 
 fixture = NBRegressionFixture(
     exec_timeout=120,
@@ -64,7 +65,7 @@ def test_scatter_plots_notebook():
 
 
 def test_tutorial_notebook():
-    notebook = os.path.join(EXEC_CWD, "examples", "Tutorial.ipynb")
+    notebook = os.path.join(EXEC_CWD, "examples", "Quick_Start.ipynb")
     fixture.check(notebook, raise_errors=True)
 
 
