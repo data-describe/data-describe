@@ -1,14 +1,21 @@
 from pathlib import Path
 import logging
+import argparse
 import json
 
 import papermill as pm
 
 
-def run_all_notebooks():
+def run_all_notebooks(args):
     """Run all notebooks in the example directory."""
     for notebook in Path(__file__).parent.parent.glob("examples/*.ipynb"):
         notebook_path = str(notebook.resolve())
+
+        if len(args.notebook_name) > 0:
+            if not any([x in notebook_path for x in args.notebook_name]):
+                logging.info(f"Skipping: {notebook_path}")
+                continue
+
         nb = pm.execute_notebook(
             notebook_path,
             notebook_path,
@@ -27,4 +34,7 @@ def run_all_notebooks():
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
-    run_all_notebooks()
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--notebook-name", action="append")
+    args, _ = parser.parse_known_args()
+    run_all_notebooks(args)
