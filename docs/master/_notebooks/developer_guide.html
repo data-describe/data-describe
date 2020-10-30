@@ -114,7 +114,15 @@
 <li class="toctree-l2"><a class="reference internal" href="#Docstring-Checking">Docstring Checking</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#Automatic-Documentation">Automatic Documentation</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#Notebook-Update">Notebook Update</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Sphinx-Build">Sphinx Build</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#Manual-Build">Manual Build</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Example-Notebooks">Example Notebooks</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Notebook-Naming-Convention">Notebook Naming Convention</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Notebook-Structure">Notebook Structure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Notebook-Execution">Notebook Execution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Notebook-Testing">Notebook Testing</a></li>
 </ul>
 </li>
 </ul>
@@ -320,11 +328,15 @@
 </div>
 <div class="section" id="Automatic-Documentation">
 <h2>Automatic Documentation<a class="headerlink" href="#Automatic-Documentation" title="Permalink to this headline">¶</a></h2>
-<p>Documentation is generated using Sphinx. To run the typical build process, use the provided conda environment definition at <code class="docutils literal notranslate"><span class="pre">etc/doc-environment.yml</span></code> and run <code class="docutils literal notranslate"><span class="pre">docs/make.py</span></code>.</p>
-<p>Note that <code class="docutils literal notranslate"><span class="pre">sphinx-multiversion</span></code> is used to build documentation for multiple versions of <code class="docutils literal notranslate"><span class="pre">data-describe</span></code> and only captures changes in tagged commits and/or the master branch on remote.</p>
+<p>Documentation is generated using Sphinx.</p>
 <div class="section" id="Notebook-Update">
 <h3>Notebook Update<a class="headerlink" href="#Notebook-Update" title="Permalink to this headline">¶</a></h3>
-<p>Example notebooks are stored in the <code class="docutils literal notranslate"><span class="pre">examples/</span></code> folder for easy access in the Github repository. Run <code class="docutils literal notranslate"><span class="pre">docs/update_notebook_docs.py</span></code> to copy these notebooks (if any updates) into the <code class="docutils literal notranslate"><span class="pre">docs/source</span></code> directory and update the index.</p>
+<p>Example notebooks are stored in the <code class="docutils literal notranslate"><span class="pre">examples/</span></code> folder for easy access in the Github repository. Run <code class="docutils literal notranslate"><span class="pre">docs/update_notebook_docs.py</span></code> to copy these notebooks (if any updates) into the <code class="docutils literal notranslate"><span class="pre">docs/source</span></code> directory and update the index page.</p>
+</div>
+<div class="section" id="Sphinx-Build">
+<h3>Sphinx Build<a class="headerlink" href="#Sphinx-Build" title="Permalink to this headline">¶</a></h3>
+<p>To run the typical build process, use the provided conda environment definition at <code class="docutils literal notranslate"><span class="pre">etc/doc-environment.yml</span></code> and run <code class="docutils literal notranslate"><span class="pre">docs/make.py</span></code>.</p>
+<p>Note that <code class="docutils literal notranslate"><span class="pre">sphinx-multiversion</span></code> is used to build documentation for multiple versions of <code class="docutils literal notranslate"><span class="pre">data-describe</span></code> and only captures changes in tagged commits and/or the master branch on remote.</p>
 </div>
 <div class="section" id="Manual-Build">
 <h3>Manual Build<a class="headerlink" href="#Manual-Build" title="Permalink to this headline">¶</a></h3>
@@ -333,6 +345,32 @@
 </pre></div>
 </div>
 <p>The generated HTML files will be in <code class="docutils literal notranslate"><span class="pre">docs/build</span></code></p>
+</div>
+</div>
+<div class="section" id="Example-Notebooks">
+<h2>Example Notebooks<a class="headerlink" href="#Example-Notebooks" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">examples/</span></code> folder of the repository contains Jupyter notebooks that provide more detailed documentation on using features of data-describe. Ideally, all features in data-describe should have its own example notebook.</p>
+<div class="section" id="Notebook-Naming-Convention">
+<h3>Notebook Naming Convention<a class="headerlink" href="#Notebook-Naming-Convention" title="Permalink to this headline">¶</a></h3>
+<p>Notebook names should not contain spaces.</p>
+</div>
+<div class="section" id="Notebook-Structure">
+<h3>Notebook Structure<a class="headerlink" href="#Notebook-Structure" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>The first cell in an example notebook <strong>must</strong> be a level 1 markdown header with the name/title of the example: <code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">Title</span></code></p></li>
+<li><p>This header will be used as the name of the page in the auto-generated Sphinx documentation.</p></li>
+<li><p>Ideally, a short description of how and why to use the particular feature (i.e. from the design document) should be included after the title.</p></li>
+<li><p>Individual examples demonstrating different methods of using the feature should be separated by level 2 (or lower) headers.</p></li>
+</ul>
+</div>
+<div class="section" id="Notebook-Execution">
+<h3>Notebook Execution<a class="headerlink" href="#Notebook-Execution" title="Permalink to this headline">¶</a></h3>
+<p>To ensure consistency in cell execution order and kernel specifications, a Python script <code class="docutils literal notranslate"><span class="pre">etc/run_notebooks.py</span></code> should be used. This script will use papermill to execute all notebooks.</p>
+<p>You can optionally add the <code class="docutils literal notranslate"><span class="pre">--notebook-name</span></code> argument to select specific notebooks for execution. This argument can be used multiple times and, if specified, utilizes str contains logic to select notebooks.</p>
+</div>
+<div class="section" id="Notebook-Testing">
+<h3>Notebook Testing<a class="headerlink" href="#Notebook-Testing" title="Permalink to this headline">¶</a></h3>
+<p>Unit tests for notebooks are in <code class="docutils literal notranslate"><span class="pre">tests/test_notebooks.py</span></code>. Follow the same pattern of using pytest-notebooks to add a test for a notebook.</p>
 </div>
 </div>
 </div>
