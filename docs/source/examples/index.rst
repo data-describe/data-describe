@@ -17,4 +17,5 @@ Examples
    ../examples/text_preprocessing
    ../examples/time_series
    ../examples/topic_modeling
+   ../examples/untitled
 .. _`data-describe`: https://github.com/data-describe/data-describe..
