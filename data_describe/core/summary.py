@@ -60,14 +60,14 @@ class SummaryWidget(BaseWidget):
 
 
 def data_summary(data, compute_backend=None):
-    """Summary statistics and data description.
+    """Summary statistics and data description with metrics in rows and original fields as columns.
 
     Args:
         data: The dataframe
         compute_backend: The compute backend.
 
     Returns:
-        The dataframe with metrics in rows
+        SummaryWidget
     """
     return _get_compute_backend(backend=compute_backend, df=data).compute_data_summary(
         data
