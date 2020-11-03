@@ -2,7 +2,7 @@
 
 ## Getting Started
 
-Thanks for taking the time to contribute! Please review the [Contributing Guide](https://data-describe.ai/docs/master/_notebooks/developer_guide.html#Contributing-Guide) for more details on how to start contributing to data-describe.
+Thanks for taking the time to contribute! Please review the [Contributing Guide](https://data-describe.ai/docs/master/_notebooks/contributing_guide.html#Contributing-Guide) for more details on how to start contributing to data-describe.
 
 ## FAQ
 
