@@ -1,3 +1,5 @@
+import sys
+
 import pytest
 
 from data_describe.compat import _is_dataframe
@@ -22,11 +24,23 @@ def load_series_summary(compute_backend_df):
 )  # xfail: modin #2376
 def test_dataframe_attributes(load_summary, compute_backend_df):
     assert isinstance(load_summary, SummaryWidget)
+    assert str(load_summary) == "data-describe Summary Widget"
     assert _is_dataframe(load_summary.input_data)
     assert _is_dataframe(load_summary.info_data)
     assert _is_dataframe(load_summary.summary_data)
     assert hasattr(load_summary, "as_percentage")
     assert hasattr(load_summary, "auto_float")
+
+
+@pytest.mark.parametrize(
+    "compute_backend_df",
+    ["pandas"],
+    indirect=True,
+)
+def test_no_ipython(load_summary, compute_backend_df, monkeypatch, capsys):
+    monkeypatch.setitem(sys.modules, "IPython.display", None)
+    load_summary.show()
+    assert "Size in Memory" in capsys.readouterr().out
 
 
 @pytest.mark.base
@@ -37,6 +51,7 @@ def test_dataframe_attributes(load_summary, compute_backend_df):
 )  # xfail: modin #2376
 def test_series_attributes(load_series_summary, compute_backend_df):
     assert isinstance(load_series_summary, SummaryWidget)
+    assert str(load_summary) == "data-describe Summary Widget"
     assert _is_dataframe(load_series_summary.input_data)
     assert _is_dataframe(load_series_summary.info_data)
     assert _is_dataframe(load_series_summary.summary_data)
