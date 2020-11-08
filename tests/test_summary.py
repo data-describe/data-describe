@@ -15,7 +15,12 @@ def load_series_summary(compute_backend_df):
 
 
 @pytest.mark.base
-def test_dataframe_attributes(load_summary):
+@pytest.mark.parametrize(
+    "compute_backend_df",
+    ["pandas", pytest.param("modin.pandas", marks=pytest.mark.xfail)],
+    indirect=True,
+)  # xfail: modin #2376
+def test_dataframe_attributes(load_summary, compute_backend_df):
     assert isinstance(load_summary, SummaryWidget)
     assert _is_dataframe(load_summary.input_data)
     assert _is_dataframe(load_summary.info_data)
@@ -25,7 +30,12 @@ def test_dataframe_attributes(load_summary):
 
 
 @pytest.mark.base
-def test_series_attributes(load_series_summary):
+@pytest.mark.parametrize(
+    "compute_backend_df",
+    ["pandas", pytest.param("modin.pandas", marks=pytest.mark.xfail)],
+    indirect=True,
+)  # xfail: modin #2376
+def test_series_attributes(load_series_summary, compute_backend_df):
     assert isinstance(load_series_summary, SummaryWidget)
     assert _is_dataframe(load_series_summary.input_data)
     assert _is_dataframe(load_series_summary.info_data)
@@ -35,6 +45,11 @@ def test_series_attributes(load_series_summary):
 
 
 @pytest.mark.base
+@pytest.mark.parametrize(
+    "compute_backend_df",
+    ["pandas", pytest.param("modin.pandas", marks=pytest.mark.xfail)],
+    indirect=True,
+)  # xfail: modin #2376
 def test_shape(load_summary, compute_backend_df):
     assert load_summary.summary_data.shape == (compute_backend_df.shape[1], 10)
     assert load_summary.info_data.shape == (3, 1)

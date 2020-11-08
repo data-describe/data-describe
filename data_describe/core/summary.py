@@ -312,11 +312,11 @@ def _modin_compute_data_summary(data):
     columns = data.columns
 
     dtypes = data.dtypes.to_numpy()
-    s_mean = data.mean().to_numpy()
-    s_sd = data.std().to_numpy()
-    s_med = data.median().to_numpy()
-    s_min = data.min().to_numpy()
-    s_max = data.max().to_numpy()
+    s_mean = data.mean(numeric_only=True).reindex().to_numpy()
+    s_sd = data.std(numeric_only=True).reindex(columns).to_numpy()
+    s_med = data.median(numeric_only=True).reindex(columns).to_numpy()
+    s_min = data.min(numeric_only=True).reindex(columns).to_numpy()
+    s_max = data.max(numeric_only=True).reindex(columns).to_numpy()
     s_zero = data[data == 0].fillna(0).sum().astype(int).to_numpy()
     s_null = data.isnull().sum().astype(int).to_numpy()
     s_unique = data.nunique().to_numpy()
