@@ -51,7 +51,7 @@ def test_no_ipython(load_summary, compute_backend_df, monkeypatch, capsys):
 )  # xfail: modin #2376
 def test_series_attributes(load_series_summary, compute_backend_df):
     assert isinstance(load_series_summary, SummaryWidget)
-    assert str(load_summary) == "data-describe Summary Widget"
+    assert str(load_series_summary) == "data-describe Summary Widget"
     assert _is_dataframe(load_series_summary.input_data)
     assert _is_dataframe(load_series_summary.info_data)
     assert _is_dataframe(load_series_summary.summary_data)
