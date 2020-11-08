@@ -1,4 +1,5 @@
 from typing import Dict, Callable
+import warnings
 
 import pandas as pd
 from pandas.core.dtypes.common import is_float
@@ -373,12 +374,14 @@ def _get_precision(x, margin: int = 1) -> int:
     Returns:
         int: Number of decimal places
     """
-    try:
-        x = (x - np.trunc(x)).astype(np.float)
-        magnitude = np.log10(x[x != 0])
-        return int(np.ceil(np.abs(magnitude)))
-    except TypeError:
-        return 0
+    with warnings.catch_warnings():
+        warnings.filterwarnings("ignore", category=RuntimeWarning)
+        try:
+            x = (x - np.trunc(x)).astype(np.float)
+            magnitude = np.log10(x[x != 0])
+            return int(np.ceil(np.abs(magnitude)))
+        except (TypeError, ValueError):
+            return 0
 
 
 def _value_formatter(x, precision=None):
