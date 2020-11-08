@@ -28,4 +28,4 @@ def test_series(load_series_summary):
 
 @pytest.mark.base
 def test_shape(load_summary, compute_backend_df):
-    assert load_summary.summary.shape == (9, compute_backend_df.shape[1])
+    assert load_summary.summary.shape == (compute_backend_df.shape[1], 10)
