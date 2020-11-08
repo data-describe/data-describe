@@ -1,4 +1,4 @@
-from typing import Dict, Callable
+from typing import Dict, Callable, Optional
 import warnings
 
 import pandas as pd
@@ -30,8 +30,8 @@ class SummaryWidget(BaseWidget):
         input_data=None,
         info_data=None,
         summary_data=None,
-        as_percentage: bool = False,
-        auto_float: bool = True,
+        as_percentage: Optional[bool] = False,
+        auto_float: Optional[bool] = True,
         **kwargs,
     ):
         """Data heatmap.
@@ -57,7 +57,11 @@ class SummaryWidget(BaseWidget):
         return "data-describe Summary Widget"
 
     def show(
-        self, viz_backend=None, as_percentage: bool = False, auto_float=True, **kwargs
+        self,
+        viz_backend=None,
+        as_percentage: Optional[bool] = None,
+        auto_float: Optional[bool] = None,
+        **kwargs,
     ):
         """The default display for this output.
 
@@ -97,7 +101,10 @@ class SummaryWidget(BaseWidget):
                 if col not in format_dict.keys():
                     format_dict[col] = _value_formatter
 
-        view(summary_data.style.format(format_dict))
+        if len(format_dict) > 0:
+            view(summary_data.style.format(format_dict))
+        else:
+            view(summary_data)
 
 
 def data_summary(
