@@ -297,36 +297,68 @@ def _modin_compute_data_summary(data):
     if not _is_dataframe(data):
         raise ValueError("Data must be a Modin DataFrame")
 
+    info_data = pd.DataFrame(
+        {
+            "Info": [
+                data.shape[0],
+                data.shape[1],
+                _sizeof_fmt(data.memory_usage().sum(), ""),
+            ]
+        },
+        index=["Rows", "Columns", "Size in Memory"],
+    )
+
     # Save column order
     columns = data.columns
-    dtypes = data.agg([lambda x: x.dtype])
-    moments = data.agg(["mean", "std", "median"])
-    minmax = data.select_dtypes("number").agg(["min", "max"]).reindex(columns=columns)
-    zeros = data.select_dtypes("number").agg([_count_zeros]).reindex(columns=columns)
-    null_summary = data.agg([_count_nulls])
-    freq_summary = data.agg([_most_frequent])
 
-    summary = (
-        dtypes.append(moments, ignore_index=True)
-        .append(minmax, ignore_index=True)
-        .append(zeros, ignore_index=True)
-        .append(null_summary, ignore_index=True)
-        .append(freq_summary, ignore_index=True)
+    dtypes = data.dtypes.to_numpy()
+    s_mean = data.mean().to_numpy()
+    s_sd = data.std().to_numpy()
+    s_med = data.median().to_numpy()
+    s_min = data.min().to_numpy()
+    s_max = data.max().to_numpy()
+    s_zero = data[data == 0].fillna(0).sum().astype(int).to_numpy()
+    s_null = data.isnull().sum().astype(int).to_numpy()
+    s_unique = data.nunique().to_numpy()
+    s_freq = (
+        data.apply(lambda x: mode1(x.astype("str")))
+        .iloc[
+            0,
+        ]
+        .to_numpy()
     )
-    summary = summary[columns]
-    summary.index = [
-        "Data Type",
-        "Mean",
-        "Standard Deviation",
-        "Median",
-        "Min",
-        "Max",
-        "Zeros",
-        "Nulls",
-        "Top Frequency",
-    ]
 
-    return SummaryWidget(data, summary)
+    summary_data = pd.DataFrame(
+        np.vstack(
+            [
+                dtypes,
+                s_null,
+                s_zero,
+                s_min,
+                s_med,
+                s_max,
+                s_mean,
+                s_sd,
+                s_unique,
+                s_freq,
+            ]
+        ).transpose(),
+        columns=[
+            "Data Type",
+            "Nulls",
+            "Zeros",
+            "Min",
+            "Median",
+            "Max",
+            "Mean",
+            "Standard Deviation",
+            "Unique",
+            "Top Frequency",
+        ],
+        index=columns,
+    )
+
+    return SummaryWidget(data, info_data, summary_data)
 
 
 def _get_precision(x, margin: int = 1) -> int:
