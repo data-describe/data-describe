@@ -386,7 +386,7 @@ def _get_precision(x, margin: int = 1) -> int:
         try:
             x = (x - np.trunc(x)).astype(np.float)
             magnitude = np.log10(x[x != 0])
-            return int(np.ceil(np.abs(magnitude)))
+            return int(np.ceil(np.abs(magnitude))) + margin
         except (TypeError, ValueError):
             return 0
 
@@ -400,6 +400,7 @@ def _value_formatter(x, precision=None):
     """
     if is_float(x):
         precision = precision or _get_precision(x)
+        print(f"Formatting {x} with {precision} precision")
         try:
             return f"{{:.{precision}f}}".format(x)
         except ValueError:
