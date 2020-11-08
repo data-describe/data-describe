@@ -18,27 +18,36 @@ class SummaryWidget(BaseWidget):
 
     Attributes:
         input_data: The input data.
-        summary (DataFrame): The summary statistics.
+        info_data: Information about the data shape and size.
+        summary_data (DataFrame): The summary statistics.
+        as_percentage (bool): If True, display counts as percentage over total
+        auto_float (bool): If True, apply formatting to float values
     """
 
     def __init__(
         self,
         input_data=None,
-        info=None,
-        summary=None,
+        info_data=None,
+        summary_data=None,
+        as_percentage: bool = False,
+        auto_float: bool = True,
         **kwargs,
     ):
         """Data heatmap.
 
         Args:
             input_data: The input data.
-            info: Information about the data shape and size.
-            summary: The summary statistics.
+            info_data: Information about the data shape and size.
+            summary_data: The summary statistics.
+            as_percentage (bool): If True, display counts as percentage over total
+            auto_float (bool): If True, apply formatting to float values
         """
         super(SummaryWidget, self).__init__(**kwargs)
         self.input_data = input_data
-        self.info = info
-        self.summary = summary
+        self.info_data = info_data
+        self.summary_data = summary_data
+        self.as_percentage = as_percentage
+        self.auto_float = auto_float
 
     def __str__(self):
         return "data-describe Summary Widget"
@@ -69,25 +78,25 @@ class SummaryWidget(BaseWidget):
         except ImportError:
             view = print
 
-        view(self.info)
+        view(self.info_data)
 
-        summary = self.summary
+        summary_data = self.summary_data
         format_dict: Dict[str, Callable] = {}
 
         as_percentage = as_percentage or self.as_percentage
         if as_percentage:
             for col in ["Zeros", "Nulls", "Top Frequency"]:
-                summary[col] = summary[col] / self.input_data.shape[0]
+                summary_data[col] = summary_data[col] / self.input_data.shape[0]
                 format_dict[col] = "{:.1%}".format
 
-        summary.fillna("", inplace=True)
+        summary_data.fillna("", inplace=True)
         auto_float = auto_float or self.auto_float
         if auto_float:
-            for col in summary.columns:
+            for col in summary_data.columns:
                 if col not in format_dict.keys():
                     format_dict[col] = _value_formatter
 
-        view(summary.style.format(format_dict))
+        view(summary_data.style.format(format_dict))
 
 
 def data_summary(
@@ -182,7 +191,7 @@ def _pandas_compute_data_summary(data):
     if not _is_dataframe(data):
         raise ValueError("Data must be a Pandas DataFrame")
 
-    info = pd.DataFrame(
+    info_data = pd.DataFrame(
         {
             "Info": [
                 data.shape[0],
@@ -236,7 +245,7 @@ def _pandas_compute_data_summary(data):
     s_unique = data.nunique()[order]
     s_freq = np.apply_along_axis(mode1, 0, val.astype("str"))[order]
 
-    summary = pd.DataFrame(
+    summary_data = pd.DataFrame(
         np.vstack(
             [
                 dtypes,
@@ -266,7 +275,7 @@ def _pandas_compute_data_summary(data):
         index=data.columns,
     )
 
-    return SummaryWidget(data, info, summary)
+    return SummaryWidget(data, info_data, summary_data)
 
 
 @_requires("modin")
