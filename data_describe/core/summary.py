@@ -129,30 +129,6 @@ def data_summary(
     return widget
 
 
-def _count_zeros(series):
-    """Count of zero values in a Pandas or Modin series.
-
-    Args:
-        series: The Pandas or Modin series
-
-    Returns:
-        Number of zeros
-    """
-    return (series == 0).sum()
-
-
-def _count_nulls(series):
-    """Count of null values in a Pandas or Modin series.
-
-    Args:
-        series: The Pandas or Modin series
-
-    Returns:
-        Number of null values
-    """
-    return series.isnull().sum()
-
-
 def mode1(x):
     """Mode (counts only) by Warren Weckesser.
 
@@ -164,21 +140,6 @@ def mode1(x):
     _, counts = np.unique(x, return_counts=True)
     m = counts.argmax()
     return counts[m]
-
-
-def _most_frequent(series):
-    """Percent of most frequent value, per column, in a Pandas or Modin data frame.
-
-    Args:
-        series: The Pandas or Modin series
-
-    Returns:
-        Percent of most frequent value per column
-    """
-    counts = series.value_counts()
-    if counts.shape[0] == 0:
-        return None
-    return round(counts.iloc[0] / series.shape[0] * 100, 2)
 
 
 def _pandas_compute_data_summary(data):
@@ -400,7 +361,6 @@ def _value_formatter(x, precision=None):
     """
     if is_float(x):
         precision = precision or _get_precision(x)
-        print(f"Formatting {x} with {precision} precision")
         try:
             return f"{{:.{precision}f}}".format(x)
         except ValueError:
