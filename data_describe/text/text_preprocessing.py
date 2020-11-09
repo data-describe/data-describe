@@ -222,33 +222,35 @@ def bag_of_words_to_docs(text_docs_bow: Iterable[Iterable[str]]) -> Iterable[str
     return (" ".join(doc) for doc in text_docs_bow)
 
 
-def create_tfidf_matrix(text_docs: Iterable[str]) -> pd.DataFrame:
+def create_tfidf_matrix(text_docs: Iterable[str], **kwargs) -> pd.DataFrame:
     """Creates a Term Frequency-Inverse Document Frequency matrix.
 
     Args:
         text_docs: A list of strings of text documents
+        **kwargs: Other arguments to be passed to sklearn.feature_extraction.text.TfidfVectorizer
 
     Returns:
         matrix_df: Pandas DataFrame of TF-IDF matrix with documents as rows and words
             as columns
     """
-    tfidf = TfidfVectorizer()
+    tfidf = TfidfVectorizer(**kwargs)
     matrix = tfidf.fit_transform(text_docs).toarray()
     matrix_df = pd.DataFrame(matrix, columns=tfidf.get_feature_names())
     return matrix_df
 
 
-def create_doc_term_matrix(text_docs: Iterable[str]) -> pd.DataFrame:
+def create_doc_term_matrix(text_docs: Iterable[str], **kwargs) -> pd.DataFrame:
     """Creates a document-term matrix which gives wordcount per document.
 
     Args:
         text_docs: A list of strings of text documents
+        **kwargs: Other arguments to be passed to sklearn.feature_extraction.text.CountVectorizer
 
     Returns:
         matrix_df: Pandas DataFrame of document-term matrix with documents as rows
             and words as columns
     """
-    countvec = CountVectorizer()
+    countvec = CountVectorizer(**kwargs)
     matrix = countvec.fit_transform(text_docs).toarray()
     matrix_df = pd.DataFrame(matrix, columns=countvec.get_feature_names())
     return matrix_df
@@ -362,7 +364,9 @@ def ngram_freq(
 
 
 @_requires("gensim")
-def filter_dictionary(text_docs: List[str], no_below: int = 10, no_above: float = 0.2):
+def filter_dictionary(
+    text_docs: List[str], no_below: int = 10, no_above: float = 0.2, **kwargs
+):
     """Filters words outside specified frequency thresholds.
 
     Args:
@@ -371,6 +375,7 @@ def filter_dictionary(text_docs: List[str], no_below: int = 10, no_above: float 
             Default is 10.
         no_above: Keep tokens which are contained in no more than no_above portion of
             documents (fraction of total corpus size). Default is 0.2.
+        **kwargs: Other arguments to be passed to gensim.corpora.Dictionary.filter_extremes
 
     Returns:
         dictionary: Gensim Dictionary encapsulates the mapping between normalized words
@@ -378,6 +383,6 @@ def filter_dictionary(text_docs: List[str], no_below: int = 10, no_above: float 
         corpus: Bag of Words (BoW) representation of documents (token_id, token_count).
     """
     dictionary = _compat["gensim"].corpora.Dictionary(text_docs)  # type: ignore
-    dictionary.filter_extremes(no_below=no_below, no_above=no_above)
+    dictionary.filter_extremes(no_below=no_below, no_above=no_above, **kwargs)
     corpus = [dictionary.doc2bow(doc) for doc in text_docs]
     return dictionary, corpus
