@@ -383,6 +383,6 @@ def filter_dictionary(
         corpus: Bag of Words (BoW) representation of documents (token_id, token_count).
     """
     dictionary = _compat["gensim"].corpora.Dictionary(text_docs)  # type: ignore
-    dictionary.filter_extremes(no_below=no_below, no_above=no_above)
+    dictionary.filter_extremes(no_below=no_below, no_above=no_above, **kwargs)
     corpus = [dictionary.doc2bow(doc) for doc in text_docs]
     return dictionary, corpus
