@@ -26,13 +26,14 @@ class _Backend:
 
     def __getattr__(self, f: str):
         """Try to find the method implementation in the module list."""
-        for module in self.backend_modules:
+        for module in object.__getattribute__(self, "backend_modules"):
             try:
                 return module.__getattribute__(f)
             except AttributeError:
                 pass
-        raise ModuleNotFoundError(
-            f"Could not find implementation for {f} with available backends: {self.b}"
+        raise NotImplementedError(
+            f"Could not find implementation for {f} with available backends:"
+            f" {object.__getattribute__(self, 'backend_modules')}"
         )
 
 
