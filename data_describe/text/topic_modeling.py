@@ -75,7 +75,7 @@ def topic_model(
     return topicwidget
 
 
-@_requires("tqdm")
+@_requires("tqdm")  # type: ignore
 @_requires("gensim")
 @_requires("pyLDAvis")
 class TopicModelWidget(BaseWidget):
