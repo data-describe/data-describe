@@ -75,9 +75,9 @@ def topic_model(
     return topicwidget
 
 
-@requires("tqdm.tqdm")
-@requires("gensim")
-@requires("pyLDAvis")
+@_requires("tqdm")
+@_requires("gensim")
+@_requires("pyLDAvis")
 class TopicModelWidget(BaseWidget):
     """Create topic model widget."""
 
@@ -256,7 +256,7 @@ class TopicModelWidget(BaseWidget):
             warnings.filterwarnings("ignore", category=DeprecationWarning)
             if self._num_topics is None:
                 self._coherence_values = []
-                pbar = _compat["tqdm.tqdm"](
+                pbar = _compat["tqdm"].tqdm(
                     range(self._min_topics, self._max_topics + 1),
                     desc="Fitting topic model",
                 )
@@ -338,7 +338,7 @@ class TopicModelWidget(BaseWidget):
             warnings.filterwarnings("ignore", category=DeprecationWarning)
             if self._num_topics is None:
                 self._coherence_values = []
-                pbar = _compat["tqdm.tqdm"](
+                pbar = _compat["tqdm"].tqdm(
                     range(self._min_topics, self._max_topics + 1),
                     desc="Fitting topic model",
                 )
@@ -725,7 +725,8 @@ def _seaborn_viz_elbow_plot(
         Elbow plot showing coherence values vs number of topics
     """
     ax = sns.lineplot(
-        x=[num for num in range(min_topics, max_topics + 1)], y=coherence_values,
+        x=[num for num in range(min_topics, max_topics + 1)],
+        y=coherence_values,
     )
     ax.set_title("Coherence Values Across Topic Numbers")
     plt.xlabel("Number of Topics")
