@@ -142,20 +142,8 @@ def presidio_download(module):
 _compat = _DependencyManager(
     {
         "nltk": nltk_download,
-<<<<<<< HEAD
         "presidio_analyzer": presidio_download,
         "plotly": plotly_check,
-=======
-        "gensim": no_side_import,
-        "pyLDAvis": no_side_import,
-        "gcsfs": no_side_import,
-        "google.cloud.storage": no_side_import,
-        "spacy": spacy_download,
-        "modin.pandas": no_side_import,
-        "hdbscan": no_side_import,
-        "presidio_analyzer": no_side_import,
-        "tqdm.tqdm": no_side_import,
->>>>>>> Add tqdm function import to _dependency.py
     }
 )
 
