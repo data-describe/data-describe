@@ -40,17 +40,11 @@ def test_api_methods(backend, backend_module, api_method):
                 )
     elif backend == "viz":
         if backend_module in ["seaborn", "plotly"]:
-            if (
-                api_method
-                not in [
-                    "data_summary",
-                    "viz_distribution",
-                    "viz_scatter_plot",
-                ]
-            ) and not (
-                backend_module == "plotly"
-                and (api_method in ["distribution", "scatter_plot"])
-            ):
+            if api_method not in [
+                "data_summary",
+                "distribution",
+                "scatter_plot",
+            ]:
                 _get_viz_backend(backend_module).__getattr__(
                     "_".join([backend, api_method])
                 )
