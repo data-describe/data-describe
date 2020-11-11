@@ -115,6 +115,9 @@
 <ul>
 <li class="toctree-l4"><a class="reference internal" href="#data_describe.core.summary.data_summary">data_summary</a></li>
 </ul>
+<ul>
+<li class="toctree-l4"><a class="reference internal" href="#data_describe.core.summary.mode1">mode1</a></li>
+</ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../time/index.html">data_describe.core.time</a></li>
 </ul>
@@ -227,14 +230,17 @@
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#data_describe.core.summary.data_summary" title="data_describe.core.summary.data_summary"><code class="xref py py-obj docutils literal notranslate"><span class="pre">data_summary</span></code></a>(data, compute_backend=None)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#data_describe.core.summary.data_summary" title="data_describe.core.summary.data_summary"><code class="xref py py-obj docutils literal notranslate"><span class="pre">data_summary</span></code></a>(data, as_percentage: bool = False, auto_float: bool = True, compute_backend=None)</p></td>
 <td><p>Summary statistics and data description.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#data_describe.core.summary.mode1" title="data_describe.core.summary.mode1"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mode1</span></code></a>(x)</p></td>
+<td><p>Mode (counts only) by Warren Weckesser.</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="py class">
 <dt id="data_describe.core.summary.SummaryWidget">
-<em class="property">class </em><code class="sig-prename descclassname">data_describe.core.summary.</code><code class="sig-name descname">SummaryWidget</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">input_data</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">summary</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.core.summary.SummaryWidget" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">data_describe.core.summary.</code><code class="sig-name descname">SummaryWidget</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">input_data</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">info_data</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">summary_data</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">as_percentage</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>bool<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">auto_float</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>bool<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.core.summary.SummaryWidget" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="../../_widget/index.html#data_describe._widget.BaseWidget" title="data_describe._widget.BaseWidget"><code class="xref py py-class docutils literal notranslate"><span class="pre">data_describe._widget.BaseWidget</span></code></a></p>
 <p>Container for data summary.</p>
 <p>This class (object) is returned from the <code class="docutils literal notranslate"><span class="pre">data_summary</span></code> function. The
@@ -246,8 +252,14 @@ attributes documented below can be accessed or extracted.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt id="data_describe.core.summary.SummaryWidget.summary">
-<code class="sig-name descname">summary</code><a class="headerlink" href="#data_describe.core.summary.SummaryWidget.summary" title="Permalink to this definition">¶</a></dt>
+<dt id="data_describe.core.summary.SummaryWidget.info_data">
+<code class="sig-name descname">info_data</code><a class="headerlink" href="#data_describe.core.summary.SummaryWidget.info_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Information about the data shape and size.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="data_describe.core.summary.SummaryWidget.summary_data">
+<code class="sig-name descname">summary_data</code><a class="headerlink" href="#data_describe.core.summary.SummaryWidget.summary_data" title="Permalink to this definition">¶</a></dt>
 <dd><p>The summary statistics.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -256,23 +268,44 @@ attributes documented below can be accessed or extracted.</p>
 </dl>
 </dd></dl>
 
+<dl class="py attribute">
+<dt id="data_describe.core.summary.SummaryWidget.as_percentage">
+<code class="sig-name descname">as_percentage</code><a class="headerlink" href="#data_describe.core.summary.SummaryWidget.as_percentage" title="Permalink to this definition">¶</a></dt>
+<dd><p>If True, display counts as percentage over total</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="data_describe.core.summary.SummaryWidget.auto_float">
+<code class="sig-name descname">auto_float</code><a class="headerlink" href="#data_describe.core.summary.SummaryWidget.auto_float" title="Permalink to this definition">¶</a></dt>
+<dd><p>If True, apply formatting to float values</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
 <dt id="data_describe.core.summary.SummaryWidget.show">
-<code class="sig-name descname">show</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">viz_backend</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.core.summary.SummaryWidget.show" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">show</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">viz_backend</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">as_percentage</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>bool<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">auto_float</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>bool<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.core.summary.SummaryWidget.show" title="Permalink to this definition">¶</a></dt>
 <dd><p>The default display for this output.</p>
-<p>Returns the summary data as a Pandas dataframe.</p>
+<p>Displays the summary information.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>viz_backend</strong> – The visualization backend.</p></li>
+<li><p><strong>as_percentage</strong> (<em>bool</em>) – If True, display counts as percentage over total</p></li>
+<li><p><strong>auto_float</strong> (<em>bool</em>) – If True, apply formatting to float values</p></li>
 <li><p><strong>**kwargs</strong> – Keyword arguments.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Raises</dt>
-<dd class="field-even"><p><strong>ValueError</strong> – Summary data is missing.</p>
-</dd>
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>The correlation matrix plot.</p>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The correlation matrix plot.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -281,17 +314,31 @@ attributes documented below can be accessed or extracted.</p>
 
 <dl class="py function">
 <dt id="data_describe.core.summary.data_summary">
-<code class="sig-prename descclassname">data_describe.core.summary.</code><code class="sig-name descname">data_summary</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em>, <em class="sig-param"><span class="n">compute_backend</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.core.summary.data_summary" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">data_describe.core.summary.</code><code class="sig-name descname">data_summary</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em>, <em class="sig-param"><span class="n">as_percentage</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">auto_float</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="n">compute_backend</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.core.summary.data_summary" title="Permalink to this definition">¶</a></dt>
 <dd><p>Summary statistics and data description.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>data</strong> – The dataframe</p></li>
+<li><p><strong>as_percentage</strong> (<em>bool</em>) – If True, display counts as percentage over total</p></li>
+<li><p><strong>auto_float</strong> (<em>bool</em>) – If True, apply formatting to float values</p></li>
 <li><p><strong>compute_backend</strong> – The compute backend.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>The dataframe with metrics in rows</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="data_describe.core.summary.mode1">
+<code class="sig-prename descclassname">data_describe.core.summary.</code><code class="sig-name descname">mode1</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.core.summary.mode1" title="Permalink to this definition">¶</a></dt>
+<dd><p>Mode (counts only) by Warren Weckesser.</p>
+<p><a class="reference external" href="https://stackoverflow.com/questions/46365859/what-is-the-fastest-way-to-get-the-mode-of-a-numpy-array">https://stackoverflow.com/questions/46365859/what-is-the-fastest-way-to-get-the-mode-of-a-numpy-array</a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>x</strong> – Input array</p>
 </dd>
 </dl>
 </dd></dl>
