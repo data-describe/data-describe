@@ -14,7 +14,7 @@ data-describe
    _notebooks/quick_start
    _notebooks/user_guide
    examples/index
-   _notebooks/developer_guide
+   _notebooks/contributing_guide
    design
    API Reference <data_describe/index>
 

@@ -41,7 +41,7 @@
     
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Developer Guide" href="../_notebooks/developer_guide.html" />
+    <link rel="next" title="Contributing Guide" href="../_notebooks/contributing_guide.html" />
     <link rel="prev" title="Time Series" href="time_series.html" /> 
 </head>
 
@@ -113,7 +113,7 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../_notebooks/developer_guide.html">Developer Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../_notebooks/contributing_guide.html">Contributing Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../design.html">Design Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../data_describe/index.html">API Reference</a></li>
 </ul>
@@ -582,72 +582,72 @@ div.rendered_html tbody tr:hover {
     <tr>
       <th>Term 1</th>
       <td>|&gt;</td>
-      <td>0.025</td>
-      <td>&gt;&gt;</td>
-      <td>0.014</td>
-    </tr>
-    <tr>
-      <th>Term 2</th>
-      <td>:</td>
-      <td>0.009</td>
-      <td>:</td>
+      <td>0.017</td>
+      <td>|&gt;</td>
       <td>0.010</td>
     </tr>
     <tr>
+      <th>Term 2</th>
+      <td>&gt;&gt;</td>
+      <td>0.013</td>
+      <td>God</td>
+      <td>0.007</td>
+    </tr>
+    <tr>
       <th>Term 3</th>
+      <td>:</td>
+      <td>0.013</td>
       <td>-</td>
       <td>0.005</td>
-      <td>God</td>
-      <td>0.006</td>
     </tr>
     <tr>
       <th>Term 4</th>
       <td>God</td>
       <td>0.005</td>
-      <td>|</td>
+      <td>evidence</td>
       <td>0.004</td>
     </tr>
     <tr>
       <th>Term 5</th>
-      <td>much</td>
+      <td>-</td>
       <td>0.004</td>
-      <td>them</td>
+      <td>:</td>
       <td>0.004</td>
     </tr>
     <tr>
       <th>Term 6</th>
-      <td>those</td>
+      <td>atheists</td>
       <td>0.004</td>
-      <td>had</td>
+      <td>moral</td>
       <td>0.004</td>
     </tr>
     <tr>
       <th>Term 7</th>
-      <td>way</td>
-      <td>0.003</td>
-      <td>|&gt;</td>
+      <td>those</td>
+      <td>0.004</td>
+      <td>our</td>
       <td>0.004</td>
     </tr>
     <tr>
       <th>Term 8</th>
-      <td>time</td>
-      <td>0.003</td>
-      <td>-</td>
+      <td>|</td>
       <td>0.004</td>
-    </tr>
-    <tr>
-      <th>Term 9</th>
-      <td>atheists</td>
-      <td>0.003</td>
       <td>these</td>
       <td>0.004</td>
     </tr>
     <tr>
-      <th>Term 10</th>
-      <td>may</td>
+      <th>Term 9</th>
+      <td>A</td>
       <td>0.003</td>
-      <td>atheists</td>
-      <td>0.004</td>
+      <td>Jesus</td>
+      <td>0.003</td>
+    </tr>
+    <tr>
+      <th>Term 10</th>
+      <td>had</td>
+      <td>0.003</td>
+      <td>them</td>
+      <td>0.003</td>
     </tr>
   </tbody>
 </table>
@@ -659,7 +659,7 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;data_describe.text.topic_modeling.TopicModelWidget at 0x1948779a948&gt;
+&lt;data_describe.text.topic_modeling.TopicModelWidget at 0x1acc7c5c908&gt;
 </pre></div></div>
 </div>
 </div>
@@ -670,7 +670,8 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">lda_model</span> <span class="o">=</span> <span class="n">topic_model</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="n">num_topics</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span></span><span class="o">%%time</span>
+<span class="n">lda_model</span> <span class="o">=</span> <span class="n">topic_model</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="n">num_topics</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">min_topics</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">max_topics</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
 <span class="n">lda_model</span>
 </pre></div>
 </div>
@@ -680,7 +681,18 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-DeprecationWarning: `should_run_async` will not call `transform_cell` automatically in the future. Please pass the result to `transformed_cell` argument and any exception that happen during thetransform in `preprocessing_exc_tuple` in IPython 7.17 and above.
+C:\Users\David\.conda\envs\test-env\lib\site-packages\ipykernel\ipkernel.py:287: DeprecationWarning:
+
+`should_run_async` will not call `transform_cell` automatically in the future. Please pass the result to `transformed_cell` argument and any exception that happen during thetransform in `preprocessing_exc_tuple` in IPython 7.17 and above.
+
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Wall time: 1min 16s
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -713,71 +725,39 @@ DeprecationWarning: `should_run_async` will not call `transform_cell` automatica
       <th>Topic 3 Coefficient Value</th>
       <th>Topic 4</th>
       <th>Topic 4 Coefficient Value</th>
-      <th>Topic 5</th>
-      <th>Topic 5 Coefficient Value</th>
-      <th>Topic 6</th>
-      <th>Topic 6 Coefficient Value</th>
-      <th>Topic 7</th>
-      <th>Topic 7 Coefficient Value</th>
-      <th>Topic 8</th>
-      <th>Topic 8 Coefficient Value</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <th>Term 1</th>
       <td>&gt;&gt;</td>
-      <td>0.008</td>
+      <td>0.019</td>
       <td>God</td>
-      <td>0.010</td>
+      <td>0.009</td>
+      <td>|&gt;</td>
+      <td>0.042</td>
       <td>:</td>
-      <td>0.031</td>
-      <td>&gt;&gt;</td>
-      <td>0.013</td>
-      <td>|&gt;</td>
-      <td>0.021</td>
-      <td>&gt;&gt;</td>
-      <td>0.010</td>
-      <td>|&gt;</td>
-      <td>0.071</td>
-      <td>&gt;&gt;</td>
-      <td>0.026</td>
+      <td>0.014</td>
     </tr>
     <tr>
       <th>Term 2</th>
-      <td>had</td>
-      <td>0.006</td>
-      <td>|</td>
-      <td>0.008</td>
-      <td>-</td>
-      <td>0.007</td>
-      <td>God</td>
-      <td>0.008</td>
-      <td>system</td>
-      <td>0.006</td>
-      <td>evidence</td>
-      <td>0.005</td>
       <td>:</td>
-      <td>0.016</td>
-      <td>Jesus</td>
-      <td>0.007</td>
+      <td>0.009</td>
+      <td>-</td>
+      <td>0.006</td>
+      <td>:</td>
+      <td>0.010</td>
+      <td>&gt;&gt;</td>
+      <td>0.008</td>
     </tr>
     <tr>
       <th>Term 3</th>
-      <td>|</td>
+      <td>|&gt;</td>
+      <td>0.006</td>
+      <td>argument</td>
       <td>0.005</td>
       <td>-</td>
-      <td>0.007</td>
-      <td>God</td>
-      <td>0.006</td>
-      <td>atheists</td>
       <td>0.005</td>
-      <td>Schneider)</td>
-      <td>0.006</td>
-      <td>am</td>
-      <td>0.005</td>
-      <td>&gt;&gt;</td>
-      <td>0.007</td>
       <td>God</td>
       <td>0.006</td>
     </tr>
@@ -785,134 +765,78 @@ DeprecationWarning: `should_run_async` will not call `transform_cell` automatica
       <th>Term 4</th>
       <td>-</td>
       <td>0.005</td>
-      <td>atheists</td>
-      <td>0.005</td>
-      <td>also</td>
-      <td>0.005</td>
-      <td>those</td>
-      <td>0.005</td>
-      <td>keith@cco.caltech.edu</td>
-      <td>0.006</td>
-      <td>objective</td>
+      <td>evidence</td>
       <td>0.004</td>
-      <td>Livesey)</td>
-      <td>0.007</td>
+      <td>God</td>
+      <td>0.005</td>
       <td>them</td>
-      <td>0.006</td>
+      <td>0.005</td>
     </tr>
     <tr>
       <th>Term 5</th>
-      <td>God</td>
-      <td>0.005</td>
-      <td>those</td>
-      <td>0.005</td>
-      <td>Islamic</td>
-      <td>0.005</td>
-      <td>moral</td>
-      <td>0.005</td>
-      <td>am</td>
-      <td>0.005</td>
-      <td>world</td>
-      <td>0.004</td>
-      <td>(Jon</td>
-      <td>0.006</td>
-      <td>things</td>
-      <td>0.006</td>
-    </tr>
-    <tr>
-      <th>Term 6</th>
-      <td>evidence</td>
-      <td>0.004</td>
-      <td>For</td>
+      <td>atheists</td>
       <td>0.005</td>
       <td>our</td>
       <td>0.004</td>
-      <td>religious</td>
+      <td>|</td>
       <td>0.005</td>
-      <td>Allan</td>
-      <td>0.005</td>
-      <td>read</td>
+      <td>evidence</td>
       <td>0.004</td>
-      <td>livesey@solntze.wpd.sgi.com</td>
-      <td>0.006</td>
-      <td>atheists</td>
+    </tr>
+    <tr>
+      <th>Term 6</th>
+      <td>God</td>
+      <td>0.004</td>
+      <td>moral</td>
+      <td>0.004</td>
+      <td>(Jon</td>
       <td>0.005</td>
+      <td>Jesus</td>
+      <td>0.004</td>
     </tr>
     <tr>
       <th>Term 7</th>
-      <td>time</td>
+      <td>had</td>
       <td>0.004</td>
-      <td>Islam</td>
+      <td>these</td>
       <td>0.004</td>
-      <td>A</td>
+      <td>Livesey)</td>
       <td>0.004</td>
-      <td>-</td>
-      <td>0.004</td>
-      <td>Institute</td>
-      <td>0.004</td>
-      <td>take</td>
-      <td>0.004</td>
-      <td>God</td>
-      <td>0.005</td>
-      <td>evidence</td>
+      <td>our</td>
       <td>0.004</td>
     </tr>
     <tr>
       <th>Term 8</th>
-      <td>it.</td>
+      <td>those</td>
       <td>0.004</td>
-      <td>religion</td>
+      <td>Islamic</td>
       <td>0.004</td>
-      <td>may</td>
+      <td>moral</td>
       <td>0.004</td>
-      <td>our</td>
-      <td>0.004</td>
-      <td>objective</td>
-      <td>0.004</td>
-      <td>|&gt;</td>
-      <td>0.004</td>
-      <td>them</td>
-      <td>0.004</td>
-      <td>it.</td>
+      <td>those</td>
       <td>0.004</td>
     </tr>
     <tr>
       <th>Term 9</th>
-      <td>We</td>
+      <td>its</td>
       <td>0.004</td>
-      <td>&gt;&gt;</td>
+      <td>had</td>
       <td>0.004</td>
-      <td>Islam</td>
-      <td>0.004</td>
-      <td>way</td>
+      <td>livesey@solntze.wpd.sgi.com</td>
       <td>0.004</td>
       <td>these</td>
-      <td>0.004</td>
-      <td>almost</td>
-      <td>0.004</td>
-      <td>moral</td>
-      <td>0.004</td>
-      <td>-</td>
-      <td>0.004</td>
+      <td>0.003</td>
     </tr>
     <tr>
       <th>Term 10</th>
-      <td>|&gt;</td>
-      <td>0.004</td>
-      <td>way</td>
-      <td>0.004</td>
-      <td>much</td>
-      <td>0.003</td>
-      <td>may</td>
-      <td>0.004</td>
-      <td>keith</td>
-      <td>0.004</td>
-      <td>atheists</td>
-      <td>0.003</td>
       <td>A</td>
       <td>0.004</td>
-      <td>They</td>
+      <td>For</td>
       <td>0.004</td>
+      <td>it.</td>
+      <td>0.004</td>
+      <td>read</td>
+      <td>0.003</td>
     </tr>
   </tbody>
 </table>
@@ -924,7 +848,7 @@ DeprecationWarning: `should_run_async` will not call `transform_cell` automatica
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;data_describe.text.topic_modeling.TopicModelWidget at 0x194888dedc8&gt;
+&lt;data_describe.text.topic_modeling.TopicModelWidget at 0x1acc664e408&gt;
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
@@ -941,8 +865,10 @@ DeprecationWarning: `should_run_async` will not call `transform_cell` automatica
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-DeprecationWarning: `should_run_async` will not call `transform_cell` automatically in the future. Please pass the result to `transformed_cell` argument and any exception that happen during thetransform in `preprocessing_exc_tuple` in IPython 7.17 and above.
-DeprecationWarning: Using or importing the ABCs from &#39;collections&#39; instead of from &#39;collections.abc&#39; is deprecated since Python 3.3,and in 3.9 it will stop working
+C:\Users\David\.conda\envs\test-env\lib\site-packages\ipykernel\ipkernel.py:287: DeprecationWarning:
+
+`should_run_async` will not call `transform_cell` automatically in the future. Please pass the result to `transformed_cell` argument and any exception that happen during thetransform in `preprocessing_exc_tuple` in IPython 7.17 and above.
+
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -969,6 +895,15 @@ DeprecationWarning: Using or importing the ABCs from &#39;collections&#39; inste
 &lt;Figure size 720x720 with 0 Axes&gt;
 </pre></div></div>
 </div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span>
+</pre></div>
+</div>
+</div>
 </div>
 </div>
 
@@ -980,7 +915,7 @@ DeprecationWarning: Using or importing the ABCs from &#39;collections&#39; inste
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../_notebooks/developer_guide.html" class="btn btn-neutral float-right" title="Developer Guide" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="../_notebooks/contributing_guide.html" class="btn btn-neutral float-right" title="Contributing Guide" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="time_series.html" class="btn btn-neutral float-left" title="Time Series" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

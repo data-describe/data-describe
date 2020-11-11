@@ -107,7 +107,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="user_guide.html">User Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../examples/index.html">Examples</a></li>
-<li class="toctree-l1"><a class="reference internal" href="developer_guide.html">Developer Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing_guide.html">Contributing Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../design.html">Design Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../data_describe/index.html">API Reference</a></li>
 </ul>
@@ -435,7 +435,7 @@ div.rendered_html tbody tr:hover {
 <p>This notebook shows an example Exploratory Data Analysis utilizing data-describe.</p>
 <p>Note: Part of this notebook uses optional dependencies for text analysis. To install these dependencies, run <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">data-describe[nlp]</span></code></p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -447,7 +447,7 @@ div.rendered_html tbody tr:hover {
 <h2>Data<a class="headerlink" href="#Data" title="Permalink to this headline">¶</a></h2>
 <p>This tutorial uses toy datasets from sklearn.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -457,7 +457,7 @@ div.rendered_html tbody tr:hover {
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -468,7 +468,7 @@ div.rendered_html tbody tr:hover {
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -477,7 +477,7 @@ div.rendered_html tbody tr:hover {
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -626,7 +626,7 @@ div.rendered_html tbody tr:hover {
 <li><p>MEDV Median value of owner-occupied homes in $1000’s</p></li>
 </ul>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -635,7 +635,7 @@ div.rendered_html tbody tr:hover {
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -645,7 +645,7 @@ div.rendered_html tbody tr:hover {
 </div>
 <p>First we inspect some of the overall statistics about the data. Some examples of interesting things to note: - 93% of <code class="docutils literal notranslate"><span class="pre">CHAS</span></code> are the same value, zero - <code class="docutils literal notranslate"><span class="pre">ZN</span></code> also has a high amount of zeros - The mean of <code class="docutils literal notranslate"><span class="pre">TAX</span></code> is significantly higher than the median, suggesting this is right-skewed</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -653,9 +653,8 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 </div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
-</pre></div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area rendered_html docutils container">
 <div>
@@ -850,9 +849,18 @@ div.rendered_html tbody tr:hover {
 </table>
 </div></div>
 </div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+data-describe Summary Widget
+</pre></div></div>
+</div>
 <p>We can also look at a visual representation of the data as a heatmap:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -861,24 +869,25 @@ div.rendered_html tbody tr:hover {
 </div>
 </div>
 <div class="nboutput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/_notebooks_quick_start_12_0.png" src="../_images/_notebooks_quick_start_12_0.png" />
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&amp;lt;AxesSubplot:title={&amp;#39;center&amp;#39;:&amp;#39;Data Heatmap&amp;#39;}, xlabel=&amp;#39;Record #&amp;#39;, ylabel=&amp;#39;Variable&amp;#39;&amp;gt;
+Heatmap Widget showing standardized values.
 </pre></div></div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/_notebooks_quick_start_12_1.svg" src="../_images/_notebooks_quick_start_12_1.svg" /></div>
 </div>
 <p>There are some sections of the data which have exactly the same values for some columns. For example, <code class="docutils literal notranslate"><span class="pre">RAD</span></code> = 1.661245 between record number 356 ~ 487. Similar patterns appear for <code class="docutils literal notranslate"><span class="pre">INDUS</span></code> and <code class="docutils literal notranslate"><span class="pre">TAX</span></code>. Is this a sorting issue or is there something else going on? Some additional investigation into data collection may answer these questions.</p>
 <p>We can also look at the correlations:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -891,28 +900,29 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&amp;lt;AxesSubplot:title={&amp;#39;center&amp;#39;:&amp;#39;Correlation Matrix&amp;#39;}&amp;gt;
+&lt;AxesSubplot:title={&#39;center&#39;:&#39;Correlation Matrix&#39;}&gt;
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&amp;lt;data_describe.core.correlation.CorrelationMatrixWidget at 0x23d777a9d88&amp;gt;
+&lt;data_describe.core.correlation.CorrelationWidget at 0x2c7eb93eac8&gt;
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/_notebooks_quick_start_15_2.svg" src="../_images/_notebooks_quick_start_15_2.svg" /></div>
+<img alt="../_images/_notebooks_quick_start_15_2.png" src="../_images/_notebooks_quick_start_15_2.png" />
+</div>
 </div>
 <p>Features like <code class="docutils literal notranslate"><span class="pre">AGE</span></code> and <code class="docutils literal notranslate"><span class="pre">DIS</span></code> appear to be inversely correlated. <code class="docutils literal notranslate"><span class="pre">CHAS</span></code> doesn’t appear to have strong correlation with any other feature.</p>
 <p>It might also help to re-order the features for comparisons using the <code class="docutils literal notranslate"><span class="pre">cluster</span></code> argument.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -925,23 +935,24 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&amp;lt;AxesSubplot:title={&amp;#39;center&amp;#39;:&amp;#39;Correlation Matrix&amp;#39;}&amp;gt;
+&lt;AxesSubplot:title={&#39;center&#39;:&#39;Correlation Matrix&#39;}&gt;
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&amp;lt;data_describe.core.correlation.CorrelationMatrixWidget at 0x23d35e2fe48&amp;gt;
+&lt;data_describe.core.correlation.CorrelationWidget at 0x2c7eb93ea48&gt;
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/_notebooks_quick_start_17_2.svg" src="../_images/_notebooks_quick_start_17_2.svg" /></div>
+<img alt="../_images/_notebooks_quick_start_17_2.png" src="../_images/_notebooks_quick_start_17_2.png" />
+</div>
 </div>
 <p>From this plot we can observe there are are two groups of inversely related features: <code class="docutils literal notranslate"><span class="pre">PTRATIO</span></code> to <code class="docutils literal notranslate"><span class="pre">NOX</span></code> and <code class="docutils literal notranslate"><span class="pre">B</span></code> to <code class="docutils literal notranslate"><span class="pre">DIS</span></code>.</p>
 </div>
@@ -950,7 +961,7 @@ div.rendered_html tbody tr:hover {
 <p>We can also do some more detailed inspection of individual features.</p>
 <p>We can show histograms and violin plots of each numeric feature using the <code class="docutils literal notranslate"><span class="pre">dd.distribution</span></code> function.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -965,89 +976,103 @@ div.rendered_html tbody tr:hover {
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/_notebooks_quick_start_21_0.svg" src="../_images/_notebooks_quick_start_21_0.svg" /></div>
+<img alt="../_images/_notebooks_quick_start_21_0.png" src="../_images/_notebooks_quick_start_21_0.png" />
+</div>
 </div>
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/_notebooks_quick_start_21_1.svg" src="../_images/_notebooks_quick_start_21_1.svg" /></div>
+<img alt="../_images/_notebooks_quick_start_21_1.png" src="../_images/_notebooks_quick_start_21_1.png" />
+</div>
 </div>
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/_notebooks_quick_start_21_2.svg" src="../_images/_notebooks_quick_start_21_2.svg" /></div>
+<img alt="../_images/_notebooks_quick_start_21_2.png" src="../_images/_notebooks_quick_start_21_2.png" />
+</div>
 </div>
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/_notebooks_quick_start_21_3.svg" src="../_images/_notebooks_quick_start_21_3.svg" /></div>
+<img alt="../_images/_notebooks_quick_start_21_3.png" src="../_images/_notebooks_quick_start_21_3.png" />
+</div>
 </div>
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/_notebooks_quick_start_21_4.svg" src="../_images/_notebooks_quick_start_21_4.svg" /></div>
+<img alt="../_images/_notebooks_quick_start_21_4.png" src="../_images/_notebooks_quick_start_21_4.png" />
+</div>
 </div>
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/_notebooks_quick_start_21_5.svg" src="../_images/_notebooks_quick_start_21_5.svg" /></div>
+<img alt="../_images/_notebooks_quick_start_21_5.png" src="../_images/_notebooks_quick_start_21_5.png" />
+</div>
 </div>
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/_notebooks_quick_start_21_6.svg" src="../_images/_notebooks_quick_start_21_6.svg" /></div>
+<img alt="../_images/_notebooks_quick_start_21_6.png" src="../_images/_notebooks_quick_start_21_6.png" />
+</div>
 </div>
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/_notebooks_quick_start_21_7.svg" src="../_images/_notebooks_quick_start_21_7.svg" /></div>
+<img alt="../_images/_notebooks_quick_start_21_7.png" src="../_images/_notebooks_quick_start_21_7.png" />
+</div>
 </div>
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/_notebooks_quick_start_21_8.svg" src="../_images/_notebooks_quick_start_21_8.svg" /></div>
+<img alt="../_images/_notebooks_quick_start_21_8.png" src="../_images/_notebooks_quick_start_21_8.png" />
+</div>
 </div>
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/_notebooks_quick_start_21_9.svg" src="../_images/_notebooks_quick_start_21_9.svg" /></div>
+<img alt="../_images/_notebooks_quick_start_21_9.png" src="../_images/_notebooks_quick_start_21_9.png" />
+</div>
 </div>
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/_notebooks_quick_start_21_10.svg" src="../_images/_notebooks_quick_start_21_10.svg" /></div>
+<img alt="../_images/_notebooks_quick_start_21_10.png" src="../_images/_notebooks_quick_start_21_10.png" />
+</div>
 </div>
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/_notebooks_quick_start_21_11.svg" src="../_images/_notebooks_quick_start_21_11.svg" /></div>
+<img alt="../_images/_notebooks_quick_start_21_11.png" src="../_images/_notebooks_quick_start_21_11.png" />
+</div>
 </div>
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/_notebooks_quick_start_21_12.svg" src="../_images/_notebooks_quick_start_21_12.svg" /></div>
+<img alt="../_images/_notebooks_quick_start_21_12.png" src="../_images/_notebooks_quick_start_21_12.png" />
+</div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/_notebooks_quick_start_21_13.svg" src="../_images/_notebooks_quick_start_21_13.svg" /></div>
+<img alt="../_images/_notebooks_quick_start_21_13.png" src="../_images/_notebooks_quick_start_21_13.png" />
+</div>
 </div>
 <p>We can also look at bivariate distributions using scatter plots. In addition to plotting all pairs in a scatterplot matrix, we can also specify a filter for certain scatterplot diagnostic features.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -1056,22 +1081,31 @@ div.rendered_html tbody tr:hover {
 </div>
 </div>
 <div class="nboutput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;seaborn.axisgrid.PairGrid at 0x2c7ebafac48&gt;
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&amp;lt;seaborn.axisgrid.PairGrid at 0x23d37980648&amp;gt;
+data-describe Scatter Plot Widget
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/_notebooks_quick_start_23_1.svg" src="../_images/_notebooks_quick_start_23_1.svg" /></div>
+<img alt="../_images/_notebooks_quick_start_23_2.png" src="../_images/_notebooks_quick_start_23_2.png" />
+</div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -1080,19 +1114,28 @@ div.rendered_html tbody tr:hover {
 </div>
 </div>
 <div class="nboutput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;seaborn.axisgrid.PairGrid at 0x2c7f43880c8&gt;
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&amp;lt;seaborn.axisgrid.PairGrid at 0x23d7fd716c8&amp;gt;
+data-describe Scatter Plot Widget
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/_notebooks_quick_start_24_1.svg" src="../_images/_notebooks_quick_start_24_1.svg" /></div>
+<img alt="../_images/_notebooks_quick_start_24_2.png" src="../_images/_notebooks_quick_start_24_2.png" />
+</div>
 </div>
 </div>
 <div class="section" id="Advanced-Analysis">
@@ -1102,7 +1145,7 @@ div.rendered_html tbody tr:hover {
 <h3>Cluster Analysis<a class="headerlink" href="#Cluster-Analysis" title="Permalink to this headline">¶</a></h3>
 <p>What segments or groups are present in the data?</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -1115,23 +1158,24 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&amp;lt;AxesSubplot:title={&amp;#39;center&amp;#39;:&amp;#39;kmeans Cluster&amp;#39;}, xlabel=&amp;#39;Component 1 (47.0% variance explained)&amp;#39;, ylabel=&amp;#39;Component 2 (12.0% variance explained)&amp;#39;&amp;gt;
+&lt;AxesSubplot:title={&#39;center&#39;:&#39;kmeans Cluster&#39;}, xlabel=&#39;Component 1 (47.0% variance explained)&#39;, ylabel=&#39;Component 2 (12.0% variance explained)&#39;&gt;
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&amp;lt;data_describe.core.clustering.KmeansClusterWidget at 0x23d8530c4c8&amp;gt;
+Cluster Widget using kmeans
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/_notebooks_quick_start_27_2.svg" src="../_images/_notebooks_quick_start_27_2.svg" /></div>
+<img alt="../_images/_notebooks_quick_start_27_2.png" src="../_images/_notebooks_quick_start_27_2.png" />
+</div>
 </div>
 <p>From this plot, we see that there does not appear to be strongly distinct clusters in the data.</p>
 </div>
@@ -1139,7 +1183,7 @@ div.rendered_html tbody tr:hover {
 <h3>Feature Importance<a class="headerlink" href="#Feature-Importance" title="Permalink to this headline">¶</a></h3>
 <p>Which features are most predictive of price? We use Random Forest as a baseline model to test for importance.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -1148,7 +1192,7 @@ div.rendered_html tbody tr:hover {
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -1157,19 +1201,20 @@ div.rendered_html tbody tr:hover {
 </div>
 </div>
 <div class="nboutput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Text(0.5, 1.0, &amp;#39;Feature Importance&amp;#39;)
+Text(0.5, 1.0, &#39;Feature Importance&#39;)
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/_notebooks_quick_start_32_1.svg" src="../_images/_notebooks_quick_start_32_1.svg" /></div>
+<img alt="../_images/_notebooks_quick_start_32_1.png" src="../_images/_notebooks_quick_start_32_1.png" />
+</div>
 </div>
 <p>It appears that <code class="docutils literal notranslate"><span class="pre">LSTAT</span></code> and <code class="docutils literal notranslate"><span class="pre">RM</span></code> are most important for predicting price.</p>
 </div>
@@ -1177,7 +1222,7 @@ Text(0.5, 1.0, &amp;#39;Feature Importance&amp;#39;)
 <h3>Topic Modeling<a class="headerlink" href="#Topic-Modeling" title="Permalink to this headline">¶</a></h3>
 <p>Since the Boston housing data set does not contain textual features, the 20 newsgroups text dataset is used to demonstrate the <strong>Topic Modeling</strong> widget.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -1186,7 +1231,7 @@ Text(0.5, 1.0, &amp;#39;Feature Importance&amp;#39;)
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -1197,7 +1242,7 @@ Text(0.5, 1.0, &amp;#39;Feature Importance&amp;#39;)
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -1206,7 +1251,7 @@ Text(0.5, 1.0, &amp;#39;Feature Importance&amp;#39;)
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -1233,24 +1278,24 @@ Text(0.5, 1.0, &amp;#39;Feature Importance&amp;#39;)
   </thead>
   <tbody>
     <tr>
-      <th>3655</th>
-      <td>From: glk9533@tm0006.lerc.nasa.gov (Greg L. Ki...</td>
+      <th>3078</th>
+      <td>From: cka52397@uxa.cso.uiuc.edu (OrioleFan@uiu...</td>
     </tr>
     <tr>
-      <th>4048</th>
-      <td>From: mlee@post.RoyalRoads.ca (Malcolm Lee)\nS...</td>
+      <th>4698</th>
+      <td>From: tervio@katk.Helsinki.FI (TERVI| MARKO J)...</td>
     </tr>
     <tr>
-      <th>2079</th>
-      <td>From: whoughto@diana.cair.du.edu (Wes Houghton...</td>
+      <th>6712</th>
+      <td>From: db7n+@andrew.cmu.edu (D. Andrew Byler)\n...</td>
     </tr>
     <tr>
-      <th>1629</th>
-      <td>From: keng@den.mmc.com (Ken Garrido)\nSubject:...</td>
+      <th>2161</th>
+      <td>From: trumpins@alexia.lis.uiuc.edu (Barbara Tr...</td>
     </tr>
     <tr>
-      <th>6135</th>
-      <td>From: as010b@uhura.cc.rochester.edu (Tree of S...</td>
+      <th>732</th>
+      <td>From: hallg@lead.egr.msu.edu (Gregory Hall)\nS...</td>
     </tr>
   </tbody>
 </table>
@@ -1258,7 +1303,7 @@ Text(0.5, 1.0, &amp;#39;Feature Importance&amp;#39;)
 </div>
 <p>Text preprocessing can be applied before topic modeling to improve accuracy.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -1269,7 +1314,7 @@ Text(0.5, 1.0, &amp;#39;Feature Importance&amp;#39;)
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -1278,7 +1323,7 @@ Text(0.5, 1.0, &amp;#39;Feature Importance&amp;#39;)
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -1320,105 +1365,105 @@ Text(0.5, 1.0, &amp;#39;Feature Importance&amp;#39;)
   <tbody>
     <tr>
       <th>Term 1</th>
-      <td>people</td>
-      <td>0.033</td>
-      <td>bit</td>
-      <td>0.023</td>
-      <td>paul</td>
-      <td>0.028</td>
+      <td>many</td>
+      <td>0.019</td>
+      <td>ca</td>
+      <td>0.041</td>
+      <td>file</td>
+      <td>0.034</td>
     </tr>
     <tr>
       <th>Term 2</th>
-      <td>may</td>
-      <td>0.022</td>
-      <td>paul</td>
-      <td>0.021</td>
+      <td>even</td>
+      <td>0.016</td>
+      <td>file</td>
+      <td>0.016</td>
       <td>use</td>
-      <td>0.026</td>
+      <td>0.022</td>
     </tr>
     <tr>
       <th>Term 3</th>
-      <td>right</td>
-      <td>0.022</td>
-      <td>two</td>
-      <td>0.017</td>
-      <td>much</td>
-      <td>0.024</td>
+      <td>may</td>
+      <td>0.015</td>
+      <td>well</td>
+      <td>0.015</td>
+      <td>see</td>
+      <td>0.018</td>
     </tr>
     <tr>
       <th>Term 4</th>
-      <td>even</td>
-      <td>0.021</td>
-      <td>really</td>
-      <td>0.016</td>
-      <td>may</td>
-      <td>0.020</td>
+      <td>anyone</td>
+      <td>0.014</td>
+      <td>much</td>
+      <td>0.015</td>
+      <td>software</td>
+      <td>0.017</td>
     </tr>
     <tr>
       <th>Term 5</th>
-      <td>many</td>
-      <td>0.017</td>
-      <td>well</td>
-      <td>0.015</td>
-      <td>good</td>
-      <td>0.015</td>
+      <td>say</td>
+      <td>0.013</td>
+      <td>see</td>
+      <td>0.014</td>
+      <td>may</td>
+      <td>0.014</td>
     </tr>
     <tr>
       <th>Term 6</th>
-      <td>said</td>
-      <td>0.016</td>
-      <td>use</td>
-      <td>0.014</td>
-      <td>even</td>
-      <td>0.015</td>
+      <td>world</td>
+      <td>0.012</td>
+      <td>may</td>
+      <td>0.012</td>
+      <td>much</td>
+      <td>0.013</td>
     </tr>
     <tr>
       <th>Term 7</th>
-      <td>say</td>
-      <td>0.016</td>
-      <td>need</td>
-      <td>0.014</td>
-      <td>world</td>
-      <td>0.014</td>
+      <td>see</td>
+      <td>0.012</td>
+      <td>government</td>
+      <td>0.011</td>
+      <td>many</td>
+      <td>0.013</td>
     </tr>
     <tr>
       <th>Term 8</th>
+      <td>file</td>
+      <td>0.012</td>
+      <td>game</td>
+      <td>0.011</td>
       <td>good</td>
-      <td>0.014</td>
-      <td>problem</td>
-      <td>0.014</td>
-      <td>thanks</td>
-      <td>0.014</td>
+      <td>0.013</td>
     </tr>
     <tr>
       <th>Term 9</th>
-      <td>world</td>
-      <td>0.014</td>
-      <td>please</td>
-      <td>0.014</td>
-      <td>since</td>
-      <td>0.014</td>
+      <td>first</td>
+      <td>0.012</td>
+      <td>someone</td>
+      <td>0.011</td>
+      <td>work</td>
+      <td>0.012</td>
     </tr>
     <tr>
       <th>Term 10</th>
-      <td>use</td>
-      <td>0.014</td>
-      <td>case</td>
-      <td>0.013</td>
-      <td>using</td>
-      <td>0.014</td>
+      <td>car</td>
+      <td>0.012</td>
+      <td>anything</td>
+      <td>0.011</td>
+      <td>make</td>
+      <td>0.012</td>
     </tr>
   </tbody>
 </table>
 </div></div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&amp;lt;data_describe.text.topic_modeling.TopicModelWidget at 0x23d8a068708&amp;gt;
+&lt;data_describe.text.topic_modeling.TopicModelWidget at 0x2c7eef339c8&gt;
 </pre></div></div>
 </div>
 <script type="application/vnd.jupyter.widget-state+json">

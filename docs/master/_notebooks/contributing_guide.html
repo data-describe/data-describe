@@ -1,0 +1,887 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Contributing Guide &mdash; data-describe  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/style.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../_static/favicon.png"/>
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Design Reference" href="../design.html" />
+    <link rel="prev" title="Topic Modeling" href="../examples/topic_modeling.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html">
+          
+
+          
+            
+            <img src="../_static/logo.svg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quick_start.html">Quick Start Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="user_guide.html">User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/index.html">Examples</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Contributing Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#Contributing-to-data-describe">Contributing to data-describe</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Code-of-Conduct">Code of Conduct</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Getting-Started---Issues">Getting Started - Issues</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Filing-a-bug-report">Filing a bug report</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Filing-a-Feature-Request-(Enhancement)">Filing a Feature Request (Enhancement)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#Finding-something-to-work-on">Finding something to work on</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Claiming/assigning-an-issue">Claiming/assigning an issue</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#Using-Git-/-GitHub">Using Git / GitHub</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Advanced-Git-Practices">Advanced Git Practices</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Rebase">Rebase</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Updating-your-Fork">Updating your Fork</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#Pull-Request-Conventions">Pull Request Conventions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Python-Developer-Environment">Python Developer Environment</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Python-Extension-Configuration">Python Extension Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Pre-commit">Pre-commit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Docstring-Checks">Docstring Checks</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Automatic-Documentation">Automatic Documentation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Notebook-Execution">Notebook Execution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Notebook-Update">Notebook Update</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Sphinx-Build">Sphinx Build</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Manual-Build">Manual Build</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Testing">Testing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Test-Environment">Test Environment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Running-the-full-test-suite">Running the full test suite</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Running-a-selected-test-file-or-function">Running a selected test file or function</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Running-selected-marked-tests">Running selected marked tests</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Design-Patterns">Design Patterns</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Optional-Dependencies">Optional Dependencies</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#_requires-marks-functionality-that-requires-a-dependency"><code class="docutils literal notranslate"><span class="pre">_requires</span></code> marks functionality that requires a dependency</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#_compat-is-used-to-lazily-import-from-dependencies"><code class="docutils literal notranslate"><span class="pre">_compat</span></code> is used to lazily import from dependencies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#packages-vs-subpackages">packages vs subpackages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Side-imports">Side imports</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Add-to-extras_require-in-setup.py">Add to <code class="docutils literal notranslate"><span class="pre">extras_require</span></code> in setup.py</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Add-to-conda-environments">Add to conda environments</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Example-notebooks">Example notebooks</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Notebook-Naming-Convention">Notebook Naming Convention</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Notebook-Structure">Notebook Structure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id1">Notebook Execution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Notebook-Testing">Notebook Testing</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../design.html">Design Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../data_describe/index.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">data-describe</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Contributing Guide</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/_notebooks/contributing_guide.ipynb.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput.container,
+div.nbinput.container div.prompt,
+div.nbinput.container div.input_area,
+div.nbinput.container div[class*=highlight],
+div.nbinput.container div[class*=highlight] pre,
+div.nboutput.container,
+div.nboutput.container div.prompt,
+div.nboutput.container div.output_area,
+div.nboutput.container div[class*=highlight],
+div.nboutput.container div[class*=highlight] pre {
+    background: none;
+    border: none;
+    padding: 0 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+/* avoid gaps between output lines */
+div.nboutput.container div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput.container,
+div.nboutput.container {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput.container,
+    div.nboutput.container {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput.container {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast.container {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput.container div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput.container div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput.container div.prompt,
+div.nboutput.container div.prompt {
+    width: 4.5ex;
+    padding-top: 5px;
+    position: relative;
+    user-select: none;
+}
+
+div.nbinput.container div.prompt > div,
+div.nboutput.container div.prompt > div {
+    position: absolute;
+    right: 0;
+    margin-right: 0.3ex;
+}
+
+@media (max-width: 540px) {
+    div.nbinput.container div.prompt,
+    div.nboutput.container div.prompt {
+        width: unset;
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput.container div.prompt.empty {
+        padding: 0;
+    }
+
+    div.nbinput.container div.prompt > div,
+    div.nboutput.container div.prompt > div {
+        position: unset;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput.container div.prompt pre,
+div.nboutput.container div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput.container div.input_area,
+div.nboutput.container div.output_area {
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput.container div.input_area,
+    div.nboutput.container div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput.container div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    background: #f5f5f5;
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput.container div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput.container div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput.container div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+
+div.nbinput.container div.input_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight].math,
+div.nboutput.container div.output_area.rendered_html,
+div.nboutput.container div.output_area > div.output_javascript,
+div.nboutput.container div.output_area:not(.rendered_html) > img{
+    padding: 5px;
+}
+
+/* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
+div.nbinput.container div.input_area > div[class^='highlight'],
+div.nboutput.container div.output_area > div[class^='highlight']{
+    overflow-y: hidden;
+}
+
+/* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
+.prompt a.copybtn {
+    display: none;
+}
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="Contributing-Guide">
+<h1>Contributing Guide<a class="headerlink" href="#Contributing-Guide" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="Contributing-to-data-describe">
+<h2>Contributing to data-describe<a class="headerlink" href="#Contributing-to-data-describe" title="Permalink to this headline">¶</a></h2>
+<p>Thanks for taking the time to contribute to data-describe!</p>
+<div class="section" id="Code-of-Conduct">
+<h3>Code of Conduct<a class="headerlink" href="#Code-of-Conduct" title="Permalink to this headline">¶</a></h3>
+<p>All contributors are expected to abide by the <a class="reference external" href="https://github.com/data-describe/data-describe/blob/master/CODE_OF_CONDUCT.md">Code of Conduct</a>.</p>
+</div>
+<div class="section" id="Getting-Started---Issues">
+<h3>Getting Started - Issues<a class="headerlink" href="#Getting-Started---Issues" title="Permalink to this headline">¶</a></h3>
+<p>The “to do” task list for data-describe starts at the <a class="reference external" href="https://github.com/data-describe/data-describe/issues">Issues</a> page in Github. Issues generally fall under one of two categories: - <em>Bugs</em>: Parts of data-describe that aren’t working as they should - <em>Enhancements</em>: Ideas for additions or changes to data-describe to make it better</p>
+<blockquote>
+<div><p>Note: Before submitting a new issue, you should search the existing issues to make sure that it hasn’t already been reported.</p>
+</div></blockquote>
+<div class="section" id="Filing-a-bug-report">
+<h4>Filing a bug report<a class="headerlink" href="#Filing-a-bug-report" title="Permalink to this headline">¶</a></h4>
+<p>Bug reports are important in helping identify things that aren’t working in data-describe. Filing a bug report is straightforward: Head to the <a class="reference external" href="https://github.com/data-describe/data-describe/issues">Issues</a> page, click on the <a class="reference external" href="https://github.com/data-describe/data-describe/issues/new/choose">New issue</a> button, and select the <a class="reference external" href="https://github.com/data-describe/data-describe/issues/new?labels=bug&amp;template=bug_report.md">Bug Report</a> template to get started.</p>
+<p><img alt="New Bug Report" src="_notebooks/imgs/bug-report-page.png" /></p>
+<p>The first thing you’ll want to do is to create a short, descriptive title.</p>
+<p>Next, you’ll want to fill out the contents of the Bug Report. The contents have been pre-filled with a template with guidance on common details that should be included in a bug report. Here are a few quick tips on how to read and fill out the template:</p>
+<p>Some example sections are provided to help guide the contents of your report: <code class="docutils literal notranslate"><span class="pre">**</span> <span class="pre">Header</span> <span class="pre">Sections</span> <span class="pre">**</span></code></p>
+<p>Comment lines are added in the template to provide guidance and will not show in the final output: <code class="docutils literal notranslate"><span class="pre">&lt;!--</span> <span class="pre">Comments</span> <span class="pre">--&gt;</span></code> :</p>
+<p>Triple back-tick marks can be used to add code examples:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>```
+def python_code():
+```
+</pre></div>
+</div>
+</div>
+<div class="section" id="Filing-a-Feature-Request-(Enhancement)">
+<h4>Filing a Feature Request (Enhancement)<a class="headerlink" href="#Filing-a-Feature-Request-(Enhancement)" title="Permalink to this headline">¶</a></h4>
+<p>Filing a feature request follows the similar steps. However, since enhancements can be more subjective in nature than bug reports, it is recommended to follow the guidelines below when filing a feature request:</p>
+<ol class="arabic simple">
+<li><p><strong>Incremental changes</strong>: Small, incremental changes (for example, clarifying the labels on a plot, or extending configuration support for a feature) can be started by using the <a class="reference external" href="https://github.com/data-describe/data-describe/issues/new?labels=enhancement&amp;template=feature_request.md">Feature Request template</a> when creating a new issue. Even for small changes, it’s recommended to describe your thought process - how and/or why the enhancement would be beneficial.</p></li>
+<li><p><strong>Brand new features / Large Reworks / System Redesign</strong>: For brand new features or other enhancements that may involve large changes, a design document should be written to explain and document the scope of the changes. A template for this design document can be found in the repository at <code class="docutils literal notranslate"><span class="pre">docs/designs/TEMPLATE.md</span></code>. This document can be submitted in a Pull Request, which is described further below.</p></li>
+</ol>
+</div>
+</div>
+<div class="section" id="Finding-something-to-work-on">
+<h3>Finding something to work on<a class="headerlink" href="#Finding-something-to-work-on" title="Permalink to this headline">¶</a></h3>
+<p>For first time contributors, jumping head first into squashing bugs or designing new features can be overwhelming. It may be easiest to start by searching for the <a class="reference external" href="https://github.com/data-describe/data-describe/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22">good first issue label</a>. Issues that are tagged as <em>good first issue</em> typically involve small changes such as fixing errors in documentation.</p>
+<div class="section" id="Claiming/assigning-an-issue">
+<h4>Claiming/assigning an issue<a class="headerlink" href="#Claiming/assigning-an-issue" title="Permalink to this headline">¶</a></h4>
+<p>To avoid overlapping work on issues, you should check to make sure that nobody else is actively working on the problem already. This is indicated by the <em>Assignees</em> section on the right side of the page for an issue.</p>
+<p><img alt="assignees" src="_notebooks/imgs/assignee.png" /></p>
+<ol class="arabic simple">
+<li><p>If nobody is assigned to the issue, you should post a comment requesting to tackle the issue.</p></li>
+<li><p>If somebody else is already assigned to the issue, <strong>and</strong> there hasn’t been any recent activity, post a comment to ask if the current assignee is still actively working on the issue. If they are unable or unwilling to complete work on the issue, or you don’t receive any response in a reasonable time frame (~ 2 weeks), the issue may be re-assigned.</p></li>
+</ol>
+</div>
+</div>
+<div class="section" id="Using-Git-/-GitHub">
+<h3>Using Git / GitHub<a class="headerlink" href="#Using-Git-/-GitHub" title="Permalink to this headline">¶</a></h3>
+<p>The following section provides a walkthrough of using git/GitHub to edit the README on the front page.</p>
+<ol class="arabic simple">
+<li><p><strong>Fork the repository</strong>: Only the primary project team has permissions to directly edit the main data-describe repository. As an external contributor, you will need to make a personal copy of the repository (a.k.a. “fork”) to begin making changes. To create a fork, click on the Fork button at the top right of the page of the repository on Github.</p></li>
+</ol>
+<p><img alt="Fork the repository" src="_notebooks/imgs/fork.png" /></p>
+<p>This will create a copy of the data-describe repository under your own GitHub account. (Visit “Your Repositories” under your account.)</p>
+<ol class="arabic simple" start="2">
+<li><p><strong>Clone the repository</strong>: To access and edit your fork (copy) of the repository on your computer, you will need to clone the repository. First, you will need to ensure that you have the <a class="reference external" href="https://git-scm.com/downloads">Git software</a> installed on your computer. Then, open the terminal/shell of your choice (e.g. Terminal for Mac, Powershell for Windows) in the location where you want the repository copy to be saved on your computer.</p></li>
+</ol>
+<p>For example, on Windows, <code class="docutils literal notranslate"><span class="pre">SHIFT</span> <span class="pre">+</span> <span class="pre">RIGHT</span> <span class="pre">CLICK</span></code> in a folder and select <code class="docutils literal notranslate"><span class="pre">Open</span> <span class="pre">Powershell</span> <span class="pre">window</span> <span class="pre">here</span></code>. Alternatively, one can use the <code class="docutils literal notranslate"><span class="pre">cd</span></code> commands to navigate to the desired folder.</p>
+<p>Enter and run the following commands:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/&lt;</span><span class="n">YOUR</span><span class="o">-</span><span class="n">USERNAME</span><span class="o">&gt;/</span><span class="n">data</span><span class="o">-</span><span class="n">describe</span><span class="o">.</span><span class="n">git</span> <span class="n">data</span><span class="o">-</span><span class="n">describe</span><span class="o">-&lt;</span><span class="n">YOUR</span><span class="o">-</span><span class="n">USERNAME</span><span class="o">&gt;</span>
+<span class="n">cd</span> <span class="n">data</span><span class="o">-</span><span class="n">describe</span><span class="o">-&lt;</span><span class="n">YOUR</span><span class="o">-</span><span class="n">USERNAME</span><span class="o">&gt;</span>
+<span class="n">git</span> <span class="n">remote</span> <span class="n">add</span> <span class="n">upstream</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">data</span><span class="o">-</span><span class="n">describe</span><span class="o">/</span><span class="n">data</span><span class="o">-</span><span class="n">describe</span>
+</pre></div>
+</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">&lt;YOUR-USERNAME&gt;</span></code> is your GitHub username.</p>
+<ol class="arabic simple" start="3">
+<li><p><strong>Checkout a new branch</strong>: While this step is optional for forked repositories, it’s generally best practice to create a new branch for each thing you’re working on. Run the following command:</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">checkout</span> <span class="o">-</span><span class="n">b</span> <span class="n">update</span><span class="o">-</span><span class="n">readme</span>
+</pre></div>
+</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">update-readme</span></code> is the name of the branch. (For future contributions, replace this with a name of your choosing). This command creates the new branch <em>and</em> checks out the branch.</p>
+<ol class="arabic simple" start="4">
+<li><p><strong>Adding your changes</strong>: Now open (using a text editor) and edit the README.md file by adding to the title.</p></li>
+</ol>
+<p><img alt="edit-readme" src="_notebooks/imgs/edit-readme.png" /></p>
+<p>Now that you’ve made a change to the repository, you’ll need to stage the changes so that it’s tracked by git. Run the command <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">add</span> <span class="pre">README.md</span></code>.</p>
+<p>where the <code class="docutils literal notranslate"><span class="pre">README.md</span></code> is the path to the file to be added, relative to the current working directory. To confirm that the file(s) have been added, you can run <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">status</span></code>. You should see that the file has been added to <em>Staged Changes</em>.</p>
+<ol class="arabic simple" start="5">
+<li><p><strong>Committing your changes</strong>: To save this changes to Git, you must <em>commit</em> the files. Run the command:</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">commit</span> <span class="o">-</span><span class="n">m</span> <span class="s2">&quot;Add emoji to README title&quot;</span>
+</pre></div>
+</div>
+<p>where the text inside the quotes is a description of the changes you’ve made in this commit.</p>
+<ol class="arabic simple" start="6">
+<li><p><strong>Pushing your changes</strong>: To push your changes online for the first time, run:</p></li>
+</ol>
+<p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">push</span> <span class="pre">origin</span> <span class="pre">--set-upstream</span> <span class="pre">update-readme</span></code></p>
+<p>where <code class="docutils literal notranslate"><span class="pre">--set-upstream</span> <span class="pre">update-readme</span></code> creates the same <code class="docutils literal notranslate"><span class="pre">update-readme</span></code> branch online, in your fork on GitHub.</p>
+<blockquote>
+<div><p>If you’re pushing more changes at a later time, you only need to run <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">push</span></code></p>
+</div></blockquote>
+<ol class="arabic simple" start="7">
+<li><p><strong>Creating a Pull Request</strong>: To submit your changes for review, you will need to create a pull request. When a new branch is pushed to GitHub, a prompt will appear to create a pull request:</p></li>
+</ol>
+<p><img alt="open-pull-request" src="_notebooks/imgs/open-pull-request.png" /></p>
+<p>Then fill out the form with (at minimum) a title and description and create the pull request. At this point, a project team member or maintainer can review your pull request, provide comments, and officially merge it when approved.</p>
+</div>
+<div class="section" id="Advanced-Git-Practices">
+<h3>Advanced Git Practices<a class="headerlink" href="#Advanced-Git-Practices" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="Rebase">
+<h4>Rebase<a class="headerlink" href="#Rebase" title="Permalink to this headline">¶</a></h4>
+<p>If you’re working on some changes for a long period of time, it’s possible that other contributors may have submitted other changes on the same files you’re working on. To sync your branch, run:</p>
+<p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">pull</span> <span class="pre">origin</span> <span class="pre">master</span> <span class="pre">--rebase</span></code></p>
+<p>and follow the prompts to approve and/or resolve the changes that should be kept.</p>
+</div>
+<div class="section" id="Updating-your-Fork">
+<h4>Updating your Fork<a class="headerlink" href="#Updating-your-Fork" title="Permalink to this headline">¶</a></h4>
+<p>To update the master branch of your fork (so that new branches are created off of an up-to-date master branch), run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">fetch</span> <span class="n">upstream</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="Pull-Request-Conventions">
+<h3>Pull Request Conventions<a class="headerlink" href="#Pull-Request-Conventions" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>The pull request title is used to build the release notes. Write the title in past tense, describing the extent of the changes.</p></li>
+<li><p>Pull Requests should have labels to identify which category belongs to in the release notes. Use the <code class="docutils literal notranslate"><span class="pre">exclude</span> <span class="pre">notes</span></code> label if the change doesn’t make sense to document in release notes.</p></li>
+<li><p>Pull Requests should be linked to issues, either manually or using <a class="reference external" href="https://docs.github.com/en/enterprise/2.16/user/github/managing-your-work-on-github/closing-issues-using-keywords">keywords</a>.</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="Python-Developer-Environment">
+<h2>Python Developer Environment<a class="headerlink" href="#Python-Developer-Environment" title="Permalink to this headline">¶</a></h2>
+<p>The following setup is recommended for Python development:</p>
+<ul class="simple">
+<li><p>IDE: <a class="reference external" href="https://code.visualstudio.com/">VS Code</a></p>
+<ul>
+<li><p>Extensions:</p>
+<ul>
+<li><p><a class="reference external" href="https://marketplace.visualstudio.com/items?itemName=ms-python.python">ms-python.python</a></p></li>
+<li><p><a class="reference external" href="https://marketplace.visualstudio.com/items?itemName=njpwerner.autodocstring">njpwerner.autodocstring</a></p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Package/Environment Manager: Conda</p>
+<ul>
+<li><p><a class="reference external" href="https://docs.conda.io/en/latest/miniconda.html">Miniconda</a></p></li>
+</ul>
+</li>
+</ul>
+<p>To create a new conda environment for development, run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">create</span> <span class="o">-</span><span class="n">n</span> <span class="n">test</span><span class="o">-</span><span class="n">env</span>
+<span class="n">conda</span> <span class="n">env</span> <span class="n">update</span> <span class="o">-</span><span class="n">n</span> <span class="n">test</span><span class="o">-</span><span class="n">env</span> <span class="o">-</span><span class="n">f</span> <span class="n">etc</span><span class="o">/</span><span class="n">test</span><span class="o">-</span><span class="n">environment</span><span class="o">.</span><span class="n">yml</span>
+</pre></div>
+</div>
+<p>then activate using <code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">activate</span> <span class="pre">test-env</span></code> or select it as your default Python interpreter for VSCode.</p>
+<div class="section" id="Python-Extension-Configuration">
+<h3>Python Extension Configuration<a class="headerlink" href="#Python-Extension-Configuration" title="Permalink to this headline">¶</a></h3>
+<p>data-describe uses <code class="docutils literal notranslate"><span class="pre">flake8</span></code> for linting. Configure VSCode by disabling <code class="docutils literal notranslate"><span class="pre">pylint</span></code> and enabling <code class="docutils literal notranslate"><span class="pre">flake8</span></code>. data-describe uses <code class="docutils literal notranslate"><span class="pre">black</span></code> for auto formatting. Configure VSCode by enabling <code class="docutils literal notranslate"><span class="pre">black</span></code>.</p>
+</div>
+<div class="section" id="Pre-commit">
+<h3>Pre-commit<a class="headerlink" href="#Pre-commit" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference external" href="https://pre-commit.com/">Pre-commit</a> is also strongly recommended for running linting and style checks. This will warn and prevent you from committing code that does not pass certain standards. To install pre-commit:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">pre</span><span class="o">-</span><span class="n">commit</span>
+<span class="n">pre</span><span class="o">-</span><span class="n">commit</span> <span class="n">install</span> <span class="o">--</span><span class="n">allow</span><span class="o">-</span><span class="n">missing</span><span class="o">-</span><span class="n">config</span>
+</pre></div>
+</div>
+<p>Code checks will now run prior to any commits you make.</p>
+<p>data-describe currently utilizes the following tools for code checks: - black: Ensure consistent formatting of Python files - mypy: Validate Python type hints - flake8: Multiple checks for - import order - syntax errors or anti-patterns - (lack of) executable flags on files - docstring validation</p>
+<p>See <code class="docutils literal notranslate"><span class="pre">.pre-commit-config.yaml</span></code> for a full list of hooks used by pre-commit.</p>
+</div>
+<div class="section" id="Docstring-Checks">
+<h3>Docstring Checks<a class="headerlink" href="#Docstring-Checks" title="Permalink to this headline">¶</a></h3>
+<p>(Optional) <a class="reference external" href="https://github.com/terrencepreilly/darglint">darglint</a> can be used to check if docstrings are outdated. It hasn’t been added to the pre-commit hooks because it can take a long time to parse files.</p>
+<p>To run darglint, use the following command:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">darglint</span> <span class="o">-</span><span class="n">v</span> <span class="mi">2</span> <span class="o">--</span><span class="n">strictness</span><span class="o">=</span><span class="n">short</span> <span class="o">&lt;</span><span class="n">FILES</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="Automatic-Documentation">
+<h2>Automatic Documentation<a class="headerlink" href="#Automatic-Documentation" title="Permalink to this headline">¶</a></h2>
+<p>Documentation is generated using Sphinx.</p>
+<p><a class="reference external" href="#Example-notebooks">Example notebooks</a> are stored in the <code class="docutils literal notranslate"><span class="pre">examples/</span></code> folder for easy access in the Github repository.</p>
+<div class="section" id="Notebook-Execution">
+<h3>Notebook Execution<a class="headerlink" href="#Notebook-Execution" title="Permalink to this headline">¶</a></h3>
+<p>Run <code class="docutils literal notranslate"><span class="pre">etc/run_notebooks.py</span></code> to re-run notebooks. Using this script instead of manual execute ensures that cells are executed in order and that the <code class="docutils literal notranslate"><span class="pre">kernelspec</span></code> metadata is not updated to a different kernel name.</p>
+</div>
+<div class="section" id="Notebook-Update">
+<h3>Notebook Update<a class="headerlink" href="#Notebook-Update" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><p>Note: This step is typically executed by a Github Actions workflow.</p>
+</div></blockquote>
+<p>Run <code class="docutils literal notranslate"><span class="pre">docs/update_notebook_docs.py</span></code> to manually copy these notebooks (if any updates) into the <code class="docutils literal notranslate"><span class="pre">docs/source</span></code> directory and update the index page of the Sphinx-generated documentation.</p>
+</div>
+<div class="section" id="Sphinx-Build">
+<h3>Sphinx Build<a class="headerlink" href="#Sphinx-Build" title="Permalink to this headline">¶</a></h3>
+<p>To run the typical build process, use the provided conda environment definition at <code class="docutils literal notranslate"><span class="pre">etc/doc-environment.yml</span></code> and run <code class="docutils literal notranslate"><span class="pre">docs/make.py</span></code>.</p>
+<p>Note that this uses <code class="docutils literal notranslate"><span class="pre">sphinx-multiversion</span></code> to build documentation for multiple versions of <code class="docutils literal notranslate"><span class="pre">data-describe</span></code> and only captures changes in tagged commits and/or the master branch on remote - it <strong>does not</strong> build the documentation on your local branch.</p>
+</div>
+<div class="section" id="Manual-Build">
+<h3>Manual Build<a class="headerlink" href="#Manual-Build" title="Permalink to this headline">¶</a></h3>
+<p>To test a build of the Sphinx-generated documentation without using <code class="docutils literal notranslate"><span class="pre">sphinx-multiversion</span></code>, you can run the following command:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sphinx</span><span class="o">-</span><span class="n">build</span> <span class="o">-</span><span class="n">a</span> <span class="o">-</span><span class="n">E</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span> <span class="n">docs</span><span class="o">/</span><span class="n">build</span>
+</pre></div>
+</div>
+<p>The generated HTML files will be in <code class="docutils literal notranslate"><span class="pre">docs/build</span></code>.</p>
+</div>
+</div>
+<div class="section" id="Testing">
+<h2>Testing<a class="headerlink" href="#Testing" title="Permalink to this headline">¶</a></h2>
+<p>Unit testing uses <code class="docutils literal notranslate"><span class="pre">pytest</span></code>.</p>
+<div class="section" id="Test-Environment">
+<h3>Test Environment<a class="headerlink" href="#Test-Environment" title="Permalink to this headline">¶</a></h3>
+<p>Use the conda environment <code class="docutils literal notranslate"><span class="pre">etc/test-environment.yml</span></code> for executing tests.</p>
+</div>
+<div class="section" id="Running-the-full-test-suite">
+<h3>Running the full test suite<a class="headerlink" href="#Running-the-full-test-suite" title="Permalink to this headline">¶</a></h3>
+<p>To run the full test suite, run <code class="docutils literal notranslate"><span class="pre">pytest</span></code> in the root directory of the repository.</p>
+</div>
+<div class="section" id="Running-a-selected-test-file-or-function">
+<h3>Running a selected test file or function<a class="headerlink" href="#Running-a-selected-test-file-or-function" title="Permalink to this headline">¶</a></h3>
+<p>To run selected test(s), run <code class="docutils literal notranslate"><span class="pre">pytest</span> <span class="pre">-k</span> <span class="pre">&lt;PATTERN&gt;</span></code>, where <code class="docutils literal notranslate"><span class="pre">&lt;PATTERN&gt;</span></code> matches the test file name or function name.</p>
+</div>
+<div class="section" id="Running-selected-marked-tests">
+<h3>Running selected marked tests<a class="headerlink" href="#Running-selected-marked-tests" title="Permalink to this headline">¶</a></h3>
+<p>To run selected groups of tests, run <code class="docutils literal notranslate"><span class="pre">pytest</span> <span class="pre">-m</span> <span class="pre">&lt;MARKER&gt;</span></code>.</p>
+<p>The current options for <code class="docutils literal notranslate"><span class="pre">&lt;MARKER&gt;</span></code> are: - <code class="docutils literal notranslate"><span class="pre">base</span></code>: Core features of data-describe (excluding any optional dependencies)</p>
+</div>
+</div>
+<div class="section" id="Design-Patterns">
+<h2>Design Patterns<a class="headerlink" href="#Design-Patterns" title="Permalink to this headline">¶</a></h2>
+<p>The following section describes design patterns used in the Python package.</p>
+<div class="section" id="Optional-Dependencies">
+<h3>Optional Dependencies<a class="headerlink" href="#Optional-Dependencies" title="Permalink to this headline">¶</a></h3>
+<p>data-describe may make use of optional dependencies such as <code class="docutils literal notranslate"><span class="pre">nltk</span></code> or <code class="docutils literal notranslate"><span class="pre">modin</span></code>. When adding or using these optional dependencies in data-describe modules, the following patterns should be used:</p>
+<div class="section" id="_requires-marks-functionality-that-requires-a-dependency">
+<h4><code class="docutils literal notranslate"><span class="pre">_requires</span></code> marks functionality that requires a dependency<a class="headerlink" href="#_requires-marks-functionality-that-requires-a-dependency" title="Permalink to this headline">¶</a></h4>
+<p>Use the <code class="docutils literal notranslate"><span class="pre">_requires</span></code> decorator on any object function or class that needs the optional dependency. Usage:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">data_describe.compat</span> <span class="kn">import</span> <span class="n">_requires</span>
+
+<span class="nd">@_requires</span><span class="p">(</span><span class="s2">&quot;nltk&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">function_that_uses_nltk</span><span class="p">():</span>
+    <span class="k">return</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">_requires</span></code> should generally take the top-level package name as its sole argument. See the section on <em>packages vs subpackages</em> for more information.</p>
+</div>
+<div class="section" id="_compat-is-used-to-lazily-import-from-dependencies">
+<h4><code class="docutils literal notranslate"><span class="pre">_compat</span></code> is used to lazily import from dependencies<a class="headerlink" href="#_compat-is-used-to-lazily-import-from-dependencies" title="Permalink to this headline">¶</a></h4>
+<p>Instead of having import statements at the top of the file, import and use the <code class="docutils literal notranslate"><span class="pre">_compat</span></code> object to use functionalities from the optional dependency:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">data_describe.compat</span> <span class="kn">import</span> <span class="n">_requires</span><span class="p">,</span> <span class="n">_compat</span>
+
+<span class="nd">@_requires</span><span class="p">(</span><span class="s2">&quot;nltk&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">function_that_uses_nltk_freqdist</span><span class="p">():</span>
+    <span class="n">_compat</span><span class="p">[</span><span class="s2">&quot;nltk&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">FreqDist</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">_compat</span></code> should generally take the sub-package as its key in a dictionary-style access. See the section on <em>packages vs subpackages</em> for more information.</p>
+</div>
+<div class="section" id="packages-vs-subpackages">
+<h4>packages vs subpackages<a class="headerlink" href="#packages-vs-subpackages" title="Permalink to this headline">¶</a></h4>
+<p>Some packages do not export all of their subpackages. For example, <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">statsmodels</span></code> does not provide access to <code class="docutils literal notranslate"><span class="pre">statsmodels.graphics.tsaplots</span></code>, as the <code class="docutils literal notranslate"><span class="pre">graphics</span></code> subpackage is not exported.</p>
+<p>As a result, <code class="docutils literal notranslate"><span class="pre">_requires</span></code> generally takes the top-level package name, as this checks if the package itself is installed. In contrast, <code class="docutils literal notranslate"><span class="pre">_compat</span></code> takes the subpackage to enable imports.</p>
+<p>One exception to this are the google client libraries such as <code class="docutils literal notranslate"><span class="pre">google-cloud-storage</span></code> or <code class="docutils literal notranslate"><span class="pre">google-cloud-bigquery</span></code>. Each of these are installed individually, but they are organized as subpackages of the <code class="docutils literal notranslate"><span class="pre">google</span></code> namespace i.e. <code class="docutils literal notranslate"><span class="pre">google.cloud.storage</span></code>. In this case, <code class="docutils literal notranslate"><span class="pre">_requires</span></code> should instead be the specific subpackage (i.e. <code class="docutils literal notranslate"><span class="pre">_requires(&quot;google.cloud.storage&quot;)</span></code>) since requiring only the <code class="docutils literal notranslate"><span class="pre">google</span></code> package is not specific enough.</p>
+</div>
+<div class="section" id="Side-imports">
+<h4>Side imports<a class="headerlink" href="#Side-imports" title="Permalink to this headline">¶</a></h4>
+<p>Some packages require downloads of additional data or models to function. One example is the stopwords for <code class="docutils literal notranslate"><span class="pre">nltk</span></code>. Downloading of these resources is handled in <code class="docutils literal notranslate"><span class="pre">data_describe/compat/_dependency.py</span></code>. When adding a dependency that requires this download, adhere to the following steps:</p>
+<ol class="arabic simple">
+<li><p>Add a function that takes the module as its sole argument, checks for the existence of the resource (i.e if it was already downloaded), and executes the download if it doesn’t exist.</p></li>
+<li><p>Add this function to the module-import mapping used to initialize <code class="docutils literal notranslate"><span class="pre">_compat</span></code>:</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">_compat</span> <span class="o">=</span> <span class="n">DependencyManager</span><span class="p">(</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;nltk&quot;</span><span class="p">:</span> <span class="n">nltk_download</span><span class="p">,</span>
+        <span class="s2">&quot;spacy&quot;</span><span class="p">:</span> <span class="n">spacy_download</span><span class="p">,</span>
+        <span class="c1"># &quot;new_package&quot;: downloader_function,</span>
+    <span class="p">}</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="Add-to-extras_require-in-setup.py">
+<h4>Add to <code class="docutils literal notranslate"><span class="pre">extras_require</span></code> in setup.py<a class="headerlink" href="#Add-to-extras_require-in-setup.py" title="Permalink to this headline">¶</a></h4>
+<p>The new dependency should be added to the <code class="docutils literal notranslate"><span class="pre">extras_require</span></code> in setup.py. If applicable, try to use existing tags over creating new ones. New tags should be alphabetical and short.</p>
+</div>
+<div class="section" id="Add-to-conda-environments">
+<h4>Add to conda environments<a class="headerlink" href="#Add-to-conda-environments" title="Permalink to this headline">¶</a></h4>
+<p>The new dependency should be added to all conda environment definitions. These are located in two locations: <code class="docutils literal notranslate"><span class="pre">etc/*.yml</span></code> and <code class="docutils literal notranslate"><span class="pre">docker/*/*.yml</span></code></p>
+</div>
+</div>
+</div>
+<div class="section" id="Example-notebooks">
+<h2>Example notebooks<a class="headerlink" href="#Example-notebooks" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">examples/</span></code> folder of the repository contains Jupyter notebooks that provide more detailed documentation on using features of data-describe. Ideally, all features in data-describe should have its own example notebook.</p>
+<div class="section" id="Notebook-Naming-Convention">
+<h3>Notebook Naming Convention<a class="headerlink" href="#Notebook-Naming-Convention" title="Permalink to this headline">¶</a></h3>
+<p>Notebook names should not contain spaces.</p>
+</div>
+<div class="section" id="Notebook-Structure">
+<h3>Notebook Structure<a class="headerlink" href="#Notebook-Structure" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>The first cell in an example notebook <strong>must</strong> be a level 1 markdown header with the name/title of the example: <code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">Title</span></code></p></li>
+<li><p>This header will be used as the name of the page in the auto-generated Sphinx documentation.</p></li>
+<li><p>Ideally, a short description of how and why to use the particular feature (i.e. from the design document) should be included after the title.</p></li>
+<li><p>Individual examples demonstrating different methods of using the feature should be separated by level 2 (or lower) headers.</p></li>
+</ul>
+</div>
+<div class="section" id="id1">
+<h3>Notebook Execution<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<p>To ensure consistency in cell execution order and kernel specifications, a Python script <code class="docutils literal notranslate"><span class="pre">etc/run_notebooks.py</span></code> should be used. This script will use papermill to execute all notebooks.</p>
+<p>You can optionally add the <code class="docutils literal notranslate"><span class="pre">--notebook-name</span></code> argument to select specific notebooks for execution. This argument can be used multiple times and, if specified, utilizes str contains logic to select notebooks.</p>
+</div>
+<div class="section" id="Notebook-Testing">
+<h3>Notebook Testing<a class="headerlink" href="#Notebook-Testing" title="Permalink to this headline">¶</a></h3>
+<p>Unit tests for notebooks are in <code class="docutils literal notranslate"><span class="pre">tests/test_notebooks.py</span></code>. Follow the same pattern of using pytest-notebooks to add a test for a notebook.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../design.html" class="btn btn-neutral float-right" title="Design Reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../examples/topic_modeling.html" class="btn btn-neutral float-left" title="Topic Modeling" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Maven Wave Partners
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+<div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Other Versions</span>
+    v: master
+    <span class="fa fa-caret-down"></span>
+  </span>
+  <div class="rst-other-versions">
+    <dl>
+      <dt>Tags</dt>
+      <dd><a href="../../v0.1.0b1/index.html">v0.1.0b1</a></dd>
+      <dd><a href="../../v0.1.0b2/index.html">v0.1.0b2</a></dd>
+    </dl>
+    <dl>
+      <dt>Branches</dt>
+      <dd><a href="contributing_guide.html">master</a></dd>
+    </dl>
+  </div>
+</div>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

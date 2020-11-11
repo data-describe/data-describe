@@ -116,7 +116,7 @@
 <li class="toctree-l2"><a class="reference internal" href="topic_modeling.html">Topic Modeling</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../_notebooks/developer_guide.html">Developer Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../_notebooks/contributing_guide.html">Contributing Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../design.html">Design Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../data_describe/index.html">API Reference</a></li>
 </ul>
@@ -638,6 +638,14 @@ div.rendered_html tbody tr:hover {
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+UserWarning: The Dask Engine for Modin is experimental.
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
 <div class="output_area rendered_html docutils container">
 <div>
 <style scoped>
@@ -671,11 +679,11 @@ div.rendered_html tbody tr:hover {
   <tbody>
     <tr>
       <th>0</th>
-      <td>&lt;PERSON&gt;, &lt;PERSON&gt; and &lt;PERSON&gt;</td>
+      <td>Fisher, Green and &lt;PERSON&gt;</td>
       <td>&lt;US_SSN&gt;</td>
-      <td>24219 &lt;LOCATION&gt; Suite 924\nNorth Melissaborou...</td>
+      <td>24219 Archer Mountain Suite 924\nNorth Melissa...</td>
       <td>['http://&lt;DOMAIN_NAME&gt;/', 'https://&lt;DOMAIN_NAM...</td>
-      <td>sandraharris</td>
+      <td>&lt;PERSON&gt;</td>
       <td>&lt;PERSON&gt;</td>
       <td>&lt;DATE_TIME&gt; &lt;PERSON&gt; Apt. 471\nLake Nancyside,...</td>
       <td>&lt;EMAIL_ADDRESS&gt;</td>
@@ -685,23 +693,23 @@ div.rendered_html tbody tr:hover {
       <th>1</th>
       <td>&lt;PERSON&gt;, &lt;PERSON&gt; and &lt;PERSON&gt;</td>
       <td>&lt;US_SSN&gt;</td>
-      <td>5330 Wilson Fields Suite 560\n&lt;LOCATION&gt;, &lt;LOC...</td>
+      <td>5330 &lt;PERSON&gt; Fields Suite 560\nEast Heiditown...</td>
       <td>['https://&lt;DOMAIN_NAME&gt;/', 'http://&lt;DOMAIN_NAM...</td>
-      <td>jeffreylucas</td>
       <td>&lt;PERSON&gt;</td>
-      <td>&lt;DATE_TIME&gt;&lt;US_DRIVER_LICENSE&gt;, &lt;LOCATION&gt; 08109</td>
+      <td>&lt;PERSON&gt;</td>
+      <td>0916 &lt;PERSON&gt; Row\n&lt;US_DRIVER_LICENSE&gt;, &lt;LOCAT...</td>
       <td>&lt;EMAIL_ADDRESS&gt;</td>
       <td>&lt;DATE_TIME&gt;</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>Thompson-Ruiz</td>
+      <td>&lt;PERSON&gt;</td>
       <td>&lt;US_SSN&gt;</td>
-      <td>PSC 5642, Box 8071\nAPO AA 06490</td>
+      <td>PSC 5642, Box &lt;DATE_TIME&gt;\nAPO AA 06490</td>
       <td>['http://&lt;DOMAIN_NAME&gt;/', 'https://&lt;DOMAIN_NAM...</td>
       <td>karla07</td>
       <td>&lt;PERSON&gt;</td>
-      <td>&lt;DATE_TIME&gt; &lt;PERSON&gt; Ranch Apt. 300\n&lt;PERSON&gt;,...</td>
+      <td>63812 &lt;PERSON&gt; Ranch Apt. 300\nLowestad, NM &lt;D...</td>
       <td>&lt;EMAIL_ADDRESS&gt;</td>
       <td>&lt;DATE_TIME&gt;</td>
     </tr>
@@ -709,7 +717,7 @@ div.rendered_html tbody tr:hover {
       <th>3</th>
       <td>Sloan PLC</td>
       <td>&lt;US_SSN&gt;</td>
-      <td>1240 Jamie Forks Apt. 590\n&lt;PERSON&gt;, &lt;LOCATION...</td>
+      <td>&lt;PERSON&gt; Apt. 590\nAlistad, &lt;LOCATION&gt; &lt;DATE_T...</td>
       <td>['http://&lt;DOMAIN_NAME&gt;/', 'https://&lt;DOMAIN_NAM...</td>
       <td>johnwilliams</td>
       <td>&lt;PERSON&gt;</td>
@@ -723,21 +731,21 @@ div.rendered_html tbody tr:hover {
       <td>&lt;US_SSN&gt;</td>
       <td>PSC 9361, Box 5349\nAPO AP 57022</td>
       <td>['https://&lt;DOMAIN_NAME&gt;/']</td>
-      <td>amyhernandez</td>
       <td>&lt;PERSON&gt;</td>
-      <td>Unit 7296 Box 6875\nDPO AP &lt;DATE_TIME&gt;</td>
+      <td>&lt;PERSON&gt;</td>
+      <td>Unit &lt;DATE_TIME&gt; Box 6875\nDPO AP 65859</td>
       <td>&lt;EMAIL_ADDRESS&gt;</td>
-      <td>&lt;DATE_TIME&gt;</td>
+      <td>&lt;DATE_TIME&gt;-12</td>
     </tr>
     <tr>
       <th>5</th>
-      <td>&lt;PERSON&gt;, &lt;PERSON&gt; and &lt;PERSON&gt;</td>
+      <td>&lt;PERSON&gt;, &lt;PERSON&gt; and Johnson</td>
       <td>&lt;US_SSN&gt;</td>
-      <td>&lt;DATE_TIME&gt; &lt;PERSON&gt;. 075\nOwenhaven, LA 50600</td>
+      <td>&lt;PERSON&gt;. 075\nOwenhaven, &lt;LOCATION&gt; &lt;DATE_TIME&gt;</td>
       <td>['https://&lt;DOMAIN_NAME&gt;/']</td>
-      <td>eprice</td>
       <td>&lt;PERSON&gt;</td>
-      <td>0248 Cook Mews Apt. 466\nBrownfurt, IN 44282</td>
+      <td>&lt;PERSON&gt;</td>
+      <td>&lt;DATE_TIME&gt; Cook Mews Apt. 466\nBrownfurt, IN ...</td>
       <td>&lt;EMAIL_ADDRESS&gt;</td>
       <td>&lt;DATE_TIME&gt;</td>
     </tr>
@@ -751,7 +759,7 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;data_describe.privacy.detection.SensitiveDataWidget at 0x7fbdf59d4390&gt;
+&lt;data_describe.privacy.detection.SensitiveDataWidget at 0x2a9bfb15308&gt;
 </pre></div></div>
 </div>
 </div>
@@ -765,6 +773,55 @@ div.rendered_html tbody tr:hover {
 <span></span><span class="n">sensitive_data</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;redact&quot;</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;birthdate&quot;</span><span class="p">,</span> <span class="s2">&quot;mail&quot;</span><span class="p">,</span> <span class="s2">&quot;ssn&quot;</span><span class="p">],</span> <span class="n">sample_size</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">),</span> <span class="n">detect_infotypes</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+INFO:presidio:nlp_engine not provided. Creating new SpacyNlpEngine instance
+INFO:presidio:Loading NLP model: spaCy en_core_web_lg
+INFO:presidio:<span class="ansi-bold">
+===================== Info about model &#39;en_core_web_lg&#39; =====================</span>
+INFO:presidio:
+lang             en
+name             core_web_lg
+license          MIT
+author           Explosion
+url              https://explosion.ai
+email            contact@explosion.ai
+description      English multi-task CNN trained on OntoNotes, with GloVe vectors trained on Common Crawl. Assigns word vectors, context-specific token vectors, POS tags, dependency parse and named entities.
+sources          [{&#39;name&#39;: &#39;OntoNotes 5&#39;, &#39;url&#39;: &#39;https://catalog.ldc.upenn.edu/LDC2013T19&#39;, &#39;license&#39;: &#39;commercial (licensed by Explosion)&#39;}, {&#39;name&#39;: &#39;Common Crawl&#39;}]
+pipeline         [&#39;tagger&#39;, &#39;parser&#39;, &#39;ner&#39;]
+version          2.2.0
+spacy_version    &gt;=2.2.0
+parent_package   spacy
+labels           {&#39;tagger&#39;: [&#39;$&#39;, &#34;&#39;&#39;&#34;, &#39;,&#39;, &#39;-LRB-&#39;, &#39;-RRB-&#39;, &#39;.&#39;, &#39;:&#39;, &#39;ADD&#39;, &#39;AFX&#39;, &#39;CC&#39;, &#39;CD&#39;, &#39;DT&#39;, &#39;EX&#39;, &#39;FW&#39;, &#39;HYPH&#39;, &#39;IN&#39;, &#39;JJ&#39;, &#39;JJR&#39;, &#39;JJS&#39;, &#39;LS&#39;, &#39;MD&#39;, &#39;NFP&#39;, &#39;NN&#39;, &#39;NNP&#39;, &#39;NNPS&#39;, &#39;NNS&#39;, &#39;PDT&#39;, &#39;POS&#39;, &#39;PRP&#39;, &#39;PRP$&#39;, &#39;RB&#39;, &#39;RBR&#39;, &#39;RBS&#39;, &#39;RP&#39;, &#39;SYM&#39;, &#39;TO&#39;, &#39;UH&#39;, &#39;VB&#39;, &#39;VBD&#39;, &#39;VBG&#39;, &#39;VBN&#39;, &#39;VBP&#39;, &#39;VBZ&#39;, &#39;WDT&#39;, &#39;WP&#39;, &#39;WP$&#39;, &#39;WRB&#39;, &#39;XX&#39;, &#39;_SP&#39;, &#39;``&#39;], &#39;parser&#39;: [&#39;ROOT&#39;, &#39;acl&#39;, &#39;acomp&#39;, &#39;advcl&#39;, &#39;advmod&#39;, &#39;agent&#39;, &#39;amod&#39;, &#39;appos&#39;, &#39;attr&#39;, &#39;aux&#39;, &#39;auxpass&#39;, &#39;case&#39;, &#39;cc&#39;, &#39;ccomp&#39;, &#39;compound&#39;, &#39;conj&#39;, &#39;csubj&#39;, &#39;csubjpass&#39;, &#39;dative&#39;, &#39;dep&#39;, &#39;det&#39;, &#39;dobj&#39;, &#39;expl&#39;, &#39;intj&#39;, &#39;mark&#39;, &#39;meta&#39;, &#39;neg&#39;, &#39;nmod&#39;, &#39;npadvmod&#39;, &#39;nsubj&#39;, &#39;nsubjpass&#39;, &#39;nummod&#39;, &#39;oprd&#39;, &#39;parataxis&#39;, &#39;pcomp&#39;, &#39;pobj&#39;, &#39;poss&#39;, &#39;preconj&#39;, &#39;predet&#39;, &#39;prep&#39;, &#39;prt&#39;, &#39;punct&#39;, &#39;quantmod&#39;, &#39;relcl&#39;, &#39;xcomp&#39;], &#39;ner&#39;: [&#39;CARDINAL&#39;, &#39;DATE&#39;, &#39;EVENT&#39;, &#39;FAC&#39;, &#39;GPE&#39;, &#39;LANGUAGE&#39;, &#39;LAW&#39;, &#39;LOC&#39;, &#39;MONEY&#39;, &#39;NORP&#39;, &#39;ORDINAL&#39;, &#39;ORG&#39;, &#39;PERCENT&#39;, &#39;PERSON&#39;, &#39;PRODUCT&#39;, &#39;QUANTITY&#39;, &#39;TIME&#39;, &#39;WORK_OF_ART&#39;]}
+vectors          {&#39;width&#39;: 300, &#39;vectors&#39;: 684831, &#39;keys&#39;: 684830, &#39;name&#39;: &#39;en_core_web_lg.vectors&#39;}
+source           C:\Users\David\.conda\envs\test-env\lib\site-packages\en_core_web_lg
+
+INFO:presidio:Printing spaCy model and package details:
+
+ {&#39;lang&#39;: &#39;en&#39;, &#39;name&#39;: &#39;core_web_lg&#39;, &#39;license&#39;: &#39;MIT&#39;, &#39;author&#39;: &#39;Explosion&#39;, &#39;url&#39;: &#39;https://explosion.ai&#39;, &#39;email&#39;: &#39;contact@explosion.ai&#39;, &#39;description&#39;: &#39;English multi-task CNN trained on OntoNotes, with GloVe vectors trained on Common Crawl. Assigns word vectors, context-specific token vectors, POS tags, dependency parse and named entities.&#39;, &#39;sources&#39;: [{&#39;name&#39;: &#39;OntoNotes 5&#39;, &#39;url&#39;: &#39;https://catalog.ldc.upenn.edu/LDC2013T19&#39;, &#39;license&#39;: &#39;commercial (licensed by Explosion)&#39;}, {&#39;name&#39;: &#39;Common Crawl&#39;}], &#39;pipeline&#39;: [&#39;tagger&#39;, &#39;parser&#39;, &#39;ner&#39;], &#39;version&#39;: &#39;2.2.0&#39;, &#39;spacy_version&#39;: &#39;&gt;=2.2.0&#39;, &#39;parent_package&#39;: &#39;spacy&#39;, &#39;accuracy&#39;: {&#39;las&#39;: 90.1644260278, &#39;uas&#39;: 91.9835496082, &#39;token_acc&#39;: 99.7579930934, &#39;tags_acc&#39;: 97.2056522464, &#39;ents_f&#39;: 86.3045056111, &#39;ents_p&#39;: 86.217859334, &#39;ents_r&#39;: 86.391326217}, &#39;speed&#39;: {&#39;cpu&#39;: 7127.1086034688, &#39;gpu&#39;: None, &#39;nwords&#39;: 291314}, &#39;labels&#39;: {&#39;tagger&#39;: [&#39;$&#39;, &#34;&#39;&#39;&#34;, &#39;,&#39;, &#39;-LRB-&#39;, &#39;-RRB-&#39;, &#39;.&#39;, &#39;:&#39;, &#39;ADD&#39;, &#39;AFX&#39;, &#39;CC&#39;, &#39;CD&#39;, &#39;DT&#39;, &#39;EX&#39;, &#39;FW&#39;, &#39;HYPH&#39;, &#39;IN&#39;, &#39;JJ&#39;, &#39;JJR&#39;, &#39;JJS&#39;, &#39;LS&#39;, &#39;MD&#39;, &#39;NFP&#39;, &#39;NN&#39;, &#39;NNP&#39;, &#39;NNPS&#39;, &#39;NNS&#39;, &#39;PDT&#39;, &#39;POS&#39;, &#39;PRP&#39;, &#39;PRP$&#39;, &#39;RB&#39;, &#39;RBR&#39;, &#39;RBS&#39;, &#39;RP&#39;, &#39;SYM&#39;, &#39;TO&#39;, &#39;UH&#39;, &#39;VB&#39;, &#39;VBD&#39;, &#39;VBG&#39;, &#39;VBN&#39;, &#39;VBP&#39;, &#39;VBZ&#39;, &#39;WDT&#39;, &#39;WP&#39;, &#39;WP$&#39;, &#39;WRB&#39;, &#39;XX&#39;, &#39;_SP&#39;, &#39;``&#39;], &#39;parser&#39;: [&#39;ROOT&#39;, &#39;acl&#39;, &#39;acomp&#39;, &#39;advcl&#39;, &#39;advmod&#39;, &#39;agent&#39;, &#39;amod&#39;, &#39;appos&#39;, &#39;attr&#39;, &#39;aux&#39;, &#39;auxpass&#39;, &#39;case&#39;, &#39;cc&#39;, &#39;ccomp&#39;, &#39;compound&#39;, &#39;conj&#39;, &#39;csubj&#39;, &#39;csubjpass&#39;, &#39;dative&#39;, &#39;dep&#39;, &#39;det&#39;, &#39;dobj&#39;, &#39;expl&#39;, &#39;intj&#39;, &#39;mark&#39;, &#39;meta&#39;, &#39;neg&#39;, &#39;nmod&#39;, &#39;npadvmod&#39;, &#39;nsubj&#39;, &#39;nsubjpass&#39;, &#39;nummod&#39;, &#39;oprd&#39;, &#39;parataxis&#39;, &#39;pcomp&#39;, &#39;pobj&#39;, &#39;poss&#39;, &#39;preconj&#39;, &#39;predet&#39;, &#39;prep&#39;, &#39;prt&#39;, &#39;punct&#39;, &#39;quantmod&#39;, &#39;relcl&#39;, &#39;xcomp&#39;], &#39;ner&#39;: [&#39;CARDINAL&#39;, &#39;DATE&#39;, &#39;EVENT&#39;, &#39;FAC&#39;, &#39;GPE&#39;, &#39;LANGUAGE&#39;, &#39;LAW&#39;, &#39;LOC&#39;, &#39;MONEY&#39;, &#39;NORP&#39;, &#39;ORDINAL&#39;, &#39;ORG&#39;, &#39;PERCENT&#39;, &#39;PERSON&#39;, &#39;PRODUCT&#39;, &#39;QUANTITY&#39;, &#39;TIME&#39;, &#39;WORK_OF_ART&#39;]}, &#39;vectors&#39;: {&#39;width&#39;: 300, &#39;vectors&#39;: 684831, &#39;keys&#39;: 684830, &#39;name&#39;: &#39;en_core_web_lg.vectors&#39;}, &#39;source&#39;: &#39;C:\\Users\\David\\.conda\\envs\\test-env\\lib\\site-packages\\en_core_web_lg&#39;}
+
+
+INFO:presidio:Recognizer registry not provided. Creating default RecognizerRegistry instance
+INFO:presidio:Loaded recognizer: CreditCardRecognizer
+INFO:presidio:Loaded recognizer: CryptoRecognizer
+INFO:presidio:Loaded recognizer: DomainRecognizer
+INFO:presidio:Loaded recognizer: EmailRecognizer
+INFO:presidio:Loaded recognizer: IbanRecognizer
+INFO:presidio:Loaded recognizer: IpRecognizer
+INFO:presidio:Loaded recognizer: NhsRecognizer
+INFO:presidio:Loaded recognizer: UsBankRecognizer
+INFO:presidio:Loaded recognizer: UsLicenseRecognizer
+INFO:presidio:Loaded recognizer: UsItinRecognizer
+INFO:presidio:Loaded recognizer: UsPassportRecognizer
+INFO:presidio:Loaded recognizer: UsPhoneRecognizer
+INFO:presidio:Loaded recognizer: UsSsnRecognizer
+INFO:presidio:Loaded recognizer: SpacyRecognizer
+INFO:presidio:Loaded recognizer: SgFinRecognizer
+</pre></div></div>
 </div>
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
@@ -820,7 +877,7 @@ div.rendered_html tbody tr:hover {
     </tr>
     <tr>
       <th>4</th>
-      <td>&lt;DATE_TIME&gt;</td>
+      <td>&lt;DATE_TIME&gt;-12</td>
       <td>&lt;EMAIL_ADDRESS&gt;</td>
       <td>&lt;US_SSN&gt;</td>
     </tr>
@@ -840,7 +897,7 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;data_describe.privacy.detection.SensitiveDataWidget at 0x7fbdfc187190&gt;
+&lt;data_describe.privacy.detection.SensitiveDataWidget at 0x2aa0d48a5c8&gt;
 </pre></div></div>
 </div>
 </div>
@@ -860,6 +917,55 @@ div.rendered_html tbody tr:hover {
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+INFO:presidio:nlp_engine not provided. Creating new SpacyNlpEngine instance
+INFO:presidio:Loading NLP model: spaCy en_core_web_lg
+INFO:presidio:<span class="ansi-bold">
+===================== Info about model &#39;en_core_web_lg&#39; =====================</span>
+INFO:presidio:
+lang             en
+name             core_web_lg
+license          MIT
+author           Explosion
+url              https://explosion.ai
+email            contact@explosion.ai
+description      English multi-task CNN trained on OntoNotes, with GloVe vectors trained on Common Crawl. Assigns word vectors, context-specific token vectors, POS tags, dependency parse and named entities.
+sources          [{&#39;name&#39;: &#39;OntoNotes 5&#39;, &#39;url&#39;: &#39;https://catalog.ldc.upenn.edu/LDC2013T19&#39;, &#39;license&#39;: &#39;commercial (licensed by Explosion)&#39;}, {&#39;name&#39;: &#39;Common Crawl&#39;}]
+pipeline         [&#39;tagger&#39;, &#39;parser&#39;, &#39;ner&#39;]
+version          2.2.0
+spacy_version    &gt;=2.2.0
+parent_package   spacy
+labels           {&#39;tagger&#39;: [&#39;$&#39;, &#34;&#39;&#39;&#34;, &#39;,&#39;, &#39;-LRB-&#39;, &#39;-RRB-&#39;, &#39;.&#39;, &#39;:&#39;, &#39;ADD&#39;, &#39;AFX&#39;, &#39;CC&#39;, &#39;CD&#39;, &#39;DT&#39;, &#39;EX&#39;, &#39;FW&#39;, &#39;HYPH&#39;, &#39;IN&#39;, &#39;JJ&#39;, &#39;JJR&#39;, &#39;JJS&#39;, &#39;LS&#39;, &#39;MD&#39;, &#39;NFP&#39;, &#39;NN&#39;, &#39;NNP&#39;, &#39;NNPS&#39;, &#39;NNS&#39;, &#39;PDT&#39;, &#39;POS&#39;, &#39;PRP&#39;, &#39;PRP$&#39;, &#39;RB&#39;, &#39;RBR&#39;, &#39;RBS&#39;, &#39;RP&#39;, &#39;SYM&#39;, &#39;TO&#39;, &#39;UH&#39;, &#39;VB&#39;, &#39;VBD&#39;, &#39;VBG&#39;, &#39;VBN&#39;, &#39;VBP&#39;, &#39;VBZ&#39;, &#39;WDT&#39;, &#39;WP&#39;, &#39;WP$&#39;, &#39;WRB&#39;, &#39;XX&#39;, &#39;_SP&#39;, &#39;``&#39;], &#39;parser&#39;: [&#39;ROOT&#39;, &#39;acl&#39;, &#39;acomp&#39;, &#39;advcl&#39;, &#39;advmod&#39;, &#39;agent&#39;, &#39;amod&#39;, &#39;appos&#39;, &#39;attr&#39;, &#39;aux&#39;, &#39;auxpass&#39;, &#39;case&#39;, &#39;cc&#39;, &#39;ccomp&#39;, &#39;compound&#39;, &#39;conj&#39;, &#39;csubj&#39;, &#39;csubjpass&#39;, &#39;dative&#39;, &#39;dep&#39;, &#39;det&#39;, &#39;dobj&#39;, &#39;expl&#39;, &#39;intj&#39;, &#39;mark&#39;, &#39;meta&#39;, &#39;neg&#39;, &#39;nmod&#39;, &#39;npadvmod&#39;, &#39;nsubj&#39;, &#39;nsubjpass&#39;, &#39;nummod&#39;, &#39;oprd&#39;, &#39;parataxis&#39;, &#39;pcomp&#39;, &#39;pobj&#39;, &#39;poss&#39;, &#39;preconj&#39;, &#39;predet&#39;, &#39;prep&#39;, &#39;prt&#39;, &#39;punct&#39;, &#39;quantmod&#39;, &#39;relcl&#39;, &#39;xcomp&#39;], &#39;ner&#39;: [&#39;CARDINAL&#39;, &#39;DATE&#39;, &#39;EVENT&#39;, &#39;FAC&#39;, &#39;GPE&#39;, &#39;LANGUAGE&#39;, &#39;LAW&#39;, &#39;LOC&#39;, &#39;MONEY&#39;, &#39;NORP&#39;, &#39;ORDINAL&#39;, &#39;ORG&#39;, &#39;PERCENT&#39;, &#39;PERSON&#39;, &#39;PRODUCT&#39;, &#39;QUANTITY&#39;, &#39;TIME&#39;, &#39;WORK_OF_ART&#39;]}
+vectors          {&#39;width&#39;: 300, &#39;vectors&#39;: 684831, &#39;keys&#39;: 684830, &#39;name&#39;: &#39;en_core_web_lg.vectors&#39;}
+source           C:\Users\David\.conda\envs\test-env\lib\site-packages\en_core_web_lg
+
+INFO:presidio:Printing spaCy model and package details:
+
+ {&#39;lang&#39;: &#39;en&#39;, &#39;name&#39;: &#39;core_web_lg&#39;, &#39;license&#39;: &#39;MIT&#39;, &#39;author&#39;: &#39;Explosion&#39;, &#39;url&#39;: &#39;https://explosion.ai&#39;, &#39;email&#39;: &#39;contact@explosion.ai&#39;, &#39;description&#39;: &#39;English multi-task CNN trained on OntoNotes, with GloVe vectors trained on Common Crawl. Assigns word vectors, context-specific token vectors, POS tags, dependency parse and named entities.&#39;, &#39;sources&#39;: [{&#39;name&#39;: &#39;OntoNotes 5&#39;, &#39;url&#39;: &#39;https://catalog.ldc.upenn.edu/LDC2013T19&#39;, &#39;license&#39;: &#39;commercial (licensed by Explosion)&#39;}, {&#39;name&#39;: &#39;Common Crawl&#39;}], &#39;pipeline&#39;: [&#39;tagger&#39;, &#39;parser&#39;, &#39;ner&#39;], &#39;version&#39;: &#39;2.2.0&#39;, &#39;spacy_version&#39;: &#39;&gt;=2.2.0&#39;, &#39;parent_package&#39;: &#39;spacy&#39;, &#39;accuracy&#39;: {&#39;las&#39;: 90.1644260278, &#39;uas&#39;: 91.9835496082, &#39;token_acc&#39;: 99.7579930934, &#39;tags_acc&#39;: 97.2056522464, &#39;ents_f&#39;: 86.3045056111, &#39;ents_p&#39;: 86.217859334, &#39;ents_r&#39;: 86.391326217}, &#39;speed&#39;: {&#39;cpu&#39;: 7127.1086034688, &#39;gpu&#39;: None, &#39;nwords&#39;: 291314}, &#39;labels&#39;: {&#39;tagger&#39;: [&#39;$&#39;, &#34;&#39;&#39;&#34;, &#39;,&#39;, &#39;-LRB-&#39;, &#39;-RRB-&#39;, &#39;.&#39;, &#39;:&#39;, &#39;ADD&#39;, &#39;AFX&#39;, &#39;CC&#39;, &#39;CD&#39;, &#39;DT&#39;, &#39;EX&#39;, &#39;FW&#39;, &#39;HYPH&#39;, &#39;IN&#39;, &#39;JJ&#39;, &#39;JJR&#39;, &#39;JJS&#39;, &#39;LS&#39;, &#39;MD&#39;, &#39;NFP&#39;, &#39;NN&#39;, &#39;NNP&#39;, &#39;NNPS&#39;, &#39;NNS&#39;, &#39;PDT&#39;, &#39;POS&#39;, &#39;PRP&#39;, &#39;PRP$&#39;, &#39;RB&#39;, &#39;RBR&#39;, &#39;RBS&#39;, &#39;RP&#39;, &#39;SYM&#39;, &#39;TO&#39;, &#39;UH&#39;, &#39;VB&#39;, &#39;VBD&#39;, &#39;VBG&#39;, &#39;VBN&#39;, &#39;VBP&#39;, &#39;VBZ&#39;, &#39;WDT&#39;, &#39;WP&#39;, &#39;WP$&#39;, &#39;WRB&#39;, &#39;XX&#39;, &#39;_SP&#39;, &#39;``&#39;], &#39;parser&#39;: [&#39;ROOT&#39;, &#39;acl&#39;, &#39;acomp&#39;, &#39;advcl&#39;, &#39;advmod&#39;, &#39;agent&#39;, &#39;amod&#39;, &#39;appos&#39;, &#39;attr&#39;, &#39;aux&#39;, &#39;auxpass&#39;, &#39;case&#39;, &#39;cc&#39;, &#39;ccomp&#39;, &#39;compound&#39;, &#39;conj&#39;, &#39;csubj&#39;, &#39;csubjpass&#39;, &#39;dative&#39;, &#39;dep&#39;, &#39;det&#39;, &#39;dobj&#39;, &#39;expl&#39;, &#39;intj&#39;, &#39;mark&#39;, &#39;meta&#39;, &#39;neg&#39;, &#39;nmod&#39;, &#39;npadvmod&#39;, &#39;nsubj&#39;, &#39;nsubjpass&#39;, &#39;nummod&#39;, &#39;oprd&#39;, &#39;parataxis&#39;, &#39;pcomp&#39;, &#39;pobj&#39;, &#39;poss&#39;, &#39;preconj&#39;, &#39;predet&#39;, &#39;prep&#39;, &#39;prt&#39;, &#39;punct&#39;, &#39;quantmod&#39;, &#39;relcl&#39;, &#39;xcomp&#39;], &#39;ner&#39;: [&#39;CARDINAL&#39;, &#39;DATE&#39;, &#39;EVENT&#39;, &#39;FAC&#39;, &#39;GPE&#39;, &#39;LANGUAGE&#39;, &#39;LAW&#39;, &#39;LOC&#39;, &#39;MONEY&#39;, &#39;NORP&#39;, &#39;ORDINAL&#39;, &#39;ORG&#39;, &#39;PERCENT&#39;, &#39;PERSON&#39;, &#39;PRODUCT&#39;, &#39;QUANTITY&#39;, &#39;TIME&#39;, &#39;WORK_OF_ART&#39;]}, &#39;vectors&#39;: {&#39;width&#39;: 300, &#39;vectors&#39;: 684831, &#39;keys&#39;: 684830, &#39;name&#39;: &#39;en_core_web_lg.vectors&#39;}, &#39;source&#39;: &#39;C:\\Users\\David\\.conda\\envs\\test-env\\lib\\site-packages\\en_core_web_lg&#39;}
+
+
+INFO:presidio:Recognizer registry not provided. Creating default RecognizerRegistry instance
+INFO:presidio:Loaded recognizer: CreditCardRecognizer
+INFO:presidio:Loaded recognizer: CryptoRecognizer
+INFO:presidio:Loaded recognizer: DomainRecognizer
+INFO:presidio:Loaded recognizer: EmailRecognizer
+INFO:presidio:Loaded recognizer: IbanRecognizer
+INFO:presidio:Loaded recognizer: IpRecognizer
+INFO:presidio:Loaded recognizer: NhsRecognizer
+INFO:presidio:Loaded recognizer: UsBankRecognizer
+INFO:presidio:Loaded recognizer: UsLicenseRecognizer
+INFO:presidio:Loaded recognizer: UsItinRecognizer
+INFO:presidio:Loaded recognizer: UsPassportRecognizer
+INFO:presidio:Loaded recognizer: UsPhoneRecognizer
+INFO:presidio:Loaded recognizer: UsSsnRecognizer
+INFO:presidio:Loaded recognizer: SpacyRecognizer
+INFO:presidio:Loaded recognizer: SgFinRecognizer
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
 <div class="output_area rendered_html docutils container">
 <div>
 <style scoped>
@@ -893,11 +999,11 @@ div.rendered_html tbody tr:hover {
   <tbody>
     <tr>
       <th>0</th>
-      <td>ea49f5ee27409740ce7f74997ccf0184f3bbe9a72a86c0...</td>
+      <td>Fisher, Green and 7e0b7a468d5cbb313ac238ae4942...</td>
       <td>9fc2a689acf5f89d888c7acb3d43add7c4ddb320ca0fe0...</td>
-      <td>24219 2cee30d46d5a9c636d0ce08afea6aaba9b48cd9d...</td>
+      <td>24219 Archer Mountain Suite 924\nNorth Melissa...</td>
       <td>['http://7f6bcdcd8eb28186cd2bd93cdd66bf2abba0f...</td>
-      <td>sandraharris</td>
+      <td>83238faab748c22d8d84203bae0628716e31bd00891ecc...</td>
       <td>779b878ad9f68899e5de5daac8322dd5b3a3991b10e3ed...</td>
       <td>26f70e334556abc2841f5312a9984aa9a7f21b1924015d...</td>
       <td>b43ca3c683dabab5b42fee6181836eeea80dad950c1428...</td>
@@ -907,23 +1013,23 @@ div.rendered_html tbody tr:hover {
       <th>1</th>
       <td>76364d81ab4c1832d9181572cc0d408f7bdd3900a61113...</td>
       <td>567e4a168b80d74c435b22ec74bf56f52d1480372ee3db...</td>
-      <td>5330 Wilson Fields Suite 560\n2ab6e79e04018666...</td>
+      <td>5330 fb7961d139e4da12af18c24571a166fb77c391a15...</td>
       <td>['https://b5e885e576b91d7f332cecd36e1078e1c8ff...</td>
-      <td>jeffreylucas</td>
+      <td>cf7bfbcaf80510fb918e37ad52ff7e9b59e86308a7e9c5...</td>
       <td>b79d0309ea6eb45b8e8dee995c996184641de208262b0b...</td>
-      <td>b6e3258d0f1106cf9ac124221f4bbdd7c327eb5dcb5880...</td>
+      <td>0916 f089eaef57aba315bc0e1455985c0c8e40c247f07...</td>
       <td>42ea5e56df211dbed485dc611277fe0932bb3139c4815e...</td>
       <td>7e7bebf19314f96de0b1231c7c89627c3a87dd110c2614...</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>Thompson-Ruiz</td>
+      <td>4bf5f01b21094aceb8d03ea384cc90e0c163898704dc2b...</td>
       <td>06f11d164b97a22cd2a3a2a1a1b6df50268a8a21ee8a97...</td>
-      <td>PSC 5642, Box 8071\nAPO AA 06490</td>
+      <td>PSC 5642, Box e58bb6dcf3948e6c37eefaf185c769e0...</td>
       <td>['http://7aad9afb51f77260b55915f74a5498b5850cc...</td>
       <td>karla07</td>
       <td>08471f7bf132fdfb2a1a9ad7529fca6942425dc9d32834...</td>
-      <td>51ae0e05ffebf0ab306c50cfaa433765e089e781ddbfaf...</td>
+      <td>63812 6f005a18689861aa2634b7a3155a148a56fcd272...</td>
       <td>4ca073222470748ed4fb77ad0011402af414dd561cd645...</td>
       <td>1b739ba212c2fec7848fbe6cffeffeb2f3737f40748542...</td>
     </tr>
@@ -931,7 +1037,7 @@ div.rendered_html tbody tr:hover {
       <th>3</th>
       <td>Sloan PLC</td>
       <td>e7ed1ca0c627c7e1928f4a969225b761133dfb3d9f687f...</td>
-      <td>1240 Jamie Forks Apt. 590\nc9e009c6a1baa39f305...</td>
+      <td>2ebf4a7fdd9a4209fd1b52d9b672bccbf65e196f62169f...</td>
       <td>['http://587d2a51617478f91f145b2b261629d100768...</td>
       <td>johnwilliams</td>
       <td>29b8f8f54a0405dc20c84f25d2344ddb3fa644459453c1...</td>
@@ -945,21 +1051,21 @@ div.rendered_html tbody tr:hover {
       <td>6c2264d952abb164d584bb7eba89cf41f94fbba413208c...</td>
       <td>PSC 9361, Box 5349\nAPO AP 57022</td>
       <td>['https://68bd3a706676d6fbfffbde3da0c7da6164da...</td>
-      <td>amyhernandez</td>
+      <td>66565c13d4869eda2a02c506c1b3d7e65c769ac209bd00...</td>
       <td>070f7870e5befe421c6dd0e1fd941a34d877b6b4758b90...</td>
-      <td>Unit 7296 Box 6875\nDPO AP b51b9c2cd8d34bc45e1...</td>
+      <td>Unit 63bfc4219c16f9ba618b6b76d81edef58b912ca65...</td>
       <td>66d6d0dac0ba4a8f0e415c24d87448f6d100cb11083f18...</td>
-      <td>607431ddb916648b0af79f1795e50d8e5512efc7631d77...</td>
+      <td>e80ef1d1d41d0b4b0bc14a77236ee6018cc31db6e9aa07...</td>
     </tr>
     <tr>
       <th>5</th>
       <td>71f90b7c03aad530eafa769b2ad97cb333ca6dd455fce1...</td>
       <td>2d982e60214173e9d9dcace8376a3b33e224374465e289...</td>
-      <td>eace48a195da1586d8c63aae19aa2be8ddd8712c79f29a...</td>
+      <td>824d23478ea9d0d571699e83112a567183dbfde775f2f4...</td>
       <td>['https://3328a0e4658c855acde71f8d85e98eac5d63...</td>
-      <td>eprice</td>
+      <td>eb0f1bd37f4ba7e4ecb33aeec2423538e088530eff1cea...</td>
       <td>3b4cef0bb0914adbe31e209262f261589133e5a90f1788...</td>
-      <td>0248 Cook Mews Apt. 466\nBrownfurt, IN 44282</td>
+      <td>912b3255f7a8016fbf71bd4b2f7ffb646945200bb4b63c...</td>
       <td>731feae7800d583626f6fe1ffda859e274ba4f7813c223...</td>
       <td>a8f11f485ed632115deb5cccd3d251ec901c445c6896d7...</td>
     </tr>
@@ -973,7 +1079,7 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;data_describe.privacy.detection.SensitiveDataWidget at 0x7fbdfc19cbd0&gt;
+&lt;data_describe.privacy.detection.SensitiveDataWidget at 0x2aa6fb3a888&gt;
 </pre></div></div>
 </div>
 </div>
@@ -997,8 +1103,8 @@ div.rendered_html tbody tr:hover {
 {&#39;company&#39;: [&#39;PERSON&#39;],
  &#39;ssn&#39;: [&#39;US_SSN&#39;],
  &#39;residence&#39;: [&#39;DATE_TIME&#39;, &#39;LOCATION&#39;, &#39;PERSON&#39;],
- &#39;website&#39;: [&#39;DOMAIN_NAME&#39;],
- &#39;username&#39;: [],
+ &#39;website&#39;: [&#39;DOMAIN_NAME&#39;, &#39;PERSON&#39;],
+ &#39;username&#39;: [&#39;PERSON&#39;],
  &#39;name&#39;: [&#39;PERSON&#39;],
  &#39;address&#39;: [&#39;DATE_TIME&#39;, &#39;LOCATION&#39;, &#39;PERSON&#39;, &#39;US_DRIVER_LICENSE&#39;],
  &#39;mail&#39;: [&#39;DOMAIN_NAME&#39;, &#39;EMAIL_ADDRESS&#39;],

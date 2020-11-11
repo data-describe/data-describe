@@ -147,11 +147,12 @@ data_describe.text.text_preprocessing
    :returns: A generator expression for all of the processed documents
 
 
-.. function:: create_tfidf_matrix(text_docs: Iterable[str]) -> pd.DataFrame
+.. function:: create_tfidf_matrix(text_docs: Iterable[str], **kwargs) -> pd.DataFrame
 
    Creates a Term Frequency-Inverse Document Frequency matrix.
 
    :param text_docs: A list of strings of text documents
+   :param \*\*kwargs: Other arguments to be passed to sklearn.feature_extraction.text.TfidfVectorizer
 
    :returns:
 
@@ -160,11 +161,12 @@ data_describe.text.text_preprocessing
    :rtype: matrix_df
 
 
-.. function:: create_doc_term_matrix(text_docs: Iterable[str]) -> pd.DataFrame
+.. function:: create_doc_term_matrix(text_docs: Iterable[str], **kwargs) -> pd.DataFrame
 
    Creates a document-term matrix which gives wordcount per document.
 
    :param text_docs: A list of strings of text documents
+   :param \*\*kwargs: Other arguments to be passed to sklearn.feature_extraction.text.CountVectorizer
 
    :returns:
 
@@ -231,7 +233,7 @@ data_describe.text.text_preprocessing
    :rtype: freq
 
 
-.. function:: filter_dictionary(text_docs: List[str], no_below: int = 10, no_above: float = 0.2)
+.. function:: filter_dictionary(text_docs: List[str], no_below: int = 10, no_above: float = 0.2, **kwargs)
 
    Filters words outside specified frequency thresholds.
 
@@ -240,6 +242,7 @@ data_describe.text.text_preprocessing
                     Default is 10.
    :param no_above: Keep tokens which are contained in no more than no_above portion of
                     documents (fraction of total corpus size). Default is 0.2.
+   :param \*\*kwargs: Other arguments to be passed to gensim.corpora.Dictionary.filter_extremes
 
    :returns:
 

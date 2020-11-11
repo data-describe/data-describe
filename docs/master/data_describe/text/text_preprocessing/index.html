@@ -96,7 +96,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../_notebooks/quick_start.html">Quick Start Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../_notebooks/user_guide.html">User Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../examples/index.html">Examples</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../_notebooks/developer_guide.html">Developer Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../_notebooks/contributing_guide.html">Contributing Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../design.html">Design Reference</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../index.html">API Reference</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../../backends/index.html">data_describe.backends</a></li>
@@ -304,10 +304,10 @@ Each of the functions in these groups return generator objects, and when using t
 <tr class="row-odd"><td><p><a class="reference internal" href="#data_describe.text.text_preprocessing.bag_of_words_to_docs" title="data_describe.text.text_preprocessing.bag_of_words_to_docs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bag_of_words_to_docs</span></code></a>(text_docs_bow: Iterable[Iterable[str]])</p></td>
 <td><p>Converts list of documents in “bag of words” format.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#data_describe.text.text_preprocessing.create_tfidf_matrix" title="data_describe.text.text_preprocessing.create_tfidf_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_tfidf_matrix</span></code></a>(text_docs: Iterable[str])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#data_describe.text.text_preprocessing.create_tfidf_matrix" title="data_describe.text.text_preprocessing.create_tfidf_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_tfidf_matrix</span></code></a>(text_docs: Iterable[str], **kwargs)</p></td>
 <td><p>Creates a Term Frequency-Inverse Document Frequency matrix.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#data_describe.text.text_preprocessing.create_doc_term_matrix" title="data_describe.text.text_preprocessing.create_doc_term_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_doc_term_matrix</span></code></a>(text_docs: Iterable[str])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#data_describe.text.text_preprocessing.create_doc_term_matrix" title="data_describe.text.text_preprocessing.create_doc_term_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_doc_term_matrix</span></code></a>(text_docs: Iterable[str], **kwargs)</p></td>
 <td><p>Creates a document-term matrix which gives wordcount per document.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#data_describe.text.text_preprocessing.preprocess_texts" title="data_describe.text.text_preprocessing.preprocess_texts"><code class="xref py py-obj docutils literal notranslate"><span class="pre">preprocess_texts</span></code></a>(text_docs: Iterable[str], lem: bool = False, stem: bool = False, custom_pipeline: List = None)</p></td>
@@ -319,7 +319,7 @@ Each of the functions in these groups return generator objects, and when using t
 <tr class="row-even"><td><p><a class="reference internal" href="#data_describe.text.text_preprocessing.ngram_freq" title="data_describe.text.text_preprocessing.ngram_freq"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ngram_freq</span></code></a>(text_docs_bow: Iterable[Iterable[str]], n: int = 3, only_n: bool = False)</p></td>
 <td><p>Generates frequency distribution of “n-grams” from all of the text documents.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#data_describe.text.text_preprocessing.filter_dictionary" title="data_describe.text.text_preprocessing.filter_dictionary"><code class="xref py py-obj docutils literal notranslate"><span class="pre">filter_dictionary</span></code></a>(text_docs: List[str], no_below: int = 10, no_above: float = 0.2)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#data_describe.text.text_preprocessing.filter_dictionary" title="data_describe.text.text_preprocessing.filter_dictionary"><code class="xref py py-obj docutils literal notranslate"><span class="pre">filter_dictionary</span></code></a>(text_docs: List[str], no_below: int = 10, no_above: float = 0.2, **kwargs)</p></td>
 <td><p>Filters words outside specified frequency thresholds.</p></td>
 </tr>
 </tbody>
@@ -473,11 +473,14 @@ so they can be analyzed as a single item.</p>
 
 <dl class="py function">
 <dt id="data_describe.text.text_preprocessing.create_tfidf_matrix">
-<code class="sig-prename descclassname">data_describe.text.text_preprocessing.</code><code class="sig-name descname">create_tfidf_matrix</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">text_docs</span><span class="p">:</span> <span class="n">Iterable<span class="p">[</span>str<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; pd.DataFrame<a class="headerlink" href="#data_describe.text.text_preprocessing.create_tfidf_matrix" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">data_describe.text.text_preprocessing.</code><code class="sig-name descname">create_tfidf_matrix</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">text_docs</span><span class="p">:</span> <span class="n">Iterable<span class="p">[</span>str<span class="p">]</span></span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; pd.DataFrame<a class="headerlink" href="#data_describe.text.text_preprocessing.create_tfidf_matrix" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates a Term Frequency-Inverse Document Frequency matrix.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>text_docs</strong> – A list of strings of text documents</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>text_docs</strong> – A list of strings of text documents</p></li>
+<li><p><strong>**kwargs</strong> – Other arguments to be passed to sklearn.feature_extraction.text.TfidfVectorizer</p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p><dl class="simple">
@@ -494,11 +497,14 @@ so they can be analyzed as a single item.</p>
 
 <dl class="py function">
 <dt id="data_describe.text.text_preprocessing.create_doc_term_matrix">
-<code class="sig-prename descclassname">data_describe.text.text_preprocessing.</code><code class="sig-name descname">create_doc_term_matrix</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">text_docs</span><span class="p">:</span> <span class="n">Iterable<span class="p">[</span>str<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; pd.DataFrame<a class="headerlink" href="#data_describe.text.text_preprocessing.create_doc_term_matrix" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">data_describe.text.text_preprocessing.</code><code class="sig-name descname">create_doc_term_matrix</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">text_docs</span><span class="p">:</span> <span class="n">Iterable<span class="p">[</span>str<span class="p">]</span></span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; pd.DataFrame<a class="headerlink" href="#data_describe.text.text_preprocessing.create_doc_term_matrix" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates a document-term matrix which gives wordcount per document.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>text_docs</strong> – A list of strings of text documents</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>text_docs</strong> – A list of strings of text documents</p></li>
+<li><p><strong>**kwargs</strong> – Other arguments to be passed to sklearn.feature_extraction.text.CountVectorizer</p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p><dl class="simple">
@@ -599,7 +605,7 @@ up to <cite>n</cite></p></li>
 
 <dl class="py function">
 <dt id="data_describe.text.text_preprocessing.filter_dictionary">
-<code class="sig-prename descclassname">data_describe.text.text_preprocessing.</code><code class="sig-name descname">filter_dictionary</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">text_docs</span><span class="p">:</span> <span class="n">List<span class="p">[</span>str<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">no_below</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">10</span></em>, <em class="sig-param"><span class="n">no_above</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.2</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.text.text_preprocessing.filter_dictionary" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">data_describe.text.text_preprocessing.</code><code class="sig-name descname">filter_dictionary</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">text_docs</span><span class="p">:</span> <span class="n">List<span class="p">[</span>str<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">no_below</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">10</span></em>, <em class="sig-param"><span class="n">no_above</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.2</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_describe.text.text_preprocessing.filter_dictionary" title="Permalink to this definition">¶</a></dt>
 <dd><p>Filters words outside specified frequency thresholds.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -609,6 +615,7 @@ up to <cite>n</cite></p></li>
 Default is 10.</p></li>
 <li><p><strong>no_above</strong> – Keep tokens which are contained in no more than no_above portion of
 documents (fraction of total corpus size). Default is 0.2.</p></li>
+<li><p><strong>**kwargs</strong> – Other arguments to be passed to gensim.corpora.Dictionary.filter_extremes</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
