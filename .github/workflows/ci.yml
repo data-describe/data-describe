@@ -11,9 +11,8 @@ on:
       - "**.py"
 
 jobs:
-  JOB:
-    if: github.event.pull_request.draft == false
   lint:
+    if: github.event.pull_request.draft == true
     runs-on: ubuntu-latest
     strategy:
       matrix:
