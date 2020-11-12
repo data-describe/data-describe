@@ -1,0 +1,67 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [master]
+    paths:
+      - "**.py"
+
+jobs:
+  lint:
+    if: github.event.pull_request.draft == false
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.7]
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v1
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install --upgrade pre-commit
+      - name: Lint with pre-commit
+        run: |
+          pre-commit run --all-files
+  test:
+    if: github.event.pull_request.draft == false
+    runs-on: "ubuntu-latest"
+    steps:
+      - uses: actions/checkout@v2
+      - name: Cache conda
+        uses: actions/cache@v2
+        env:
+          # Increase this value to reset cache if etc/test-environment.yml has not changed
+          CACHE_NUMBER: 0
+        with:
+          path: ~/conda_pkgs_dir
+          key: ${{ runner.os }}-conda-${{ env.CACHE_NUMBER }}-${{ hashFiles('etc/test-environment.yml') }}
+      - name: Cache pip
+        uses: actions/cache@v2
+        env:
+          # Increase this value to reset cache if etc/test-environment.yml has not changed
+          CACHE_NUMBER: 0
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-conda-${{ env.CACHE_NUMBER }}-${{ hashFiles('etc/test-environment.yml') }}
+      - name: Setup miniconda
+        uses: conda-incubator/setup-miniconda@v1.7.0
+        with:
+          miniconda-version: latest
+          activate-environment: test-env
+          environment-file: etc/test-environment.yml
+          condarc-file: etc/.condarc
+          auto-activate-base: false
+      - name: Run unit tests
+        shell: bash -l {0}
+        run: |
+          pip install -e . &&
+          pytest --cov=data_describe --cov-report term-missing --cov-report xml tests
+      - name: Report coverage
+        shell: bash -l {0}
+        run: |
+          bash <(curl -s https://codecov.io/bash)
