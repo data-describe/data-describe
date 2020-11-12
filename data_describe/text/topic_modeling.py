@@ -114,6 +114,7 @@ class TopicModelWidget(BaseWidget):
             )
         self._num_topics = num_topics
         self._model_kwargs = model_kwargs
+        print("Test 1,2,3")
 
     def __str__(self):
         return "data-describe Topic Model Widget"
