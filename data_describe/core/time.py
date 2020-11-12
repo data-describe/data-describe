@@ -54,6 +54,7 @@ def plot_time_series(
         )
     else:
         fig = _get_viz_backend(viz_backend).viz_plot_time_series(df, col, **kwargs)
+        print("Test 1 2 3")
     return fig
 
 
