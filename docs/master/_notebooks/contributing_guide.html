@@ -227,237 +227,6 @@
             
   
 <style>
-/* CSS for nbsphinx extension */
-
-/* remove conflicting styling from Sphinx themes */
-div.nbinput.container,
-div.nbinput.container div.prompt,
-div.nbinput.container div.input_area,
-div.nbinput.container div[class*=highlight],
-div.nbinput.container div[class*=highlight] pre,
-div.nboutput.container,
-div.nboutput.container div.prompt,
-div.nboutput.container div.output_area,
-div.nboutput.container div[class*=highlight],
-div.nboutput.container div[class*=highlight] pre {
-    background: none;
-    border: none;
-    padding: 0 0;
-    margin: 0;
-    box-shadow: none;
-}
-
-/* avoid gaps between output lines */
-div.nboutput.container div[class*=highlight] pre {
-    line-height: normal;
-}
-
-/* input/output containers */
-div.nbinput.container,
-div.nboutput.container {
-    display: -webkit-flex;
-    display: flex;
-    align-items: flex-start;
-    margin: 0;
-    width: 100%;
-}
-@media (max-width: 540px) {
-    div.nbinput.container,
-    div.nboutput.container {
-        flex-direction: column;
-    }
-}
-
-/* input container */
-div.nbinput.container {
-    padding-top: 5px;
-}
-
-/* last container */
-div.nblast.container {
-    padding-bottom: 5px;
-}
-
-/* input prompt */
-div.nbinput.container div.prompt pre {
-    color: #307FC1;
-}
-
-/* output prompt */
-div.nboutput.container div.prompt pre {
-    color: #BF5B3D;
-}
-
-/* all prompts */
-div.nbinput.container div.prompt,
-div.nboutput.container div.prompt {
-    width: 4.5ex;
-    padding-top: 5px;
-    position: relative;
-    user-select: none;
-}
-
-div.nbinput.container div.prompt > div,
-div.nboutput.container div.prompt > div {
-    position: absolute;
-    right: 0;
-    margin-right: 0.3ex;
-}
-
-@media (max-width: 540px) {
-    div.nbinput.container div.prompt,
-    div.nboutput.container div.prompt {
-        width: unset;
-        text-align: left;
-        padding: 0.4em;
-    }
-    div.nboutput.container div.prompt.empty {
-        padding: 0;
-    }
-
-    div.nbinput.container div.prompt > div,
-    div.nboutput.container div.prompt > div {
-        position: unset;
-    }
-}
-
-/* disable scrollbars on prompts */
-div.nbinput.container div.prompt pre,
-div.nboutput.container div.prompt pre {
-    overflow: hidden;
-}
-
-/* input/output area */
-div.nbinput.container div.input_area,
-div.nboutput.container div.output_area {
-    -webkit-flex: 1;
-    flex: 1;
-    overflow: auto;
-}
-@media (max-width: 540px) {
-    div.nbinput.container div.input_area,
-    div.nboutput.container div.output_area {
-        width: 100%;
-    }
-}
-
-/* input area */
-div.nbinput.container div.input_area {
-    border: 1px solid #e0e0e0;
-    border-radius: 2px;
-    background: #f5f5f5;
-}
-
-/* override MathJax center alignment in output cells */
-div.nboutput.container div[class*=MathJax] {
-    text-align: left !important;
-}
-
-/* override sphinx.ext.imgmath center alignment in output cells */
-div.nboutput.container div.math p {
-    text-align: left;
-}
-
-/* standard error */
-div.nboutput.container div.output_area.stderr {
-    background: #fdd;
-}
-
-/* ANSI colors */
-.ansi-black-fg { color: #3E424D; }
-.ansi-black-bg { background-color: #3E424D; }
-.ansi-black-intense-fg { color: #282C36; }
-.ansi-black-intense-bg { background-color: #282C36; }
-.ansi-red-fg { color: #E75C58; }
-.ansi-red-bg { background-color: #E75C58; }
-.ansi-red-intense-fg { color: #B22B31; }
-.ansi-red-intense-bg { background-color: #B22B31; }
-.ansi-green-fg { color: #00A250; }
-.ansi-green-bg { background-color: #00A250; }
-.ansi-green-intense-fg { color: #007427; }
-.ansi-green-intense-bg { background-color: #007427; }
-.ansi-yellow-fg { color: #DDB62B; }
-.ansi-yellow-bg { background-color: #DDB62B; }
-.ansi-yellow-intense-fg { color: #B27D12; }
-.ansi-yellow-intense-bg { background-color: #B27D12; }
-.ansi-blue-fg { color: #208FFB; }
-.ansi-blue-bg { background-color: #208FFB; }
-.ansi-blue-intense-fg { color: #0065CA; }
-.ansi-blue-intense-bg { background-color: #0065CA; }
-.ansi-magenta-fg { color: #D160C4; }
-.ansi-magenta-bg { background-color: #D160C4; }
-.ansi-magenta-intense-fg { color: #A03196; }
-.ansi-magenta-intense-bg { background-color: #A03196; }
-.ansi-cyan-fg { color: #60C6C8; }
-.ansi-cyan-bg { background-color: #60C6C8; }
-.ansi-cyan-intense-fg { color: #258F8F; }
-.ansi-cyan-intense-bg { background-color: #258F8F; }
-.ansi-white-fg { color: #C5C1B4; }
-.ansi-white-bg { background-color: #C5C1B4; }
-.ansi-white-intense-fg { color: #A1A6B2; }
-.ansi-white-intense-bg { background-color: #A1A6B2; }
-
-.ansi-default-inverse-fg { color: #FFFFFF; }
-.ansi-default-inverse-bg { background-color: #000000; }
-
-.ansi-bold { font-weight: bold; }
-.ansi-underline { text-decoration: underline; }
-
-
-div.nbinput.container div.input_area div[class*=highlight] > pre,
-div.nboutput.container div.output_area div[class*=highlight] > pre,
-div.nboutput.container div.output_area div[class*=highlight].math,
-div.nboutput.container div.output_area.rendered_html,
-div.nboutput.container div.output_area > div.output_javascript,
-div.nboutput.container div.output_area:not(.rendered_html) > img{
-    padding: 5px;
-}
-
-/* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
-div.nbinput.container div.input_area > div[class^='highlight'],
-div.nboutput.container div.output_area > div[class^='highlight']{
-    overflow-y: hidden;
-}
-
-/* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
-.prompt a.copybtn {
-    display: none;
-}
-
-/* Some additional styling taken form the Jupyter notebook CSS */
-div.rendered_html table {
-  border: none;
-  border-collapse: collapse;
-  border-spacing: 0;
-  color: black;
-  font-size: 12px;
-  table-layout: fixed;
-}
-div.rendered_html thead {
-  border-bottom: 1px solid black;
-  vertical-align: bottom;
-}
-div.rendered_html tr,
-div.rendered_html th,
-div.rendered_html td {
-  text-align: right;
-  vertical-align: middle;
-  padding: 0.5em 0.5em;
-  line-height: normal;
-  white-space: normal;
-  max-width: none;
-  border: none;
-}
-div.rendered_html th {
-  font-weight: bold;
-}
-div.rendered_html tbody tr:nth-child(odd) {
-  background: #f5f5f5;
-}
-div.rendered_html tbody tr:hover {
-  background: rgba(66, 165, 245, 0.2);
-}
-
 /* CSS overrides for sphinx_rtd_theme */
 
 /* 24px margin */
@@ -498,7 +267,7 @@ div.rendered_html tbody tr:hover {
 <div class="section" id="Filing-a-bug-report">
 <h4>Filing a bug report<a class="headerlink" href="#Filing-a-bug-report" title="Permalink to this headline">¶</a></h4>
 <p>Bug reports are important in helping identify things that aren’t working in data-describe. Filing a bug report is straightforward: Head to the <a class="reference external" href="https://github.com/data-describe/data-describe/issues">Issues</a> page, click on the <a class="reference external" href="https://github.com/data-describe/data-describe/issues/new/choose">New issue</a> button, and select the <a class="reference external" href="https://github.com/data-describe/data-describe/issues/new?labels=bug&amp;template=bug_report.md">Bug Report</a> template to get started.</p>
-<p><img alt="New Bug Report" src="_notebooks/imgs/bug-report-page.png" /></p>
+<p><img alt="New Bug Report" src="_notebooks/./imgs/bug-report-page.png" /></p>
 <p>The first thing you’ll want to do is to create a short, descriptive title.</p>
 <p>Next, you’ll want to fill out the contents of the Bug Report. The contents have been pre-filled with a template with guidance on common details that should be included in a bug report. Here are a few quick tips on how to read and fill out the template:</p>
 <p>Some example sections are provided to help guide the contents of your report: <code class="docutils literal notranslate"><span class="pre">**</span> <span class="pre">Header</span> <span class="pre">Sections</span> <span class="pre">**</span></code></p>
@@ -525,7 +294,7 @@ def python_code():
 <div class="section" id="Claiming/assigning-an-issue">
 <h4>Claiming/assigning an issue<a class="headerlink" href="#Claiming/assigning-an-issue" title="Permalink to this headline">¶</a></h4>
 <p>To avoid overlapping work on issues, you should check to make sure that nobody else is actively working on the problem already. This is indicated by the <em>Assignees</em> section on the right side of the page for an issue.</p>
-<p><img alt="assignees" src="_notebooks/imgs/assignee.png" /></p>
+<p><img alt="assignees" src="_notebooks/./imgs/assignee.png" /></p>
 <ol class="arabic simple">
 <li><p>If nobody is assigned to the issue, you should post a comment requesting to tackle the issue.</p></li>
 <li><p>If somebody else is already assigned to the issue, <strong>and</strong> there hasn’t been any recent activity, post a comment to ask if the current assignee is still actively working on the issue. If they are unable or unwilling to complete work on the issue, or you don’t receive any response in a reasonable time frame (~ 2 weeks), the issue may be re-assigned.</p></li>
@@ -538,7 +307,7 @@ def python_code():
 <ol class="arabic simple">
 <li><p><strong>Fork the repository</strong>: Only the primary project team has permissions to directly edit the main data-describe repository. As an external contributor, you will need to make a personal copy of the repository (a.k.a. “fork”) to begin making changes. To create a fork, click on the Fork button at the top right of the page of the repository on Github.</p></li>
 </ol>
-<p><img alt="Fork the repository" src="_notebooks/imgs/fork.png" /></p>
+<p><img alt="Fork the repository" src="_notebooks/./imgs/fork.png" /></p>
 <p>This will create a copy of the data-describe repository under your own GitHub account. (Visit “Your Repositories” under your account.)</p>
 <ol class="arabic simple" start="2">
 <li><p><strong>Clone the repository</strong>: To access and edit your fork (copy) of the repository on your computer, you will need to clone the repository. First, you will need to ensure that you have the <a class="reference external" href="https://git-scm.com/downloads">Git software</a> installed on your computer. Then, open the terminal/shell of your choice (e.g. Terminal for Mac, Powershell for Windows) in the location where you want the repository copy to be saved on your computer.</p></li>
@@ -561,7 +330,7 @@ def python_code():
 <ol class="arabic simple" start="4">
 <li><p><strong>Adding your changes</strong>: Now open (using a text editor) and edit the README.md file by adding to the title.</p></li>
 </ol>
-<p><img alt="edit-readme" src="_notebooks/imgs/edit-readme.png" /></p>
+<p><img alt="edit-readme" src="_notebooks/./imgs/edit-readme.png" /></p>
 <p>Now that you’ve made a change to the repository, you’ll need to stage the changes so that it’s tracked by git. Run the command <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">add</span> <span class="pre">README.md</span></code>.</p>
 <p>where the <code class="docutils literal notranslate"><span class="pre">README.md</span></code> is the path to the file to be added, relative to the current working directory. To confirm that the file(s) have been added, you can run <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">status</span></code>. You should see that the file has been added to <em>Staged Changes</em>.</p>
 <ol class="arabic simple" start="5">
@@ -582,7 +351,7 @@ def python_code():
 <ol class="arabic simple" start="7">
 <li><p><strong>Creating a Pull Request</strong>: To submit your changes for review, you will need to create a pull request. When a new branch is pushed to GitHub, a prompt will appear to create a pull request:</p></li>
 </ol>
-<p><img alt="open-pull-request" src="_notebooks/imgs/open-pull-request.png" /></p>
+<p><img alt="open-pull-request" src="_notebooks/./imgs/open-pull-request.png" /></p>
 <p>Then fill out the form with (at minimum) a title and description and create the pull request. At this point, a project team member or maintainer can review your pull request, provide comments, and officially merge it when approved.</p>
 </div>
 <div class="section" id="Advanced-Git-Practices">
@@ -797,15 +566,6 @@ def python_code():
 <div class="section" id="Notebook-Testing">
 <h3>Notebook Testing<a class="headerlink" href="#Notebook-Testing" title="Permalink to this headline">¶</a></h3>
 <p>Unit tests for notebooks are in <code class="docutils literal notranslate"><span class="pre">tests/test_notebooks.py</span></code>. Follow the same pattern of using pytest-notebooks to add a test for a notebook.</p>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span>
-</pre></div>
-</div>
-</div>
 </div>
 </div>
 </div>
