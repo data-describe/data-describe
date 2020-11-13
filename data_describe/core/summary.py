@@ -3,7 +3,6 @@ import warnings
 
 import pandas as pd
 from pandas.core.dtypes.common import is_float
-from pandas.io.formats.info import _sizeof_fmt
 import numpy as np
 
 from data_describe._widget import BaseWidget
@@ -165,7 +164,7 @@ def _pandas_compute_data_summary(data):
             "Info": [
                 data.shape[0],
                 data.shape[1],
-                _sizeof_fmt(data.memory_usage().sum(), ""),
+                _sizeof_fmt(data.memory_usage().sum()),
             ]
         },
         index=["Rows", "Columns", "Size in Memory"],
@@ -367,3 +366,17 @@ def _value_formatter(x, precision=None):
             pass
     else:
         return x
+
+
+def _sizeof_fmt(num):
+    """Format byte size to human-readable format.
+
+    https://web.archive.org/web/20111010015624/http://blogmag.net/blog/read/38/Print_human_readable_file_size
+
+    Args:
+        num (float): Number of bytes
+    """
+    for x in ["bytes", "KB", "MB", "GB", "TB", "PB"]:
+        if num < 1024.0:
+            return f"{num:3.1f} {x}"
+        num /= 1024.0
