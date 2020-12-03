@@ -8,6 +8,7 @@ on:
       - "docs/**"
       - "examples/**"
       - "setup.py"
+  workflow_dispatch:
 
 jobs:
   move-notebooks:
