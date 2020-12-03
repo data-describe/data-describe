@@ -1,0 +1,17 @@
+data_describe.misc
+=========================
+
+.. py:module:: data_describe.misc
+
+
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+
+   colors/index.rst
+   file_ext/index.rst
+   load_data/index.rst
+   logging/index.rst
+   preprocessing/index.rst
+
+

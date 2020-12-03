@@ -1,0 +1,14 @@
+data_describe.metrics
+============================
+
+.. py:module:: data_describe.metrics
+
+
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+
+   bivariate/index.rst
+   univariate/index.rst
+
+

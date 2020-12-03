@@ -1,0 +1,27 @@
+data_describe.core
+=========================
+
+.. py:module:: data_describe.core
+
+.. autoapi-nested-parse::
+
+   data-describe core features.
+
+   This subpackage contains commonly used (core) features of data-describe.
+
+
+
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+
+   clustering/index.rst
+   correlation/index.rst
+   distributions/index.rst
+   heatmap/index.rst
+   importance/index.rst
+   scatter/index.rst
+   summary/index.rst
+   time/index.rst
+
+
