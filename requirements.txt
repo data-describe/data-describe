@@ -12,7 +12,6 @@ gensim>=3.4.0
 nltk>=3.4
 pyldavis>=2.1.2
 shapely>=1.6.4
-descartes>=1.1.0
 gcsfs>=0.2.1
 xlrd>=1.2.0
 statsmodels>=0.11.1

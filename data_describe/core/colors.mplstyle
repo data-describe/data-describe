@@ -1,0 +1,8 @@
+
+axes.facecolor : white
+figure.facecolor : white
+lines.linewidth : 1
+axes.grid : False
+axes.linewidth : 1
+axes.edgecolor :  grey 
+axes.formatter.limits: -5, 6
