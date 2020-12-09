@@ -425,6 +425,7 @@ def _plotly_viz_correlation_matrix(association_matrix):
                 connectgaps=False,
                 xgap=2,
                 ygap=2,
+                zmid=0,
                 colorscale=cscale,
                 colorbar={"title": "Strength"},
             )
