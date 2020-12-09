@@ -80,4 +80,4 @@ def test_shape(load_summary, compute_backend_df):
     indirect=True,
 )  # xfail: modin #2376
 def test_zeros(load_summary, compute_backend_df):
-    assert load_summary.summary_data["Zeros"]["f"] == compute_backend_df.shape[0]
+    assert load_summary.summary_data["Zeros"]["z"] == compute_backend_df.shape[0]

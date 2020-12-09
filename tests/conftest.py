@@ -71,7 +71,7 @@ def compute_backend_df(request):
             "c": np.random.normal(9, 0.2, size=250),
             "d": np.random.choice(["x", "y"], size=250),
             "e": np.random.choice(["v", "w"], p=[0.01, 0.99], size=250),
-            "f": np.zeros(250),
+            "z": np.zeros(250),
         }
     )
 
