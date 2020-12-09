@@ -3,7 +3,10 @@ import sys
 import pytest
 
 from data_describe.compat import _is_dataframe
-from data_describe.core.summary import data_summary, SummaryWidget
+from data_describe.core.summary import (
+    data_summary,
+    SummaryWidget,
+)
 
 
 @pytest.fixture
@@ -68,3 +71,13 @@ def test_series_attributes(load_series_summary, compute_backend_df):
 def test_shape(load_summary, compute_backend_df):
     assert load_summary.summary_data.shape == (compute_backend_df.shape[1], 10)
     assert load_summary.info_data.shape == (3, 1)
+
+
+@pytest.mark.base
+@pytest.mark.parametrize(
+    "compute_backend_df",
+    ["pandas", pytest.param("modin.pandas", marks=pytest.mark.xfail)],
+    indirect=True,
+)  # xfail: modin #2376
+def test_zeros(load_summary, compute_backend_df):
+    assert load_summary.summary_data["Zeros"]["z"] == compute_backend_df.shape[0]

@@ -208,7 +208,7 @@ def _pandas_compute_data_summary(data):
         (0, len(data.columns) - num_ind.size - date_ind.size),
         constant_values=np.nan,
     )
-    s_zero = data[data == 0].fillna(0).sum().astype(int)[order]
+    s_zero = (data == 0).sum()[order]
     s_null = data.isnull().sum().astype(int)[order]
     s_unique = data.nunique()[order]
     s_freq = np.apply_along_axis(mode1, 0, val.astype("str"))[order]
