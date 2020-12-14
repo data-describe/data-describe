@@ -62,7 +62,6 @@ def _pandas_compute_importance(
     preprocess_func=None,
     estimator=None,
     truncate: bool = True,
-    # top_features=None,
     **kwargs,
 ):
     """Computes importance using permutation importance.
@@ -99,11 +98,7 @@ def _pandas_compute_importance(
     )
     idx = importance_values.argsort()[::-1]
 
-    return (
-        importance_values,
-        idx,
-        X.columns,
-    )
+    return importance_values, idx, X.columns
 
 
 def _seaborn_viz_importance(importance_values, idx, cols):
