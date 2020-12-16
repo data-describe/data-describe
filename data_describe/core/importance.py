@@ -1,3 +1,5 @@
+from typing import Optional
+
 import numpy as np
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.inspection import permutation_importance
@@ -14,11 +16,11 @@ def importance(
     target: str,
     preprocess_func=None,
     estimator=None,
-    return_values=False,
-    truncate=True,
-    top_features=None,
-    compute_backend=None,
-    viz_backend=None,
+    return_values: bool = False,
+    truncate: bool = True,
+    top_features: Optional[int] = None,
+    compute_backend: Optional[str] = None,
+    viz_backend: Optional[str] = None,
     **kwargs,
 ):
     """Variable importance chart.
@@ -30,8 +32,7 @@ def importance(
     Args:
         data: A Pandas data frame
         target: Name of the response column, as a string
-        preprocess_func: A custom preprocessing function that takes a Pandas dataframe
-            and the target/response column as a string. Returns X and y as tuple.
+        preprocess_func: A custom preprocessing function that takes a Pandas dataframe and the target/response column as a string. Returns X and y as tuple.
         estimator: A custom sklearn estimator. Default is Random Forest Classifier
         return_values: If True, only the importance values as a numpy array
         truncate: If True, negative importance values will be truncated (set to zero)
