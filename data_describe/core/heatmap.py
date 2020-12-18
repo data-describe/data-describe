@@ -1,10 +1,12 @@
-from typing import List
+from typing import List, Optional
+import copy
 
 import pandas as pd
 import numpy as np
-from plotly.offline import init_notebook_mode, iplot
+import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
 import seaborn as sns
+from plotly.offline import init_notebook_mode, iplot
 import plotly.graph_objs as go
 from sklearn.preprocessing import StandardScaler
 
@@ -35,8 +37,8 @@ class HeatmapWidget(BaseWidget):
         input_data=None,
         colnames=None,
         std_data=None,
-        missing=False,
-        missing_data=None,
+        missing: bool = False,
+        missing_data: Optional[bool] = None,
         **kwargs,
     ):
         """Data heatmap.
@@ -90,7 +92,11 @@ class HeatmapWidget(BaseWidget):
 
 
 def data_heatmap(
-    data, missing=False, compute_backend=None, viz_backend=None, **kwargs
+    data,
+    missing: bool = False,
+    compute_backend: Optional[str] = None,
+    viz_backend: Optional[str] = None,
+    **kwargs,
 ) -> HeatmapWidget:
     """Visualizes data patterns in the entire dataset by visualizing as a heatmap.
 
@@ -129,7 +135,7 @@ def _pandas_compute_data_heatmap(
 
     Args:
         data: The dataframe
-        missing (bool): If True, uses missing values instead
+        missing: If True, uses missing values instead
         **kwargs: Keyword arguments.
 
     Raises:
@@ -226,8 +232,15 @@ def _seaborn_viz_data_heatmap(
     Returns:
         The seaborn figure
     """
+    cmap = (
+        copy.copy(plt.get_cmap("viridis"))
+        if not missing
+        else copy.copy(plt.get_cmap("Greys"))
+    )
+    cmap.set_bad(color="white")
+
     plot_options = {
-        "cmap": "viridis" if not missing else "Greys",
+        "cmap": cmap,
         "robust": True,
         "center": 0 if not missing else 0.5,
         "xticklabels": False,
