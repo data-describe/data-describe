@@ -29,7 +29,7 @@ class HeatmapWidget(BaseWidget):
         std_data: The transposed, standardized data after scaling.
         missing (bool): If True, the heatmap shows missing values as indicators
             instead of standardized values.
-        missing_data (bool): The missing value indicator data.
+        missing_data: The missing value indicator data.
     """
 
     def __init__(
