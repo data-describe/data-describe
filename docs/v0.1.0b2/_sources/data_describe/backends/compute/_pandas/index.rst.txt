@@ -1,8 +1,0 @@
-:orphan:
-
-data_describe.backends.compute._pandas
-=============================================
-
-.. py:module:: data_describe.backends.compute._pandas
-
-
