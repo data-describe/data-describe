@@ -1,3 +1,5 @@
+from typing import Optional
+
 import numpy as np
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.inspection import permutation_importance
@@ -14,11 +16,12 @@ def importance(
     target: str,
     preprocess_func=None,
     estimator=None,
-    return_values=False,
-    truncate=True,
-    compute_backend=None,
-    viz_backend=None,
-    **kwargs
+    return_values: bool = False,
+    truncate: bool = True,
+    top_features: Optional[int] = None,
+    compute_backend: Optional[str] = None,
+    viz_backend: Optional[str] = None,
+    **kwargs,
 ):
     """Variable importance chart.
 
@@ -29,11 +32,11 @@ def importance(
     Args:
         data: A Pandas data frame
         target: Name of the response column, as a string
-        preprocess_func: A custom preprocessing function that takes a Pandas dataframe
-            and the target/response column as a string. Returns X and y as tuple.
+        preprocess_func: A custom preprocessing function that takes a Pandas dataframe and the target/response column as a string. Returns X and y as tuple.
         estimator: A custom sklearn estimator. Default is Random Forest Classifier
         return_values: If True, only the importance values as a numpy array
         truncate: If True, negative importance values will be truncated (set to zero)
+        top_features: Return the top N most important features. Default is None (all features)
         compute_backend: The compute backend
         viz_backend: The visualization backend
         **kwargs: Other arguments to be passed to the preprocess function
@@ -48,8 +51,9 @@ def importance(
     if return_values:
         return importance_values
     else:
+        top_features = top_features or len(cols)
         return _get_viz_backend(viz_backend).viz_importance(
-            importance_values, idx, cols
+            importance_values, idx[:top_features], cols
         )
 
 
@@ -59,7 +63,7 @@ def _pandas_compute_importance(
     preprocess_func=None,
     estimator=None,
     truncate: bool = True,
-    **kwargs
+    **kwargs,
 ):
     """Computes importance using permutation importance.
 
@@ -69,7 +73,7 @@ def _pandas_compute_importance(
         data: A Pandas data frame
         target: Name of the response column, as a string
         preprocess_func: A custom preprocessing function that takes a Pandas dataframe
-            and the target/response column as a string. Returns X and y as tuple.
+            and the target/response column as a string. Returns X and y as tuple
         estimator: A custom sklearn estimator. Default is Random Forest Classifier
         truncate: If True, negative importance values will be truncated (set to zero)
         **kwargs: Other arguments to be passed to the preprocess function
@@ -94,6 +98,7 @@ def _pandas_compute_importance(
         [max(0, x) if truncate else x for x in pi.importances_mean]
     )
     idx = importance_values.argsort()[::-1]
+
     return importance_values, idx, X.columns
 
 

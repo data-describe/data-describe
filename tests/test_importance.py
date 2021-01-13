@@ -52,3 +52,10 @@ def test_importance_preprocess(data, compute_backend_df):
 
     fig = dd.importance(compute_backend_df, "d", preprocess_func=pre)
     assert isinstance(fig, matplotlib.artist.Artist)
+
+
+@pytest.mark.base
+@pytest.mark.xfail(reason="Not implemented for modin")
+def test_top_feature(compute_backend_df):
+    fig = dd.importance(compute_backend_df, "d", top_features=1)
+    assert isinstance(fig, matplotlib.artist.Artist)
