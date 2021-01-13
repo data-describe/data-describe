@@ -19,7 +19,7 @@ Provide support for anomaly detection
 There are multiple design aspects to be considered when creating this functionality.
 1. Supervised: Partitioning the data into train and test sets to calculate the confidence bands and error rates.
 2. Unsupervised: Training a model on the entire data, i.e. HDBSCAN and isolation forests
-3. Statistical methods, i.e. standard deviation from rolling mean and SH-ESD.
+3. Statistical methods: i.e. standard deviation from rolling mean and SH-ESD.
 ```python
 import data_describe as dd
 dd.anomaly_detection(df) #Autodetect datatype for classification, regression, timeseries
