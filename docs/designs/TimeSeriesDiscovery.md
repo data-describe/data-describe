@@ -1,45 +1,35 @@
 # Design Proposal for Sensor Discovery and Insight Generation
 
 ## Motivation
+Provide support for anomaly detection
+## Goals
+* Quickly identify and plot anomalies in time series data.
+* Create interactive visualizations, such as selecting time window.
+* Provide helpful example notebooks.
 
-A better way to explore time series data especially with use cases like coorelations of analog/digital signals from sensors.
+## Non-Goals
+* Automatic visualizations (at the click of a button), such as GUI's. Proposed [here](https://github.com/data-describe/data-describe/blob/master/docs/designs/UI.md)
+* Creating notebooks for specific use cases i.e. sensor data, accelerometers, manufacturing.
+## UI or API
+* 2-D plot of time series data with confidence band. 
+* Use markers/colors to highlight anomalies.
+* Interactive plots for selecting time window.
 
-## Challenges
+## Design
+There are multiple design aspects to be considered when creating this functionality.
+1. Supervised: Partitioning the data into train and test sets to calculate the confidence bands and error rates.
+2. Unsupervised: Training a model on the entire data, i.e. HDBSCAN and isolation forests
+3. Statistical methods, i.e. standard deviation from rolling mean and SH-ESD.
+```python
+import data_describe as dd
+dd.anomaly_detection(df) #Autodetect datatype for classification, regression, timeseries
 
- * will a general UI work with these specific problems
- * can this work within the constraints of the user
- * will the jupyter UI alone be good enough
-
-## Examples
-
- * With a click of the button I want to automatically:
- * Build a summary report identifying how many rows and columns we have, which columns are continuous/discrete etc.
- * Build an outlier report identifying outliers per sensor.
- * Generate static or interactive time series charts for each continuous sensor
- * Generate scatter plots for pairs of sensors and identify interesting ones.
- * Given a failure/response column run a random forest to identify important variables. 
- * We should have notebooks demonstrating the type of analysis data-describe can do based on type of data (accelerometer data, sensor data, alarm data, work order data etc) - We should prioritize this based on existing/potential cusomers in our sales pipeline.
-
-## Potential Data Sets
-
-Manufacturing:
-* Production Line Performance: https://www.kaggle.com/c/bosch-production-line-performance
-* CNC Tool Wear: https://www.kaggle.com/shasun/tool-wear-detection-in-cnc-mill
-* Steel Defect Detection: https://www.kaggle.com/c/severstal-steel-defect-detection
-
-Transportation:
-* Diesel Engine Faults Data: https://data.mendeley.com/datasets/k22zxz29kr/1
-* Autonomous vehicles: https://www.kaggle.com/c/lyft-motion-prediction-autonomous-vehicles
-
-Predictive Maintenance on Nasa Turbofan Data: https://towardsdatascience.com/predictive-maintenance-of-turbofan-engines-ec54a083127
-Azure predictive maintenance: https://github.com/Azure/PySpark-Predictive-Maintenance
-
-Bearing Fault Accelerometer Data: https://csegroups.case.edu/bearingdatacenter/pages/download-data-file
-
-Earthquake prediction: https://towardsdatascience.com/earthquake-prediction-faffd7160f98
-
- 
- 
-
+# Returns
+# Time series plot with anomalies marked, prediction intervals.
+# Dataframe with all the marked records that are anomalies.
+```
+[Medium Article](https://towardsdatascience.com/anomaly-detection-with-time-series-forecasting-c34c6d04b24a): Contains relevant time series plots and analysis.
 ## Alternatives Considered
+[R Package](https://github.com/twitter/AnomalyDetection): Open source R package developed by twitter for anomaly detection
 
+[FB Prophet](https://towardsdatascience.com/anomaly-detection-time-series-4c661f6f165f): Facebook time series model. Prophet can be used as an estimator in the anomaly detection widget, but would require additional dependencies.
