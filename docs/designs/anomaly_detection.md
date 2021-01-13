@@ -1,14 +1,14 @@
-# Design Proposal for Sensor Discovery and Insight Generation
+# Design Proposal for Anomaly Detection
 
 ## Motivation
 Provide support for anomaly detection
 ## Goals
 * Quickly identify and plot anomalies in time series data.
-* Create interactive visualizations, such as selecting time window.
-* Provide helpful example notebooks.
+* Create interactive visualizations.
+* Provide a helpful example notebook.
 
 ## Non-Goals
-* Automatic visualizations (at the click of a button), such as GUI's. Proposed [here](https://github.com/data-describe/data-describe/blob/master/docs/designs/UI.md)
+* Automatic visualizations (at the click of a button), such as GUI's. Proposed [here](https://github.com/data-describe/data-describe/blob/master/docs/designs/UI.md).
 * Creating notebooks for specific use cases i.e. sensor data, accelerometers, manufacturing.
 ## UI or API
 * 2-D plot of time series data with confidence band. 
@@ -18,7 +18,7 @@ Provide support for anomaly detection
 ## Design
 There are multiple design aspects to be considered when creating this functionality.
 1. Supervised: Partitioning the data into train and test sets to calculate the confidence bands and error rates.
-2. Unsupervised: Training a model on the entire data, i.e. HDBSCAN and isolation forests
+2. Unsupervised: Fitting a model on the entire data, i.e. HDBSCAN and isolation forests
 3. Statistical methods: i.e. standard deviation from rolling mean and SH-ESD.
 ```python
 import data_describe as dd
