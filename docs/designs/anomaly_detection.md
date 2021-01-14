@@ -18,14 +18,16 @@ Provide support for anomaly detection
 ## Design
 There are multiple design aspects to be considered when creating this functionality.
 1. Supervised: Partitioning the data into train and test sets to calculate the confidence bands and error rates.
-2. Unsupervised: Fitting a model on the entire data, i.e. HDBSCAN and isolation forests
-3. Statistical methods: i.e. standard deviation from rolling mean and SH-ESD.
+2. Unsupervised: Fitting a model on the entire data, i.e. HDBSCAN, isolation forests, and autoencoder
+3. Statistical methods: i.e. standard deviation from rolling mean, SH-ESD, and Western Electric rules
 ```python
 import data_describe as dd
-dd.anomaly_detection(df) #Autodetect datatype for classification, regression, timeseries
+dd.anomaly_detection(df, estimator=None, mode="ts")
+# estimator: Fitted model. If estimator=None, a default model will be fitted 
+# mode: Specific use cases such as "ts", "classification", "regression", "wer" (western electric rules), etc.
 
 # Returns
-# Time series plot with anomalies marked, prediction intervals.
+# Time series plot with anomalies marked and prediction intervals.
 # Dataframe with all the marked records that are anomalies.
 ```
 [Medium Article](https://towardsdatascience.com/anomaly-detection-with-time-series-forecasting-c34c6d04b24a): Contains relevant time series plots and analysis.
