@@ -27,8 +27,8 @@ dependencies:
   - sphinx==3.1.2
   - nbsphinx==0.7.1
   - sphinx-autoapi==1.4.0
-  - pip>=20.0.2
   - tqdm>=4.49.0
+  - parso>=0.8.0
   - pip:
       - google-cloud-storage>=1.18.0
       - presidio-analyzer==0.3.8917rc0
