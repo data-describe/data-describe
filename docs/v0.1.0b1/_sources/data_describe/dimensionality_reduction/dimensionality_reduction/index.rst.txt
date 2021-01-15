@@ -1,0 +1,83 @@
+data_describe.dimensionality_reduction.dimensionality_reduction
+======================================================================
+
+.. py:module:: data_describe.dimensionality_reduction.dimensionality_reduction
+
+
+
+
+
+.. autoapisummary::
+
+   data_describe.dimensionality_reduction.dimensionality_reduction.dim_reduc
+   data_describe.dimensionality_reduction.dimensionality_reduction.run_pca
+   data_describe.dimensionality_reduction.dimensionality_reduction.run_ipca
+   data_describe.dimensionality_reduction.dimensionality_reduction.run_tsne
+   data_describe.dimensionality_reduction.dimensionality_reduction.run_tsvd
+
+
+.. function:: dim_reduc(data, n_components: int, dim_method: str, apply_tsvd: bool = True, compute_backend=None)
+
+   Reduces the number of dimensions of the input data.
+
+   :param data: The dataframe
+   :param n_components: Desired dimensionality for the data set prior to modeling
+   :param dim_method: {'pca', 'ipca', 'tsne', 'tsvd'}
+   :param - pca: Principal Component Analysis
+   :param - ipca: Incremental Principal Component Analysis. Highly suggested for very large datasets
+   :param - tsne: T-distributed Stochastic Neighbor Embedding
+   :param - tsvd: Truncated Singular Value Decomposition
+   :param apply_tsvd: If True, TSVD will be run before t-SNE. This is highly recommended when running t-SNE
+
+   :returns: The dimensionally-reduced dataframe and reduction object
+
+
+.. function:: run_pca(data, n_components, compute_backend=None)
+
+   Reduces the number of dimensions of the input data using PCA.
+
+   :param data: The dataframe
+   :param n_components: Desired dimensionality for the data set prior to modeling
+
+   :returns: The dimensionally-reduced dataframe
+             pca: The applied PCA object
+   :rtype: reduc_df
+
+
+.. function:: run_ipca(data, n_components, compute_backend=None)
+
+   Reduces the number of dimensions of the input data using Incremental PCA.
+
+   :param data: The dataframe
+   :param n_components: Desired dimensionality for the data set prior to modeling
+
+   :returns: The dimensionally-reduced dataframe
+             ipca: The applied IncrementalPCA object
+   :rtype: reduc_df
+
+
+.. function:: run_tsne(data, n_components, apply_tsvd=True, compute_backend=None)
+
+   Reduces the number of dimensions of the input data using t-SNE.
+
+   :param data: The dataframe
+   :param n_components: Desired dimensionality for the output dataset
+   :param apply_tsvd: If True, TSVD will be run before t-SNE. This is highly recommended when running t-SNE
+
+   :returns: The dimensionally-reduced dataframe
+             tsne: The applied t-SNE object
+   :rtype: reduc_df
+
+
+.. function:: run_tsvd(data, n_components, compute_backend=None)
+
+   Reduces the number of dimensions of the input data using TSVD.
+
+   :param data: The dataframe
+   :param n_components: Desired dimensionality for the output dataset
+
+   :returns: The dimensionally-reduced dataframe
+             tsne: The applied TSVD object
+   :rtype: reduc_df
+
+

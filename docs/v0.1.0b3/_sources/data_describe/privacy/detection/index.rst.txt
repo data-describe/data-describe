@@ -1,0 +1,203 @@
+data_describe.privacy.detection
+======================================
+
+.. py:module:: data_describe.privacy.detection
+
+
+
+
+
+.. autoapisummary::
+
+   data_describe.privacy.detection.sensitive_data
+   data_describe.privacy.detection.compute_sensitive_data
+   data_describe.privacy.detection.identify_pii
+   data_describe.privacy.detection.create_mapping
+   data_describe.privacy.detection.redact_info
+   data_describe.privacy.detection.identify_column_infotypes
+   data_describe.privacy.detection.identify_infotypes
+   data_describe.privacy.detection.encrypt_text
+   data_describe.privacy.detection.hash_string
+   data_describe.privacy.detection.presidio_engine
+
+
+.. data:: logger
+   
+
+   
+
+.. function:: sensitive_data(df, mode: str = 'redact', detect_infotypes: bool = True, columns: Optional[list] = None, score_threshold: float = _DEFAULT_SCORE_THRESHOLD, sample_size: int = _SAMPLE_SIZE, engine_backend=None, compute_backend: Optional[str] = None)
+
+   Identifies, redacts, and/or encrypts PII data.
+
+   .. note::
+
+      `sensitive_data` uses Microsoft's Presidio in the backend. Presidio can be used
+      to help identify sensitive data. However, because Presidio uses trained ML models,
+      there is no guarantee that Presidio will find all sensitive information.
+
+   :param df: The dataframe
+   :type df: DataFrame
+   :param mode: {'redact', 'encrypt'}
+                redact: Redact the sensitive data
+                encrypt: Anonymize the sensitive data
+   :type mode: str
+   :param detect_infotypes: If True, identifies infotypes for each column
+   :type detect_infotypes: bool
+   :param columns: Defaults to None
+   :type columns: [str]
+   :param score_threshold: Minimum confidence value for detected entities to be returned. Default is 0.2.
+   :type score_threshold: float
+   :param sample_size: Number of sampled rows used for identifying column infotypes. Default is 100.
+   :type sample_size: int
+   :param engine_backend: The backend analyzer engine. Default is presidio_analyzer.
+   :param compute_backend: Select compute backend
+   :type compute_backend: str
+
+   :raises ValueError: Invalid input data type.
+   :raises TypeError: `columns` not a list of strings.
+
+   :returns: SensitiveDataWidget
+
+
+.. py:class:: SensitiveDataWidget(engine=None, redact=None, encrypt=None, infotypes=None, sample_size=None, **kwargs)
+
+   Bases: :class:`data_describe._widget.BaseWidget`
+
+   Interface for collecting additional information about the sensitive data widget.
+
+   .. method:: show(self, **kwargs)
+
+
+      Show the transformed data or infotypes.
+
+
+
+.. function:: compute_sensitive_data(df, mode: str = 'redact', detect_infotypes: bool = True, columns: Optional[list] = None, score_threshold: float = _DEFAULT_SCORE_THRESHOLD, sample_size: Union[int, float] = _SAMPLE_SIZE, engine_backend=None)
+
+   Identifies, redacts, and encrypts PII data.
+
+   Note: sensitive_data uses Microsoft's Presidio in the backend. Presidio can be help identify sensitive data.
+   However, because Presidio uses trained ML models, there is no guarantee that Presidio will find all sensitive information.
+
+   :param df: The dataframe
+   :type df: DataFrame
+   :param mode: {'redact', 'encrypt'}
+                redact: Redact the sensitive data
+                encrypt: Anonymize the sensitive data
+   :type mode: str
+   :param detect_infotypes: If True, identifies infotypes for each column
+   :type detect_infotypes: bool
+   :param columns: Defaults to None
+   :type columns: [str]
+   :param score_threshold: Minimum confidence value for detected entities to be returned. Default is 0.2.
+   :type score_threshold: float
+   :param sample_size: Number of sampled rows used for identifying column infotypes. Default is 100.
+   :type sample_size: int
+   :param engine_backend: The backend analyzer engine. Default is presidio_analyzer.
+
+   :raises ValueError: `sample_size` greater than data size.
+
+   :returns: SensitiveDataWidget
+
+
+.. function:: identify_pii(text, engine_backend, score_threshold=_DEFAULT_SCORE_THRESHOLD)
+
+   Identifies infotypes contained in a string.
+
+   :param text: A string value
+   :type text: str
+   :param engine_backend: The backend analyzer engine. Default is presidio_analyzer.
+   :param score_threshold: Minimum confidence value for detected entities to be returned
+   :type score_threshold: float
+
+   :returns: List of presidio_analyzer.recognizer_result.RecognizerResult
+
+
+.. function:: create_mapping(text, response)
+
+   Identifies sensitive data and creates a mapping with the hashed data.
+
+   :param text: String value
+   :type text: str
+   :param response: List of presidio_analyzer.recognizer_result.RecognizerResult
+
+   :returns: Mapping of the hashed data with the redacted string
+             ref_text (str): String with hashed values
+   :rtype: word_mapping (dict)
+
+
+.. function:: redact_info(text, engine_backend, score_threshold=_DEFAULT_SCORE_THRESHOLD)
+
+   Redact sensitive data with mapping between hashed values and infotype.
+
+   :param text: String value
+   :type text: str
+   :param engine_backend: The backend analyzer engine. Default is presidio_analyzer.
+   :param score_threshold: Minimum confidence value for detected entities to be returned
+   :type score_threshold: float
+
+   :returns: String with redacted information
+
+
+.. function:: identify_column_infotypes(data_series, engine_backend, sample_size: Union[int, float] = _SAMPLE_SIZE, score_threshold=_DEFAULT_SCORE_THRESHOLD)
+
+   Identifies the infotype of a pandas series object using a sample of rows.
+
+   :param data_series: A Series
+   :type data_series: Series
+   :param engine_backend: The backend analyzer engine. Default is presidio_analyzer.
+   :param sample_size: Number of rows to sample from
+   :type sample_size: int
+   :param score_threshold: Minimum confidence value for detected entities to be returned
+   :type score_threshold: float
+
+   :returns: List of infotypes
+
+
+.. function:: identify_infotypes(df, engine_backend, sample_size=_SAMPLE_SIZE, score_threshold=_DEFAULT_SCORE_THRESHOLD)
+
+   Identify infotypes for each column in the dataframe.
+
+   :param df: The dataframe
+   :type df: DataFrame
+   :param engine_backend: The backend analyzer engine. Default is presidio_analyzer.
+   :param sample_size: Number of rows to sample from
+   :type sample_size: int
+   :param score_threshold: Minimum confidence value for detected entities to be returned
+   :type score_threshold: float
+
+   :returns: Dictionary with columns as keys and values as infotypes detected
+
+
+.. function:: encrypt_text(text, engine_backend, score_threshold=_DEFAULT_SCORE_THRESHOLD)
+
+   Encrypt text using python's hash function.
+
+   :param text: A string value
+   :type text: str
+   :param engine_backend: The backend analyzer engine. Default is presidio_analyzer.
+   :param score_threshold: Minimum confidence value for detected entities to be returned
+   :type score_threshold: float
+
+   :returns: Text with hashed sensitive data
+
+
+.. function:: hash_string(text)
+
+   Applies SHA256 text hashing.
+
+   :param text: The string value
+   :type text: str
+
+   :returns: Hashed text
+   :rtype: sha_signature
+
+
+.. function:: presidio_engine()
+
+   Initialize presidio engine.
+
+   :returns: Presidio engine
+
+

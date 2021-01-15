@@ -1,0 +1,237 @@
+data_describe.text.topic_modeling
+========================================
+
+.. py:module:: data_describe.text.topic_modeling
+
+
+
+
+
+.. autoapisummary::
+
+   data_describe.text.topic_modeling.topic_model
+
+
+.. data:: gensim
+   
+
+   
+
+.. function:: topic_model(text_docs: List[str], model_type: str = 'LDA', num_topics: Optional[int] = None, min_topics: int = 2, max_topics: int = 10, no_below: int = 10, no_above: float = 0.2, tfidf: bool = True, model_kwargs: Optional[Dict] = None)
+
+   Topic modeling.
+
+   Unsupervised methods of identifying topics in documents.
+
+   :param text_docs: A list of text documents in string format. These documents should
+                     generally be pre-processed
+   :param model_type: {'LDA', 'LSA', 'LSI', 'SVD', 'NMF'}
+                      Defines the type of model/algorithm which will be used.
+   :param num_topics: Sets the number of topics for the model. If None, will be optimized
+                      using coherence values
+   :param min_topics: Starting number of topics to optimize for if number of topics not
+                      provided. Default is 2
+   :param max_topics: Maximum number of topics to optimize for if number of topics not
+                      provided. Default is 10
+   :param no_below: Minimum number of documents a word must appear in to be used in
+                    training. Default is 10
+   :param no_above: Maximum proportion of documents a word may appear in to be used in
+                    training. Default is 0.2
+   :param tfidf: If True, model created using TF-IDF matrix. Otherwise, document-term
+                 matrix with wordcounts is used. Default is True
+   :param model_kwargs: Keyword arguments for the model, should be in agreement with
+                        `model_type`
+
+   :returns: Topic model widget.
+
+
+.. py:class:: TopicModelWidget(model_type: str = 'LDA', num_topics: Optional[int] = None, model_kwargs: Optional[Dict] = None)
+
+   Bases: :class:`data_describe._widget.BaseWidget`
+
+   Create topic model widget.
+
+   .. method:: model(self)
+      :property:
+
+
+      Trained topic model.
+
+
+   .. method:: model_type(self)
+      :property:
+
+
+      Type of model which either already has been or will be trained.
+
+
+   .. method:: num_topics(self)
+      :property:
+
+
+      The number of topics in the model.
+
+
+   .. method:: coherence_values(self)
+      :property:
+
+
+      A list of coherence values mapped from min_topics to max_topics.
+
+
+   .. method:: dictionary(self)
+      :property:
+
+
+      A Gensim dictionary mapping the words from the documents to their token_ids.
+
+
+   .. method:: corpus(self)
+      :property:
+
+
+      Bag of Words (BoW) representation of documents (token_id, token_count).
+
+
+   .. method:: matrix(self)
+      :property:
+
+
+      Either TF-IDF or document-term matrix with documents as rows and words as columns.
+
+
+   .. method:: min_topics(self)
+      :property:
+
+
+      If num_topics is None, this number is the first number of topics a model will be trained on.
+
+
+   .. method:: max_topics(self)
+      :property:
+
+
+      If num_topics is None, this number is the last number of topics a model will be trained on.
+
+
+   .. method:: show(self, num_topic_words: int = 10, topic_names: Optional[List[str]] = None)
+
+
+      Displays most relevant terms for each topic.
+
+      :param num_topic_words: The number of words to be displayed for each topic. Default is 10
+      :param topic_names: A list of pre-defined names set for each of the topics. Default is None
+
+      :returns:
+
+                Pandas DataFrame displaying topics as columns and their
+                    relevant terms as rows. LDA/LSI models will display an extra column to
+                    the right of each topic column, showing each term's corresponding
+                    coefficient value
+      :rtype: display_topics_df
+
+
+   .. method:: fit(self, text_docs: List[str], model_type: Optional[str] = None, min_topics: int = 2, max_topics: int = 10, no_below: int = 10, no_above: float = 0.2, tfidf: bool = True, model_kwargs: Optional[Dict] = None)
+
+
+      Trains topic model and assigns model to object as attribute.
+
+      :param text_docs: A list of text documents in string format. These documents should
+                        generally be pre-processed
+      :param model_type: {'LDA', 'LSA', 'LSI', 'SVD', 'NMF'}
+                         Defines the type of model/algorithm which will be used.
+      :param min_topics: Starting number of topics to optimize for if number of topics
+                         not provided. Default is 2
+      :param max_topics: Maximum number of topics to optimize for if number of topics not
+                         provided. Default is 10
+      :param no_below: Minimum number of documents a word must appear in to be used in
+                       training. Default is 10
+      :param no_above: Maximum proportion of documents a word may appear in to be used in
+                       training. Default is 0.2
+      :param tfidf: If True, model created using TF-IDF matrix. Otherwise, document-term
+                    matrix with wordcounts is used. Default is True.
+      :param model_kwargs: Keyword arguments for the model, should be in agreement with
+                           `model_type`.
+
+      :raises ValueError: Invalid `model_type`.
+
+
+   .. method:: elbow_plot(self, viz_backend: str = None)
+
+
+      Creates an elbow plot displaying coherence values vs number of topics.
+
+      :param viz_backend: The visualization backend.
+
+      :raises ValueError: No coherence values to plot.
+
+      :returns: Elbow plot showing coherence values vs number of topics
+      :rtype: fig
+
+
+   .. method:: get_topic_nums(self)
+
+
+      Obtains topic distributions (LDA model) or scores (LSA/NMF model).
+
+      :returns: Array of topic distributions (LDA model) or scores (LSA/NMF model)
+      :rtype: doc_topics
+
+
+   .. method:: display_topic_keywords(self, num_topic_words: int = 10, topic_names: Optional[List[str]] = None)
+
+
+      Creates Pandas DataFrame to display most relevant terms for each topic.
+
+      :param num_topic_words: The number of words to be displayed for each topic.
+                              Default is 10
+      :param topic_names: A list of pre-defined names set for each of the topics.
+                          Default is None
+
+      :returns:
+
+                Pandas DataFrame displaying topics as columns and their
+                    relevant terms as rows. LDA/LSI models will display an extra column to
+                    the right of each topic column, showing each term's corresponding
+                    coefficient value
+      :rtype: display_topics_df
+
+
+   .. method:: top_documents_per_topic(self, text_docs: List[str], topic_names: Optional[List[str]] = None, num_docs: int = 10, summarize_docs: bool = False, summary_words: Optional[int] = None)
+
+
+      Creates Pandas DataFrame to display most relevant documents for each topic.
+
+      :param text_docs:
+                        A list of text documents in string format. Important to note that
+                         this list of documents should be ordered in accordance with the matrix
+                        or corpus on which the document was trained
+      :param topic_names: A list of pre-defined names set for each of the topics.
+                          Default is None
+      :param num_docs: The number of documents to display for each topic. Default is 10
+      :param summarize_docs: If True, the documents will be summarized (if this is the
+                             case, 'text_docs' should be formatted into sentences). Default is False
+      :param summary_words: The number of words the summary should be limited to. Should
+                            only be specified if summarize_docs set to True
+
+      :returns:
+
+                Pandas DataFrame displaying topics as columns and their
+                    most relevant documents as rows
+      :rtype: all_top_docs_df
+
+
+   .. method:: visualize_topic_summary(self, viz_backend: str = 'pyLDAvis')
+
+
+      Displays interactive pyLDAvis visual to understand topic model and documents.
+
+      :param viz_backend: The visualization backend.
+      :type viz_backend: str
+
+      :raises TypeError: Only valid for LDA models.
+
+      :returns: A visual to understand topic model and/or documents relating to model
+
+
+

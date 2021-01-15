@@ -1,0 +1,172 @@
+data_describe.core.clustering
+====================================
+
+.. py:module:: data_describe.core.clustering
+
+
+
+
+
+.. autoapisummary::
+
+   data_describe.core.clustering.cluster
+
+
+.. py:class:: ClusterWidget(method: str, clusters: List[int] = None, estimator=None, n_clusters=None, search=False, cluster_range=None, **kwargs)
+
+   Bases: :class:`data_describe._widget.BaseWidget`
+
+   Container for clustering calculations and visualization.
+
+   This class (object) is returned from the ``cluster`` function. The
+   attributes documented below can be accessed or extracted.
+
+   .. attribute:: method
+
+      {'kmeans', 'hdbscan'} The type of clustering algorithm
+
+      :type: str
+
+   .. attribute:: clusters
+
+      The predicted cluster labels
+
+      :type: List[int]
+
+   .. attribute:: estimator
+
+      The clustering estimator/model
+
+   .. attribute:: input_data
+
+      The input data
+
+   .. attribute:: scaled_data
+
+      The data after applying standardization
+
+   .. attribute:: viz_data
+
+      The data used for the default visualization i.e. reduced to 2 dimensions
+
+   .. attribute:: dim_method
+
+      The algorithm used for dimensionality reduction
+
+      :type: str
+
+   .. attribute:: reductor
+
+      The dimensionality reduction estimator
+
+   .. attribute:: xlabel
+
+      The x-axis label for the cluster plot
+
+      :type: str
+
+   .. attribute:: ylabel
+
+      The y-axis label for the cluster plot
+
+      :type: str
+
+   .. attribute:: n_clusters
+
+      (KMeans) The number of clusters (``k``) used in the
+      final clustering fit.
+
+      :type: int, optional
+
+   .. attribute:: search
+
+      (KMeans) If True, a search was performed for optimal
+      ``n_clusters``.
+
+      :type: bool, optional
+
+   .. attribute:: cluster_range
+
+      (KMeans) The range of clusters
+      searched as (min_cluster, max_cluster).
+
+      :type: Tuple[int, int], optional
+
+   .. attribute:: metric
+
+      (KMeans) The metric used to evaluate the cluster search.
+
+      :type: str, optional
+
+   .. attribute:: scores
+
+      (KMeans) The metric scores in cluster search.
+
+      :type: List
+
+   .. method:: show(self, viz_backend=None, **kwargs)
+
+
+      The default display for this output.
+
+      Displays the clustered, projected data as a scatter plot, with points colored by
+          the cluster labels.
+
+      :param viz_backend: The visualization backend.
+      :param \*\*kwargs: Keyword arguments.
+
+      :raises ValueError: Data to visualize is missing / not calculated.
+
+      :returns: The cluster plot.
+
+
+   .. method:: cluster_search_plot(self, viz_backend=None, **kwargs)
+
+
+      Shows the results of cluster search.
+
+      Cluster search attempts to find an optimal n_clusters by maximizing on some criterion.
+      This plot shows a line plot of each n_cluster that was attempted and its score.
+
+      :param viz_backend: The visualization backend.
+      :param \*\*kwargs: Additional keyword arguments to pass to the visualization backend.
+
+      :raises ValueError: Cluster `search` is False.
+
+      :returns: The plot
+
+
+
+.. function:: cluster(data, method='kmeans', dim_method='pca', compute_backend=None, viz_backend=None, **kwargs) -> ClusterWidget
+
+   Unsupervised determination of clusters.
+
+   This feature computes clusters using various algorithms (KMeans, HDBSCAN) and then
+   projects the data onto a two-dimensional plot for visualization.
+
+   :param data: The data.
+   :type data: DataFrame
+   :param method: {'kmeans', 'hdbscan'} The clustering method.
+   :type method: str, optional
+   :param dim_method: The method to use for dimensionality reduction.
+   :type dim_method: str, optional
+   :param compute_backend: The compute backend.
+   :type compute_backend: str, optional
+   :param viz_backend: The visualization backend.
+   :type viz_backend: str, optional
+   :param n_clusters: (KMeans) The number of clusters.
+   :type n_clusters: Optional[int], optional
+   :param cluster_range: (KMeans) A tuple of the minimum and
+                         maximum cluster search range. Defaults to (2, 20).
+   :type cluster_range: Tuple[int, int], optional
+   :param metric: (KMeans) The metric to optimize (from sklearn.metrics).
+   :type metric: str
+   :param target: (KMeans) The labels for supervised clustering, as a 1-D array.
+   :param \*\*kwargs: Keyword arguments.
+
+   :raises ValueError: Data frame required
+   :raises ValueError: Clustering method not implemented
+
+   :returns: ClusterWidget
+
+

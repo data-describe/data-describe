@@ -1,0 +1,42 @@
+data_describe.misc.load_data
+===================================
+
+.. py:module:: data_describe.misc.load_data
+
+
+
+
+
+.. autoapisummary::
+
+   data_describe.misc.load_data.load_data
+   data_describe.misc.load_data.download_gcs_file
+
+
+.. function:: load_data(filepath, all_folders=False, **kwargs)
+
+   Create pandas data frame from filepath.
+
+   :param filepath: The file path. Can be either a local filepath or Google Cloud Storage URI filepath
+   :param all_folders: If True, searches for text files in nested folders. If False, looks for text files in the current folder
+   :param \*\*kwargs: Keyword arguments to pass to the reader
+
+   :raises ImportError: gcsfs not installed.
+   :raises FileNotFoundError: File doesn't exist.
+
+   :returns: A pandas data frame
+
+
+.. function:: download_gcs_file(filepath, bucket=None, prefix=None, **kwargs)
+
+   Downloads files from Google Cloud Storage.
+
+   :param filepath: The file path
+   :param bucket: bucket to which the file belongs to in Google Cloud Storage
+   :param prefix: parameter in list_blobs to limit the results to objects that have the specified prefix
+   :param kwargs: Keyword arguments for list_blobs
+
+   :returns: The shape file
+   :rtype: shapefile_dir
+
+

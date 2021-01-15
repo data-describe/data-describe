@@ -1,0 +1,21 @@
+data_describe.misc.logging
+=================================
+
+.. py:module:: data_describe.misc.logging
+
+
+
+
+.. py:class:: OutputLogger(name='root', level='INFO')
+
+   Redirect stdout to logging.
+
+   https://johnpaton.net/posts/redirect-logging/
+
+   .. method:: write(self, msg)
+
+
+      Log messages.
+
+
+

@@ -1,0 +1,91 @@
+data_describe.core.summary
+=================================
+
+.. py:module:: data_describe.core.summary
+
+
+
+
+
+.. autoapisummary::
+
+   data_describe.core.summary.data_summary
+   data_describe.core.summary.mode1
+
+
+.. py:class:: SummaryWidget(input_data=None, info_data=None, summary_data=None, as_percentage: Optional[bool] = False, auto_float: Optional[bool] = True, **kwargs)
+
+   Bases: :class:`data_describe._widget.BaseWidget`
+
+   Container for data summary.
+
+   This class (object) is returned from the ``data_summary`` function. The
+   attributes documented below can be accessed or extracted.
+
+   .. attribute:: input_data
+
+      The input data.
+
+   .. attribute:: info_data
+
+      Information about the data shape and size.
+
+   .. attribute:: summary_data
+
+      The summary statistics.
+
+      :type: DataFrame
+
+   .. attribute:: as_percentage
+
+      If True, display counts as percentage over total
+
+      :type: bool
+
+   .. attribute:: auto_float
+
+      If True, apply formatting to float values
+
+      :type: bool
+
+   .. method:: show(self, viz_backend=None, as_percentage: Optional[bool] = None, auto_float: Optional[bool] = None, **kwargs)
+
+
+      The default display for this output.
+
+      Displays the summary information.
+
+      :param viz_backend: The visualization backend.
+      :param as_percentage: If True, display counts as percentage over total
+      :type as_percentage: bool
+      :param auto_float: If True, apply formatting to float values
+      :type auto_float: bool
+      :param \*\*kwargs: Keyword arguments.
+
+      :returns: The correlation matrix plot.
+
+
+
+.. function:: data_summary(data, as_percentage: bool = False, auto_float: bool = True, compute_backend=None)
+
+   Summary statistics and data description.
+
+   :param data: The dataframe
+   :param as_percentage: If True, display counts as percentage over total
+   :type as_percentage: bool
+   :param auto_float: If True, apply formatting to float values
+   :type auto_float: bool
+   :param compute_backend: The compute backend.
+
+   :returns: The dataframe with metrics in rows
+
+
+.. function:: mode1(x)
+
+   Mode (counts only) by Warren Weckesser.
+
+   https://stackoverflow.com/questions/46365859/what-is-the-fastest-way-to-get-the-mode-of-a-numpy-array
+
+   :param x: Input array
+
+

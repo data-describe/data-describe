@@ -1,0 +1,27 @@
+data_describe.backends
+=============================
+
+.. py:module:: data_describe.backends
+
+.. autoapi-nested-parse::
+
+   `backends` implements a pluggable architecture for the data-describe package.
+
+   This allows third-party libraries to provide alternative implementation details
+   for data-describe: for example, implementing Bokeh plot (visualizations, abbreviated
+   as `viz`) or implementing calculations on compute clusters (`compute`).
+
+   Default implementations in data-describe are also exposed as plugins to this backend system.
+
+   .. note:: This subpackage is typically not used by end users of data-describe.
+
+
+
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+
+   compute/index.rst
+   viz/index.rst
+
+

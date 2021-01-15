@@ -1,0 +1,20 @@
+data_describe.privacy
+============================
+
+.. py:module:: data_describe.privacy
+
+.. autoapi-nested-parse::
+
+   data-describe privacy.
+
+   This subpackage provides tools to detect and handle (e.g. redact) sensitive data, such as personally identifiable information (PII) or protected health information (PHI).
+
+
+
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+
+   detection/index.rst
+
+

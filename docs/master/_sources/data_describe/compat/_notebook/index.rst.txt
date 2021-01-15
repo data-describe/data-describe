@@ -1,0 +1,26 @@
+:orphan:
+
+data_describe.compat._notebook
+=====================================
+
+.. py:module:: data_describe.compat._notebook
+
+
+
+.. py:exception:: JupyterPlotlyWarning
+
+   Bases: :class:`UserWarning`
+
+   Warning for missing jupyter-plotly extension in Jupyter Lab.
+
+   .. py:class:: args
+
+
+   .. method:: with_traceback()
+
+
+      Exception.with_traceback(tb) --
+      set self.__traceback__ to tb and return self.
+
+
+
