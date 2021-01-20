@@ -1,5 +1,5 @@
 from typing import Optional  # , Union
-
+import logging
 
 # import seaborn as sns
 # from matplotlib.figure import Figure
@@ -21,22 +21,22 @@ from data_describe._widget import BaseWidget
 class AnomalyDetectionWidget(BaseWidget):
     """Interface for collecting additional information about the anomaly detection widget."""
 
-    # Todo: Remove records ?
     def __init__(
         self,
         estimator=None,
         method=None,
         viz_data=None,
+        split_data=None,
         **kwargs,
     ):
         super(AnomalyDetectionWidget, self).__init__(**kwargs)
         self.estimator = estimator
         self.method = method
         self.input_data = None
-        self.scaled_data = None
         self.viz_data = viz_data
         self.xlabel = None
         self.ylabel = None
+        self.split_data = split_data
 
     def __str__(self):
         return "data-describe Anomaly Detection Widget"
@@ -64,14 +64,11 @@ class AnomalyDetectionWidget(BaseWidget):
         if self.viz_data is None:
             raise ValueError("Could not find data to visualize.")
 
-        # TODO(truongc2): update call
-        return _get_viz_backend(backend).viz_plot_anomaly(
-            self.viz_data,
-            method=self.method,
-            xlabel=self.xlabel,
-            ylabel=self.ylabel,
-            **kwargs,
-        )
+        # TODO(truongc2): update labels
+        # return _get_viz_backend(backend).viz_plot_anomaly(
+        #     self.viz_data, xlabel=self.xlabel, ylabel=self.ylabel, **kwargs,
+        # )
+        return _get_viz_backend(backend).viz_plot_anomaly(self.viz_data, **kwargs)
 
 
 def anomaly_detection(
@@ -84,6 +81,7 @@ def anomaly_detection(
     compute_backend: Optional[str] = None,
     viz_backend: Optional[str] = None,
     periods=None,
+    data_split=50,
     **kwargs,
 ):
     """Identify and mark anamolies.
@@ -95,29 +93,28 @@ def anomaly_detection(
         date_col (str): Target column or datetime column
         method (str, optional): Select method from this list. Select from [arima, WER, iforest]
         estimator: Fitted estimator. Must have a .predict() function. Defaults to None.
+        periods (int): Number of periods.
+        data_split (int): Index to split data into train and test.
         compute_backend (str): Select compute backend.
         viz_backend (str): Select compute backend.
-        periods (int): Number of periods.
         **kwargs: Keyword arguments.
 
     Return:
         AnomalyWidget
     """
+    # checks if input is dataframe
     if not _is_dataframe(data):
         raise ValueError("Data frame required")
 
+    # checks if estimator exists and if it follows the general sklearn guidelines
     if estimator:
         if not hasattr(estimator, "predict") and not hasattr(estimator, "fit"):
             raise AttributeError(
                 "Input model does not contain the 'predict' or 'fit' method."
             )
 
-    # TODO(truongc2): Add defaults
     ml_methods = {
-        "classification": ["iforest", "knn", "svm"],
-        "regression": ["linear", "rfr"],
-        "timeseries": ["arima", "lstm"],
-        "stat": ["wer"],
+        "timeseries": ["arima"],
     }
 
     if ml_use_case.lower() not in ml_methods.keys():
@@ -126,30 +123,39 @@ def anomaly_detection(
         )
 
     if method.lower() not in ml_methods[ml_use_case]:
-        raise ValueError(f"{method} not implemented")
-    data[date_col] = pd.to_datetime(data[date_col], unit="ns")
-    data.set_index(date_col, inplace=True)
-    data = data.select_dtypes("number")
+        raise ValueError(
+            f"{method} not implemented Please choose one of the following: {ml_methods[ml_use_case]}"
+        )
 
-    if ml_use_case.lower() == "timeseries":
-        # data = validate_ts(data)
-        # if method.lower() in ml_methods["stat"]:
-        anomalywidget = _get_compute_backend(compute_backend, data).compute_anomaly(
-            data=data,
+    # ensures date_col is a datetime object and sets as datetimeindex
+    if date_col:
+        numeric_data = data.select_dtypes("number")
+        numeric_data.index = pd.to_datetime(data[date_col], unit="ns")
+
+        # supervised
+        # if target:
+
+        # # unsupervised
+        # else:
+        # arguments to differ :
+        #     target, date_col, estimator, method, periods
+        anomalywidget = _get_compute_backend(
+            compute_backend, numeric_data
+        ).compute_anomaly(
+            data=numeric_data,
             target=target,
             date_col=date_col,
             estimator=estimator,
             method=method,
             periods=periods,
-            ml_use_case=ml_use_case,
+            data_split=data_split,
+            # ml_use_case=ml_use_case,
             **kwargs,
         )
-    else:
-        raise ValueError("Not implemented")
 
-    anomalywidget = _get_viz_backend(viz_backend).viz_plot_anomaly(
-        anomalywidget.viz_data, **kwargs
-    )
+    # anomalywidget = _get_viz_backend(viz_backend).viz_plot_anomaly(
+    #     anomalywidget.viz_data, **kwargs
+    # )
 
     anomalywidget.viz_backend = viz_backend
 
@@ -157,7 +163,7 @@ def anomaly_detection(
 
 
 def _pandas_compute_anomaly(
-    data, date_col, target, method, ml_use_case, periods=None, estimator=None, **kwargs
+    data, date_col, target, method, data_split, periods=None, estimator=None, **kwargs
 ):
     """Backend implementation of cluster.
 
@@ -175,59 +181,86 @@ def _pandas_compute_anomaly(
         clusters: The predicted cluster labels
         ClusterFit: A class containing additional information about the fit
     """
-    # data.index = pd.to_datetime(data[date_col])
+    # arguments to differ :
+    #     target, date_col, estimator, method, periods
+    if date_col:  # timeseries
+        if target:  # supervised
+            train, test = (
+                data[target][0:data_split],
+                data[target][data_split:],
+            )
+            if not estimator:
+                from pmdarima.arima import auto_arima
 
-    # data.set_index(date_col, inplace=True)
-    if ml_use_case == "timeseries":
-        train_split = 50  # update datetime index
-        train, test = (
-            data[target][0:train_split],
-            data[target][train_split:],
-        )
+                logging.info("Estimator was not specified. Defaulting to ARIMA.")
+                estimator = auto_arima(
+                    train,
+                    start_p=1,
+                    start_q=1,
+                    max_p=3,
+                    max_q=3,
+                    m=7,
+                    start_P=0,
+                    seasonal=True,
+                    d=1,
+                    D=1,
+                    trace=True,
+                    error_action="ignore",
+                    suppress_warnings=True,
+                    stepwise=True,
+                )
 
-        predictions = list()
+            # make one-step forecast
+            predictions_df = ts_predictor(
+                train=train, test=test, periods=periods, estimator=estimator
+            )
 
-        # make one-step forecast
-        history = [x for x in train]
-        predictions = list()
-        for t in test.index:
-            estimator.fit(history)
-            output = estimator.predict(n_periods=periods)
-            predictions.append(output[0])
-            obs = test[t]
-            history.append(obs)
+            predictions_df = _pandas_compute_anomalies_stats(
+                predictions_df, date_col, window=periods
+            )
 
-        predictions_df = pd.DataFrame()
-        predictions_df["actuals"] = test  # test[target]
-        predictions_df["predictions"] = predictions
-        # predictions_df[date_col] = test.index
+        else:  # unsupervised
+            raise ValueError("Work in progress for unsupervised methods")
 
-        predictions_df = _pandas_compute_anomalies_stats(
-            predictions_df, date_col, window=periods
-        )
+    else:  # not timeseries
+        raise ValueError("Work in progress for non timeseries data")
 
-    elif method == "wer":
-        raise ValueError("Work in progress")
+    # elif method == "wer":
+    #     raise ValueError("Work in progress")
+
     return AnomalyDetectionWidget(
-        estimator=estimator, method=method, viz_data=predictions_df
+        estimator=estimator,
+        method=method,
+        viz_data=predictions_df,
+        data_split=data_split,
     )
 
 
-# def ts_estimator(train, test, periods, estimator):
-#     # specifically for arima implementation
-#     predictions = list()
+def ts_predictor(train, test, periods, estimator):
+    """Perform stepwise fit and predict.
 
-#     # make one-step forecast
-#     history = [x for x in train]
-#     for t in range(len(test)):
-#         estimator.fit(history)
-#         pred = estimator.predict(n_periods=periods)[0]
-#         predictions.append(pred)
-#         obs = test[t + train_split]
-#         history.append(obs)
-#     # update preprocessing steps for non arima ts models
+    Args:
+        train ([type]): [description]
+        test ([type]): [description]
+        periods ([type]): [description]
+        estimator ([type]): [description]
 
-#     return predictions
+    Returns:
+        [type]: [description]
+    """
+    history = [x for x in train]
+    predictions = list()
+    for t in test.index:
+        estimator.fit(history)
+        output = estimator.predict(n_periods=periods)
+        predictions.append(output[0])
+        obs = test[t]
+        history.append(obs)
+
+    predictions_df = pd.DataFrame()
+    predictions_df["actuals"] = test  # test[target]
+    predictions_df["predictions"] = predictions
+    return predictions_df
 
 
 def _pandas_compute_anomalies_stats(predictions_df, date_col, window=7):
@@ -288,11 +321,7 @@ def _pandas_compute_anomalies_stats(predictions_df, date_col, window=7):
     predictions_df["anomaly_points"] = np.where(
         predictions_df["color"] == 3, predictions_df["error"], np.nan
     )
-    print(predictions_df.columns)
-    predictions_df = predictions_df.sort_values(by=date_col, ascending=False)
-    # predictions_df[date_col] = pd.to_datetime(
-    #     predictions_df[date_col].astype(str), format="%Y-%m-%d"
-    # )  # TODO(truongc2): update date format
+    predictions_df = predictions_df.sort_index(ascending=False)
 
     return predictions_df
 
@@ -300,6 +329,15 @@ def _pandas_compute_anomalies_stats(predictions_df, date_col, window=7):
 @_requires("plotly")
 def _plotly_viz_anomaly(predictions_df, marker_color="red"):
     # fix scales, actuals do not meet with anomalies
+    predictions_df = predictions_df.iloc[:-6, :]  # update the -6
+    # predictions_df.reset_index(inplace=True)
+    bool_array = abs(predictions_df["anomaly_points"]) > 0
+    actuals = predictions_df["actuals"][-len(bool_array) :]
+    anomaly_points = bool_array * actuals
+    anomaly_points[anomaly_points == 0] = np.nan
+
+    # color_map = {0: "'rgba(228, 222, 249, 0.65)'", 1: "yellow", 2: "orange", 3: "red"}
+
     anomalies = go.Scatter(
         name="Anomaly",
         x=predictions_df.index,
@@ -341,7 +379,6 @@ def _plotly_viz_anomaly(predictions_df, marker_color="red"):
         y=predictions_df["actuals"],
         xaxis="x2",
         yaxis="y2",
-        #                          mode='',
         marker=dict(size=12, line=dict(width=1), color="blue"),
     )
 
@@ -351,7 +388,6 @@ def _plotly_viz_anomaly(predictions_df, marker_color="red"):
         y=predictions_df["predictions"],
         xaxis="x2",
         yaxis="y2",
-        #                      mode='none',
         marker=dict(size=12, line=dict(width=1), color="orange"),
     )
 
@@ -362,7 +398,6 @@ def _plotly_viz_anomaly(predictions_df, marker_color="red"):
         y=predictions_df["error"],
         xaxis="x1",
         yaxis="y1",
-        #                    mode='marker',
         marker=dict(size=12, line=dict(width=1), color="red"),
         text="Error",
     )
@@ -371,7 +406,7 @@ def _plotly_viz_anomaly(predictions_df, marker_color="red"):
         name="anomaly actual",
         showlegend=False,
         x=predictions_df.index,
-        y=predictions_df["anomaly_points"],
+        y=anomaly_points,
         mode="markers",
         xaxis="x2",
         yaxis="y2",
