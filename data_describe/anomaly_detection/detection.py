@@ -1,9 +1,5 @@
-from typing import Optional  # , Union
-
-# import seaborn as sns
-# from matplotlib.figure import Figure
-# from plotly.subplots import make_subplots
-# from plotly.offline import init_notebook_mode
+from typing import Optional
+import logging
 
 import numpy as np
 import plotly.graph_objs as go
@@ -13,8 +9,6 @@ import pandas as pd
 from data_describe.backends import _get_compute_backend, _get_viz_backend
 from data_describe.compat import _is_dataframe, _requires, _in_notebook
 from data_describe._widget import BaseWidget
-
-# from data_describe.config._config import get_option
 
 
 class AnomalyDetectionWidget(BaseWidget):
@@ -132,7 +126,7 @@ def anomaly_detection(
         target (str, optional): The target column. Defaults to None. If target is None, unsupervised methods are used.
         date_col (str, optional): The datetime column. If date_col is specified, the data will be treated as timeseries.
             If the data does not contain datetimes, but contains sequences, set date_col = 'index'.
-        method (str, optional): Select method from this list. Only "arima" is supported.
+        method (str, optional): Select method from the list: ["arima"]. Only "arima" is supported.
         estimator (optional): Fitted or instantiated estimator with a .predict() and .fit() method. Defaults to None.
             If estimator is instantiated but not fitted, data_split must be specified.
         data_split (int, optional): Index to split the data into a train set and a test set. Defaults to None.
@@ -187,6 +181,8 @@ def anomaly_detection(
     anomalywidget.viz_backend = viz_backend
     anomalywidget.n_periods = n_periods
     anomalywidget.sigma = sigma
+    anomalywidget.xlabel = date_col
+    anomalywidget.ylabel = target
 
     return anomalywidget
 
@@ -236,22 +232,7 @@ def _pandas_compute_anomaly(
             if not estimator:
                 from pmdarima.arima import auto_arima
 
-                estimator = auto_arima(
-                    train,
-                    start_p=1,
-                    start_q=1,
-                    max_p=3,
-                    max_q=3,
-                    m=7,
-                    start_P=0,
-                    seasonal=True,
-                    d=1,
-                    D=1,
-                    trace=True,
-                    error_action="ignore",
-                    suppress_warnings=True,
-                    stepwise=True,
-                )
+                estimator = auto_arima(train, random_state=1, **kwargs)
 
             # make one-step forecast
             predictions_df = stepwise_fit_and_predict(
@@ -266,13 +247,13 @@ def _pandas_compute_anomaly(
         # Indicator for unsupervised learning
         else:
             raise ValueError(
-                "Unsupervised timeseries methods for anomaly detection are not yet supported."
+                "Unsupervised timeseries methods for anomaly detection are not yet supported. Please specify the target argument to continue."
             )
 
     # Indicator for regression and classification learning
     else:
         raise ValueError(
-            "Regression and Classification methods for anomaly detection are not yet supported."
+            "Regression and Classification methods for anomaly detection are not yet supported. To specify timeseries methods, please specify the date_col."
         )
 
     return AnomalyDetectionWidget(
@@ -287,14 +268,17 @@ def stepwise_fit_and_predict(train, test, n_periods, estimator):
     """Perform stepwise fit and predict for timeseries data.
 
     Args:
-        train (DataFrame): The training data.
-        test (DataFrame): The testing data.
+        train (Series): The training data.
+        test (Series): The testing data.
         n_periods (int): The number of periods.
         estimator: The estimator.
 
     Returns:
         predictions_df: DataFrame containing the ground truth, predictions, and indexed by the datetime.
     """
+    logging.warning(
+        "Performing stepwise fit and prediction using ARIMA. This may take a couple minutes..."
+    )
     history = [x for x in train]
     predictions = list()
     for t in test.index:
@@ -416,16 +400,13 @@ def _plotly_viz_anomaly(
     """
     lookback = -1 * (n_periods - 1)
     predictions_df = predictions_df.iloc[:lookback, :]
-    # predictions_df.reset_index(inplace=True)
     bool_array = abs(predictions_df["anomaly_points"]) > 0
     actuals = predictions_df["actuals"][-len(bool_array) :]
     anomaly_points = bool_array * actuals
     anomaly_points[anomaly_points == 0] = np.nan
 
-    # color_map = {0: "'rgba(228, 222, 249, 0.65)'", 1: "yellow", 2: "orange", 3: "red"}
-
     anomalies = go.Scatter(
-        name="Predicted Anomaly",
+        name="Anomaly",
         x=predictions_df.index,
         y=predictions_df["anomaly_points"],
         xaxis="x1",
@@ -437,7 +418,7 @@ def _plotly_viz_anomaly(
     upper_bound = go.Scatter(
         hoverinfo="skip",
         x=predictions_df.index,
-        # showlegend=False,
+        showlegend=False,
         xaxis="x1",
         yaxis="y1",
         y=predictions_df["3s"],
@@ -489,8 +470,8 @@ def _plotly_viz_anomaly(
     )
 
     anomalies_map = go.Scatter(
-        name="Actual Anomaly",
-        # showlegend=False,
+        name="Anomaly",
+        showlegend=False,
         x=predictions_df.index,
         y=anomaly_points,
         mode="markers",
@@ -523,8 +504,9 @@ def _plotly_viz_anomaly(
         width=1000,
         height=865,
         autosize=False,
-        title="ARIMA Anomalies",
-        margin=dict(t=75),
+        # title="ARIMA Anomalies",
+        yaxis_title="ylabel",
+        xaxis_title="xlabel",
         showlegend=True,
         xaxis1=dict(axis, **dict(domain=[0, 1], anchor="y1", showticklabels=True)),
         xaxis2=dict(axis, **dict(domain=[0, 1], anchor="y2", showticklabels=True)),
@@ -543,7 +525,7 @@ def _plotly_viz_anomaly(
     fig = go.Figure(
         data=[
             anomalies,
-            anomalies_map,  # table
+            anomalies_map,
             upper_bound,
             lower_bound,
             Actuals,
@@ -553,7 +535,12 @@ def _plotly_viz_anomaly(
         ],
         layout=layout,
     )
-
+    fig.update_layout(
+        title="ARIMA Anomalies",
+        xaxis_title=xlabel,
+        yaxis_title=ylabel,
+        legend_title="Legend",
+    )
     if _in_notebook():
         po.init_notebook_mode(connected=True)
         return po.iplot(fig)
