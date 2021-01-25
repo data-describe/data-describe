@@ -4,12 +4,12 @@ import plotly
 from pmdarima.arima import AutoARIMA
 
 from data_describe.compat import _is_dataframe
-from data_describe.anomaly_detection.detection import (
+from data_describe.anomaly.detection import (
     anomaly_detection,
     AnomalyDetectionWidget,
     _pandas_compute_anomaly,
     _pandas_compute_anomalies_stats,
-    stepwise_fit_and_predict,
+    _stepwise_fit_and_predict,
 )
 
 
@@ -39,7 +39,7 @@ def test_anomaly_widget():
     ad = AnomalyDetectionWidget()
     assert hasattr(ad, "method"), "Anomaly Detection Widget missing method"
     assert hasattr(ad, "estimator"), "Anomaly Detection Widget missing estimator"
-    assert hasattr(ad, "data_split"), "Anomaly Detection Widget missing data_split"
+    assert hasattr(ad, "time_split_index"), "Anomaly Detection Widget missing time_split_index"
     assert hasattr(ad, "viz_data"), "Anomaly Detection Widget missing viz_data"
     assert hasattr(ad, "ylabel"), "Anomaly Detection Widget missing ylabel"
     assert hasattr(ad, "xlabel"), "Anomaly Detection Widget missing xlabel"
@@ -78,7 +78,7 @@ def arima_default(numeric_data, **auto_arima_args):
         method="arima",
         target="a",
         date_col="index",
-        data_split=5,
+        time_split_index=5,
         n_periods=1,
         viz_backend="plotly",
         **auto_arima_args
@@ -132,7 +132,7 @@ def test_pandas_compute_anomalies_stats(numeric_data, arima_default):
     assert isinstance(
         ad.show(viz_backend="plotly"), plotly.graph_objs.Figure
     ), "Default show() didn't return a plotly object"
-    predictions_df = stepwise_fit_and_predict(
+    predictions_df = _stepwise_fit_and_predict(
         train=numeric_data["a"][:5],
         test=numeric_data["a"][5:10],
         n_periods=1,

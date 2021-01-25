@@ -20,7 +20,7 @@ class AnomalyDetectionWidget(BaseWidget):
     Attributes:
         method (str, optional): {'arima'} The type of anomaly detection algorithm.
         estimator: The anomaly detection estimator/model.
-        data_split (str, optional): The index to split the input data into a training set and testing set.
+        time_split_index (str, optional): The index to split the input data into a training set and testing set.
             Note: Data is not shuffled.
         viz_data (DataFrame): The data used for the default visualization.
         input_data (DataFrame): The input data.
@@ -36,7 +36,7 @@ class AnomalyDetectionWidget(BaseWidget):
         estimator=None,
         method=None,
         viz_data=None,
-        data_split=None,
+        time_split_index=None,
         **kwargs,
     ):
         """Anomaly Detection.
@@ -44,7 +44,7 @@ class AnomalyDetectionWidget(BaseWidget):
         Args:
             method (str, optional): {'arima'} The type of anomaly detection algorithm.
             estimator: The anomaly detection estimator/model.
-            data_split (str, optional): The index to split the input data into a training set and testing set.
+            time_split_index (str, optional): The index to split the input data into a training set and testing set.
                 Note: Data is not shuffled.
             viz_data (DataFrame): The data used for the default visualization.
             input_data (DataFrame): The input data.
@@ -58,7 +58,7 @@ class AnomalyDetectionWidget(BaseWidget):
         super(AnomalyDetectionWidget, self).__init__(**kwargs)
         self.method = method
         self.estimator = estimator
-        self.data_split = data_split
+        self.time_split_index = time_split_index
         self.viz_data = viz_data
         self.input_data = None
         self.xlabel = None
@@ -109,7 +109,7 @@ def anomaly_detection(
     date_col: Optional[str] = None,
     method: str = "arima",
     estimator=None,
-    data_split: Optional[int] = None,
+    time_split_index: Optional[int] = None,
     n_periods: Optional[int] = None,
     sigma: float = 2.0,
     compute_backend: Optional[str] = None,
@@ -128,10 +128,10 @@ def anomaly_detection(
             If the data does not contain datetimes, but contains sequences, set date_col = 'index'.
         method (str, optional): Select method from the list: ["arima"]. Only "arima" is supported.
         estimator (optional): Fitted or instantiated estimator with a .predict() and .fit() method. Defaults to None.
-            If estimator is instantiated but not fitted, data_split must be specified.
-        data_split (int, optional): Index to split the data into a train set and a test set. Defaults to None.
-            data_split must be specified if estimator is instantiated but not fitted.
-        n_periods (int, optional): Number of periods for timeseries anomaly detection. Defaults to None.
+            If estimator is instantiated but not fitted, time_split_index must be specified.
+        time_split_index (int, optional): Index to split the data into a train set and a test set. Defaults to None.
+            time_split_index must be specified if estimator is instantiated but not fitted.
+        n_periods (int, optional): Number of periods for timeseries anomaly detection. Defaults to None. 
         sigma (float, optional): The standard deviation requirement for identifying anomalies. Defaults to 2.
         compute_backend (str, optional): The compute backend.
         viz_backend (str, optional): The visualization backend.
@@ -157,12 +157,7 @@ def anomaly_detection(
 
     numeric_data = data.select_dtypes("number")
 
-    # ensures date_col is a datetime object and sets as datetimeindex
-    if date_col:
-        if date_col != "index":
-            numeric_data.index = pd.to_datetime(data[date_col])
-            if not numeric_data.index.is_monotonic_increasing:
-                numeric_data.sort_index(inplace=True)
+
 
     anomalywidget = _get_compute_backend(compute_backend, numeric_data).compute_anomaly(
         data=numeric_data,
@@ -170,7 +165,7 @@ def anomaly_detection(
         date_col=date_col,
         estimator=estimator,
         n_periods=n_periods,
-        data_split=data_split,
+        time_split_index=time_split_index,
         method=method,
         **kwargs,
     )
@@ -194,7 +189,7 @@ def _pandas_compute_anomaly(
     method: Optional[str] = "arima",
     estimator=None,
     n_periods: Optional[int] = None,
-    data_split: Optional[int] = None,
+    time_split_index: Optional[int] = None,
     **kwargs,
 ):
     """Backend implementation of anomaly detection.
@@ -205,10 +200,10 @@ def _pandas_compute_anomaly(
         date_col (str, optional): Datetime column if data is timeseries. Defaults to None. If data is timeseries, date_col must be specified.
         method (str, optional): Select method from this list. Only "arima" is supported.
         estimator (optional): Fitted or instantiated estimator with a .predict() and .fit() method. Defaults to None.
-            If estimator is instantiated but not fitted, data_split must be specified.
+            If estimator is instantiated but not fitted, time_split_index must be specified.
         n_periods (int, optional): Number of periods for timeseries anomaly detection. Default is None.
-        data_split (int, optional): Index to split the data into a train set and a test set. Defaults to None.
-            data_split must be specified if estimator is instantiated but not fitted.
+        time_split_index (int, optional): Index to split the data into a train set and a test set. Defaults to None.
+            time_split_index must be specified if estimator is instantiated but not fitted.
         **kwargs: Keyword arguments.
 
     Raises:
@@ -219,13 +214,17 @@ def _pandas_compute_anomaly(
 
     """
     # Timeseries indicator
+    # ensures date_col is a datetime object and sets as datetimeindex
     if date_col:
-
+        if date_col != "index":
+            numeric_data.index = pd.to_datetime(data[date_col])
+            if not numeric_data.index.is_monotonic_increasing:
+                numeric_data.sort_index(inplace=True)
         # Supervised learning indicator
         if target:
             train, test = (
-                data[target][0:data_split],
-                data[target][data_split:],
+                data[target][0:time_split_index],
+                data[target][time_split_index:],
             )
 
             # Default to ARIMA model
@@ -235,7 +234,7 @@ def _pandas_compute_anomaly(
                 estimator = auto_arima(train, random_state=1, **kwargs)
 
             # make one-step forecast
-            predictions_df = stepwise_fit_and_predict(
+            predictions_df = _stepwise_fit_and_predict(
                 train=train, test=test, n_periods=n_periods, estimator=estimator
             )
 
@@ -260,11 +259,11 @@ def _pandas_compute_anomaly(
         estimator=estimator,
         method=method,
         viz_data=predictions_df,
-        data_split=data_split,
+        time_split_index=time_split_index,
     )
 
 
-def stepwise_fit_and_predict(train, test, n_periods, estimator):
+def _stepwise_fit_and_predict(train, test, n_periods, estimator):
     """Perform stepwise fit and predict for timeseries data.
 
     Args:
@@ -279,7 +278,7 @@ def stepwise_fit_and_predict(train, test, n_periods, estimator):
     logging.warning(
         "Performing stepwise fit and prediction using ARIMA. This may take a couple minutes..."
     )
-    history = [x for x in train]
+    history = train.to_list()
     predictions = list()
     for t in test.index:
         estimator.fit(history)
@@ -440,7 +439,7 @@ def _plotly_viz_anomaly(
         fill="tonexty",
     )
 
-    Actuals = go.Scatter(
+    actuals = go.Scatter(
         name="Actuals",
         x=predictions_df.index,
         y=predictions_df["actuals"],
@@ -449,7 +448,7 @@ def _plotly_viz_anomaly(
         marker=dict(size=12, line=dict(width=1), color="blue"),
     )
 
-    Predicted = go.Scatter(
+    predicted = go.Scatter(
         name="Predicted",
         x=predictions_df.index,
         y=predictions_df["predictions"],
@@ -459,7 +458,7 @@ def _plotly_viz_anomaly(
     )
 
     # create plot for error...
-    Error = go.Scatter(
+    error = go.Scatter(
         name="Error",
         x=predictions_df.index,
         y=predictions_df["error"],
@@ -480,7 +479,7 @@ def _plotly_viz_anomaly(
         marker=dict(color="red", size=11, line=dict(color="red", width=2)),
     )
 
-    MovingAverage = go.Scatter(
+    moving_average = go.Scatter(
         name="Moving Average",
         x=predictions_df.index,
         y=predictions_df["meanval"],
@@ -528,10 +527,10 @@ def _plotly_viz_anomaly(
             anomalies_map,
             upper_bound,
             lower_bound,
-            Actuals,
-            Predicted,
-            MovingAverage,
-            Error,
+            actuals,
+            predicted,
+            moving_average,
+            error,
         ],
         layout=layout,
     )
