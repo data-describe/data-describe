@@ -226,7 +226,7 @@ def _pandas_compute_anomaly(
 
     # Default to ARIMA model
     if not estimator:
-        estimator = _compat["pmdarima.arima"].auto_arima(
+        estimator = _compat["pmdarima"].arima.auto_arima(
             train, random_state=1, **kwargs
         )
 
