@@ -132,7 +132,7 @@ def anomaly_detection(
             If estimator is instantiated but not fitted, time_split_index must be specified.
         time_split_index (int, optional): Index to split the data into a train set and a test set. Defaults to None.
             time_split_index must be specified if estimator is instantiated but not fitted.
-        n_periods (int, optional): Number of periods for timeseries anomaly detection. Defaults to None.
+        n_periods (int, optional): Size of the moving window. This is the number of observations used for calculating the statistic. Defaults to None.
         sigma (float, optional): The standard deviation requirement for identifying anomalies. Defaults to 2.
         compute_backend (str, optional): The compute backend.
         viz_backend (str, optional): The visualization backend.
@@ -373,7 +373,9 @@ def _plotly_viz_anomaly(
 
     Args:
         predictions_df (DataFrame): The dataframe containing the ground truth, predictions, and statistics.
-        n_periods (int):
+        n_periods (int): The number of periods to be removed when plotting.
+        ylabel (str): The y label
+        xlabel = The x label
         marker_color (str): The color to mark anomalies. Defaults to "red".
 
     Returns:

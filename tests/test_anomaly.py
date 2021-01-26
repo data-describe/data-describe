@@ -13,13 +13,11 @@ from data_describe.anomaly.detection import (
 )
 
 
-@pytest.mark.base
 def test_not_df():
     with pytest.raises(ValueError):
         anomaly_detection("this_is_a_string")
 
 
-@pytest.mark.base
 def test_method_not_implemented(numeric_data):
     with pytest.raises(ValueError):
         anomaly_detection(
@@ -28,13 +26,11 @@ def test_method_not_implemented(numeric_data):
         )
 
 
-@pytest.mark.base
 def test_regression_and_classification_not_implemented(numeric_data):
     with pytest.raises(ValueError):
         anomaly_detection(numeric_data, target="a", date_col=None)
 
 
-@pytest.mark.base
 def test_anomaly_widget():
     ad = AnomalyDetectionWidget()
     assert hasattr(ad, "method"), "Anomaly Detection Widget missing method"
@@ -70,7 +66,6 @@ def arima_default(numeric_data, **auto_arima_args):
     )
 
 
-@pytest.mark.base
 def test_arima_plotly(arima_default):
     figure = arima_default.show(viz_backend="plotly")
     assert isinstance(figure, plotly.graph_objs.Figure)
@@ -91,7 +86,6 @@ def monkeypatch_auto_arima(monkeypatch):
     monkeypatch.setattr("pmdarima.arima.AutoARIMA", mock_arima)
 
 
-@pytest.mark.base
 def test_pandas_compute_anomaly(
     numeric_data, monkeypatch_auto_arima, **auto_arima_args
 ):
@@ -111,7 +105,6 @@ def test_pandas_compute_anomaly(
     assert hasattr(widget, "input_data"), "Missing input data"
 
 
-@pytest.mark.base
 def test_pandas_compute_anomalies_stats(numeric_data, arima_default):
     ad = arima_default
     assert isinstance(
