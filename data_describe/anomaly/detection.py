@@ -7,7 +7,7 @@ import plotly.offline as po
 import pandas as pd
 
 from data_describe.backends import _get_compute_backend, _get_viz_backend
-from data_describe.compat import _is_dataframe, _requires, _in_notebook
+from data_describe.compat import _is_dataframe, _requires, _in_notebook, _compat
 from data_describe._widget import BaseWidget
 
 
@@ -37,6 +37,7 @@ class AnomalyDetectionWidget(BaseWidget):
         method=None,
         viz_data=None,
         time_split_index=None,
+        n_periods=None,
         **kwargs,
     ):
         """Anomaly Detection.
@@ -60,12 +61,12 @@ class AnomalyDetectionWidget(BaseWidget):
         self.estimator = estimator
         self.time_split_index = time_split_index
         self.viz_data = viz_data
+        self.n_periods = n_periods
         self.input_data = None
         self.xlabel = None
         self.ylabel = None
         self.target = None
         self.date_col = None
-        self.n_periods = None
         self.sigma = None
 
     def __str__(self):
@@ -131,7 +132,7 @@ def anomaly_detection(
             If estimator is instantiated but not fitted, time_split_index must be specified.
         time_split_index (int, optional): Index to split the data into a train set and a test set. Defaults to None.
             time_split_index must be specified if estimator is instantiated but not fitted.
-        n_periods (int, optional): Number of periods for timeseries anomaly detection. Defaults to None. 
+        n_periods (int, optional): Number of periods for timeseries anomaly detection. Defaults to None.
         sigma (float, optional): The standard deviation requirement for identifying anomalies. Defaults to 2.
         compute_backend (str, optional): The compute backend.
         viz_backend (str, optional): The visualization backend.
@@ -154,30 +155,17 @@ def anomaly_detection(
     # ml_methods = {
     #     "timeseries": ["arima"],
     # }
-
-    numeric_data = data.select_dtypes("number")
-
-
-
-    anomalywidget = _get_compute_backend(compute_backend, numeric_data).compute_anomaly(
-        data=numeric_data,
+    anomalywidget = _get_compute_backend(compute_backend, data).compute_anomaly(
+        data=data,
         target=target,
         date_col=date_col,
         estimator=estimator,
         n_periods=n_periods,
         time_split_index=time_split_index,
         method=method,
+        sigma=sigma,
         **kwargs,
     )
-
-    anomalywidget.viz_backend = viz_backend
-    anomalywidget.date_col = date_col
-    anomalywidget.target = target
-    anomalywidget.viz_backend = viz_backend
-    anomalywidget.n_periods = n_periods
-    anomalywidget.sigma = sigma
-    anomalywidget.xlabel = date_col
-    anomalywidget.ylabel = target
 
     return anomalywidget
 
@@ -215,74 +203,70 @@ def _pandas_compute_anomaly(
     """
     # Timeseries indicator
     # ensures date_col is a datetime object and sets as datetimeindex
-    if date_col:
-        if date_col != "index":
-            numeric_data.index = pd.to_datetime(data[date_col])
-            if not numeric_data.index.is_monotonic_increasing:
-                numeric_data.sort_index(inplace=True)
-        # Supervised learning indicator
-        if target:
-            train, test = (
-                data[target][0:time_split_index],
-                data[target][time_split_index:],
-            )
+    if not date_col:
+        raise ValueError("Please specify data_col for timeseries anomaly detection.")
 
-            # Default to ARIMA model
-            if not estimator:
-                from pmdarima.arima import auto_arima
+    if date_col != "index":
+        data.index = pd.to_datetime(data[date_col])
 
-                estimator = auto_arima(train, random_state=1, **kwargs)
+    numeric_data = data.select_dtypes("number")
 
-            # make one-step forecast
-            predictions_df = _stepwise_fit_and_predict(
-                train=train, test=test, n_periods=n_periods, estimator=estimator
-            )
+    if not numeric_data.index.is_monotonic_increasing:
+        numeric_data.sort_index(inplace=True)
 
-            # Post-processing for errors and confidence interval
-            predictions_df = _pandas_compute_anomalies_stats(
-                predictions_df, n_periods=n_periods
-            )
-
-        # Indicator for unsupervised learning
-        else:
-            raise ValueError(
-                "Unsupervised timeseries methods for anomaly detection are not yet supported. Please specify the target argument to continue."
-            )
-
-    # Indicator for regression and classification learning
-    else:
+    # Supervised learning indicator
+    if not target:
         raise ValueError(
-            "Regression and Classification methods for anomaly detection are not yet supported. To specify timeseries methods, please specify the date_col."
+            "Unsupervised timeseries methods for anomaly detection are not yet supported. Please specify the target argument to continue."
         )
+    train, test = (
+        numeric_data[target][0:time_split_index],
+        numeric_data[target][time_split_index:],
+    )
+
+    # Default to ARIMA model
+    if not estimator:
+        estimator = _compat["pmdarima.arima"].auto_arima(
+            train, random_state=1, **kwargs
+        )
+
+    # make one-step forecast
+    predictions_df = _stepwise_fit_and_predict(
+        train=train, test=test, estimator=estimator
+    )
+
+    # Post-processing for errors and confidence interval
+    predictions_df = _pandas_compute_anomalies_stats(predictions_df, window=n_periods)
 
     return AnomalyDetectionWidget(
         estimator=estimator,
         method=method,
         viz_data=predictions_df,
         time_split_index=time_split_index,
+        target=target,
+        n_periods=n_periods,
     )
 
 
-def _stepwise_fit_and_predict(train, test, n_periods, estimator):
+def _stepwise_fit_and_predict(train, test, estimator):
     """Perform stepwise fit and predict for timeseries data.
 
     Args:
         train (Series): The training data.
         test (Series): The testing data.
-        n_periods (int): The number of periods.
         estimator: The estimator.
 
     Returns:
         predictions_df: DataFrame containing the ground truth, predictions, and indexed by the datetime.
     """
-    logging.warning(
+    logging.info(
         "Performing stepwise fit and prediction using ARIMA. This may take a couple minutes..."
     )
     history = train.to_list()
     predictions = list()
     for t in test.index:
         estimator.fit(history)
-        output = estimator.predict(n_periods=n_periods)
+        output = estimator.predict(n_periods=1)
         predictions.append(output[0])
         obs = test[t]
         history.append(obs)
@@ -293,14 +277,14 @@ def _stepwise_fit_and_predict(train, test, n_periods, estimator):
     return predictions_df
 
 
-def _pandas_compute_anomalies_stats(predictions_df, n_periods, sigma=2):
+def _pandas_compute_anomalies_stats(predictions_df, window, sigma=2):
     """Detects anomalies based on the statistical profiling of the residuals (actuals - predicted).
 
     The rolling mean and rolling standard deviation is used to identify points that are more than 2 standard deviations away from the mean.
 
     Args:
         predictions_df (DataFrame): The dataframe containing the ground truth and predictions.
-        n_periods (int, optional): The number of periods.
+        window (int, optional): Size of the moving window. This is the number of observations used for calculating the statistic.
         sigma (float). The standard deviation requirement for anomalies.
 
     Raises:
@@ -321,10 +305,8 @@ def _pandas_compute_anomalies_stats(predictions_df, n_periods, sigma=2):
     predictions_df["percentage_change"] = (
         predictions_df["error"] / predictions_df["actuals"]
     ) * 100
-    predictions_df["meanval"] = predictions_df["error"].rolling(window=n_periods).mean()
-    predictions_df["deviation"] = (
-        predictions_df["error"].rolling(window=n_periods).std()
-    )
+    predictions_df["meanval"] = predictions_df["error"].rolling(window=window).mean()
+    predictions_df["deviation"] = predictions_df["error"].rolling(window=window).std()
     predictions_df["-3s"] = predictions_df["meanval"] - (
         sigma * predictions_df["deviation"]
     )
@@ -391,6 +373,7 @@ def _plotly_viz_anomaly(
 
     Args:
         predictions_df (DataFrame): The dataframe containing the ground truth, predictions, and statistics.
+        n_periods (int):
         marker_color (str): The color to mark anomalies. Defaults to "red".
 
     Returns:

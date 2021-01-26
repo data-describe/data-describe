@@ -39,7 +39,9 @@ def test_anomaly_widget():
     ad = AnomalyDetectionWidget()
     assert hasattr(ad, "method"), "Anomaly Detection Widget missing method"
     assert hasattr(ad, "estimator"), "Anomaly Detection Widget missing estimator"
-    assert hasattr(ad, "time_split_index"), "Anomaly Detection Widget missing time_split_index"
+    assert hasattr(
+        ad, "time_split_index"
+    ), "Anomaly Detection Widget missing time_split_index"
     assert hasattr(ad, "viz_data"), "Anomaly Detection Widget missing viz_data"
     assert hasattr(ad, "ylabel"), "Anomaly Detection Widget missing ylabel"
     assert hasattr(ad, "xlabel"), "Anomaly Detection Widget missing xlabel"
@@ -52,23 +54,6 @@ def test_anomaly_widget():
         ad, "_repr_html_"
     ), "Anomaly Detection Widget missing _repr_html_ method"
     assert hasattr(ad, "show"), "Anomaly Detection Widget missing show method"
-
-
-auto_arima_args = {
-    "start_p": 1,
-    "start_q": 1,
-    "max_p": 1,
-    "max_q": 1,
-    "m": 1,
-    "start_P": 0,
-    "seasonal": True,
-    "d": 1,
-    "D": 1,
-    "trace": True,
-    "error_action": "ignore",
-    "suppress_warnings": True,
-    "stepwise": True,
-}
 
 
 @pytest.fixture
@@ -135,15 +120,12 @@ def test_pandas_compute_anomalies_stats(numeric_data, arima_default):
     predictions_df = _stepwise_fit_and_predict(
         train=numeric_data["a"][:5],
         test=numeric_data["a"][5:10],
-        n_periods=1,
         estimator=ad.estimator,
     )
     assert _is_dataframe(predictions_df)
     assert predictions_df.shape == (5, 2)
 
-    predictions_df = _pandas_compute_anomalies_stats(
-        predictions_df, n_periods=1, sigma=2
-    )
+    predictions_df = _pandas_compute_anomalies_stats(predictions_df, window=1, sigma=2)
     assert _is_dataframe(predictions_df)
     assert predictions_df.shape == (5, 17)
     assert len(predictions_df.columns) == len(ad.viz_data.columns)
