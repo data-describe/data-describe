@@ -232,7 +232,7 @@ def _pandas_compute_anomaly(
         numeric_data.sort_index(inplace=True)
 
     model_results: dict = {}  # stores the model results. {<name of model>: predictions}
-    trained_models = []  # stores the trained model objects
+    trained_models: list = []  # stores the trained model objects
     train, test = (
         numeric_data[0:time_split_index],
         numeric_data[time_split_index:],
