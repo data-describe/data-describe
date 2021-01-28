@@ -5,6 +5,7 @@ import numpy as np
 import plotly.graph_objs as go
 import plotly.offline as po
 import pandas as pd
+import sklearn
 
 from data_describe.backends import _get_compute_backend, _get_viz_backend
 from data_describe.compat import _is_dataframe, _requires, _in_notebook, _compat
@@ -113,6 +114,7 @@ def anomaly_detection(
     time_split_index: Optional[int] = None,
     n_periods: Optional[int] = None,
     sigma: float = 2.0,
+    contamination="auto",
     compute_backend: Optional[str] = None,
     viz_backend: Optional[str] = None,
     **kwargs,
@@ -134,6 +136,9 @@ def anomaly_detection(
             time_split_index must be specified if estimator is instantiated but not fitted.
         n_periods (int, optional): Size of the moving window. This is the number of observations used for calculating the statistic. Defaults to None.
         sigma (float, optional): The standard deviation requirement for identifying anomalies. Defaults to 2.
+        contamination (float): The amount of contamination of the data set, i.e. the proportion of outliers in the data set.
+            Used when fitting to define the threshold on the scores of the samples. If ‘auto’, the threshold is determined as in the original paper.
+            If float, the contamination should be in the range [0, 0.5].
         compute_backend (str, optional): The compute backend.
         viz_backend (str, optional): The visualization backend.
         **kwargs: Keyword arguments.
@@ -145,16 +150,28 @@ def anomaly_detection(
     if not _is_dataframe(data):
         raise ValueError("Data frame required")
 
-    # checks if estimator exists and if it follows the .predict and .fit methods
-    if estimator:
-        if not hasattr(estimator, "predict") and not hasattr(estimator, "fit"):
-            raise AttributeError(
-                "Input model does not contain the 'predict' or 'fit' method."
-            )
-    # TODO(truongc2): Update available methods
-    # ml_methods = {
-    #     "timeseries": ["arima"],
-    # }
+    if estimator is None or estimator == "arima":
+        estimator = "arima"
+
+    elif estimator == "auto":
+        iforest = sklearn.ensemble.IsolationForest()(
+            random_state=1, contamination=contamination, n_jobs=-1
+        )
+        lof = sklearn.neighborsLocalOutlierFactor(
+            contamination=contamination, novelty=True, n_jobs=-1
+        )
+
+        ee = sklearn.covariance.EllipticEnvelope(
+            random_state=1, contamination=contamination
+        )
+
+        estimator = [iforest, lof, ee]
+
+    elif not hasattr(estimator, "predict") and not hasattr(estimator, "fit"):
+        raise AttributeError(
+            f"{estimator} does not contain the 'predict' or 'fit' method."
+        )
+
     anomalywidget = _get_compute_backend(compute_backend, data).compute_anomaly(
         data=data,
         target=target,
@@ -214,29 +231,58 @@ def _pandas_compute_anomaly(
     if not numeric_data.index.is_monotonic_increasing:
         numeric_data.sort_index(inplace=True)
 
+    model_results: dict = {}  # stores the model results. {<name of model>: predictions}
+    trained_models = []  # stores the trained model objects
+    train, test = (
+        numeric_data[0:time_split_index],
+        numeric_data[time_split_index:],
+    )
     # Supervised learning indicator
     if not target:
         raise ValueError(
             "Unsupervised timeseries methods for anomaly detection are not yet supported. Please specify the target argument to continue."
         )
-    train, test = (
-        numeric_data[target][0:time_split_index],
-        numeric_data[target][time_split_index:],
-    )
 
     # Default to ARIMA model
-    if not estimator:
-        estimator = _compat["pmdarima"].arima.auto_arima(
-            train, random_state=1, **kwargs
+    if not estimator or estimator == "arima":
+        # make one-step forecast
+        predictions_df, estimator = _stepwise_fit_and_predict(
+            train, test, target, **kwargs
+        )
+        trained_models.append(estimator)
+
+        # Post-processing for errors and confidence interval
+        predictions_df = _pandas_compute_anomalies_stats(
+            predictions_df, window=n_periods
         )
 
-    # make one-step forecast
-    predictions_df = _stepwise_fit_and_predict(
-        train=train, test=test, estimator=estimator
-    )
+    else:
+        if isinstance(estimator, list):  # multi estimator
+            pbar = _compat["tqdm"].tqdm(  # type: ignore
+                estimator,
+                desc="Fitting models",
+            )
+            for model in pbar:
+                unsupervised_fit_and_predict(
+                    model=model,
+                    train_data=train,
+                    test_data=test,
+                    model_results=model_results,
+                    trained_models=trained_models,
+                )
 
-    # Post-processing for errors and confidence interval
-    predictions_df = _pandas_compute_anomalies_stats(predictions_df, window=n_periods)
+        else:  # single estimator
+            unsupervised_fit_and_predict(
+                model=estimator,
+                train_data=train,
+                test_data=test,
+                model_results=model_results,
+                trained_models=trained_models,
+            )
+        predictions_df = pd.DataFrame(model_results)
+        predictions_df["actuals"] = test[target].tolist()
+
+    predictions_df.set_index(test.index, inplace=True)
 
     return AnomalyDetectionWidget(
         estimator=estimator,
@@ -248,13 +294,13 @@ def _pandas_compute_anomaly(
     )
 
 
-def _stepwise_fit_and_predict(train, test, estimator):
+@_requires("tqdm")
+def _stepwise_fit_and_predict(train, test, target, **kwargs):
     """Perform stepwise fit and predict for timeseries data.
 
     Args:
         train (Series): The training data.
         test (Series): The testing data.
-        estimator: The estimator.
 
     Returns:
         predictions_df: DataFrame containing the ground truth, predictions, and indexed by the datetime.
@@ -262,19 +308,52 @@ def _stepwise_fit_and_predict(train, test, estimator):
     logging.info(
         "Performing stepwise fit and prediction using ARIMA. This may take a couple minutes..."
     )
-    history = train.to_list()
-    predictions = list()
-    for t in test.index:
-        estimator.fit(history)
-        output = estimator.predict(n_periods=1)
-        predictions.append(output[0])
-        obs = test[t]
-        history.append(obs)
+    # pbar = _compat["tqdm"].tqdm(  # type: ignore
+    #     test[target].index,
+    #     desc="Fitting ARIMA model",
+    # )
+    if train.shape[1] == 1:
+        estimator = _compat["pmdarima"].arima.auto_arima(
+            y=train[target],
+            random_state=1,
+            **kwargs,
+        )
+
+        # history = train[target].to_list()
+        history = train[target].tolist()
+        predictions = list()
+        for t in test[target].index:
+            estimator.fit(history)
+            output = estimator.predict(n_periods=1)
+            predictions.append(output[0])
+            obs = test[target][t]
+            history.append(obs)
+    else:
+        print("Performing multivariate arima...")
+        estimator = _compat["pmdarima"].arima.auto_arima(
+            y=train[target],
+            X=train.drop(columns=[target]),
+            random_state=1,
+            **kwargs,
+        )
+        # history = train[target].to_list()
+        history_target = train[target].tolist()
+        history_features = (
+            train.drop(columns=[target]).to_numpy(dtype="object").tolist()
+        )
+        predictions = list()
+        for t in test.index:
+            record = test.drop(columns=[target]).loc[t, :]
+            estimator.fit(history_target, history_features)
+            output = estimator.predict(n_periods=1, X=[record])
+            predictions.append(output[0])
+            history_features.append(record)
+            history_target.append(test[target][t])
 
     predictions_df = pd.DataFrame()
-    predictions_df["actuals"] = test
+    predictions_df["actuals"] = test[target]
     predictions_df["predictions"] = predictions
-    return predictions_df
+    return predictions_df, estimator
 
 
 def _pandas_compute_anomalies_stats(predictions_df, window, sigma=2):
@@ -530,3 +609,22 @@ def _plotly_viz_anomaly(
         return po.iplot(fig)
     else:
         return fig
+
+
+def unsupervised_fit_and_predict(
+    model, train_data, test_data, model_results, trained_models, **kwargs
+):
+    """Train and fit unsupervised models.
+
+    Args:
+        model: The estimator object.
+        train_data (Dataframe): The train data.
+        test_data (Dataframe): The test data.
+        model_results (dict): Dictionary to store model results. i.e. {<model name>: predictions}
+        trained_models: The trained model object.
+    """
+    model_key = str(model).split("(")[0] + "_predictions"
+    model.fit(train_data, **kwargs)
+    preds = model.predict(test_data).tolist()
+    model_results[model_key] = preds
+    trained_models.append(model)
