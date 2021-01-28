@@ -1,5 +1,4 @@
 from typing import Optional
-import logging
 
 import numpy as np
 import plotly.graph_objs as go
@@ -304,14 +303,13 @@ def _stepwise_fit_and_predict(train, test, target, **kwargs):
 
     Returns:
         predictions_df: DataFrame containing the ground truth, predictions, and indexed by the datetime.
+
     """
-    logging.info(
-        "Performing stepwise fit and prediction using ARIMA. This may take a couple minutes..."
+    # TODO(truongc2): Consider moving pbar into each clause to prevent strange output in nb
+    pbar = _compat["tqdm"].tqdm(  # type: ignore
+        test[target].index,
+        desc="Fitting ARIMA model",
     )
-    # pbar = _compat["tqdm"].tqdm(  # type: ignore
-    #     test[target].index,
-    #     desc="Fitting ARIMA model",
-    # )
     if train.shape[1] == 1:
         estimator = _compat["pmdarima"].arima.auto_arima(
             y=train[target],
@@ -322,11 +320,12 @@ def _stepwise_fit_and_predict(train, test, target, **kwargs):
         # history = train[target].to_list()
         history = train[target].tolist()
         predictions = list()
-        for t in test[target].index:
+
+        for idx in pbar:
             estimator.fit(history)
             output = estimator.predict(n_periods=1)
             predictions.append(output[0])
-            obs = test[target][t]
+            obs = test[target][idx]
             history.append(obs)
     else:
         print("Performing multivariate arima...")
@@ -336,19 +335,18 @@ def _stepwise_fit_and_predict(train, test, target, **kwargs):
             random_state=1,
             **kwargs,
         )
-        # history = train[target].to_list()
         history_target = train[target].tolist()
         history_features = (
             train.drop(columns=[target]).to_numpy(dtype="object").tolist()
         )
         predictions = list()
-        for t in test.index:
-            record = test.drop(columns=[target]).loc[t, :]
+        for idx in pbar:
+            record = test.drop(columns=[target]).loc[idx, :]
             estimator.fit(history_target, history_features)
             output = estimator.predict(n_periods=1, X=[record])
             predictions.append(output[0])
             history_features.append(record)
-            history_target.append(test[target][t])
+            history_target.append(test[target][idx])
 
     predictions_df = pd.DataFrame()
     predictions_df["actuals"] = test[target]
