@@ -1,10 +1,11 @@
 from typing import Optional
 
 import numpy as np
-import plotly.graph_objs as go
-import plotly.offline as po
 import pandas as pd
 import sklearn
+import plotly.graph_objs as go
+import plotly.offline as po
+from plotly.subplots import make_subplots
 
 from data_describe.backends import _get_compute_backend, _get_viz_backend
 from data_describe.compat import _is_dataframe, _requires, _in_notebook, _compat
@@ -153,18 +154,17 @@ def anomaly_detection(
         estimator = "arima"
 
     elif estimator == "auto":
-        iforest = sklearn.ensemble.IsolationForest()(
+        iforest = sklearn.ensemble.IsolationForest(
             random_state=1, contamination=contamination, n_jobs=-1
         )
-        lof = sklearn.neighborsLocalOutlierFactor(
+        lof = sklearn.neighbors.LocalOutlierFactor(
             contamination=contamination, novelty=True, n_jobs=-1
         )
+        from sklearn.covariance import EllipticEnvelope
 
-        ee = sklearn.covariance.EllipticEnvelope(
-            random_state=1, contamination=contamination
-        )
+        ee = EllipticEnvelope(random_state=1, contamination=contamination)
 
-        estimator = [iforest, lof, ee]
+        estimator = [iforest, lof, ee, "arima"]
 
     elif not hasattr(estimator, "predict") and not hasattr(estimator, "fit"):
         raise AttributeError(
@@ -228,7 +228,7 @@ def _pandas_compute_anomaly(
     numeric_data = data.select_dtypes("number")
 
     if not numeric_data.index.is_monotonic_increasing:
-        numeric_data.sort_index(inplace=True)
+        numeric_data.sort_index(ascending=True, inplace=True)
 
     model_results: dict = {}  # stores the model results. {<name of model>: predictions}
     trained_models: list = []  # stores the trained model objects
@@ -236,6 +236,7 @@ def _pandas_compute_anomaly(
         numeric_data[0:time_split_index],
         numeric_data[time_split_index:],
     )
+    print(test.head())
     # Supervised learning indicator
     if not target:
         raise ValueError(
@@ -261,7 +262,23 @@ def _pandas_compute_anomaly(
                 estimator,
                 desc="Fitting models",
             )
+            # Note: have to index values because of window
             for model in pbar:
+                if model == "arima":
+                    predictions_df, estimator = _stepwise_fit_and_predict(
+                        train, test, target, **kwargs
+                    )
+                    predictions_df = _pandas_compute_anomalies_stats(
+                        predictions_df, window=n_periods
+                    )
+                    model_results["arima"] = (
+                        predictions_df["impact"]
+                        .map(lambda x: -1 if x == 7 else 1)
+                        .tolist()
+                    )
+                    trained_models.append(estimator)
+                    continue
+
                 unsupervised_fit_and_predict(
                     model=model,
                     train_data=train,
@@ -280,11 +297,10 @@ def _pandas_compute_anomaly(
             )
         predictions_df = pd.DataFrame(model_results)
         predictions_df["actuals"] = test[target].tolist()
-
-    predictions_df.set_index(test.index, inplace=True)
+        predictions_df.index = test.index
 
     return AnomalyDetectionWidget(
-        estimator=estimator,
+        estimator=trained_models,
         method=method,
         viz_data=predictions_df,
         time_split_index=time_split_index,
@@ -433,7 +449,6 @@ def _pandas_compute_anomalies_stats(predictions_df, window, sigma=2):
     predictions_df["anomaly_points"] = np.where(
         predictions_df["color"] == 3, predictions_df["error"], np.nan
     )
-    predictions_df = predictions_df.sort_index(ascending=False)
 
     return predictions_df
 
@@ -459,8 +474,8 @@ def _plotly_viz_anomaly(
         Plotly plot
 
     """
-    lookback = -1 * (n_periods - 1)
-    predictions_df = predictions_df.iloc[:lookback, :]
+    lookback = n_periods - 1
+    predictions_df = predictions_df.iloc[lookback:, :]
     bool_array = abs(predictions_df["anomaly_points"]) > 0
     actuals = predictions_df["actuals"][-len(bool_array) :]
     anomaly_points = bool_array * actuals
@@ -626,3 +641,72 @@ def unsupervised_fit_and_predict(
     preds = model.predict(test_data).tolist()
     model_results[model_key] = preds
     trained_models.append(model)
+
+
+def _plotly_viz_auto(df, dates=None, title="Time Series Decomposition", n_periods=6):
+    fig = make_subplots(
+        rows=(df.shape[1] - 1),
+        cols=1,
+        x_title="Time",
+        shared_xaxes=True,
+        subplot_titles=df.columns[:-1],
+    )
+
+    for idx, model in enumerate(df.columns[:-1]):
+        print(model)
+        anomaly = df[df[model] == -1]
+
+        if model == "arima":
+            fig.add_trace(
+                go.Scatter(
+                    x=df.index[:-1][(n_periods - 1) :],
+                    y=df.actuals[:-1][(n_periods - 1) :],
+                    name="actual",
+                    mode="lines",
+                    showlegend=False,
+                    marker=dict(size=12, line=dict(width=1), color="blue"),
+                ),
+                row=idx + 1,
+                col=1,
+            )
+            fig.add_trace(
+                go.Scatter(
+                    x=anomaly.index,
+                    y=anomaly["actuals"],
+                    text=model,
+                    showlegend=False,
+                    name=model,
+                    mode="markers",
+                    marker=dict(size=7, color="red"),
+                ),
+                row=idx + 1,
+                col=1,
+            )
+        else:
+            fig.add_trace(
+                go.Scatter(
+                    x=df.index[:-1],
+                    y=df.actuals[:-1],
+                    name="actual",
+                    mode="lines",
+                    showlegend=False,
+                    marker=dict(size=12, line=dict(width=1), color="blue"),
+                ),
+                row=idx + 1,
+                col=1,
+            )
+            fig.add_trace(
+                go.Scatter(
+                    x=anomaly.index[:-1],
+                    y=anomaly["actuals"][:-1],
+                    text=model,
+                    showlegend=False,
+                    name=model,
+                    mode="markers",
+                    marker=dict(size=7, color="red"),
+                ),
+                row=idx + 1,
+                col=1,
+            )
+
+    return fig
