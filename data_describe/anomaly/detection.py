@@ -19,12 +19,10 @@ class AnomalyDetectionWidget(BaseWidget):
     attributes documented below can be accessed or extracted.
 
     Attributes:
-        method (str, optional): {'arima'} The type of anomaly detection algorithm.
         estimator: The anomaly detection estimator/model.
         time_split_index (str, optional): The index to split the input data into a training set and testing set.
             Note: Data is not shuffled.
         viz_data (DataFrame): The data used for the default visualization.
-        input_data (DataFrame): The input data.
         xlabel (str): The x-axis label for the anomaly plot.
         ylabel (str): The y-axis label for the anomaly plot.
         target (str, optional): The target column.
@@ -35,7 +33,6 @@ class AnomalyDetectionWidget(BaseWidget):
     def __init__(
         self,
         estimator=None,
-        method=None,
         viz_data=None,
         time_split_index=None,
         n_periods=None,
@@ -44,21 +41,14 @@ class AnomalyDetectionWidget(BaseWidget):
         """Anomaly Detection.
 
         Args:
-            method (str, optional): {'arima'} The type of anomaly detection algorithm.
             estimator: The anomaly detection estimator/model.
+            viz_data (DataFrame): The data used for the default visualization.
             time_split_index (str, optional): The index to split the input data into a training set and testing set.
                 Note: Data is not shuffled.
-            viz_data (DataFrame): The data used for the default visualization.
-            input_data (DataFrame): The input data.
-            xlabel (str): The x-axis label for the anomaly plot.
-            ylabel (str): The y-axis label for the anomaly plot.
-            target (str, optional): The target column.
-            date_col (str, optional): The date column.
             n_periods (int, optional): The number of periods for timeseries window.
             **kwargs: Keyword arguments.
         """
         super(AnomalyDetectionWidget, self).__init__(**kwargs)
-        self.method = method
         self.estimator = estimator
         self.time_split_index = time_split_index
         self.viz_data = viz_data
@@ -74,7 +64,7 @@ class AnomalyDetectionWidget(BaseWidget):
         return "data-describe Anomaly Detection Widget"
 
     def __repr__(self):
-        return f"Anomaly Widget using {self.method}"
+        return "Anomaly Widget"
 
     def show(self, viz_backend=None, **kwargs):
         """The default display for this output.
@@ -110,7 +100,6 @@ def anomaly_detection(
     data,
     target: Optional[str] = None,
     date_col: Optional[str] = None,
-    method: str = "arima",
     estimator=None,
     time_split_index: Optional[int] = None,
     n_periods: Optional[int] = None,
@@ -130,7 +119,6 @@ def anomaly_detection(
         target (str, optional): The target column. Defaults to None. If target is None, unsupervised methods are used.
         date_col (str, optional): The datetime column. If date_col is specified, the data will be treated as timeseries.
             If the data does not contain datetimes, but contains sequences, set date_col = 'index'.
-        method (str, optional): Select method from the list: ["arima"]. Only "arima" is supported.
         estimator (optional): Fitted or instantiated estimator with a .predict() and .fit() method. Defaults to None.
             If estimator is instantiated but not fitted, time_split_index must be specified.
         time_split_index (int, optional): Index to split the data into a train set and a test set. Defaults to None.
@@ -147,7 +135,6 @@ def anomaly_detection(
     Return:
         AnomalyWidget
     """
-    # checks if input is dataframe
     if not _is_dataframe(data):
         raise ValueError("Data frame required")
 
@@ -180,7 +167,6 @@ def anomaly_detection(
         estimator=estimator,
         n_periods=n_periods,
         time_split_index=time_split_index,
-        method=method,
         sigma=sigma,
         **kwargs,
     )
@@ -192,7 +178,6 @@ def _pandas_compute_anomaly(
     data,
     target: Optional[str] = None,
     date_col: Optional[str] = None,
-    method: Optional[str] = "arima",
     estimator=None,
     n_periods: Optional[int] = None,
     time_split_index: Optional[int] = None,
@@ -204,7 +189,6 @@ def _pandas_compute_anomaly(
         data (DataFrame): The dataframe.
         target (str, optional): The target column. Defaults to None. If target is None, unsupervised methods are used.
         date_col (str, optional): Datetime column if data is timeseries. Defaults to None. If data is timeseries, date_col must be specified.
-        method (str, optional): Select method from this list. Only "arima" is supported.
         estimator (optional): Fitted or instantiated estimator with a .predict() and .fit() method. Defaults to None.
             If estimator is instantiated but not fitted, time_split_index must be specified.
         n_periods (int, optional): Number of periods for timeseries anomaly detection. Default is None.
@@ -232,12 +216,15 @@ def _pandas_compute_anomaly(
     if not numeric_data.index.is_monotonic_increasing:
         numeric_data.sort_index(ascending=True, inplace=True)
 
-    model_results: dict = {}  # stores the model results. {<name of model>: predictions}
-    trained_models: list = []  # stores the trained model objects
+    model_results: dict = (
+        {}
+    )  # Initialize dictionary to store the model results. {<name of model>: predictions}
+    trained_models: list = []  # Initialize list to store the trained model objects
     train, test = (
         numeric_data[0:time_split_index],
         numeric_data[time_split_index:],
     )
+
     # Supervised learning indicator
     if not target:
         raise ValueError(
@@ -263,7 +250,7 @@ def _pandas_compute_anomaly(
                 estimator,
                 desc="Fitting models",
             )
-            # Note: have to index values because of window
+
             for model in pbar:
                 if model == "arima":
                     predictions_df, estimator = _stepwise_fit_and_predict(
@@ -296,13 +283,13 @@ def _pandas_compute_anomaly(
                 model_results=model_results,
                 trained_models=trained_models,
             )
+
         predictions_df = pd.DataFrame(model_results)
         predictions_df["actuals"] = test[target].tolist()
         predictions_df.index = test.index
 
     return AnomalyDetectionWidget(
         estimator=trained_models,
-        method=method,
         viz_data=predictions_df,
         time_split_index=time_split_index,
         target=target,
@@ -317,6 +304,8 @@ def _stepwise_fit_and_predict(train, test, target, **kwargs):
     Args:
         train (Series): The training data.
         test (Series): The testing data.
+        target (str): The target variable name.
+        **kwargs: Keyword arguments.
 
     Returns:
         predictions_df: DataFrame containing the ground truth, predictions, and indexed by the datetime.
@@ -327,6 +316,7 @@ def _stepwise_fit_and_predict(train, test, target, **kwargs):
         test[target].index,
         desc="Fitting ARIMA model",
     )
+
     if train.shape[1] == 1:
         estimator = _compat["pmdarima"].arima.auto_arima(  # type: ignore
             y=train[target],
@@ -369,14 +359,14 @@ def _stepwise_fit_and_predict(train, test, target, **kwargs):
     return predictions_df, estimator
 
 
-def _pandas_compute_anomalies_stats(predictions_df, window, sigma=2):
+def _pandas_compute_anomalies_stats(predictions_df, window, sigma=2.0):
     """Detects anomalies based on the statistical profiling of the residuals (actuals - predicted).
 
-    The rolling mean and rolling standard deviation is used to identify points that are more than 2 standard deviations away from the mean.
+    The rolling mean and rolling standard deviation is used to identify points that are more than n standard deviations away from the mean.
 
     Args:
         predictions_df (DataFrame): The dataframe containing the ground truth and predictions.
-        window (int, optional): Size of the moving window. This is the number of observations used for calculating the statistic.
+        window (int): Size of the moving window. This is the number of observations used for calculating the statistic. Each window will be a fixed size.
         sigma (float). The standard deviation requirement for anomalies.
 
     Raises:
@@ -386,11 +376,6 @@ def _pandas_compute_anomalies_stats(predictions_df, window, sigma=2):
         predictions_df: The dataframe containing the predictions and computed statistics.
 
     """
-    if (
-        "actuals" not in predictions_df.columns
-        and "predictions" not in predictions_df.columns
-    ):
-        raise ValueError("'actuals' and 'predictions' are not found in the dataframe")
     predictions_df.replace([np.inf, -np.inf], np.NaN, inplace=True)
     predictions_df.fillna(0, inplace=True)
     predictions_df["error"] = predictions_df["actuals"] - predictions_df["predictions"]
@@ -455,19 +440,32 @@ def _pandas_compute_anomalies_stats(predictions_df, window, sigma=2):
 @_requires("plotly")
 def _plotly_viz_anomaly(
     predictions_df,
-    n_periods,
     estimator,
-    ylabel="Target",
+    n_periods,
     xlabel="Time",
+    ylabel="Target",
     marker_color="red",
 ):
+    """Plotly interactive plots for anomaly detection.
+
+    Args:
+        predictions_df (DataFrame): The dataframe containing predictions and statistics.
+        estimator (list): List containing trained models.
+        n_periods (int): The number of periods to make predictions on. Required for ARIMA based models.
+        xlabel (str, optional): The x-axis label. Defaults to "Time".
+        ylabel (str, optional): The y-axis label. Defaults to "Target".
+        marker_color (str, optional): The color to mark anomalies. Defaults to "red".
+
+    Returns:
+        fig: The plotly figure.
+    """
     if isinstance(estimator[0], _compat["pmdarima"].arima.ARIMA):  # type: ignore
         # Note: auto_arima is a wrapper function for pmdarima.arima.Arima
         fig = _plotly_viz_arima(
             predictions_df=predictions_df,
             n_periods=n_periods,
-            ylabel=ylabel,
             xlabel=xlabel,
+            ylabel=ylabel,
             marker_color=marker_color,
         )
 
@@ -490,10 +488,10 @@ def unsupervised_fit_and_predict(
 
     Args:
         model: The estimator object.
-        train_data (Dataframe): The train data.
-        test_data (Dataframe): The test data.
+        train_data (DataFrame): The train data.
+        test_data (DataFrame): The test data.
         model_results (dict): Dictionary to store model results. i.e. {<model name>: predictions}
-        trained_models: The trained model object.
+        trained_models (list): List containing fitted models.
     """
     model_key = str(model).split("(")[0]
     model.fit(train_data, **kwargs)
@@ -504,12 +502,26 @@ def unsupervised_fit_and_predict(
 
 def _plotly_viz_auto(
     predictions_df,
+    n_periods,
     title="Anomaly Detection Plots",
-    n_periods=6,
     marker_color="red",
     xlabel="Time",
     ylabel="Target",
 ):
+    """Plotly visualization for multiple models.
+
+    Args:
+        predictions_df (DataFrame: DataFrame containing predictions and computed statistics.
+        n_periods (int): The size of the window used by ARIMA. Since ARIMA looksback n periods to make a prediction,
+            the first n records will contain null values. n_periods is used to slice the null values, thus the plot for ARIMA will contain n less records than other models.
+        title (str, optional): Title of the plot. Defaults to "Anomaly Detection Plots".
+        marker_color (str, optional): The marker color for anomalies. Defaults to "red".
+        xlabel (str, optional): The x-axis label. Defaults to "Time".
+        ylabel (str, optional): The y-axis label. Defaults to "Target".
+
+    Returns:
+        fig: Plotly figure
+    """
     fig = make_subplots(
         rows=(predictions_df.shape[1] - 1),
         cols=1,
@@ -579,19 +591,20 @@ def _plotly_viz_auto(
 
 
 def _plotly_viz_arima(
-    predictions_df, n_periods, ylabel="Target", xlabel="Time", marker_color="red"
+    predictions_df, n_periods, xlabel="Time", ylabel="Target", marker_color="red"
 ):
-    """Visualize anomalies using plotly.
+    """Plotly interactive plot for anomalies detected by ARIMA.
 
     Args:
         predictions_df (DataFrame): The dataframe containing the ground truth, predictions, and statistics.
-        n_periods (int): The number of periods to be removed when plotting.
-        ylabel (str): The y label
-        xlabel = The x label
-        marker_color (str): The color to mark anomalies. Defaults to "red".
+        n_periods (int): The number of periods to remove from the start of test set. Since ARIMA looksback n periods to make a prediction,
+            the first n records will contain null values. n_periods is used to slice the null values.
+        xlabel (str, optional):  The x-axis label. Defaults to "Time".
+        ylabel (str, optional): The y-axis label. Defaults to "Target".
+        marker_color (str, optional): The color to mark anomalies. Defaults to "red".
 
     Returns:
-        Plotly plot
+        fig: The Plotly figure for the ARIMA model.
 
     """
     lookback = n_periods - 1
@@ -700,9 +713,6 @@ def _plotly_viz_arima(
         width=1000,
         height=865,
         autosize=False,
-        # title="ARIMA Anomalies",
-        yaxis_title="ylabel",
-        xaxis_title="xlabel",
         showlegend=True,
         xaxis1=dict(axis, **dict(domain=[0, 1], anchor="y1", showticklabels=True)),
         xaxis2=dict(axis, **dict(domain=[0, 1], anchor="y2", showticklabels=True)),
