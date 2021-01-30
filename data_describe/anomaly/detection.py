@@ -495,7 +495,7 @@ def unsupervised_fit_and_predict(
         model_results (dict): Dictionary to store model results. i.e. {<model name>: predictions}
         trained_models: The trained model object.
     """
-    model_key = str(model).split("(")[0] + "_predictions"
+    model_key = str(model).split("(")[0]
     model.fit(train_data, **kwargs)
     preds = model.predict(test_data).tolist()
     model_results[model_key] = preds
