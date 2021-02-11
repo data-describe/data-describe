@@ -139,10 +139,10 @@ def anomaly_detection(
         raise ValueError("Data frame required")
 
     if estimator is None or estimator == "arima":
-        estimator = "arima"
+        estimator = [estimator]
 
     elif estimator == "auto":
-        from sklearn.covariance import EllipticEnvelope
+        # from sklearn.covariance import EllipticEnvelope
 
         iforest = sklearn.ensemble.IsolationForest(
             random_state=1, contamination=contamination, n_jobs=-1
@@ -151,9 +151,9 @@ def anomaly_detection(
             contamination=contamination, novelty=True, n_jobs=-1
         )
 
-        ee = EllipticEnvelope(random_state=1, contamination=contamination)
+        # ee = EllipticEnvelope(random_state=1, contamination=contamination)
 
-        estimator = [iforest, lof, ee, "arima"]
+        estimator = [iforest, lof]
 
     elif not hasattr(estimator, "predict") and not hasattr(estimator, "fit"):
         raise AttributeError(
@@ -212,7 +212,6 @@ def _pandas_compute_anomaly(
         data.index = pd.to_datetime(data[date_col])
 
     numeric_data = data.select_dtypes("number")
-
     if not numeric_data.index.is_monotonic_increasing:
         numeric_data.sort_index(ascending=True, inplace=True)
 
@@ -220,73 +219,45 @@ def _pandas_compute_anomaly(
         {}
     )  # Initialize dictionary to store the model results. {<name of model>: predictions}
     trained_models: list = []  # Initialize list to store the trained model objects
-    train, test = (
-        numeric_data[0:time_split_index],
-        numeric_data[time_split_index:],
-    )
 
-    # Supervised learning indicator
-    if not target:
-        raise ValueError(
-            "Unsupervised timeseries methods for anomaly detection are not yet supported. Please specify the target argument to continue."
-        )
+    train = numeric_data[0:time_split_index] if target else numeric_data
+    test = numeric_data[time_split_index:] if target else None
 
-    # Default to ARIMA model
-    if not estimator or estimator == "arima":
-        # make one-step forecast
-        predictions_df, estimator = _stepwise_fit_and_predict(
-            train, test, target, **kwargs
-        )
-        trained_models.append(estimator)
+    predictions_df = None
 
-        # Post-processing for errors and confidence interval
+    if "arima" in estimator:
+        predictions_df, clf = _stepwise_fit_and_predict(train, test, target, **kwargs)
         predictions_df = _pandas_compute_anomalies_stats(
             predictions_df, window=n_periods
         )
+        trained_models.append(clf)
+        model_results["arima"] = (
+            predictions_df["impact"].map(lambda x: -1 if x == 7 else 1).tolist()
+        )
 
-    else:
-        if isinstance(estimator, list):  # multi estimator
-            pbar = _compat["tqdm"].tqdm(  # type: ignore
-                estimator,
-                desc="Fitting models",
-            )
+    pbar = _compat["tqdm"].tqdm(  # type: ignore
+        estimator,
+        desc="Fitting models",
+    )
 
-            for model in pbar:
-                if model == "arima":
-                    predictions_df, estimator = _stepwise_fit_and_predict(
-                        train, test, target, **kwargs
-                    )
-                    predictions_df = _pandas_compute_anomalies_stats(
-                        predictions_df, window=n_periods
-                    )
-                    model_results["arima"] = (
-                        predictions_df["impact"]
-                        .map(lambda x: -1 if x == 7 else 1)
-                        .tolist()
-                    )
-                    trained_models.append(estimator)
-
-                else:
-                    unsupervised_fit_and_predict(
-                        model=model,
-                        train_data=train,
-                        test_data=test,
-                        model_results=model_results,
-                        trained_models=trained_models,
-                    )
-
-        else:  # single estimator
+    for model in pbar:
+        if model != "arima":
             unsupervised_fit_and_predict(
-                model=estimator,
+                model=model,
                 train_data=train,
                 test_data=test,
                 model_results=model_results,
                 trained_models=trained_models,
             )
 
+    if predictions_df is None:
         predictions_df = pd.DataFrame(model_results)
-        predictions_df["actuals"] = test[target].tolist()
-        predictions_df.index = test.index
+        if not target:
+            predictions_df.index = train.index
+
+        else:
+            predictions_df["actuals"] = test[target].tolist()
+            predictions_df.index = test.index
 
     return AnomalyDetectionWidget(
         estimator=trained_models,
@@ -459,6 +430,9 @@ def _plotly_viz_anomaly(
     Returns:
         fig: The plotly figure.
     """
+    if "actuals" not in predictions_df.columns:
+        raise ValueError("Could not plot anomalies. Please specify a target.")
+
     if isinstance(estimator[0], _compat["pmdarima"].arima.ARIMA):  # type: ignore
         # Note: auto_arima is a wrapper function for pmdarima.arima.Arima
         fig = _plotly_viz_arima(
@@ -495,7 +469,12 @@ def unsupervised_fit_and_predict(
     """
     model_key = str(model).split("(")[0]
     model.fit(train_data, **kwargs)
-    preds = model.predict(test_data).tolist()
+    if test_data is None:
+        preds = model.predict(train_data).tolist()
+
+    else:
+        preds = model.predict(test_data).tolist()
+
     model_results[model_key] = preds
     trained_models.append(model)
 
