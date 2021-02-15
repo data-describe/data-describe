@@ -6,6 +6,7 @@ import sklearn
 import plotly.graph_objs as go
 import plotly.offline as po
 from plotly.subplots import make_subplots
+from sklearn.metrics import precision_score, recall_score, accuracy_score
 
 from data_describe.backends import _get_compute_backend, _get_viz_backend
 from data_describe.compat import _is_dataframe, _requires, _in_notebook, _compat
@@ -36,6 +37,7 @@ class AnomalyDetectionWidget(BaseWidget):
         viz_data=None,
         time_split_index=None,
         n_periods=None,
+        metrics=None,
         **kwargs,
     ):
         """Anomaly Detection.
@@ -46,6 +48,7 @@ class AnomalyDetectionWidget(BaseWidget):
             time_split_index (str, optional): The index to split the input data into a training set and testing set.
                 Note: Data is not shuffled.
             n_periods (int, optional): The number of periods for timeseries window.
+            metrics (DataFrame): The model metrics.
             **kwargs: Keyword arguments.
         """
         super(AnomalyDetectionWidget, self).__init__(**kwargs)
@@ -59,6 +62,7 @@ class AnomalyDetectionWidget(BaseWidget):
         self.target = None
         self.date_col = None
         self.sigma = None
+        self.metrics = metrics
 
     def __str__(self):
         return "data-describe Anomaly Detection Widget"
@@ -224,6 +228,7 @@ def _pandas_compute_anomaly(
     test = numeric_data[time_split_index:] if target else None
 
     predictions_df = None
+    metrics_df = None
 
     if "arima" in estimator:
         predictions_df, clf = _stepwise_fit_and_predict(train, test, target, **kwargs)
@@ -246,6 +251,7 @@ def _pandas_compute_anomaly(
                 model=model,
                 train_data=train,
                 test_data=test,
+                target=target,
                 model_results=model_results,
                 trained_models=trained_models,
             )
@@ -259,12 +265,29 @@ def _pandas_compute_anomaly(
             predictions_df["actuals"] = test[target].tolist()
             predictions_df.index = test.index
 
+            # If estimator uses unsupervised methods, return model metrics
+            if len(estimator) > 1:
+                metrics = {}
+                for col in predictions_df.columns[:-1]:
+                    print(col)
+                    metrics[col + "precision"] = precision_score(
+                        predictions_df["actuals"], predictions_df[col].tolist()
+                    )
+                    metrics[col + "recall"] = recall_score(
+                        predictions_df["actuals"], predictions_df[col].tolist()
+                    )
+                    metrics[col + "accuracy"] = accuracy_score(
+                        predictions_df["actuals"], predictions_df[col].tolist()
+                    )
+                metrics_df = pd.DataFrame([metrics])
+
     return AnomalyDetectionWidget(
         estimator=trained_models,
         viz_data=predictions_df,
         time_split_index=time_split_index,
         target=target,
         n_periods=n_periods,
+        metrics=metrics_df,
     )
 
 
