@@ -477,7 +477,7 @@ def _plotly_viz_anomaly(
 
 
 def unsupervised_fit_and_predict(
-    model, train_data, test_data, model_results, trained_models, **kwargs
+    model, train_data, test_data, target, model_results, trained_models, **kwargs
 ):
     """Train and fit unsupervised models.
 
@@ -485,11 +485,21 @@ def unsupervised_fit_and_predict(
         model: The estimator object.
         train_data (DataFrame): The train data.
         test_data (DataFrame): The test data.
+        target (str): The target column.
         model_results (dict): Dictionary to store model results. i.e. {<model name>: predictions}
         trained_models (list): List containing fitted models.
     """
     model_key = str(model).split("(")[0]
+
+    if target:
+        # y_train = train_data[target]
+        train_data = train_data.drop(columns=[target])
+
+        # y_test = test_data[target]
+        test_data = test_data.drop(columns=[target])
+
     model.fit(train_data, **kwargs)
+
     if test_data is None:
         preds = model.predict(train_data).tolist()
 
