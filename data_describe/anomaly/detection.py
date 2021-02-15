@@ -143,7 +143,7 @@ def anomaly_detection(
         raise ValueError("Data frame required")
 
     if estimator is None or estimator == "arima":
-        estimator = [estimator]
+        estimator = ["arima"]
 
     elif estimator == "auto":
         # from sklearn.covariance import EllipticEnvelope
