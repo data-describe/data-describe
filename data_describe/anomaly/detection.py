@@ -240,12 +240,10 @@ def _pandas_compute_anomaly(
             predictions_df["impact"].map(lambda x: -1 if x == 7 else 1).tolist()
         )
 
-    pbar = _compat["tqdm"].tqdm(  # type: ignore
+    for model in _compat["tqdm"].tqdm(  # type: ignore
         estimator,
         desc="Fitting models",
-    )
-
-    for model in pbar:
+    ):
         if model != "arima":
             unsupervised_fit_and_predict(
                 model=model,
@@ -305,12 +303,6 @@ def _stepwise_fit_and_predict(train, test, target, **kwargs):
         predictions_df: DataFrame containing the ground truth, predictions, and indexed by the datetime.
 
     """
-    # TODO(truongc2): Consider moving pbar into each clause to prevent strange output in nb
-    pbar = _compat["tqdm"].tqdm(  # type: ignore
-        test[target].index,
-        desc="Fitting ARIMA model",
-    )
-
     if train.shape[1] == 1:
         estimator = _compat["pmdarima"].arima.auto_arima(  # type: ignore
             y=train[target],
@@ -321,7 +313,10 @@ def _stepwise_fit_and_predict(train, test, target, **kwargs):
         history = train[target].tolist()
         predictions = list()
 
-        for idx in pbar:
+        for idx in _compat["tqdm"].tqdm(  # type: ignore
+            test[target].index,
+            desc="Fitting ARIMA model",
+        ):
             estimator.fit(history)
             output = estimator.predict(n_periods=1)
             predictions.append(output[0])
@@ -339,7 +334,10 @@ def _stepwise_fit_and_predict(train, test, target, **kwargs):
             train.drop(columns=[target]).to_numpy(dtype="object").tolist()
         )
         predictions = list()
-        for idx in pbar:
+        for idx in _compat["tqdm"].tqdm(  # type: ignore
+            test[target].index.tolist(),
+            desc="Fitting ARIMA model",
+        ):
             record = test.drop(columns=[target]).loc[idx, :]
             estimator.fit(history_target, history_features)
             output = estimator.predict(n_periods=1, X=[record])
