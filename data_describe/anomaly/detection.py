@@ -139,11 +139,11 @@ def anomaly_detection(
         raise ValueError("Data frame required")
 
     if estimator is None or estimator == "arima":
-        estimator = [estimator]
+        if not target:
+            raise ValueError("Please specify the target column for the ARIMA model.")
+        estimator = ["arima"]
 
     elif estimator == "auto":
-        # from sklearn.covariance import EllipticEnvelope
-
         iforest = sklearn.ensemble.IsolationForest(
             random_state=1, contamination=contamination, n_jobs=-1
         )
@@ -151,9 +151,12 @@ def anomaly_detection(
             contamination=contamination, novelty=True, n_jobs=-1
         )
 
-        # ee = EllipticEnvelope(random_state=1, contamination=contamination)
-
         estimator = [iforest, lof]
+
+    elif isinstance(estimator, str):
+        raise NotImplementedError(
+            f"{estimator} is not implementeed. Please choose between 'arima' and 'auto'."
+        )
 
     elif not hasattr(estimator, "predict") and not hasattr(estimator, "fit"):
         raise AttributeError(
@@ -176,10 +179,10 @@ def anomaly_detection(
 
 def _pandas_compute_anomaly(
     data,
+    estimator,
     target: Optional[str] = None,
     date_col: Optional[str] = None,
-    estimator=None,
-    n_periods: Optional[int] = None,
+    n_periods=1,
     time_split_index: Optional[int] = None,
     **kwargs,
 ):
@@ -187,11 +190,11 @@ def _pandas_compute_anomaly(
 
     Args:
         data (DataFrame): The dataframe.
+        estimator (list): List of model objects.
         target (str, optional): The target column. Defaults to None. If target is None, unsupervised methods are used.
         date_col (str, optional): Datetime column if data is timeseries. Defaults to None. If data is timeseries, date_col must be specified.
-        estimator (optional): Fitted or instantiated estimator with a .predict() and .fit() method. Defaults to None.
             If estimator is instantiated but not fitted, time_split_index must be specified.
-        n_periods (int, optional): Number of periods for timeseries anomaly detection. Default is None.
+        n_periods (int, optional): Number of periods for timeseries anomaly detection. Default is 1.
         time_split_index (int, optional): Index to split the data into a train set and a test set. Defaults to None.
             time_split_index must be specified if estimator is instantiated but not fitted.
         **kwargs: Keyword arguments.
@@ -204,7 +207,6 @@ def _pandas_compute_anomaly(
 
     """
     # Timeseries indicator
-    # ensures date_col is a datetime object and sets as datetimeindex
     if not date_col:
         raise ValueError("Please specify data_col for timeseries anomaly detection.")
 
@@ -212,21 +214,26 @@ def _pandas_compute_anomaly(
         data.index = pd.to_datetime(data[date_col])
 
     numeric_data = data.select_dtypes("number")
+
     if not numeric_data.index.is_monotonic_increasing:
         numeric_data.sort_index(ascending=True, inplace=True)
 
+    trained_models: list = []  # Initialize list to store the trained model objects
     model_results: dict = (
         {}
     )  # Initialize dictionary to store the model results. {<name of model>: predictions}
-    trained_models: list = []  # Initialize list to store the trained model objects
-
-    train = numeric_data[0:time_split_index] if target else numeric_data
-    test = numeric_data[time_split_index:] if target else None
-
     predictions_df = None
 
+    train = numeric_data.iloc[:time_split_index] if target else numeric_data
+    test = numeric_data.iloc[time_split_index:] if target else None
+
     if "arima" in estimator:
-        predictions_df, clf = _stepwise_fit_and_predict(train, test, target, **kwargs)
+        predictions_df, clf = _stepwise_fit_and_predict(
+            train=train,
+            test=test,
+            target=target,
+            **kwargs,
+        )
         predictions_df = _pandas_compute_anomalies_stats(
             predictions_df, window=n_periods
         )
@@ -235,12 +242,10 @@ def _pandas_compute_anomaly(
             predictions_df["impact"].map(lambda x: -1 if x == 7 else 1).tolist()
         )
 
-    pbar = _compat["tqdm"].tqdm(  # type: ignore
+    for model in _compat["tqdm"].tqdm(  # type: ignore
         estimator,
         desc="Fitting models",
-    )
-
-    for model in pbar:
+    ):
         if model != "arima":
             unsupervised_fit_and_predict(
                 model=model,
@@ -282,15 +287,11 @@ def _stepwise_fit_and_predict(train, test, target, **kwargs):
         predictions_df: DataFrame containing the ground truth, predictions, and indexed by the datetime.
 
     """
-    # TODO(truongc2): Consider moving pbar into each clause to prevent strange output in nb
-    pbar = _compat["tqdm"].tqdm(  # type: ignore
-        test[target].index,
-        desc="Fitting ARIMA model",
-    )
-
+    # check if train data has exogenous variables
     if train.shape[1] == 1:
         estimator = _compat["pmdarima"].arima.auto_arima(  # type: ignore
-            y=train[target],
+            y=train[[target]],
+            x=None,
             random_state=1,
             **kwargs,
         )
@@ -298,25 +299,34 @@ def _stepwise_fit_and_predict(train, test, target, **kwargs):
         history = train[target].tolist()
         predictions = list()
 
-        for idx in pbar:
+        for idx in _compat["tqdm"].tqdm(  # type: ignore
+            test[target].index,
+            desc="Fitting ARIMA model",
+        ):
             estimator.fit(history)
             output = estimator.predict(n_periods=1)
             predictions.append(output[0])
             obs = test[target][idx]
             history.append(obs)
+
     else:
         estimator = _compat["pmdarima"].arima.auto_arima(  # type: ignore
-            y=train[target],
+            y=train[[target]],
             X=train.drop(columns=[target]),
             random_state=1,
             **kwargs,
         )
+
         history_target = train[target].tolist()
         history_features = (
             train.drop(columns=[target]).to_numpy(dtype="object").tolist()
         )
+
         predictions = list()
-        for idx in pbar:
+        for idx in _compat["tqdm"].tqdm(  # type: ignore
+            test[target].index,
+            desc="Fitting ARIMA model",
+        ):
             record = test.drop(columns=[target]).loc[idx, :]
             estimator.fit(history_target, history_features)
             output = estimator.predict(n_periods=1, X=[record])
@@ -327,6 +337,7 @@ def _stepwise_fit_and_predict(train, test, target, **kwargs):
     predictions_df = pd.DataFrame()
     predictions_df["actuals"] = test[target]
     predictions_df["predictions"] = predictions
+
     return predictions_df, estimator
 
 
@@ -380,7 +391,6 @@ def _pandas_compute_anomalies_stats(predictions_df, window, sigma=2.0):
     cut_values = cut_list.values
     cut_sort = np.sort(cut_values)
 
-    # TODO(truongc2): Find a more robust way to call the index
     if not isinstance(predictions_df.index, pd.core.indexes.datetimes.DatetimeIndex):
         predictions_df.reset_index(inplace=True)
 
