@@ -441,6 +441,7 @@ def _seaborn_viz_plot_time_series(df, col, result=None, decompose=False, **kwarg
         col (str or [str]): Column of interest. Column datatype must be numerical.
         result: The statsmodels.tsa.seasonal.DecomposeResult object. Defaults to None.
         decompose: Set as True to decompose the timeseries with moving average. result must not be None. Defaults to False.
+        **kwargs: The keyword arguments.
 
     Returns:
         The visualization
@@ -454,22 +455,23 @@ def _seaborn_viz_plot_time_series(df, col, result=None, decompose=False, **kwarg
 
     if isinstance(col, list):
         for i in col:
-            fig = sns.lineplot(x=df.index, y=df[i], legend="full", ax=ax)
+            fig = sns.lineplot(x=df.index, y=df[i], legend="full", ax=ax, **kwargs)
         ax.legend(labels=col)
     elif isinstance(col, str) and not decompose:
-        fig = sns.lineplot(x=df.index, y=df[col], legend="full", ax=ax)
+        fig = sns.lineplot(x=df.index, y=df[col], legend="full", ax=ax, **kwargs)
     elif decompose:
         fig = _seaborn_viz_decomposition(df, result)
         plt.close()
     return fig
 
 
-def _seaborn_viz_decomposition(df, result):
+def _seaborn_viz_decomposition(df, result, **kwargs):
     """Create timeseries decomposition visualization.
 
     Args:
         df: The dataframe
         result: The statsmodels.tsa.seasonal.DecomposeResult object.
+        **kwargs: The keyword arguments.
 
     Returns:
         The visualization
@@ -483,10 +485,10 @@ def _seaborn_viz_decomposition(df, result):
             get_option("display.matplotlib.fig_height"),
         ),
     )
-    sns.lineplot(y=result.observed, x=df.index, ax=ax[0])
-    sns.lineplot(y=result.trend, x=df.index, ax=ax[1])
-    sns.lineplot(y=result.seasonal, x=df.index, ax=ax[2])
-    sns.lineplot(y=result.resid, x=df.index, ax=ax[3])
+    sns.lineplot(y=result.observed, x=df.index, ax=ax[0], **kwargs)
+    sns.lineplot(y=result.trend, x=df.index, ax=ax[1], **kwargs)
+    sns.lineplot(y=result.seasonal, x=df.index, ax=ax[2], **kwargs)
+    sns.lineplot(y=result.resid, x=df.index, ax=ax[3], **kwargs)
     fig.suptitle("Time Series Decomposition", fontsize=18)
 
     plt.close()
