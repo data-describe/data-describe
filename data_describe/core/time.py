@@ -433,7 +433,7 @@ def figure_layout(title="Time Series", xlabel="Date", ylabel="Variable"):
     return layout
 
 
-def _seaborn_viz_plot_time_series(df, col, result=None, decompose=False):
+def _seaborn_viz_plot_time_series(df, col, result=None, decompose=False, **kwargs):
     """Create timeseries visualization.
 
     Args:
