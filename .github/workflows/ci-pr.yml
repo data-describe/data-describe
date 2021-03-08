@@ -2,10 +2,10 @@ name: CI
 
 on:
   pull_request:
+    types: [review_requested, ready_for_review, reopened]
     branches: [master]
     paths:
       - "**.py"
-    types: [ready_for_review]
 
 jobs:
   lint:
