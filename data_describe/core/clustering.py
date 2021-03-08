@@ -534,3 +534,8 @@ def _seaborn_viz_cluster_search_plot(
     plt.xlabel("Number of Clusters")
     plt.ylabel(f"{' '.join(metric.split('_'))}")
     return ax
+
+
+def test_fn():
+    """Test Function."""
+    print(1)
