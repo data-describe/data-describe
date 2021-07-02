@@ -1,0 +1,3 @@
+This text file is regarding my first commit to the branch to open it up. In addition, it will serve as the file to store updates on progress until I find something better for the task.
+
+- Emin Okic
