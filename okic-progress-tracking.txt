@@ -1,5 +1,0 @@
-This text file is regarding my first commit to the branch to open it up. In addition, it will serve as the file to store updates on progress until I find something better for the task.
-
-07/02/2021 at 11:53 AM: 
-1 hour of progress. Was able to setup repository, branch, and pull request as well as understand the file structure I wanted for this project. I was also able to look into the issue at hand and read deeper into it. Overall productive session.
-- Emin Okic
